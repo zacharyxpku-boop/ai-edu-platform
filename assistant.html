@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原点少年营 — 3天，让孩子带着一个自己做的AI产品回家</title>
+    <meta name="description" content="原点少年营：3天2夜AI创造营。阿里参访×AI实战×Demo Day路演。每个孩子找到自己擅长的角色，做出真正的AI产品。">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="canonical" href="https://www.yuandianzhixue.com/assistant.html">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="src/style.css">
+    <style>
+        .camp-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); position: relative; }
+        .camp-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); line-height: 1.2; }
+        .camp-hero .accent { color: var(--c-origin); }
+        .page-section { padding: var(--sp-section) 0; }
+        .page-section:nth-child(even) { background: var(--grad-section); }
+        .page-content { max-width: 1120px; margin: 0 auto; padding: 0 var(--sp-lg); }
+
+        .camp-highlights { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-lg); margin-top: var(--sp-xl); }
+        .highlight { text-align: center; padding: var(--sp-lg); background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); }
+        .highlight-icon { font-size: 2rem; margin-bottom: var(--sp-sm); }
+        .highlight h3 { margin-bottom: var(--sp-sm); }
+        .highlight p { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        .timeline-camp { margin-top: var(--sp-xl); display: grid; gap: var(--sp-lg); }
+        .day-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); display: grid; grid-template-columns: 100px 1fr; gap: var(--sp-lg); }
+        .day-num { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--c-origin); line-height: 1; }
+        .day-label { font-size: var(--fs-caption); color: var(--c-warm-dim); }
+        .day-content h3 { margin-bottom: var(--sp-sm); }
+        .day-content p { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        .takeaway-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--sp-md); margin-top: var(--sp-xl); }
+        .takeaway { display: flex; align-items: start; gap: var(--sp-md); padding: var(--sp-md); background: rgba(22,33,62,0.4); border-radius: var(--r-md); }
+        .takeaway-check { color: var(--c-success); font-weight: 900; font-size: 1.2rem; flex-shrink: 0; }
+        .takeaway p { color: var(--c-warm-gray); font-size: var(--fs-small); margin: 0; }
+        .takeaway strong { color: var(--c-warm-white); }
+
+        .pricing-hero { text-align: center; margin-top: var(--sp-xl); }
+        .camp-price { font-family: var(--font-heading); font-size: 3rem; font-weight: 900; color: var(--c-origin); }
+        .camp-price-note { color: var(--c-warm-gray); font-size: var(--fs-small); margin-top: var(--sp-sm); }
+
+        .faq { margin-top: var(--sp-xl); max-width: 720px; margin-left: auto; margin-right: auto; }
+        .faq-item { border-bottom: 1px solid var(--c-ink-border); padding: var(--sp-md) 0; }
+        .faq-q { color: var(--c-warm-white); font-weight: 700; margin-bottom: var(--sp-sm); }
+        .faq-a { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        @media (max-width: 767px) {
+            .camp-highlights { grid-template-columns: 1fr; }
+            .day-card { grid-template-columns: 1fr; }
+            .takeaway-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="/" class="nav-brand">
+            <span class="brand-icon">◉</span>
+            <span class="brand-text">原点智学</span>
+        </a>
+        <div class="nav-links">
+            <div class="nav-dropdown">
+                <a href="index.html#ecosystem">产品</a>
+                <div class="nav-dropdown-menu">
+                    <a href="#studypal">StudyPal 学伴</a>
+                    <a href="methods.html">AI 学习方法库</a>
+                    <a href="assistant.html">AI 亲子助手</a>
+                    <a href="index.html#assessment">AI 学习力测评</a>
+                    <a href="tools-guide.html">原点 AI 学伴</a>
+                </div>
+            </div>
+            <a href="methods.html">成长课</a>
+            <a href="assistant.html">少年营</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+        </div>
+        <button class="nav-cta" onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}) || window.location.href='/#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="#studypal" onclick="toggleMobileNav()">StudyPal 学伴</a>
+        <a href="methods.html" onclick="toggleMobileNav()">AI 学习方法库</a>
+        <a href="assistant.html" onclick="toggleMobileNav()">AI 亲子助手</a>
+        <a href="tools-guide.html" onclick="toggleMobileNav()">原点AI学伴</a>
+        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
+        <a href="articles.html" onclick="toggleMobileNav()">原点研究院</a>
+        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
+        <a href="index.html#contact" onclick="toggleMobileNav()">联系</a>
+    </div>
+
+    <section class="camp-hero">
+        <a href="index.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
+        <h1>3天后，你的孩子将带着<br>一个<span class="accent">自己做的AI产品</span>回家</h1>
+        <p class="section-desc" style="margin-bottom:var(--sp-lg)">阿里参访 × AI实战 × Demo Day路演<br>10-14岁 · 20人小班 · 首期仅20个名额</p>
+        <button class="btn-primary" onclick="location.href='index.html#contact'" style="font-size:1.1rem;padding:16px 32px">立即咨询报名</button>
+    </section>
+
+    <!-- 三大卖点 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">不是「又一个AI夏令营」</h2>
+            <p class="section-desc">核心差异：唯一一个让孩子真正做出产品的AI创造营</p>
+            <div class="camp-highlights">
+                <div class="highlight">
+                    <div class="highlight-icon">🏢</div>
+                    <h3>阿里参访</h3>
+                    <p>真实科技公司沉浸体验。带着「探秘任务书」参访，不是走马观花。阿里员工现场分享，比任何PPT都真实。</p>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-icon">🎭</div>
+                    <h3>5个角色分工</h3>
+                    <p>产品经理、设计师、研究员、CMO、CEO——每个孩子找到自己擅长的那个角色。不是「都学一样的东西」。</p>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-icon">🎤</div>
+                    <h3>公开路演</h3>
+                    <p>结营当天每个孩子上台路演自己的产品，评委现场点评。家长受邀观看，这是最强的「被看见」时刻。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3天行程 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">3天，完整创业体验</h2>
+            <div class="timeline-camp">
+                <div class="day-card">
+                    <div><div class="day-num">D1</div><div class="day-label">发现问题</div></div>
+                    <div class="day-content">
+                        <h3>阿里参访 + 组队 + 选题</h3>
+                        <p>上午：阿里园区参访，完成「探秘任务书」。下午：破冰分组，每组4-5人，每人选择角色。晚上：用AI工具调研真实痛点，确定产品方向。</p>
+                    </div>
+                </div>
+                <div class="day-card">
+                    <div><div class="day-num">D2</div><div class="day-label">创造产品</div></div>
+                    <div class="day-content">
+                        <h3>AI协作 + 产品设计 + 迭代</h3>
+                        <p>全天AI协作创造：研究员用AI搜索数据，设计师用AI生成产品图，CMO用AI写营销文案，产品经理统筹全局。每组1名助教全程陪伴。</p>
+                    </div>
+                </div>
+                <div class="day-card">
+                    <div><div class="day-num">D3</div><div class="day-label">展示成果</div></div>
+                    <div class="day-content">
+                        <h3>打磨 + 路演 + 颁奖</h3>
+                        <p>上午：最终打磨产品和PPT。下午：Demo Day路演——每组10分钟展示，评委（创业者/投资人/阿里员工）现场点评。颁奖典礼，每个组至少一个奖。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 孩子带走什么 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">孩子带走什么</h2>
+            <p class="section-desc">家长付钱的动机不是孩子「学了什么」，而是孩子「做出来了什么」</p>
+            <div class="takeaway-grid">
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>AI产品作品</strong> — 自己团队做的产品，有Logo、产品图、完整方案</p></div>
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>路演视频</strong> — 孩子上台路演的完整录像，家长珍藏级素材</p></div>
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>原点少年证书</strong> — 含孩子姓名+角色+作品名+教练签名，硬卡纸可裱框</p></div>
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>原点成长档案</strong> — 专属H5页面，含作品全集、金句、教练点评</p></div>
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>营地纪念照片册</strong> — 精选15张照片，定制封面，7天内邮寄</p></div>
+                <div class="takeaway"><span class="takeaway-check">✓</span><p><strong>AI学伴30天体验码</strong> — 原点AI学伴成长版使用码，延续营地体验</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 定价 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">投资孩子的未来能力</h2>
+            <div class="pricing-hero">
+                <div class="camp-price">¥2,980</div>
+                <div class="camp-price-note">
+                    3天2夜全包（含场地、住宿、餐饮、物料、证书、照片册）<br>
+                    社群成员价 ¥2,480 · 兄弟姐妹第二人 ¥1,980 · 老带新双方各减 ¥200
+                </div>
+                <button class="btn-primary" onclick="location.href='index.html#contact'" style="margin-top:var(--sp-lg);font-size:1.1rem;padding:16px 32px">咨询报名（仅20个名额）</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">家长常见问题</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-q">孩子没用过AI，能跟上吗？</div>
+                    <div class="faq-a">正是为零基础孩子设计的。第一天全程从零开始，没有任何前置要求。很多孩子第一次用AI，反而因为没有固定思维，做出来的东西很有创意。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">和其他夏令营有什么区别？</div>
+                    <div class="faq-a">最大的区别是：孩子带着一个自己做的产品回家。不是参加了一个课程，而是完成了一个项目。这种成就感是其他活动给不了的。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">¥2,980有点贵……</div>
+                    <div class="faq-a">算下来每天不到¥1,000，包含阿里参访、全程住宿餐饮、物料证书和纪念照片册。而且这不只是一次活动——孩子带走的作品、能力和自信是长期的。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">孩子说不想去……</div>
+                    <div class="faq-a">孩子一般对「夏令营」没感觉，但对「创业」「产品发布会」「当CEO」这些词会有反应。跟孩子说：我们要去做一个自己的产品，在阿里总部发布它。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>首期仅20个名额，满了就关</h2>
+            <p>不是「又一个AI夏令营」——是唯一一个让孩子真正做出产品的AI创造营。</p>
+            <div class="cta-actions">
+                <button class="btn-primary" onclick="location.href='index.html#contact'">立即咨询报名</button>
+                <button class="btn-secondary" onclick="location.href='index.html'">了解原点智学</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Bar -->
+    <div id="share-bar" class="share-bar">
+        <span class="share-bar-label">觉得有用？分享给朋友</span>
+        <button class="share-btn" onclick="shareAction('wechat')"><span class="share-btn-icon">💬</span> 微信</button>
+        <button class="share-btn" onclick="shareAction('xiaohongshu')"><span class="share-btn-icon">📕</span> 小红书</button>
+        <button class="share-btn" onclick="shareAction('weibo')"><span class="share-btn-icon">🔥</span> 微博</button>
+        <button class="share-btn" onclick="shareAction('copy')"><span class="share-btn-icon">🔗</span> 复制链接</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>◉ 原点智学</h3>
+                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
+            </div>
+            <div class="footer-links">
+                <h4>产品</h4>
+                <a href="methods.html">智元成长课</a>
+                <a href="tools-guide.html">原点AI学伴</a>
+                <a href="assistant.html">原点少年营</a>
+            </div>
+            <div class="footer-links">
+                <h4>了解更多</h4>
+                <a href="about.html">关于我们</a>
+                <a href="articles.html">研究院</a>
+                <a href="/#contact">联系</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span>
+            <span>AI是教练，不是替代者。</span>
+        </div>
+    </footer>
+    <script src="src/app.js"></script>
+    <script>
+    (function(){
+        var bar = document.getElementById('share-bar');
+        if (!bar) return;
+        var shown = false;
+        window.addEventListener('scroll', function(){
+            if (!shown && window.scrollY > 300) {
+                bar.classList.add('visible');
+                shown = true;
+            }
+        }, {passive:true});
+    })();
+    </script>
+</body>
+</html>

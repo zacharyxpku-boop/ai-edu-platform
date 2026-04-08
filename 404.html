@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面不存在 — 原点智学</title>
+    <meta name="robots" content="noindex">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', system-ui, sans-serif;
+            background: #F5F0EB;
+            color: #1A1A2E;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .err-wrap { max-width: 480px; }
+        .err-code {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 900;
+            color: #E94D35;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .err-msg {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: #4A4A6A;
+        }
+        .err-hint {
+            font-size: 0.9rem;
+            color: #8888A0;
+            margin-bottom: 2rem;
+        }
+        .err-btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #1A1A2E;
+            color: #F5F0EB;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .err-btn:hover { background: #E94D35; }
+    </style>
+</head>
+<body>
+    <div class="err-wrap">
+        <div class="err-code">404</div>
+        <div class="err-msg">这个页面走丢了</div>
+        <div class="err-hint">你要找的内容可能已经移动或不存在。<br>试试回到首页看看？</div>
+        <a href="/" class="err-btn">回到首页</a>
+    </div>
+</body>
+</html>

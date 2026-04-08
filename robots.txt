@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /settings.html
+Disallow: /src/api-manager.js
+
+Sitemap: https://www.yuandianzhixue.com/sitemap.xml

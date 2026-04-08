@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原点AI学伴 — 苏格拉底式AI学习伙伴</title>
+    <meta name="description" content="原点AI学伴：不给答案的AI学习助手。苏格拉底对话引擎，引导孩子自己思考。每周成长报告，作品输出助手，原点成长档案。">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="canonical" href="https://www.yuandianzhixue.com/tools-guide.html">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="src/style.css">
+    <style>
+        .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
+        .page-section { padding: var(--sp-section) 0; }
+        .page-section:nth-child(even) { background: var(--grad-section); }
+        .page-content { max-width: 1120px; margin: 0 auto; padding: 0 var(--sp-lg); }
+        .features { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-lg); margin-top: var(--sp-xl); }
+        .feature { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); border-top: 3px solid var(--c-origin); }
+        .feature-icon { font-size: 1.5rem; margin-bottom: var(--sp-sm); }
+        .feature h3 { margin-bottom: var(--sp-xs); }
+        .feature-sub { color: var(--c-origin); font-size: var(--fs-small); margin-bottom: var(--sp-sm); }
+        .feature p { color: var(--c-warm-gray); font-size: var(--fs-small); }
+        .tiers-pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-lg); margin-top: var(--sp-xl); }
+        .tier-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); text-align: center; }
+        .tier-card.featured { border-color: rgba(233,77,53,0.4); }
+        .tier-name { font-family: var(--font-heading); font-size: var(--fs-h3); margin-bottom: var(--sp-xs); }
+        .tier-price { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; color: var(--c-origin); margin-bottom: var(--sp-xs); }
+        .tier-period { color: var(--c-warm-dim); font-size: var(--fs-caption); margin-bottom: var(--sp-md); }
+        .tier-features { list-style: none; padding: 0; text-align: left; }
+        .tier-features li { padding: var(--sp-xs) 0; color: var(--c-warm-gray); font-size: var(--fs-small); padding-left: 16px; position: relative; }
+        .tier-features li::before { content: '·'; position: absolute; left: 0; color: var(--c-origin); font-weight: 900; }
+        .principle-box { max-width: 720px; margin: var(--sp-xl) auto 0; padding: var(--sp-lg); background: rgba(233,77,53,0.04); border-left: 3px solid var(--c-origin); border-radius: 0 var(--r-md) var(--r-md) 0; }
+        .principle-box h3 { margin-bottom: var(--sp-sm); }
+        .principle-box p { color: var(--c-warm-gray); font-size: var(--fs-small); }
+        @media (max-width: 767px) { .features, .tiers-pricing { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="/" class="nav-brand">
+            <span class="brand-icon">◉</span>
+            <span class="brand-text">原点智学</span>
+        </a>
+        <div class="nav-links">
+            <a href="methods.html">智元成长课</a>
+            <a href="tools-guide.html">AI学伴</a>
+            <a href="assistant.html">少年营</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+        </div>
+        <button class="nav-cta" onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}) || window.location.href='/#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
+        <a href="tools-guide.html" onclick="toggleMobileNav()">原点AI学伴</a>
+        <a href="assistant.html" onclick="toggleMobileNav()">原点少年营</a>
+        <a href="articles.html" onclick="toggleMobileNav()">原点未来研究院</a>
+        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
+        <a href="/#contact" onclick="toggleMobileNav()">预约试听</a>
+    </div>
+
+    <section class="page-hero">
+        <a href="index.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
+        <h1>原点AI学伴</h1>
+        <p class="section-desc">我们正在打造孩子的AI学习成长伙伴 — 不给答案，引导思考</p>
+        <p style="color:var(--c-warm-white);font-weight:700">规划路径：微信小程序（MVP阶段） → 独立App（正式版）</p>
+    </section>
+
+    <div style="max-width:900px;margin:0 auto;padding:24px 24px 0">
+        <div style="background:rgba(233,77,53,0.08);border:1px solid rgba(233,77,53,0.2);padding:20px 28px;border-radius:12px;text-align:center;color:var(--c-warm-white);font-size:var(--fs-body);line-height:1.8">
+            🚧 原点AI学伴正在开发中，预计2026年下半年上线。目前您可以免费体验我们的<a href="index.html#assessment" style="color:var(--c-origin);text-decoration:underline">AI素养测评</a>，或加入<a href="/#contact" style="color:var(--c-origin);text-decoration:underline">家长社群</a>获取每周AI学习建议。
+        </div>
+    </div>
+
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">四大核心功能 <span style="font-size:var(--fs-small);color:var(--c-origin);font-weight:500">（规划中）</span></h2>
+            <p class="section-desc">我们正在开发的AI学伴不是搜题工具。当孩子提问时，将先引导思考，再协助探索，最后帮助整理输出。</p>
+            <div class="features">
+                <div class="feature"><div class="feature-icon">🧠</div><h3>苏格拉底对话 <span style="font-size:0.7rem;color:var(--c-origin);border:1px solid var(--c-origin);padding:2px 6px;border-radius:4px;vertical-align:middle">即将上线</span></h3><div class="feature-sub">遇到不懂的题目</div><p>拍照/输入题目 → AI不给答案 → 先问「你觉得第一步应该怎么做」→ 引导式追问3-5轮 → 孩子自己得出结论。</p></div>
+                <div class="feature"><div class="feature-icon">✍️</div><h3>作品输出助手 <span style="font-size:0.7rem;color:var(--c-origin);border:1px solid var(--c-origin);padding:2px 6px;border-radius:4px;vertical-align:middle">规划中</span></h3><div class="feature-sub">写作文/报告/演讲</div><p>选择输出类型 → AI提供框架 → 孩子填充内容 → AI给结构优化建议（不改内容只优化逻辑）→ 生成最终版。</p></div>
+                <div class="feature"><div class="feature-icon">📊</div><h3>每周成长报告 <span style="font-size:0.7rem;color:var(--c-origin);border:1px solid var(--c-origin);padding:2px 6px;border-radius:4px;vertical-align:middle">规划中</span></h3><div class="feature-sub">家长了解孩子进展</div><p>将自动统计本周使用时长/提问次数/作品数量/思维误区，生成200字成长洞察 + 3条具体建议。周日晚8点推送。</p></div>
+                <div class="feature"><div class="feature-icon">📁</div><h3>原点成长档案 <span style="font-size:0.7rem;color:var(--c-origin);border:1px solid var(--c-origin);padding:2px 6px;border-radius:4px;vertical-align:middle">规划中</span></h3><div class="feature-sub">回顾成长轨迹</div><p>将按时间线收录所有AI协作作品，支持一键生成成长集锦分享卡片（含孩子姓名/作品摘要/水印）。</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">体验设计原则 <span style="font-size:var(--fs-small);color:var(--c-warm-gray);font-weight:400">（开发中将遵循）</span></h2>
+            <div class="diff-list" style="margin-top:var(--sp-xl)">
+                <div class="diff-item"><div class="diff-icon">👶</div><div><h3>孩子端</h3><p>我们将打造温暖有趣的对话风格，非机器人腔调。每次引导结束后给孩子正向鼓励。页面信息密度低，大字体少按钮。</p></div></div>
+                <div class="diff-item"><div class="diff-icon">👨‍👩‍👧</div><div><h3>家长端</h3><p>数据将做到直观易懂，避免教育术语。「孩子今天提了5个有深度的问题」优于「孩子的元认知能力在提升」。报告可截图可分享。</p></div></div>
+                <div class="diff-item"><div class="diff-icon">🛡️</div><div><h3>防沉迷设计</h3><p>将设置每日使用超45分钟自动提醒休息。22:00-7:00自动屏蔽。所有功能强制要求孩子独立思考后再触发AI。</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">选择适合的版本 <span style="font-size:var(--fs-small);color:var(--c-origin);font-weight:500">（计划定价）</span></h2>
+            <p class="section-desc">Freemium分层 — 免费版就有真实价值（以下为计划定价，上线时可能调整）</p>
+            <div class="tiers-pricing">
+                <div class="tier-card"><div class="tier-name">免费版</div><div class="tier-price">¥0</div><div class="tier-period">永久免费</div><ul class="tier-features"><li>苏格拉底对话每天5次</li><li>作品档案存储10个</li><li>成长报告每月1次</li></ul></div>
+                <div class="tier-card featured"><div class="tier-name">成长版</div><div class="tier-price">¥38<span style="font-size:0.8rem;font-weight:400">/月</span></div><div class="tier-period">年付 ¥288/年</div><ul class="tier-features"><li>无限对话</li><li>每周成长报告</li><li>作品无限存储</li><li>AI辩论伙伴解锁</li><li>课程学员在读期间免费</li></ul></div>
+            </div>
+            <div class="principle-box"><h3>AI是教练，不是替代者</h3><p>苏格拉底对话引擎——无论在任何情况下，当孩子询问学习题目的答案时，都不能直接给出答案，必须先问一个引导性问题。所有功能的最终导向是让孩子「想得更深」，而非让AI「代劳更多」。</p></div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>让孩子成为AI的主人，而非工具人</h2>
+            <p>原点AI学伴正在开发中 — 思维可见化，成长可量化</p>
+            <div class="cta-actions">
+                <button class="btn-primary" onclick="location.href='/#contact'">留下手机号，AI学伴上线时第一时间通知你</button>
+                <button class="btn-secondary" onclick="location.href='methods.html'">了解智元成长课</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Bar -->
+    <div id="share-bar" class="share-bar">
+        <span class="share-bar-label">觉得有用？分享给朋友</span>
+        <button class="share-btn" onclick="shareAction('wechat')"><span class="share-btn-icon">💬</span> 微信</button>
+        <button class="share-btn" onclick="shareAction('xiaohongshu')"><span class="share-btn-icon">📕</span> 小红书</button>
+        <button class="share-btn" onclick="shareAction('weibo')"><span class="share-btn-icon">🔥</span> 微博</button>
+        <button class="share-btn" onclick="shareAction('copy')"><span class="share-btn-icon">🔗</span> 复制链接</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>◉ 原点智学</h3>
+                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
+            </div>
+            <div class="footer-links">
+                <h4>产品</h4>
+                <a href="methods.html">智元成长课</a>
+                <a href="tools-guide.html">原点AI学伴</a>
+                <a href="assistant.html">原点少年营</a>
+            </div>
+            <div class="footer-links">
+                <h4>了解更多</h4>
+                <a href="about.html">关于我们</a>
+                <a href="articles.html">研究院</a>
+                <a href="/#contact">联系</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span>
+            <span>AI是教练，不是替代者。</span>
+        </div>
+    </footer>
+    <script src="src/app.js"></script>
+    <script>
+    (function(){
+        var bar = document.getElementById('share-bar');
+        if (!bar) return;
+        var shown = false;
+        window.addEventListener('scroll', function(){
+            if (!shown && window.scrollY > 300) {
+                bar.classList.add('visible');
+                shown = true;
+            }
+        }, {passive:true});
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt写法指南 — 5个模板解决80%的AI辅导需求 | 原点智学</title>
+    <meta name="description" content="不会写prompt？5个万能模板，填空就能用。适配豆包、DeepSeek、Kimi等主流AI工具，今天就能帮孩子用AI学习。">
+    <meta name="theme-color" content="#1A1A2E">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="canonical" href="https://www.yuandianzhixue.com/prompts.html">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
+        .page-section { padding: var(--sp-section) 0; }
+        .page-section:nth-child(even) { background: var(--grad-section); }
+        .page-content { max-width: 900px; margin: 0 auto; padding: 0 var(--sp-lg); }
+
+        /* Prompt Generator */
+        .generator { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-top: var(--sp-xl); }
+        .gen-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+        .gen-row label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); display: block; }
+        .gen-row select, .gen-row input { width: 100%; padding: 10px 14px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); }
+        .gen-row select:focus, .gen-row input:focus { border-color: var(--c-origin); outline: none; }
+        .gen-full { grid-column: 1 / -1; }
+        .gen-output { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); margin-top: var(--sp-md); min-height: 120px; color: var(--c-warm-white); line-height: 1.8; white-space: pre-wrap; font-size: var(--fs-body); }
+        .gen-actions { display: flex; gap: var(--sp-md); margin-top: var(--sp-md); flex-wrap: wrap; }
+        .gen-actions button { padding: 10px 20px; border-radius: var(--r-md); font-size: var(--fs-small); font-weight: 700; cursor: pointer; border: none; font-family: var(--font-body); transition: transform 0.2s; }
+        .gen-actions button:hover { transform: translateY(-1px); }
+        .btn-generate { background: var(--grad-cta); color: #fff; }
+        .btn-copy { background: rgba(22,33,62,0.8); color: var(--c-warm-white); border: 1px solid var(--c-ink-border) !important; }
+        .copy-ok { color: var(--c-success); font-size: var(--fs-small); display: none; align-items: center; }
+
+        /* Template cards */
+        .template-grid { display: grid; gap: var(--sp-lg); margin-top: var(--sp-xl); }
+        .template-card { background: rgba(22,33,62,0.5); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); border-left: 3px solid var(--c-origin); }
+        .template-card h3 { margin-bottom: var(--sp-xs); }
+        .template-scenario { color: var(--c-origin); font-size: var(--fs-caption); font-weight: 700; margin-bottom: var(--sp-sm); }
+        .template-prompt { background: rgba(15,52,96,0.3); border-radius: var(--r-md); padding: var(--sp-md); margin: var(--sp-md) 0; color: var(--c-warm-gray); font-size: var(--fs-small); line-height: 1.8; white-space: pre-wrap; position: relative; }
+        .template-prompt .copy-btn { position: absolute; top: 8px; right: 8px; background: var(--c-origin); color: #fff; border: none; padding: 4px 10px; border-radius: var(--r-sm); font-size: var(--fs-caption); cursor: pointer; }
+        .template-tip { color: var(--c-warm-dim); font-size: var(--fs-caption); margin-top: var(--sp-sm); }
+        .template-tools { display: flex; gap: var(--sp-sm); margin-top: var(--sp-sm); flex-wrap: wrap; }
+        .template-tools span { background: rgba(233,77,53,0.08); color: var(--c-origin-soft); padding: 2px 8px; border-radius: var(--r-pill); font-size: var(--fs-caption); }
+
+        @media (max-width: 767px) {
+            .gen-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="/" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="prompts.html" style="color:var(--c-warm-white)">Prompt指南</a>
+            <a href="methods.html">成长课</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="prompts.html" onclick="toggleMobileNav()">Prompt指南</a>
+        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
+        <a href="articles.html" onclick="toggleMobileNav()">原点研究院</a>
+        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
+        <a href="/#contact" onclick="toggleMobileNav()">预约试听</a>
+    </div>
+
+    <section class="page-hero">
+        <a href="/" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
+        <h1>Prompt写法指南</h1>
+        <p class="section-desc">不会写prompt？填空就能用。5个模板解决80%的AI辅导需求。<br>适配豆包、DeepSeek、Kimi等主流AI工具。</p>
+    </section>
+
+    <!-- Prompt生成器 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">Prompt生成器</h2>
+            <p class="section-desc">选择场景、填入信息，一键生成可直接复制到豆包/DeepSeek的prompt</p>
+
+            <div class="generator">
+                <div class="gen-row">
+                    <div>
+                        <label for="gen-scene">选择场景</label>
+                        <select id="gen-scene">
+                            <option value="wrong">错题分析</option>
+                            <option value="plan">学习计划</option>
+                            <option value="essay">作文辅导</option>
+                            <option value="english">英语口语</option>
+                            <option value="explore">兴趣探索</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="gen-grade">孩子年级</label>
+                        <select id="gen-grade">
+                            <option value="小学一年级">小学一年级</option>
+                            <option value="小学二年级">小学二年级</option>
+                            <option value="小学三年级">小学三年级</option>
+                            <option value="小学四年级">小学四年级</option>
+                            <option value="小学五年级">小学五年级</option>
+                            <option value="小学六年级">小学六年级</option>
+                            <option value="初一" selected>初一</option>
+                            <option value="初二">初二</option>
+                            <option value="初三">初三</option>
+                            <option value="高一">高一</option>
+                            <option value="高二">高二</option>
+                            <option value="高三">高三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="gen-row">
+                    <div class="gen-full">
+                        <label for="gen-detail">具体内容（比如：科目、题目、薄弱点、兴趣方向等）</label>
+                        <input type="text" id="gen-detail" placeholder="例如：数学分数运算总是出错 / 英语口语话题是旅行 / 对恐龙感兴趣">
+                    </div>
+                </div>
+                <div class="gen-actions">
+                    <button class="btn-generate" onclick="generatePrompt()">生成Prompt</button>
+                    <button class="btn-copy" onclick="copyPrompt()">复制到剪贴板</button>
+                    <span class="copy-ok" id="copy-ok">已复制 ✓</span>
+                </div>
+                <div class="gen-output" id="gen-output">← 选择场景并填写信息后，点击"生成Prompt"</div>
+                <p style="color:var(--c-warm-dim);font-size:var(--fs-caption);margin-top:var(--sp-sm)">生成后直接复制粘贴到豆包、DeepSeek或其他AI工具中使用</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5个万能模板 -->
+    <section class="page-section">
+        <div class="page-content">
+            <h2 style="text-align:center">5个万能Prompt模板</h2>
+            <p class="section-desc">每个模板都经过反复测试，直接复制到豆包/DeepSeek就能用</p>
+
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="template-scenario">场景一 · 错题分析</div>
+                    <h3>孩子做错题了，怎么让AI帮忙分析？</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">关键：不要让AI直接给答案，要让AI分析错因并引导孩子自己想出来。</p>
+                    <div class="template-prompt">我的孩子读[年级]，这道[科目]题做错了：
+
+[把题目粘贴在这里]
+
+孩子的错误答案是：[填写]
+
+请你：
+1. 分析他可能是哪个知识点没理解透
+2. 不要直接给正确答案
+3. 用追问的方式引导他自己想出来
+4. 最后出2道类似的练习题让他巩固<button class="copy-btn" onclick="copyTemplate(this)">复制</button></div>
+                    <div class="template-tip">适用年龄：6-16岁 · 关键词：「不要直接给答案」「追问引导」</div>
+                    <div class="template-tools"><span>豆包</span><span>DeepSeek</span><span>Kimi</span><span>通义千问</span></div>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-scenario">场景二 · 学习计划</div>
+                    <h3>怎么让AI帮孩子做一个靠谱的学习计划？</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">关键：给够具体信息，AI才能给出个性化方案。</p>
+                    <div class="template-prompt">我的孩子读[年级]，[科目]成绩在班级大概[排名/水平]。
+
+主要薄弱点是：[具体描述，比如"分数运算容易出错""阅读理解总是抓不住重点"]
+
+请帮我制定一个为期4周的提升计划：
+- 每天学习时间不超过30分钟
+- 重点攻克上面说的薄弱点
+- 每周有一个小测试检验效果
+- 用大白话写，孩子能看懂<button class="copy-btn" onclick="copyTemplate(this)">复制</button></div>
+                    <div class="template-tip">适用年龄：8-16岁 · 关键词：「每天不超过30分钟」让计划可执行</div>
+                    <div class="template-tools"><span>豆包</span><span>DeepSeek</span><span>通义千问</span></div>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-scenario">场景三 · 作文辅导</div>
+                    <h3>孩子写了作文，怎么让AI辅导而不是代写？</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">关键：明确告诉AI「不要重写」，只给修改建议。</p>
+                    <div class="template-prompt">我的孩子读[年级]，写了一篇[题材]作文，题目是"[题目]"。
+
+以下是孩子写的原文：
+[把作文粘贴在这里]
+
+请你：
+1. 不要帮他重写，保留他的原始表达
+2. 指出3个最值得改进的地方
+3. 每个地方给一个具体的修改建议（告诉他怎么改，但不要直接改）
+4. 最后用一句话肯定他写得好的地方<button class="copy-btn" onclick="copyTemplate(this)">复制</button></div>
+                    <div class="template-tip">适用年龄：8-16岁 · 关键词：「不要重写」「保留原始表达」防止AI代写</div>
+                    <div class="template-tools"><span>豆包</span><span>DeepSeek</span><span>Kimi</span></div>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-scenario">场景四 · 英语口语</div>
+                    <h3>怎么让AI当孩子的英语对话伙伴？</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">关键：设定难度等级，让AI自动调整用词。</p>
+                    <div class="template-prompt">请用简单的英语和我的孩子练习口语对话。
+
+孩子的情况：读[年级]，英语水平[初级/中级/较好]
+今天的话题：[比如：去超市买东西 / 介绍自己的家人 / 最喜欢的动物]
+
+规则：
+1. 你先开始对话，每次说1-2句就好
+2. 用孩子能理解的简单词汇
+3. 如果孩子说错了，温和地纠正并给出正确说法
+4. 每3轮对话后，总结一下孩子学到的新表达
+5. 全程鼓励为主<button class="copy-btn" onclick="copyTemplate(this)">复制</button></div>
+                    <div class="template-tip">适用年龄：6-16岁 · 提示：可以让孩子用语音输入（豆包支持语音对话）</div>
+                    <div class="template-tools"><span>豆包（推荐，支持语音）</span><span>Kimi</span><span>ChatGPT</span></div>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-scenario">场景五 · 兴趣探索</div>
+                    <h3>孩子对某个东西感兴趣，怎么用AI深入探索？</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">关键：把兴趣变成一个小项目，让孩子边玩边学。</p>
+                    <div class="template-prompt">我的孩子[年龄]岁，对[兴趣方向]很感兴趣。
+
+请设计3个用AI辅助的小项目，要求：
+1. 每个项目1-2小时能完成
+2. 有明确的产出（比如一份报告、一幅画、一个小故事）
+3. 过程中孩子是主导者，AI是助手
+4. 难度适合[年龄]岁孩子
+5. 用到的AI工具最好是免费的
+
+每个项目请列出：名称、需要的工具、具体步骤、预期产出。<button class="copy-btn" onclick="copyTemplate(this)">复制</button></div>
+                    <div class="template-tip">适用年龄：6-16岁 · 产出示例：恐龙研究小报告、城市观察手记、AI插画绘本</div>
+                    <div class="template-tools"><span>豆包</span><span>DeepSeek</span><span>通义千问</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用提示 -->
+    <section class="page-section">
+        <div class="page-content" style="max-width:720px;margin:0 auto;padding:0 var(--sp-lg)">
+            <h2 style="text-align:center">3个提高AI回答质量的小技巧</h2>
+            <div class="template-grid">
+                <div class="template-card" style="border-left-color:var(--c-success)">
+                    <h3>1. 给够背景信息</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">"我孩子初二，数学一般，分数运算总出错"比"帮我辅导数学"好10倍。AI了解得越多，回答越精准。</p>
+                </div>
+                <div class="template-card" style="border-left-color:var(--c-warning)">
+                    <h3>2. 明确说"不要做什么"</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">"不要直接给答案""不要帮他重写"——这些「禁令」比「请引导他思考」更有效。AI默认会给完整答案，你要主动拦住它。</p>
+                </div>
+                <div class="template-card" style="border-left-color:var(--c-origin)">
+                    <h3>3. 让AI交叉验证自己</h3>
+                    <p style="color:var(--c-warm-gray);font-size:var(--fs-small)">如果不确定AI说的对不对，试试问它："你确定吗？请再检查一遍，特别是[你怀疑的部分]。"AI会自我纠正很多错误。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>觉得有用？分享给一个需要的朋友</h2>
+            <p>这份Prompt指南完全免费。我们相信好内容应该让所有人受益。</p>
+            <div class="cta-actions" style="display:flex;justify-content:center;gap:var(--sp-md);flex-wrap:wrap">
+                <button class="btn-primary" onclick="location.href='/#contact'">预约免费试听课</button>
+                <button class="btn-secondary" onclick="location.href='articles.html'">看更多免费内容</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>产品</h4><a href="methods.html">智元成长课</a><a href="tools-guide.html">原点AI学伴</a><a href="articles.html">原点研究院</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="about.html">关于我们</a><a href="prompts.html">Prompt指南</a><a href="/#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="src/app.js"></script>
+    <script>
+    // Prompt Generator Logic
+    var templates = {
+        wrong: '我的孩子读{grade}，这道{detail}题做错了：\n\n[请把题目粘贴在这里替换这行]\n\n请你：\n1. 分析他可能是哪个知识点没理解透\n2. 不要直接给正确答案\n3. 用追问的方式引导他自己想出来\n4. 最后出2道类似的练习题让他巩固',
+        plan: '我的孩子读{grade}，{detail}。\n\n请帮我制定一个为期4周的提升计划：\n- 每天学习时间不超过30分钟\n- 重点攻克上面说的薄弱点\n- 每周有一个小测试检验效果\n- 用大白话写，孩子能看懂',
+        essay: '我的孩子读{grade}，写了一篇关于{detail}的作文。\n\n以下是孩子写的原文：\n[请把作文粘贴在这里替换这行]\n\n请你：\n1. 不要帮他重写，保留他的原始表达\n2. 指出3个最值得改进的地方\n3. 每个地方给一个具体的修改建议\n4. 最后用一句话肯定他写得好的地方',
+        english: '请用简单的英语和我的孩子练习口语对话。\n\n孩子的情况：读{grade}\n今天的话题：{detail}\n\n规则：\n1. 你先开始对话，每次说1-2句\n2. 用孩子能理解的简单词汇\n3. 如果孩子说错了，温和地纠正\n4. 每3轮对话后总结新学到的表达\n5. 全程鼓励为主',
+        explore: '我的孩子读{grade}，对{detail}很感兴趣。\n\n请设计3个用AI辅助的小项目：\n1. 每个项目1-2小时能完成\n2. 有明确的产出（报告、作品、故事等）\n3. 孩子是主导者，AI是助手\n4. 用到的AI工具最好是免费的\n\n每个项目列出：名称、工具、步骤、预期产出。'
+    };
+
+    function generatePrompt() {
+        var scene = document.getElementById('gen-scene').value;
+        var grade = document.getElementById('gen-grade').value;
+        var detail = document.getElementById('gen-detail').value.trim() || '[请填写具体内容]';
+        var tpl = templates[scene] || '';
+        var result = tpl.replace(/{grade}/g, grade).replace(/{detail}/g, detail);
+        document.getElementById('gen-output').textContent = result;
+    }
+
+    function copyPrompt() {
+        var text = document.getElementById('gen-output').textContent;
+        if (!text || text.startsWith('←')) return;
+        navigator.clipboard.writeText(text).then(function() {
+            var ok = document.getElementById('copy-ok');
+            ok.style.display = 'inline-flex';
+            setTimeout(function() { ok.style.display = 'none'; }, 2000);
+        });
+    }
+
+    function copyTemplate(btn) {
+        var prompt = btn.parentElement.textContent.replace('复制', '').trim();
+        navigator.clipboard.writeText(prompt).then(function() {
+            btn.textContent = '已复制 ✓';
+            setTimeout(function() { btn.textContent = '复制'; }, 2000);
+        });
+    }
+    </script>
+</body>
+</html>

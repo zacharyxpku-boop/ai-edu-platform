@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原点智学 — 让每个孩子站在更高的出发点</title>
+    <meta name="description" content="原点智学：AI时代家庭教育成长平台。学得快×考得高×思维好×有产出，四位一体能力体系，覆盖6-16岁全阶段。">
+    <meta property="og:title" content="原点智学 — 让每个孩子站在更高的出发点">
+    <meta property="og:description" content="6-16岁AI能力成长课程。12周系统课程，8-12人小班直播，创始人亲授。首课免费试听，首2周不满意全额退款。">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#1A1A2E">
+    <!-- Security headers (meta-based, for static hosting without server config) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.cnpmjs.org; font-src https://fonts.gstatic.cnpmjs.org https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://open.feishu.cn; frame-ancestors 'none';">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
+    <link rel="canonical" href="https://www.yuandianzhixue.com/">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "原点智学",
+        "alternateName": "YUANDIAN ZHIXUE",
+        "description": "AI时代家庭教育成长平台。学得快×考得高×思维好×有产出，四位一体能力体系，覆盖6-16岁全阶段。",
+        "url": "https://www.yuandianzhixue.com",
+        "email": "business@yuandianzhixue.com",
+        "slogan": "让每个孩子站在更高的出发点",
+        "areaServed": "CN",
+        "knowsAbout": ["AI教育", "K12教育", "家庭教育", "批判性思维", "AI素养"],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "原点智学产品体系",
+            "itemListElement": [
+                {"@type": "Offer", "name": "智元成长课", "price": "3980", "priceCurrency": "CNY", "description": "6-16岁分龄AI能力成长课程"},
+                {"@type": "Offer", "name": "原点AI学伴", "price": "0", "priceCurrency": "CNY", "description": "苏格拉底式AI学习伙伴（免费版）"},
+                {"@type": "Offer", "name": "原点少年营", "price": "2980", "priceCurrency": "CNY", "description": "3天2夜AI创造营"}
+            ]
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="navbar" aria-label="主导航">
+        <a href="/" class="nav-brand">
+            <span class="brand-icon">◉</span>
+            <span class="brand-text">原点智学</span>
+        </a>
+        <div class="nav-links">
+            <div class="nav-dropdown">
+                <a href="#ecosystem">产品</a>
+                <div class="nav-dropdown-menu">
+                    <a href="#studypal">StudyPal 学伴</a>
+                    <a href="methods.html">AI 学习方法库</a>
+                    <a href="assistant.html">AI 亲子助手</a>
+                    <a href="#assessment">AI 学习力测评</a>
+                    <a href="tools-guide.html">原点 AI 学伴</a>
+                </div>
+            </div>
+            <a href="methods.html">成长课</a>
+            <a href="assistant.html">少年营</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+        </div>
+        <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+    <div id="mobile-nav" class="mobile-nav">
+        <a href="#studypal" onclick="toggleMobileNav()">StudyPal 学伴</a>
+        <a href="methods.html" onclick="toggleMobileNav()">AI 学习方法库</a>
+        <a href="assistant.html" onclick="toggleMobileNav()">AI 亲子助手</a>
+        <a href="tools-guide.html" onclick="toggleMobileNav()">原点AI学伴</a>
+        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
+        <a href="articles.html" onclick="toggleMobileNav()">原点研究院</a>
+        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
+        <a href="#contact" onclick="toggleMobileNav()">联系</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">首批种子学员招募中 · 6-16岁</div>
+            <h1>
+                不教孩子用AI搜答案<br>教孩子用AI<span class="accent">做研究报告</span>
+            </h1>
+            <p class="hero-subtitle">
+                12周系统课程，创始人亲授，孩子学会用AI<strong>思考、创造、产出</strong>。<br>
+                结课时带走一份自己做的AI作品——这才是真正学到了东西的证明。
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                    预约免费试听课
+                </button>
+                <button class="btn-secondary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+                    了解课程设计
+                </button>
+            </div>
+            <div class="hero-metrics">
+                <div class="metric">
+                    <span class="metric-num">12周</span>
+                    <span class="metric-label">系统课程 从认知到产出</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-num">8-12人</span>
+                    <span class="metric-label">小班直播 创始人亲授</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-num">首2周</span>
+                    <span class="metric-label">不满意全额退款</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI 教育产品矩阵 -->
+    <section id="ecosystem" class="reveal">
+        <div class="container">
+            <h2>原点智学 · AI 教育生态</h2>
+            <p class="section-desc">从学习方法到学习工具，从家长辅导到学生成长——你需要的，这里都有</p>
+            <div class="matrix-grid">
+                <div class="matrix-card">
+                    <div class="matrix-icon">🎓</div>
+                    <h3>StudyPal 学伴</h3>
+                    <div class="matrix-tagline">你的 AI 学习搭子</div>
+                    <p>AI 老师 + 个性化学习计划 + 知识追踪 + 宠物陪伴。让每个孩子按自己的节奏学，学得更快、记得更牢。</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag">学生端</span>
+                        <span class="matrix-tag free">免费试用</span>
+                    </div>
+                    <a href="#studypal" class="matrix-cta">免费体验 →</a>
+                </div>
+                <div class="matrix-card">
+                    <div class="matrix-icon">📚</div>
+                    <h3>AI 学习方法库</h3>
+                    <div class="matrix-tagline">12 个方法，让 AI 成为学习加速器</div>
+                    <p>费曼学习法×AI、苏格拉底问答×AI、思维导图×AI……经过教研团队打磨的方法论，拿来就能用。</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag free">免费</span>
+                        <span class="matrix-tag">家长+学生</span>
+                    </div>
+                    <a href="methods.html" class="matrix-cta">立即查看 →</a>
+                </div>
+                <div class="matrix-card">
+                    <div class="matrix-icon">🤖</div>
+                    <h3>AI 亲子助手</h3>
+                    <div class="matrix-tagline">育儿难题，AI 帮你想</div>
+                    <p>4 大场景 16 组对话，帮家长用 AI 解决教育困惑。不贩卖焦虑，给实操方法。</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag free">免费</span>
+                        <span class="matrix-tag">家长端</span>
+                    </div>
+                    <a href="assistant.html" class="matrix-cta">立即体验 →</a>
+                </div>
+                <div class="matrix-card">
+                    <div class="matrix-icon">📊</div>
+                    <h3>AI 学习力测评</h3>
+                    <div class="matrix-tagline">3 分钟了解孩子的 AI 学习力</div>
+                    <p>智元家长版 + 原点少年版双测评，从 AI 素养、学习习惯、思维能力多维度评估，生成专属成长报告。</p>
+                    <div class="matrix-tags">
+                        <span class="matrix-tag free">免费</span>
+                        <span class="matrix-tag">双版本</span>
+                    </div>
+                    <a href="#assessment" class="matrix-cta">开始测评 →</a>
+                </div>
+                <div class="matrix-card coming-soon" style="grid-column: 1 / -1;">
+                    <div class="matrix-icon">🔮</div>
+                    <h3>即将上线</h3>
+                    <div class="matrix-tagline">更多 AI 教育工具正在路上</div>
+                    <ul class="matrix-coming-list">
+                        <li><strong>AI 批改助手</strong> — 作业拍照，AI 批改+讲解，错题自动归档</li>
+                        <li><strong>AI 作文教练</strong> — 从构思到成文，AI 全程辅导，写出高分作文</li>
+                        <li><strong>AI 编程启蒙</strong> — Scratch + Python，从零开始，边玩边学</li>
+                    </ul>
+                    <div style="margin-top:var(--sp-md)">
+                        <span class="matrix-cta coming">敬请期待</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 家长困惑（真实洞察，无假数据） -->
+    <section id="about" class="reveal">
+        <div class="container">
+            <h2>你可能也有这些困惑</h2>
+            <p class="section-desc">这是我们在设计课程时反复思考的三个核心问题</p>
+            <div class="paradox-grid">
+                <div class="paradox-card">
+                    <div class="paradox-label">困惑一</div>
+                    <h3>「成绩重要，但只抓成绩够吗？」</h3>
+                    <p>你想让孩子考好，也想让他面对AI时代不慌。但市面上的课程要么只教刷题，要么只讲素质——你找不到一个两样都管的。我们的课程设计目标就是：成绩和能力，一起抓。</p>
+                </div>
+                <div class="paradox-card">
+                    <div class="paradox-label">困惑二</div>
+                    <h3>「教孩子用AI，会不会越用越懒？」</h3>
+                    <p>很多AI课教的是搜题、抄答案。我们教的是：怎么向AI提出好问题、怎么判断AI说的对不对、怎么用AI做出属于自己的东西。工具是AI的，脑子是孩子的。</p>
+                </div>
+                <div class="paradox-card">
+                    <div class="paradox-label">困惑三</div>
+                    <h3>「花了钱，怎么知道孩子真学到了？」</h3>
+                    <p>很多课上完什么痕迹都没有。我们的课程设计目标：每个孩子结课时带走一份自己做的AI作品——研究报告、创意绘本、演讲稿。看得见，摸得着。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程产出目标（标注为设计目标，不伪装成已实现） -->
+    <section id="showcase" class="reveal">
+        <div class="container">
+            <h2>课程产出目标示例</h2>
+            <p class="section-desc">以下是我们为不同年龄段设计的课程产出方向——每个孩子结课时，都会带走一份属于自己的作品</p>
+            <div class="showcase-grid">
+                <div class="showcase-card">
+                    <div class="showcase-type">6-8岁 · 启智轨</div>
+                    <h3>AI创意绘本</h3>
+                    <p>孩子自己构思故事，用AI辅助生成插画，制作一本属于自己的原创绘本。培养想象力和叙事能力，作品可以送给家人朋友。</p>
+                    <div class="showcase-meta">课程设计目标 · 第4-8周完成</div>
+                </div>
+                <div class="showcase-card">
+                    <div class="showcase-type">9-11岁 · 探索轨</div>
+                    <h3>城市观察研究报告</h3>
+                    <p>选一个身边的问题（为什么奶茶店总扎堆？小区停车难怎么解？），用AI辅助收集信息、分析数据、制作图表，完成一份完整的研究报告。</p>
+                    <div class="showcase-meta">课程设计目标 · 第6-10周完成</div>
+                </div>
+                <div class="showcase-card">
+                    <div class="showcase-type">12-14岁 · 进阶轨</div>
+                    <h3>AI辅助演讲稿 + 路演</h3>
+                    <p>围绕一个有争议的话题（AI该不该当班长？作业该不该用AI？），用AI辅助结构化论点，独立完成5分钟演讲并在课堂上展示。</p>
+                    <div class="showcase-meta">课程设计目标 · 第8-12周完成</div>
+                </div>
+                <div class="showcase-card">
+                    <div class="showcase-type">15-16岁 · 卓越轨</div>
+                    <h3>社会议题调研项目</h3>
+                    <p>选择一个真实的社会问题，设计调研方案，用AI辅助数据分析和可视化，完成一份可展示的项目报告。培养独立研究能力。</p>
+                    <div class="showcase-meta">课程设计目标 · 第6-12周完成</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程设计 -->
+    <section id="products" class="reveal">
+        <div class="container">
+            <h2>我们怎么教？</h2>
+            <p class="section-desc">12周系统课程，每周1小时直播，8-12人小班，创始人亲授首期课程</p>
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-icon">⚡</div>
+                    <h3>学得快</h3>
+                    <div class="pillar-sub">用AI找到薄弱点，精准补强</div>
+                    <p>教孩子用AI分析自己的错题规律，找到知识盲区。不是替代学习，是让学习更有方向感。</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">🏆</div>
+                    <h3>考得高</h3>
+                    <div class="pillar-sub">AI辅助备考，成绩自然上去</div>
+                    <p>用AI精准攻坚高频考点、生成个性化练习题。我们的课程设计目标：学习效率提升的同时，成绩同步提升。</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">🧠</div>
+                    <h3>思维好</h3>
+                    <div class="pillar-sub">会提问比会回答更重要</div>
+                    <p>我们不给标准答案，用问题引导孩子自己思考。「AI说地球是宇宙中心，你信吗？」——这种训练让孩子学会独立判断。</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon">✨</div>
+                    <h3>有产出</h3>
+                    <div class="pillar-sub">每期带走一份AI作品</div>
+                    <p>研究报告、创意绘本、演讲稿——每个孩子结课时都有一份拿得出手的作品。这是最好的「学费值不值」的答案。</p>
+                </div>
+            </div>
+            <div class="tiers" style="margin-top:var(--sp-xl)">
+                <a href="methods.html" class="tier" style="text-decoration:none;color:inherit;cursor:pointer">
+                    <div class="tier-number">核心课程</div>
+                    <h3>智元成长课 →</h3>
+                    <div class="tier-role">¥3,980/学期 · 首课免费试听 · 首批种子学员享早鸟价 ¥3,280</div>
+                    <p>6-16岁分龄四轨课程，12周×60分钟，8-12人小班直播。首期由创始人亲自授课。</p>
+                </a>
+                <a href="tools-guide.html" class="tier" style="text-decoration:none;color:inherit;cursor:pointer">
+                    <div class="tier-number">免费工具（开发中）</div>
+                    <h3>原点AI学伴 →</h3>
+                    <div class="tier-role">免费 · 苏格拉底对话引擎 · 即将上线</div>
+                    <p>不给答案，用追问引导孩子自己思考。目前可免费体验AI素养测评，产品上线时第一时间通知。</p>
+                </a>
+            </div>
+            <div class="tiers-row2">
+                <a href="articles.html" class="tier" style="text-decoration:none;color:inherit;cursor:pointer">
+                    <div class="tier-number">免费内容</div>
+                    <h3>原点研究院 →</h3>
+                    <div class="tier-role">免费阅读 · 每周更新</div>
+                    <p>AI时代家庭教育深度内容。不贩卖恐慌，用真实案例和研究帮你看懂趋势、做对选择。不买课也值得看。</p>
+                </a>
+                <div class="tier">
+                    <div class="tier-number">2026暑期首发</div>
+                    <h3>原点少年营</h3>
+                    <div class="tier-role">¥2,980 · 3天2夜AI创造营 · 招募中</div>
+                    <p>线下AI实战体验。孩子带着自己做的AI产品回家。具体日期和城市即将公布。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创始人（真人真话） -->
+    <section class="reveal">
+        <div class="container">
+            <div class="founder-section">
+                <div class="founder-content">
+                    <div class="founder-label">创始人的话</div>
+                    <h2 style="text-align:left">为什么做原点智学？</h2>
+                    <p>我叫Zack，北大经济学院本科，伦敦商学院硕士。在做教育行业研究的过程中，我看到一个扎心的现象：家长花几万块报AI课，孩子学完只会「用AI搜答案」——这不是教育，这是制造依赖。</p>
+                    <p>真正的AI教育，应该让孩子学会<strong>提问</strong>、学会<strong>判断</strong>、学会用AI<strong>创造</strong>有价值的东西。成绩会提升，但不止于成绩。</p>
+                    <p>原点智学的「原点」，就是回到教育最本质的出发点——<strong>培养一个能独立思考、有产出能力的人</strong>。AI只是工具，人才是目的。</p>
+                    <p>这是我们的第一期课程，我亲自授课。首2周不满意全额退款——我对自己设计的课程有信心。如果你有任何问题，可以直接给我发邮件，我会亲自回复。</p>
+                    <div class="founder-sig">
+                        <strong>Zack Zhang</strong>
+                        <span>原点智学创始人 · 北大经济学院 · 伦敦商学院</span>
+                        <span>business@yuandianzhixue.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 首批种子学员权益 -->
+    <section class="reveal">
+        <div class="container">
+            <h2>为什么现在加入？</h2>
+            <p class="section-desc">首批种子学员专属权益——只有最早的支持者才能享受</p>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <div class="trust-num">¥3,280</div>
+                    <div class="trust-desc">种子学员早鸟价，比正式价¥3,980省700元。第一期招满即恢复原价。</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-num">创始人授课</div>
+                    <div class="trust-desc">首期课程由创始人Zack亲自授课。随规模扩大，后续将由培训后的教研团队授课。</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-num">课程共建权</div>
+                    <div class="trust-desc">你的反馈会直接影响课程迭代方向。种子学员是课程的共建者，不只是消费者。</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-num">无风险</div>
+                    <div class="trust-desc">首2周不满意全额退款，零附加条件。等于前2节课完全免费——你只需要给我们一个证明自己的机会。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA + Contact -->
+    <section id="contact" class="cta-section reveal">
+        <div class="container">
+            <h2>给孩子一个机会，先免费试听</h2>
+            <p>填写信息预约0元试听课。上完一节课再决定——我们对课程质量有信心。</p>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>联系创始人</h3>
+                    <div class="contact-item">📧 business@yuandianzhixue.com</div>
+                    <div class="contact-item">🌐 www.yuandianzhixue.com</div>
+                    <div class="contact-item">💬 微信搜索「原点智学」</div>
+                    <div class="contact-item" style="margin-top: var(--sp-md); color: var(--c-warm-dim); font-size: var(--fs-caption);">任何问题都可以直接联系，创始人亲自回复</div>
+                </div>
+                <div class="subscribe-form">
+                    <h3>预约免费试听课</h3>
+                    <label for="sub-name" class="sr-only">您的姓名</label>
+                    <input type="text" placeholder="您的姓名" id="sub-name" autocomplete="name">
+                    <label for="sub-phone" class="sr-only">手机号码</label>
+                    <input type="tel" placeholder="手机号码" id="sub-phone" autocomplete="tel" inputmode="tel">
+                    <label for="sub-age" class="sr-only">孩子年龄</label>
+                    <input type="text" placeholder="孩子年龄（选填）" id="sub-age">
+                    <button onclick="handleSubscribe()">免费预约试听 →</button>
+                    <div class="form-trust">0元试听 · 首2周不满意全额退款 · 创始人亲自回复</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Bar (fixed bottom) -->
+    <div id="share-bar" class="share-bar">
+        <span class="share-bar-label">觉得有用？分享给朋友</span>
+        <button class="share-btn" onclick="shareAction('wechat')"><span class="share-btn-icon">💬</span> 微信</button>
+        <button class="share-btn" onclick="shareAction('xiaohongshu')"><span class="share-btn-icon">📕</span> 小红书</button>
+        <button class="share-btn" onclick="shareAction('weibo')"><span class="share-btn-icon">🔥</span> 微博</button>
+        <button class="share-btn" onclick="shareAction('copy')"><span class="share-btn-icon">🔗</span> 复制链接</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3>◉ 原点智学</h3>
+                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
+            </div>
+            <div class="footer-links">
+                <h4>产品</h4>
+                <a href="methods.html">智元成长课</a>
+                <a href="tools-guide.html">原点AI学伴</a>
+                <a href="articles.html">原点研究院</a>
+            </div>
+            <div class="footer-links">
+                <h4>了解更多</h4>
+                <a href="about.html">关于我们</a>
+                <a href="#products">课程设计</a>
+                <a href="#contact">联系</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span>
+            <span>AI是教练，不是替代者。</span>
+        </div>
+    </footer>
+
+    <script src="src/app.js"></script>
+    <script>
+    // Show share bar after scrolling past hero
+    (function(){
+        var bar = document.getElementById('share-bar');
+        if (!bar) return;
+        var shown = false;
+        window.addEventListener('scroll', function(){
+            if (!shown && window.scrollY > 400) {
+                bar.classList.add('visible');
+                shown = true;
+            }
+        }, {passive:true});
+    })();
+    </script>
+</body>
+</html>
