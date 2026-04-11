@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题举一反三 — AI五重错因分析+变式题生成 | 原点智学</title>
+    <meta name="description" content="粘贴错题，AI深度分析5种错因，生成3道变式题，彻底攻克这类题型">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .tool-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
+
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea { min-height: 150px; resize: vertical; line-height: 1.7; }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .analysis-card { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+        .analysis-card h3 { color: var(--c-origin); margin-bottom: var(--sp-md); display: flex; align-items: center; gap: var(--sp-sm); }
+        .analysis-card-content { color: var(--c-warm-white); line-height: 1.8; }
+
+        .error-type-badge { display: inline-block; padding: 4px 12px; background: rgba(233,77,53,0.2); color: var(--c-origin); border-radius: var(--r-pill); font-size: var(--fs-small); margin-right: var(--sp-sm); }
+
+        .strategy-steps { padding-left: var(--sp-lg); color: var(--c-warm-gray); }
+        .strategy-steps li { margin-bottom: var(--sp-sm); }
+
+        .variant-question { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+        .variant-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); }
+        .variant-title { font-weight: 700; color: var(--c-warm-white); font-size: var(--fs-h3); }
+        .variant-type { font-size: var(--fs-small); color: var(--c-warm-dim); padding: 4px 12px; background: rgba(15,52,96,0.4); border-radius: var(--r-pill); }
+        .variant-content { color: var(--c-warm-white); line-height: 1.8; }
+        .variant-answer { background: rgba(45,159,111,0.1); border: 1px solid rgba(45,159,111,0.2); border-radius: var(--r-md); padding: var(--sp-md); margin-top: var(--sp-md); display: none; }
+        .variant-answer.visible { display: block; }
+        .show-answer-btn { background: rgba(45,159,111,0.2); color: var(--c-success); border: 1px solid var(--c-success); padding: 8px 16px; border-radius: var(--r-md); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); }
+
+        @media (max-width: 767px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🔍</div>
+        <h1>错题举一反三</h1>
+        <p class="section-desc">输入错题，AI五重错因分析+本质归因+4步解题策略+3道变式题，彻底攻克这类题</p>
+    </section>
+
+    <div class="tool-container">
+        <div class="input-card">
+            <h2>输入错题信息</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option>小学三年级</option>
+                        <option>小学四年级</option>
+                        <option>小学五年级</option>
+                        <option>小学六年级</option>
+                        <option selected>初一</option>
+                        <option>初二</option>
+                        <option>初三</option>
+                        <option>高一</option>
+                        <option>高二</option>
+                        <option>高三</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option selected>数学</option>
+                        <option>语文</option>
+                        <option>英语</option>
+                        <option>物理</option>
+                        <option>化学</option>
+                        <option>生物</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>题目内容 *</label>
+                <textarea id="question" placeholder="粘贴题目完整内容，包括题干、问题、选项等"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>我的答案</label>
+                    <input type="text" id="my-answer" placeholder="我写的答案">
+                </div>
+                <div class="form-field">
+                    <label>正确答案</label>
+                    <input type="text" id="correct-answer" placeholder="标准答案">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="analyzeError()" id="analyze-btn">开始AI分析</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <!-- 五重错因分析 -->
+            <div class="input-card">
+                <h2>五重错因分析</h2>
+                <div id="error-types"></div>
+            </div>
+
+            <!-- 本质归因 -->
+            <div class="input-card">
+                <h2>本质归因</h2>
+                <div class="analysis-card">
+                    <div class="analysis-card-content" id="root-cause"></div>
+                </div>
+            </div>
+
+            <!-- 解题策略 -->
+            <div class="input-card">
+                <h2>解题策略（4步法）</h2>
+                <div class="analysis-card">
+                    <ol class="strategy-steps" id="strategy-steps"></ol>
+                </div>
+            </div>
+
+            <!-- 变式题 -->
+            <div class="input-card">
+                <h2>变式题练习</h2>
+                <p style="color: var(--c-warm-gray); margin-bottom: var(--sp-lg); font-size: var(--fs-small)">
+                    AI为你生成3道不同类型的变式题，由易到难攻克这类题型
+                </p>
+                <div id="variant-questions"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>工具</h4><a href="../prompts.html">Prompt指南</a><a href="../study-tools.html">AI学习工具</a><a href="../settings.html">API设置</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="../about.html">关于我们</a><a href="../articles.html">研究院</a><a href="../#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="../src/app.js"></script>
+    <script>
+    function analyzeError() {
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var question = document.getElementById('question').value;
+        var myAnswer = document.getElementById('my-answer').value;
+        var correctAnswer = document.getElementById('correct-answer').value;
+
+        if (!question) {
+            alert('请输入题目内容');
+            return;
+        }
+
+        var systemPrompt = '你是一个专业的错题分析专家。对于学生的错题，你需要：\n\n' +
+            '1. 五重错因分析：从以下5个维度判断错误原因\n' +
+            '   - 知识盲区：缺少必要的知识点或概念\n' +
+            '   - 方法错误：解题思路或方法不对\n' +
+            '   - 计算失误：运算过程出错\n' +
+            '   - 审题偏差：没理解题目要求\n' +
+            '   - 表述不清：答案表述不规范或不完整\n\n' +
+            '2. 本质归因：找出最根本的原因\n\n' +
+            '3. 解题策略：给出4步解题法\n\n' +
+            '4. 变式题：生成3道变式题（相似题、变式题、综合题），用LaTeX格式写数学公式\n\n' +
+            '回复格式（严格JSON）：\n' +
+            '{\n' +
+            '  "errorTypes": [\n' +
+            '    {"type": "知识盲区", "present": true, "desc": "缺少二次函数顶点公式"},\n' +
+            '    {"type": "方法错误", "present": false, "desc": ""},\n' +
+            '    ...\n' +
+            '  ],\n' +
+            '  "rootCause": "本质原因是...",\n' +
+            '  "strategy": ["第一步...", "第二步...", "第三步...", "第四步..."],\n' +
+            '  "variants": [\n' +
+            '    {"type": "相似题", "question": "题目内容（用$公式$或$$公式$$表示数学）", "answer": "答案和解析"},\n' +
+            '    {"type": "变式题", "question": "...", "answer": "..."},\n' +
+            '    {"type": "综合题", "question": "...", "answer": "..."}\n' +
+            '  ]\n' +
+            '}';
+
+        var userMsg = '年级：' + grade + '\n科目：' + subject + '\n\n题目：\n' + question + '\n\n' +
+            (myAnswer ? '我的答案：' + myAnswer + '\n\n' : '') +
+            (correctAnswer ? '正确答案：' + correctAnswer : '');
+
+        document.getElementById('result-section').classList.add('visible');
+        document.getElementById('error-types').innerHTML = '<p style="text-align:center;color:var(--c-warm-gray)">AI正在分析中...</p>';
+
+        var btn = document.getElementById('analyze-btn');
+        btn.disabled = true;
+
+        window.YdzxAI.call({
+            systemPrompt: systemPrompt,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 3000,
+            onDone: function(fullText) {
+                btn.disabled = false;
+                try {
+                    var jsonMatch = fullText.match(/\{[\s\S]*\}/);
+                    if (!jsonMatch) throw new Error('无法解析AI回复');
+                    var result = JSON.parse(jsonMatch[0]);
+                    renderAnalysis(result);
+
+                    // 保存到learning-store
+                    if (window.LearningStore) {
+                        window.LearningStore.savePractice({
+                            type: 'error-mastery',
+                            grade: grade,
+                            subject: subject,
+                            question: question,
+                            analysis: result
+                        });
+                    }
+                } catch (e) {
+                    console.error('解析失败', e);
+                    document.getElementById('error-types').innerHTML = '<p style="color:var(--c-error)">AI回复格式异常，请重试。</p>';
+                }
+            },
+            onError: function(err) {
+                btn.disabled = false;
+                document.getElementById('error-types').innerHTML = '<p style="color:var(--c-error)">' + err + '</p>';
+            }
+        });
+    }
+
+    function renderAnalysis(result) {
+        // 五重错因
+        var errorTypesHtml = result.errorTypes.map(function(et) {
+            if (!et.present) return '';
+            return '<div class="analysis-card">' +
+                '<h3><span class="error-type-badge">' + et.type + '</span></h3>' +
+                '<div class="analysis-card-content">' + et.desc + '</div>' +
+                '</div>';
+        }).join('');
+        document.getElementById('error-types').innerHTML = errorTypesHtml;
+
+        // 本质归因
+        document.getElementById('root-cause').innerHTML = result.rootCause;
+
+        // 解题策略
+        var strategyHtml = result.strategy.map(function(s) { return '<li>' + s + '</li>'; }).join('');
+        document.getElementById('strategy-steps').innerHTML = strategyHtml;
+
+        // 变式题
+        var variantsHtml = result.variants.map(function(v, i) {
+            var questionRendered = renderMath(v.question);
+            var answerRendered = renderMath(v.answer);
+            return '<div class="variant-question">' +
+                '<div class="variant-header">' +
+                '<span class="variant-title">变式题 #' + (i+1) + '</span>' +
+                '<span class="variant-type">' + v.type + '</span>' +
+                '</div>' +
+                '<div class="variant-content">' + questionRendered + '</div>' +
+                '<button class="show-answer-btn" onclick="toggleAnswer(' + i + ')">查看答案</button>' +
+                '<div class="variant-answer" id="answer-' + i + '">' +
+                '<strong style="color:var(--c-success)">答案与解析：</strong><br>' + answerRendered +
+                '</div>' +
+                '</div>';
+        }).join('');
+        document.getElementById('variant-questions').innerHTML = variantsHtml;
+    }
+
+    function renderMath(text) {
+        // 简单的LaTeX渲染：$公式$ 或 $$公式$$
+        if (!text) return '';
+        try {
+            return text.replace(/\$\$([^\$]+)\$\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: true, throwOnError: false });
+            }).replace(/\$([^\$]+)\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: false, throwOnError: false });
+            });
+        } catch (e) {
+            return text;
+        }
+    }
+
+    function toggleAnswer(index) {
+        var answerEl = document.getElementById('answer-' + index);
+        answerEl.classList.toggle('visible');
+    }
+    </script>
+</body>
+</html>
