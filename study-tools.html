@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI学习工具箱 — 错题分析/知识讲解/作文教练/英语对话 | 原点智学</title>
-    <meta name="description" content="4个免费AI学习工具：错题分析师、知识点讲解员、作文教练、英语对话伙伴。每天免费3次，适配豆包/DeepSeek。">
+    <title>AI提分教练工具箱 — 15个工具助你科学提分 | 原点智学</title>
+    <meta name="description" content="15个免费AI学习工具：考试诊断、错题分析、思维导图、作文教练等。每天免费3次，适配豆包/DeepSeek。">
     <meta name="theme-color" content="#1A1A2E">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -17,47 +17,115 @@
     <style>
         .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
         .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
-        .tools-nav { display: flex; gap: var(--sp-sm); justify-content: center; flex-wrap: wrap; margin-top: var(--sp-lg); }
-        .tools-nav button { padding: 10px 20px; border-radius: var(--r-pill); border: 1px solid var(--c-ink-border); background: transparent; color: var(--c-warm-gray); font-size: var(--fs-small); font-family: var(--font-body); cursor: pointer; transition: all 0.2s; }
-        .tools-nav button.active { background: var(--grad-cta); color: #fff; border-color: transparent; }
-        .tools-nav button:hover:not(.active) { border-color: var(--c-origin); color: var(--c-warm-white); }
 
-        .tool-panel { display: none; max-width: 800px; margin: 0 auto; padding: var(--sp-section) var(--sp-lg); }
-        .tool-panel.active { display: block; }
-        .tool-header { text-align: center; margin-bottom: var(--sp-xl); }
-        .tool-header h2 { font-family: var(--font-heading); margin-bottom: var(--sp-sm); }
-        .tool-header p { color: var(--c-warm-gray); }
-
-        .tool-input-group { margin-bottom: var(--sp-md); }
-        .tool-input-group label { display: block; color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
-        .tool-input-group select, .tool-input-group input, .tool-input-group textarea {
-            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
-            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        .tools-container { max-width: 1200px; margin: var(--sp-section) auto var(--sp-2xl); padding: 0 var(--sp-lg); }
+        .tools-section { margin-bottom: var(--sp-2xl); }
+        .tools-section-title {
+            font-family: var(--font-heading);
+            font-size: var(--fs-h2);
+            color: var(--c-origin);
+            margin-bottom: var(--sp-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--sp-sm);
         }
-        .tool-input-group textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
-        .tool-input-group select:focus, .tool-input-group input:focus, .tool-input-group textarea:focus {
-            border-color: var(--c-origin); outline: none;
+        .tools-section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--grad-cta);
+            border-radius: var(--r-sm);
         }
-        .tool-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
 
-        .tool-submit { display: flex; align-items: center; gap: var(--sp-md); margin: var(--sp-lg) 0; flex-wrap: wrap; }
-        .tool-submit button { padding: 12px 28px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
-        .tool-submit button:hover { transform: translateY(-1px); }
-        .tool-submit button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .tool-usage { color: var(--c-warm-dim); font-size: var(--fs-caption); }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--sp-md);
+        }
 
-        .tool-result { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-top: var(--sp-lg); display: none; }
-        .tool-result.visible { display: block; }
-        .tool-result-content { color: var(--c-warm-white); line-height: 1.9; white-space: pre-wrap; }
-        .tool-result-loading { color: var(--c-warm-gray); }
-        .tool-result-disclaimer { margin-top: var(--sp-md); padding-top: var(--sp-md); border-top: 1px solid rgba(15,52,96,0.3); color: var(--c-warm-dim); font-size: var(--fs-caption); }
-        .tool-result-verify { background: rgba(233,77,53,0.06); border: 1px solid rgba(233,77,53,0.15); border-radius: var(--r-md); padding: var(--sp-sm) var(--sp-md); margin-top: var(--sp-sm); font-size: var(--fs-caption); color: var(--c-origin-soft); }
+        @media (min-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--sp-lg);
+            }
+        }
 
-        .no-key-notice { background: rgba(233,77,53,0.08); border: 1px solid rgba(233,77,53,0.2); border-radius: var(--r-lg); padding: var(--sp-lg); text-align: center; margin-bottom: var(--sp-xl); }
-        .no-key-notice p { color: var(--c-warm-gray); margin-bottom: var(--sp-md); }
-        .no-key-notice a { color: var(--c-origin); font-weight: 700; }
+        .tool-card {
+            background: rgba(22,33,62,0.6);
+            border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-lg);
+            padding: var(--sp-lg);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+        }
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--grad-cta);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--c-origin);
+            box-shadow: var(--shadow-hover);
+        }
+        .tool-card:hover::before { transform: scaleX(1); }
 
-        @media (max-width: 767px) { .tool-row { grid-template-columns: 1fr; } }
+        .tool-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--sp-sm);
+        }
+        .tool-card-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+        .tool-card-badge {
+            background: var(--c-origin-glow);
+            color: var(--c-origin-soft);
+            font-size: var(--fs-caption);
+            padding: 4px 8px;
+            border-radius: var(--r-sm);
+            font-weight: 700;
+        }
+        .tool-card-badge.new {
+            background: rgba(45,159,111,0.15);
+            color: var(--c-success);
+        }
+        .tool-card-title {
+            font-family: var(--font-heading);
+            font-size: var(--fs-h3);
+            margin-bottom: var(--sp-xs);
+            color: var(--c-warm-white);
+        }
+        .tool-card-desc {
+            color: var(--c-warm-gray);
+            font-size: var(--fs-small);
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--c-ink);
+            border-top: 1px solid var(--c-ink-border);
+            padding: var(--sp-xl) var(--sp-lg);
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--c-warm-dim);
+            font-size: var(--fs-small);
+        }
     </style>
 </head>
 <body>
@@ -82,291 +150,182 @@
 
     <section class="page-hero">
         <a href="/" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
-        <h1>AI学习工具箱</h1>
-        <p class="section-desc">4个即用工具，每天免费3次。不给答案，引导思考。</p>
-        <div class="tools-nav" id="tools-nav">
-            <button class="active" data-tool="wrong">错题分析</button>
-            <button data-tool="explain">知识讲解</button>
-            <button data-tool="essay">作文教练</button>
-            <button data-tool="english">英语对话</button>
-        </div>
+        <h1>AI提分教练工具箱</h1>
+        <p class="section-desc">15个智能工具，科学诊断、精准攻克、思维进阶、持续成长</p>
     </section>
 
-    <div id="no-key-notice" class="no-key-notice" style="max-width:800px;margin:var(--sp-lg) auto;display:none">
-        <p>使用AI工具需要先设置API Key。<br>推荐使用 <strong>DeepSeek</strong>（便宜好用）或 <strong>豆包</strong>（国内最流行）。</p>
-        <a href="settings.html">前往设置 API Key →</a>
+    <div class="tools-container">
+        <!-- 诊断区 -->
+        <div class="tools-section">
+            <h2 class="tools-section-title">诊断区 — 找到真正的问题</h2>
+            <div class="tools-grid">
+                <a href="tools/exam-diagnosis.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📊</div>
+                        <span class="tool-card-badge new">NEW</span>
+                    </div>
+                    <h3 class="tool-card-title">考试诊断</h3>
+                    <p class="tool-card-desc">输入成绩和错题，AI做13维分析，找到失分真因和提分路径</p>
+                </a>
+
+                <a href="tools/learning-analysis.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📈</div>
+                    </div>
+                    <h3 class="tool-card-title">学情分析</h3>
+                    <p class="tool-card-desc">长期追踪各科成绩，识别优势科目和薄弱环节</p>
+                </a>
+
+                <a href="tools/weakness-scan.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🔍</div>
+                    </div>
+                    <h3 class="tool-card-title">薄弱点扫描</h3>
+                    <p class="tool-card-desc">智能分析知识漏洞，生成针对性补强计划</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 攻克区 -->
+        <div class="tools-section">
+            <h2 class="tools-section-title">攻克区 — 精准击破难点</h2>
+            <div class="tools-grid">
+                <a href="tools/error-analysis.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">❌</div>
+                        <span class="tool-card-badge">热门</span>
+                    </div>
+                    <h3 class="tool-card-title">错题分析</h3>
+                    <p class="tool-card-desc">拍照或输入错题，AI找出知识盲区和解题思路</p>
+                </a>
+
+                <a href="tools/concept-explain.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">💡</div>
+                    </div>
+                    <h3 class="tool-card-title">知识讲解</h3>
+                    <p class="tool-card-desc">输入知识点，AI用你能听懂的方式讲清楚</p>
+                </a>
+
+                <a href="tools/hard-problem.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🎯</div>
+                    </div>
+                    <h3 class="tool-card-title">难题破解</h3>
+                    <p class="tool-card-desc">遇到难题卡住了，AI教你多角度分析和解题</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 思维区 -->
+        <div class="tools-section">
+            <h2 class="tools-section-title">思维区 — 建立知识网络</h2>
+            <div class="tools-grid">
+                <a href="tools/mind-map.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🗺️</div>
+                    </div>
+                    <h3 class="tool-card-title">思维导图</h3>
+                    <p class="tool-card-desc">输入主题，AI生成结构化知识导图</p>
+                </a>
+
+                <a href="tools/knowledge-link.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🔗</div>
+                    </div>
+                    <h3 class="tool-card-title">知识串联</h3>
+                    <p class="tool-card-desc">把零散知识点串成体系，看清知识地图</p>
+                </a>
+
+                <a href="tools/concept-compare.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">⚖️</div>
+                    </div>
+                    <h3 class="tool-card-title">概念对比</h3>
+                    <p class="tool-card-desc">对比易混概念，AI帮你分清细微差异</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 素养区 -->
+        <div class="tools-section">
+            <h2 class="tools-section-title">素养区 — 提升综合能力</h2>
+            <div class="tools-grid">
+                <a href="tools/writing-coach.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">✍️</div>
+                        <span class="tool-card-badge">热门</span>
+                    </div>
+                    <h3 class="tool-card-title">作文教练</h3>
+                    <p class="tool-card-desc">贴上作文，AI从结构、论证、语言三方面点评</p>
+                </a>
+
+                <a href="tools/english-chat.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🗣️</div>
+                    </div>
+                    <h3 class="tool-card-title">英语对话</h3>
+                    <p class="tool-card-desc">AI扮演外教，真实场景对话练口语</p>
+                </a>
+
+                <a href="tools/reading-guide.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📖</div>
+                    </div>
+                    <h3 class="tool-card-title">阅读理解</h3>
+                    <p class="tool-card-desc">贴上阅读题，AI教你抓关键信息和解题技巧</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 成长区 -->
+        <div class="tools-section">
+            <h2 class="tools-section-title">成长区 — 持续进步追踪</h2>
+            <div class="tools-grid">
+                <a href="tools/study-planner.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📅</div>
+                    </div>
+                    <h3 class="tool-card-title">学习计划</h3>
+                    <p class="tool-card-desc">输入目标和时间，AI生成可执行的学习计划</p>
+                </a>
+
+                <a href="tools/progress-tracker.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📊</div>
+                    </div>
+                    <h3 class="tool-card-title">进步追踪</h3>
+                    <p class="tool-card-desc">记录每次学习成果，可视化你的成长曲线</p>
+                </a>
+
+                <a href="tools/review-reminder.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">⏰</div>
+                    </div>
+                    <h3 class="tool-card-title">复习提醒</h3>
+                    <p class="tool-card-desc">基于遗忘曲线，智能安排复习时机</p>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- 错题分析师 -->
-    <div class="tool-panel active" id="panel-wrong">
-        <div class="tool-header">
-            <h2>错题分析师</h2>
-            <p>粘贴错题，AI帮你分析错因，不直接给答案，用追问引导孩子自己想出来</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 原点智学 YuanDianZhiXue.com | AI赋能教育，科学提分</p>
+            <p style="margin-top:8px;font-size:var(--fs-caption)">本站工具仅供学习辅助使用，AI结果请人工验证</p>
         </div>
-        <div class="tool-row">
-            <div class="tool-input-group">
-                <label>孩子年级</label>
-                <select id="wrong-grade"><option>小学三年级</option><option>小学四年级</option><option>小学五年级</option><option>小学六年级</option><option selected>初一</option><option>初二</option><option>初三</option><option>高一</option><option>高二</option><option>高三</option></select>
-            </div>
-            <div class="tool-input-group">
-                <label>科目</label>
-                <select id="wrong-subject"><option>数学</option><option>语文</option><option>英语</option><option>物理</option><option>化学</option><option>生物</option><option>历史</option><option>地理</option></select>
-            </div>
-        </div>
-        <div class="tool-input-group">
-            <label>错题内容（把题目粘贴在这里）</label>
-            <textarea id="wrong-question" placeholder="例如：计算 3/4 + 2/5 = ?&#10;孩子的答案是 5/9"></textarea>
-        </div>
-        <div class="tool-submit">
-            <button onclick="runTool('wrong')">分析错因</button>
-            <span class="tool-usage" id="wrong-usage"></span>
-        </div>
-        <div class="tool-result" id="wrong-result">
-            <div class="tool-result-content" id="wrong-content"></div>
-            <div class="tool-result-disclaimer">
-                以上回答由AI生成，可能存在错误。建议和老师确认关键内容。
-                <div class="tool-result-verify">怎么验证？试试问AI："你确定吗？请再检查一遍你的分析，特别是知识点判断部分。"</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 知识点讲解员 -->
-    <div class="tool-panel" id="panel-explain">
-        <div class="tool-header">
-            <h2>知识点讲解员</h2>
-            <p>输入一个不懂的概念，AI用最简单的话解释给你听</p>
-        </div>
-        <div class="tool-row">
-            <div class="tool-input-group">
-                <label>孩子年级</label>
-                <select id="explain-grade"><option>小学三年级</option><option>小学四年级</option><option>小学五年级</option><option>小学六年级</option><option selected>初一</option><option>初二</option><option>初三</option><option>高一</option><option>高二</option><option>高三</option></select>
-            </div>
-            <div class="tool-input-group">
-                <label>讲解风格</label>
-                <select id="explain-style"><option value="simple">用最简单的话</option><option value="analogy">用生活中的例子</option><option value="story">用一个小故事</option></select>
-            </div>
-        </div>
-        <div class="tool-input-group">
-            <label>想了解什么概念或知识点？</label>
-            <textarea id="explain-concept" placeholder="例如：什么是质数？&#10;或者：为什么冬天白天短？&#10;或者：英语中 will 和 be going to 有什么区别？" style="min-height:80px"></textarea>
-        </div>
-        <div class="tool-submit">
-            <button onclick="runTool('explain')">请AI讲解</button>
-            <span class="tool-usage" id="explain-usage"></span>
-        </div>
-        <div class="tool-result" id="explain-result">
-            <div class="tool-result-content" id="explain-content"></div>
-            <div class="tool-result-disclaimer">以上回答由AI生成，可能存在错误。建议和课本/老师交叉验证。
-                <div class="tool-result-verify">不确定对不对？问AI："这个解释和课本上的说法一致吗？请对比一下。"</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 作文教练 -->
-    <div class="tool-panel" id="panel-essay">
-        <div class="tool-header">
-            <h2>作文教练</h2>
-            <p>粘贴孩子的作文，AI不会帮他重写——只给3条修改建议</p>
-        </div>
-        <div class="tool-row">
-            <div class="tool-input-group">
-                <label>孩子年级</label>
-                <select id="essay-grade"><option>小学三年级</option><option>小学四年级</option><option>小学五年级</option><option>小学六年级</option><option selected>初一</option><option>初二</option><option>初三</option><option>高一</option><option>高二</option></select>
-            </div>
-            <div class="tool-input-group">
-                <label>作文题目</label>
-                <input type="text" id="essay-title" placeholder="例如：我的暑假">
-            </div>
-        </div>
-        <div class="tool-input-group">
-            <label>孩子写的作文原文</label>
-            <textarea id="essay-content" placeholder="把孩子的作文粘贴在这里..." style="min-height:200px"></textarea>
-        </div>
-        <div class="tool-submit">
-            <button onclick="runTool('essay')">获取修改建议</button>
-            <span class="tool-usage" id="essay-usage"></span>
-        </div>
-        <div class="tool-result" id="essay-result">
-            <div class="tool-result-content" id="essay-content-result"></div>
-            <div class="tool-result-disclaimer">AI只给建议，不代写。最终怎么改，由孩子自己决定。
-                <div class="tool-result-verify">提示：让孩子看完建议后自己改，改完可以再让AI看一遍。</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 英语对话伙伴 -->
-    <div class="tool-panel" id="panel-english">
-        <div class="tool-header">
-            <h2>英语对话伙伴</h2>
-            <p>选一个话题，AI用简单英语和孩子对话，说错了温和纠正</p>
-        </div>
-        <div class="tool-row">
-            <div class="tool-input-group">
-                <label>英语水平</label>
-                <select id="eng-level"><option value="beginner">初学 (小学)</option><option value="intermediate" selected>中等 (初中)</option><option value="advanced">较好 (高中)</option></select>
-            </div>
-            <div class="tool-input-group">
-                <label>对话话题</label>
-                <select id="eng-topic"><option>自我介绍</option><option>我的家人</option><option>我的学校</option><option>去超市买东西</option><option>我最喜欢的动物</option><option>周末计划</option><option>我的梦想</option></select>
-            </div>
-        </div>
-        <div class="tool-input-group">
-            <label>你想说的话（英语或中文都可以）</label>
-            <textarea id="eng-input" placeholder="用英语试试！比如：Hello, my name is...&#10;不会说也没关系，用中文也行，AI会帮你翻译。" style="min-height:80px"></textarea>
-        </div>
-        <div class="tool-submit">
-            <button onclick="runTool('english')">开始对话</button>
-            <span class="tool-usage" id="english-usage"></span>
-        </div>
-        <div class="tool-result" id="english-result">
-            <div class="tool-result-content" id="english-content"></div>
-            <div class="tool-result-disclaimer">AI语言纠错仅供参考，具体语法请以课本为准。
-                <div class="tool-result-verify">提示：可以让孩子用手机语音输入，练习发音。豆包App支持语音对话。</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Share Bar -->
-    <div id="share-bar" class="share-bar">
-        <span class="share-bar-label">觉得有用？分享给朋友</span>
-        <button class="share-btn" onclick="shareAction('wechat')"><span class="share-btn-icon">💬</span> 微信</button>
-        <button class="share-btn" onclick="shareAction('xiaohongshu')"><span class="share-btn-icon">📕</span> 小红书</button>
-        <button class="share-btn" onclick="shareAction('weibo')"><span class="share-btn-icon">🔥</span> 微博</button>
-        <button class="share-btn" onclick="shareAction('copy')"><span class="share-btn-icon">🔗</span> 复制链接</button>
-    </div>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
-            <div class="footer-links"><h4>工具</h4><a href="prompts.html">Prompt指南</a><a href="study-tools.html">AI学习工具</a><a href="settings.html">API设置</a></div>
-            <div class="footer-links"><h4>了解更多</h4><a href="about.html">关于我们</a><a href="articles.html">研究院</a><a href="/#contact">联系</a></div>
-        </div>
-        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
     </footer>
 
     <script src="src/api-manager.js"></script>
-    <script src="src/app.js"></script>
     <script>
-    (function() {
-        // Tool navigation
-        var navBtns = document.querySelectorAll('#tools-nav button');
-        navBtns.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                navBtns.forEach(function(b) { b.classList.remove('active'); });
-                btn.classList.add('active');
-                document.querySelectorAll('.tool-panel').forEach(function(p) { p.classList.remove('active'); });
-                var panel = document.getElementById('panel-' + btn.dataset.tool);
-                if (panel) panel.classList.add('active');
-            });
-        });
-
-        // Check if API key is set
-        function checkKey() {
-            var notice = document.getElementById('no-key-notice');
-            var hasKey = window.YdzxAI && (window.YdzxAI.getKey() || window.YdzxAI.getUserTier() !== 'free');
-            notice.style.display = hasKey ? 'none' : 'block';
+    function toggleMobileNav() {
+        var nav = document.getElementById('mobile-nav');
+        if (nav.style.display === 'flex') {
+            nav.style.display = 'none';
+        } else {
+            nav.style.display = 'flex';
         }
-        // Update usage displays
-        function updateUsage() {
-            if (!window.YdzxAI) return;
-            var remaining = window.YdzxAI.getRemainingCalls();
-            var tier = window.YdzxAI.getUserTier();
-            var limit = window.YdzxAI.LIMITS[tier];
-            var text = remaining === Infinity ? 'BYOK模式 · 无限次' : '今日剩余 ' + remaining + '/' + limit + ' 次';
-            document.querySelectorAll('.tool-usage').forEach(function(el) { el.textContent = text; });
-        }
-        setTimeout(function() { checkKey(); updateUsage(); }, 100);
-
-        // System prompts for each tool
-        var systemPrompts = {
-            wrong: '你是一个耐心的学习辅导老师。孩子做错了一道题，你的任务是：\n1. 分析错误原因（可能是哪个知识点没理解）\n2. 不要直接给正确答案\n3. 用追问的方式引导孩子自己想出来（比如"你觉得这一步的计算对吗？""如果换一个方法想呢？"）\n4. 最后出2道类似的练习题让孩子巩固\n\n语气要温和鼓励，像一个好老师。',
-            explain: '你是一个擅长深入浅出的知识讲解员。用户会问你一个概念或知识点，你需要：\n1. 用{style}解释这个概念\n2. 确保{grade}的孩子能听懂\n3. 给出1-2个具体的例子\n4. 最后问一个简单的问题，检验孩子是否理解了\n\n不要用太复杂的术语，像在和孩子聊天。',
-            essay: '你是一个作文教练。家长粘贴了孩子写的作文，你的任务是：\n1. 绝对不要帮孩子重写作文\n2. 保留孩子的原始表达和风格\n3. 指出3个最值得改进的地方（比如结构、用词、细节描写等）\n4. 每个改进点给出具体建议（告诉孩子怎么改，但不要直接改）\n5. 最后用1-2句话真诚地肯定孩子写得好的地方\n\n孩子是{grade}，请按这个年级的标准来评价。',
-            english: '你是一个友好的英语对话伙伴。请用简单的英语和孩子练习对话。\n\n规则：\n1. 每次回复1-2句英语，保持简短\n2. 难度适合{level}水平\n3. 如果孩子说错了语法或用词，先温和地纠正（用中文解释为什么），再继续对话\n4. 如果孩子用中文回复，帮他翻译成英语，然后继续用英语对话\n5. 每3轮对话后，用中文总结孩子学到的新表达\n6. 今天的话题是：{topic}\n\n全程鼓励为主，像一个有趣的外教。'
-        };
-
-        // Run tool
-        window.runTool = function(tool) {
-            if (!window.YdzxAI) { alert('API管理器未加载，请刷新页面。'); return; }
-
-            var resultEl = document.getElementById(tool + '-result');
-            var contentEl = document.getElementById(tool + '-content') || document.getElementById(tool + '-content-result');
-            if (!resultEl || !contentEl) return;
-
-            var userMsg = '';
-            var sysPrompt = systemPrompts[tool] || '';
-
-            if (tool === 'wrong') {
-                var grade = document.getElementById('wrong-grade').value;
-                var subject = document.getElementById('wrong-subject').value;
-                var question = document.getElementById('wrong-question').value.trim();
-                if (!question) { alert('请粘贴错题内容'); return; }
-                userMsg = '孩子是' + grade + '，科目是' + subject + '。\n\n错题如下：\n' + question;
-            } else if (tool === 'explain') {
-                var grade = document.getElementById('explain-grade').value;
-                var style = document.getElementById('explain-style');
-                var styleText = style.options[style.selectedIndex].text;
-                var concept = document.getElementById('explain-concept').value.trim();
-                if (!concept) { alert('请输入想了解的概念'); return; }
-                sysPrompt = sysPrompt.replace('{style}', styleText).replace('{grade}', grade);
-                userMsg = concept;
-            } else if (tool === 'essay') {
-                var grade = document.getElementById('essay-grade').value;
-                var title = document.getElementById('essay-title').value.trim();
-                var content = document.getElementById('essay-content').value.trim();
-                if (!content) { alert('请粘贴孩子的作文'); return; }
-                sysPrompt = sysPrompt.replace('{grade}', grade);
-                userMsg = '作文题目：' + (title || '未知') + '\n\n作文原文：\n' + content;
-            } else if (tool === 'english') {
-                var level = document.getElementById('eng-level');
-                var levelText = level.options[level.selectedIndex].text;
-                var topic = document.getElementById('eng-topic').value;
-                var input = document.getElementById('eng-input').value.trim();
-                sysPrompt = sysPrompt.replace('{level}', levelText).replace('{topic}', topic);
-                userMsg = input || '请你先开始对话吧！话题是：' + topic;
-            }
-
-            // Show loading
-            resultEl.classList.add('visible');
-            contentEl.textContent = '';
-            contentEl.innerHTML = '<span class="tool-result-loading">正在思考中...</span>';
-
-            var btn = resultEl.parentElement.querySelector('.tool-submit button');
-            if (btn) btn.disabled = true;
-
-            window.YdzxAI.call({
-                systemPrompt: sysPrompt,
-                messages: [{ role: 'user', content: userMsg }],
-                maxTokens: 1500,
-                onChunk: function(text) {
-                    if (contentEl.querySelector('.tool-result-loading')) contentEl.textContent = '';
-                    contentEl.textContent += text;
-                },
-                onDone: function(fullText) {
-                    if (!contentEl.textContent) contentEl.textContent = fullText;
-                    if (btn) btn.disabled = false;
-                    updateUsage();
-                },
-                onError: function(err) {
-                    contentEl.innerHTML = '<span style="color:var(--c-error)">' + err + '</span>';
-                    if (btn) btn.disabled = false;
-                }
-            });
-        };
-    })();
-    </script>
-    <script>
-    (function(){
-        var bar = document.getElementById('share-bar');
-        if (!bar) return;
-        var shown = false;
-        window.addEventListener('scroll', function(){
-            if (!shown && window.scrollY > 300) {
-                bar.classList.add('visible');
-                shown = true;
-            }
-        }, {passive:true});
-    })();
+    }
     </script>
 </body>
 </html>

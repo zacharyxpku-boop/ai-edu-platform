@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试诊断 — AI精准分析13维能力 | 原点智学</title>
+    <meta name="description" content="输入考试成绩和错题，AI给出13维诊断报告，精准定位薄弱点，生成可分享的诊断卡">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .diagnosis-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .step-indicator { display: flex; justify-content: center; gap: var(--sp-md); margin-bottom: var(--sp-xl); }
+        .step-item { display: flex; align-items: center; gap: var(--sp-xs); color: var(--c-warm-dim); font-size: var(--fs-small); }
+        .step-item.active { color: var(--c-origin); font-weight: 700; }
+        .step-item.completed { color: var(--c-warm-gray); }
+        .step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .step-item.active .step-num { background: var(--grad-cta); border-color: transparent; color: #fff; }
+        .step-item.completed .step-num { background: rgba(15,52,96,0.4); border-color: var(--c-warm-dim); }
+
+        .form-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .form-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-md); }
+        .form-field { display: flex; flex-direction: column; }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+        .form-field-hint { font-size: var(--fs-caption); color: var(--c-warm-dim); margin-top: var(--sp-xs); }
+
+        .error-item { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); margin-bottom: var(--sp-md); }
+        .error-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-sm); }
+        .error-item-title { font-weight: 700; color: var(--c-warm-white); }
+        .error-item-remove { background: none; border: none; color: var(--c-error); cursor: pointer; font-size: var(--fs-small); padding: 4px 8px; }
+
+        .btn-group { display: flex; gap: var(--sp-md); align-items: center; flex-wrap: wrap; }
+        .btn-primary { padding: 12px 28px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--c-origin); }
+        .btn-add { padding: 8px 16px; background: rgba(15,52,96,0.4); color: var(--c-origin); border: 1px dashed var(--c-origin); border-radius: var(--r-md); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); display: inline-flex; align-items: center; gap: var(--sp-xs); }
+        .btn-add:hover { background: var(--c-origin-glow); }
+
+        .report-section { display: none; }
+        .report-section.visible { display: block; }
+
+        .radar-container { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); text-align: center; }
+        .radar-canvas { max-width: 100%; height: auto; }
+
+        .dimension-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-lg); }
+        .dimension-card { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); }
+        .dimension-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-sm); }
+        .dimension-title { font-weight: 700; color: var(--c-warm-white); }
+        .dimension-score { font-size: 1.5rem; font-weight: 900; font-family: var(--font-heading); }
+        .dimension-score.high { color: var(--c-success); }
+        .dimension-score.mid { color: var(--c-warning); }
+        .dimension-score.low { color: var(--c-error); }
+        .dimension-desc { font-size: var(--fs-small); color: var(--c-warm-gray); line-height: 1.6; }
+
+        .suggestions { background: rgba(45,159,111,0.08); border: 1px solid rgba(45,159,111,0.2); border-radius: var(--r-lg); padding: var(--sp-lg); }
+        .suggestions h3 { color: var(--c-success); margin-bottom: var(--sp-md); }
+        .suggestions ol { padding-left: var(--sp-lg); color: var(--c-warm-white); line-height: 1.9; }
+        .suggestions li { margin-bottom: var(--sp-sm); }
+
+        .share-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-top: var(--sp-lg); }
+        .share-card h3 { margin-bottom: var(--sp-md); }
+        .share-preview { background: #fff; border-radius: var(--r-md); padding: var(--sp-lg); margin-bottom: var(--sp-md); min-height: 400px; }
+
+        @media (max-width: 767px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .dimension-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📊</div>
+        <h1>考试诊断</h1>
+        <p class="section-desc">输入一次考试的成绩和错题，AI精准分析13个维度，找到真正的提分突破口</p>
+    </section>
+
+    <div class="diagnosis-container">
+        <!-- 步骤指示器 -->
+        <div class="step-indicator">
+            <div class="step-item active" id="step-ind-1">
+                <span class="step-num">1</span>
+                <span>基础信息</span>
+            </div>
+            <div class="step-item" id="step-ind-2">
+                <span class="step-num">2</span>
+                <span>错题录入</span>
+            </div>
+            <div class="step-item" id="step-ind-3">
+                <span class="step-num">3</span>
+                <span>诊断报告</span>
+            </div>
+        </div>
+
+        <!-- 步骤1：基础信息 -->
+        <div class="form-card" id="step-1">
+            <h2>填写考试基础信息</h2>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option>小学三年级</option>
+                        <option>小学四年级</option>
+                        <option>小学五年级</option>
+                        <option>小学六年级</option>
+                        <option selected>初一</option>
+                        <option>初二</option>
+                        <option>初三</option>
+                        <option>高一</option>
+                        <option>高二</option>
+                        <option>高三</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option selected>数学</option>
+                        <option>语文</option>
+                        <option>英语</option>
+                        <option>物理</option>
+                        <option>化学</option>
+                        <option>生物</option>
+                        <option>历史</option>
+                        <option>地理</option>
+                        <option>政治</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label>实际得分 *</label>
+                    <input type="number" id="score" placeholder="例如：85" min="0" max="150">
+                </div>
+                <div class="form-field">
+                    <label>满分 *</label>
+                    <input type="number" id="total-score" placeholder="例如：100" min="0" max="150" value="100">
+                </div>
+                <div class="form-field">
+                    <label>班级排名（选填）</label>
+                    <input type="text" id="rank" placeholder="例如：15/40">
+                </div>
+            </div>
+            <div class="form-field">
+                <label>考试名称（选填）</label>
+                <input type="text" id="exam-name" placeholder="例如：期中考试">
+                <span class="form-field-hint">方便后续查看历史诊断记录</span>
+            </div>
+            <div class="btn-group" style="margin-top: var(--sp-lg)">
+                <button class="btn-primary" onclick="goToStep2()">下一步：录入错题</button>
+            </div>
+        </div>
+
+        <!-- 步骤2：错题录入 -->
+        <div class="form-card" id="step-2" style="display: none;">
+            <h2>录入错题信息</h2>
+            <p style="color: var(--c-warm-gray); margin-bottom: var(--sp-lg); font-size: var(--fs-small)">
+                至少录入3道错题，AI才能准确诊断。建议录入5-10道，覆盖不同类型。
+            </p>
+            <div id="errors-list"></div>
+            <button class="btn-add" onclick="addError()">+ 添加错题</button>
+            <div class="btn-group" style="margin-top: var(--sp-xl)">
+                <button class="btn-secondary" onclick="backToStep1()">上一步</button>
+                <button class="btn-primary" onclick="startDiagnosis()" id="diagnose-btn">开始AI诊断</button>
+                <span style="color: var(--c-warm-dim); font-size: var(--fs-caption)" id="error-count">已录入 0 道错题</span>
+            </div>
+        </div>
+
+        <!-- 步骤3：诊断报告 -->
+        <div class="report-section" id="step-3">
+            <div class="form-card">
+                <h2>13维能力诊断报告</h2>
+                <div class="radar-container" id="radar-section">
+                    <canvas id="radar-chart" width="500" height="500"></canvas>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>详细诊断</h2>
+                <div class="dimension-grid" id="dimensions-grid"></div>
+            </div>
+
+            <div class="form-card">
+                <div class="suggestions" id="suggestions"></div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-primary" onclick="generateShareCard()">生成分享卡</button>
+                <button class="btn-secondary" onclick="location.reload()">开始新诊断</button>
+            </div>
+
+            <!-- 分享卡 -->
+            <div class="share-card" id="share-card-section" style="display: none;">
+                <h3>诊断卡已生成</h3>
+                <div class="share-preview" id="share-card-preview"></div>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="downloadShareCard()">下载图片</button>
+                    <button class="btn-secondary" onclick="copyShareText()">复制分享文案</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>工具</h4><a href="../prompts.html">Prompt指南</a><a href="../study-tools.html">AI学习工具</a><a href="../settings.html">API设置</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="../about.html">关于我们</a><a href="../articles.html">研究院</a><a href="../#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="../src/report-generator.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="../src/app.js"></script>
+    <script>
+    // 错题列表
+    var errors = [];
+    var errorCounter = 0;
+
+    // 步骤导航
+    function goToStep2() {
+        var score = document.getElementById('score').value;
+        var totalScore = document.getElementById('total-score').value;
+        if (!score || !totalScore) {
+            alert('请填写实际得分和满分');
+            return;
+        }
+        document.getElementById('step-1').style.display = 'none';
+        document.getElementById('step-2').style.display = 'block';
+        updateStepIndicator(2);
+        // 自动添加第一道错题输入框
+        if (errors.length === 0) {
+            addError();
+        }
+    }
+
+    function backToStep1() {
+        document.getElementById('step-2').style.display = 'none';
+        document.getElementById('step-1').style.display = 'block';
+        updateStepIndicator(1);
+    }
+
+    function updateStepIndicator(step) {
+        for (var i = 1; i <= 3; i++) {
+            var ind = document.getElementById('step-ind-' + i);
+            ind.classList.remove('active', 'completed');
+            if (i < step) ind.classList.add('completed');
+            else if (i === step) ind.classList.add('active');
+        }
+    }
+
+    // 错题管理
+    function addError() {
+        errorCounter++;
+        var id = 'error-' + errorCounter;
+        var html = '<div class="error-item" id="' + id + '">' +
+            '<div class="error-item-header">' +
+            '<span class="error-item-title">错题 #' + errorCounter + '</span>' +
+            '<button class="error-item-remove" onclick="removeError(\'' + id + '\')">删除</button>' +
+            '</div>' +
+            '<div class="form-field" style="margin-bottom: var(--sp-sm)">' +
+            '<label>题目描述</label>' +
+            '<textarea id="' + id + '-question" placeholder="简要描述题目内容"></textarea>' +
+            '</div>' +
+            '<div class="form-grid">' +
+            '<div class="form-field">' +
+            '<label>我的答案</label>' +
+            '<input type="text" id="' + id + '-my-answer" placeholder="我写的答案">' +
+            '</div>' +
+            '<div class="form-field">' +
+            '<label>正确答案</label>' +
+            '<input type="text" id="' + id + '-correct-answer" placeholder="标准答案">' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        document.getElementById('errors-list').insertAdjacentHTML('beforeend', html);
+        updateErrorCount();
+    }
+
+    function removeError(id) {
+        document.getElementById(id).remove();
+        updateErrorCount();
+    }
+
+    function updateErrorCount() {
+        var count = document.querySelectorAll('.error-item').length;
+        document.getElementById('error-count').textContent = '已录入 ' + count + ' 道错题';
+        errors = []; // 重新收集
+        document.querySelectorAll('.error-item').forEach(function(item) {
+            var id = item.id;
+            var question = document.getElementById(id + '-question').value;
+            var myAnswer = document.getElementById(id + '-my-answer').value;
+            var correctAnswer = document.getElementById(id + '-correct-answer').value;
+            if (question || myAnswer || correctAnswer) {
+                errors.push({ question: question, myAnswer: myAnswer, correctAnswer: correctAnswer });
+            }
+        });
+    }
+
+    // 开始诊断
+    function startDiagnosis() {
+        updateErrorCount();
+        if (errors.length < 3) {
+            alert('请至少录入3道错题，AI才能准确诊断');
+            return;
+        }
+
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var score = document.getElementById('score').value;
+        var totalScore = document.getElementById('total-score').value;
+        var rank = document.getElementById('rank').value;
+        var examName = document.getElementById('exam-name').value;
+
+        // 构建系统提示词
+        var systemPrompt = '你是一个专业的学习诊断专家。基于学生的考试成绩和错题，你需要从13个维度进行精准诊断，并给出提分建议。\n\n' +
+            '13个诊断维度：\n' +
+            '1. 知识点掌握度 - 对该科目核心知识点的理解程度\n' +
+            '2. 审题准确性 - 理解题目要求的能力\n' +
+            '3. 解题速度 - 答题效率\n' +
+            '4. 计算准确性 - 运算过程的正确性\n' +
+            '5. 答题完整度 - 答案的完整性和规范性\n' +
+            '6. 时间分配能力 - 考试时间管理\n' +
+            '7. 难题攻克能力 - 解决高难度题目的能力\n' +
+            '8. 基础题稳定性 - 基础题不失分的能力\n' +
+            '9. 应试心态 - 考试心理素质\n' +
+            '10. 知识迁移能力 - 灵活运用知识的能力\n' +
+            '11. 错题类型分布 - 错误集中在哪些题型\n' +
+            '12. 薄弱章节定位 - 哪些章节最需要补强\n' +
+            '13. 提分潜力预测 - 下次考试可提升的分数范围\n\n' +
+            '你的回复格式（严格JSON）：\n' +
+            '{\n' +
+            '  "dimensions": [\n' +
+            '    {"name": "知识点掌握度", "score": 75, "desc": "简短诊断", "level": "mid"},\n' +
+            '    ...\n' +
+            '  ],\n' +
+            '  "suggestions": ["建议1", "建议2", "建议3"]\n' +
+            '}\n\n' +
+            'score范围0-100，level可选: low(<60), mid(60-79), high(>=80)';
+
+        var userMsg = '学生信息：\n' +
+            '- 年级：' + grade + '\n' +
+            '- 科目：' + subject + '\n' +
+            '- 得分：' + score + '/' + totalScore + '\n' +
+            (rank ? '- 排名：' + rank + '\n' : '') +
+            (examName ? '- 考试：' + examName + '\n' : '') +
+            '\n错题列表：\n' +
+            errors.map(function(e, i) {
+                return (i + 1) + '. 题目：' + e.question + '\n   我的答案：' + e.myAnswer + '\n   正确答案：' + e.correctAnswer;
+            }).join('\n\n');
+
+        // 显示loading
+        document.getElementById('step-2').style.display = 'none';
+        document.getElementById('step-3').classList.add('visible');
+        updateStepIndicator(3);
+        document.getElementById('dimensions-grid').innerHTML = '<p style="text-align:center;color:var(--c-warm-gray)">AI正在分析中，请稍候...</p>';
+
+        var btn = document.getElementById('diagnose-btn');
+        btn.disabled = true;
+
+        // 调用AI
+        window.YdzxAI.call({
+            systemPrompt: systemPrompt,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 2000,
+            onDone: function(fullText) {
+                btn.disabled = false;
+                try {
+                    // 提取JSON
+                    var jsonMatch = fullText.match(/\{[\s\S]*\}/);
+                    if (!jsonMatch) throw new Error('无法解析AI回复');
+                    var result = JSON.parse(jsonMatch[0]);
+
+                    // 渲染报告
+                    renderReport(result);
+
+                    // 保存到本地
+                    if (window.LearningStore) {
+                        window.LearningStore.saveDiagnosis({
+                            grade: grade,
+                            subject: subject,
+                            score: score,
+                            totalScore: totalScore,
+                            rank: rank,
+                            examName: examName,
+                            errors: errors,
+                            result: result,
+                            timestamp: Date.now()
+                        });
+                    }
+                } catch (e) {
+                    console.error('解析失败', e);
+                    document.getElementById('dimensions-grid').innerHTML =
+                        '<p style="color:var(--c-error)">AI回复格式异常，请重试。</p>' +
+                        '<pre style="font-size:12px;color:var(--c-warm-dim);overflow:auto">' + fullText + '</pre>';
+                }
+            },
+            onError: function(err) {
+                btn.disabled = false;
+                document.getElementById('dimensions-grid').innerHTML = '<p style="color:var(--c-error)">' + err + '</p>';
+            }
+        });
+    }
+
+    // 渲染报告
+    function renderReport(result) {
+        // 渲染雷达图
+        drawRadarChart(result.dimensions);
+
+        // 渲染维度卡片
+        var html = result.dimensions.map(function(d) {
+            return '<div class="dimension-card">' +
+                '<div class="dimension-card-header">' +
+                '<span class="dimension-title">' + d.name + '</span>' +
+                '<span class="dimension-score ' + d.level + '">' + d.score + '</span>' +
+                '</div>' +
+                '<p class="dimension-desc">' + d.desc + '</p>' +
+                '</div>';
+        }).join('');
+        document.getElementById('dimensions-grid').innerHTML = html;
+
+        // 渲染建议
+        var sugHtml = '<h3>🎯 提分建议</h3><ol>' +
+            result.suggestions.map(function(s) { return '<li>' + s + '</li>'; }).join('') +
+            '</ol>';
+        document.getElementById('suggestions').innerHTML = sugHtml;
+    }
+
+    // 绘制雷达图（简化版，使用Canvas）
+    function drawRadarChart(dimensions) {
+        var canvas = document.getElementById('radar-chart');
+        var ctx = canvas.getContext('2d');
+        var centerX = 250, centerY = 250, radius = 180;
+        var n = dimensions.length;
+
+        ctx.clearRect(0, 0, 500, 500);
+
+        // 绘制背景网格
+        ctx.strokeStyle = 'rgba(184,176,168,0.2)';
+        ctx.lineWidth = 1;
+        for (var i = 1; i <= 5; i++) {
+            ctx.beginPath();
+            for (var j = 0; j < n; j++) {
+                var angle = (Math.PI * 2 / n) * j - Math.PI / 2;
+                var r = radius * i / 5;
+                var x = centerX + r * Math.cos(angle);
+                var y = centerY + r * Math.sin(angle);
+                if (j === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        // 绘制轴线和标签
+        ctx.strokeStyle = 'rgba(184,176,168,0.3)';
+        ctx.fillStyle = '#B8B0A8';
+        ctx.font = '12px "Noto Sans SC"';
+        ctx.textAlign = 'center';
+        for (var j = 0; j < n; j++) {
+            var angle = (Math.PI * 2 / n) * j - Math.PI / 2;
+            var x = centerX + radius * Math.cos(angle);
+            var y = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            // 标签
+            var labelR = radius + 30;
+            var labelX = centerX + labelR * Math.cos(angle);
+            var labelY = centerY + labelR * Math.sin(angle);
+            ctx.fillText(dimensions[j].name, labelX, labelY);
+        }
+
+        // 绘制数据区域
+        ctx.fillStyle = 'rgba(233,77,53,0.2)';
+        ctx.strokeStyle = '#E94D35';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (var j = 0; j < n; j++) {
+            var angle = (Math.PI * 2 / n) * j - Math.PI / 2;
+            var score = dimensions[j].score;
+            var r = radius * score / 100;
+            var x = centerX + r * Math.cos(angle);
+            var y = centerY + r * Math.sin(angle);
+            if (j === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // 绘制数据点
+        ctx.fillStyle = '#E94D35';
+        for (var j = 0; j < n; j++) {
+            var angle = (Math.PI * 2 / n) * j - Math.PI / 2;
+            var score = dimensions[j].score;
+            var r = radius * score / 100;
+            var x = centerX + r * Math.cos(angle);
+            var y = centerY + r * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // 生成分享卡
+    function generateShareCard() {
+        if (!window.ReportGenerator) {
+            alert('分享卡生成模块未加载');
+            return;
+        }
+
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var score = document.getElementById('score').value;
+        var totalScore = document.getElementById('total-score').value;
+
+        // 获取dimensions数据
+        var dimensions = [];
+        document.querySelectorAll('.dimension-card').forEach(function(card) {
+            var name = card.querySelector('.dimension-title').textContent;
+            var score = parseInt(card.querySelector('.dimension-score').textContent);
+            dimensions.push({ name: name, score: score });
+        });
+
+        window.ReportGenerator.generateDiagnosisCard({
+            grade: grade,
+            subject: subject,
+            score: score,
+            totalScore: totalScore,
+            dimensions: dimensions
+        }, function(canvas) {
+            document.getElementById('share-card-preview').innerHTML = '';
+            document.getElementById('share-card-preview').appendChild(canvas);
+            document.getElementById('share-card-section').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('share-card-section').offsetTop - 100, behavior: 'smooth' });
+        });
+    }
+
+    // 下载分享卡
+    function downloadShareCard() {
+        var canvas = document.querySelector('#share-card-preview canvas');
+        if (!canvas) return;
+        var link = document.createElement('a');
+        link.download = '原点智学-考试诊断-' + Date.now() + '.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }
+
+    // 复制分享文案
+    function copyShareText() {
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var score = document.getElementById('score').value;
+        var totalScore = document.getElementById('total-score').value;
+        var text = '刚用原点智学AI诊断了一次' + grade + subject + '考试（' + score + '/' + totalScore + '分）\n\n' +
+            '13维能力分析真的很准！找到了提分的关键点👍\n\n' +
+            '推荐家长们试试：https://www.yuandianzhixue.com/tools/exam-diagnosis.html';
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('分享文案已复制！可以粘贴到微信/小红书/朋友圈了');
+            });
+        } else {
+            alert('请手动复制：\n\n' + text);
+        }
+    }
+    </script>
+</body>
+</html>
