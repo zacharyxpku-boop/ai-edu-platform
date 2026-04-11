@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习计划生成 — AI定制每日学习任务 | 原点智学</title>
+    <meta name="description" content="输入薄弱科目和目标，AI生成每日学习任务清单，可勾选完成，实时显示进度">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .tool-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
+
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea { min-height: 100px; resize: vertical; line-height: 1.7; }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .progress-header { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-lg); }
+        .progress-bar-container { background: rgba(15,52,96,0.4); border-radius: var(--r-pill); height: 12px; overflow: hidden; margin: var(--sp-md) 0; }
+        .progress-bar { background: var(--grad-cta); height: 100%; transition: width 0.3s; border-radius: var(--r-pill); }
+        .progress-text { text-align: center; color: var(--c-warm-gray); font-size: var(--fs-small); }
+        .progress-stats { display: flex; justify-content: space-around; margin-top: var(--sp-md); }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 900; font-family: var(--font-heading); color: var(--c-origin); }
+        .stat-label { font-size: var(--fs-small); color: var(--c-warm-gray); }
+
+        .day-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); padding-bottom: var(--sp-md); border-bottom: 1px solid var(--c-ink-border); }
+        .day-title { font-size: var(--fs-h3); font-weight: 700; color: var(--c-warm-white); }
+        .day-time { font-size: var(--fs-small); color: var(--c-warm-gray); }
+
+        .task-item { display: flex; align-items: flex-start; gap: var(--sp-md); padding: var(--sp-md); background: rgba(15,52,96,0.3); border-radius: var(--r-md); margin-bottom: var(--sp-sm); transition: all 0.2s; }
+        .task-item:hover { background: rgba(15,52,96,0.5); }
+        .task-item.completed { opacity: 0.6; }
+        .task-item.completed .task-content { text-decoration: line-through; }
+
+        .task-checkbox { width: 20px; height: 20px; min-width: 20px; border: 2px solid var(--c-origin); border-radius: 4px; cursor: pointer; position: relative; margin-top: 2px; }
+        .task-checkbox.checked { background: var(--c-origin); }
+        .task-checkbox.checked::after { content: '✓'; position: absolute; top: -2px; left: 3px; color: #fff; font-size: 14px; font-weight: 700; }
+
+        .task-content { flex: 1; color: var(--c-warm-white); line-height: 1.6; }
+        .task-time { font-size: var(--fs-small); color: var(--c-warm-dim); padding: 2px 8px; background: rgba(15,52,96,0.4); border-radius: var(--r-pill); white-space: nowrap; }
+
+        @media (max-width: 767px) {
+            .form-row { grid-template-columns: 1fr; }
+            .progress-stats { flex-direction: column; gap: var(--sp-md); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📅</div>
+        <h1>学习计划生成</h1>
+        <p class="section-desc">输入薄弱科目和目标，AI生成每日学习任务清单，可勾选完成，实时显示进度</p>
+    </section>
+
+    <div class="tool-container">
+        <div class="input-card">
+            <h2>设置学习目标</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option>小学三年级</option>
+                        <option>小学四年级</option>
+                        <option>小学五年级</option>
+                        <option>小学六年级</option>
+                        <option selected>初一</option>
+                        <option>初二</option>
+                        <option>初三</option>
+                        <option>高一</option>
+                        <option>高二</option>
+                        <option>高三</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>计划天数 *</label>
+                    <select id="days">
+                        <option value="7" selected>7天</option>
+                        <option value="14">14天</option>
+                        <option value="21">21天</option>
+                        <option value="30">30天</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>薄弱科目 *</label>
+                <textarea id="weak-subjects" placeholder="例如：数学（二次函数不熟练）、英语（语法薄弱）、物理（力学不理解）"></textarea>
+            </div>
+            <div class="form-field">
+                <label>学习目标 *</label>
+                <textarea id="goal" placeholder="例如：期末考试数学从75分提升到90分，英语阅读理解不失分"></textarea>
+            </div>
+            <div class="form-field">
+                <label>每日可用学习时间（分钟）</label>
+                <input type="number" id="daily-time" value="120" min="30" max="480">
+            </div>
+            <button class="btn-primary" onclick="generatePlan()" id="generate-btn">生成学习计划</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <!-- 进度卡片 -->
+            <div class="progress-header">
+                <h2>学习进度</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text">已完成 0 / 0 项任务（0%）</div>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-tasks">0</div>
+                        <div class="stat-label">总任务数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="completed-tasks">0</div>
+                        <div class="stat-label">已完成</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="remaining-tasks">0</div>
+                        <div class="stat-label">待完成</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 每日任务 -->
+            <div id="daily-tasks-container"></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>工具</h4><a href="../prompts.html">Prompt指南</a><a href="../study-tools.html">AI学习工具</a><a href="../settings.html">API设置</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="../about.html">关于我们</a><a href="../articles.html">研究院</a><a href="../#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="../src/app.js"></script>
+    <script>
+    var planData = null;
+    var taskStates = {}; // { 'day1-task0': true/false }
+    var STORAGE_KEY = 'ydzx_study_plan_' + Date.now();
+
+    function generatePlan() {
+        var grade = document.getElementById('grade').value;
+        var days = parseInt(document.getElementById('days').value);
+        var weakSubjects = document.getElementById('weak-subjects').value;
+        var goal = document.getElementById('goal').value;
+        var dailyTime = parseInt(document.getElementById('daily-time').value);
+
+        if (!weakSubjects || !goal) {
+            alert('请填写薄弱科目和学习目标');
+            return;
+        }
+
+        var systemPrompt = '你是一个专业的学习规划师。根据学生的年级、薄弱科目、学习目标和每日可用时间，生成' + days + '天的详细学习计划。\n\n' +
+            '要求：\n' +
+            '1. 每天3-5个任务，总时长不超过每日可用时间\n' +
+            '2. 任务包含具体的学习内容和时间分配（分钟）\n' +
+            '3. 难度循序渐进，前3天基础巩固，中间天数强化训练，最后2天综合复习\n' +
+            '4. 每天任务类型多样：知识点复习、练习题、错题整理、总结归纳等\n\n' +
+            '回复格式（严格JSON）：\n' +
+            '{\n' +
+            '  "plan_name": "计划名称",\n' +
+            '  "total_days": ' + days + ',\n' +
+            '  "days": [\n' +
+            '    {\n' +
+            '      "day": 1,\n' +
+            '      "title": "第1天：基础知识复习",\n' +
+            '      "total_time": 120,\n' +
+            '      "tasks": [\n' +
+            '        {"content": "任务内容", "time": 30},\n' +
+            '        ...\n' +
+            '      ]\n' +
+            '    },\n' +
+            '    ...\n' +
+            '  ]\n' +
+            '}';
+
+        var userMsg = '年级：' + grade + '\n薄弱科目：' + weakSubjects + '\n学习目标：' + goal + '\n每日可用时间：' + dailyTime + '分钟';
+
+        document.getElementById('result-section').classList.add('visible');
+        document.getElementById('daily-tasks-container').innerHTML = '<p style="text-align:center;color:var(--c-warm-gray);padding:40px">AI正在生成学习计划...</p>';
+
+        var btn = document.getElementById('generate-btn');
+        btn.disabled = true;
+
+        window.YdzxAI.call({
+            systemPrompt: systemPrompt,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 4000,
+            onDone: function(fullText) {
+                btn.disabled = false;
+                try {
+                    var jsonMatch = fullText.match(/\{[\s\S]*\}/);
+                    if (!jsonMatch) throw new Error('无法解析AI回复');
+                    planData = JSON.parse(jsonMatch[0]);
+                    STORAGE_KEY = 'ydzx_study_plan_' + Date.now();
+                    loadTaskStates();
+                    renderPlan();
+                    updateProgress();
+
+                    // 保存到learning-store
+                    if (window.LearningStore) {
+                        window.LearningStore.saveStudyPlan({
+                            grade: grade,
+                            weakSubjects: weakSubjects,
+                            goal: goal,
+                            plan: planData
+                        });
+                    }
+                } catch (e) {
+                    console.error('解析失败', e);
+                    document.getElementById('daily-tasks-container').innerHTML = '<p style="color:var(--c-error);text-align:center;padding:40px">AI回复格式异常，请重试。</p>';
+                }
+            },
+            onError: function(err) {
+                btn.disabled = false;
+                document.getElementById('daily-tasks-container').innerHTML = '<p style="color:var(--c-error);text-align:center;padding:40px">' + err + '</p>';
+            }
+        });
+    }
+
+    function renderPlan() {
+        var html = planData.days.map(function(day, dayIndex) {
+            var dayHtml = '<div class="day-section">' +
+                '<div class="day-header">' +
+                '<span class="day-title">' + day.title + '</span>' +
+                '<span class="day-time">共 ' + day.total_time + ' 分钟</span>' +
+                '</div>';
+
+            dayHtml += day.tasks.map(function(task, taskIndex) {
+                var taskId = 'day' + dayIndex + '-task' + taskIndex;
+                var checked = taskStates[taskId] || false;
+                return '<div class="task-item ' + (checked ? 'completed' : '') + '">' +
+                    '<div class="task-checkbox ' + (checked ? 'checked' : '') + '" onclick="toggleTask(\'' + taskId + '\')"></div>' +
+                    '<div class="task-content">' + task.content + '</div>' +
+                    '<div class="task-time">' + task.time + '分钟</div>' +
+                    '</div>';
+            }).join('');
+
+            dayHtml += '</div>';
+            return dayHtml;
+        }).join('');
+
+        document.getElementById('daily-tasks-container').innerHTML = html;
+    }
+
+    function toggleTask(taskId) {
+        taskStates[taskId] = !taskStates[taskId];
+        saveTaskStates();
+        renderPlan();
+        updateProgress();
+    }
+
+    function updateProgress() {
+        var total = 0;
+        var completed = 0;
+
+        planData.days.forEach(function(day, dayIndex) {
+            day.tasks.forEach(function(task, taskIndex) {
+                total++;
+                var taskId = 'day' + dayIndex + '-task' + taskIndex;
+                if (taskStates[taskId]) completed++;
+            });
+        });
+
+        var percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        document.getElementById('progress-bar').style.width = percentage + '%';
+        document.getElementById('progress-text').textContent = '已完成 ' + completed + ' / ' + total + ' 项任务（' + percentage + '%）';
+        document.getElementById('total-tasks').textContent = total;
+        document.getElementById('completed-tasks').textContent = completed;
+        document.getElementById('remaining-tasks').textContent = (total - completed);
+    }
+
+    function saveTaskStates() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(taskStates));
+        } catch (e) { /* */ }
+    }
+
+    function loadTaskStates() {
+        try {
+            var saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                taskStates = JSON.parse(saved);
+            } else {
+                taskStates = {};
+            }
+        } catch (e) {
+            taskStates = {};
+        }
+    }
+    </script>
+</body>
+</html>
