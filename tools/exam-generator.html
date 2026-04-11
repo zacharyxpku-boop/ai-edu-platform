@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI出卷机 — 一键生成完整试卷 | 原点智学</title>
+    <meta name="description" content="选年级/科目/章节/难度/题量，AI生成完整试卷，附答案页，可打印">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .tool-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
+
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field input:focus, .form-field select:focus { border-color: var(--c-origin); outline: none; }
+
+        .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-secondary { padding: 12px 24px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .paper-container { background: #fff; color: #000; padding: 60px 40px; border-radius: var(--r-md); margin-bottom: var(--sp-lg); }
+        .paper-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
+        .paper-title { font-size: 1.8rem; font-weight: 900; font-family: var(--font-heading); margin-bottom: 10px; }
+        .paper-info { font-size: 0.9rem; color: #666; }
+        .paper-meta { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; }
+
+        .section-title { font-size: 1.2rem; font-weight: 700; margin: 30px 0 20px; padding-left: 10px; border-left: 4px solid #E94D35; }
+        .question-item { margin-bottom: 25px; line-height: 1.8; }
+        .question-num { font-weight: 700; margin-right: 8px; }
+
+        .answer-page { background: #f9f9f9; color: #000; padding: 60px 40px; border-radius: var(--r-md); display: none; }
+        .answer-page.visible { display: block; }
+        .answer-item { margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 8px; }
+        .answer-item strong { color: #E94D35; }
+
+        .action-buttons { display: flex; gap: var(--sp-md); flex-wrap: wrap; margin-bottom: var(--sp-lg); }
+
+        @media print {
+            body { background: #fff; }
+            .navbar, .page-hero, footer, .action-buttons, .input-card { display: none !important; }
+            .paper-container, .answer-page { box-shadow: none; margin: 0; padding: 40px; }
+            .answer-page { page-break-before: always; }
+        }
+
+        @media (max-width: 767px) {
+            .form-row { grid-template-columns: 1fr; }
+            .paper-container, .answer-page { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📝</div>
+        <h1>AI出卷机</h1>
+        <p class="section-desc">选年级/科目/章节/难度/题量，AI生成完整试卷，附答案页，可直接打印</p>
+    </section>
+
+    <div class="tool-container">
+        <div class="input-card">
+            <h2>设置试卷参数</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option>小学三年级</option>
+                        <option>小学四年级</option>
+                        <option>小学五年级</option>
+                        <option>小学六年级</option>
+                        <option selected>初一</option>
+                        <option>初二</option>
+                        <option>初三</option>
+                        <option>高一</option>
+                        <option>高二</option>
+                        <option>高三</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option selected>数学</option>
+                        <option>语文</option>
+                        <option>英语</option>
+                        <option>物理</option>
+                        <option>化学</option>
+                        <option>生物</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>难度 *</label>
+                    <select id="difficulty">
+                        <option>简单</option>
+                        <option selected>中等</option>
+                        <option>困难</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>章节范围（选填）</label>
+                <input type="text" id="chapter" placeholder="例如：第一章到第三章，或填写具体知识点">
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>选择题数量</label>
+                    <input type="number" id="choice-count" value="10" min="0" max="30">
+                </div>
+                <div class="form-field">
+                    <label>填空题数量</label>
+                    <input type="number" id="blank-count" value="5" min="0" max="20">
+                </div>
+                <div class="form-field">
+                    <label>计算/简答题数量</label>
+                    <input type="number" id="calc-count" value="3" min="0" max="10">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="generateExam()" id="generate-btn">生成试卷</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="window.print()">打印试卷</button>
+                <button class="btn-secondary" onclick="toggleAnswerPage()">显示/隐藏答案页</button>
+                <button class="btn-secondary" onclick="location.reload()">重新生成</button>
+            </div>
+
+            <!-- 试卷 -->
+            <div class="paper-container" id="paper-container"></div>
+
+            <!-- 答案页 -->
+            <div class="answer-page" id="answer-page"></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>工具</h4><a href="../prompts.html">Prompt指南</a><a href="../study-tools.html">AI学习工具</a><a href="../settings.html">API设置</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="../about.html">关于我们</a><a href="../articles.html">研究院</a><a href="../#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="../src/app.js"></script>
+    <script>
+    function generateExam() {
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var difficulty = document.getElementById('difficulty').value;
+        var chapter = document.getElementById('chapter').value;
+        var choiceCount = parseInt(document.getElementById('choice-count').value);
+        var blankCount = parseInt(document.getElementById('blank-count').value);
+        var calcCount = parseInt(document.getElementById('calc-count').value);
+
+        if (choiceCount + blankCount + calcCount === 0) {
+            alert('至少需要一道题');
+            return;
+        }
+
+        var systemPrompt = '你是一个专业的出题专家。根据要求生成一份完整的试卷。\n\n' +
+            '要求：\n' +
+            '1. 选择题：每题4个选项（A/B/C/D），只有一个正确答案\n' +
+            '2. 填空题：简洁明确，答案不超过一行\n' +
+            '3. 计算/简答题：步骤清晰，有完整解题过程\n' +
+            '4. 数学公式用LaTeX格式（$公式$或$$公式$$）\n' +
+            '5. 每道题必须有标准答案和详细解析\n\n' +
+            '回复格式（严格JSON）：\n' +
+            '{\n' +
+            '  "title": "试卷标题",\n' +
+            '  "totalScore": 100,\n' +
+            '  "duration": 90,\n' +
+            '  "sections": [\n' +
+            '    {\n' +
+            '      "title": "一、选择题",\n' +
+            '      "instruction": "每题3分，共30分",\n' +
+            '      "questions": [\n' +
+            '        {"id": 1, "content": "题目", "options": ["A. ...", "B. ...", "C. ...", "D. ..."], "answer": "A", "explanation": "解析"},\n' +
+            '        ...\n' +
+            '      ]\n' +
+            '    },\n' +
+            '    {\n' +
+            '      "title": "二、填空题",\n' +
+            '      "instruction": "每题4分，共20分",\n' +
+            '      "questions": [{"id": 1, "content": "题目（用____表示填空处）", "answer": "答案", "explanation": "解析"}]\n' +
+            '    },\n' +
+            '    {\n' +
+            '      "title": "三、计算/简答题",\n' +
+            '      "instruction": "共50分",\n' +
+            '      "questions": [{"id": 1, "score": 15, "content": "题目", "answer": "答案", "explanation": "详细解析"}]\n' +
+            '    }\n' +
+            '  ]\n' +
+            '}';
+
+        var userMsg = '年级：' + grade + '\n科目：' + subject + '\n难度：' + difficulty + '\n' +
+            (chapter ? '章节：' + chapter + '\n' : '') +
+            '题量：选择题' + choiceCount + '道、填空题' + blankCount + '道、计算/简答题' + calcCount + '道';
+
+        document.getElementById('result-section').classList.add('visible');
+        document.getElementById('paper-container').innerHTML = '<p style="text-align:center;color:#666;padding:40px">AI正在生成试卷...</p>';
+
+        var btn = document.getElementById('generate-btn');
+        btn.disabled = true;
+
+        window.YdzxAI.call({
+            systemPrompt: systemPrompt,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 4000,
+            onDone: function(fullText) {
+                btn.disabled = false;
+                try {
+                    var jsonMatch = fullText.match(/\{[\s\S]*\}/);
+                    if (!jsonMatch) throw new Error('无法解析AI回复');
+                    var result = JSON.parse(jsonMatch[0]);
+                    renderPaper(result);
+                    renderAnswerPage(result);
+
+                    // 保存到learning-store
+                    if (window.LearningStore) {
+                        window.LearningStore.savePractice({
+                            type: 'exam',
+                            grade: grade,
+                            subject: subject,
+                            exam: result
+                        });
+                    }
+                } catch (e) {
+                    console.error('解析失败', e);
+                    document.getElementById('paper-container').innerHTML = '<p style="color:#C94040;text-align:center;padding:40px">AI回复格式异常，请重试。</p>';
+                }
+            },
+            onError: function(err) {
+                btn.disabled = false;
+                document.getElementById('paper-container').innerHTML = '<p style="color:#C94040;text-align:center;padding:40px">' + err + '</p>';
+            }
+        });
+    }
+
+    function renderPaper(exam) {
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var now = new Date();
+        var dateStr = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日';
+
+        var html = '<div class="paper-header">' +
+            '<div class="paper-title">' + exam.title + '</div>' +
+            '<div class="paper-info">' + grade + ' · ' + subject + '</div>' +
+            '<div class="paper-meta">' +
+            '<span>满分：' + exam.totalScore + '分</span>' +
+            '<span>时间：' + exam.duration + '分钟</span>' +
+            '<span>日期：' + dateStr + '</span>' +
+            '</div>' +
+            '<div class="paper-meta" style="margin-top:20px;justify-content:flex-start;gap:30px;border-top:1px solid #ddd;padding-top:15px">' +
+            '<span>姓名：_______________</span>' +
+            '<span>班级：_______________</span>' +
+            '<span>得分：_______________</span>' +
+            '</div>' +
+            '</div>';
+
+        exam.sections.forEach(function(section) {
+            html += '<div class="section-title">' + section.title + '</div>';
+            if (section.instruction) {
+                html += '<p style="color:#666;font-size:0.9rem;margin-bottom:15px">' + section.instruction + '</p>';
+            }
+            section.questions.forEach(function(q) {
+                html += '<div class="question-item">';
+                html += '<span class="question-num">' + q.id + '.</span>';
+                html += renderMath(q.content);
+                if (q.options) {
+                    html += '<div style="margin-top:8px;padding-left:24px">';
+                    q.options.forEach(function(opt) {
+                        html += '<div>' + opt + '</div>';
+                    });
+                    html += '</div>';
+                }
+                if (q.score) {
+                    html += ' <span style="color:#E94D35;font-weight:700">(' + q.score + '分)</span>';
+                }
+                html += '</div>';
+            });
+        });
+
+        document.getElementById('paper-container').innerHTML = html;
+    }
+
+    function renderAnswerPage(exam) {
+        var html = '<div class="paper-header">' +
+            '<div class="paper-title">参考答案与评分标准</div>' +
+            '</div>';
+
+        exam.sections.forEach(function(section) {
+            html += '<div class="section-title">' + section.title + '</div>';
+            section.questions.forEach(function(q) {
+                html += '<div class="answer-item">';
+                html += '<strong>第 ' + q.id + ' 题：</strong>' + renderMath(q.answer) + '<br>';
+                if (q.explanation) {
+                    html += '<span style="color:#666">解析：' + renderMath(q.explanation) + '</span>';
+                }
+                html += '</div>';
+            });
+        });
+
+        document.getElementById('answer-page').innerHTML = html;
+    }
+
+    function renderMath(text) {
+        if (!text) return '';
+        try {
+            return text.replace(/\$\$([^\$]+)\$\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: true, throwOnError: false });
+            }).replace(/\$([^\$]+)\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: false, throwOnError: false });
+            });
+        } catch (e) {
+            return text;
+        }
+    }
+
+    function toggleAnswerPage() {
+        document.getElementById('answer-page').classList.toggle('visible');
+    }
+    </script>
+</body>
+</html>
