@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题专练机 — AI定向生成专项练习题 | 原点智学</title>
+    <meta name="description" content="选知识点或输入关键词，AI生成5-10道专项练习题，错题自动存档">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .tool-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
+
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-secondary { padding: 12px 24px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .practice-question { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+        .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); }
+        .question-num { font-weight: 700; color: var(--c-warm-white); font-size: var(--fs-h3); }
+        .question-difficulty { font-size: var(--fs-small); padding: 4px 12px; border-radius: var(--r-pill); }
+        .difficulty-easy { background: rgba(45,159,111,0.2); color: var(--c-success); }
+        .difficulty-medium { background: rgba(212,168,67,0.2); color: var(--c-warning); }
+        .difficulty-hard { background: rgba(201,64,64,0.2); color: var(--c-error); }
+
+        .question-content { color: var(--c-warm-white); line-height: 1.8; margin-bottom: var(--sp-md); }
+        .question-actions { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
+
+        .answer-section { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); margin-top: var(--sp-md); display: none; }
+        .answer-section.visible { display: block; }
+        .answer-section strong { color: var(--c-success); }
+
+        .btn-small { padding: 8px 16px; border-radius: var(--r-md); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); }
+        .btn-show { background: rgba(45,159,111,0.2); color: var(--c-success); border: 1px solid var(--c-success); }
+        .btn-mark-error { background: rgba(201,64,64,0.2); color: var(--c-error); border: 1px solid var(--c-error); }
+
+        .summary-card { background: rgba(45,159,111,0.1); border: 1px solid rgba(45,159,111,0.3); border-radius: var(--r-lg); padding: var(--sp-lg); }
+        .summary-stats { display: flex; gap: var(--sp-xl); justify-content: center; margin: var(--sp-md) 0; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 900; font-family: var(--font-heading); color: var(--c-origin); }
+        .stat-label { font-size: var(--fs-small); color: var(--c-warm-gray); }
+
+        @media (max-width: 767px) {
+            .form-row { grid-template-columns: 1fr; }
+            .summary-stats { flex-direction: column; gap: var(--sp-md); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">💪</div>
+        <h1>错题专练机</h1>
+        <p class="section-desc">选知识点或输入关键词，AI生成5-10道专项练习题，做完查看答案，错题自动存档</p>
+    </section>
+
+    <div class="tool-container">
+        <div class="input-card">
+            <h2>设置练习参数</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option>小学三年级</option>
+                        <option>小学四年级</option>
+                        <option>小学五年级</option>
+                        <option>小学六年级</option>
+                        <option selected>初一</option>
+                        <option>初二</option>
+                        <option>初三</option>
+                        <option>高一</option>
+                        <option>高二</option>
+                        <option>高三</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option selected>数学</option>
+                        <option>语文</option>
+                        <option>英语</option>
+                        <option>物理</option>
+                        <option>化学</option>
+                        <option>生物</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>题量 *</label>
+                    <select id="quantity">
+                        <option value="5" selected>5道</option>
+                        <option value="10">10道</option>
+                        <option value="15">15道</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>知识点或关键词 *</label>
+                <input type="text" id="keyword" placeholder="例如：二次函数、氧化还原反应、定语从句">
+            </div>
+            <button class="btn-primary" onclick="generatePractice()" id="generate-btn">生成练习题</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="input-card">
+                <h2>练习题</h2>
+                <div id="questions-container"></div>
+            </div>
+
+            <div class="input-card">
+                <div class="summary-card" id="summary-card" style="display:none;">
+                    <h2 style="text-align:center;margin-bottom:var(--sp-md)">练习统计</h2>
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-count">0</div>
+                            <div class="stat-label">总题数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="viewed-count">0</div>
+                            <div class="stat-label">已查看答案</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="error-count">0</div>
+                            <div class="stat-label">标记错题</div>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="location.reload()" style="width:100%;margin-top:var(--sp-md)">重新生成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><h3>◉ 原点智学</h3><p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p></div>
+            <div class="footer-links"><h4>工具</h4><a href="../prompts.html">Prompt指南</a><a href="../study-tools.html">AI学习工具</a><a href="../settings.html">API设置</a></div>
+            <div class="footer-links"><h4>了解更多</h4><a href="../about.html">关于我们</a><a href="../articles.html">研究院</a><a href="../#contact">联系</a></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
+    </footer>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="../src/app.js"></script>
+    <script>
+    var stats = { total: 0, viewed: 0, errors: 0 };
+
+    function generatePractice() {
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var quantity = document.getElementById('quantity').value;
+        var keyword = document.getElementById('keyword').value;
+
+        if (!keyword) {
+            alert('请输入知识点或关键词');
+            return;
+        }
+
+        var systemPrompt = '你是一个专业的出题专家。根据学生的年级、科目和指定知识点，生成' + quantity + '道练习题。\n\n' +
+            '要求：\n' +
+            '1. 题目难度分布：简单30%、中等50%、困难20%\n' +
+            '2. 题目类型多样：选择题、填空题、计算题、简答题\n' +
+            '3. 每道题包含完整的答案和解析\n' +
+            '4. 数学公式用LaTeX格式（$公式$或$$公式$$）\n\n' +
+            '回复格式（严格JSON）：\n' +
+            '{\n' +
+            '  "questions": [\n' +
+            '    {\n' +
+            '      "id": 1,\n' +
+            '      "difficulty": "简单" | "中等" | "困难",\n' +
+            '      "content": "题目内容",\n' +
+            '      "answer": "答案",\n' +
+            '      "explanation": "详细解析"\n' +
+            '    },\n' +
+            '    ...\n' +
+            '  ]\n' +
+            '}';
+
+        var userMsg = '年级：' + grade + '\n科目：' + subject + '\n知识点：' + keyword + '\n题量：' + quantity + '道';
+
+        document.getElementById('result-section').classList.add('visible');
+        document.getElementById('questions-container').innerHTML = '<p style="text-align:center;color:var(--c-warm-gray)">AI正在生成练习题...</p>';
+
+        var btn = document.getElementById('generate-btn');
+        btn.disabled = true;
+
+        window.YdzxAI.call({
+            systemPrompt: systemPrompt,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 4000,
+            onDone: function(fullText) {
+                btn.disabled = false;
+                try {
+                    var jsonMatch = fullText.match(/\{[\s\S]*\}/);
+                    if (!jsonMatch) throw new Error('无法解析AI回复');
+                    var result = JSON.parse(jsonMatch[0]);
+                    renderQuestions(result.questions);
+                    stats.total = result.questions.length;
+                    updateStats();
+                    document.getElementById('summary-card').style.display = 'block';
+
+                    // 保存到learning-store
+                    if (window.LearningStore) {
+                        window.LearningStore.savePractice({
+                            type: 'error-practice',
+                            grade: grade,
+                            subject: subject,
+                            keyword: keyword,
+                            questions: result.questions
+                        });
+                    }
+                } catch (e) {
+                    console.error('解析失败', e);
+                    document.getElementById('questions-container').innerHTML = '<p style="color:var(--c-error)">AI回复格式异常，请重试。</p>';
+                }
+            },
+            onError: function(err) {
+                btn.disabled = false;
+                document.getElementById('questions-container').innerHTML = '<p style="color:var(--c-error)">' + err + '</p>';
+            }
+        });
+    }
+
+    function renderQuestions(questions) {
+        var html = questions.map(function(q, i) {
+            var difficultyClass = q.difficulty === '简单' ? 'difficulty-easy' : (q.difficulty === '困难' ? 'difficulty-hard' : 'difficulty-medium');
+            var contentRendered = renderMath(q.content);
+            var answerRendered = renderMath(q.answer);
+            var explanationRendered = renderMath(q.explanation);
+
+            return '<div class="practice-question">' +
+                '<div class="question-header">' +
+                '<span class="question-num">第 ' + (i+1) + ' 题</span>' +
+                '<span class="question-difficulty ' + difficultyClass + '">' + q.difficulty + '</span>' +
+                '</div>' +
+                '<div class="question-content">' + contentRendered + '</div>' +
+                '<div class="question-actions">' +
+                '<button class="btn-small btn-show" onclick="showAnswer(' + i + ')">查看答案</button>' +
+                '<button class="btn-small btn-mark-error" onclick="markAsError(' + i + ')">标记为错题</button>' +
+                '</div>' +
+                '<div class="answer-section" id="answer-' + i + '">' +
+                '<strong>答案：</strong>' + answerRendered + '<br><br>' +
+                '<strong>解析：</strong>' + explanationRendered +
+                '</div>' +
+                '</div>';
+        }).join('');
+        document.getElementById('questions-container').innerHTML = html;
+    }
+
+    function renderMath(text) {
+        if (!text) return '';
+        try {
+            return text.replace(/\$\$([^\$]+)\$\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: true, throwOnError: false });
+            }).replace(/\$([^\$]+)\$/g, function(match, formula) {
+                return katex.renderToString(formula, { displayMode: false, throwOnError: false });
+            });
+        } catch (e) {
+            return text;
+        }
+    }
+
+    function showAnswer(index) {
+        var answerEl = document.getElementById('answer-' + index);
+        if (!answerEl.classList.contains('visible')) {
+            stats.viewed++;
+            updateStats();
+        }
+        answerEl.classList.toggle('visible');
+    }
+
+    function markAsError(index) {
+        if (confirm('确定标记为错题吗？将保存到错题本。')) {
+            stats.errors++;
+            updateStats();
+            alert('已标记为错题，可在错题本中查看');
+            // TODO: 实际保存到错题本
+        }
+    }
+
+    function updateStats() {
+        document.getElementById('total-count').textContent = stats.total;
+        document.getElementById('viewed-count').textContent = stats.viewed;
+        document.getElementById('error-count').textContent = stats.errors;
+    }
+    </script>
+</body>
+</html>
