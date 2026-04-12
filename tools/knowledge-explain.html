@@ -67,7 +67,16 @@
 
         @media (max-width: 767px) {
             .form-row { grid-template-columns: 1fr; }
-        }
+        }        .quick-nav-section { background: rgba(22,33,62,0.6); border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
+        .quick-nav-container { max-width: 900px; margin: 0 auto; }
+        .quick-nav-title { font-family: var(--font-heading); color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
+        .quick-nav-list { display: flex; gap: var(--sp-md); flex-wrap: wrap; justify-content: center; }
+        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
+        .quick-nav-item:hover { border-color: var(--c-origin); transform: translateY(-2px); }
+        .quick-nav-icon { font-size: 1.8rem; }
+        .quick-nav-name { color: var(--c-warm-white); font-size: var(--fs-small); text-align: center; }
+
+
     </style>
 </head>
 <body>
@@ -413,5 +422,16 @@ ${currentAttempt ? `学生已经说了自己的尝试：${currentAttempt}` : '�
             }
         }
     </script>
+    <script src="../src/tools-nav.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        initToolsNav('knowledge-explain.html');
+    });
+    </script>
+    <!-- 快捷导航 -->
+    <section class="quick-nav-section">
+        <div class="quick-nav-container" id="quick-nav"></div>
+    </section>
+
 </body>
 </html>
