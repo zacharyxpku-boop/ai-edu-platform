@@ -15,8 +15,28 @@
     <link rel="stylesheet" href="src/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
     <style>
-        .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
         .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
+
+        .stats-overview { background: var(--c-ink-light); padding: var(--sp-xl) var(--sp-lg); border-bottom: 1px solid var(--c-ink-border); }
+        .stats-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-lg); }
+        .stat-card { text-align: center; padding: var(--sp-lg); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); }
+        .stat-icon { font-size: 2.5rem; margin-bottom: var(--sp-sm); }
+        .stat-value { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--c-origin); margin-bottom: var(--sp-xs); }
+        .stat-label { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        .search-section { background: var(--c-ink); padding: var(--sp-xl) var(--sp-lg); border-bottom: 1px solid var(--c-ink-border); }
+        .search-container { max-width: 1200px; margin: 0 auto; }
+        .search-input { width: 100%; padding: 14px 20px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); margin-bottom: var(--sp-md); }
+        .search-input:focus { border-color: var(--c-origin); outline: none; }
+        .filter-tags { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
+        .filter-tag { padding: 8px 16px; background: rgba(15,52,96,0.4); color: var(--c-warm-gray); border: 1px solid var(--c-ink-border); border-radius: var(--r-pill); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .filter-tag:hover { border-color: var(--c-origin); color: var(--c-warm-white); }
+        .filter-tag.active { background: var(--c-origin-glow); border-color: var(--c-origin); color: var(--c-origin); font-weight: 700; }
+
+        @media (max-width: 767px) {
+            .stats-container { grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); }
+        }
 
         .tools-container { max-width: 1200px; margin: var(--sp-section) auto var(--sp-2xl); padding: 0 var(--sp-lg); }
         .tools-section { margin-bottom: var(--sp-2xl); }
@@ -154,12 +174,53 @@
         <p class="section-desc">15个智能工具，科学诊断、精准攻克、思维进阶、持续成长</p>
     </section>
 
+    <!-- 学习数据概览 -->
+    <div class="stats-overview">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value" id="stat-usage">0</div>
+                <div class="stat-label">累计使用次数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="stat-errors">0</div>
+                <div class="stat-label">错题攻克数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎓</div>
+                <div class="stat-value" id="stat-feynman">0</div>
+                <div class="stat-label">费曼通过数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value" id="stat-streak">0</div>
+                <div class="stat-label">连续学习天数</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索/筛选 -->
+    <div class="search-section">
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="搜索工具名称或功能..." onkeyup="filterTools()">
+            <div class="filter-tags">
+                <button class="filter-tag active" onclick="filterByCategory('all')">全部</button>
+                <button class="filter-tag" onclick="filterByCategory('诊断区')">诊断区</button>
+                <button class="filter-tag" onclick="filterByCategory('攻克区')">攻克区</button>
+                <button class="filter-tag" onclick="filterByCategory('思维区')">思维区</button>
+                <button class="filter-tag" onclick="filterByCategory('素养区')">素养区</button>
+                <button class="filter-tag" onclick="filterByCategory('成长区')">成长区</button>
+            </div>
+        </div>
+    </div>
+
     <div class="tools-container">
         <!-- 诊断区 -->
-        <div class="tools-section">
+        <div class="tools-section" data-category="诊断区">
             <h2 class="tools-section-title">诊断区 — 找到真正的问题</h2>
             <div class="tools-grid">
-                <a href="tools/exam-diagnosis.html" class="tool-card">
+                <a href="tools/exam-diagnosis.html" class="tool-card" data-name="考试诊断" data-desc="输入成绩和错题，AI做13维分析，找到失分真因和提分路径">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">📊</div>
                         <span class="tool-card-badge new">NEW</span>
@@ -167,39 +228,61 @@
                     <h3 class="tool-card-title">考试诊断</h3>
                     <p class="tool-card-desc">输入成绩和错题，AI做13维分析，找到失分真因和提分路径</p>
                 </a>
-
-                <a href="tools/learning-analysis.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📈</div>
-                    </div>
-                    <h3 class="tool-card-title">学情分析</h3>
-                    <p class="tool-card-desc">长期追踪各科成绩，识别优势科目和薄弱环节</p>
-                </a>
-
-                <a href="tools/weakness-scan.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🔍</div>
-                    </div>
-                    <h3 class="tool-card-title">薄弱点扫描</h3>
-                    <p class="tool-card-desc">智能分析知识漏洞，生成针对性补强计划</p>
-                </a>
             </div>
         </div>
 
         <!-- 攻克区 -->
-        <div class="tools-section">
+        <div class="tools-section" data-category="攻克区">
             <h2 class="tools-section-title">攻克区 — 精准击破难点</h2>
             <div class="tools-grid">
-                <a href="tools/error-analysis.html" class="tool-card">
+                <a href="tools/error-mastery.html" class="tool-card" data-name="错题举一反三" data-desc="粘贴错题，AI深度分析5种错因，生成3道变式题">
                     <div class="tool-card-header">
-                        <div class="tool-card-icon">❌</div>
+                        <div class="tool-card-icon">🔍</div>
                         <span class="tool-card-badge">热门</span>
                     </div>
-                    <h3 class="tool-card-title">错题分析</h3>
-                    <p class="tool-card-desc">拍照或输入错题，AI找出知识盲区和解题思路</p>
+                    <h3 class="tool-card-title">错题举一反三</h3>
+                    <p class="tool-card-desc">粘贴错题，AI深度分析5种错因，生成3道变式题</p>
                 </a>
 
-                <a href="tools/concept-explain.html" class="tool-card">
+                <a href="tools/error-practice.html" class="tool-card" data-name="错题练习生成" data-desc="基于错题类型，智能生成针对性练习题">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📝</div>
+                    </div>
+                    <h3 class="tool-card-title">错题练习生成</h3>
+                    <p class="tool-card-desc">基于错题类型，智能生成针对性练习题</p>
+                </a>
+
+                <a href="tools/exam-generator.html" class="tool-card" data-name="考卷生成器" data-desc="指定知识点和难度，AI生成完整测试卷">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📄</div>
+                    </div>
+                    <h3 class="tool-card-title">考卷生成器</h3>
+                    <p class="tool-card-desc">指定知识点和难度，AI生成完整测试卷</p>
+                </a>
+
+                <a href="tools/study-plan.html" class="tool-card" data-name="学习计划" data-desc="输入目标和时间，AI生成可执行的学习计划">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">📅</div>
+                    </div>
+                    <h3 class="tool-card-title">学习计划</h3>
+                    <p class="tool-card-desc">输入目标和时间，AI生成可执行的学习计划</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 思维区 -->
+        <div class="tools-section" data-category="思维区">
+            <h2 class="tools-section-title">思维区 — 建立知识网络</h2>
+            <div class="tools-grid">
+                <a href="tools/feynman-verify.html" class="tool-card" data-name="费曼验证" data-desc="教会AI就是真懂了，通过费曼学习法验证掌握程度">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🎓</div>
+                    </div>
+                    <h3 class="tool-card-title">费曼验证</h3>
+                    <p class="tool-card-desc">教会AI就是真懂了，通过费曼学习法验证掌握程度</p>
+                </a>
+
+                <a href="tools/knowledge-explain.html" class="tool-card" data-name="知识讲解" data-desc="输入知识点，AI用你能听懂的方式讲清楚">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">💡</div>
                     </div>
@@ -207,103 +290,84 @@
                     <p class="tool-card-desc">输入知识点，AI用你能听懂的方式讲清楚</p>
                 </a>
 
-                <a href="tools/hard-problem.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🎯</div>
-                    </div>
-                    <h3 class="tool-card-title">难题破解</h3>
-                    <p class="tool-card-desc">遇到难题卡住了，AI教你多角度分析和解题</p>
-                </a>
-            </div>
-        </div>
-
-        <!-- 思维区 -->
-        <div class="tools-section">
-            <h2 class="tools-section-title">思维区 — 建立知识网络</h2>
-            <div class="tools-grid">
-                <a href="tools/mind-map.html" class="tool-card">
+                <a href="tools/knowledge-visual.html" class="tool-card" data-name="知识可视化" data-desc="复杂概念画成图，Mermaid流程图+思维导图">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">🗺️</div>
+                        <span class="tool-card-badge new">NEW</span>
                     </div>
-                    <h3 class="tool-card-title">思维导图</h3>
-                    <p class="tool-card-desc">输入主题，AI生成结构化知识导图</p>
-                </a>
-
-                <a href="tools/knowledge-link.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🔗</div>
-                    </div>
-                    <h3 class="tool-card-title">知识串联</h3>
-                    <p class="tool-card-desc">把零散知识点串成体系，看清知识地图</p>
-                </a>
-
-                <a href="tools/concept-compare.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">⚖️</div>
-                    </div>
-                    <h3 class="tool-card-title">概念对比</h3>
-                    <p class="tool-card-desc">对比易混概念，AI帮你分清细微差异</p>
+                    <h3 class="tool-card-title">知识可视化</h3>
+                    <p class="tool-card-desc">复杂概念画成图，Mermaid流程图+思维导图</p>
                 </a>
             </div>
         </div>
 
         <!-- 素养区 -->
-        <div class="tools-section">
+        <div class="tools-section" data-category="素养区">
             <h2 class="tools-section-title">素养区 — 提升综合能力</h2>
             <div class="tools-grid">
-                <a href="tools/writing-coach.html" class="tool-card">
+                <a href="tools/essay-grading.html" class="tool-card" data-name="作文打分" data-desc="贴上作文，AI从结构、论证、语言三方面打分点评">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">✍️</div>
                         <span class="tool-card-badge">热门</span>
                     </div>
-                    <h3 class="tool-card-title">作文教练</h3>
-                    <p class="tool-card-desc">贴上作文，AI从结构、论证、语言三方面点评</p>
+                    <h3 class="tool-card-title">作文打分</h3>
+                    <p class="tool-card-desc">贴上作文，AI从结构、论证、语言三方面打分点评</p>
                 </a>
 
-                <a href="tools/english-chat.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🗣️</div>
-                    </div>
-                    <h3 class="tool-card-title">英语对话</h3>
-                    <p class="tool-card-desc">AI扮演外教，真实场景对话练口语</p>
-                </a>
-
-                <a href="tools/reading-guide.html" class="tool-card">
+                <a href="tools/reading-rewriter.html" class="tool-card" data-name="阅读理解改写" data-desc="贴上阅读题，AI教你抓关键信息和解题技巧">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">📖</div>
                     </div>
-                    <h3 class="tool-card-title">阅读理解</h3>
+                    <h3 class="tool-card-title">阅读理解改写</h3>
                     <p class="tool-card-desc">贴上阅读题，AI教你抓关键信息和解题技巧</p>
+                </a>
+
+                <a href="tools/music-appreciation.html" class="tool-card" data-name="音乐欣赏" data-desc="上传音乐，AI做曲式分析和情感解读">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🎵</div>
+                    </div>
+                    <h3 class="tool-card-title">音乐欣赏</h3>
+                    <p class="tool-card-desc">上传音乐，AI做曲式分析和情感解读</p>
+                </a>
+
+                <a href="tools/art-thinking.html" class="tool-card" data-name="美术思维引导" data-desc="上传画作，AI用苏格拉底追问引导你观察">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🎨</div>
+                    </div>
+                    <h3 class="tool-card-title">美术思维引导</h3>
+                    <p class="tool-card-desc">上传画作，AI用苏格拉底追问引导你观察</p>
+                </a>
+
+                <a href="tools/scoring-breakdown.html" class="tool-card" data-name="大题得分点拆解" data-desc="大题采分点细化+满分答案模板">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon">🎯</div>
+                    </div>
+                    <h3 class="tool-card-title">大题得分点拆解</h3>
+                    <p class="tool-card-desc">大题采分点细化+满分答案模板</p>
                 </a>
             </div>
         </div>
 
         <!-- 成长区 -->
-        <div class="tools-section">
+        <div class="tools-section" data-category="成长区">
             <h2 class="tools-section-title">成长区 — 持续进步追踪</h2>
             <div class="tools-grid">
-                <a href="tools/study-planner.html" class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📅</div>
-                    </div>
-                    <h3 class="tool-card-title">学习计划</h3>
-                    <p class="tool-card-desc">输入目标和时间，AI生成可执行的学习计划</p>
-                </a>
-
-                <a href="tools/progress-tracker.html" class="tool-card">
+                <a href="tools/learning-profile.html" class="tool-card" data-name="学习档案" data-desc="Chart.js雷达图+成就系统+报告卡导出">
                     <div class="tool-card-header">
                         <div class="tool-card-icon">📊</div>
+                        <span class="tool-card-badge new">NEW</span>
                     </div>
-                    <h3 class="tool-card-title">进步追踪</h3>
-                    <p class="tool-card-desc">记录每次学习成果，可视化你的成长曲线</p>
+                    <h3 class="tool-card-title">学习档案</h3>
+                    <p class="tool-card-desc">Chart.js雷达图+成就系统+报告卡导出</p>
                 </a>
 
-                <a href="tools/review-reminder.html" class="tool-card">
+                <a href="tools/note-enhancer.html" class="tool-card" data-name="笔记增强器" data-desc="AI补全要点+Mermaid思维导图+闪卡生成">
                     <div class="tool-card-header">
-                        <div class="tool-card-icon">⏰</div>
+                        <div class="tool-card-icon">📔</div>
+                        <span class="tool-card-badge new">NEW</span>
                     </div>
-                    <h3 class="tool-card-title">复习提醒</h3>
-                    <p class="tool-card-desc">基于遗忘曲线，智能安排复习时机</p>
+                    <h3 class="tool-card-title">笔记增强器</h3>
+                    <p class="tool-card-desc">AI补全要点+Mermaid思维导图+闪卡生成</p>
                 </a>
             </div>
         </div>
@@ -326,6 +390,104 @@
             nav.style.display = 'flex';
         }
     }
+
+    // 加载学习数据统计
+    function loadStats() {
+        try {
+            // 累计使用次数
+            const usageLogs = JSON.parse(localStorage.getItem('yuandian_usage_logs') || '[]');
+            document.getElementById('stat-usage').textContent = usageLogs.length;
+
+            // 错题攻克数
+            const errorsMastered = JSON.parse(localStorage.getItem('yuandian_errors_mastered') || '[]');
+            document.getElementById('stat-errors').textContent = errorsMastered.length;
+
+            // 费曼通过数
+            const feynmanPassed = JSON.parse(localStorage.getItem('yuandian_feynman_passed') || '[]');
+            document.getElementById('stat-feynman').textContent = feynmanPassed.length;
+
+            // 连续学习天数
+            const streak = calculateStreak(usageLogs);
+            document.getElementById('stat-streak').textContent = streak;
+        } catch (e) {
+            console.error('加载统计数据失败:', e);
+        }
+    }
+
+    // 计算连续学习天数
+    function calculateStreak(logs) {
+        if (!logs || logs.length === 0) return 0;
+
+        const dates = [...new Set(logs.map(log => {
+            const d = new Date(log.timestamp);
+            return d.toDateString();
+        }))].sort((a, b) => new Date(b) - new Date(a));
+
+        let streak = 0;
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+        // 如果今天或昨天有学习记录，开始计算连续天数
+        if (dates[0] === today || dates[0] === yesterday) {
+            streak = 1;
+            let checkDate = new Date(dates[0]);
+
+            for (let i = 1; i < dates.length; i++) {
+                checkDate = new Date(checkDate.getTime() - 86400000);
+                if (dates[i] === checkDate.toDateString()) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return streak;
+    }
+
+    // 搜索/筛选工具
+    function filterTools() {
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.tool-card');
+
+        cards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            const desc = card.getAttribute('data-desc').toLowerCase();
+            const matches = name.includes(searchTerm) || desc.includes(searchTerm);
+
+            card.style.display = matches ? 'block' : 'none';
+        });
+    }
+
+    // 按分区筛选
+    let currentCategory = 'all';
+    function filterByCategory(category) {
+        currentCategory = category;
+
+        // 更新按钮状态
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.classList.remove('active');
+        });
+        event.target.classList.add('active');
+
+        // 显示/隐藏分区
+        const sections = document.querySelectorAll('.tools-section');
+        sections.forEach(section => {
+            if (category === 'all') {
+                section.style.display = 'block';
+            } else {
+                section.style.display = section.getAttribute('data-category') === category ? 'block' : 'none';
+            }
+        });
+
+        // 重新应用搜索过滤
+        filterTools();
+    }
+
+    // 页面加载时执行
+    window.addEventListener('DOMContentLoaded', () => {
+        loadStats();
+    });
     </script>
 </body>
 </html>
