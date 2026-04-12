@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记增强器 — AI补全+思维导图+闪卡生成 | 原点智学</title>
+    <meta name="description" content="AI补全课堂笔记遗漏要点,生成Mermaid思维导图,自动生成可翻转闪卡">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#E94D35',
+                primaryTextColor: '#F5F0EB',
+                primaryBorderColor: '#0F3460',
+                lineColor: '#B8B0A8',
+                secondaryColor: '#16213E',
+                tertiaryColor: '#0F3460',
+                background: '#1A1A2E',
+                mainBkg: '#16213E',
+                secondBkg: '#0F3460',
+                nodeBorder: '#E94D35',
+                clusterBkg: '#1A1A2E',
+                clusterBorder: '#0F3460',
+                titleColor: '#F5F0EB',
+                edgeLabelBackground: '#16213E',
+                nodeTextColor: '#F5F0EB'
+            }
+        });
+        window.mermaid = mermaid;
+    </script>
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .enhancer-container { max-width: 1200px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { margin-bottom: var(--sp-lg); }
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field textarea {
+            min-height: 300px; padding: 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+            line-height: 1.8; resize: vertical;
+        }
+        .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .enhanced-notes { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .enhanced-notes h2 { margin-bottom: var(--sp-md); }
+        .notes-content { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); padding: var(--sp-lg); border-radius: var(--r-md); line-height: 1.9; }
+        .added-point { background: rgba(45,159,111,0.15); border-left: 3px solid var(--c-success); padding: var(--sp-sm) var(--sp-md); margin: var(--sp-sm) 0; border-radius: var(--r-sm); }
+        .added-label { color: var(--c-success); font-weight: 700; font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+
+        .mindmap-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .mindmap-section h2 { margin-bottom: var(--sp-lg); }
+        .mindmap-wrapper { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); padding: var(--sp-lg); border-radius: var(--r-md); overflow-x: auto; }
+
+        .flashcards-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .flashcards-section h2 { margin-bottom: var(--sp-lg); }
+        .flashcards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-md); }
+        .flashcard { perspective: 1000px; height: 200px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); display: flex; align-items: center; justify-content: center; text-align: center; }
+        .flashcard-front { border-color: var(--c-origin); }
+        .flashcard-back { transform: rotateY(180deg); border-color: var(--c-success); }
+        .flashcard-label { position: absolute; top: 10px; left: 10px; font-size: var(--fs-small); color: var(--c-warm-gray); font-weight: 700; }
+
+        @media (max-width: 767px) {
+            .flashcards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📒</div>
+        <h1>笔记增强器</h1>
+        <p class="section-desc">AI补全遗漏要点,生成思维导图,自动生成可翻转闪卡</p>
+    </section>
+
+    <div class="enhancer-container">
+        <div class="input-card">
+            <h2>粘贴你的课堂笔记</h2>
+            <div class="form-field">
+                <label>笔记内容 *</label>
+                <textarea id="notes-input" placeholder="把课堂笔记粘贴到这里...&#10;AI会自动补全遗漏的要点"></textarea>
+            </div>
+            <button class="btn-primary" onclick="enhanceNotes()" id="enhance-btn">开始增强</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="enhanced-notes">
+                <h2>补全后的笔记</h2>
+                <div class="notes-content" id="enhanced-content"></div>
+            </div>
+
+            <div class="mindmap-section">
+                <h2>思维导图</h2>
+                <div class="mindmap-wrapper">
+                    <div id="mindmap-container"></div>
+                </div>
+            </div>
+
+            <div class="flashcards-section">
+                <h2>闪卡复习</h2>
+                <p style="text-align:center;color:var(--c-warm-gray);font-size:var(--fs-small);margin-bottom:var(--sp-lg)">点击翻转查看答案</p>
+                <div class="flashcards-grid" id="flashcards-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        function enhanceNotes() {
+            const notes = document.getElementById('notes-input').value.trim();
+
+            if (!notes) {
+                alert('请输入笔记内容');
+                return;
+            }
+
+            const btn = document.getElementById('enhance-btn');
+            btn.disabled = true;
+            btn.textContent = 'AI增强中...';
+
+            const systemPrompt = `你是笔记增强专家,正在帮学生补全课堂笔记。请按以下JSON格式输出：
+
+{
+  "enhanced": "原笔记内容,在遗漏处插入[补充:xxx]标记的补充内容",
+  "mindmap": "graph TD\\nA[主题]-->B[子主题1]\\nA-->C[子主题2]\\n...(Mermaid格式思维导图)",
+  "flashcards": [
+    {"question": "问题或概念", "answer": "答案或解释"},
+    ...（5-8张闪卡）
+  ]
+}
+
+要求：
+1. enhanced: 在原笔记基础上用[补充:xxx]标注新增内容
+2. mindmap: 用Mermaid graph TD语法生成思维导图
+3. flashcards: 提炼核心知识点制作闪卡
+
+只输出JSON,不要其他文字。`;
+
+            window.YdzxAI.call({
+                messages: [{role: 'user', content: notes}],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 2500,
+                onDone: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        renderEnhancedNotes(data, notes);
+                        btn.disabled = false;
+                        btn.textContent = '开始增强';
+                        saveLearningRecord(notes, data);
+                    } catch (e) {
+                        console.error('Parse error:', e, response);
+                        alert('增强失败,请重试');
+                        btn.disabled = false;
+                        btn.textContent = '开始增强';
+                    }
+                },
+                onError: function(err) {
+                    alert('增强失败: ' + err);
+                    btn.disabled = false;
+                    btn.textContent = '开始增强';
+                }
+            });
+        }
+
+        function renderEnhancedNotes(data, originalNotes) {
+            // 渲染补全笔记
+            const enhanced = data.enhanced.replace(/\[补充:(.*?)\]/g, '<div class="added-point"><div class="added-label">AI补充:</div>$1</div>');
+            document.getElementById('enhanced-content').innerHTML = enhanced.replace(/\n/g, '<br>');
+
+            // 渲染思维导图
+            renderMindmap(data.mindmap);
+
+            // 渲染闪卡
+            renderFlashcards(data.flashcards);
+
+            document.getElementById('result-section').classList.add('visible');
+            document.getElementById('result-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        async function renderMindmap(mermaidCode) {
+            const container = document.getElementById('mindmap-container');
+            container.innerHTML = '';
+
+            try {
+                const { svg } = await window.mermaid.render('mindmap-svg', mermaidCode);
+                container.innerHTML = svg;
+            } catch (e) {
+                console.error('Mermaid render error:', e);
+                container.innerHTML = '<div style="color:var(--c-warm-gray);text-align:center;padding:var(--sp-xl)">思维导图生成失败</div>';
+            }
+        }
+
+        function renderFlashcards(cards) {
+            const html = cards.map((card, i) => `
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-face flashcard-front">
+                            <span class="flashcard-label">问题</span>
+                            <div>${card.question}</div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <span class="flashcard-label">答案</span>
+                            <div>${card.answer}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('flashcards-grid').innerHTML = html;
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function saveLearningRecord(notes, data) {
+            const record = {
+                type: 'note-enhancer',
+                originalNotes: notes,
+                enhanced: data,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>
