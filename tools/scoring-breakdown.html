@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大题得分点拆解 — AI拆解每个采分点+满分模板 | 原点智学</title>
+    <meta name="description" content="拆解大题每个采分点,生成满分答案模板,分步骤标注分值">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .breakdown-container { max-width: 1000px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { margin-bottom: var(--sp-lg); }
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field select {
+            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea {
+            min-height: 200px; padding: 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+            line-height: 1.8; resize: vertical;
+        }
+        .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .scoring-points { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .scoring-points h2 { margin-bottom: var(--sp-lg); }
+        .point-item { background: rgba(15,52,96,0.4); border-left: 4px solid var(--c-origin); padding: var(--sp-md); margin-bottom: var(--sp-md); border-radius: var(--r-md); }
+        .point-item:last-child { margin-bottom: 0; }
+        .point-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-sm); }
+        .point-label { font-weight: 700; color: var(--c-origin); }
+        .point-score { background: var(--c-origin-glow); color: var(--c-origin); padding: 4px 12px; border-radius: var(--r-pill); font-weight: 700; font-size: var(--fs-small); }
+        .point-desc { color: var(--c-warm-gray); font-size: var(--fs-small); line-height: 1.6; }
+
+        .template-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .template-section h2 { margin-bottom: var(--sp-md); }
+        .template-intro { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-lg); text-align: center; }
+        .answer-step { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); padding: var(--sp-lg); margin-bottom: var(--sp-md); border-radius: var(--r-md); position: relative; }
+        .answer-step:last-child { margin-bottom: 0; }
+        .step-number { position: absolute; top: -12px; left: 16px; background: var(--c-origin); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: var(--fs-small); }
+        .step-content { margin-top: var(--sp-sm); line-height: 1.8; }
+        .step-points { display: inline-block; background: rgba(45,159,111,0.15); color: var(--c-success); padding: 2px 8px; border-radius: var(--r-sm); font-weight: 700; font-size: var(--fs-small); margin-left: var(--sp-sm); }
+
+        @media (max-width: 767px) {
+            .point-header { flex-direction: column; align-items: flex-start; gap: var(--sp-xs); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📊</div>
+        <h1>大题得分点拆解</h1>
+        <p class="section-desc">AI拆解每个采分点,生成满分答案模板,分步骤标注分值</p>
+    </section>
+
+    <div class="breakdown-container">
+        <div class="input-card">
+            <h2>粘贴大题题目</h2>
+            <div class="form-field">
+                <label>科目 *</label>
+                <select id="subject-select">
+                    <option value="math">数学</option>
+                    <option value="physics">物理</option>
+                    <option value="chemistry">化学</option>
+                    <option value="biology">生物</option>
+                    <option value="politics">政治</option>
+                    <option value="history">历史</option>
+                    <option value="geography">地理</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label>题目内容 *</label>
+                <textarea id="question-input" placeholder="把大题完整题目粘贴到这里(包括问题和材料)..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="breakdownScoring()" id="breakdown-btn">开始拆解</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="scoring-points">
+                <h2>采分点拆解</h2>
+                <div id="points-list"></div>
+            </div>
+
+            <div class="template-section">
+                <h2>满分答案模板</h2>
+                <div class="template-intro">按步骤答题,每步对应采分点,不丢分</div>
+                <div id="answer-template"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        function breakdownScoring() {
+            const subject = document.getElementById('subject-select').value;
+            const question = document.getElementById('question-input').value.trim();
+
+            if (!question) {
+                alert('请输入题目内容');
+                return;
+            }
+
+            const btn = document.getElementById('breakdown-btn');
+            btn.disabled = true;
+            btn.textContent = 'AI拆解中...';
+
+            const subjectNames = {
+                math: '数学',
+                physics: '物理',
+                chemistry: '化学',
+                biology: '生物',
+                politics: '政治',
+                history: '历史',
+                geography: '地理'
+            };
+
+            const systemPrompt = `你是${subjectNames[subject]}阅卷专家,正在拆解大题的采分点。请按以下JSON格式输出：
+
+{
+  "points": [
+    {"label": "采分点1", "score": 分值, "description": "要答出什么内容才能得分"},
+    {"label": "采分点2", "score": 分值, "description": "..."},
+    ...
+  ],
+  "template": [
+    {"step": 1, "content": "第一步答题内容", "points": "对应采分点1,得X分"},
+    {"step": 2, "content": "第二步答题内容", "points": "对应采分点2,得X分"},
+    ...
+  ]
+}
+
+要求：
+1. 采分点要细致,符合高考/中考阅卷标准
+2. 每个采分点明确说明得分要点
+3. 满分模板要分步骤,每步对应采分点
+4. 答案要规范、完整、不啰嗦
+
+只输出JSON,不要其他文字。`;
+
+            window.YdzxAI.call({
+                messages: [{role: 'user', content: question}],
+                systemPrompt: systemPrompt,
+                temperature: 0.6,
+                maxTokens: 1800,
+                onDone: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        renderBreakdown(data);
+                        btn.disabled = false;
+                        btn.textContent = '开始拆解';
+                        saveLearningRecord(subject, question, data);
+                    } catch (e) {
+                        alert('拆解失败,请重试');
+                        btn.disabled = false;
+                        btn.textContent = '开始拆解';
+                    }
+                },
+                onError: function(err) {
+                    alert('拆解失败: ' + err);
+                    btn.disabled = false;
+                    btn.textContent = '开始拆解';
+                }
+            });
+        }
+
+        function renderBreakdown(data) {
+            // 渲染采分点
+            const pointsHtml = data.points.map(point => `
+                <div class="point-item">
+                    <div class="point-header">
+                        <span class="point-label">${point.label}</span>
+                        <span class="point-score">${point.score}分</span>
+                    </div>
+                    <div class="point-desc">${point.description}</div>
+                </div>
+            `).join('');
+            document.getElementById('points-list').innerHTML = pointsHtml;
+
+            // 渲染满分模板
+            const templateHtml = data.template.map(step => `
+                <div class="answer-step">
+                    <div class="step-number">${step.step}</div>
+                    <div class="step-content">
+                        ${step.content}
+                        <span class="step-points">${step.points}</span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('answer-template').innerHTML = templateHtml;
+
+            document.getElementById('result-section').classList.add('visible');
+            document.getElementById('result-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function saveLearningRecord(subject, question, data) {
+            const record = {
+                type: 'scoring-breakdown',
+                subject: subject,
+                question: question,
+                breakdown: data,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>
