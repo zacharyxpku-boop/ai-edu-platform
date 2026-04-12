@@ -225,6 +225,7 @@
 
             <div class="btn-group">
                 <button class="btn-primary" onclick="generateShareCard()">生成分享卡</button>
+                <button class="btn-primary" onclick="goToErrorMastery()" id="goto-error-mastery">开始攻克薄弱点 →</button>
                 <button class="btn-secondary" onclick="location.reload()">开始新诊断</button>
             </div>
 
@@ -265,6 +266,19 @@
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('exam-diagnosis.html');
     });
+
+    // 数据串联：跳转到错题举一反三并预填科目
+    function goToErrorMastery() {
+        const subject = document.getElementById('subject').value;
+        const grade = document.getElementById('grade').value;
+
+        // 保存到localStorage供下一个页面读取
+        localStorage.setItem('yuandian_prefill_subject', subject);
+        localStorage.setItem('yuandian_prefill_grade', grade);
+
+        // 跳转
+        window.location.href = 'error-mastery.html';
+    }
     </script>
     <script>
     // 错题列表

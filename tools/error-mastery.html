@@ -171,6 +171,10 @@
                     AI为你生成3道不同类型的变式题，由易到难攻克这类题型
                 </p>
                 <div id="variant-questions"></div>
+                <div class="btn-group" style="margin-top: var(--sp-lg);">
+                    <button class="btn-primary" onclick="goToFeynmanVerify()" id="goto-feynman">费曼验证掌握程度 →</button>
+                    <button class="btn-secondary" onclick="location.reload()">分析新错题</button>
+                </div>
             </div>
         </div>
     </div>
@@ -197,7 +201,46 @@
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('error-mastery.html');
+
+        // 数据串联：从localStorage读取预填数据
+        const prefillSubject = localStorage.getItem('yuandian_prefill_subject');
+        const prefillGrade = localStorage.getItem('yuandian_prefill_grade');
+
+        if (prefillSubject) {
+            document.getElementById('subject').value = prefillSubject;
+            localStorage.removeItem('yuandian_prefill_subject');
+        }
+
+        if (prefillGrade) {
+            document.getElementById('grade').value = prefillGrade;
+            localStorage.removeItem('yuandian_prefill_grade');
+        }
     });
+
+    // 数据串联：跳转到费曼验证并预填知识点
+    function goToFeynmanVerify() {
+        // 从当前分析结果中提取知识点
+        const question = document.getElementById('question').value;
+        const subject = document.getElementById('subject').value;
+
+        // 简单提取知识点（实际可以从AI分析结果中获取）
+        let topic = subject + '知识点';
+
+        // 如果题目中包含明显的知识点关键词
+        const keywords = ['函数', '方程', '几何', '概率', '统计', '力学', '电学', '化学反应', '语法', '阅读'];
+        for (const kw of keywords) {
+            if (question.includes(kw)) {
+                topic = kw;
+                break;
+            }
+        }
+
+        // 保存到localStorage
+        localStorage.setItem('yuandian_prefill_topic', topic);
+
+        // 跳转
+        window.location.href = 'feynman-verify.html';
+    }
     </script>
     <script>
     function analyzeError() {

@@ -344,6 +344,13 @@
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('feynman-verify.html');
+
+        // 数据串联：从localStorage读取预填知识点
+        const prefillTopic = localStorage.getItem('yuandian_prefill_topic');
+        if (prefillTopic) {
+            document.getElementById('topic-input').value = prefillTopic;
+            localStorage.removeItem('yuandian_prefill_topic');
+        }
     });
     </script>
 </body>
