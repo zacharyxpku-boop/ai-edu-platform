@@ -4,490 +4,943 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI提分教练工具箱 — 15个工具助你科学提分 | 原点智学</title>
-    <meta name="description" content="15个免费AI学习工具：考试诊断、错题分析、思维导图、作文教练等。每天免费3次，适配豆包/DeepSeek。">
-    <meta name="theme-color" content="#1A1A2E">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="description" content="15个免费AI学习工具：考试诊断、错题分析、思维导图、作文教练等。">
+    <meta name="theme-color" content="#F5A623">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
     <link rel="canonical" href="https://www.yuandianzhixue.com/study-tools.html">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
     <style>
-        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
-        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-        .stats-overview { background: var(--c-ink-light); padding: var(--sp-xl) var(--sp-lg); border-bottom: 1px solid var(--c-ink-border); }
-        .stats-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-lg); }
-        .stat-card { text-align: center; padding: var(--sp-lg); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); }
-        .stat-icon { font-size: 2.5rem; margin-bottom: var(--sp-sm); }
-        .stat-value { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--c-origin); margin-bottom: var(--sp-xs); }
-        .stat-label { color: var(--c-warm-gray); font-size: var(--fs-small); }
+        :root {
+            --bg: #FAFAF7;
+            --bg-warm: #F5F0E8;
+            --bg-card: #FFFFFF;
+            --text: #1C1C1E;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E8E5DE;
+            --border-hover: #D1CCC3;
 
-        .search-section { background: var(--c-ink); padding: var(--sp-xl) var(--sp-lg); border-bottom: 1px solid var(--c-ink-border); }
-        .search-container { max-width: 1200px; margin: 0 auto; }
-        .search-input { width: 100%; padding: 14px 20px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); margin-bottom: var(--sp-md); }
-        .search-input:focus { border-color: var(--c-origin); outline: none; }
-        .filter-tags { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
-        .filter-tag { padding: 8px 16px; background: rgba(15,52,96,0.4); color: var(--c-warm-gray); border: 1px solid var(--c-ink-border); border-radius: var(--r-pill); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
-        .filter-tag:hover { border-color: var(--c-origin); color: var(--c-warm-white); }
-        .filter-tag.active { background: var(--c-origin-glow); border-color: var(--c-origin); color: var(--c-origin); font-weight: 700; }
+            --amber: #F5A623;
+            --amber-light: #FFF8EC;
+            --amber-glow: rgba(245,166,35,0.12);
 
-        @media (max-width: 767px) {
-            .stats-container { grid-template-columns: repeat(2, 1fr); gap: var(--sp-md); }
+            --zone-diagnose: #E8590C;
+            --zone-diagnose-bg: #FFF4ED;
+            --zone-attack: #2563EB;
+            --zone-attack-bg: #EFF6FF;
+            --zone-think: #7C3AED;
+            --zone-think-bg: #F5F3FF;
+            --zone-grow: #059669;
+            --zone-grow-bg: #ECFDF5;
+            --zone-art: #DB2777;
+            --zone-art-bg: #FDF2F8;
+
+            --font: 'Noto Sans SC', system-ui, sans-serif;
+            --r-sm: 6px;
+            --r-md: 12px;
+            --r-lg: 16px;
+            --r-xl: 20px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-glow: 0 0 0 3px var(--amber-glow), 0 4px 16px rgba(245,166,35,0.15);
         }
 
-        .tools-container { max-width: 1200px; margin: var(--sp-section) auto var(--sp-2xl); padding: 0 var(--sp-lg); }
-        .tools-section { margin-bottom: var(--sp-2xl); }
-        .tools-section-title {
-            font-family: var(--font-heading);
-            font-size: var(--fs-h2);
-            color: var(--c-origin);
-            margin-bottom: var(--sp-lg);
+        html { scroll-behavior: smooth }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* === TOP NAV === */
+        .topnav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,247,0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+        .topnav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: var(--sp-sm);
+            justify-content: space-between;
+            height: 56px;
         }
-        .tools-section-title::before {
-            content: '';
-            width: 4px;
-            height: 28px;
-            background: var(--grad-cta);
-            border-radius: var(--r-sm);
+        .topnav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .topnav-brand svg { width: 28px; height: 28px }
+        .topnav-links {
+            display: flex;
+            gap: 4px;
+        }
+        .topnav-links a {
+            padding: 6px 14px;
+            border-radius: var(--r-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+        .topnav-links a:hover { color: var(--text); background: var(--amber-light) }
+        .topnav-links a.active { color: var(--amber); background: var(--amber-light) }
+        .topnav-cta {
+            background: var(--text);
+            color: #fff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: var(--r-md);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .topnav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-md) }
+
+        @media (max-width: 767px) {
+            .topnav-links { display: none }
+            .topnav-cta { display: none }
         }
 
+        /* === HERO === */
+        .hero {
+            padding: 48px 24px 32px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--amber-light);
+            border: 1px solid rgba(245,166,35,0.2);
+            color: var(--amber);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .hero h1 span { color: var(--amber) }
+        .hero-sub {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 500px;
+        }
+
+        /* === STATS BAR === */
+        .stats-bar {
+            max-width: 1280px;
+            margin: 0 auto 32px;
+            padding: 0 24px;
+        }
+        .stats-inner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-item {
+            text-align: center;
+            padding: 8px 0;
+            position: relative;
+        }
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: var(--border);
+        }
+        .stat-num {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .stats-inner { grid-template-columns: repeat(2,1fr); gap: 8px; padding: 16px }
+            .stat-item:nth-child(2)::after { display: none }
+            .stat-num { font-size: 22px }
+        }
+
+        /* === SEARCH === */
+        .search-bar {
+            max-width: 1280px;
+            margin: 0 auto 24px;
+            padding: 0 24px;
+        }
+        .search-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-field {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-field input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            font-size: 14px;
+            font-family: var(--font);
+            background: var(--bg-card);
+            color: var(--text);
+            transition: border-color 0.15s, box-shadow 0.15s;
+            outline: none;
+        }
+        .search-field input:focus {
+            border-color: var(--amber);
+            box-shadow: var(--shadow-glow);
+        }
+        .search-field input::placeholder { color: var(--text-muted) }
+        .search-field svg {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        .filter-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .chip {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: var(--bg-card);
+            font-family: var(--font);
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .chip:hover { border-color: var(--border-hover); color: var(--text) }
+        .chip.active {
+            background: var(--text);
+            color: #fff;
+            border-color: var(--text);
+        }
+
+        /* === LAYOUT === */
+        .main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            display: flex;
+            gap: 32px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 72px;
+            height: fit-content;
+        }
+        .sidebar-nav { list-style: none }
+        .sidebar-nav li { margin-bottom: 2px }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: var(--r-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+        .sidebar-nav a:hover { background: var(--bg-warm); color: var(--text) }
+        .sidebar-nav a.active {
+            background: var(--amber-light);
+            color: var(--amber);
+            font-weight: 700;
+        }
+        .sidebar-nav a .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .sidebar-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 20px 14px 6px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none }
+            .main { flex-direction: column }
+        }
+
+        /* Content */
+        .content { flex: 1; min-width: 0 }
+
+        /* === ZONE SECTION === */
+        .zone {
+            margin-bottom: 40px;
+            scroll-margin-top: 72px;
+        }
+        .zone-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        .zone-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+        }
+        .zone-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        .zone-count {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            background: var(--bg-warm);
+            padding: 2px 10px;
+            border-radius: 100px;
+        }
+
+        /* === TOOL CARDS === */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--sp-md);
-        }
-
-        @media (min-width: 768px) {
-            .tools-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: var(--sp-lg);
-            }
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
         }
 
         .tool-card {
-            background: rgba(22,33,62,0.6);
-            border: 1px solid var(--c-ink-border);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--r-lg);
-            padding: var(--sp-lg);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            padding: 20px;
             text-decoration: none;
-            display: block;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.25,0.46,0.45,0.94);
+            overflow: hidden;
         }
         .tool-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
-            background: var(--grad-cta);
-            transform: scaleX(0);
-            transition: transform 0.3s;
+            border-radius: 3px 3px 0 0;
+            opacity: 0;
+            transition: opacity 0.2s;
         }
         .tool-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--c-origin);
-            box-shadow: var(--shadow-hover);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
-        .tool-card:hover::before { transform: scaleX(1); }
+        .tool-card:hover::before { opacity: 1 }
+        .tool-card:active { transform: translateY(0); box-shadow: var(--shadow-sm) }
 
-        .tool-card-header {
+        /* Zone-specific card accents */
+        .zone-diagnose .tool-card::before { background: var(--zone-diagnose) }
+        .zone-diagnose .tool-card:hover { border-color: rgba(232,89,12,0.3) }
+        .zone-attack .tool-card::before { background: var(--zone-attack) }
+        .zone-attack .tool-card:hover { border-color: rgba(37,99,235,0.3) }
+        .zone-think .tool-card::before { background: var(--zone-think) }
+        .zone-think .tool-card:hover { border-color: rgba(124,58,237,0.3) }
+        .zone-art .tool-card::before { background: var(--zone-art) }
+        .zone-art .tool-card:hover { border-color: rgba(219,39,119,0.3) }
+        .zone-grow .tool-card::before { background: var(--zone-grow) }
+        .zone-grow .tool-card:hover { border-color: rgba(5,150,105,0.3) }
+
+        .card-top {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
-            margin-bottom: var(--sp-sm);
         }
-        .tool-card-icon {
-            font-size: 2.2rem;
-            line-height: 1;
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
-        .tool-card-badge {
-            background: var(--c-origin-glow);
-            color: var(--c-origin-soft);
-            font-size: var(--fs-caption);
-            padding: 4px 8px;
-            border-radius: var(--r-sm);
+        .zone-diagnose .card-icon { background: var(--zone-diagnose-bg); color: var(--zone-diagnose) }
+        .zone-attack .card-icon { background: var(--zone-attack-bg); color: var(--zone-attack) }
+        .zone-think .card-icon { background: var(--zone-think-bg); color: var(--zone-think) }
+        .zone-art .card-icon { background: var(--zone-art-bg); color: var(--zone-art) }
+        .zone-grow .card-icon { background: var(--zone-grow-bg); color: var(--zone-grow) }
+
+        .card-badge {
+            font-size: 11px;
             font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
         }
-        .tool-card-badge.new {
-            background: rgba(45,159,111,0.15);
-            color: var(--c-success);
+        .badge-hot { background: #FEF2F2; color: #DC2626 }
+        .badge-new { background: #ECFDF5; color: #059669 }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            line-height: 1.3;
         }
-        .tool-card-title {
-            font-family: var(--font-heading);
-            font-size: var(--fs-h3);
-            margin-bottom: var(--sp-xs);
-            color: var(--c-warm-white);
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.55;
         }
-        .tool-card-desc {
-            color: var(--c-warm-gray);
-            font-size: var(--fs-small);
-            line-height: 1.6;
+        .card-arrow {
+            margin-top: auto;
+            padding-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.2s;
+        }
+        .tool-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .zone-diagnose .card-arrow { color: var(--zone-diagnose) }
+        .zone-attack .card-arrow { color: var(--zone-attack) }
+        .zone-think .card-arrow { color: var(--zone-think) }
+        .zone-art .card-arrow { color: var(--zone-art) }
+        .zone-grow .card-arrow { color: var(--zone-grow) }
+
+        /* Featured card (first in zone) */
+        .tool-card.featured {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding: 24px;
+        }
+        .tool-card.featured .card-icon {
+            width: 56px;
+            height: 56px;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+        .tool-card.featured .card-body { flex: 1 }
+        .tool-card.featured .card-title { font-size: 17px }
+
+        @media (max-width: 600px) {
+            .tool-card.featured {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tools-grid { grid-template-columns: 1fr }
         }
 
-        .footer {
-            background: var(--c-ink);
-            border-top: 1px solid var(--c-ink-border);
-            padding: var(--sp-xl) var(--sp-lg);
+        /* === FOOTER === */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 24px;
             text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
         }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            color: var(--c-warm-dim);
-            font-size: var(--fs-small);
+
+        /* === MOBILE BOTTOM NAV === */
+        .mobile-tabs {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(250,250,247,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            padding: 6px 0 env(safe-area-inset-bottom, 6px);
+        }
+        .mobile-tabs-inner {
+            display: flex;
+            justify-content: space-around;
+        }
+        .mob-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 6px 8px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: var(--r-md);
+            transition: color 0.15s;
+        }
+        .mob-tab.active { color: var(--amber) }
+        .mob-tab svg { width: 22px; height: 22px }
+
+        @media (max-width: 900px) {
+            .mobile-tabs { display: block }
+            body { padding-bottom: 72px }
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px) }
+            to { opacity: 1; transform: translateY(0) }
+        }
+        .zone { animation: fadeUp 0.4s ease both }
+        .zone:nth-child(2) { animation-delay: 0.06s }
+        .zone:nth-child(3) { animation-delay: 0.12s }
+        .zone:nth-child(4) { animation-delay: 0.18s }
+        .zone:nth-child(5) { animation-delay: 0.24s }
+
+        .tool-card {
+            animation: fadeUp 0.35s ease both;
+        }
+
+        /* === NOISE TEXTURE OVERLAY === */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.015;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar" aria-label="主导航">
-        <a href="/" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
-        <div class="nav-links">
-            <a href="prompts.html">Prompt指南</a>
-            <a href="study-tools.html" style="color:var(--c-warm-white)">学习工具</a>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a href="/" class="topnav-brand">
+            <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" fill="#F5A623"/><circle cx="14" cy="14" r="6" fill="#1C1C1E"/><circle cx="14" cy="14" r="2.5" fill="#FAFAF7"/></svg>
+            原点智学
+        </a>
+        <div class="topnav-links">
+            <a href="/">首页</a>
+            <a href="study-tools.html" class="active">学习工具</a>
+            <a href="prompts.html">Prompt</a>
             <a href="articles.html">研究院</a>
             <a href="settings.html">设置</a>
         </div>
-        <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
-        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
-    </nav>
-    <div id="mobile-nav" class="mobile-nav">
-        <a href="/" onclick="toggleMobileNav()">首页</a>
-        <a href="prompts.html" onclick="toggleMobileNav()">Prompt指南</a>
-        <a href="study-tools.html" onclick="toggleMobileNav()">AI学习工具</a>
-        <a href="articles.html" onclick="toggleMobileNav()">研究院</a>
-        <a href="settings.html" onclick="toggleMobileNav()">API设置</a>
+        <button class="topnav-cta" onclick="location.href='/#contact'">预约试听</button>
     </div>
+</nav>
 
-    <section class="page-hero">
-        <a href="/" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
-        <h1>AI提分教练工具箱</h1>
-        <p class="section-desc">15个智能工具，科学诊断、精准攻克、思维进阶、持续成长</p>
-    </section>
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-eyebrow">◉ 15个工具 · 免费使用</div>
+    <h1>你的AI<span>提分教练</span></h1>
+    <p class="hero-sub">诊断弱点，精准攻克，让每分钟学习都有效</p>
+</section>
 
-    <!-- 学习数据概览 -->
-    <div class="stats-overview">
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-icon">📚</div>
-                <div class="stat-value" id="stat-usage">0</div>
-                <div class="stat-label">累计使用次数</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-value" id="stat-errors">0</div>
-                <div class="stat-label">错题攻克数</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🎓</div>
-                <div class="stat-value" id="stat-feynman">0</div>
-                <div class="stat-label">费曼通过数</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-value" id="stat-streak">0</div>
-                <div class="stat-label">连续学习天数</div>
-            </div>
+<!-- Stats Bar -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat-item">
+            <div class="stat-num" id="stat-usage">0</div>
+            <div class="stat-label">累计使用</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="stat-errors">0</div>
+            <div class="stat-label">错题攻克</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="stat-feynman">0</div>
+            <div class="stat-label">费曼通过</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="stat-streak">0</div>
+            <div class="stat-label">连续天数</div>
         </div>
     </div>
+</div>
 
-    <!-- 搜索/筛选 -->
-    <div class="search-section">
-        <div class="search-container">
-            <input type="text" id="search-input" class="search-input" placeholder="搜索工具名称或功能..." onkeyup="filterTools()">
-            <div class="filter-tags">
-                <button class="filter-tag active" onclick="filterByCategory('all')">全部</button>
-                <button class="filter-tag" onclick="filterByCategory('诊断区')">诊断区</button>
-                <button class="filter-tag" onclick="filterByCategory('攻克区')">攻克区</button>
-                <button class="filter-tag" onclick="filterByCategory('思维区')">思维区</button>
-                <button class="filter-tag" onclick="filterByCategory('素养区')">素养区</button>
-                <button class="filter-tag" onclick="filterByCategory('成长区')">成长区</button>
-            </div>
+<!-- Search -->
+<div class="search-bar">
+    <div class="search-row">
+        <div class="search-field">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input type="text" id="search-input" placeholder="搜索工具..." oninput="filterTools()">
+        </div>
+        <div class="filter-chips">
+            <button class="chip active" onclick="filterByCategory('all',this)">全部</button>
+            <button class="chip" onclick="filterByCategory('diagnose',this)">诊断</button>
+            <button class="chip" onclick="filterByCategory('attack',this)">攻克</button>
+            <button class="chip" onclick="filterByCategory('think',this)">思维</button>
+            <button class="chip" onclick="filterByCategory('art',this)">素养</button>
+            <button class="chip" onclick="filterByCategory('grow',this)">成长</button>
         </div>
     </div>
+</div>
 
-    <div class="tools-container">
+<!-- Main Layout -->
+<div class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-label">工具导航</div>
+        <ul class="sidebar-nav">
+            <li><a href="#zone-diagnose" class="active"><span class="nav-dot" style="background:var(--zone-diagnose)"></span>诊断区</a></li>
+            <li><a href="#zone-attack"><span class="nav-dot" style="background:var(--zone-attack)"></span>攻克区</a></li>
+            <li><a href="#zone-think"><span class="nav-dot" style="background:var(--zone-think)"></span>思维区</a></li>
+            <li><a href="#zone-art"><span class="nav-dot" style="background:var(--zone-art)"></span>素养区</a></li>
+            <li><a href="#zone-grow"><span class="nav-dot" style="background:var(--zone-grow)"></span>成长区</a></li>
+        </ul>
+        <div class="sidebar-label" style="margin-top:24px">快捷入口</div>
+        <ul class="sidebar-nav">
+            <li><a href="settings.html"><span class="nav-dot" style="background:var(--text-muted)"></span>API设置</a></li>
+            <li><a href="/"><span class="nav-dot" style="background:var(--text-muted)"></span>返回首页</a></li>
+        </ul>
+    </aside>
+
+    <!-- Content -->
+    <div class="content">
+
         <!-- 诊断区 -->
-        <div class="tools-section" data-category="诊断区">
-            <h2 class="tools-section-title">诊断区 — 找到真正的问题</h2>
+        <section class="zone zone-diagnose" id="zone-diagnose" data-category="diagnose">
+            <div class="zone-header">
+                <div class="zone-icon" style="background:var(--zone-diagnose)">诊</div>
+                <div class="zone-title">诊断区</div>
+                <div class="zone-count">2个工具</div>
+            </div>
             <div class="tools-grid">
-                <a href="tools/exam-diagnosis.html" class="tool-card" data-name="考试诊断" data-desc="输入成绩和错题，AI做13维分析，找到失分真因和提分路径">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📊</div>
-                        <span class="tool-card-badge new">NEW</span>
+                <a href="tools/exam-diagnosis.html" class="tool-card featured" data-name="考试诊断" data-desc="输入成绩和错题 AI做13维分析 找到失分真因和提分路径">
+                    <div class="card-icon">📊</div>
+                    <div class="card-body">
+                        <div class="card-top"><div class="card-title">考试诊断</div><span class="card-badge badge-hot">核心</span></div>
+                        <p class="card-desc">拍卷上传，AI从13个维度诊断弱点，生成可分享的提分报告卡</p>
                     </div>
-                    <h3 class="tool-card-title">考试诊断</h3>
-                    <p class="tool-card-desc">输入成绩和错题，AI做13维分析，找到失分真因和提分路径</p>
+                    <div class="card-arrow">开始诊断 →</div>
+                </a>
+                <a href="tools/study-plan.html" class="tool-card" data-name="学习计划" data-desc="输入目标和时间 AI生成可执行的学习计划">
+                    <div class="card-top">
+                        <div class="card-icon">📅</div>
+                    </div>
+                    <div class="card-title">学习计划</div>
+                    <p class="card-desc">基于诊断结果，AI生成每日任务清单，可勾选追踪进度</p>
+                    <div class="card-arrow">制定计划 →</div>
                 </a>
             </div>
-        </div>
+        </section>
 
         <!-- 攻克区 -->
-        <div class="tools-section" data-category="攻克区">
-            <h2 class="tools-section-title">攻克区 — 精准击破难点</h2>
+        <section class="zone zone-attack" id="zone-attack" data-category="attack">
+            <div class="zone-header">
+                <div class="zone-icon" style="background:var(--zone-attack)">攻</div>
+                <div class="zone-title">攻克区</div>
+                <div class="zone-count">4个工具</div>
+            </div>
             <div class="tools-grid">
-                <a href="tools/error-mastery.html" class="tool-card" data-name="错题举一反三" data-desc="粘贴错题，AI深度分析5种错因，生成3道变式题">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🔍</div>
-                        <span class="tool-card-badge">热门</span>
+                <a href="tools/error-mastery.html" class="tool-card featured" data-name="错题举一反三" data-desc="粘贴错题 AI深度分析5种错因 生成3道变式题">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-body">
+                        <div class="card-top"><div class="card-title">错题举一反三</div><span class="card-badge badge-hot">最热</span></div>
+                        <p class="card-desc">五重错因归类，从一道错题拆出本质，再生成3道变式题巩固</p>
                     </div>
-                    <h3 class="tool-card-title">错题举一反三</h3>
-                    <p class="tool-card-desc">粘贴错题，AI深度分析5种错因，生成3道变式题</p>
+                    <div class="card-arrow">分析错题 →</div>
                 </a>
-
-                <a href="tools/error-practice.html" class="tool-card" data-name="错题练习生成" data-desc="基于错题类型，智能生成针对性练习题">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📝</div>
-                    </div>
-                    <h3 class="tool-card-title">错题练习生成</h3>
-                    <p class="tool-card-desc">基于错题类型，智能生成针对性练习题</p>
+                <a href="tools/error-practice.html" class="tool-card" data-name="错题专练机" data-desc="基于错题类型 智能生成针对性练习题">
+                    <div class="card-top"><div class="card-icon">📝</div></div>
+                    <div class="card-title">错题专练机</div>
+                    <p class="card-desc">输入薄弱知识点，AI生成5-10道专项练习，错题自动收录</p>
+                    <div class="card-arrow">开始练习 →</div>
                 </a>
-
-                <a href="tools/exam-generator.html" class="tool-card" data-name="考卷生成器" data-desc="指定知识点和难度，AI生成完整测试卷">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📄</div>
-                    </div>
-                    <h3 class="tool-card-title">考卷生成器</h3>
-                    <p class="tool-card-desc">指定知识点和难度，AI生成完整测试卷</p>
+                <a href="tools/exam-generator.html" class="tool-card" data-name="AI出卷机" data-desc="指定知识点和难度 AI生成完整测试卷">
+                    <div class="card-top"><div class="card-icon">📄</div></div>
+                    <div class="card-title">AI出卷机</div>
+                    <p class="card-desc">选年级科目章节难度，AI生成完整模拟卷，支持打印</p>
+                    <div class="card-arrow">生成试卷 →</div>
                 </a>
-
-                <a href="tools/study-plan.html" class="tool-card" data-name="学习计划" data-desc="输入目标和时间，AI生成可执行的学习计划">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📅</div>
-                    </div>
-                    <h3 class="tool-card-title">学习计划</h3>
-                    <p class="tool-card-desc">输入目标和时间，AI生成可执行的学习计划</p>
+                <a href="tools/scoring-breakdown.html" class="tool-card" data-name="大题得分点拆解" data-desc="大题采分点细化加满分答案模板">
+                    <div class="card-top"><div class="card-icon">🎯</div></div>
+                    <div class="card-title">得分点拆解</div>
+                    <p class="card-desc">粘贴大题题目，AI逐步拆解每个采分点和满分作答模板</p>
+                    <div class="card-arrow">拆解得分点 →</div>
                 </a>
             </div>
-        </div>
+        </section>
 
         <!-- 思维区 -->
-        <div class="tools-section" data-category="思维区">
-            <h2 class="tools-section-title">思维区 — 建立知识网络</h2>
+        <section class="zone zone-think" id="zone-think" data-category="think">
+            <div class="zone-header">
+                <div class="zone-icon" style="background:var(--zone-think)">思</div>
+                <div class="zone-title">思维区</div>
+                <div class="zone-count">3个工具</div>
+            </div>
             <div class="tools-grid">
-                <a href="tools/feynman-verify.html" class="tool-card" data-name="费曼验证" data-desc="教会AI就是真懂了，通过费曼学习法验证掌握程度">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🎓</div>
+                <a href="tools/feynman-verify.html" class="tool-card featured" data-name="费曼验证" data-desc="教会AI就是真懂了 通过费曼学习法验证掌握程度">
+                    <div class="card-icon">🧠</div>
+                    <div class="card-body">
+                        <div class="card-top"><div class="card-title">费曼验证</div><span class="card-badge badge-new">独创</span></div>
+                        <p class="card-desc">你来教AI，AI追问你的盲区。通过验证=真正掌握，获得小老师徽章</p>
                     </div>
-                    <h3 class="tool-card-title">费曼验证</h3>
-                    <p class="tool-card-desc">教会AI就是真懂了，通过费曼学习法验证掌握程度</p>
+                    <div class="card-arrow">开始教AI →</div>
                 </a>
-
-                <a href="tools/knowledge-explain.html" class="tool-card" data-name="知识讲解" data-desc="输入知识点，AI用你能听懂的方式讲清楚">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">💡</div>
-                    </div>
-                    <h3 class="tool-card-title">知识讲解</h3>
-                    <p class="tool-card-desc">输入知识点，AI用你能听懂的方式讲清楚</p>
+                <a href="tools/knowledge-explain.html" class="tool-card" data-name="知识讲解" data-desc="输入知识点 AI用苏格拉底式引导讲清楚">
+                    <div class="card-top"><div class="card-icon">💡</div></div>
+                    <div class="card-title">知识讲解</div>
+                    <p class="card-desc">不直接给答案，AI用反问引导你自己想通，一步步理解</p>
+                    <div class="card-arrow">开始学习 →</div>
                 </a>
-
-                <a href="tools/knowledge-visual.html" class="tool-card" data-name="知识可视化" data-desc="复杂概念画成图，Mermaid流程图+思维导图">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🗺️</div>
-                        <span class="tool-card-badge new">NEW</span>
-                    </div>
-                    <h3 class="tool-card-title">知识可视化</h3>
-                    <p class="tool-card-desc">复杂概念画成图，Mermaid流程图+思维导图</p>
+                <a href="tools/knowledge-visual.html" class="tool-card" data-name="知识可视化" data-desc="复杂概念画成图 流程图加思维导图">
+                    <div class="card-top"><div class="card-icon">🗺️</div><span class="card-badge badge-new">新</span></div>
+                    <div class="card-title">知识可视化</div>
+                    <p class="card-desc">数理化生4科知识树，点击任意知识点生成流程图和结构图</p>
+                    <div class="card-arrow">探索知识树 →</div>
                 </a>
             </div>
-        </div>
+        </section>
 
         <!-- 素养区 -->
-        <div class="tools-section" data-category="素养区">
-            <h2 class="tools-section-title">素养区 — 提升综合能力</h2>
+        <section class="zone zone-art" id="zone-art" data-category="art">
+            <div class="zone-header">
+                <div class="zone-icon" style="background:var(--zone-art)">素</div>
+                <div class="zone-title">素养区</div>
+                <div class="zone-count">4个工具</div>
+            </div>
             <div class="tools-grid">
-                <a href="tools/essay-grading.html" class="tool-card" data-name="作文打分" data-desc="贴上作文，AI从结构、论证、语言三方面打分点评">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">✍️</div>
-                        <span class="tool-card-badge">热门</span>
-                    </div>
-                    <h3 class="tool-card-title">作文打分</h3>
-                    <p class="tool-card-desc">贴上作文，AI从结构、论证、语言三方面打分点评</p>
+                <a href="tools/essay-grading.html" class="tool-card" data-name="AI作文批改" data-desc="贴上作文 AI从五个维度打分点评">
+                    <div class="card-top"><div class="card-icon">✍️</div><span class="card-badge badge-hot">热门</span></div>
+                    <div class="card-title">AI作文批改</div>
+                    <p class="card-desc">内容/结构/语言/逻辑/创意五维打分，逐段批注+范文对照</p>
+                    <div class="card-arrow">批改作文 →</div>
                 </a>
-
-                <a href="tools/reading-rewriter.html" class="tool-card" data-name="阅读理解改写" data-desc="贴上阅读题，AI教你抓关键信息和解题技巧">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📖</div>
-                    </div>
-                    <h3 class="tool-card-title">阅读理解改写</h3>
-                    <p class="tool-card-desc">贴上阅读题，AI教你抓关键信息和解题技巧</p>
+                <a href="tools/reading-rewriter.html" class="tool-card" data-name="阅读改写器" data-desc="文言文英文原著改写成你能读懂的版本">
+                    <div class="card-top"><div class="card-icon">📖</div></div>
+                    <div class="card-title">阅读改写器</div>
+                    <p class="card-desc">文言文/英文原著/学术论文，AI保留内容只换表达，双栏对照</p>
+                    <div class="card-arrow">开始改写 →</div>
                 </a>
-
-                <a href="tools/music-appreciation.html" class="tool-card" data-name="音乐欣赏" data-desc="上传音乐，AI做曲式分析和情感解读">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🎵</div>
-                    </div>
-                    <h3 class="tool-card-title">音乐欣赏</h3>
-                    <p class="tool-card-desc">上传音乐，AI做曲式分析和情感解读</p>
+                <a href="tools/music-appreciation.html" class="tool-card" data-name="音乐欣赏" data-desc="AI拆解曲式结构和声特征和乐器角色">
+                    <div class="card-top"><div class="card-icon">🎵</div></div>
+                    <div class="card-title">音乐欣赏</div>
+                    <p class="card-desc">输入曲名，AI拆解曲式结构、调性、主题和情感走向</p>
+                    <div class="card-arrow">开始聆听 →</div>
                 </a>
-
-                <a href="tools/art-thinking.html" class="tool-card" data-name="美术思维引导" data-desc="上传画作，AI用苏格拉底追问引导你观察">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🎨</div>
-                    </div>
-                    <h3 class="tool-card-title">美术思维引导</h3>
-                    <p class="tool-card-desc">上传画作，AI用苏格拉底追问引导你观察</p>
-                </a>
-
-                <a href="tools/scoring-breakdown.html" class="tool-card" data-name="大题得分点拆解" data-desc="大题采分点细化+满分答案模板">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">🎯</div>
-                    </div>
-                    <h3 class="tool-card-title">大题得分点拆解</h3>
-                    <p class="tool-card-desc">大题采分点细化+满分答案模板</p>
+                <a href="tools/art-thinking.html" class="tool-card" data-name="美术思维引导" data-desc="AI不评判好坏 用追问引导你观察画作">
+                    <div class="card-top"><div class="card-icon">🎨</div></div>
+                    <div class="card-title">美术思维引导</div>
+                    <p class="card-desc">上传画作，AI从构图/光影/色彩/情感/故事五个维度引导观察</p>
+                    <div class="card-arrow">开始观察 →</div>
                 </a>
             </div>
-        </div>
+        </section>
 
         <!-- 成长区 -->
-        <div class="tools-section" data-category="成长区">
-            <h2 class="tools-section-title">成长区 — 持续进步追踪</h2>
+        <section class="zone zone-grow" id="zone-grow" data-category="grow">
+            <div class="zone-header">
+                <div class="zone-icon" style="background:var(--zone-grow)">长</div>
+                <div class="zone-title">成长区</div>
+                <div class="zone-count">2个工具</div>
+            </div>
             <div class="tools-grid">
-                <a href="tools/learning-profile.html" class="tool-card" data-name="学习档案" data-desc="Chart.js雷达图+成就系统+报告卡导出">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📊</div>
-                        <span class="tool-card-badge new">NEW</span>
+                <a href="tools/learning-profile.html" class="tool-card featured" data-name="学习档案" data-desc="雷达图加成就系统加报告卡导出">
+                    <div class="card-icon">📈</div>
+                    <div class="card-body">
+                        <div class="card-top"><div class="card-title">学习档案</div><span class="card-badge badge-new">新</span></div>
+                        <p class="card-desc">能力雷达图、费曼通过记录、错题攻克统计，一键生成可分享周报</p>
                     </div>
-                    <h3 class="tool-card-title">学习档案</h3>
-                    <p class="tool-card-desc">Chart.js雷达图+成就系统+报告卡导出</p>
+                    <div class="card-arrow">查看档案 →</div>
                 </a>
-
-                <a href="tools/note-enhancer.html" class="tool-card" data-name="笔记增强器" data-desc="AI补全要点+Mermaid思维导图+闪卡生成">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon">📔</div>
-                        <span class="tool-card-badge new">NEW</span>
-                    </div>
-                    <h3 class="tool-card-title">笔记增强器</h3>
-                    <p class="tool-card-desc">AI补全要点+Mermaid思维导图+闪卡生成</p>
+                <a href="tools/note-enhancer.html" class="tool-card" data-name="笔记增强器" data-desc="AI补全要点加思维导图加闪卡生成">
+                    <div class="card-top"><div class="card-icon">📔</div></div>
+                    <div class="card-title">笔记增强器</div>
+                    <p class="card-desc">粘贴课堂笔记，AI补全遗漏、生成思维导图和间隔复习闪卡</p>
+                    <div class="card-arrow">增强笔记 →</div>
                 </a>
             </div>
-        </div>
+        </section>
+
     </div>
+</div>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>© 2026 原点智学 YuanDianZhiXue.com | AI赋能教育，科学提分</p>
-            <p style="margin-top:8px;font-size:var(--fs-caption)">本站工具仅供学习辅助使用，AI结果请人工验证</p>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer class="site-footer">
+    <p>© 2026 原点智学 YuanDianZhiXue.com · AI辅助学习，结果请人工验证</p>
+</footer>
 
-    <script src="src/api-manager.js"></script>
-    <script>
-    function toggleMobileNav() {
-        var nav = document.getElementById('mobile-nav');
-        if (nav.style.display === 'flex') {
-            nav.style.display = 'none';
-        } else {
-            nav.style.display = 'flex';
-        }
+<!-- Mobile Bottom Tabs -->
+<div class="mobile-tabs">
+    <div class="mobile-tabs-inner">
+        <a href="#zone-diagnose" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            诊断
+        </a>
+        <a href="#zone-attack" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            攻克
+        </a>
+        <a href="#zone-think" class="mob-tab active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 4 12.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3A7 7 0 0 1 12 2z"/><path d="M10 21h4"/></svg>
+            思维
+        </a>
+        <a href="#zone-art" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            素养
+        </a>
+        <a href="#zone-grow" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            成长
+        </a>
+    </div>
+</div>
+
+<script>
+// === Stats ===
+function loadStats() {
+    try {
+        const logs = JSON.parse(localStorage.getItem('yuandian_usage_logs') || '[]');
+        const errors = JSON.parse(localStorage.getItem('yuandian_errors_mastered') || '[]');
+        const feynman = JSON.parse(localStorage.getItem('yuandian_feynman_passed') || '[]');
+
+        animateNum('stat-usage', logs.length);
+        animateNum('stat-errors', errors.length);
+        animateNum('stat-feynman', feynman.length);
+        animateNum('stat-streak', calcStreak(logs));
+    } catch(e) {}
+}
+
+function animateNum(id, target) {
+    const el = document.getElementById(id);
+    if (!el || target === 0) { el.textContent = '0'; return }
+    let current = 0;
+    const step = Math.max(1, Math.floor(target / 20));
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer) }
+        el.textContent = current;
+    }, 30);
+}
+
+function calcStreak(logs) {
+    if (!logs.length) return 0;
+    const dates = [...new Set(logs.map(l => new Date(l.timestamp).toDateString()))].sort((a,b) => new Date(b)-new Date(a));
+    const today = new Date().toDateString();
+    const yest = new Date(Date.now()-864e5).toDateString();
+    if (dates[0] !== today && dates[0] !== yest) return 0;
+    let s = 1, d = new Date(dates[0]);
+    for (let i=1; i<dates.length; i++) {
+        d = new Date(d.getTime()-864e5);
+        if (dates[i] === d.toDateString()) s++; else break;
     }
+    return s;
+}
 
-    // 加载学习数据统计
-    function loadStats() {
-        try {
-            // 累计使用次数
-            const usageLogs = JSON.parse(localStorage.getItem('yuandian_usage_logs') || '[]');
-            document.getElementById('stat-usage').textContent = usageLogs.length;
-
-            // 错题攻克数
-            const errorsMastered = JSON.parse(localStorage.getItem('yuandian_errors_mastered') || '[]');
-            document.getElementById('stat-errors').textContent = errorsMastered.length;
-
-            // 费曼通过数
-            const feynmanPassed = JSON.parse(localStorage.getItem('yuandian_feynman_passed') || '[]');
-            document.getElementById('stat-feynman').textContent = feynmanPassed.length;
-
-            // 连续学习天数
-            const streak = calculateStreak(usageLogs);
-            document.getElementById('stat-streak').textContent = streak;
-        } catch (e) {
-            console.error('加载统计数据失败:', e);
-        }
-    }
-
-    // 计算连续学习天数
-    function calculateStreak(logs) {
-        if (!logs || logs.length === 0) return 0;
-
-        const dates = [...new Set(logs.map(log => {
-            const d = new Date(log.timestamp);
-            return d.toDateString();
-        }))].sort((a, b) => new Date(b) - new Date(a));
-
-        let streak = 0;
-        const today = new Date().toDateString();
-        const yesterday = new Date(Date.now() - 86400000).toDateString();
-
-        // 如果今天或昨天有学习记录，开始计算连续天数
-        if (dates[0] === today || dates[0] === yesterday) {
-            streak = 1;
-            let checkDate = new Date(dates[0]);
-
-            for (let i = 1; i < dates.length; i++) {
-                checkDate = new Date(checkDate.getTime() - 86400000);
-                if (dates[i] === checkDate.toDateString()) {
-                    streak++;
-                } else {
-                    break;
-                }
-            }
-        }
-
-        return streak;
-    }
-
-    // 搜索/筛选工具
-    function filterTools() {
-        const searchTerm = document.getElementById('search-input').value.toLowerCase();
-        const cards = document.querySelectorAll('.tool-card');
-
-        cards.forEach(card => {
-            const name = card.getAttribute('data-name').toLowerCase();
-            const desc = card.getAttribute('data-desc').toLowerCase();
-            const matches = name.includes(searchTerm) || desc.includes(searchTerm);
-
-            card.style.display = matches ? 'block' : 'none';
-        });
-    }
-
-    // 按分区筛选
-    let currentCategory = 'all';
-    function filterByCategory(category) {
-        currentCategory = category;
-
-        // 更新按钮状态
-        document.querySelectorAll('.filter-tag').forEach(tag => {
-            tag.classList.remove('active');
-        });
-        event.target.classList.add('active');
-
-        // 显示/隐藏分区
-        const sections = document.querySelectorAll('.tools-section');
-        sections.forEach(section => {
-            if (category === 'all') {
-                section.style.display = 'block';
-            } else {
-                section.style.display = section.getAttribute('data-category') === category ? 'block' : 'none';
-            }
-        });
-
-        // 重新应用搜索过滤
-        filterTools();
-    }
-
-    // 页面加载时执行
-    window.addEventListener('DOMContentLoaded', () => {
-        loadStats();
+// === Filter ===
+function filterTools() {
+    const q = document.getElementById('search-input').value.toLowerCase();
+    document.querySelectorAll('.tool-card').forEach(c => {
+        const n = (c.dataset.name||'').toLowerCase();
+        const d = (c.dataset.desc||'').toLowerCase();
+        c.style.display = (!q || n.includes(q) || d.includes(q)) ? '' : 'none';
     });
-    </script>
+}
+
+function filterByCategory(cat, btn) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.zone').forEach(z => {
+        z.style.display = (cat==='all' || z.dataset.category===cat) ? '' : 'none';
+    });
+    filterTools();
+}
+
+// === Sidebar scroll spy ===
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            const id = e.target.id;
+            document.querySelectorAll('.sidebar-nav a').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#'+id);
+            });
+        }
+    });
+}, { rootMargin: '-100px 0px -60% 0px' });
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadStats();
+    document.querySelectorAll('.zone').forEach(z => observer.observe(z));
+});
+</script>
 </body>
 </html>
