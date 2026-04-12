@@ -5,13 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>知识点讲解 — AI苏格拉底式引导学习 | 原点智学</title>
     <meta name="description" content="AI不直接给答案，而是通过提问引导你自己思考，真正理解知识本质">
-    <meta name="theme-color" content="#1A1A2E">
+    <meta name="theme-color" content="#F5A623">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="../src/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
-    <style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
+        <style>
+        /* === 亮色主题基础变量 === */
+        :root {
+            --bg: #FAFAF7;
+            --bg-card: #FFFFFF;
+            --text: #1C1C1E;
+            --text-2: #374151;
+            --text-3: #6B7280;
+            --text-4: #9CA3AF;
+            --border: #E8E5DE;
+            --border-hover: #D1CCC3;
+            
+            --amber: #F5A623;
+            --amber-light: #FFF8EC;
+            --amber-glow: rgba(245,166,35,0.12);
+            
+            --success: #059669;
+            --success-bg: #ECFDF5;
+            --warning: #F59E0B;
+            --warning-bg: #FEF3C7;
+            --error: #DC2626;
+            --error-bg: #FEE2E2;
+            
+            --font-body: 'Noto Sans SC', system-ui, sans-serif;
+            --font-heading: 'Noto Sans SC', system-ui, sans-serif;
+            
+            --r-sm: 6px;
+            --r-md: 12px;
+            --r-lg: 16px;
+            --r-xl: 20px;
+            
+            --sp-xs: 4px;
+            --sp-sm: 8px;
+            --sp-md: 16px;
+            --sp-lg: 24px;
+            --sp-xl: 32px;
+            --sp-2xl: 48px;
+            --sp-section: 64px;
+            
+            --fs-caption: 12px;
+            --fs-small: 13px;
+            --fs-body: 15px;
+            --fs-hero: clamp(28px, 4vw, 42px);
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+            
+            --grad-cta: linear-gradient(135deg, #F5A623 0%, #C2410C 100%);
+            --grad-hero: linear-gradient(180deg, var(--bg) 0%, var(--amber-light) 100%);
+            
+            /* 兼容旧变量 */
+            --c-warm-white: var(--text);
+            --c-warm-gray: var(--text-3);
+            --c-warm-dim: var(--text-4);
+            --c-ink-border: var(--border);
+            --c-origin: var(--amber);
+            --c-origin-glow: var(--amber-glow);
+            --c-success: var(--success);
+            --c-warning: var(--warning);
+            --c-error: var(--error);
+        }
+        
+        html { scroll-behavior: smooth }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* === 导航栏重置 === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(250,250,247,0.88);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+        .navbar::before { display: none }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .brand-icon {
+            font-size: 24px;
+            color: var(--amber);
+        }
+        .nav-links { display: flex; gap: 2px }
+        .nav-links a {
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-3);
+            font-size: 13px;
+            font-weight: 500;
+            transition: all .15s;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--amber-light) }
+        .nav-cta {
+            background: var(--text);
+            color: #fff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: opacity .15s;
+        }
+        .nav-cta:hover { opacity: .85 }
+    </style>
         .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
         .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
         .page-hero-icon { font-size: 3rem; }
@@ -83,12 +202,12 @@
     <nav class="navbar" aria-label="主导航">
         <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
         <div class="nav-links">
-            <a href="../prompts.html">Prompt指南</a>
-            <a href="../study-tools.html">学习工具</a>
-            <a href="../articles.html">研究院</a>
+            <a href="../index.html">首页</a>
+            <a href="../study-tools.html">工具箱</a>
+            <a href="../about.html">关于</a>
             <a href="../settings.html">设置</a>
         </div>
-        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="nav-cta" onclick="location.href='../settings.html'">设置</button>
         <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
     </nav>
 
