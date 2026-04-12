@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美术思维引导 — AI苏格拉底式追问观察力 | 原点智学</title>
+    <meta name="description" content="AI不评判好坏,用追问引导你观察构图、光影、色彩、情感和故事">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .art-container { max-width: 1100px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .setup-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .setup-card h2 { margin-bottom: var(--sp-lg); }
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field textarea {
+            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea { min-height: 120px; line-height: 1.8; resize: vertical; }
+        .form-field input:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+        .hint-text { color: var(--c-warm-gray); font-size: var(--fs-small); margin-top: var(--sp-xs); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--c-origin); }
+
+        .dialogue-section { display: none; }
+        .dialogue-section.visible { display: block; }
+
+        .focus-area { background: rgba(45,159,111,0.08); border: 1px solid rgba(45,159,111,0.2); border-radius: var(--r-md); padding: var(--sp-md); margin-bottom: var(--sp-lg); text-align: center; }
+        .focus-label { color: var(--c-success); font-weight: 700; font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .focus-desc { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        .chat-history { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); max-height: 600px; overflow-y: auto; margin-bottom: var(--sp-lg); }
+        .chat-message { margin-bottom: var(--sp-lg); display: flex; gap: var(--sp-md); }
+        .chat-message.user { flex-direction: row-reverse; }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--grad-cta); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+        .chat-message.ai .chat-avatar { background: rgba(15,52,96,0.4); }
+        .chat-bubble { max-width: 75%; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); line-height: 1.7; }
+        .chat-message.user .chat-bubble { background: var(--c-origin-glow); border-color: var(--c-origin); }
+        .chat-bubble p { margin-bottom: var(--sp-sm); }
+        .chat-bubble p:last-child { margin-bottom: 0; }
+
+        .input-area { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); }
+        .input-hint { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-sm); text-align: center; }
+        .input-group { display: flex; gap: var(--sp-md); }
+        .input-group textarea {
+            flex: 1; min-height: 100px; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); resize: vertical;
+        }
+        .input-group textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        @media (max-width: 767px) {
+            .chat-bubble { max-width: 85%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🎨</div>
+        <h1>美术思维引导</h1>
+        <p class="section-desc">AI不评判好坏,用苏格拉底追问引导你观察构图、光影、色彩、情感和故事</p>
+    </section>
+
+    <div class="art-container">
+        <div class="setup-card" id="setup-section">
+            <h2>描述或上传你要欣赏的作品</h2>
+            <div class="form-field">
+                <label>作品描述或图片URL *</label>
+                <textarea id="artwork-input" placeholder="描述作品内容,或粘贴图片URL链接...&#10;例如：梵高的《星空》&#10;或：https://example.com/image.jpg"></textarea>
+                <span class="hint-text">可以是名画、学生作品、摄影作品等</span>
+            </div>
+            <div class="form-field">
+                <label>欣赏者身份(可选)</label>
+                <input type="text" id="viewer-role" placeholder="例如：小学生、美术爱好者、摄影师">
+            </div>
+            <button class="btn-primary" onclick="startDialogue()" id="start-btn">开始引导</button>
+        </div>
+
+        <div class="dialogue-section" id="dialogue-section">
+            <div class="focus-area">
+                <div class="focus-label">🎯 当前关注维度</div>
+                <div class="focus-desc" id="current-focus">从整体观察开始...</div>
+            </div>
+
+            <div class="chat-history" id="chat-history"></div>
+
+            <div class="input-area">
+                <div class="input-hint">说出你的观察,AI会继续追问</div>
+                <div class="input-group">
+                    <textarea id="user-input" placeholder="我看到了..."></textarea>
+                    <div style="display:flex;flex-direction:column;gap:var(--sp-sm);">
+                        <button class="btn-primary" onclick="sendMessage()" id="send-btn">发送</button>
+                        <button class="btn-secondary" onclick="resetDialogue()">重新开始</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        let conversationHistory = [];
+        let artworkDescription = '';
+        let viewerRole = '';
+        let currentDimension = 0;
+        const dimensions = ['构图', '光影', '色彩', '情感', '故事'];
+
+        function startDialogue() {
+            const artwork = document.getElementById('artwork-input').value.trim();
+            const role = document.getElementById('viewer-role').value.trim();
+
+            if (!artwork) {
+                alert('请输入作品描述或图片URL');
+                return;
+            }
+
+            artworkDescription = artwork;
+            viewerRole = role || '观察者';
+            conversationHistory = [];
+            currentDimension = 0;
+
+            document.getElementById('setup-section').style.display = 'none';
+            document.getElementById('dialogue-section').classList.add('visible');
+            updateFocus();
+
+            // AI开场问候
+            const greeting = `你好!我不会评判这幅作品的好坏,我只想通过追问帮你更深入地观察。\n\n先从整体看起,你第一眼注意到了什么?`;
+            addMessage('ai', greeting);
+        }
+
+        function updateFocus() {
+            if (currentDimension < dimensions.length) {
+                document.getElementById('current-focus').textContent = dimensions[currentDimension];
+            } else {
+                document.getElementById('current-focus').textContent = '自由探索';
+            }
+        }
+
+        function addMessage(role, content) {
+            const historyDiv = document.getElementById('chat-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${role}`;
+
+            const avatar = role === 'user' ? '👤' : '🤔';
+            messageDiv.innerHTML = `
+                <div class="chat-avatar">${avatar}</div>
+                <div class="chat-bubble">${content.replace(/\n/g, '<br>')}</div>
+            `;
+
+            historyDiv.appendChild(messageDiv);
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            addMessage('user', message);
+            input.value = '';
+
+            conversationHistory.push({
+                role: 'user',
+                content: message
+            });
+
+            generateAIResponse();
+        }
+
+        function generateAIResponse() {
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'AI思考中...';
+
+            const systemPrompt = `你是美术教育专家,正在用苏格拉底式追问引导${viewerRole}观察作品："${artworkDescription}"。
+
+你的任务：
+1. 不评判好坏,只通过追问引导观察
+2. 按5个维度循序渐进：构图→光影→色彩→情感→故事
+3. 当前维度：${dimensions[currentDimension] || '自由探索'}
+4. 每次只问1-2个问题,用"你注意到..."、"如果..."、"为什么..."开头
+5. 如果用户观察到位,自然过渡到下一维度
+
+对话轮次：${conversationHistory.length}
+
+当用户在当前维度有深入观察后,输出"[NEXT_DIM]"切换到下一维度。`;
+
+            const messages = conversationHistory.map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'assistant',
+                content: msg.content
+            }));
+
+            window.YdzxAI.call({
+                messages: messages,
+                systemPrompt: systemPrompt,
+                temperature: 0.8,
+                maxTokens: 300,
+                onDone: function(response) {
+                    conversationHistory.push({
+                        role: 'assistant',
+                        content: response
+                    });
+
+                    // 检查是否切换维度
+                    if (response.includes('[NEXT_DIM]')) {
+                        currentDimension++;
+                        updateFocus();
+                        const cleanResponse = response.replace('[NEXT_DIM]', '').trim();
+                        addMessage('ai', cleanResponse);
+                    } else {
+                        addMessage('ai', response);
+                    }
+
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '发送';
+                },
+                onError: function(err) {
+                    addMessage('ai', '抱歉,我遇到了点问题：' + err);
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '发送';
+                }
+            });
+        }
+
+        function resetDialogue() {
+            if (confirm('确定要重新开始吗？当前对话将会丢失。')) {
+                saveLearningRecord();
+                document.getElementById('setup-section').style.display = 'block';
+                document.getElementById('dialogue-section').classList.remove('visible');
+                document.getElementById('chat-history').innerHTML = '';
+                document.getElementById('artwork-input').value = '';
+                document.getElementById('viewer-role').value = '';
+            }
+        }
+
+        function saveLearningRecord() {
+            const record = {
+                type: 'art-thinking',
+                artwork: artworkDescription,
+                viewerRole: viewerRole,
+                conversation: conversationHistory,
+                dimensionsExplored: currentDimension,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+
+        // 回车发送
+        document.getElementById('user-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
