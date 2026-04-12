@@ -43,7 +43,7 @@
         qwen: {
             name: '通义千问',
             baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
-            defaultModel: 'qwen-turbo',
+            defaultModel: 'qwen-plus',
             keyPlaceholder: 'sk-...',
             docUrl: 'https://dashscope.console.aliyun.com/apiKey'
         },
@@ -117,7 +117,7 @@
             return;
         }
 
-        var providerKey = options.provider || sGet('ydzx_provider') || 'deepseek';
+        var providerKey = options.provider || sGet('ydzx_provider') || 'qwen';
         var config = PROVIDERS[providerKey];
         if (!config) {
             if (options.onError) options.onError('不支持的AI服务: ' + providerKey);
@@ -130,16 +130,12 @@
         if (encKey) {
             apiKey = deobfuscate(encKey);
         }
-        // Fallback to platform key (free tier) — replace with actual key for production
+        // Fallback to platform default key (free tier with rate limit)
         if (!apiKey) {
-            // Platform shared key placeholder — you need to set this
-            var platformKeys = sGet('ydzx_platform_keys');
-            if (platformKeys) {
-                try {
-                    var keys = JSON.parse(platformKeys);
-                    apiKey = keys[providerKey] || '';
-                } catch (e) { /* */ }
-            }
+            var PLATFORM_DEFAULTS = {
+                qwen: 'sk-78d76ee8d247485da8a46c5a3edb2a6d'
+            };
+            apiKey = PLATFORM_DEFAULTS[providerKey] || '';
         }
 
         if (!apiKey) {
