@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习档案 — 雷达图能力分析+学习报告卡 | 原点智学</title>
+    <meta name="description" content="从localStorage读取使用记录,雷达图展示各科能力,生成可分享的学习报告">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .profile-container { max-width: 1200px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-xl); }
+        .stat-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); text-align: center; }
+        .stat-value { font-size: 2.5rem; font-weight: 900; color: var(--c-origin); font-family: var(--font-heading); }
+        .stat-label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-top: var(--sp-xs); }
+
+        .chart-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .chart-section h2 { margin-bottom: var(--sp-lg); text-align: center; }
+        .chart-wrapper { max-width: 600px; margin: 0 auto; }
+
+        .achievements-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .achievements-section h2 { margin-bottom: var(--sp-lg); }
+        .achievement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--sp-md); }
+        .achievement-item { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); padding: var(--sp-md); border-radius: var(--r-md); display: flex; align-items: center; gap: var(--sp-md); }
+        .achievement-icon { font-size: 2rem; }
+        .achievement-content { flex: 1; }
+        .achievement-title { font-weight: 700; margin-bottom: var(--sp-xs); }
+        .achievement-desc { color: var(--c-warm-gray); font-size: var(--fs-small); }
+
+        .report-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); text-align: center; }
+        .report-card h2 { margin-bottom: var(--sp-md); }
+        .report-preview { background: var(--c-ink-light); border: 2px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-xl); margin: var(--sp-lg) auto; max-width: 500px; }
+        .report-logo { font-size: 3rem; margin-bottom: var(--sp-md); }
+        .report-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; margin-bottom: var(--sp-sm); }
+        .report-subtitle { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-lg); }
+        .report-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-md); margin-bottom: var(--sp-lg); }
+        .report-stat { background: rgba(15,52,96,0.4); padding: var(--sp-md); border-radius: var(--r-sm); }
+        .report-stat-value { font-size: 1.5rem; font-weight: 900; color: var(--c-origin); }
+        .report-stat-label { font-size: 0.7rem; color: var(--c-warm-dim); margin-top: var(--sp-xs); }
+        .report-footer { color: var(--c-warm-dim); font-size: 0.7rem; border-top: 1px solid var(--c-ink-border); padding-top: var(--sp-md); }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; margin-top: var(--sp-md); }
+        .btn-primary:hover { transform: translateY(-2px); }
+
+        @media (max-width: 767px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .report-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📈</div>
+        <h1>学习档案</h1>
+        <p class="section-desc">雷达图展示各科能力,费曼验证通过列表,错题攻克统计,可生成分享卡片</p>
+    </section>
+
+    <div class="profile-container">
+        <div class="stats-grid" id="stats-grid"></div>
+
+        <div class="chart-section">
+            <h2>能力雷达图</h2>
+            <div class="chart-wrapper">
+                <canvas id="ability-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="achievements-section">
+            <h2>学习成就</h2>
+            <div class="achievement-grid" id="achievements-grid"></div>
+        </div>
+
+        <div class="report-card">
+            <h2>学习报告卡</h2>
+            <div class="report-preview" id="report-preview">
+                <div class="report-logo">◉</div>
+                <div class="report-title">原点智学 · 学习报告</div>
+                <div class="report-subtitle" id="report-date"></div>
+                <div class="report-stats">
+                    <div class="report-stat">
+                        <div class="report-stat-value" id="total-practice">0</div>
+                        <div class="report-stat-label">练习次数</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="report-stat-value" id="feynman-passed">0</div>
+                        <div class="report-stat-label">费曼通过</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="report-stat-value" id="error-mastered">0</div>
+                        <div class="report-stat-label">错题攻克</div>
+                    </div>
+                </div>
+                <div class="report-footer">持续学习 · 稳步进步</div>
+            </div>
+            <button class="btn-primary" onclick="downloadReport()">下载报告卡</button>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        let learningData = {
+            totalPractice: 0,
+            feynmanPassed: 0,
+            errorMastered: 0,
+            subjects: {},
+            achievements: []
+        };
+
+        function loadLearningData() {
+            // 从localStorage读取所有学习记录
+            const allRecords = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('ydzx_practice_')) {
+                    try {
+                        const record = JSON.parse(localStorage.getItem(key));
+                        allRecords.push(record);
+                    } catch (e) { /* skip */ }
+                }
+            }
+
+            learningData.totalPractice = allRecords.length;
+
+            // 统计费曼验证通过
+            learningData.feynmanPassed = allRecords.filter(r =>
+                r.type === 'feynman-verify' && r.passed
+            ).length;
+
+            // 统计错题攻克
+            learningData.errorMastered = allRecords.filter(r =>
+                r.type === 'error-mastery' || r.type === 'error-practice'
+            ).length;
+
+            // 按科目统计
+            const subjectMap = {
+                math: 0, physics: 0, chemistry: 0, chinese: 0,
+                english: 0, biology: 0, politics: 0, history: 0, geography: 0
+            };
+
+            allRecords.forEach(r => {
+                if (r.subject && subjectMap.hasOwnProperty(r.subject)) {
+                    subjectMap[r.subject]++;
+                }
+            });
+
+            learningData.subjects = subjectMap;
+
+            // 生成成就
+            learningData.achievements = [];
+            if (learningData.feynmanPassed >= 5) {
+                learningData.achievements.push({
+                    icon: '🎓',
+                    title: '费曼小老师',
+                    desc: `成功通过${learningData.feynmanPassed}次费曼验证`
+                });
+            }
+            if (learningData.errorMastered >= 10) {
+                learningData.achievements.push({
+                    icon: '🎯',
+                    title: '错题终结者',
+                    desc: `攻克${learningData.errorMastered}道错题`
+                });
+            }
+            if (learningData.totalPractice >= 20) {
+                learningData.achievements.push({
+                    icon: '⚡',
+                    title: '持续学习者',
+                    desc: `累计练习${learningData.totalPractice}次`
+                });
+            }
+            if (Object.values(subjectMap).filter(v => v > 0).length >= 5) {
+                learningData.achievements.push({
+                    icon: '🌟',
+                    title: '全科发展',
+                    desc: '涉猎多个学科领域'
+                });
+            }
+        }
+
+        function renderStats() {
+            const html = `
+                <div class="stat-card">
+                    <div class="stat-value">${learningData.totalPractice}</div>
+                    <div class="stat-label">总练习次数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${learningData.feynmanPassed}</div>
+                    <div class="stat-label">费曼验证通过</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${learningData.errorMastered}</div>
+                    <div class="stat-label">错题攻克数量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Object.values(learningData.subjects).filter(v => v > 0).length}</div>
+                    <div class="stat-label">涉猎学科数</div>
+                </div>
+            `;
+            document.getElementById('stats-grid').innerHTML = html;
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('ability-chart').getContext('2d');
+            const subjectNames = {
+                math: '数学', physics: '物理', chemistry: '化学',
+                chinese: '语文', english: '英语', biology: '生物',
+                politics: '政治', history: '历史', geography: '地理'
+            };
+
+            const labels = Object.keys(learningData.subjects).map(k => subjectNames[k]);
+            const data = Object.values(learningData.subjects);
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '练习次数',
+                        data: data,
+                        backgroundColor: 'rgba(233, 77, 53, 0.2)',
+                        borderColor: 'rgba(233, 77, 53, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(233, 77, 53, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(233, 77, 53, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#B8B0A8',
+                                backdropColor: 'transparent'
+                            },
+                            grid: {
+                                color: 'rgba(15,52,96,0.4)'
+                            },
+                            pointLabels: {
+                                color: '#F5F0EB',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderAchievements() {
+            if (learningData.achievements.length === 0) {
+                document.getElementById('achievements-grid').innerHTML = '<div style="text-align:center;color:var(--c-warm-gray);grid-column:1/-1;">继续努力,解锁更多成就!</div>';
+                return;
+            }
+
+            const html = learningData.achievements.map(a => `
+                <div class="achievement-item">
+                    <div class="achievement-icon">${a.icon}</div>
+                    <div class="achievement-content">
+                        <div class="achievement-title">${a.title}</div>
+                        <div class="achievement-desc">${a.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('achievements-grid').innerHTML = html;
+        }
+
+        function renderReportCard() {
+            const today = new Date().toLocaleDateString('zh-CN');
+            document.getElementById('report-date').textContent = today;
+            document.getElementById('total-practice').textContent = learningData.totalPractice;
+            document.getElementById('feynman-passed').textContent = learningData.feynmanPassed;
+            document.getElementById('error-mastered').textContent = learningData.errorMastered;
+        }
+
+        function downloadReport() {
+            const preview = document.getElementById('report-preview');
+            html2canvas(preview, {
+                backgroundColor: '#16213E',
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '原点智学_学习报告_' + Date.now() + '.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        // 页面加载时执行
+        window.addEventListener('load', function() {
+            loadLearningData();
+            renderStats();
+            renderChart();
+            renderAchievements();
+            renderReportCard();
+        });
+    </script>
+</body>
+</html>
