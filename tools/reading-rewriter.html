@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅读改写器 — 任何难文秒变你能懂的版本 | 原点智学</title>
+    <meta name="description" content="文言文、英文原著、学术论文一键改写成你的水平,保留完整内容只换表达方式">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .rewriter-container { max-width: 1400px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .control-panel { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .control-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+        .form-field { display: flex; flex-direction: column; }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field select {
+            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field select:focus { border-color: var(--c-origin); outline: none; }
+        .form-field textarea {
+            min-height: 250px; padding: 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+            line-height: 1.8; resize: vertical;
+        }
+        .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .comparison-panel { display: none; background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .comparison-panel.visible { display: block; }
+        .comparison-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-lg); }
+        .comparison-header h2 { margin: 0; }
+        .info-tag { background: rgba(233,77,53,0.15); color: var(--c-origin); padding: 6px 14px; border-radius: var(--r-pill); font-size: var(--fs-small); font-weight: 700; }
+
+        .dual-column { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-xl); }
+        .column-card { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); min-height: 500px; }
+        .column-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); padding-bottom: var(--sp-sm); border-bottom: 1px solid var(--c-ink-border); }
+        .column-title { color: var(--c-warm-gray); font-size: var(--fs-small); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .copy-btn { background: none; border: 1px solid var(--c-ink-border); color: var(--c-warm-gray); padding: 4px 10px; border-radius: var(--r-sm); font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .copy-btn:hover { border-color: var(--c-origin); color: var(--c-origin); }
+        .column-content { line-height: 2; font-size: 1.05rem; }
+
+        @media (max-width: 1024px) {
+            .dual-column { grid-template-columns: 1fr; }
+            .control-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📖</div>
+        <h1>阅读改写器</h1>
+        <p class="section-desc">文言文、英文原著、学术论文秒变你能懂的版本,完整内容不丢失</p>
+    </section>
+
+    <div class="rewriter-container">
+        <div class="control-panel">
+            <div class="control-grid">
+                <div class="form-field">
+                    <label>原文类型 *</label>
+                    <select id="source-type">
+                        <option value="classical">文言文</option>
+                        <option value="english">英文原著</option>
+                        <option value="academic">学术论文</option>
+                        <option value="textbook">课文/教材</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>目标阅读水平 *</label>
+                    <select id="target-level">
+                        <option value="primary">小学水平</option>
+                        <option value="middle" selected>初中水平</option>
+                        <option value="high">高中水平</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>保留程度 *</label>
+                    <select id="preserve-level">
+                        <option value="loose">只保留核心意思</option>
+                        <option value="moderate" selected>保留主要细节</option>
+                        <option value="strict">完全保留(只换表达)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>粘贴原文 *</label>
+                <textarea id="source-text" placeholder="把难懂的文章粘贴到这里..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="rewriteText()" id="rewrite-btn">开始改写</button>
+        </div>
+
+        <div class="comparison-panel" id="result-panel">
+            <div class="comparison-header">
+                <h2>双栏对照阅读</h2>
+                <span class="info-tag" id="info-tag"></span>
+            </div>
+            <div class="dual-column">
+                <div class="column-card">
+                    <div class="column-header">
+                        <span class="column-title">原文</span>
+                        <button class="copy-btn" onclick="copyText('original')">复制</button>
+                    </div>
+                    <div class="column-content" id="original-content"></div>
+                </div>
+                <div class="column-card">
+                    <div class="column-header">
+                        <span class="column-title">改写版</span>
+                        <button class="copy-btn" onclick="copyText('rewritten')">复制</button>
+                    </div>
+                    <div class="column-content" id="rewritten-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        function rewriteText() {
+            const sourceType = document.getElementById('source-type').value;
+            const targetLevel = document.getElementById('target-level').value;
+            const preserveLevel = document.getElementById('preserve-level').value;
+            const sourceText = document.getElementById('source-text').value.trim();
+
+            if (!sourceText) {
+                alert('请输入原文内容');
+                return;
+            }
+
+            const btn = document.getElementById('rewrite-btn');
+            btn.disabled = true;
+            btn.textContent = 'AI改写中...';
+
+            const typeNames = {
+                classical: '文言文',
+                english: '英文原著',
+                academic: '学术论文',
+                textbook: '课文'
+            };
+
+            const levelNames = {
+                primary: '小学',
+                middle: '初中',
+                high: '高中'
+            };
+
+            const preserveInstructions = {
+                loose: '保留核心观点即可,可以省略次要细节',
+                moderate: '保留主要情节和关键信息,次要细节可简化',
+                strict: '完全保留原文所有信息和细节,只改变表达方式'
+            };
+
+            const systemPrompt = `你是阅读理解专家,正在将${typeNames[sourceType]}改写成${levelNames[targetLevel]}水平的学生能读懂的版本。
+
+要求：
+1. ${preserveInstructions[preserveLevel]}
+2. 使用${levelNames[targetLevel]}阶段学生能理解的词汇和句式
+3. 保持段落结构对应,方便对照阅读
+4. 如果原文有专有名词或术语,第一次出现时用括号注释
+5. 改写后的文本应该流畅自然,不能像机器翻译
+
+直接输出改写后的文本,不要添加任何解释或前缀。`;
+
+            window.YdzxAI.call({
+                messages: [{role: 'user', content: sourceText}],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 2500,
+                onDone: function(response) {
+                    displayComparison(sourceText, response, typeNames[sourceType], levelNames[targetLevel]);
+                    btn.disabled = false;
+                    btn.textContent = '开始改写';
+                    saveLearningRecord(sourceText, response, sourceType, targetLevel);
+                },
+                onError: function(err) {
+                    alert('改写失败: ' + err);
+                    btn.disabled = false;
+                    btn.textContent = '开始改写';
+                }
+            });
+        }
+
+        function displayComparison(original, rewritten, type, level) {
+            document.getElementById('original-content').textContent = original;
+            document.getElementById('rewritten-content').textContent = rewritten;
+            document.getElementById('info-tag').textContent = `${type} → ${level}水平`;
+            document.getElementById('result-panel').classList.add('visible');
+            document.getElementById('result-panel').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function copyText(target) {
+            const content = target === 'original'
+                ? document.getElementById('original-content').textContent
+                : document.getElementById('rewritten-content').textContent;
+
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制!';
+                setTimeout(() => { btn.textContent = originalText; }, 2000);
+            }).catch(() => {
+                alert('复制失败,请手动选择复制');
+            });
+        }
+
+        function saveLearningRecord(original, rewritten, type, level) {
+            const record = {
+                type: 'reading-rewriter',
+                sourceType: type,
+                targetLevel: level,
+                original: original,
+                rewritten: rewritten,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>
