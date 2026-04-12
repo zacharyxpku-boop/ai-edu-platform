@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>费曼验证 — 用教会AI证明你真的懂了 | 原点智学</title>
+    <meta name="description" content="扮演小老师教AI，通过费曼学习法验证知识掌握程度，AI会像好奇学生一样追问你的盲区">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .feynman-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .setup-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .setup-card h2 { margin-bottom: var(--sp-lg); }
+        .form-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+        .form-field { display: flex; flex-direction: column; }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field input:focus, .form-field select:focus { border-color: var(--c-origin); outline: none; }
+
+        .chat-section { display: none; }
+        .chat-section.visible { display: block; }
+        .chat-status { background: rgba(45,159,111,0.08); border: 1px solid rgba(45,159,111,0.2); border-radius: var(--r-md); padding: var(--sp-md); margin-bottom: var(--sp-lg); text-align: center; }
+        .chat-status-text { color: var(--c-success); font-weight: 700; }
+        .chat-topic { color: var(--c-warm-gray); font-size: var(--fs-small); margin-top: var(--sp-xs); }
+
+        .chat-history { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); max-height: 600px; overflow-y: auto; margin-bottom: var(--sp-lg); }
+        .chat-message { margin-bottom: var(--sp-lg); display: flex; gap: var(--sp-md); }
+        .chat-message.user { flex-direction: row-reverse; }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--grad-cta); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+        .chat-message.ai .chat-avatar { background: rgba(15,52,96,0.4); }
+        .chat-bubble { max-width: 75%; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); line-height: 1.7; }
+        .chat-message.user .chat-bubble { background: var(--c-origin-glow); border-color: var(--c-origin); }
+        .chat-bubble p { margin-bottom: var(--sp-sm); }
+        .chat-bubble p:last-child { margin-bottom: 0; }
+
+        .input-area { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); }
+        .input-hint { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-sm); text-align: center; }
+        .input-group { display: flex; gap: var(--sp-md); }
+        .input-group textarea {
+            flex: 1; min-height: 100px; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); resize: vertical;
+        }
+        .input-group textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 12px 28px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--c-origin); }
+
+        .badge-success { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(22,33,62,0.98); border: 2px solid var(--c-success); border-radius: var(--r-lg); padding: var(--sp-2xl); text-align: center; z-index: 1000; max-width: 500px; animation: bounceIn 0.6s; }
+        .badge-success.visible { display: block; }
+        .badge-icon { font-size: 5rem; margin-bottom: var(--sp-md); animation: rotate 2s ease-in-out; }
+        .badge-title { font-family: var(--font-heading); font-size: 2rem; color: var(--c-success); margin-bottom: var(--sp-md); }
+        .badge-subtitle { color: var(--c-warm-gray); margin-bottom: var(--sp-lg); }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        @media (max-width: 767px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .chat-bubble { max-width: 85%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🎓</div>
+        <h1>费曼验证</h1>
+        <p class="section-desc">教会AI就是真懂了。AI会像好奇学生一样不停追问你的盲区，直到你能讲得清清楚楚</p>
+    </section>
+
+    <div class="feynman-container">
+        <!-- 设置区 -->
+        <div class="setup-card" id="setup-section">
+            <h2>你要教AI什么知识？</h2>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label>知识点名称 *</label>
+                    <input type="text" id="topic-input" placeholder="例如：浮力、二次函数、光合作用">
+                </div>
+                <div class="form-field">
+                    <label>认知水平 *</label>
+                    <select id="level-select">
+                        <option value="beginner">初学者（刚接触）</option>
+                        <option value="intermediate" selected>有基础（能解题）</option>
+                        <option value="advanced">熟练（能讲解）</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="startSession()">开始教AI →</button>
+        </div>
+
+        <!-- 对话区 -->
+        <div class="chat-section" id="chat-section">
+            <div class="chat-status">
+                <div class="chat-status-text">🎯 你是小老师，AI是完全不懂的学生</div>
+                <div class="chat-topic">正在讲解：<span id="current-topic"></span></div>
+            </div>
+
+            <div class="chat-history" id="chat-history"></div>
+
+            <div class="input-area">
+                <div class="input-hint">用最简单的话教AI，它听不懂会追问你</div>
+                <div class="input-group">
+                    <textarea id="user-input" placeholder="开始你的讲解..."></textarea>
+                    <div style="display:flex;flex-direction:column;gap:var(--sp-sm);">
+                        <button class="btn-primary" onclick="sendMessage()" id="send-btn">发送</button>
+                        <button class="btn-secondary" onclick="resetSession()">重新开始</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成功徽章 -->
+        <div class="badge-success" id="badge-success">
+            <div class="badge-icon">🏆</div>
+            <div class="badge-title">小老师认证通过</div>
+            <div class="badge-subtitle">你已经能把这个知识点讲得清清楚楚了</div>
+            <button class="btn-primary" onclick="closeBadge()">继续学习</button>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        let conversationHistory = [];
+        let currentTopic = '';
+        let currentLevel = '';
+        let questionCount = 0;
+
+        function startSession() {
+            const topic = document.getElementById('topic-input').value.trim();
+            const level = document.getElementById('level-select').value;
+
+            if (!topic) {
+                alert('请输入知识点名称');
+                return;
+            }
+
+            currentTopic = topic;
+            currentLevel = level;
+            conversationHistory = [];
+            questionCount = 0;
+
+            document.getElementById('setup-section').style.display = 'none';
+            document.getElementById('chat-section').classList.add('visible');
+            document.getElementById('current-topic').textContent = topic;
+
+            // AI初始化问候
+            const greeting = getGreeting(level);
+            addMessage('ai', greeting);
+        }
+
+        function getGreeting(level) {
+            const greetings = {
+                beginner: `你好！我是个完全不懂${currentTopic}的小白，听说你要教我？能从最基础的开始讲吗？比如它到底是个啥？`,
+                intermediate: `嗨！我听说过${currentTopic}这个词，但不太明白它怎么用。你能给我讲讲吗？`,
+                advanced: `我想深入理解${currentTopic}。你能从原理层面给我讲透吗？我会追问细节的。`
+            };
+            return greetings[level] || greetings.intermediate;
+        }
+
+        function addMessage(role, content) {
+            const historyDiv = document.getElementById('chat-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${role}`;
+
+            const avatar = role === 'user' ? '👨‍🏫' : '🤔';
+            messageDiv.innerHTML = `
+                <div class="chat-avatar">${avatar}</div>
+                <div class="chat-bubble">${content.replace(/\n/g, '<br>')}</div>
+            `;
+
+            historyDiv.appendChild(messageDiv);
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            addMessage('user', message);
+            input.value = '';
+
+            conversationHistory.push({
+                role: 'user',
+                content: message
+            });
+
+            generateAIResponse();
+        }
+
+        function generateAIResponse() {
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'AI思考中...';
+
+            const systemPrompt = `你是一个完全不懂"${currentTopic}"的好奇学生，正在听用户（小老师）讲解。你的任务是：
+1. 用追问的方式帮助小老师发现自己的知识盲区
+2. 每次回复只问1-2个问题，不要一次问太多
+3. 如果小老师讲得不够清楚、有逻辑漏洞、用了你不懂的新词，立刻追问
+4. 用"等等"、"可是"、"那"开头，像真实学生一样表达困惑
+5. 如果小老师连续3轮都讲得很清楚，判断是否通过验证
+
+当前对话轮次：${questionCount + 1}
+
+判断标准：
+- 如果小老师已经能用最简单的话把核心原理讲清楚，且能回答你的追问，输出"[PASS]通过验证"开头的总结
+- 如果还有疑问或发现盲区，继续追问`;
+
+            const messages = conversationHistory.map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'assistant',
+                content: msg.content
+            }));
+
+            window.YdzxAI.call({
+                messages: messages,
+                systemPrompt: systemPrompt,
+                temperature: 0.8,
+                maxTokens: 300,
+                onDone: function(response) {
+                    conversationHistory.push({
+                        role: 'assistant',
+                        content: response
+                    });
+
+                    questionCount++;
+
+                    // 检查是否通过
+                    if (response.includes('[PASS]')) {
+                        const cleanResponse = response.replace('[PASS]', '').trim();
+                        addMessage('ai', cleanResponse);
+                        setTimeout(() => showBadge(), 1000);
+                        saveLearningRecord(true);
+                    } else {
+                        addMessage('ai', response);
+                    }
+
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '发送';
+                },
+                onError: function(err) {
+                    addMessage('ai', '抱歉，我遇到了点问题：' + err);
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '发送';
+                }
+            });
+        }
+
+        function showBadge() {
+            document.getElementById('badge-success').classList.add('visible');
+        }
+
+        function closeBadge() {
+            document.getElementById('badge-success').classList.remove('visible');
+        }
+
+        function resetSession() {
+            if (confirm('确定要重新开始吗？当前对话将会丢失。')) {
+                saveLearningRecord(false);
+                document.getElementById('setup-section').style.display = 'block';
+                document.getElementById('chat-section').classList.remove('visible');
+                document.getElementById('chat-history').innerHTML = '';
+                document.getElementById('topic-input').value = '';
+            }
+        }
+
+        function saveLearningRecord(passed) {
+            const record = {
+                type: 'feynman-verify',
+                topic: currentTopic,
+                level: currentLevel,
+                questionCount: questionCount,
+                passed: passed,
+                conversation: conversationHistory,
+                timestamp: Date.now()
+            };
+
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+
+        // 回车发送
+        document.getElementById('user-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

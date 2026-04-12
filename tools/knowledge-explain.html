@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识点讲解 — AI苏格拉底式引导学习 | 原点智学</title>
+    <meta name="description" content="AI不直接给答案，而是通过提问引导你自己思考，真正理解知识本质">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .explain-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .query-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .query-card h2 { margin-bottom: var(--sp-lg); }
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea { min-height: 100px; resize: vertical; }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+        .form-row { display: grid; grid-template-columns: 2fr 1fr; gap: var(--sp-md); }
+
+        .learning-section { display: none; }
+        .learning-section.visible { display: block; }
+
+        .step-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .step-header { display: flex; align-items: center; gap: var(--sp-md); margin-bottom: var(--sp-lg); }
+        .step-number { width: 48px; height: 48px; border-radius: 50%; background: var(--grad-cta); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; font-family: var(--font-heading); flex-shrink: 0; }
+        .step-title { font-family: var(--font-heading); font-size: var(--fs-h3); color: var(--c-warm-white); }
+
+        .ai-question { background: rgba(233,77,53,0.08); border: 1px solid rgba(233,77,53,0.2); border-radius: var(--r-md); padding: var(--sp-lg); margin-bottom: var(--sp-md); line-height: 1.8; }
+        .ai-question::before { content: '💭 '; font-size: 1.2rem; }
+
+        .thinking-area { margin-bottom: var(--sp-md); }
+        .thinking-area textarea {
+            width: 100%; min-height: 120px; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); resize: vertical;
+        }
+        .thinking-area textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .action-buttons { display: flex; gap: var(--sp-md); flex-wrap: wrap; }
+        .btn-primary { padding: 12px 28px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-understand { padding: 12px 28px; background: rgba(45,159,111,0.2); color: var(--c-success); border: 1px solid var(--c-success); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; font-weight: 700; }
+        .btn-understand:hover { background: rgba(45,159,111,0.3); }
+        .btn-confused { padding: 12px 28px; background: rgba(212,168,67,0.1); color: var(--c-warning); border: 1px solid var(--c-warning); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-confused:hover { background: rgba(212,168,67,0.2); }
+        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--c-origin); }
+
+        .summary-card { background: rgba(45,159,111,0.08); border: 1px solid rgba(45,159,111,0.2); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .summary-card h3 { color: var(--c-success); margin-bottom: var(--sp-md); font-family: var(--font-heading); }
+        .summary-content { line-height: 1.9; color: var(--c-warm-white); }
+
+        .loading-hint { text-align: center; color: var(--c-warm-gray); margin: var(--sp-md) 0; font-size: var(--fs-small); }
+
+        @media (max-width: 767px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🤔</div>
+        <h1>知识点讲解</h1>
+        <p class="section-desc">苏格拉底式引导学习，AI不直接给答案，而是通过提问让你自己思考出来</p>
+    </section>
+
+    <div class="explain-container">
+        <!-- 输入区 -->
+        <div class="query-card" id="query-section">
+            <h2>你想理解什么知识点？</h2>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>问题或知识点 *</label>
+                    <input type="text" id="question-input" placeholder="例如：什么是浮力？二次函数顶点式怎么用？">
+                </div>
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject-select">
+                        <option value="数学" selected>数学</option>
+                        <option value="物理">物理</option>
+                        <option value="化学">化学</option>
+                        <option value="生物">生物</option>
+                        <option value="语文">语文</option>
+                        <option value="英语">英语</option>
+                        <option value="历史">历史</option>
+                        <option value="地理">地理</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field">
+                <label>你已经尝试过什么方法？（可选）</label>
+                <textarea id="attempt-input" placeholder="说说你自己的思考，AI会从这里开始引导你..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="startLearning()">开始学习 →</button>
+        </div>
+
+        <!-- 学习区 -->
+        <div class="learning-section" id="learning-section">
+            <div id="steps-container"></div>
+
+            <!-- 总结卡片 -->
+            <div class="summary-card" id="summary-card" style="display:none;">
+                <h3>🎯 知识点总结</h3>
+                <div class="summary-content" id="summary-content"></div>
+                <div style="margin-top:var(--sp-lg);">
+                    <button class="btn-primary" onclick="resetLearning()">学习新知识点</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        let currentQuestion = '';
+        let currentSubject = '';
+        let currentAttempt = '';
+        let stepCount = 0;
+        let learningPath = [];
+
+        function startLearning() {
+            const question = document.getElementById('question-input').value.trim();
+            const subject = document.getElementById('subject-select').value;
+            const attempt = document.getElementById('attempt-input').value.trim();
+
+            if (!question) {
+                alert('请输入问题或知识点');
+                return;
+            }
+
+            currentQuestion = question;
+            currentSubject = subject;
+            currentAttempt = attempt;
+            stepCount = 0;
+            learningPath = [];
+
+            document.getElementById('query-section').style.display = 'none';
+            document.getElementById('learning-section').classList.add('visible');
+
+            generateFirstStep();
+        }
+
+        function generateFirstStep() {
+            const systemPrompt = `你是一位善于引导的老师，使用苏格拉底式教学法。学生问了一个关于"${currentSubject}"的问题："${currentQuestion}"。
+
+你的任务：
+1. 不要直接给答案，先问学生"你已经尝试过哪些方法？"或"你对这个问题有什么想法？"
+2. 根据学生的回答（如果有），找到他们的思路中哪里对了，哪里有误区
+3. 提出一个引导性问题，让学生自己思考出下一步
+
+${currentAttempt ? `学生已经说了自己的尝试：${currentAttempt}` : '学生还没说自己的想法。'}
+
+请给出第一个引导性问题（150字内）。`;
+
+            showLoading('AI正在思考如何引导你...');
+
+            window.YdzxAI.call({
+                messages: [{ role: 'user', content: currentQuestion }],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 300,
+                onDone: function(response) {
+                    hideLoading();
+                    addStep(response);
+                },
+                onError: function(err) {
+                    hideLoading();
+                    alert('AI调用失败：' + err);
+                }
+            });
+        }
+
+        function addStep(question) {
+            stepCount++;
+            const container = document.getElementById('steps-container');
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step-card';
+            stepDiv.id = `step-${stepCount}`;
+
+            stepDiv.innerHTML = `
+                <div class="step-header">
+                    <div class="step-number">${stepCount}</div>
+                    <div class="step-title">思考与回答</div>
+                </div>
+                <div class="ai-question">${question}</div>
+                <div class="thinking-area">
+                    <textarea id="thinking-${stepCount}" placeholder="写下你的思考..."></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-understand" onclick="handleUnderstand(${stepCount})">✓ 我明白了</button>
+                    <button class="btn-confused" onclick="handleConfused(${stepCount})">? 我还是不懂</button>
+                </div>
+            `;
+
+            container.appendChild(stepDiv);
+            stepDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            learningPath.push({
+                step: stepCount,
+                question: question,
+                thinking: '',
+                understood: null
+            });
+        }
+
+        function handleUnderstand(step) {
+            const thinking = document.getElementById(`thinking-${step}`).value.trim();
+
+            if (!thinking) {
+                alert('请先写下你的思考');
+                return;
+            }
+
+            learningPath[step - 1].thinking = thinking;
+            learningPath[step - 1].understood = true;
+
+            // 禁用按钮
+            const stepDiv = document.getElementById(`step-${step}`);
+            stepDiv.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+            // 判断是否继续或结束
+            if (stepCount >= 3) {
+                generateSummary();
+            } else {
+                generateNextStep(thinking);
+            }
+        }
+
+        function handleConfused(step) {
+            const thinking = document.getElementById(`thinking-${step}`).value.trim();
+
+            learningPath[step - 1].thinking = thinking;
+            learningPath[step - 1].understood = false;
+
+            // 禁用按钮
+            const stepDiv = document.getElementById(`step-${step}`);
+            stepDiv.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+            // 换个角度解释
+            generateClarification(thinking);
+        }
+
+        function generateNextStep(previousThinking) {
+            const systemPrompt = `学生在上一步回答了："${previousThinking}"，并表示理解了。
+
+现在请提出下一个引导性问题，帮助学生更深入理解"${currentQuestion}"（${currentSubject}）。
+
+要求：
+1. 基于学生的回答，进一步深入
+2. 不要直接给最终答案，继续引导
+3. 150字内
+
+如果学生已经基本理解了核心概念，可以问一个应用性问题。`;
+
+            showLoading('准备下一个问题...');
+
+            window.YdzxAI.call({
+                messages: learningPath.map(p => ({
+                    role: 'user',
+                    content: `${p.question}\n学生回答：${p.thinking}`
+                })),
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 300,
+                onDone: function(response) {
+                    hideLoading();
+                    addStep(response);
+                },
+                onError: function(err) {
+                    hideLoading();
+                    alert('AI调用失败：' + err);
+                }
+            });
+        }
+
+        function generateClarification(confusedThinking) {
+            const systemPrompt = `学生表示"还是不懂"，他的回答是："${confusedThinking || '没有说明哪里不懂'}"。
+
+请换一个角度、用更简单的方式重新解释，或者分解成更小的步骤。不要责怪学生，保持耐心。
+
+150字内。`;
+
+            showLoading('AI正在换个角度解释...');
+
+            window.YdzxAI.call({
+                messages: learningPath.map(p => ({
+                    role: 'user',
+                    content: `${p.question}\n学生回答：${p.thinking}`
+                })),
+                systemPrompt: systemPrompt,
+                temperature: 0.8,
+                maxTokens: 300,
+                onDone: function(response) {
+                    hideLoading();
+                    addStep(response);
+                },
+                onError: function(err) {
+                    hideLoading();
+                    alert('AI调用失败：' + err);
+                }
+            });
+        }
+
+        function generateSummary() {
+            const systemPrompt = `学生通过多轮引导已经理解了"${currentQuestion}"（${currentSubject}）。
+
+请给出一个完整的知识点总结，包括：
+1. 核心概念（是什么）
+2. 原理或规律（为什么）
+3. 应用场景（怎么用）
+
+如果是数学/物理/化学，可以用LaTeX公式（用$$包裹行内公式，用$$$$包裹独立公式）。
+
+300字内。`;
+
+            showLoading('生成知识总结...');
+
+            window.YdzxAI.call({
+                messages: [{ role: 'user', content: currentQuestion }],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 600,
+                onDone: function(response) {
+                    hideLoading();
+                    showSummary(response);
+                    saveLearningRecord();
+                },
+                onError: function(err) {
+                    hideLoading();
+                    alert('AI调用失败：' + err);
+                }
+            });
+        }
+
+        function showSummary(content) {
+            document.getElementById('summary-content').innerHTML = content.replace(/\n/g, '<br>');
+            document.getElementById('summary-card').style.display = 'block';
+
+            // 渲染数学公式
+            renderMathInElement(document.getElementById('summary-content'), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+
+            document.getElementById('summary-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showLoading(text) {
+            const container = document.getElementById('steps-container');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading-hint';
+            loadingDiv.id = 'loading-hint';
+            loadingDiv.textContent = text;
+            container.appendChild(loadingDiv);
+        }
+
+        function hideLoading() {
+            const loadingDiv = document.getElementById('loading-hint');
+            if (loadingDiv) loadingDiv.remove();
+        }
+
+        function resetLearning() {
+            document.getElementById('query-section').style.display = 'block';
+            document.getElementById('learning-section').classList.remove('visible');
+            document.getElementById('steps-container').innerHTML = '';
+            document.getElementById('summary-card').style.display = 'none';
+            document.getElementById('question-input').value = '';
+            document.getElementById('attempt-input').value = '';
+        }
+
+        function saveLearningRecord() {
+            const record = {
+                type: 'socratic-learning',
+                question: currentQuestion,
+                subject: currentSubject,
+                stepCount: stepCount,
+                learningPath: learningPath,
+                timestamp: Date.now()
+            };
+
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>

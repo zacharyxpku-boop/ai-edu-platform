@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识可视化 — AI生成学科知识图谱 | 原点智学</title>
+    <meta name="description" content="点击任意知识点，AI自动生成流程图、思维导图或对比表，让复杂概念一目了然">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .visual-container { max-width: 1200px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .visual-layout { display: grid; grid-template-columns: 320px 1fr; gap: var(--sp-lg); margin-bottom: var(--sp-section); }
+
+        /* 左侧知识树 */
+        .tree-panel { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); max-height: 800px; overflow-y: auto; }
+        .tree-tabs { display: flex; gap: var(--sp-xs); margin-bottom: var(--sp-lg); flex-wrap: wrap; }
+        .tree-tab { padding: 8px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); color: var(--c-warm-gray); cursor: pointer; font-size: var(--fs-small); transition: all 0.2s; }
+        .tree-tab.active { background: var(--grad-cta); color: #fff; border-color: transparent; }
+        .tree-tab:hover:not(.active) { border-color: var(--c-origin); }
+
+        .tree-content { display: none; }
+        .tree-content.active { display: block; }
+        .tree-category { margin-bottom: var(--sp-lg); }
+        .tree-category-title { font-weight: 700; color: var(--c-warm-white); margin-bottom: var(--sp-sm); font-size: var(--fs-body); display: flex; align-items: center; gap: var(--sp-xs); }
+        .tree-items { padding-left: var(--sp-md); border-left: 2px solid rgba(15,52,96,0.4); }
+        .tree-item { padding: 8px 12px; margin-bottom: var(--sp-xs); color: var(--c-warm-gray); cursor: pointer; font-size: var(--fs-small); border-radius: var(--r-sm); transition: all 0.2s; }
+        .tree-item:hover { background: rgba(15,52,96,0.4); color: var(--c-warm-white); }
+        .tree-item.selected { background: var(--c-origin-glow); color: var(--c-origin); font-weight: 700; }
+
+        /* 右侧可视化区 */
+        .visual-panel { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .visual-header { margin-bottom: var(--sp-lg); }
+        .visual-title { font-family: var(--font-heading); font-size: var(--fs-h2); color: var(--c-warm-white); margin-bottom: var(--sp-md); }
+        .visual-controls { display: flex; gap: var(--sp-md); align-items: center; flex-wrap: wrap; }
+        .visual-type-btn { padding: 8px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); color: var(--c-warm-gray); cursor: pointer; font-size: var(--fs-small); transition: all 0.2s; }
+        .visual-type-btn.active { background: var(--c-origin-glow); color: var(--c-origin); border-color: var(--c-origin); font-weight: 700; }
+        .visual-type-btn:hover:not(.active) { border-color: var(--c-origin); }
+
+        .visual-canvas { background: #fff; border-radius: var(--r-md); padding: var(--sp-lg); min-height: 500px; margin-bottom: var(--sp-md); }
+        .visual-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 500px; color: var(--c-warm-dim); text-align: center; }
+        .visual-placeholder-icon { font-size: 4rem; margin-bottom: var(--sp-md); opacity: 0.5; }
+
+        .visual-actions { display: flex; gap: var(--sp-md); flex-wrap: wrap; }
+        .btn-primary { padding: 12px 28px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary:hover { border-color: var(--c-origin); }
+
+        .loading-overlay { position: absolute; inset: 0; background: rgba(26,26,46,0.9); display: none; align-items: center; justify-content: center; border-radius: var(--r-md); z-index: 10; }
+        .loading-overlay.visible { display: flex; }
+        .loading-text { color: var(--c-warm-white); font-size: var(--fs-body); }
+
+        @media (max-width: 991px) {
+            .visual-layout { grid-template-columns: 1fr; }
+            .tree-panel { max-height: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🗺️</div>
+        <h1>知识可视化</h1>
+        <p class="section-desc">点击任意知识点，AI自动生成流程图、思维导图或对比表，让复杂概念一目了然</p>
+    </section>
+
+    <div class="visual-container">
+        <div class="visual-layout">
+            <!-- 左侧知识树 -->
+            <div class="tree-panel">
+                <div class="tree-tabs">
+                    <button class="tree-tab active" onclick="switchSubject('math')">数学</button>
+                    <button class="tree-tab" onclick="switchSubject('physics')">物理</button>
+                    <button class="tree-tab" onclick="switchSubject('chemistry')">化学</button>
+                    <button class="tree-tab" onclick="switchSubject('biology')">生物</button>
+                </div>
+
+                <!-- 数学知识树 -->
+                <div class="tree-content active" id="tree-math"></div>
+                <!-- 物理知识树 -->
+                <div class="tree-content" id="tree-physics"></div>
+                <!-- 化学知识树 -->
+                <div class="tree-content" id="tree-chemistry"></div>
+                <!-- 生物知识树 -->
+                <div class="tree-content" id="tree-biology"></div>
+            </div>
+
+            <!-- 右侧可视化区 -->
+            <div class="visual-panel" style="position:relative;">
+                <div class="visual-header">
+                    <h2 class="visual-title" id="visual-title">请从左侧选择知识点</h2>
+                    <div class="visual-controls">
+                        <button class="visual-type-btn active" data-type="flowchart" onclick="changeVisualType('flowchart')">流程图</button>
+                        <button class="visual-type-btn" data-type="mindmap" onclick="changeVisualType('mindmap')">思维导图</button>
+                        <button class="visual-type-btn" data-type="compare" onclick="changeVisualType('compare')">对比表</button>
+                    </div>
+                </div>
+
+                <div class="visual-canvas" id="visual-canvas">
+                    <div class="visual-placeholder">
+                        <div class="visual-placeholder-icon">📊</div>
+                        <div>从左侧选择一个知识点，AI会自动生成可视化图表</div>
+                    </div>
+                </div>
+
+                <div class="visual-actions">
+                    <button class="btn-primary" onclick="regenerateVisual()" id="regen-btn" style="display:none;">🔄 重新生成</button>
+                    <button class="btn-secondary" onclick="downloadImage()" id="download-btn" style="display:none;">💾 下载PNG</button>
+                </div>
+
+                <div class="loading-overlay" id="loading-overlay">
+                    <div class="loading-text">AI正在生成可视化图表...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#E94D35',
+                primaryTextColor: '#1A1A2E',
+                primaryBorderColor: '#FF6B4A',
+                lineColor: '#7A7067',
+                secondaryColor: '#F5F0EB',
+                tertiaryColor: '#B8B0A8'
+            }
+        });
+        window.mermaid = mermaid;
+    </script>
+    <script>
+        // 知识树数据
+        const knowledgeTree = {
+            math: [
+                {
+                    title: '代数',
+                    items: ['一元一次方程', '二次函数', '不等式', '因式分解', '分式运算']
+                },
+                {
+                    title: '几何',
+                    items: ['三角形性质', '圆的性质', '相似与全等', '勾股定理', '面积计算']
+                },
+                {
+                    title: '函数',
+                    items: ['函数概念', '一次函数', '反比例函数', '二次函数图像', '函数应用']
+                }
+            ],
+            physics: [
+                {
+                    title: '力学',
+                    items: ['牛顿三定律', '浮力', '压强', '功和能', '杠杆原理']
+                },
+                {
+                    title: '电学',
+                    items: ['欧姆定律', '串并联电路', '电功率', '焦耳定律', '电磁感应']
+                },
+                {
+                    title: '光学',
+                    items: ['光的反射', '光的折射', '凸透镜成像', '光的色散', '光的直线传播']
+                }
+            ],
+            chemistry: [
+                {
+                    title: '物质结构',
+                    items: ['原子结构', '元素周期表', '化学键', '分子结构', '晶体类型']
+                },
+                {
+                    title: '化学反应',
+                    items: ['氧化还原反应', '酸碱中和', '置换反应', '化学平衡', '反应速率']
+                },
+                {
+                    title: '常见物质',
+                    items: ['酸碱盐', '金属活动性', '有机物', '气体性质', '溶液']
+                }
+            ],
+            biology: [
+                {
+                    title: '细胞',
+                    items: ['细胞结构', '细胞分裂', '光合作用', '呼吸作用', '细胞膜功能']
+                },
+                {
+                    title: '遗传',
+                    items: ['DNA结构', '基因表达', '孟德尔遗传', '变异类型', '遗传病']
+                },
+                {
+                    title: '生态',
+                    items: ['食物链', '生态系统', '种群关系', '能量流动', '物质循环']
+                }
+            ]
+        };
+
+        let currentSubject = 'math';
+        let currentTopic = '';
+        let currentVisualType = 'flowchart';
+
+        // 初始化知识树
+        function initTrees() {
+            Object.keys(knowledgeTree).forEach(subject => {
+                const container = document.getElementById(`tree-${subject}`);
+                const data = knowledgeTree[subject];
+
+                let html = '';
+                data.forEach(category => {
+                    html += `
+                        <div class="tree-category">
+                            <div class="tree-category-title">📁 ${category.title}</div>
+                            <div class="tree-items">
+                                ${category.items.map(item =>
+                                    `<div class="tree-item" onclick="selectTopic('${subject}', '${item}')">${item}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            });
+        }
+
+        function switchSubject(subject) {
+            currentSubject = subject;
+
+            // 切换标签
+            document.querySelectorAll('.tree-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 切换内容
+            document.querySelectorAll('.tree-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`tree-${subject}`).classList.add('active');
+        }
+
+        function selectTopic(subject, topic) {
+            // 清除所有选中状态
+            document.querySelectorAll('.tree-item').forEach(item => item.classList.remove('selected'));
+            // 选中当前
+            event.target.classList.add('selected');
+
+            currentTopic = topic;
+            currentSubject = subject;
+
+            document.getElementById('visual-title').textContent = topic;
+            generateVisual();
+        }
+
+        function changeVisualType(type) {
+            currentVisualType = type;
+
+            document.querySelectorAll('.visual-type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (currentTopic) {
+                generateVisual();
+            }
+        }
+
+        function generateVisual() {
+            if (!currentTopic) return;
+
+            const canvas = document.getElementById('visual-canvas');
+            const loading = document.getElementById('loading-overlay');
+
+            loading.classList.add('visible');
+            canvas.innerHTML = '';
+
+            const systemPrompt = `你是一位数据可视化专家。用户想要理解"${currentTopic}"（${getSubjectName(currentSubject)}）。
+
+请生成Mermaid图表代码，类型：${getVisualTypeName(currentVisualType)}
+
+要求：
+1. 只输出Mermaid代码，不要任何解释
+2. 代码要符合Mermaid语法
+3. 节点数量控制在5-10个
+4. 逻辑清晰，层次分明
+5. 使用中文标签
+
+${currentVisualType === 'flowchart' ?
+    '流程图示例：\ngraph TD\n    A[开始] --> B{判断}\n    B -->|是| C[结果1]\n    B -->|否| D[结果2]' :
+currentVisualType === 'mindmap' ?
+    '思维导图示例：\nmindmap\n  root((核心概念))\n    分支1\n      子节点1\n      子节点2\n    分支2\n      子节点3' :
+    '对比表格使用flowchart横向布局，每列代表一种类型，用subgraph分组'}
+
+直接输出Mermaid代码，以graph、mindmap或flowchart开头。`;
+
+            window.YdzxAI.call({
+                messages: [{ role: 'user', content: `生成${currentTopic}的${getVisualTypeName(currentVisualType)}` }],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 600,
+                onDone: function(response) {
+                    // 清理响应，提取Mermaid代码
+                    let code = response.trim();
+                    // 移除markdown代码块标记
+                    code = code.replace(/```mermaid\n?/g, '').replace(/```\n?/g, '');
+
+                    renderMermaid(code);
+                    loading.classList.remove('visible');
+
+                    document.getElementById('regen-btn').style.display = 'inline-block';
+                    document.getElementById('download-btn').style.display = 'inline-block';
+                },
+                onError: function(err) {
+                    loading.classList.remove('visible');
+                    canvas.innerHTML = `<div class="visual-placeholder"><div style="color:#C94040;">生成失败：${err}</div></div>`;
+                }
+            });
+        }
+
+        async function renderMermaid(code) {
+            const canvas = document.getElementById('visual-canvas');
+            canvas.innerHTML = `<div class="mermaid">${code}</div>`;
+
+            try {
+                await window.mermaid.run({
+                    querySelector: '.mermaid'
+                });
+            } catch (err) {
+                console.error('Mermaid渲染失败', err);
+                canvas.innerHTML = `<div class="visual-placeholder"><div style="color:#C94040;">图表渲染失败，请尝试重新生成</div></div>`;
+            }
+        }
+
+        function regenerateVisual() {
+            generateVisual();
+        }
+
+        function downloadImage() {
+            const svg = document.querySelector('#visual-canvas svg');
+            if (!svg) {
+                alert('没有可下载的图表');
+                return;
+            }
+
+            const svgData = new XMLSerializer().serializeToString(svg);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${currentTopic}_${currentVisualType}_${Date.now()}.png`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+            };
+
+            img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+        }
+
+        function getSubjectName(subject) {
+            const names = {
+                math: '数学',
+                physics: '物理',
+                chemistry: '化学',
+                biology: '生物'
+            };
+            return names[subject] || subject;
+        }
+
+        function getVisualTypeName(type) {
+            const names = {
+                flowchart: '流程图',
+                mindmap: '思维导图',
+                compare: '对比表'
+            };
+            return names[type] || type;
+        }
+
+        // 初始化
+        initTrees();
+    </script>
+</body>
+</html>
