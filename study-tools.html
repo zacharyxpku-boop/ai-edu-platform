@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI提分教练工具箱 — 15个工具助你科学提分 | 原点智学</title>
-    <meta name="description" content="15个免费AI学习工具：考试诊断、错题分析、思维导图、作文教练等。">
+    <title>AI提分教练工具箱 — 四维一体学习系统 | 原点智学</title>
+    <meta name="description" content="学得快×学得准×提升能力×有产出，15个免费AI学习工具。">
     <meta name="theme-color" content="#F5A623">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
     <link rel="canonical" href="https://www.yuandianzhixue.com/study-tools.html">
@@ -16,38 +16,30 @@
 
         :root {
             --bg: #FAFAF7;
-            --bg-warm: #F5F0E8;
             --bg-card: #FFFFFF;
             --text: #1C1C1E;
-            --text-secondary: #6B7280;
-            --text-muted: #9CA3AF;
+            --text-2: #374151;
+            --text-3: #6B7280;
+            --text-4: #9CA3AF;
             --border: #E8E5DE;
             --border-hover: #D1CCC3;
 
             --amber: #F5A623;
             --amber-light: #FFF8EC;
-            --amber-glow: rgba(245,166,35,0.12);
 
-            --zone-diagnose: #E8590C;
-            --zone-diagnose-bg: #FFF4ED;
-            --zone-attack: #2563EB;
-            --zone-attack-bg: #EFF6FF;
-            --zone-think: #7C3AED;
-            --zone-think-bg: #F5F3FF;
-            --zone-grow: #059669;
-            --zone-grow-bg: #ECFDF5;
-            --zone-art: #DB2777;
-            --zone-art-bg: #FDF2F8;
+            --fast: #E8590C;
+            --fast-bg: #FFF4ED;
+            --precise: #2563EB;
+            --precise-bg: #EFF6FF;
+            --ability: #7C3AED;
+            --ability-bg: #F5F3FF;
+            --output: #059669;
+            --output-bg: #ECFDF5;
 
             --font: 'Noto Sans SC', system-ui, sans-serif;
-            --r-sm: 6px;
-            --r-md: 12px;
-            --r-lg: 16px;
-            --r-xl: 20px;
+            --r: 12px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
-            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
-            --shadow-glow: 0 0 0 3px var(--amber-glow), 0 4px 16px rgba(245,166,35,0.15);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
         }
 
         html { scroll-behavior: smooth }
@@ -57,890 +49,587 @@
             color: var(--text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
         }
 
-        /* === TOP NAV === */
-        .topnav {
+        /* === NAV === */
+        .nav {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(250,250,247,0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(250,250,247,0.88);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-bottom: 1px solid var(--border);
-            padding: 0 24px;
         }
-        .topnav-inner {
-            max-width: 1280px;
+        .nav-inner {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 56px;
+            height: 54px;
         }
-        .topnav-brand {
+        .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             text-decoration: none;
             color: var(--text);
             font-weight: 700;
             font-size: 15px;
         }
-        .topnav-brand svg { width: 28px; height: 28px }
-        .topnav-links {
+        .nav-brand svg { width: 26px; height: 26px; flex-shrink: 0 }
+        .nav-links { display: flex; gap: 2px }
+        .nav-links a {
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-3);
+            font-size: 13px;
+            font-weight: 500;
+            transition: all .15s;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--amber-light) }
+        .nav-links a.active { color: var(--amber); background: var(--amber-light) }
+        .nav-settings {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-3);
+            cursor: pointer;
+            font-family: var(--font);
+            transition: all .15s;
+        }
+        .nav-settings:hover { border-color: var(--border-hover); color: var(--text) }
+
+        @media (max-width: 767px) {
+            .nav-links { display: none }
+        }
+
+        /* === HEADER === */
+        .header {
+            padding: 40px 24px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .header-sub {
+            color: var(--text-3);
+            font-size: 15px;
+        }
+
+        /* === DIMENSION TABS === */
+        .dim-tabs {
+            max-width: 1200px;
+            margin: 24px auto 0;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             gap: 4px;
+            overflow-x: auto;
         }
-        .topnav-links a {
-            padding: 6px 14px;
-            border-radius: var(--r-md);
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.15s;
-        }
-        .topnav-links a:hover { color: var(--text); background: var(--amber-light) }
-        .topnav-links a.active { color: var(--amber); background: var(--amber-light) }
-        .topnav-cta {
-            background: var(--text);
-            color: #fff;
+        .dim-tab {
+            padding: 12px 20px;
             border: none;
-            padding: 7px 16px;
-            border-radius: var(--r-md);
-            font-size: 13px;
+            background: none;
+            color: var(--text-3);
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             font-family: var(--font);
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .topnav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-md) }
-
-        @media (max-width: 767px) {
-            .topnav-links { display: none }
-            .topnav-cta { display: none }
-        }
-
-        /* === HERO === */
-        .hero {
-            padding: 48px 24px 32px;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--amber-light);
-            border: 1px solid rgba(245,166,35,0.2);
-            color: var(--amber);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 100px;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-        .hero h1 {
-            font-size: clamp(28px, 5vw, 42px);
-            font-weight: 900;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-        }
-        .hero h1 span { color: var(--amber) }
-        .hero-sub {
-            color: var(--text-secondary);
-            font-size: 16px;
-            max-width: 500px;
-        }
-
-        /* === STATS BAR === */
-        .stats-bar {
-            max-width: 1280px;
-            margin: 0 auto 32px;
-            padding: 0 24px;
-        }
-        .stats-inner {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-xl);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-        }
-        .stat-item {
-            text-align: center;
-            padding: 8px 0;
             position: relative;
+            white-space: nowrap;
+            transition: color .15s;
         }
-        .stat-item:not(:last-child)::after {
+        .dim-tab:hover { color: var(--text) }
+        .dim-tab.active {
+            color: var(--text);
+        }
+        .dim-tab.active::after {
             content: '';
             position: absolute;
+            bottom: -1px;
+            left: 0;
             right: 0;
-            top: 20%;
-            height: 60%;
-            width: 1px;
-            background: var(--border);
+            height: 2px;
+            background: var(--text);
         }
-        .stat-num {
+
+        /* === MAIN === */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+        }
+
+        .dimension {
+            display: none;
+        }
+        .dimension.active {
+            display: block;
+        }
+
+        .dim-header {
+            margin-bottom: 24px;
+        }
+        .dim-title {
             font-size: 28px;
             font-weight: 900;
-            color: var(--text);
-            line-height: 1.1;
-            font-variant-numeric: tabular-nums;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        @media (max-width: 600px) {
-            .stats-inner { grid-template-columns: repeat(2,1fr); gap: 8px; padding: 16px }
-            .stat-item:nth-child(2)::after { display: none }
-            .stat-num { font-size: 22px }
-        }
-
-        /* === SEARCH === */
-        .search-bar {
-            max-width: 1280px;
-            margin: 0 auto 24px;
-            padding: 0 24px;
-        }
-        .search-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .search-field {
-            flex: 1;
-            min-width: 200px;
-            position: relative;
-        }
-        .search-field input {
-            width: 100%;
-            padding: 10px 16px 10px 40px;
-            border: 1px solid var(--border);
-            border-radius: var(--r-md);
-            font-size: 14px;
-            font-family: var(--font);
-            background: var(--bg-card);
-            color: var(--text);
-            transition: border-color 0.15s, box-shadow 0.15s;
-            outline: none;
-        }
-        .search-field input:focus {
-            border-color: var(--amber);
-            box-shadow: var(--shadow-glow);
-        }
-        .search-field input::placeholder { color: var(--text-muted) }
-        .search-field svg {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-        .filter-chips {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .chip {
-            padding: 6px 14px;
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            background: var(--bg-card);
-            font-family: var(--font);
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
-        .chip:hover { border-color: var(--border-hover); color: var(--text) }
-        .chip.active {
-            background: var(--text);
-            color: #fff;
-            border-color: var(--text);
-        }
-
-        /* === LAYOUT === */
-        .main {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px 80px;
-            display: flex;
-            gap: 32px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 220px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 72px;
-            height: fit-content;
-        }
-        .sidebar-nav { list-style: none }
-        .sidebar-nav li { margin-bottom: 2px }
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 14px;
-            border-radius: var(--r-md);
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.15s;
-        }
-        .sidebar-nav a:hover { background: var(--bg-warm); color: var(--text) }
-        .sidebar-nav a.active {
-            background: var(--amber-light);
-            color: var(--amber);
-            font-weight: 700;
-        }
-        .sidebar-nav a .nav-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .sidebar-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 20px 14px 6px;
-        }
-
-        @media (max-width: 900px) {
-            .sidebar { display: none }
-            .main { flex-direction: column }
-        }
-
-        /* Content */
-        .content { flex: 1; min-width: 0 }
-
-        /* === ZONE SECTION === */
-        .zone {
-            margin-bottom: 40px;
-            scroll-margin-top: 72px;
-        }
-        .zone-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
-        }
-        .zone-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--r-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 900;
-            color: #fff;
-        }
-        .zone-title {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-        }
-        .zone-count {
-            margin-left: auto;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-            background: var(--bg-warm);
-            padding: 2px 10px;
-            border-radius: 100px;
+        .dim-desc {
+            color: var(--text-3);
+            font-size: 15px;
+            line-height: 1.7;
         }
 
         /* === TOOL CARDS === */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
         }
 
         .tool-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--r-lg);
+            border-radius: var(--r);
             padding: 20px;
             text-decoration: none;
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            color: inherit;
+            display: block;
+            transition: all .2s;
             position: relative;
-            transition: all 0.2s cubic-bezier(0.25,0.46,0.45,0.94);
             overflow: hidden;
         }
         .tool-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            border-radius: 3px 3px 0 0;
-            opacity: 0;
-            transition: opacity 0.2s;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            transition: width .2s;
         }
         .tool-card:hover {
-            border-color: var(--border-hover);
-            box-shadow: var(--shadow-md);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
-        .tool-card:hover::before { opacity: 1 }
-        .tool-card:active { transform: translateY(0); box-shadow: var(--shadow-sm) }
+        .tool-card:hover::before {
+            width: 5px;
+        }
 
-        /* Zone-specific card accents */
-        .zone-diagnose .tool-card::before { background: var(--zone-diagnose) }
-        .zone-diagnose .tool-card:hover { border-color: rgba(232,89,12,0.3) }
-        .zone-attack .tool-card::before { background: var(--zone-attack) }
-        .zone-attack .tool-card:hover { border-color: rgba(37,99,235,0.3) }
-        .zone-think .tool-card::before { background: var(--zone-think) }
-        .zone-think .tool-card:hover { border-color: rgba(124,58,237,0.3) }
-        .zone-art .tool-card::before { background: var(--zone-art) }
-        .zone-art .tool-card:hover { border-color: rgba(219,39,119,0.3) }
-        .zone-grow .tool-card::before { background: var(--zone-grow) }
-        .zone-grow .tool-card:hover { border-color: rgba(5,150,105,0.3) }
+        .fast .tool-card::before { background: var(--fast) }
+        .fast .tool-card:hover { border-color: rgba(232,89,12,0.3) }
+        .precise .tool-card::before { background: var(--precise) }
+        .precise .tool-card:hover { border-color: rgba(37,99,235,0.3) }
+        .ability .tool-card::before { background: var(--ability) }
+        .ability .tool-card:hover { border-color: rgba(124,58,237,0.3) }
+        .output .tool-card::before { background: var(--output) }
+        .output .tool-card:hover { border-color: rgba(5,150,105,0.3) }
 
         .card-top {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         .card-icon {
             width: 40px;
             height: 40px;
-            border-radius: var(--r-md);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            flex-shrink: 0;
+            font-size: 18px;
         }
-        .zone-diagnose .card-icon { background: var(--zone-diagnose-bg); color: var(--zone-diagnose) }
-        .zone-attack .card-icon { background: var(--zone-attack-bg); color: var(--zone-attack) }
-        .zone-think .card-icon { background: var(--zone-think-bg); color: var(--zone-think) }
-        .zone-art .card-icon { background: var(--zone-art-bg); color: var(--zone-art) }
-        .zone-grow .card-icon { background: var(--zone-grow-bg); color: var(--zone-grow) }
-
-        .card-badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 100px;
-        }
-        .badge-hot { background: #FEF2F2; color: #DC2626 }
-        .badge-new { background: #ECFDF5; color: #059669 }
+        .fast .card-icon { background: var(--fast-bg); color: var(--fast) }
+        .precise .card-icon { background: var(--precise-bg); color: var(--precise) }
+        .ability .card-icon { background: var(--ability-bg); color: var(--ability) }
+        .output .card-icon { background: var(--output-bg); color: var(--output) }
 
         .card-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: -0.2px;
-            line-height: 1.3;
+            color: var(--text);
         }
         .card-desc {
             font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.55;
+            color: var(--text-3);
+            line-height: 1.6;
         }
-        .card-arrow {
-            margin-top: auto;
-            padding-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 12px;
+
+        /* === COURSE PROMO === */
+        .course-promo {
+            background: linear-gradient(135deg, var(--amber-light) 0%, var(--bg-card) 100%);
+            border: 1px solid rgba(245,166,35,0.2);
+            border-radius: var(--r);
+            padding: 24px;
+            margin-top: 32px;
+        }
+        .promo-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .promo-desc {
+            color: var(--text-3);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .promo-cta {
+            background: var(--text);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
-            opacity: 0;
-            transform: translateX(-4px);
-            transition: all 0.2s;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: opacity .15s;
         }
-        .tool-card:hover .card-arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .zone-diagnose .card-arrow { color: var(--zone-diagnose) }
-        .zone-attack .card-arrow { color: var(--zone-attack) }
-        .zone-think .card-arrow { color: var(--zone-think) }
-        .zone-art .card-arrow { color: var(--zone-art) }
-        .zone-grow .card-arrow { color: var(--zone-grow) }
+        .promo-cta:hover { opacity: .85 }
 
-        /* Featured card (first in zone) */
-        .tool-card.featured {
-            grid-column: 1 / -1;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-            padding: 24px;
-        }
-        .tool-card.featured .card-icon {
-            width: 56px;
-            height: 56px;
-            font-size: 26px;
-            flex-shrink: 0;
-        }
-        .tool-card.featured .card-body { flex: 1 }
-        .tool-card.featured .card-title { font-size: 17px }
-
-        @media (max-width: 600px) {
-            .tool-card.featured {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .tools-grid { grid-template-columns: 1fr }
-        }
-
-        /* === FOOTER === */
-        .site-footer {
-            border-top: 1px solid var(--border);
-            padding: 24px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        /* === MOBILE BOTTOM NAV === */
+        /* === MOBILE TABS === */
         .mobile-tabs {
             display: none;
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(250,250,247,0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
             z-index: 100;
-            padding: 6px 0 env(safe-area-inset-bottom, 6px);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
         }
         .mobile-tabs-inner {
-            display: flex;
-            justify-content: space-around;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
         }
         .mob-tab {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
-            padding: 6px 8px;
+            gap: 4px;
+            padding: 8px 4px;
+            border-radius: 8px;
             text-decoration: none;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 600;
-            border-radius: var(--r-md);
-            transition: color 0.15s;
+            color: var(--text-3);
+            font-size: 11px;
+            font-weight: 500;
+            transition: all .15s;
         }
-        .mob-tab.active { color: var(--amber) }
-        .mob-tab svg { width: 22px; height: 22px }
+        .mob-tab svg {
+            width: 20px;
+            height: 20px;
+        }
+        .mob-tab.active {
+            color: var(--text);
+            background: var(--amber-light);
+        }
 
-        @media (max-width: 900px) {
+        @media (max-width: 767px) {
             .mobile-tabs { display: block }
-            body { padding-bottom: 72px }
-        }
-
-        /* === ANIMATIONS === */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px) }
-            to { opacity: 1; transform: translateY(0) }
-        }
-        .zone { animation: fadeUp 0.4s ease both }
-        .zone:nth-child(2) { animation-delay: 0.06s }
-        .zone:nth-child(3) { animation-delay: 0.12s }
-        .zone:nth-child(4) { animation-delay: 0.18s }
-        .zone:nth-child(5) { animation-delay: 0.24s }
-
-        .tool-card {
-            animation: fadeUp 0.35s ease both;
-        }
-
-        /* === NOISE TEXTURE OVERLAY === */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.015;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 256px;
+            .main { padding-bottom: 100px }
+            .dim-tabs { display: none }
         }
     </style>
 </head>
 <body>
 
-<!-- Top Navigation -->
-<nav class="topnav">
-    <div class="topnav-inner">
-        <a href="/" class="topnav-brand">
-            <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" fill="#F5A623"/><circle cx="14" cy="14" r="6" fill="#1C1C1E"/><circle cx="14" cy="14" r="2.5" fill="#FAFAF7"/></svg>
+<!-- NAV -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+            <svg viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="45" fill="#F5A623"/>
+                <circle cx="50" cy="50" r="20" fill="#1C1C1E"/>
+                <circle cx="50" cy="50" r="8" fill="#FAFAF7"/>
+            </svg>
             原点智学
         </a>
-        <div class="topnav-links">
-            <a href="/">首页</a>
-            <a href="study-tools.html" class="active">学习工具</a>
-            <a href="prompts.html">Prompt</a>
-            <a href="articles.html">研究院</a>
-            <a href="settings.html">设置</a>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="study-tools.html" class="active">工具箱</a>
+            <a href="about.html">关于</a>
         </div>
-        <button class="topnav-cta" onclick="location.href='/#contact'">预约试听</button>
+        <button class="nav-settings" onclick="window.location.href='settings.html'">设置</button>
     </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="hero-eyebrow">◉ 15个工具 · 免费使用</div>
-    <h1>你的AI<span>提分教练</span></h1>
-    <p class="hero-sub">诊断弱点，精准攻克，让每分钟学习都有效</p>
-</section>
+<!-- HEADER -->
+<header class="header">
+    <h1>AI提分教练工具箱</h1>
+    <p class="header-sub">学得快×学得准×提升能力×有产出 — 四维一体学习系统</p>
+</header>
 
-<!-- Stats Bar -->
-<div class="stats-bar">
-    <div class="stats-inner">
-        <div class="stat-item">
-            <div class="stat-num" id="stat-usage">0</div>
-            <div class="stat-label">累计使用</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-errors">0</div>
-            <div class="stat-label">错题攻克</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-feynman">0</div>
-            <div class="stat-label">费曼通过</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-streak">0</div>
-            <div class="stat-label">连续天数</div>
-        </div>
-    </div>
+<!-- DIMENSION TABS -->
+<div class="dim-tabs">
+    <button class="dim-tab active" data-dim="fast">学得快</button>
+    <button class="dim-tab" data-dim="precise">学得准</button>
+    <button class="dim-tab" data-dim="ability">提升能力</button>
+    <button class="dim-tab" data-dim="output">有产出</button>
 </div>
 
-<!-- Search -->
-<div class="search-bar">
-    <div class="search-row">
-        <div class="search-field">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" id="search-input" placeholder="搜索工具..." oninput="filterTools()">
+<!-- MAIN -->
+<main class="main">
+
+    <!-- 学得快 -->
+    <div class="dimension fast active" id="dim-fast">
+        <div class="dim-header">
+            <h2 class="dim-title">学得快（效率）</h2>
+            <p class="dim-desc">定位薄弱点，制定精准计划，专攻短板，高效提分</p>
         </div>
-        <div class="filter-chips">
-            <button class="chip active" onclick="filterByCategory('all',this)">全部</button>
-            <button class="chip" onclick="filterByCategory('diagnose',this)">诊断</button>
-            <button class="chip" onclick="filterByCategory('attack',this)">攻克</button>
-            <button class="chip" onclick="filterByCategory('think',this)">思维</button>
-            <button class="chip" onclick="filterByCategory('art',this)">素养</button>
-            <button class="chip" onclick="filterByCategory('grow',this)">成长</button>
-        </div>
-    </div>
-</div>
-
-<!-- Main Layout -->
-<div class="main">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-label">工具导航</div>
-        <ul class="sidebar-nav">
-            <li><a href="#zone-diagnose" class="active"><span class="nav-dot" style="background:var(--zone-diagnose)"></span>诊断区</a></li>
-            <li><a href="#zone-attack"><span class="nav-dot" style="background:var(--zone-attack)"></span>攻克区</a></li>
-            <li><a href="#zone-think"><span class="nav-dot" style="background:var(--zone-think)"></span>思维区</a></li>
-            <li><a href="#zone-art"><span class="nav-dot" style="background:var(--zone-art)"></span>素养区</a></li>
-            <li><a href="#zone-grow"><span class="nav-dot" style="background:var(--zone-grow)"></span>成长区</a></li>
-        </ul>
-        <div class="sidebar-label" style="margin-top:24px">快捷入口</div>
-        <ul class="sidebar-nav">
-            <li><a href="settings.html"><span class="nav-dot" style="background:var(--text-muted)"></span>API设置</a></li>
-            <li><a href="/"><span class="nav-dot" style="background:var(--text-muted)"></span>返回首页</a></li>
-        </ul>
-    </aside>
-
-    <!-- Content -->
-    <div class="content">
-
-        <!-- 诊断区 -->
-        <section class="zone zone-diagnose" id="zone-diagnose" data-category="diagnose">
-            <div class="zone-header">
-                <div class="zone-icon" style="background:var(--zone-diagnose)">诊</div>
-                <div class="zone-title">诊断区</div>
-                <div class="zone-count">2个工具</div>
-            </div>
-            <div class="tools-grid">
-                <a href="tools/exam-diagnosis.html" class="tool-card featured" data-name="考试诊断" data-desc="输入成绩和错题 AI做13维分析 找到失分真因和提分路径">
+        <div class="tools-grid">
+            <a href="tools/exam-diagnosis.html" class="tool-card">
+                <div class="card-top">
                     <div class="card-icon">📊</div>
-                    <div class="card-body">
-                        <div class="card-top"><div class="card-title">考试诊断</div><span class="card-badge badge-hot">核心</span></div>
-                        <p class="card-desc">拍卷上传，AI从13个维度诊断弱点，生成可分享的提分报告卡</p>
-                    </div>
-                    <div class="card-arrow">开始诊断 →</div>
-                </a>
-                <a href="tools/study-plan.html" class="tool-card" data-name="学习计划" data-desc="输入目标和时间 AI生成可执行的学习计划">
-                    <div class="card-top">
-                        <div class="card-icon">📅</div>
-                    </div>
+                    <div class="card-title">考试诊断</div>
+                </div>
+                <p class="card-desc">上传试卷，AI分析你的知识漏洞，生成可视化诊断报告</p>
+            </a>
+            <a href="tools/study-plan.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">📅</div>
                     <div class="card-title">学习计划</div>
-                    <p class="card-desc">基于诊断结果，AI生成每日任务清单，可勾选追踪进度</p>
-                    <div class="card-arrow">制定计划 →</div>
-                </a>
-            </div>
-        </section>
+                </div>
+                <p class="card-desc">根据诊断结果，制定每日任务清单和时间表</p>
+            </a>
+            <a href="tools/error-practice.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">错题专练</div>
+                </div>
+                <p class="card-desc">针对薄弱知识点，生成同类题目，巩固练习</p>
+            </a>
+            <a href="tools/exam-generator.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">AI出卷</div>
+                </div>
+                <p class="card-desc">根据教材和考纲，自动生成模拟试卷</p>
+            </a>
+        </div>
 
-        <!-- 攻克区 -->
-        <section class="zone zone-attack" id="zone-attack" data-category="attack">
-            <div class="zone-header">
-                <div class="zone-icon" style="background:var(--zone-attack)">攻</div>
-                <div class="zone-title">攻克区</div>
-                <div class="zone-count">4个工具</div>
-            </div>
-            <div class="tools-grid">
-                <a href="tools/error-mastery.html" class="tool-card featured" data-name="错题举一反三" data-desc="粘贴错题 AI深度分析5种错因 生成3道变式题">
-                    <div class="card-icon">🔬</div>
-                    <div class="card-body">
-                        <div class="card-top"><div class="card-title">错题举一反三</div><span class="card-badge badge-hot">最热</span></div>
-                        <p class="card-desc">五重错因归类，从一道错题拆出本质，再生成3道变式题巩固</p>
-                    </div>
-                    <div class="card-arrow">分析错题 →</div>
-                </a>
-                <a href="tools/error-practice.html" class="tool-card" data-name="错题专练机" data-desc="基于错题类型 智能生成针对性练习题">
-                    <div class="card-top"><div class="card-icon">📝</div></div>
-                    <div class="card-title">错题专练机</div>
-                    <p class="card-desc">输入薄弱知识点，AI生成5-10道专项练习，错题自动收录</p>
-                    <div class="card-arrow">开始练习 →</div>
-                </a>
-                <a href="tools/exam-generator.html" class="tool-card" data-name="AI出卷机" data-desc="指定知识点和难度 AI生成完整测试卷">
-                    <div class="card-top"><div class="card-icon">📄</div></div>
-                    <div class="card-title">AI出卷机</div>
-                    <p class="card-desc">选年级科目章节难度，AI生成完整模拟卷，支持打印</p>
-                    <div class="card-arrow">生成试卷 →</div>
-                </a>
-                <a href="tools/scoring-breakdown.html" class="tool-card" data-name="大题得分点拆解" data-desc="大题采分点细化加满分答案模板">
-                    <div class="card-top"><div class="card-icon">🎯</div></div>
-                    <div class="card-title">得分点拆解</div>
-                    <p class="card-desc">粘贴大题题目，AI逐步拆解每个采分点和满分作答模板</p>
-                    <div class="card-arrow">拆解得分点 →</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 思维区 -->
-        <section class="zone zone-think" id="zone-think" data-category="think">
-            <div class="zone-header">
-                <div class="zone-icon" style="background:var(--zone-think)">思</div>
-                <div class="zone-title">思维区</div>
-                <div class="zone-count">3个工具</div>
-            </div>
-            <div class="tools-grid">
-                <a href="tools/feynman-verify.html" class="tool-card featured" data-name="费曼验证" data-desc="教会AI就是真懂了 通过费曼学习法验证掌握程度">
-                    <div class="card-icon">🧠</div>
-                    <div class="card-body">
-                        <div class="card-top"><div class="card-title">费曼验证</div><span class="card-badge badge-new">独创</span></div>
-                        <p class="card-desc">你来教AI，AI追问你的盲区。通过验证=真正掌握，获得小老师徽章</p>
-                    </div>
-                    <div class="card-arrow">开始教AI →</div>
-                </a>
-                <a href="tools/knowledge-explain.html" class="tool-card" data-name="知识讲解" data-desc="输入知识点 AI用苏格拉底式引导讲清楚">
-                    <div class="card-top"><div class="card-icon">💡</div></div>
-                    <div class="card-title">知识讲解</div>
-                    <p class="card-desc">不直接给答案，AI用反问引导你自己想通，一步步理解</p>
-                    <div class="card-arrow">开始学习 →</div>
-                </a>
-                <a href="tools/knowledge-visual.html" class="tool-card" data-name="知识可视化" data-desc="复杂概念画成图 流程图加思维导图">
-                    <div class="card-top"><div class="card-icon">🗺️</div><span class="card-badge badge-new">新</span></div>
-                    <div class="card-title">知识可视化</div>
-                    <p class="card-desc">数理化生4科知识树，点击任意知识点生成流程图和结构图</p>
-                    <div class="card-arrow">探索知识树 →</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 素养区 -->
-        <section class="zone zone-art" id="zone-art" data-category="art">
-            <div class="zone-header">
-                <div class="zone-icon" style="background:var(--zone-art)">素</div>
-                <div class="zone-title">素养区</div>
-                <div class="zone-count">4个工具</div>
-            </div>
-            <div class="tools-grid">
-                <a href="tools/essay-grading.html" class="tool-card" data-name="AI作文批改" data-desc="贴上作文 AI从五个维度打分点评">
-                    <div class="card-top"><div class="card-icon">✍️</div><span class="card-badge badge-hot">热门</span></div>
-                    <div class="card-title">AI作文批改</div>
-                    <p class="card-desc">内容/结构/语言/逻辑/创意五维打分，逐段批注+范文对照</p>
-                    <div class="card-arrow">批改作文 →</div>
-                </a>
-                <a href="tools/reading-rewriter.html" class="tool-card" data-name="阅读改写器" data-desc="文言文英文原著改写成你能读懂的版本">
-                    <div class="card-top"><div class="card-icon">📖</div></div>
-                    <div class="card-title">阅读改写器</div>
-                    <p class="card-desc">文言文/英文原著/学术论文，AI保留内容只换表达，双栏对照</p>
-                    <div class="card-arrow">开始改写 →</div>
-                </a>
-                <a href="tools/music-appreciation.html" class="tool-card" data-name="音乐欣赏" data-desc="AI拆解曲式结构和声特征和乐器角色">
-                    <div class="card-top"><div class="card-icon">🎵</div></div>
-                    <div class="card-title">音乐欣赏</div>
-                    <p class="card-desc">输入曲名，AI拆解曲式结构、调性、主题和情感走向</p>
-                    <div class="card-arrow">开始聆听 →</div>
-                </a>
-                <a href="tools/art-thinking.html" class="tool-card" data-name="美术思维引导" data-desc="AI不评判好坏 用追问引导你观察画作">
-                    <div class="card-top"><div class="card-icon">🎨</div></div>
-                    <div class="card-title">美术思维引导</div>
-                    <p class="card-desc">上传画作，AI从构图/光影/色彩/情感/故事五个维度引导观察</p>
-                    <div class="card-arrow">开始观察 →</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 成长区 -->
-        <section class="zone zone-grow" id="zone-grow" data-category="grow">
-            <div class="zone-header">
-                <div class="zone-icon" style="background:var(--zone-grow)">长</div>
-                <div class="zone-title">成长区</div>
-                <div class="zone-count">2个工具</div>
-            </div>
-            <div class="tools-grid">
-                <a href="tools/learning-profile.html" class="tool-card featured" data-name="学习档案" data-desc="雷达图加成就系统加报告卡导出">
-                    <div class="card-icon">📈</div>
-                    <div class="card-body">
-                        <div class="card-top"><div class="card-title">学习档案</div><span class="card-badge badge-new">新</span></div>
-                        <p class="card-desc">能力雷达图、费曼通过记录、错题攻克统计，一键生成可分享周报</p>
-                    </div>
-                    <div class="card-arrow">查看档案 →</div>
-                </a>
-                <a href="tools/note-enhancer.html" class="tool-card" data-name="笔记增强器" data-desc="AI补全要点加思维导图加闪卡生成">
-                    <div class="card-top"><div class="card-icon">📔</div></div>
-                    <div class="card-title">笔记增强器</div>
-                    <p class="card-desc">粘贴课堂笔记，AI补全遗漏、生成思维导图和间隔复习闪卡</p>
-                    <div class="card-arrow">增强笔记 →</div>
-                </a>
-            </div>
-        </section>
-
+        <div class="course-promo">
+            <h3 class="promo-title">想系统掌握高效学习法？</h3>
+            <p class="promo-desc">原点智学《AI学习方法速成班》3节课教会你科学提分路径</p>
+            <button class="promo-cta" onclick="window.location.href='index.html#courses'">了解课程</button>
+        </div>
     </div>
-</div>
 
-<!-- Footer -->
-<footer class="site-footer">
-    <p>© 2026 原点智学 YuanDianZhiXue.com · AI辅助学习，结果请人工验证</p>
-</footer>
+    <!-- 学得准 -->
+    <div class="dimension precise" id="dim-precise">
+        <div class="dim-header">
+            <h2 class="dim-title">学得准（精准）</h2>
+            <p class="dim-desc">举一反三，拆解得分点，精准掌握知识，不走弯路</p>
+        </div>
+        <div class="tools-grid">
+            <a href="tools/error-mastery.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-title">错题举一反三</div>
+                </div>
+                <p class="card-desc">上传错题，AI分析考点，生成变式题巩固</p>
+            </a>
+            <a href="tools/scoring-breakdown.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">💯</div>
+                    <div class="card-title">得分点拆解</div>
+                </div>
+                <p class="card-desc">拆解答题步骤，标注每个得分点，精准抓分</p>
+            </a>
+            <a href="tools/knowledge-explain.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">💡</div>
+                    <div class="card-title">知识点讲解</div>
+                </div>
+                <p class="card-desc">AI导师式讲解，用生活化例子帮你理解概念</p>
+            </a>
+            <a href="tools/knowledge-visual.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🗺️</div>
+                    <div class="card-title">知识可视化</div>
+                </div>
+                <p class="card-desc">生成思维导图，梳理知识脉络，建立体系</p>
+            </a>
+        </div>
 
-<!-- Mobile Bottom Tabs -->
+        <div class="course-promo">
+            <h3 class="promo-title">想掌握科学记忆法？</h3>
+            <p class="promo-desc">智元成长课教你建立知识网络，告别死记硬背</p>
+            <button class="promo-cta" onclick="window.location.href='index.html#courses'">了解课程</button>
+        </div>
+    </div>
+
+    <!-- 提升能力 -->
+    <div class="dimension ability" id="dim-ability">
+        <div class="dim-header">
+            <h2 class="dim-title">提升能力（思维）</h2>
+            <p class="dim-desc">费曼学习法，阅读写作训练，艺术鉴赏，全面提升思维能力</p>
+        </div>
+        <div class="tools-grid">
+            <a href="tools/feynman-verify.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🎤</div>
+                    <div class="card-title">费曼验证</div>
+                </div>
+                <p class="card-desc">用简单语言讲解概念，AI判断你是否真正理解</p>
+            </a>
+            <a href="tools/reading-rewriter.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">✍️</div>
+                    <div class="card-title">阅读改写</div>
+                </div>
+                <p class="card-desc">选段落改写，AI评价语言质量，提升写作能力</p>
+            </a>
+            <a href="tools/music-appreciation.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🎵</div>
+                    <div class="card-title">音乐欣赏</div>
+                </div>
+                <p class="card-desc">AI引导聆听名曲，讲解背景和技法，培养审美</p>
+            </a>
+            <a href="tools/art-thinking.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-title">美术思维</div>
+                </div>
+                <p class="card-desc">分析名画构图和色彩，训练视觉思维能力</p>
+            </a>
+        </div>
+
+        <div class="course-promo">
+            <h3 class="promo-title">想培养批判性思维？</h3>
+            <p class="promo-desc">智元成长课融合艺术鉴赏和逻辑训练，全方位提升思维品质</p>
+            <button class="promo-cta" onclick="window.location.href='index.html#courses'">了解课程</button>
+        </div>
+    </div>
+
+    <!-- 有产出 -->
+    <div class="dimension output" id="dim-output">
+        <div class="dim-header">
+            <h2 class="dim-title">有产出（创造）</h2>
+            <p class="dim-desc">作文批改，笔记增强，学习档案，让学习成果可见可追溯</p>
+        </div>
+        <div class="tools-grid">
+            <a href="tools/essay-grading.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">📄</div>
+                    <div class="card-title">AI作文批改</div>
+                </div>
+                <p class="card-desc">批改作文，标注问题，给出改进建议和范文</p>
+            </a>
+            <a href="tools/note-enhancer.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">📔</div>
+                    <div class="card-title">笔记增强器</div>
+                </div>
+                <p class="card-desc">上传笔记，AI补充要点，生成结构化知识卡片</p>
+            </a>
+            <a href="tools/learning-profile.html" class="tool-card">
+                <div class="card-top">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">学习档案</div>
+                </div>
+                <p class="card-desc">自动生成成长时间线，记录每次进步和突破</p>
+            </a>
+        </div>
+
+        <div class="course-promo">
+            <h3 class="promo-title">想建立完整学习档案？</h3>
+            <p class="promo-desc">智元成长课帮你沉淀学习过程，让每一步成长都有迹可循</p>
+            <button class="promo-cta" onclick="window.location.href='index.html#courses'">了解课程</button>
+        </div>
+    </div>
+
+</main>
+
+<!-- MOBILE TABS -->
 <div class="mobile-tabs">
     <div class="mobile-tabs-inner">
-        <a href="#zone-diagnose" class="mob-tab">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            诊断
+        <a href="#dim-fast" class="mob-tab active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            学得快
         </a>
-        <a href="#zone-attack" class="mob-tab">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            攻克
+        <a href="#dim-precise" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/>
+            </svg>
+            学得准
         </a>
-        <a href="#zone-think" class="mob-tab active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 4 12.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3A7 7 0 0 1 12 2z"/><path d="M10 21h4"/></svg>
-            思维
+        <a href="#dim-ability" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a7 7 0 0 1 4 12.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3A7 7 0 0 1 12 2z"/>
+            </svg>
+            提升能力
         </a>
-        <a href="#zone-art" class="mob-tab">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-            素养
-        </a>
-        <a href="#zone-grow" class="mob-tab">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            成长
+        <a href="#dim-output" class="mob-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            有产出
         </a>
     </div>
 </div>
 
 <script>
-// === Stats ===
-function loadStats() {
-    try {
-        const logs = JSON.parse(localStorage.getItem('yuandian_usage_logs') || '[]');
-        const errors = JSON.parse(localStorage.getItem('yuandian_errors_mastered') || '[]');
-        const feynman = JSON.parse(localStorage.getItem('yuandian_feynman_passed') || '[]');
+// Dimension tabs
+const tabs = document.querySelectorAll('.dim-tab');
+const dimensions = document.querySelectorAll('.dimension');
+const mobTabs = document.querySelectorAll('.mob-tab');
 
-        animateNum('stat-usage', logs.length);
-        animateNum('stat-errors', errors.length);
-        animateNum('stat-feynman', feynman.length);
-        animateNum('stat-streak', calcStreak(logs));
-    } catch(e) {}
-}
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const dim = tab.dataset.dim;
 
-function animateNum(id, target) {
-    const el = document.getElementById(id);
-    if (!el || target === 0) { el.textContent = '0'; return }
-    let current = 0;
-    const step = Math.max(1, Math.floor(target / 20));
-    const timer = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(timer) }
-        el.textContent = current;
-    }, 30);
-}
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
 
-function calcStreak(logs) {
-    if (!logs.length) return 0;
-    const dates = [...new Set(logs.map(l => new Date(l.timestamp).toDateString()))].sort((a,b) => new Date(b)-new Date(a));
-    const today = new Date().toDateString();
-    const yest = new Date(Date.now()-864e5).toDateString();
-    if (dates[0] !== today && dates[0] !== yest) return 0;
-    let s = 1, d = new Date(dates[0]);
-    for (let i=1; i<dates.length; i++) {
-        d = new Date(d.getTime()-864e5);
-        if (dates[i] === d.toDateString()) s++; else break;
-    }
-    return s;
-}
+        dimensions.forEach(d => d.classList.remove('active'));
+        document.getElementById('dim-' + dim).classList.add('active');
 
-// === Filter ===
-function filterTools() {
-    const q = document.getElementById('search-input').value.toLowerCase();
-    document.querySelectorAll('.tool-card').forEach(c => {
-        const n = (c.dataset.name||'').toLowerCase();
-        const d = (c.dataset.desc||'').toLowerCase();
-        c.style.display = (!q || n.includes(q) || d.includes(q)) ? '' : 'none';
+        mobTabs.forEach(m => m.classList.remove('active'));
+        document.querySelector('.mob-tab[href="#dim-' + dim + '"]')?.classList.add('active');
     });
-}
+});
 
-function filterByCategory(cat, btn) {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.zone').forEach(z => {
-        z.style.display = (cat==='all' || z.dataset.category===cat) ? '' : 'none';
+mobTabs.forEach(mobTab => {
+    mobTab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dim = mobTab.getAttribute('href').replace('#dim-', '');
+
+        mobTabs.forEach(m => m.classList.remove('active'));
+        mobTab.classList.add('active');
+
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.dim-tab[data-dim="' + dim + '"]')?.classList.add('active');
+
+        dimensions.forEach(d => d.classList.remove('active'));
+        document.getElementById('dim-' + dim).classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    filterTools();
-}
-
-// === Sidebar scroll spy ===
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            const id = e.target.id;
-            document.querySelectorAll('.sidebar-nav a').forEach(a => {
-                a.classList.toggle('active', a.getAttribute('href') === '#'+id);
-            });
-        }
-    });
-}, { rootMargin: '-100px 0px -60% 0px' });
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadStats();
-    document.querySelectorAll('.zone').forEach(z => observer.observe(z));
 });
 </script>
+
 </body>
 </html>
