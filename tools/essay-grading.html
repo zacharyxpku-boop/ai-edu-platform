@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI作文批改 — 五维度打分+逐段批注 | 原点智学</title>
+    <meta name="description" content="从内容、结构、语言、逻辑、创意5个维度给作文打分,生成优化范文对照">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .essay-container { max-width: 1200px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { margin-bottom: var(--sp-lg); }
+        .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field select {
+            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field textarea {
+            min-height: 300px; padding: 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+            line-height: 1.8; resize: vertical;
+        }
+        .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-lg); }
+        .score-card { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); text-align: center; }
+        .score-label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .score-value { font-size: 2rem; font-weight: 900; color: var(--c-origin); font-family: var(--font-heading); }
+        .score-max { font-size: var(--fs-small); color: var(--c-warm-dim); }
+        .total-score { background: var(--c-origin-glow); border-color: var(--c-origin); }
+        .total-score .score-value { font-size: 3rem; }
+
+        .annotation-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .annotation-section h2 { margin-bottom: var(--sp-md); }
+        .paragraph { padding: var(--sp-md); margin-bottom: var(--sp-md); border-radius: var(--r-md); line-height: 1.8; }
+        .paragraph-text { margin-bottom: var(--sp-sm); }
+        .paragraph-comment { font-size: var(--fs-small); padding: var(--sp-sm); border-radius: var(--r-sm); margin-top: var(--sp-sm); }
+        .paragraph.strength { background: rgba(45,159,111,0.08); border-left: 3px solid var(--c-success); }
+        .paragraph.strength .paragraph-comment { background: rgba(45,159,111,0.15); color: var(--c-success); }
+        .paragraph.improvement { background: rgba(212,168,67,0.08); border-left: 3px solid var(--c-warning); }
+        .paragraph.improvement .paragraph-comment { background: rgba(212,168,67,0.15); color: var(--c-warning); }
+
+        .comparison-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .comparison-section h2 { margin-bottom: var(--sp-md); }
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-lg); }
+        .comparison-col h3 { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
+        .comparison-text { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); line-height: 1.8; min-height: 400px; }
+        .diff-add { background: rgba(45,159,111,0.15); padding: 2px 4px; border-radius: 3px; }
+        .diff-remove { background: rgba(201,64,64,0.15); padding: 2px 4px; border-radius: 3px; text-decoration: line-through; }
+
+        @media (max-width: 767px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+            .score-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">📝</div>
+        <h1>AI作文批改</h1>
+        <p class="section-desc">5维度打分+逐段批注+优化范文对照,比老师批得还细</p>
+    </section>
+
+    <div class="essay-container">
+        <div class="input-card" id="input-section">
+            <h2>粘贴你的作文</h2>
+            <div class="form-field">
+                <label>文体 *</label>
+                <select id="genre-select">
+                    <option value="narrative">记叙文</option>
+                    <option value="argumentative">议论文</option>
+                    <option value="expository">说明文</option>
+                    <option value="poetry">诗歌</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label>作文内容 *</label>
+                <textarea id="essay-input" placeholder="把你的作文粘贴到这里..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="gradeEssay()" id="grade-btn">开始批改</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="score-grid" id="score-grid"></div>
+            <div class="annotation-section" id="annotation-section">
+                <h2>逐段批注</h2>
+                <div id="annotation-content"></div>
+            </div>
+            <div class="comparison-section" id="comparison-section">
+                <h2>优化范文对照</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-col">
+                        <h3>原文</h3>
+                        <div class="comparison-text" id="original-text"></div>
+                    </div>
+                    <div class="comparison-col">
+                        <h3>优化版</h3>
+                        <div class="comparison-text" id="improved-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        function gradeEssay() {
+            const genre = document.getElementById('genre-select').value;
+            const essay = document.getElementById('essay-input').value.trim();
+
+            if (!essay) {
+                alert('请输入作文内容');
+                return;
+            }
+
+            const btn = document.getElementById('grade-btn');
+            btn.disabled = true;
+            btn.textContent = 'AI批改中...';
+
+            const genreNames = {
+                narrative: '记叙文',
+                argumentative: '议论文',
+                expository: '说明文',
+                poetry: '诗歌'
+            };
+
+            const systemPrompt = `你是专业的语文老师,正在批改一篇${genreNames[genre]}。请按以下格式输出：
+
+[SCORES]
+内容:分数/20
+结构:分数/20
+语言:分数/20
+逻辑:分数/20
+创意:分数/20
+
+[ANNOTATIONS]
+每段一个JSON对象,格式:{"text":"段落原文","type":"strength/improvement","comment":"批注内容"}
+用绿色(strength)标注优点,橙色(improvement)标注改进建议
+
+[IMPROVED]
+优化后的完整作文,保留原意只优化表达
+
+严格按此格式输出,每段之间用换行分隔。`;
+
+            window.YdzxAI.call({
+                messages: [{role: 'user', content: essay}],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 2000,
+                onDone: function(response) {
+                    parseAndRender(response, essay);
+                    btn.disabled = false;
+                    btn.textContent = '开始批改';
+                    saveLearningRecord(essay, response);
+                },
+                onError: function(err) {
+                    alert('批改失败: ' + err);
+                    btn.disabled = false;
+                    btn.textContent = '开始批改';
+                }
+            });
+        }
+
+        function parseAndRender(aiResponse, originalEssay) {
+            // 解析AI响应
+            const scoresMatch = aiResponse.match(/\[SCORES\]([\s\S]*?)\[ANNOTATIONS\]/);
+            const annotationsMatch = aiResponse.match(/\[ANNOTATIONS\]([\s\S]*?)\[IMPROVED\]/);
+            const improvedMatch = aiResponse.match(/\[IMPROVED\]([\s\S]*?)$/);
+
+            // 渲染分数
+            if (scoresMatch) {
+                const scores = {};
+                const lines = scoresMatch[1].trim().split('\n');
+                lines.forEach(line => {
+                    const match = line.match(/(.*?):(\d+)\/20/);
+                    if (match) {
+                        scores[match[1].trim()] = parseInt(match[2]);
+                    }
+                });
+                renderScores(scores);
+            }
+
+            // 渲染批注
+            if (annotationsMatch) {
+                const paragraphs = originalEssay.split('\n').filter(p => p.trim());
+                renderAnnotations(paragraphs, annotationsMatch[1].trim());
+            }
+
+            // 渲染对照
+            if (improvedMatch) {
+                document.getElementById('original-text').textContent = originalEssay;
+                document.getElementById('improved-text').innerHTML = highlightDiff(originalEssay, improvedMatch[1].trim());
+            }
+
+            document.getElementById('result-section').classList.add('visible');
+            document.getElementById('result-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function renderScores(scores) {
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const html = `
+                <div class="score-card total-score">
+                    <div class="score-label">总分</div>
+                    <div class="score-value">${total}<span class="score-max">/100</span></div>
+                </div>
+                ${Object.entries(scores).map(([key, val]) => `
+                    <div class="score-card">
+                        <div class="score-label">${key}</div>
+                        <div class="score-value">${val}<span class="score-max">/20</span></div>
+                    </div>
+                `).join('')}
+            `;
+            document.getElementById('score-grid').innerHTML = html;
+        }
+
+        function renderAnnotations(paragraphs, annotationsText) {
+            const annotations = annotationsText.split('\n').filter(a => a.trim()).map(a => {
+                try {
+                    return JSON.parse(a);
+                } catch (e) {
+                    return {text: a, type: 'improvement', comment: '需要优化'};
+                }
+            });
+
+            const html = paragraphs.map((para, i) => {
+                const ann = annotations[i] || {type: 'improvement', comment: '请继续保持'};
+                return `
+                    <div class="paragraph ${ann.type}">
+                        <div class="paragraph-text">${para}</div>
+                        <div class="paragraph-comment">${ann.type === 'strength' ? '✓' : '!'} ${ann.comment}</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('annotation-content').innerHTML = html;
+        }
+
+        function highlightDiff(original, improved) {
+            // 简单高亮差异(实际可用diff库)
+            return improved.split('\n').map(line => {
+                if (!original.includes(line)) {
+                    return `<span class="diff-add">${line}</span>`;
+                }
+                return line;
+            }).join('<br>');
+        }
+
+        function saveLearningRecord(essay, result) {
+            const record = {
+                type: 'essay-grading',
+                essay: essay,
+                result: result,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>
