@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐欣赏 — AI拆解曲式结构+引导聆听 | 原点智学</title>
+    <meta name="description" content="从曲式、调性、主题、情感四维度解析音乐作品,时间轴展示段落结构">
+    <meta name="theme-color" content="#1A1A2E">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E94D35'/><circle cx='50' cy='50' r='20' fill='%231A1A2E'/><circle cx='50' cy='50' r='8' fill='%23F5F0EB'/></svg>">
+    <style>
+        .page-hero { padding: 120px 24px 40px; text-align: center; background: var(--grad-hero); }
+        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-sm); }
+        .page-hero-icon { font-size: 3rem; }
+
+        .music-container { max-width: 1000px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
+
+        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card h2 { margin-bottom: var(--sp-lg); }
+        .input-row { display: grid; grid-template-columns: 2fr 1fr; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+        .form-field { display: flex; flex-direction: column; }
+        .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .form-field input {
+            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
+        }
+        .form-field input:focus { border-color: var(--c-origin); outline: none; }
+
+        .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .result-section { display: none; }
+        .result-section.visible { display: block; }
+
+        .analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-xl); }
+        .analysis-card { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); }
+        .analysis-label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); font-weight: 700; }
+        .analysis-value { color: var(--c-warm-white); font-size: var(--fs-body); line-height: 1.6; }
+
+        .timeline-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .timeline-section h2 { margin-bottom: var(--sp-lg); }
+        .timeline-track { position: relative; padding: var(--sp-lg) 0; }
+        .timeline-line { position: absolute; left: 40px; top: 0; bottom: 0; width: 3px; background: var(--c-ink-border); }
+        .timeline-item { position: relative; padding: var(--sp-md) 0 var(--sp-md) 80px; margin-bottom: var(--sp-lg); }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; background: var(--c-origin); border: 3px solid var(--c-ink-light); z-index: 1; }
+        .timeline-label { color: var(--c-origin); font-weight: 700; font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
+        .timeline-content { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); }
+        .timeline-title { font-weight: 700; margin-bottom: var(--sp-xs); }
+        .timeline-desc { color: var(--c-warm-gray); font-size: var(--fs-small); line-height: 1.6; }
+
+        .listening-guide { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .listening-guide h2 { margin-bottom: var(--sp-lg); }
+        .question-list { list-style: none; }
+        .question-item { background: rgba(15,52,96,0.4); border-left: 3px solid var(--c-success); padding: var(--sp-md); margin-bottom: var(--sp-md); border-radius: var(--r-md); }
+        .question-item:last-child { margin-bottom: 0; }
+
+        @media (max-width: 767px) {
+            .input-row { grid-template-columns: 1fr; }
+            .analysis-grid { grid-template-columns: 1fr; }
+            .timeline-item { padding-left: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="主导航">
+        <a href="../" class="nav-brand"><span class="brand-icon">◉</span><span class="brand-text">原点智学</span></a>
+        <div class="nav-links">
+            <a href="../prompts.html">Prompt指南</a>
+            <a href="../study-tools.html">学习工具</a>
+            <a href="../articles.html">研究院</a>
+            <a href="../settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='../#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </nav>
+
+    <section class="page-hero">
+        <a href="../study-tools.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回工具箱</a>
+        <div class="page-hero-icon">🎵</div>
+        <h1>音乐欣赏</h1>
+        <p class="section-desc">AI拆解曲式结构,用时间轴展示段落,每段配引导问题让你听得更深</p>
+    </section>
+
+    <div class="music-container">
+        <div class="input-card">
+            <h2>输入要欣赏的音乐作品</h2>
+            <div class="input-row">
+                <div class="form-field">
+                    <label>曲名 *</label>
+                    <input type="text" id="piece-name" placeholder="例如：月光奏鸣曲、四季·春、天鹅湖">
+                </div>
+                <div class="form-field">
+                    <label>作曲家 *</label>
+                    <input type="text" id="composer" placeholder="例如：贝多芬、莫扎特">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="analyzeMusic()" id="analyze-btn">开始解析</button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <div class="analysis-grid" id="analysis-grid"></div>
+
+            <div class="timeline-section">
+                <h2>段落结构时间轴</h2>
+                <div class="timeline-track" id="timeline-track">
+                    <div class="timeline-line"></div>
+                </div>
+            </div>
+
+            <div class="listening-guide">
+                <h2>引导聆听问题</h2>
+                <ul class="question-list" id="question-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="../src/api-manager.js"></script>
+    <script src="../src/learning-store.js"></script>
+    <script>
+        function analyzeMusic() {
+            const pieceName = document.getElementById('piece-name').value.trim();
+            const composer = document.getElementById('composer').value.trim();
+
+            if (!pieceName || !composer) {
+                alert('请输入曲名和作曲家');
+                return;
+            }
+
+            const btn = document.getElementById('analyze-btn');
+            btn.disabled = true;
+            btn.textContent = 'AI解析中...';
+
+            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。请按以下JSON格式输出：
+
+{
+  "analysis": {
+    "form": "曲式结构(如:奏鸣曲式/三段体/变奏曲等)",
+    "tonality": "调性特征(如:C大调/a小调,调性变化)",
+    "theme": "核心主题描述",
+    "emotion": "情感走向(如:从忧郁到激昂)"
+  },
+  "timeline": [
+    {"label": "引入/序奏", "title": "段落名称", "description": "这段做了什么"},
+    {"label": "呈示部", "title": "主部主题", "description": "特点和发展"},
+    {"label": "发展部", "title": "冲突与变奏", "description": "音乐如何发展"},
+    {"label": "再现部", "title": "主题回归", "description": "与呈示部的区别"},
+    {"label": "尾声", "title": "结束方式", "description": "如何收尾"}
+  ],
+  "questions": [
+    "你能听出主部主题第一次出现在什么时候吗?",
+    "发展部的情绪和呈示部有什么不同?",
+    "再现部的主题和开头有哪些变化?",
+    "...(3-5个引导性问题)"
+  ]
+}
+
+只输出JSON,不要添加其他文字。`;
+
+            window.YdzxAI.call({
+                messages: [{role: 'user', content: `请解析${composer}的《${pieceName}》`}],
+                systemPrompt: systemPrompt,
+                temperature: 0.7,
+                maxTokens: 1500,
+                onDone: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        renderAnalysis(data, pieceName, composer);
+                        btn.disabled = false;
+                        btn.textContent = '开始解析';
+                        saveLearningRecord(pieceName, composer, data);
+                    } catch (e) {
+                        alert('解析失败,请重试');
+                        btn.disabled = false;
+                        btn.textContent = '开始解析';
+                    }
+                },
+                onError: function(err) {
+                    alert('解析失败: ' + err);
+                    btn.disabled = false;
+                    btn.textContent = '开始解析';
+                }
+            });
+        }
+
+        function renderAnalysis(data, piece, composer) {
+            // 渲染分析卡片
+            const analysisHtml = `
+                <div class="analysis-card">
+                    <div class="analysis-label">曲式结构</div>
+                    <div class="analysis-value">${data.analysis.form}</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-label">调性特征</div>
+                    <div class="analysis-value">${data.analysis.tonality}</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-label">核心主题</div>
+                    <div class="analysis-value">${data.analysis.theme}</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-label">情感走向</div>
+                    <div class="analysis-value">${data.analysis.emotion}</div>
+                </div>
+            `;
+            document.getElementById('analysis-grid').innerHTML = analysisHtml;
+
+            // 渲染时间轴
+            const timelineHtml = data.timeline.map(item => `
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">${item.label}</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">${item.title}</div>
+                        <div class="timeline-desc">${item.description}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('timeline-track').innerHTML = '<div class="timeline-line"></div>' + timelineHtml;
+
+            // 渲染引导问题
+            const questionsHtml = data.questions.map(q => `
+                <li class="question-item">💡 ${q}</li>
+            `).join('');
+            document.getElementById('question-list').innerHTML = questionsHtml;
+
+            document.getElementById('result-section').classList.add('visible');
+            document.getElementById('result-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function saveLearningRecord(piece, composer, data) {
+            const record = {
+                type: 'music-appreciation',
+                piece: piece,
+                composer: composer,
+                analysis: data,
+                timestamp: Date.now()
+            };
+            if (window.LearningStore && window.LearningStore.savePractice) {
+                window.LearningStore.savePractice(record);
+            }
+        }
+    </script>
+</body>
+</html>
