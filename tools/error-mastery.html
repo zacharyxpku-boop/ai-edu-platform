@@ -362,6 +362,89 @@
     }
     </script>
     <script>
+    // 课纲数据和真题样本缓存
+    var curriculumData = null;
+    var seedQuestions = null;
+
+    var subjectMap = {
+        '数学': 'math',
+        '物理': 'physics',
+        '化学': 'chemistry',
+        '生物': 'biology'
+    };
+
+    // 加载课纲数据
+    async function loadCurriculumData(subject) {
+        var fileName = subjectMap[subject];
+        if (!fileName) {
+            curriculumData = null;
+            return;
+        }
+        try {
+            var response = await fetch('../src/curriculum/' + fileName + '.json');
+            curriculumData = await response.json();
+        } catch (e) {
+            console.error('加载课纲失败', e);
+            curriculumData = null;
+        }
+    }
+
+    // 加载真题样本
+    async function loadSeedQuestions() {
+        if (seedQuestions) return;
+        try {
+            var response = await fetch('../src/curriculum/seed-questions.json');
+            var data = await response.json();
+            seedQuestions = data.questions || [];
+        } catch (e) {
+            console.error('加载真题样本失败', e);
+            seedQuestions = [];
+        }
+    }
+
+    // 提取知识点（精简版）
+    function extractKnowledgePoints(grade, subject) {
+        if (!curriculumData || !curriculumData.volumes) return '';
+
+        var gradeNum = parseInt(grade.match(/\d+/)?.[0] || '7');
+        var volume = curriculumData.volumes.find(v => v.grade === gradeNum);
+        if (!volume) return '';
+
+        var points = [];
+        for (var ch of volume.chapters.slice(0, 5)) { // 只取前5章避免太长
+            var topicNames = ch.topics.map(t => t.name).join('、');
+            points.push(ch.name + '：' + topicNames);
+        }
+        return points.join('\n');
+    }
+
+    // 获取真题样本（同科目）
+    function getSeedQuestionSamples(subject) {
+        if (!seedQuestions || seedQuestions.length === 0) return '';
+
+        var subjectEn = subjectMap[subject];
+        var samples = seedQuestions.filter(q => q.subject === subjectEn).slice(0, 3);
+        if (samples.length === 0) return '';
+
+        var text = '**真题参考格式：**\n';
+        samples.forEach((q, i) => {
+            text += (i + 1) + '. 题目：' + q.question_text + '\n   答案：' + q.answer + '\n';
+        });
+        return text;
+    }
+
+    // 监听科目变化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSeedQuestions();
+        var subjectSelect = document.getElementById('subject');
+        var initialSubject = subjectSelect.value;
+        loadCurriculumData(initialSubject);
+
+        subjectSelect.addEventListener('change', function() {
+            loadCurriculumData(this.value);
+        });
+    });
+
     function analyzeError() {
         var grade = document.getElementById('grade').value;
         var subject = document.getElementById('subject').value;
@@ -374,7 +457,20 @@
             return;
         }
 
-        var systemPrompt = '你是一个专业的错题分析专家。对于学生的错题，你需要：\n\n' +
+        // 动态注入课纲和真题格式
+        var knowledgePoints = extractKnowledgePoints(grade, subject);
+        var sampleQuestions = getSeedQuestionSamples(subject);
+
+        var knowledgeSection = knowledgePoints ?
+            '\n\n**该科目知识点体系：**\n' + knowledgePoints + '\n请基于这些知识点分析错因。' :
+            '';
+
+        var sampleSection = sampleQuestions ?
+            '\n\n' + sampleQuestions + '\n变式题请参考以上格式。' :
+            '';
+
+        var systemPrompt = '你是一个专业的错题分析专家。对于学生的错题，你需要：' +
+            knowledgeSection + sampleSection + '\n\n' +
             '1. 五重错因分析：从以下5个维度判断错误原因\n' +
             '   - 知识盲区：缺少必要的知识点或概念\n' +
             '   - 方法错误：解题思路或方法不对\n' +
