@@ -400,6 +400,85 @@
     }
     </script>
     <script>
+    // 课纲数据缓存
+    var curriculumData = null;
+    var examStandards = null;
+
+    // 科目映射（中文到文件名）
+    var subjectMap = {
+        '数学': 'math',
+        '物理': 'physics',
+        '化学': 'chemistry',
+        '生物': 'biology'
+    };
+
+    // 加载课纲数据
+    async function loadCurriculumData(subject) {
+        var fileName = subjectMap[subject];
+        if (!fileName) {
+            curriculumData = null;
+            return;
+        }
+
+        try {
+            var response = await fetch('../src/curriculum/' + fileName + '.json');
+            curriculumData = await response.json();
+        } catch (e) {
+            console.error('加载课纲数据失败', e);
+            curriculumData = null;
+        }
+    }
+
+    // 加载评分标准
+    async function loadExamStandards() {
+        if (examStandards) return;
+        try {
+            var response = await fetch('../src/curriculum/exam-standards.json');
+            examStandards = await response.json();
+        } catch (e) {
+            console.error('加载评分标准失败', e);
+        }
+    }
+
+    // 提取年级对应的知识点（控制在2000字以内）
+    function extractKnowledgePoints(grade) {
+        if (!curriculumData || !curriculumData.volumes) return '';
+
+        var gradeNum = parseInt(grade.match(/\d+/)?.[0] || '7');
+        var volume = curriculumData.volumes.find(v => v.grade === gradeNum);
+        if (!volume) return '';
+
+        var points = [];
+        var totalChars = 0;
+        var maxChars = 2000;
+
+        for (var ch of volume.chapters) {
+            if (totalChars >= maxChars) break;
+            var chapterText = ch.name + ':';
+            for (var topic of ch.topics) {
+                var topicText = topic.name + '(' + topic.keyPoints.join(',') + ')';
+                if (totalChars + topicText.length > maxChars) break;
+                chapterText += topicText + ';';
+                totalChars += topicText.length;
+            }
+            points.push(chapterText);
+        }
+
+        return points.join('\n');
+    }
+
+    // 监听科目变化，预加载数据
+    document.addEventListener('DOMContentLoaded', function() {
+        loadExamStandards();
+        var subjectSelect = document.getElementById('subject');
+        var initialSubject = subjectSelect.value;
+        loadCurriculumData(initialSubject);
+
+        subjectSelect.addEventListener('change', function() {
+            loadCurriculumData(this.value);
+        });
+    });
+
     // 错题列表
     var errors = [];
     var errorCounter = 0;
@@ -499,8 +578,21 @@
         var rank = document.getElementById('rank').value;
         var examName = document.getElementById('exam-name').value;
 
-        // 构建系统提示词
-        var systemPrompt = '你是一个专业的学习诊断专家。基于学生的考试成绩和错题，你需要从13个维度进行精准诊断，并给出提分建议。\n\n' +
+        // 构建系统提示词（动态注入课纲数据）
+        var knowledgePointsText = extractKnowledgePoints(grade);
+        var curriculumSection = knowledgePointsText ?
+            '\n\n**该科目知识点体系（来自真实课纲）：**\n' + knowledgePointsText + '\n\n请基于这些真实考点做诊断。' :
+            '';
+
+        var standardsSection = '';
+        if (examStandards && subject === '语文') {
+            standardsSection = '\n\n**作文评分标准：**\n' +
+                '满分50分，基础分40分（内容、结构、语言、文面），发展分10分（深度/个性/文采/创新）。\n' +
+                '一等(45-50分)：立意深刻，内容充实，材料新颖，结构完整，语言流畅生动。';
+        }
+
+        var systemPrompt = '你是一个专业的学习诊断专家。基于学生的考试成绩和错题，你需要从13个维度进行精准诊断，并给出提分建议。' +
+            curriculumSection + standardsSection + '\n\n' +
             '13个诊断维度：\n' +
             '1. 知识点掌握度 - 对该科目核心知识点的理解程度\n' +
             '2. 审题准确性 - 理解题目要求的能力\n' +
