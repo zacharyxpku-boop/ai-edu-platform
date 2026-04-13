@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原点智学 — 让每个孩子站在更高的出发点</title>
+    <meta name="description" content="原点智学：AI时代家庭教育成长平台。学得快×考得高×思维好×有产出，四位一体能力体系，覆盖6-16岁全阶段。">
+    <meta property="og:title" content="原点智学 — 让每个孩子站在更高的出发点">
+    <meta property="og:description" content="6-16岁AI能力成长课程。12周系统课程，8-12人小班直播，创始人亲授。">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#F5A623">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
+    <link rel="canonical" href="https://www.yuandianzhixue.com/">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "原点智学",
+        "alternateName": "YUANDIAN ZHIXUE",
+        "description": "AI时代家庭教育成长平台",
+        "url": "https://www.yuandianzhixue.com",
+        "email": "business@yuandianzhixue.com",
+        "slogan": "让每个孩子站在更高的出发点",
+        "areaServed": "CN"
+    }
+    </script>
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+        :root{
+            --bg:#FAFAF7;
+            --bg-warm:#F3EDE4;
+            --bg-card:#FFFFFF;
+            --ink:#1C1C1E;
+            --ink-2:#374151;
+            --ink-3:#6B7280;
+            --ink-4:#9CA3AF;
+            --ink-5:#D1D5DB;
+            --border:#E5E1D8;
+            --amber:#D4940A;
+            --amber-bright:#F5A623;
+            --amber-bg:#FDF8EE;
+            --cta:#C2410C;
+            --cta-hover:#9A3412;
+            --green:#047857;
+            --green-bg:#ECFDF5;
+            --blue:#1D4ED8;
+            --blue-bg:#EFF6FF;
+            --purple:#6D28D9;
+            --purple-bg:#F5F3FF;
+            --pink:#BE185D;
+            --pink-bg:#FDF2F8;
+            --font:'Noto Sans SC',system-ui,-apple-system,sans-serif;
+            --r:10px;
+        }
+
+        html{scroll-behavior:smooth}
+        body{
+            font-family:var(--font);
+            background:var(--bg);
+            color:var(--ink);
+            line-height:1.7;
+            -webkit-font-smoothing:antialiased;
+            overflow-x:hidden;
+        }
+
+        /* grain */
+        body::after{
+            content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;
+            background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+        .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+        /* ====================== NAV ====================== */
+        .nav{
+            position:sticky;top:0;z-index:100;
+            background:rgba(250,250,247,0.88);
+            backdrop-filter:blur(24px) saturate(180%);
+            -webkit-backdrop-filter:blur(24px) saturate(180%);
+            border-bottom:1px solid var(--border);
+        }
+        .nav-inner{
+            max-width:1140px;margin:0 auto;padding:0 24px;
+            display:flex;align-items:center;justify-content:space-between;height:54px;
+        }
+        .nav-brand{
+            display:flex;align-items:center;gap:8px;
+            text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;
+        }
+        .nav-brand svg{width:26px;height:26px}
+        .nav-links{display:flex;gap:2px}
+        .nav-links a{
+            padding:6px 12px;border-radius:8px;text-decoration:none;
+            color:var(--ink-3);font-size:13px;font-weight:500;transition:all .15s;
+        }
+        .nav-links a:hover{color:var(--ink);background:var(--amber-bg)}
+        .nav-cta{
+            background:var(--ink);color:#fff;border:none;padding:7px 18px;
+            border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+            font-family:var(--font);transition:all .15s;
+        }
+        .nav-cta:hover{opacity:.85}
+        .hamburger{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink)}
+        .mobile-nav{
+            display:none;flex-direction:column;padding:12px 24px 20px;
+            background:var(--bg);border-bottom:1px solid var(--border);
+        }
+        .mobile-nav a{padding:10px 0;text-decoration:none;color:var(--ink);font-size:15px;font-weight:500;border-bottom:1px solid var(--border)}
+        @media(max-width:767px){
+            .nav-links,.nav-cta{display:none}
+            .hamburger{display:block}
+        }
+
+        /* ====================== HERO ====================== */
+        .hero{
+            position:relative;
+            padding:100px 0 80px;
+            overflow:hidden;
+        }
+        .hero::before{
+            content:'';position:absolute;
+            top:-120px;right:-80px;
+            width:520px;height:520px;
+            border-radius:50%;
+            background:radial-gradient(circle,rgba(245,166,35,0.08) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .hero::after{
+            content:'◉';position:absolute;
+            top:60px;right:80px;
+            font-size:280px;
+            color:rgba(245,166,35,0.04);
+            line-height:1;pointer-events:none;
+        }
+        .hero .wrap{position:relative;z-index:1}
+        .hero-pill{
+            display:inline-block;
+            background:var(--amber-bg);border:1px solid rgba(212,148,10,0.15);
+            color:var(--amber);font-size:12px;font-weight:700;
+            padding:5px 14px;border-radius:100px;margin-bottom:24px;
+            letter-spacing:.3px;
+        }
+        .hero h1{
+            font-size:clamp(36px,7vw,64px);font-weight:900;
+            line-height:1.1;letter-spacing:-1.5px;
+            margin-bottom:24px;max-width:680px;
+        }
+        .hero h1 em{
+            font-style:normal;
+            background:linear-gradient(135deg,var(--cta),var(--amber-bright));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
+        .hero-sub{
+            font-size:18px;line-height:1.8;color:var(--ink-2);
+            max-width:540px;margin-bottom:36px;font-weight:400;
+        }
+        .hero-sub strong{color:var(--ink);font-weight:700}
+        .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+        .btn-p{
+            background:var(--cta);color:#fff;border:none;
+            padding:15px 32px;border-radius:var(--r);
+            font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);
+            transition:all .2s;position:relative;overflow:hidden;
+        }
+        .btn-p:hover{background:var(--cta-hover);transform:translateY(-1px)}
+        .btn-s{
+            background:transparent;color:var(--ink);
+            border:1.5px solid var(--border);padding:14px 28px;
+            border-radius:var(--r);font-size:15px;font-weight:600;
+            cursor:pointer;font-family:var(--font);transition:all .15s;
+        }
+        .btn-s:hover{border-color:var(--ink-3);background:var(--bg-card)}
+        .hero-metrics{
+            display:flex;gap:48px;flex-wrap:wrap;
+        }
+        .metric-item{display:flex;flex-direction:column}
+        .metric-num{font-size:28px;font-weight:900;letter-spacing:-1px;line-height:1.1}
+        .metric-label{font-size:13px;color:var(--ink-3);margin-top:2px;font-weight:400}
+
+        @media(max-width:767px){
+            .hero{padding:60px 0 48px}
+            .hero::after{display:none}
+            .hero-metrics{gap:24px}
+            .metric-num{font-size:22px}
+        }
+
+        /* ====================== SECTIONS ====================== */
+        section{padding:80px 0}
+        section:nth-child(even){background:var(--bg-card)}
+        .sec-label{
+            font-size:11px;font-weight:700;color:var(--amber);
+            letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;
+        }
+        .sec-title{
+            font-size:clamp(26px,4vw,38px);font-weight:900;
+            letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px;
+        }
+        .sec-desc{
+            font-size:16px;color:var(--ink-3);max-width:520px;margin-bottom:48px;
+        }
+
+        /* ====================== FOUR PILLARS — "QUADRANT" ====================== */
+        .quad{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:2px;
+            border-radius:var(--r);
+            overflow:hidden;
+            margin-bottom:48px;
+        }
+        .quad-cell{
+            padding:40px 36px;
+            position:relative;
+            transition:all .3s;
+        }
+        .quad-cell:hover{background:var(--bg-card) !important}
+        .quad-cell:nth-child(1){background:var(--amber-bg)}
+        .quad-cell:nth-child(2){background:var(--blue-bg)}
+        .quad-cell:nth-child(3){background:var(--purple-bg)}
+        .quad-cell:nth-child(4){background:var(--green-bg)}
+        .quad-num{
+            font-size:64px;font-weight:900;line-height:1;
+            opacity:0.08;position:absolute;top:16px;right:24px;
+        }
+        .quad-icon{
+            font-size:13px;font-weight:700;
+            padding:4px 10px;border-radius:6px;display:inline-block;margin-bottom:12px;
+        }
+        .quad-cell:nth-child(1) .quad-icon{background:rgba(212,148,10,0.15);color:var(--amber)}
+        .quad-cell:nth-child(2) .quad-icon{background:rgba(29,78,216,0.1);color:var(--blue)}
+        .quad-cell:nth-child(3) .quad-icon{background:rgba(109,40,217,0.1);color:var(--purple)}
+        .quad-cell:nth-child(4) .quad-icon{background:rgba(4,120,87,0.1);color:var(--green)}
+        .quad-h{font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-0.3px}
+        .quad-sub{font-size:13px;color:var(--ink-4);margin-bottom:10px;font-weight:500}
+        .quad-p{font-size:15px;color:var(--ink-2);line-height:1.7}
+
+        @media(max-width:600px){
+            .quad{grid-template-columns:1fr;gap:0}
+            .quad-cell{padding:28px 24px}
+        }
+
+        /* ====================== PAIN POINTS ====================== */
+        .pains{display:flex;flex-direction:column;gap:0}
+        .pain{
+            display:grid;grid-template-columns:80px 1fr;gap:24px;
+            padding:32px 0;border-bottom:1px solid var(--border);
+            align-items:start;
+        }
+        .pain:last-child{border-bottom:none}
+        .pain-num{
+            font-size:48px;font-weight:900;color:var(--amber-bright);
+            opacity:0.25;line-height:1;
+        }
+        .pain h3{font-size:18px;font-weight:700;margin-bottom:8px}
+        .pain p{font-size:15px;color:var(--ink-2);line-height:1.7}
+
+        @media(max-width:600px){
+            .pain{grid-template-columns:1fr;gap:8px}
+            .pain-num{font-size:32px}
+        }
+
+        /* ====================== SHOWCASE ====================== */
+        .showcase{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:16px;
+        }
+        .showcase-item{
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--r);
+            padding:28px;
+            transition:all .25s;
+            position:relative;
+        }
+        .showcase-item:hover{
+            transform:translateY(-3px);
+            box-shadow:0 8px 30px rgba(0,0,0,0.06);
+        }
+        .showcase-item:first-child{
+            grid-column:1/-1;
+            display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+            background:var(--amber-bg);border-color:rgba(212,148,10,0.15);
+        }
+        .showcase-age{
+            font-size:11px;font-weight:700;color:var(--ink-4);
+            letter-spacing:0.5px;margin-bottom:8px;
+        }
+        .showcase-item h3{font-size:18px;font-weight:700;margin-bottom:8px}
+        .showcase-item p{font-size:14px;color:var(--ink-2);line-height:1.7}
+        .showcase-note{font-size:12px;color:var(--ink-4);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+
+        @media(max-width:600px){
+            .showcase{grid-template-columns:1fr}
+            .showcase-item:first-child{grid-template-columns:1fr}
+        }
+
+        /* ====================== PRODUCTS ====================== */
+        .products{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .product{
+            background:var(--bg);border:1px solid var(--border);
+            border-radius:var(--r);padding:28px;
+            text-decoration:none;color:inherit;display:block;
+            transition:all .25s;
+        }
+        .product:hover{border-color:var(--amber-bright);box-shadow:0 6px 24px rgba(0,0,0,0.05);transform:translateY(-2px)}
+        .product-tag{font-size:11px;font-weight:700;color:var(--ink-4);letter-spacing:.5px;margin-bottom:8px}
+        .product h3{font-size:20px;font-weight:700;margin-bottom:6px}
+        .product-price{font-size:14px;color:var(--amber);font-weight:600;margin-bottom:10px}
+        .product p{font-size:14px;color:var(--ink-2);line-height:1.7}
+        .product-full{grid-column:1/-1}
+
+        @media(max-width:600px){.products{grid-template-columns:1fr}}
+
+        /* ====================== FOUNDER ====================== */
+        .founder{
+            max-width:640px;
+            position:relative;
+        }
+        .founder::before{
+            content:'\201C';position:absolute;top:-40px;left:-16px;
+            font-size:120px;color:var(--amber-bright);opacity:0.1;
+            font-family:Georgia,serif;line-height:1;pointer-events:none;
+        }
+        .founder-who{
+            font-size:11px;font-weight:700;color:var(--amber);
+            letter-spacing:1px;margin-bottom:16px;
+        }
+        .founder h2{font-size:28px;font-weight:800;margin-bottom:24px;letter-spacing:-0.3px}
+        .founder p{font-size:16px;color:var(--ink-2);line-height:1.85;margin-bottom:18px}
+        .founder strong{color:var(--ink);font-weight:700}
+        .founder-sig{
+            margin-top:28px;padding-top:20px;border-top:1px solid var(--border);
+        }
+        .founder-sig b{font-size:15px;display:block;margin-bottom:2px}
+        .founder-sig span{font-size:13px;color:var(--ink-4);display:block}
+
+        /* ====================== TRUST ====================== */
+        .trust{
+            display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+            border-radius:var(--r);overflow:hidden;
+        }
+        .trust-cell{
+            background:var(--bg);padding:32px 24px;text-align:center;
+            transition:background .2s;
+        }
+        .trust-cell:hover{background:var(--bg-card)}
+        .trust-big{font-size:28px;font-weight:900;margin-bottom:8px;letter-spacing:-0.5px}
+        .trust-cell p{font-size:13px;color:var(--ink-3);line-height:1.6}
+
+        @media(max-width:767px){.trust{grid-template-columns:1fr 1fr}}
+        @media(max-width:480px){.trust{grid-template-columns:1fr}}
+
+        /* ====================== CTA ====================== */
+        .cta-section{
+            background:var(--ink);color:#fff;padding:80px 0;
+        }
+        .cta-section .sec-label{color:var(--amber-bright)}
+        .cta-section .sec-title{color:#fff}
+        .cta-section .sec-desc{color:rgba(255,255,255,0.6)}
+        .cta-grid{
+            display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;
+        }
+        .cta-info h3{color:#fff;font-size:18px;margin-bottom:16px}
+        .cta-line{
+            display:flex;align-items:center;gap:10px;
+            padding:10px 0;color:rgba(255,255,255,0.7);font-size:14px;
+        }
+        .cta-form{
+            background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+            border-radius:var(--r);padding:28px;
+        }
+        .cta-form h3{color:#fff;font-size:18px;margin-bottom:16px}
+        .cta-form input{
+            width:100%;padding:12px 16px;margin-bottom:10px;
+            background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+            border-radius:8px;color:#fff;font-size:14px;font-family:var(--font);
+            outline:none;transition:border-color .15s;
+        }
+        .cta-form input::placeholder{color:rgba(255,255,255,0.35)}
+        .cta-form input:focus{border-color:var(--amber-bright)}
+        .cta-form button{
+            width:100%;padding:14px;margin-top:4px;
+            background:var(--cta);color:#fff;border:none;border-radius:8px;
+            font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);
+            transition:background .15s;
+        }
+        .cta-form button:hover{background:var(--cta-hover)}
+        .cta-trust{font-size:12px;color:rgba(255,255,255,0.35);margin-top:12px;text-align:center}
+
+        @media(max-width:767px){.cta-grid{grid-template-columns:1fr;gap:32px}}
+
+        /* ====================== SHARE BAR ====================== */
+        .share-bar{
+            position:fixed;bottom:0;left:0;right:0;z-index:90;
+            background:rgba(250,250,247,0.92);backdrop-filter:blur(16px);
+            -webkit-backdrop-filter:blur(16px);
+            border-top:1px solid var(--border);
+            padding:10px 24px;
+            display:flex;align-items:center;justify-content:center;gap:12px;
+            transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);
+        }
+        .share-bar.visible{transform:translateY(0)}
+        .share-bar-label{font-size:13px;color:var(--ink-3);font-weight:500}
+        .share-btn{
+            background:var(--bg-card);border:1px solid var(--border);
+            padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;
+            cursor:pointer;font-family:var(--font);color:var(--ink);transition:all .15s;
+        }
+        .share-btn:hover{border-color:var(--ink-3)}
+
+        /* ====================== FOOTER ====================== */
+        .foot{
+            border-top:1px solid var(--border);padding:40px 0 24px;
+        }
+        .foot-inner{
+            display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;
+            margin-bottom:32px;
+        }
+        .foot-brand h3{font-size:16px;font-weight:700;margin-bottom:6px}
+        .foot-brand p{font-size:13px;color:var(--ink-3);line-height:1.6}
+        .foot-col h4{font-size:12px;font-weight:700;color:var(--ink-4);letter-spacing:.5px;margin-bottom:12px}
+        .foot-col a{display:block;font-size:13px;color:var(--ink-3);text-decoration:none;padding:4px 0;transition:color .15s}
+        .foot-col a:hover{color:var(--ink)}
+        .foot-bottom{
+            display:flex;justify-content:space-between;
+            padding-top:20px;border-top:1px solid var(--border);
+            font-size:12px;color:var(--ink-4);
+        }
+
+        @media(max-width:767px){
+            .foot-inner{grid-template-columns:1fr;gap:24px}
+            .foot-bottom{flex-direction:column;gap:4px}
+        }
+
+        /* ====================== ANIMATIONS ====================== */
+        .reveal{opacity:0;transform:translateY(32px);transition:all .7s cubic-bezier(.25,.46,.45,.94)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>
+            原点智学
+        </a>
+        <div class="nav-links">
+            <a href="study-tools.html">学习工具</a>
+            <a href="methods.html">成长课</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+            <a href="settings.html">设置</a>
+        </div>
+        <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </div>
+</nav>
+<div id="mobile-nav" class="mobile-nav">
+    <a href="study-tools.html" onclick="toggleMobileNav()">学习工具</a>
+    <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
+    <a href="articles.html" onclick="toggleMobileNav()">原点研究院</a>
+    <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
+    <a href="#contact" onclick="toggleMobileNav()">联系</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="wrap">
+        <div class="hero-pill">◉ 首批种子学员招募中 · 6-16岁</div>
+        <h1>不教孩子用AI搜答案<br>教孩子用AI<em>做研究报告</em></h1>
+        <p class="hero-sub">
+            12周系统课程，创始人亲授。孩子学会用AI<strong>思考、创造、产出</strong>。<br>
+            结课时带走一份自己做的AI作品——这才是真正学到了东西的证明。
+        </p>
+        <div class="hero-btns">
+            <button class="btn-p" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">预约免费试听课</button>
+            <button class="btn-s" onclick="document.getElementById('method').scrollIntoView({behavior:'smooth'})">了解课程设计</button>
+        </div>
+        <div class="hero-metrics">
+            <div class="metric-item">
+                <span class="metric-num">12周</span>
+                <span class="metric-label">系统课程 从认知到产出</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-num">8-12人</span>
+                <span class="metric-label">小班直播 创始人亲授</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-num">首2周</span>
+                <span class="metric-label">不满意全额退款</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Four Pillars -->
+<section id="method">
+    <div class="wrap reveal">
+        <div class="sec-label">教学理念</div>
+        <div class="sec-title">四维一体，缺一不可</div>
+        <p class="sec-desc">成绩和能力，不是二选一。我们的课程设计让四件事同时发生。</p>
+        <div class="quad">
+            <div class="quad-cell">
+                <div class="quad-num">01</div>
+                <div class="quad-icon">学得快</div>
+                <div class="quad-h">用AI找到薄弱点</div>
+                <div class="quad-sub">精准补强，不做无效练习</div>
+                <p class="quad-p">教孩子用AI分析自己的错题规律，找到知识盲区。不是替代学习，是让学习更有方向感。</p>
+            </div>
+            <div class="quad-cell">
+                <div class="quad-num">02</div>
+                <div class="quad-icon">考得高</div>
+                <div class="quad-h">AI辅助备考</div>
+                <div class="quad-sub">成绩自然上去</div>
+                <p class="quad-p">用AI精准攻坚高频考点、生成个性化练习题。学习效率提升的同时，成绩同步提升。</p>
+            </div>
+            <div class="quad-cell">
+                <div class="quad-num">03</div>
+                <div class="quad-icon">思维好</div>
+                <div class="quad-h">会提问比会回答更重要</div>
+                <div class="quad-sub">独立判断，不盲从AI</div>
+                <p class="quad-p">我们不给标准答案，用问题引导孩子自己思考。「AI说地球是宇宙中心，你信吗？」——这种训练让孩子学会独立判断。</p>
+            </div>
+            <div class="quad-cell">
+                <div class="quad-num">04</div>
+                <div class="quad-icon">有产出</div>
+                <div class="quad-h">每期带走一份AI作品</div>
+                <div class="quad-sub">看得见的学费回报</div>
+                <p class="quad-p">研究报告、创意绘本、演讲稿——每个孩子结课时都有一份拿得出手的作品。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pain Points -->
+<section>
+    <div class="wrap reveal">
+        <div class="sec-label">设计动机</div>
+        <div class="sec-title">你可能也有这些困惑</div>
+        <p class="sec-desc">这是我们在设计课程时反复思考的三个核心问题</p>
+        <div class="pains">
+            <div class="pain">
+                <div class="pain-num">01</div>
+                <div>
+                    <h3>「成绩重要，但只抓成绩够吗？」</h3>
+                    <p>你想让孩子考好，也想让他面对AI时代不慌。但市面上的课程要么只教刷题，要么只讲素质——你找不到一个两样都管的。我们的课程设计目标就是：成绩和能力，一起抓。</p>
+                </div>
+            </div>
+            <div class="pain">
+                <div class="pain-num">02</div>
+                <div>
+                    <h3>「教孩子用AI，会不会越用越懒？」</h3>
+                    <p>很多AI课教的是搜题、抄答案。我们教的是：怎么向AI提出好问题、怎么判断AI说的对不对、怎么用AI做出属于自己的东西。工具是AI的，脑子是孩子的。</p>
+                </div>
+            </div>
+            <div class="pain">
+                <div class="pain-num">03</div>
+                <div>
+                    <h3>「花了钱，怎么知道孩子真学到了？」</h3>
+                    <p>很多课上完什么痕迹都没有。我们的课程设计目标：每个孩子结课时带走一份自己做的AI作品——研究报告、创意绘本、演讲稿。看得见，摸得着。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Showcase -->
+<section>
+    <div class="wrap reveal">
+        <div class="sec-label">课程产出</div>
+        <div class="sec-title">课程产出目标示例</div>
+        <p class="sec-desc">每个孩子结课时，都会带走一份属于自己的作品</p>
+        <div class="showcase">
+            <div class="showcase-item">
+                <div>
+                    <div class="showcase-age">6-8岁 · 启智轨</div>
+                    <h3>AI创意绘本</h3>
+                    <p>孩子自己构思故事，用AI辅助生成插画，制作一本属于自己的原创绘本。培养想象力和叙事能力。</p>
+                    <div class="showcase-note">课程设计目标 · 第4-8周完成</div>
+                </div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-age">9-11岁 · 探索轨</div>
+                <h3>城市观察研究报告</h3>
+                <p>选一个身边的问题，用AI辅助收集信息、分析数据、制作图表，完成一份完整的研究报告。</p>
+                <div class="showcase-note">课程设计目标 · 第6-10周完成</div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-age">12-14岁 · 进阶轨</div>
+                <h3>AI辅助演讲 + 路演</h3>
+                <p>围绕有争议的话题，用AI辅助结构化论点，独立完成5分钟演讲并在课堂上展示。</p>
+                <div class="showcase-note">课程设计目标 · 第8-12周完成</div>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-age">15-16岁 · 卓越轨</div>
+                <h3>社会议题调研项目</h3>
+                <p>选择真实的社会问题，设计调研方案，用AI辅助数据分析和可视化，完成可展示的项目报告。</p>
+                <div class="showcase-note">课程设计目标 · 第6-12周完成</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products -->
+<section>
+    <div class="wrap reveal">
+        <div class="sec-label">产品体系</div>
+        <div class="sec-title">我们怎么教？</div>
+        <p class="sec-desc">12周系统课程，每周1小时直播，8-12人小班，创始人亲授首期课程</p>
+        <div class="products">
+            <a href="methods.html" class="product">
+                <div class="product-tag">核心课程</div>
+                <h3>智元成长课 →</h3>
+                <div class="product-price">¥3,980/学期 · 种子学员 ¥3,280</div>
+                <p>6-16岁分龄四轨课程，12周×60分钟，8-12人小班直播。首期由创始人亲自授课。</p>
+            </a>
+            <a href="study-tools.html" class="product">
+                <div class="product-tag">免费工具</div>
+                <h3>AI提分教练 →</h3>
+                <div class="product-price">免费 · 15个AI学习工具</div>
+                <p>考试诊断、错题攻克、费曼验证、知识可视化、作文批改……每天免费3次，自带key无限用。</p>
+            </a>
+            <a href="articles.html" class="product product-full">
+                <div class="product-tag">免费内容</div>
+                <h3>原点研究院 →</h3>
+                <div class="product-price">免费阅读 · 每周更新</div>
+                <p>AI时代家庭教育深度内容。不贩卖恐慌，用真实案例和研究帮你看懂趋势、做对选择。不买课也值得看。</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section>
+    <div class="wrap reveal">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
+            <div>
+                <div class="sec-label">关于原点</div>
+                <h2 style="font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-0.5px;margin-bottom:20px;line-height:1.2">回到教育最本质的出发点</h2>
+                <p style="font-size:15px;color:var(--ink-2);line-height:1.85;margin-bottom:16px">「原点」的含义：每个孩子都站在自己的坐标原点上。我们不替孩子画路线，我们给他罗盘。</p>
+                <p style="font-size:15px;color:var(--ink-2);line-height:1.85;margin-bottom:16px">我们的AI教育不教搜答案，教<strong style="color:var(--ink)">提问、判断、创造</strong>。工具是AI的，脑子是孩子的。</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px">
+                    <div style="padding:16px;background:var(--amber-bg);border-radius:var(--r)">
+                        <div style="font-size:22px;font-weight:900;margin-bottom:2px">15+</div>
+                        <div style="font-size:12px;color:var(--ink-3)">免费AI学习工具</div>
+                    </div>
+                    <div style="padding:16px;background:var(--blue-bg);border-radius:var(--r)">
+                        <div style="font-size:22px;font-weight:900;margin-bottom:2px">四维一体</div>
+                        <div style="font-size:12px;color:var(--ink-3)">快/准/思维/产出</div>
+                    </div>
+                    <div style="padding:16px;background:var(--green-bg);border-radius:var(--r)">
+                        <div style="font-size:22px;font-weight:900;margin-bottom:2px">6-16岁</div>
+                        <div style="font-size:12px;color:var(--ink-3)">分龄四轨课程</div>
+                    </div>
+                    <div style="padding:16px;background:var(--purple-bg);border-radius:var(--r)">
+                        <div style="font-size:22px;font-weight:900;margin-bottom:2px">苏格拉底式</div>
+                        <div style="font-size:12px;color:var(--ink-3)">AI永远不给答案</div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center;padding:48px 0">
+                <svg viewBox="0 0 200 200" width="160" height="160" style="margin-bottom:20px">
+                    <defs>
+                        <clipPath id="half-left"><rect x="0" y="0" width="100" height="200"/></clipPath>
+                        <clipPath id="half-right"><rect x="100" y="0" width="100" height="200"/></clipPath>
+                    </defs>
+                    <circle cx="100" cy="100" r="80" fill="#9CA3AF" clip-path="url(#half-left)"/>
+                    <circle cx="100" cy="100" r="80" fill="#374151" clip-path="url(#half-right)"/>
+                    <rect x="96" y="30" width="8" height="140" rx="4" fill="#fff" opacity="0.9"/>
+                </svg>
+                <div style="font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:4px">原点智学</div>
+                <div style="font-size:12px;color:var(--ink-4);letter-spacing:3px;font-weight:500">ORIGIN AI EDU</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust -->
+<section>
+    <div class="wrap reveal">
+        <div class="sec-label">种子学员</div>
+        <div class="sec-title">为什么现在加入？</div>
+        <p class="sec-desc">首批种子学员专属权益——只有最早的支持者才能享受</p>
+        <div class="trust">
+            <div class="trust-cell">
+                <div class="trust-big">¥3,280</div>
+                <p>种子学员早鸟价，比正式价省700元。招满即恢复原价。</p>
+            </div>
+            <div class="trust-cell">
+                <div class="trust-big">创始人</div>
+                <p>首期课程由创始人Zack亲自授课。后续将由教研团队授课。</p>
+            </div>
+            <div class="trust-cell">
+                <div class="trust-big">共建权</div>
+                <p>你的反馈直接影响课程迭代方向。种子学员是共建者，不只是消费者。</p>
+            </div>
+            <div class="trust-cell">
+                <div class="trust-big">零风险</div>
+                <p>首2周不满意全额退款，零附加条件。等于前2节课完全免费。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+    <div class="wrap reveal">
+        <div class="sec-label">开始</div>
+        <div class="sec-title">给孩子一个机会，先免费试听</div>
+        <p class="sec-desc">填写信息预约0元试听课。上完一节课再决定。</p>
+        <div class="cta-grid">
+            <div class="cta-info">
+                <h3>联系创始人</h3>
+                <div class="cta-line">📧 business@yuandianzhixue.com</div>
+                <div class="cta-line">🌐 www.yuandianzhixue.com</div>
+                <div class="cta-line">💬 微信搜索「原点智学」</div>
+                <div class="cta-line" style="margin-top:12px;opacity:.5;font-size:12px">任何问题都可以直接联系，创始人亲自回复</div>
+            </div>
+            <div class="cta-form">
+                <h3>预约免费试听课</h3>
+                <label for="sub-name" class="sr-only">您的姓名</label>
+                <input type="text" placeholder="您的姓名" id="sub-name" autocomplete="name">
+                <label for="sub-phone" class="sr-only">手机号码</label>
+                <input type="tel" placeholder="手机号码" id="sub-phone" autocomplete="tel" inputmode="tel">
+                <label for="sub-age" class="sr-only">孩子年龄</label>
+                <input type="text" placeholder="孩子年龄（选填）" id="sub-age">
+                <button onclick="handleSubscribe()">免费预约试听 →</button>
+                <div class="cta-trust">0元试听 · 首2周不满意全额退款 · 创始人亲自回复</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Share Bar -->
+<div id="share-bar" class="share-bar">
+    <span class="share-bar-label">觉得有用？</span>
+    <button class="share-btn" onclick="shareAction('wechat')">💬 微信</button>
+    <button class="share-btn" onclick="shareAction('xiaohongshu')">📕 小红书</button>
+    <button class="share-btn" onclick="shareAction('copy')">🔗 复制链接</button>
+</div>
+
+<!-- Footer -->
+<footer class="foot">
+    <div class="wrap">
+        <div class="foot-inner">
+            <div class="foot-brand">
+                <h3>◉ 原点智学</h3>
+                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
+            </div>
+            <div class="foot-col">
+                <h4>产品</h4>
+                <a href="methods.html">智元成长课</a>
+                <a href="study-tools.html">AI提分教练</a>
+                <a href="articles.html">原点研究院</a>
+            </div>
+            <div class="foot-col">
+                <h4>了解更多</h4>
+                <a href="about.html">关于我们</a>
+                <a href="#method">课程设计</a>
+                <a href="#contact">联系</a>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <span>© 2026 原点智学 YUANDIAN ZHIXUE</span>
+            <span>AI是教练，不是替代者。</span>
+        </div>
+    </div>
+</footer>
+
+<script src="src/app.js"></script>
+<script>
+// Mobile nav
+function toggleMobileNav(){
+    var n=document.getElementById('mobile-nav');
+    n.style.display=n.style.display==='flex'?'none':'flex';
+}
+// Share bar
+(function(){
+    var b=document.getElementById('share-bar');if(!b)return;
+    window.addEventListener('scroll',function(){
+        if(window.scrollY>500)b.classList.add('visible');
+    },{passive:true,once:true});
+})();
+// Scroll reveal
+(function(){
+    var els=document.querySelectorAll('.reveal');
+    var obs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
+        });
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){obs.observe(el)});
+})();
+</script>
+</body>
+</html>
