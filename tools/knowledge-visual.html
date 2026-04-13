@@ -283,93 +283,105 @@
         window.mermaid = mermaid;
     </script>
     <script>
-        // 知识树数据
-        const knowledgeTree = {
-            math: [
-                {
-                    title: '代数',
-                    items: ['一元一次方程', '二次函数', '不等式', '因式分解', '分式运算']
-                },
-                {
-                    title: '几何',
-                    items: ['三角形性质', '圆的性质', '相似与全等', '勾股定理', '面积计算']
-                },
-                {
-                    title: '函数',
-                    items: ['函数概念', '一次函数', '反比例函数', '二次函数图像', '函数应用']
-                }
-            ],
-            physics: [
-                {
-                    title: '力学',
-                    items: ['牛顿三定律', '浮力', '压强', '功和能', '杠杆原理']
-                },
-                {
-                    title: '电学',
-                    items: ['欧姆定律', '串并联电路', '电功率', '焦耳定律', '电磁感应']
-                },
-                {
-                    title: '光学',
-                    items: ['光的反射', '光的折射', '凸透镜成像', '光的色散', '光的直线传播']
-                }
-            ],
-            chemistry: [
-                {
-                    title: '物质结构',
-                    items: ['原子结构', '元素周期表', '化学键', '分子结构', '晶体类型']
-                },
-                {
-                    title: '化学反应',
-                    items: ['氧化还原反应', '酸碱中和', '置换反应', '化学平衡', '反应速率']
-                },
-                {
-                    title: '常见物质',
-                    items: ['酸碱盐', '金属活动性', '有机物', '气体性质', '溶液']
-                }
-            ],
-            biology: [
-                {
-                    title: '细胞',
-                    items: ['细胞结构', '细胞分裂', '光合作用', '呼吸作用', '细胞膜功能']
-                },
-                {
-                    title: '遗传',
-                    items: ['DNA结构', '基因表达', '孟德尔遗传', '变异类型', '遗传病']
-                },
-                {
-                    title: '生态',
-                    items: ['食物链', '生态系统', '种群关系', '能量流动', '物质循环']
-                }
-            ]
+        // 课纲数据缓存（动态加载）
+        const curriculumCache = {};
+        const knowledgeTree = {}; // 从JSON转换后的结构
+
+        const subjectMap = {
+            'math': 'math',
+            'physics': 'physics',
+            'chemistry': 'chemistry',
+            'biology': 'biology'
         };
+
+        // 加载课纲数据
+        async function loadCurriculumData(subject) {
+            if (curriculumCache[subject]) return curriculumCache[subject];
+
+            const fileName = subjectMap[subject];
+            if (!fileName) return null;
+
+            try {
+                const response = await fetch(`../src/curriculum/${fileName}.json`);
+                const data = await response.json();
+                curriculumCache[subject] = data;
+                return data;
+            } catch (e) {
+                console.error(`加载${subject}课纲失败`, e);
+                return null;
+            }
+        }
+
+        // 将课纲JSON转换为知识树结构
+        function convertToKnowledgeTree(curriculumData) {
+            if (!curriculumData || !curriculumData.volumes) return [];
+
+            const tree = [];
+            // 合并所有年级的章节
+            const allChapters = [];
+            curriculumData.volumes.forEach(volume => {
+                allChapters.push(...volume.chapters);
+            });
+
+            // 转换为知识树格式（每个章节作为一个分类）
+            allChapters.forEach(chapter => {
+                tree.push({
+                    title: chapter.name,
+                    items: chapter.topics.map(t => t.name)
+                });
+            });
+
+            return tree;
+        }
+
+        // 初始化所有科目的知识树
+        async function initAllTrees() {
+            const subjects = ['math', 'physics', 'chemistry', 'biology'];
+
+            for (const subject of subjects) {
+                const data = await loadCurriculumData(subject);
+                if (data) {
+                    knowledgeTree[subject] = convertToKnowledgeTree(data);
+                    renderTree(subject);
+                }
+            }
+        }
+
+        // 渲染单个科目的知识树
+        function renderTree(subject) {
+            const container = document.getElementById(`tree-${subject}`);
+            const data = knowledgeTree[subject] || [];
+
+            if (data.length === 0) {
+                container.innerHTML = '<p style="padding:20px;color:#999">暂无数据</p>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(category => {
+                html += `
+                    <div class="tree-category">
+                        <div class="tree-category-title">📁 ${category.title}</div>
+                        <div class="tree-items">
+                            ${category.items.map(item =>
+                                `<div class="tree-item" onclick="selectTopic('${subject}', '${item}')">${item}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 初始化知识树（页面加载后调用）
+        function initTrees() {
+            initAllTrees();
+        }
 
         let currentSubject = 'math';
         let currentTopic = '';
         let currentVisualType = 'flowchart';
-
-        // 初始化知识树
-        function initTrees() {
-            Object.keys(knowledgeTree).forEach(subject => {
-                const container = document.getElementById(`tree-${subject}`);
-                const data = knowledgeTree[subject];
-
-                let html = '';
-                data.forEach(category => {
-                    html += `
-                        <div class="tree-category">
-                            <div class="tree-category-title">📁 ${category.title}</div>
-                            <div class="tree-items">
-                                ${category.items.map(item =>
-                                    `<div class="tree-item" onclick="selectTopic('${subject}', '${item}')">${item}</div>`
-                                ).join('')}
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-            });
-        }
 
         function switchSubject(subject) {
             currentSubject = subject;
@@ -528,8 +540,10 @@ currentVisualType === 'mindmap' ?
             return names[type] || type;
         }
 
-        // 初始化
-        initTrees();
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            initTrees();
+        });
     </script>
     <script src="../src/tools-nav.js"></script>
     <script>
