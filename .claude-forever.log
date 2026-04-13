@@ -1,0 +1,36 @@
+2026-04-13 12:21:23 | 不眠模式启动 | 任务: 项目在当前目录。刚创建了 src/theme.css 作为全站亮色主题。
+
+你的任务很简单：修复7个旧页面的CSS。每个页面做同样的事：
+
+对 methods.html, prompts.html, articles.html, about.html, assistant.html, settings.html, tools-guide.html 每个文件：
+
+1. 删除整个 <style>...</style> 块（包括开闭标签和中间的所有CSS）
+2. 在 <head> 中加入: <link rel="stylesheet" href="src/theme.css">
+3. 确保 <link rel="stylesheet" href="src/style.css"> 不存在（删掉旧暗色主题引用）
+4. 确保HTML结构完整（<head>正确闭合，<body>正确闭合）
+5. 导航栏统一改为：
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>
+            原点智学
+        </a>
+        <div class="nav-links">
+            <a href="study-tools.html">学习工具</a>
+            <a href="methods.html">成长课</a>
+            <a href="articles.html">研究院</a>
+            <a href="about.html">关于</a>
+        </div>
+        <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
+        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+    </div>
+</nav>
+
+6. 保留页面主体内容和功能不变
+7. 每改完一个文件 git add + git commit
+
+全部改完后 git push origin main。
+2026-04-13 12:21:23 | 第 1 轮
+2026-04-13 12:27:23 | 任务正常完成
+2026-04-13 12:27:24 | 不眠模式结束 (共 0 次重试)

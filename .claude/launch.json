@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "ai-edu-dev",
+      "name": "ai-edu",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "C:/Users/86136/Desktop/claude/ai-edu-platform", "-p", "3456", "-c-1"],
-      "port": 3456
+      "runtimeArgs": ["http-server", ".", "-p", "3006", "-c-1"],
+      "port": 3006
     }
   ]
 }
