@@ -1,0 +1,271 @@
+{
+  "subject": "物理",
+  "edition": "人教版",
+  "standard": "义务教育物理课程标准(2022年版)",
+  "grades": [8, 9],
+  "lastUpdated": "2026-04-14",
+  "volumes": [
+    {
+      "grade": 8,
+      "semester": "上册",
+      "chapters": [
+        {
+          "id": "ch01",
+          "name": "机械运动",
+          "topics": [
+            {"id": "1.1", "name": "长度和时间的测量", "difficulty": "基础", "weight": "必考", "keyPoints": ["长度的单位换算", "刻度尺的使用", "误差", "时间的测量"]},
+            {"id": "1.2", "name": "运动的描述", "difficulty": "基础", "weight": "必考", "keyPoints": ["参照物", "运动和静止的相对性"]},
+            {"id": "1.3", "name": "运动的快慢", "difficulty": "中等", "weight": "必考", "keyPoints": ["速度的概念", "速度公式v=s/t", "速度单位换算", "匀速直线运动"]},
+            {"id": "1.4", "name": "测量平均速度", "difficulty": "中等", "weight": "常考", "keyPoints": ["平均速度的测量方法", "实验设计"]}
+          ]
+        },
+        {
+          "id": "ch02",
+          "name": "声现象",
+          "topics": [
+            {"id": "2.1", "name": "声音的产生与传播", "difficulty": "基础", "weight": "必考", "keyPoints": ["振动产生声音", "声音的传播需要介质", "声速"]},
+            {"id": "2.2", "name": "声音的特性", "difficulty": "中等", "weight": "必考", "keyPoints": ["音调与频率", "响度与振幅", "音色"]},
+            {"id": "2.3", "name": "声的利用", "difficulty": "基础", "weight": "常考", "keyPoints": ["超声波", "次声波", "声的传递信息和能量"]},
+            {"id": "2.4", "name": "噪声的危害和控制", "difficulty": "基础", "weight": "常考", "keyPoints": ["噪声的来源", "控制噪声的途径（声源处/传播中/人耳处）"]}
+          ]
+        },
+        {
+          "id": "ch03",
+          "name": "物态变化",
+          "topics": [
+            {"id": "3.1", "name": "温度", "difficulty": "基础", "weight": "必考", "keyPoints": ["温度计的原理", "摄氏温度", "体温计", "温度计的使用"]},
+            {"id": "3.2", "name": "熔化和凝固", "difficulty": "中等", "weight": "必考", "keyPoints": ["熔化和凝固的概念", "晶体与非晶体", "熔点", "熔化曲线"]},
+            {"id": "3.3", "name": "汽化和液化", "difficulty": "中等", "weight": "必考", "keyPoints": ["蒸发", "沸腾", "沸点", "液化"]},
+            {"id": "3.4", "name": "升华和凝华", "difficulty": "基础", "weight": "常考", "keyPoints": ["升华", "凝华", "生活中的升华凝华现象"]}
+          ]
+        },
+        {
+          "id": "ch04",
+          "name": "光现象",
+          "topics": [
+            {"id": "4.1", "name": "光的直线传播", "difficulty": "基础", "weight": "必考", "keyPoints": ["光源", "光的直线传播条件", "光速", "影子的形成", "日食月食"]},
+            {"id": "4.2", "name": "光的反射", "difficulty": "中等", "weight": "必考", "keyPoints": ["反射定律", "法线", "入射角", "反射角", "镜面反射与漫反射"]},
+            {"id": "4.3", "name": "平面镜成像", "difficulty": "中等", "weight": "必考", "keyPoints": ["平面镜成像特点", "虚像", "对称性", "实验探究"]},
+            {"id": "4.4", "name": "光的折射", "difficulty": "中等", "weight": "必考", "keyPoints": ["折射规律", "折射角与入射角的关系", "生活中的折射现象"]},
+            {"id": "4.5", "name": "光的色散", "difficulty": "基础", "weight": "常考", "keyPoints": ["白光的色散", "色光的三原色", "颜料的三原色", "红外线与紫外线"]}
+          ]
+        },
+        {
+          "id": "ch05",
+          "name": "透镜及其应用",
+          "topics": [
+            {"id": "5.1", "name": "透镜", "difficulty": "中等", "weight": "必考", "keyPoints": ["凸透镜与凹透镜", "焦点与焦距", "三条特殊光线"]},
+            {"id": "5.2", "name": "生活中的透镜", "difficulty": "基础", "weight": "常考", "keyPoints": ["照相机", "投影仪", "放大镜的成像原理"]},
+            {"id": "5.3", "name": "凸透镜成像的规律", "difficulty": "较难", "weight": "必考", "keyPoints": ["u>2f成像", "f<u<2f成像", "u<f成像", "成像规律实验"]},
+            {"id": "5.4", "name": "眼睛和眼镜", "difficulty": "中等", "weight": "常考", "keyPoints": ["眼睛的成像原理", "近视眼与远视眼的矫正"]},
+            {"id": "5.5", "name": "显微镜和望远镜", "difficulty": "基础", "weight": "了解", "keyPoints": ["显微镜原理", "望远镜原理"]}
+          ]
+        },
+        {
+          "id": "ch06",
+          "name": "质量与密度",
+          "topics": [
+            {"id": "6.1", "name": "质量", "difficulty": "基础", "weight": "必考", "keyPoints": ["质量的概念", "质量的单位", "天平的使用"]},
+            {"id": "6.2", "name": "密度", "difficulty": "中等", "weight": "必考", "keyPoints": ["密度的定义", "密度公式ρ=m/V", "密度表", "水的密度"]},
+            {"id": "6.3", "name": "测量物质的密度", "difficulty": "中等", "weight": "中考常考", "keyPoints": ["量筒的使用", "测量固体密度", "测量液体密度", "实验方案设计"]},
+            {"id": "6.4", "name": "密度与社会生活", "difficulty": "基础", "weight": "常考", "keyPoints": ["密度的应用", "鉴别物质"]}
+          ]
+        }
+      ]
+    },
+    {
+      "grade": 8,
+      "semester": "下册",
+      "chapters": [
+        {
+          "id": "ch07",
+          "name": "力",
+          "topics": [
+            {"id": "7.1", "name": "力", "difficulty": "基础", "weight": "必考", "keyPoints": ["力的概念", "力的作用效果", "力的三要素", "力的示意图"]},
+            {"id": "7.2", "name": "弹力", "difficulty": "中等", "weight": "必考", "keyPoints": ["弹性形变", "弹力", "弹簧测力计的使用"]},
+            {"id": "7.3", "name": "重力", "difficulty": "中等", "weight": "必考", "keyPoints": ["重力的概念", "重力公式G=mg", "重力的方向", "重心"]}
+          ]
+        },
+        {
+          "id": "ch08",
+          "name": "运动和力",
+          "topics": [
+            {"id": "8.1", "name": "牛顿第一定律", "difficulty": "中等", "weight": "必考", "keyPoints": ["牛顿第一定律", "惯性", "理想实验"]},
+            {"id": "8.2", "name": "二力平衡", "difficulty": "中等", "weight": "必考", "keyPoints": ["二力平衡条件", "平衡力与相互作用力的区别"]},
+            {"id": "8.3", "name": "摩擦力", "difficulty": "中等", "weight": "必考", "keyPoints": ["静摩擦力", "滑动摩擦力", "影响摩擦力大小的因素", "增大和减小摩擦"]}
+          ]
+        },
+        {
+          "id": "ch09",
+          "name": "压强",
+          "topics": [
+            {"id": "9.1", "name": "压强", "difficulty": "中等", "weight": "必考", "keyPoints": ["压力与压强的概念", "压强公式p=F/S", "增大和减小压强"]},
+            {"id": "9.2", "name": "液体的压强", "difficulty": "较难", "weight": "必考", "keyPoints": ["液体压强特点", "液体压强公式p=ρgh", "连通器原理"]},
+            {"id": "9.3", "name": "大气压强", "difficulty": "中等", "weight": "中考常考", "keyPoints": ["大气压的存在", "托里拆利实验", "大气压与高度的关系"]},
+            {"id": "9.4", "name": "流体压强与流速的关系", "difficulty": "中等", "weight": "常考", "keyPoints": ["流速越大压强越小", "飞机升力原理"]}
+          ]
+        },
+        {
+          "id": "ch10",
+          "name": "浮力",
+          "topics": [
+            {"id": "10.1", "name": "浮力", "difficulty": "中等", "weight": "必考", "keyPoints": ["浮力的概念", "浮力产生的原因（上下表面压力差）"]},
+            {"id": "10.2", "name": "阿基米德原理", "difficulty": "较难", "weight": "必考", "keyPoints": ["阿基米德原理F浮=ρ液gV排", "实验验证"]},
+            {"id": "10.3", "name": "物体的浮沉条件及应用", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["上浮、下沉、悬浮、漂浮", "浮沉条件的应用", "轮船、潜水艇、气球"]}
+          ]
+        },
+        {
+          "id": "ch11",
+          "name": "功和机械能",
+          "topics": [
+            {"id": "11.1", "name": "功", "difficulty": "中等", "weight": "必考", "keyPoints": ["做功的两个必要因素", "功的计算W=Fs", "不做功的情况"]},
+            {"id": "11.2", "name": "功率", "difficulty": "中等", "weight": "必考", "keyPoints": ["功率的概念", "功率公式P=W/t", "P=Fv"]},
+            {"id": "11.3", "name": "动能和势能", "difficulty": "中等", "weight": "必考", "keyPoints": ["动能", "重力势能", "弹性势能", "影响因素"]},
+            {"id": "11.4", "name": "机械能及其转化", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["机械能守恒", "动能与势能的转化"]}
+          ]
+        },
+        {
+          "id": "ch12",
+          "name": "简单机械",
+          "topics": [
+            {"id": "12.1", "name": "杠杆", "difficulty": "中等", "weight": "必考", "keyPoints": ["杠杆五要素", "杠杆平衡条件F1L1=F2L2", "省力杠杆与费力杠杆"]},
+            {"id": "12.2", "name": "滑轮", "difficulty": "中等", "weight": "必考", "keyPoints": ["定滑轮", "动滑轮", "滑轮组"]},
+            {"id": "12.3", "name": "机械效率", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["有用功", "额外功", "总功", "机械效率η=W有/W总"]}
+          ]
+        }
+      ]
+    },
+    {
+      "grade": 9,
+      "semester": "全一册",
+      "chapters": [
+        {
+          "id": "ch13",
+          "name": "内能",
+          "topics": [
+            {"id": "13.1", "name": "分子热运动", "difficulty": "基础", "weight": "必考", "keyPoints": ["分子动理论", "扩散现象", "分子间的引力和斥力"]},
+            {"id": "13.2", "name": "内能", "difficulty": "中等", "weight": "必考", "keyPoints": ["内能的概念", "改变内能的方式（做功与热传递）"]},
+            {"id": "13.3", "name": "比热容", "difficulty": "较难", "weight": "必考", "keyPoints": ["比热容的概念", "热量计算Q=cmΔt", "水的比热容大的应用"]}
+          ]
+        },
+        {
+          "id": "ch14",
+          "name": "内能的利用",
+          "topics": [
+            {"id": "14.1", "name": "热机", "difficulty": "中等", "weight": "必考", "keyPoints": ["内燃机", "四冲程工作过程", "汽油机与柴油机的区别"]},
+            {"id": "14.2", "name": "热机的效率", "difficulty": "中等", "weight": "中考常考", "keyPoints": ["热值", "热机效率", "热量计算Q=mq"]},
+            {"id": "14.3", "name": "能量的转化和守恒", "difficulty": "中等", "weight": "必考", "keyPoints": ["能量守恒定律", "能量的转化"]}
+          ]
+        },
+        {
+          "id": "ch15",
+          "name": "电流和电路",
+          "topics": [
+            {"id": "15.1", "name": "两种电荷", "difficulty": "基础", "weight": "必考", "keyPoints": ["正电荷与负电荷", "摩擦起电", "电荷的相互作用", "导体与绝缘体"]},
+            {"id": "15.2", "name": "电流和电路", "difficulty": "中等", "weight": "必考", "keyPoints": ["电流的形成", "电路的组成", "通路、断路、短路"]},
+            {"id": "15.3", "name": "串联和并联", "difficulty": "中等", "weight": "必考", "keyPoints": ["串联电路", "并联电路", "电路图"]},
+            {"id": "15.4", "name": "电流的测量", "difficulty": "中等", "weight": "必考", "keyPoints": ["电流表的使用", "串联电路电流特点", "并联电路电流特点"]},
+            {"id": "15.5", "name": "串、并联电路中电流的规律", "difficulty": "中等", "weight": "必考", "keyPoints": ["串联电路电流处处相等", "并联电路干路电流等于各支路电流之和"]}
+          ]
+        },
+        {
+          "id": "ch16",
+          "name": "电压 电阻",
+          "topics": [
+            {"id": "16.1", "name": "电压", "difficulty": "中等", "weight": "必考", "keyPoints": ["电压的概念", "电压表的使用", "串并联电路的电压规律"]},
+            {"id": "16.2", "name": "串、并联电路中电压的规律", "difficulty": "中等", "weight": "必考", "keyPoints": ["串联电路总电压等于各部分电压之和", "并联电路各支路电压相等"]},
+            {"id": "16.3", "name": "电阻", "difficulty": "中等", "weight": "必考", "keyPoints": ["电阻的概念", "影响电阻的因素", "导体、绝缘体、半导体"]},
+            {"id": "16.4", "name": "变阻器", "difficulty": "中等", "weight": "常考", "keyPoints": ["滑动变阻器的原理与使用", "电阻箱"]}
+          ]
+        },
+        {
+          "id": "ch17",
+          "name": "欧姆定律",
+          "topics": [
+            {"id": "17.1", "name": "电流与电压和电阻的关系", "difficulty": "中等", "weight": "必考", "keyPoints": ["探究实验设计", "控制变量法"]},
+            {"id": "17.2", "name": "欧姆定律", "difficulty": "较难", "weight": "必考", "keyPoints": ["欧姆定律I=U/R", "串并联电路的计算"]},
+            {"id": "17.3", "name": "电阻的测量", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["伏安法测电阻", "实验电路设计", "误差分析"]},
+            {"id": "17.4", "name": "欧姆定律在串、并联电路中的应用", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["串联分压", "并联分流", "电路计算"]}
+          ]
+        },
+        {
+          "id": "ch18",
+          "name": "电功率",
+          "topics": [
+            {"id": "18.1", "name": "电能 电功", "difficulty": "中等", "weight": "必考", "keyPoints": ["电功W=UIt", "电能表的读数", "1度=3.6×10⁶J"]},
+            {"id": "18.2", "name": "电功率", "difficulty": "较难", "weight": "必考", "keyPoints": ["电功率P=UI", "额定功率与实际功率", "P=I²R", "P=U²/R"]},
+            {"id": "18.3", "name": "测量小灯泡的电功率", "difficulty": "较难", "weight": "中考常考", "keyPoints": ["实验设计", "多次测量", "故障分析"]},
+            {"id": "18.4", "name": "焦耳定律", "difficulty": "较难", "weight": "必考", "keyPoints": ["焦耳定律Q=I²Rt", "电热器", "电热的利用与防止"]}
+          ]
+        },
+        {
+          "id": "ch19",
+          "name": "生活用电",
+          "topics": [
+            {"id": "19.1", "name": "家庭电路", "difficulty": "基础", "weight": "必考", "keyPoints": ["家庭电路的组成", "火线与零线", "保险丝", "三孔插座"]},
+            {"id": "19.2", "name": "家庭电路中电流过大的原因", "difficulty": "中等", "weight": "常考", "keyPoints": ["短路", "用电器总功率过大"]},
+            {"id": "19.3", "name": "安全用电", "difficulty": "基础", "weight": "常考", "keyPoints": ["安全电压≤36V", "触电类型", "安全用电原则"]}
+          ]
+        },
+        {
+          "id": "ch20",
+          "name": "电与磁",
+          "topics": [
+            {"id": "20.1", "name": "磁现象 磁场", "difficulty": "基础", "weight": "必考", "keyPoints": ["磁体的性质", "磁极", "磁场", "磁感线"]},
+            {"id": "20.2", "name": "电生磁", "difficulty": "中等", "weight": "必考", "keyPoints": ["奥斯特实验", "通电螺线管", "安培定则", "电磁铁"]},
+            {"id": "20.3", "name": "电磁铁 电磁继电器", "difficulty": "中等", "weight": "常考", "keyPoints": ["电磁铁的应用", "电磁继电器"]},
+            {"id": "20.4", "name": "电动机", "difficulty": "中等", "weight": "常考", "keyPoints": ["磁场对电流的作用", "电动机原理"]},
+            {"id": "20.5", "name": "磁生电", "difficulty": "中等", "weight": "必考", "keyPoints": ["电磁感应", "发电机原理", "交流电与直流电"]}
+          ]
+        },
+        {
+          "id": "ch21",
+          "name": "信息的传递",
+          "topics": [
+            {"id": "21.1", "name": "现代顺风耳——电话", "difficulty": "基础", "weight": "了解", "keyPoints": ["电话原理", "模拟信号与数字信号"]},
+            {"id": "21.2", "name": "电磁波的海洋", "difficulty": "基础", "weight": "常考", "keyPoints": ["电磁波", "电磁波的传播", "频率与波长"]},
+            {"id": "21.3", "name": "广播、电视和移动通信", "difficulty": "基础", "weight": "了解", "keyPoints": ["无线电广播", "电视信号传输", "移动通信"]},
+            {"id": "21.4", "name": "越来越宽的信息之路", "difficulty": "基础", "weight": "了解", "keyPoints": ["光纤通信", "卫星通信", "互联网"]}
+          ]
+        },
+        {
+          "id": "ch22",
+          "name": "能源与可持续发展",
+          "topics": [
+            {"id": "22.1", "name": "能源", "difficulty": "基础", "weight": "常考", "keyPoints": ["可再生能源与不可再生能源"]},
+            {"id": "22.2", "name": "核能", "difficulty": "基础", "weight": "常考", "keyPoints": ["裂变", "聚变", "核电站"]},
+            {"id": "22.3", "name": "太阳能", "difficulty": "基础", "weight": "了解", "keyPoints": ["太阳能的利用"]},
+            {"id": "22.4", "name": "能源与可持续发展", "difficulty": "基础", "weight": "了解", "keyPoints": ["能量转化的方向性", "可持续发展"]}
+          ]
+        }
+      ]
+    }
+  ],
+  "zhongkaoFocus": {
+    "必考专题": [
+      "声光热综合（物态变化、光的反射折射、凸透镜成像）",
+      "力学综合（力、运动、压强、浮力、功和机械能、简单机械）",
+      "电学综合（欧姆定律、电功率、焦耳定律）",
+      "电与磁（电磁感应、电动机与发电机）"
+    ],
+    "实验专题": [
+      "测量物质密度",
+      "探究凸透镜成像规律",
+      "探究影响滑动摩擦力的因素",
+      "探究液体压强的特点",
+      "伏安法测电阻",
+      "测量小灯泡的电功率",
+      "探究电流与电压和电阻的关系"
+    ],
+    "计算重点": [
+      "密度计算（ρ=m/V）",
+      "压强计算（p=F/S, p=ρgh）",
+      "浮力计算（阿基米德原理）",
+      "功和功率（W=Fs, P=W/t）",
+      "机械效率（η=W有用/W总）",
+      "欧姆定律（I=U/R）",
+      "电功率（P=UI, P=I²R, P=U²/R）",
+      "热量计算（Q=cmΔt, Q=mq, Q=I²Rt）"
+    ]
+  }
+}
