@@ -312,6 +312,103 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="../src/app.js"></script>
     <script>
+    // 课纲、评分标准、题库数据缓存
+    var curriculumData = null;
+    var examStandards = null;
+    var seedQuestions = null;
+
+    var subjectMap = {
+        '数学': 'math',
+        '物理': 'physics',
+        '化学': 'chemistry',
+        '生物': 'biology'
+    };
+
+    // 加载课纲数据
+    async function loadCurriculumData(subject) {
+        var fileName = subjectMap[subject];
+        if (!fileName) {
+            curriculumData = null;
+            return;
+        }
+        try {
+            var response = await fetch('../src/curriculum/' + fileName + '.json');
+            curriculumData = await response.json();
+        } catch (e) {
+            console.error('加载课纲失败', e);
+            curriculumData = null;
+        }
+    }
+
+    // 加载评分标准
+    async function loadExamStandards() {
+        if (examStandards) return;
+        try {
+            var response = await fetch('../src/curriculum/exam-standards.json');
+            examStandards = await response.json();
+        } catch (e) {
+            console.error('加载评分标准失败', e);
+        }
+    }
+
+    // 加载真题样本
+    async function loadSeedQuestions() {
+        if (seedQuestions) return;
+        try {
+            var response = await fetch('../src/curriculum/seed-questions.json');
+            var data = await response.json();
+            seedQuestions = data.questions || [];
+        } catch (e) {
+            console.error('加载真题样本失败', e);
+            seedQuestions = [];
+        }
+    }
+
+    // 提取知识点体系
+    function extractKnowledgeSystem(grade) {
+        if (!curriculumData || !curriculumData.volumes) return '';
+
+        var gradeNum = parseInt(grade.match(/\d+/)?.[0] || '7');
+        var volume = curriculumData.volumes.find(v => v.grade === gradeNum);
+        if (!volume) return '';
+
+        var chapters = [];
+        for (var ch of volume.chapters) {
+            var topics = ch.topics.map(t => t.name + '(' + t.difficulty + ')').join('、');
+            chapters.push(ch.name + '：' + topics);
+        }
+        return chapters.join('\n');
+    }
+
+    // 获取题库样本
+    function getSampleQuestions(subject) {
+        if (!seedQuestions || seedQuestions.length === 0) return '';
+
+        var subjectEn = subjectMap[subject];
+        var samples = seedQuestions.filter(q => q.subject === subjectEn).slice(0, 3);
+        if (samples.length === 0) return '';
+
+        var text = '';
+        samples.forEach((q, i) => {
+            text += (i + 1) + '. ' + q.question_text + ' [答案：' + q.answer + ']\n';
+        });
+        return text;
+    }
+
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadExamStandards();
+        loadSeedQuestions();
+
+        var subjectSelect = document.getElementById('subject');
+        var initialSubject = subjectSelect.value;
+        loadCurriculumData(initialSubject);
+
+        subjectSelect.addEventListener('change', function() {
+            loadCurriculumData(this.value);
+        });
+    });
+
     function generateExam() {
         var grade = document.getElementById('grade').value;
         var subject = document.getElementById('subject').value;
@@ -326,7 +423,25 @@
             return;
         }
 
-        var systemPrompt = '你是一个专业的出题专家。根据要求生成一份完整的试卷。\n\n' +
+        // 动态注入课纲、评分标准、题库样本
+        var knowledgeSystem = extractKnowledgeSystem(grade);
+        var sampleQuestions = getSampleQuestions(subject);
+
+        var knowledgeSection = knowledgeSystem ?
+            '\n\n**该科目知识点体系：**\n' + knowledgeSystem + '\n请根据这些知识点分布出题。' :
+            '';
+
+        var sampleSection = sampleQuestions ?
+            '\n\n**题库样本参考：**\n' + sampleQuestions + '\n请参考以上格式。' :
+            '';
+
+        var standardsSection = '';
+        if (examStandards && subject === '语文') {
+            standardsSection = '\n\n**作文评分标准：**满分50分，基础40分+发展10分。一等(45-50)：立意深刻、内容充实、结构完整。';
+        }
+
+        var systemPrompt = '你是一个专业的出题专家。根据要求生成一份完整的试卷。' +
+            knowledgeSection + sampleSection + standardsSection + '\n\n' +
             '要求：\n' +
             '1. 选择题：每题4个选项（A/B/C/D），只有一个正确答案\n' +
             '2. 填空题：简洁明确，答案不超过一行\n' +
