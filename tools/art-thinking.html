@@ -257,7 +257,19 @@
         let artworkDescription = '';
         let viewerRole = '';
         let currentDimension = 0;
+        let matchedArtwork = null;
         const dimensions = ['构图', '光影', '色彩', '情感', '故事'];
+        let artDatabase = null;
+
+        // 页面加载时获取画作数据集
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('../src/curriculum/art-masterpieces.json')
+                .then(res => res.json())
+                .then(data => {
+                    artDatabase = data.masterpieces;
+                })
+                .catch(err => console.warn('画作数据集加载失败:', err));
+        });
 
         function startDialogue() {
             const artwork = document.getElementById('artwork-input').value.trim();
@@ -272,6 +284,14 @@
             viewerRole = role || '观察者';
             conversationHistory = [];
             currentDimension = 0;
+
+            // 在数据库中搜索匹配的画作
+            matchedArtwork = null;
+            if (artDatabase) {
+                matchedArtwork = artDatabase.find(p =>
+                    p.title.includes(artwork) || artwork.includes(p.title)
+                );
+            }
 
             document.getElementById('setup-section').style.display = 'none';
             document.getElementById('dialogue-section').classList.add('visible');
@@ -327,7 +347,20 @@
             sendBtn.disabled = true;
             sendBtn.textContent = 'AI思考中...';
 
-            const systemPrompt = `你是美术教育专家,正在用苏格拉底式追问引导${viewerRole}观察作品："${artworkDescription}"。
+            // 构建真实画作数据注入
+            let artworkContext = '';
+            if (matchedArtwork) {
+                artworkContext = `\n\n【真实画作数据参考】
+画作: ${matchedArtwork.title}（${matchedArtwork.artist}，${matchedArtwork.year}）
+构图: ${matchedArtwork.composition_notes}
+色彩: ${matchedArtwork.color_palette}
+光源: ${matchedArtwork.light_source}
+情感基调: ${matchedArtwork.emotional_tone}
+
+在追问时，可以基于以上真实数据提出更精准的观察引导问题。`;
+            }
+
+            const systemPrompt = `你是美术教育专家,正在用苏格拉底式追问引导${viewerRole}观察作品："${artworkDescription}"。${artworkContext}
 
 你的任务：
 1. 不评判好坏,只通过追问引导观察
