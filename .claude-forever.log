@@ -1,36 +1,15 @@
-2026-04-13 12:21:23 | 不眠模式启动 | 任务: 项目在当前目录。刚创建了 src/theme.css 作为全站亮色主题。
+2026-04-14 12:23:32 | 不眠模式v2启动 | 任务: 项目在当前目录。3个工具有对应数据集但还没接入。
 
-你的任务很简单：修复7个旧页面的CSS。每个页面做同样的事：
+1. tools/music-appreciation.html — 接入 src/curriculum/music-classics.json
+   页面加载时fetch这个JSON，用户输入曲名后在50首曲目中匹配，如果匹配到就把该曲目的form/instruments/mood/structure_sections注入prompt，让AI基于真实曲目数据做分析。如果没匹配到就让AI自由分析。
 
-对 methods.html, prompts.html, articles.html, about.html, assistant.html, settings.html, tools-guide.html 每个文件：
+2. tools/art-thinking.html — 接入 src/curriculum/art-masterpieces.json
+   用户输入画名后在50幅画作中匹配，匹配到就把composition_notes/color_palette/light_source/emotional_tone注入prompt作为参考。AI追问时可以基于真实画作信息提出更精准的观察引导。
 
-1. 删除整个 <style>...</style> 块（包括开闭标签和中间的所有CSS）
-2. 在 <head> 中加入: <link rel="stylesheet" href="src/theme.css">
-3. 确保 <link rel="stylesheet" href="src/style.css"> 不存在（删掉旧暗色主题引用）
-4. 确保HTML结构完整（<head>正确闭合，<body>正确闭合）
-5. 导航栏统一改为：
+3. tools/reading-rewriter.html — 接入 src/curriculum/reading-list.json
+   页面加一个'推荐篇目'下拉框，从reading-list.json生成选项列表。用户选择后自动填入对应的原文片段提示。如果用户自己粘贴文本也行。
 
-<nav class="nav">
-    <div class="nav-inner">
-        <a href="/" class="nav-brand">
-            <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>
-            原点智学
-        </a>
-        <div class="nav-links">
-            <a href="study-tools.html">学习工具</a>
-            <a href="methods.html">成长课</a>
-            <a href="articles.html">研究院</a>
-            <a href="about.html">关于</a>
-        </div>
-        <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
-        <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
-    </div>
-</nav>
-
-6. 保留页面主体内容和功能不变
-7. 每改完一个文件 git add + git commit
-
-全部改完后 git push origin main。
-2026-04-13 12:21:23 | 第 1 轮
-2026-04-13 12:27:23 | 任务正常完成
-2026-04-13 12:27:24 | 不眠模式结束 (共 0 次重试)
+每个改完 git add + git commit。最后 git push origin main。
+2026-04-14 12:23:33 | 第1轮开始
+2026-04-14 12:30:26 | 所有任务完成
+2026-04-14 12:30:27 | 不眠模式结束 (1轮, 0次重试)
