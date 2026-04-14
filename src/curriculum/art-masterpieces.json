@@ -1,0 +1,510 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "compiled": "2026-04-14",
+    "description": "50幅经典画作，覆盖文艺复兴、巴洛克、印象派、现代派、中国画",
+    "purpose": "为艺术鉴赏、美术教育工具提供作品数据支持"
+  },
+
+  "masterpieces": [
+    {
+      "title": "蒙娜丽莎",
+      "artist": "达·芬奇",
+      "year": 1503,
+      "style": "文艺复兴",
+      "medium": "木板油画",
+      "composition_notes": "三角形构图，人物占据画面中心，背景山水渐远",
+      "color_palette": "棕褐色为主，渐变柔和",
+      "light_source": "正面柔光，无明显阴影",
+      "emotional_tone": "神秘、平静"
+    },
+    {
+      "title": "最后的晚餐",
+      "artist": "达·芬奇",
+      "year": 1498,
+      "style": "文艺复兴",
+      "medium": "壁画（蛋彩画）",
+      "composition_notes": "对称构图，耶稣居中，12门徒分列两侧三人一组",
+      "color_palette": "红、蓝、黄对比",
+      "light_source": "背后窗户透光，人物正面受光",
+      "emotional_tone": "戏剧性、紧张"
+    },
+    {
+      "title": "创世纪·创造亚当",
+      "artist": "米开朗基罗",
+      "year": 1512,
+      "style": "文艺复兴",
+      "medium": "湿壁画",
+      "composition_notes": "对角线构图，上帝与亚当指尖相触",
+      "color_palette": "粉红、蓝灰、土黄",
+      "light_source": "漫射光",
+      "emotional_tone": "神圣、创造"
+    },
+    {
+      "title": "大卫像",
+      "artist": "米开朗基罗",
+      "year": 1504,
+      "style": "文艺复兴",
+      "medium": "大理石雕塑",
+      "composition_notes": "对立式站姿（Contrapposto），右手下垂，左手抬起",
+      "color_palette": "大理石白",
+      "light_source": "侧光突显肌肉线条",
+      "emotional_tone": "英雄、专注"
+    },
+    {
+      "title": "维纳斯的诞生",
+      "artist": "波提切利",
+      "year": 1486,
+      "style": "文艺复兴",
+      "medium": "布面蛋彩画",
+      "composition_notes": "中心对称，维纳斯站于贝壳上，左侧风神右侧侍女",
+      "color_palette": "粉、金、蓝绿",
+      "light_source": "柔和漫射",
+      "emotional_tone": "优雅、神话"
+    },
+    {
+      "title": "春",
+      "artist": "波提切利",
+      "year": 1482,
+      "style": "文艺复兴",
+      "medium": "布面蛋彩画",
+      "composition_notes": "横向排列九个人物，中央维纳斯",
+      "color_palette": "鲜花色彩丰富，背景深绿",
+      "light_source": "均匀光线",
+      "emotional_tone": "诗意、春天"
+    },
+    {
+      "title": "雅典学院",
+      "artist": "拉斐尔",
+      "year": 1511,
+      "style": "文艺复兴",
+      "medium": "湿壁画",
+      "composition_notes": "透视法，中央柏拉图与亚里士多德，周围学者分组",
+      "color_palette": "红、蓝、黄、白",
+      "light_source": "拱门外强光照入",
+      "emotional_tone": "理性、对话"
+    },
+    {
+      "title": "西斯廷圣母",
+      "artist": "拉斐尔",
+      "year": 1513,
+      "style": "文艺复兴",
+      "medium": "布面油画",
+      "composition_notes": "三角形构图，圣母居中，两侧圣徒，下方天使",
+      "color_palette": "绿帘、红袍、金光",
+      "light_source": "神圣光晕",
+      "emotional_tone": "神圣、温柔"
+    },
+    {
+      "title": "乌尔比诺的维纳斯",
+      "artist": "提香",
+      "year": 1538,
+      "style": "文艺复兴",
+      "medium": "布面油画",
+      "composition_notes": "水平线构图，裸女斜卧，背景仆人整理衣物",
+      "color_palette": "肌肤粉白、床单白、背景暖黄",
+      "light_source": "窗外光线",
+      "emotional_tone": "感官、世俗"
+    },
+    {
+      "title": "圣母升天",
+      "artist": "提香",
+      "year": 1518,
+      "style": "文艺复兴",
+      "medium": "布面油画",
+      "composition_notes": "三层构图，下层使徒、中层圣母、上层上帝",
+      "color_palette": "红袍对比天空蓝",
+      "light_source": "上方神光下照",
+      "emotional_tone": "升华、壮丽"
+    },
+
+    {
+      "title": "夜巡",
+      "artist": "伦勃朗",
+      "year": 1642,
+      "style": "巴洛克",
+      "medium": "布面油画",
+      "composition_notes": "非对称群像，队长居中，人物动态各异",
+      "color_palette": "暗褐色为主，局部亮黄",
+      "light_source": "戏剧性聚光照亮主要人物",
+      "emotional_tone": "戏剧、动态"
+    },
+    {
+      "title": "自画像",
+      "artist": "伦勃朗",
+      "year": 1669,
+      "style": "巴洛克",
+      "medium": "布面油画",
+      "composition_notes": "半身像，正面直视",
+      "color_palette": "暗褐、红、金",
+      "light_source": "侧面强光突出面部",
+      "emotional_tone": "沧桑、深邃"
+    },
+    {
+      "title": "倒牛奶的女仆",
+      "artist": "维米尔",
+      "year": 1660,
+      "style": "巴洛克",
+      "medium": "布面油画",
+      "composition_notes": "厨房场景，女仆占据左侧三分之一",
+      "color_palette": "黄蓝对比，白墙",
+      "light_source": "左侧窗户自然光",
+      "emotional_tone": "宁静、日常"
+    },
+    {
+      "title": "戴珍珠耳环的少女",
+      "artist": "维米尔",
+      "year": 1665,
+      "style": "巴洛克",
+      "medium": "布面油画",
+      "composition_notes": "头像特写，回眸姿态",
+      "color_palette": "黑背景、蓝黄头巾、白珍珠",
+      "light_source": "侧面柔光照亮面部",
+      "emotional_tone": "神秘、灵动"
+    },
+    {
+      "title": "宫娥",
+      "artist": "委拉斯开兹",
+      "year": 1656,
+      "style": "巴洛克",
+      "medium": "布面油画",
+      "composition_notes": "复杂多层空间，镜子反射国王王后，画家自己入画",
+      "color_palette": "红、金、白",
+      "light_source": "窗外光线",
+      "emotional_tone": "复杂、空间"
+    },
+
+    {
+      "title": "日出·印象",
+      "artist": "莫奈",
+      "year": 1872,
+      "style": "印象派",
+      "medium": "布面油画",
+      "composition_notes": "水平线构图，朦胧港口，小船剪影",
+      "color_palette": "蓝灰、橙红日出",
+      "light_source": "晨雾中的太阳",
+      "emotional_tone": "朦胧、光影"
+    },
+    {
+      "title": "睡莲",
+      "artist": "莫奈",
+      "year": 1906,
+      "style": "印象派",
+      "medium": "布面油画",
+      "composition_notes": "无焦点构图，水面覆盖整个画面",
+      "color_palette": "蓝绿、粉紫",
+      "light_source": "水面反光",
+      "emotional_tone": "宁静、自然"
+    },
+    {
+      "title": "草地上的午餐",
+      "artist": "马奈",
+      "year": 1863,
+      "style": "印象派",
+      "medium": "布面油画",
+      "composition_notes": "野餐场景，裸女与着装男子并坐",
+      "color_palette": "绿色草地、白色肌肤",
+      "light_source": "林间漏光",
+      "emotional_tone": "争议、世俗"
+    },
+    {
+      "title": "星月夜",
+      "artist": "梵高",
+      "year": 1889,
+      "style": "印象派/后印象派",
+      "medium": "布面油画",
+      "composition_notes": "旋转夜空，教堂与柏树",
+      "color_palette": "深蓝、黄星、绿树",
+      "light_source": "星光月光",
+      "emotional_tone": "狂热、孤独"
+    },
+    {
+      "title": "向日葵",
+      "artist": "梵高",
+      "year": 1888,
+      "style": "印象派/后印象派",
+      "medium": "布面油画",
+      "composition_notes": "花瓶静物，向日葵占满画面",
+      "color_palette": "黄色系",
+      "light_source": "均匀光线",
+      "emotional_tone": "热烈、生命"
+    },
+    {
+      "title": "自画像",
+      "artist": "梵高",
+      "year": 1889,
+      "style": "印象派/后印象派",
+      "medium": "布面油画",
+      "composition_notes": "半身像，侧面凝视",
+      "color_palette": "蓝绿背景、橙黄胡须",
+      "light_source": "正面光",
+      "emotional_tone": "焦虑、专注"
+    },
+    {
+      "title": "大碗岛的星期天下午",
+      "artist": "修拉",
+      "year": 1886,
+      "style": "印象派/点彩派",
+      "medium": "布面油画",
+      "composition_notes": "公园休闲场景，人物静态分布",
+      "color_palette": "点彩技法，绿、蓝、黄",
+      "light_source": "午后阳光",
+      "emotional_tone": "静谧、几何"
+    },
+    {
+      "title": "舞蹈课",
+      "artist": "德加",
+      "year": 1874,
+      "style": "印象派",
+      "medium": "布面油画",
+      "composition_notes": "芭蕾舞排练场景，非对称构图",
+      "color_palette": "粉、白、灰",
+      "light_source": "窗户自然光",
+      "emotional_tone": "动态、优雅"
+    },
+    {
+      "title": "船上的午宴",
+      "artist": "雷诺阿",
+      "year": 1881,
+      "style": "印象派",
+      "medium": "布面油画",
+      "composition_notes": "聚会场景，人物群像",
+      "color_palette": "暖色系，红、黄、白",
+      "light_source": "遮阳棚下漫射光",
+      "emotional_tone": "欢乐、温暖"
+    },
+    {
+      "title": "大浴女",
+      "artist": "塞尚",
+      "year": 1906,
+      "style": "印象派/后印象派",
+      "medium": "布面油画",
+      "composition_notes": "三角形构图，裸女群像",
+      "color_palette": "蓝绿、土黄",
+      "light_source": "林间光",
+      "emotional_tone": "几何、结构"
+    },
+
+    {
+      "title": "呐喊",
+      "artist": "蒙克",
+      "year": 1893,
+      "style": "表现主义",
+      "medium": "纸板油画",
+      "composition_notes": "桥上人物，背景扭曲",
+      "color_palette": "血红天空、蓝绿水",
+      "light_source": "夕阳",
+      "emotional_tone": "恐惧、焦虑"
+    },
+    {
+      "title": "亚威农少女",
+      "artist": "毕加索",
+      "year": 1907,
+      "style": "立体主义",
+      "medium": "布面油画",
+      "composition_notes": "五个裸女，几何化面部",
+      "color_palette": "粉、褐、蓝",
+      "light_source": "平面光",
+      "emotional_tone": "革命、破碎"
+    },
+    {
+      "title": "格尔尼卡",
+      "artist": "毕加索",
+      "year": 1937,
+      "style": "立体主义/超现实",
+      "medium": "布面油画",
+      "composition_notes": "横向大幅，战争场景碎片化",
+      "color_palette": "黑白灰",
+      "light_source": "电灯",
+      "emotional_tone": "悲痛、控诉"
+    },
+    {
+      "title": "记忆的永恒",
+      "artist": "达利",
+      "year": 1931,
+      "style": "超现实主义",
+      "medium": "布面油画",
+      "composition_notes": "荒漠中融化的钟表",
+      "color_palette": "黄、蓝、褐",
+      "light_source": "侧面光",
+      "emotional_tone": "梦境、时间"
+    },
+    {
+      "title": "梦",
+      "artist": "卢梭",
+      "year": 1910,
+      "style": "原始主义",
+      "medium": "布面油画",
+      "composition_notes": "密林中裸女斜卧",
+      "color_palette": "深绿、橙",
+      "light_source": "月光",
+      "emotional_tone": "神秘、梦幻"
+    },
+
+    {
+      "title": "千里江山图",
+      "artist": "王希孟",
+      "year": 1113,
+      "style": "中国画·青绿山水",
+      "medium": "绢本设色",
+      "composition_notes": "长卷横向展开，山峦起伏连绵",
+      "color_palette": "石青石绿为主",
+      "light_source": "无固定光源",
+      "emotional_tone": "壮丽、意境"
+    },
+    {
+      "title": "清明上河图",
+      "artist": "张择端",
+      "year": 1125,
+      "style": "中国画·风俗画",
+      "medium": "绢本设色",
+      "composition_notes": "长卷记录汴京市井生活",
+      "color_palette": "淡彩",
+      "light_source": "无固定光源",
+      "emotional_tone": "繁华、生动"
+    },
+    {
+      "title": "富春山居图",
+      "artist": "黄公望",
+      "year": 1350,
+      "style": "中国画·水墨山水",
+      "medium": "纸本水墨",
+      "composition_notes": "长卷，山水留白",
+      "color_palette": "水墨黑",
+      "light_source": "无固定光源",
+      "emotional_tone": "淡泊、隐逸"
+    },
+    {
+      "title": "韩熙载夜宴图",
+      "artist": "顾闳中",
+      "year": 970,
+      "style": "中国画·人物画",
+      "medium": "绢本设色",
+      "composition_notes": "五段场景横向连接",
+      "color_palette": "红、绿、金",
+      "light_source": "无固定光源",
+      "emotional_tone": "繁华、叙事"
+    },
+    {
+      "title": "洛神赋图",
+      "artist": "顾恺之",
+      "year": 400,
+      "style": "中国画·人物画",
+      "medium": "绢本设色",
+      "composition_notes": "横卷叙事，人物与山水",
+      "color_palette": "淡彩",
+      "light_source": "无固定光源",
+      "emotional_tone": "飘逸、神话"
+    },
+    {
+      "title": "溪山行旅图",
+      "artist": "范宽",
+      "year": 1000,
+      "style": "中国画·水墨山水",
+      "medium": "绢本水墨",
+      "composition_notes": "立轴，主峰占据大部分画面",
+      "color_palette": "水墨黑灰",
+      "light_source": "无固定光源",
+      "emotional_tone": "雄浑、敬畏"
+    },
+    {
+      "title": "早春图",
+      "artist": "郭熙",
+      "year": 1072,
+      "style": "中国画·水墨山水",
+      "medium": "绢本水墨",
+      "composition_notes": "S形构图，山石树木",
+      "color_palette": "水墨淡彩",
+      "light_source": "无固定光源",
+      "emotional_tone": "春意、生机"
+    },
+    {
+      "title": "踏歌图",
+      "artist": "马远",
+      "year": 1190,
+      "style": "中国画·山水人物",
+      "medium": "绢本设色",
+      "composition_notes": "边角构图（马一角）",
+      "color_palette": "淡彩",
+      "light_source": "无固定光源",
+      "emotional_tone": "欢快、留白"
+    },
+    {
+      "title": "寒江独钓图",
+      "artist": "马远",
+      "year": 1195,
+      "style": "中国画·水墨山水",
+      "medium": "绢本水墨",
+      "composition_notes": "极简构图，小舟孤翁",
+      "color_palette": "水墨",
+      "light_source": "无固定光源",
+      "emotional_tone": "孤寂、禅意"
+    },
+    {
+      "title": "墨梅图",
+      "artist": "王冕",
+      "year": 1350,
+      "style": "中国画·花鸟",
+      "medium": "纸本水墨",
+      "composition_notes": "梅枝斜出",
+      "color_palette": "水墨黑",
+      "light_source": "无固定光源",
+      "emotional_tone": "傲骨、清高"
+    },
+    {
+      "title": "虾",
+      "artist": "齐白石",
+      "year": 1920,
+      "style": "中国画·花鸟",
+      "medium": "纸本水墨",
+      "composition_notes": "群虾游动，大量留白",
+      "color_palette": "水墨",
+      "light_source": "无固定光源",
+      "emotional_tone": "灵动、生趣"
+    },
+    {
+      "title": "奔马图",
+      "artist": "徐悲鸿",
+      "year": 1941,
+      "style": "中国画·动物",
+      "medium": "纸本水墨",
+      "composition_notes": "奔马动态，极简背景",
+      "color_palette": "水墨黑",
+      "light_source": "无固定光源",
+      "emotional_tone": "奔腾、力量"
+    },
+    {
+      "title": "荷花",
+      "artist": "张大千",
+      "year": 1960,
+      "style": "中国画·花鸟",
+      "medium": "纸本设色",
+      "composition_notes": "泼墨泼彩，荷叶荷花",
+      "color_palette": "墨绿、粉红",
+      "light_source": "无固定光源",
+      "emotional_tone": "泼辣、现代"
+    },
+    {
+      "title": "江山如此多娇",
+      "artist": "傅抱石、关山月",
+      "year": 1959,
+      "style": "中国画·山水",
+      "medium": "纸本设色",
+      "composition_notes": "巨幅山水，红日东升",
+      "color_palette": "青绿、红日",
+      "light_source": "无固定光源",
+      "emotional_tone": "壮丽、时代"
+    },
+    {
+      "title": "秋林觅句图",
+      "artist": "石涛",
+      "year": 1700,
+      "style": "中国画·山水",
+      "medium": "纸本水墨",
+      "composition_notes": "文人山水，树石人物",
+      "color_palette": "水墨淡彩",
+      "light_source": "无固定光源",
+      "emotional_tone": "诗意、文人"
+    }
+  ]
+}
