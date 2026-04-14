@@ -235,6 +235,12 @@
                 </div>
             </div>
             <div class="form-field">
+                <label>推荐篇目(可选)</label>
+                <select id="recommended-book" onchange="fillBookHint()">
+                    <option value="">-- 选择推荐书目可快速填入提示 --</option>
+                </select>
+            </div>
+            <div class="form-field">
                 <label>粘贴原文 *</label>
                 <textarea id="source-text" placeholder="把难懂的文章粘贴到这里..."></textarea>
             </div>
@@ -268,6 +274,49 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
+        let readingListData = null;
+
+        // 页面加载时获取书目数据集
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('../src/curriculum/reading-list.json')
+                .then(res => res.json())
+                .then(data => {
+                    readingListData = data.books;
+                    populateBookList();
+                })
+                .catch(err => console.warn('书目数据集加载失败:', err));
+        });
+
+        function populateBookList() {
+            const select = document.getElementById('recommended-book');
+            if (!readingListData) return;
+
+            readingListData.forEach((book, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${book.title}（${book.author}）- ${book.grade_recommended}推荐`;
+                select.appendChild(option);
+            });
+        }
+
+        function fillBookHint() {
+            const select = document.getElementById('recommended-book');
+            const textarea = document.getElementById('source-text');
+            const index = select.value;
+
+            if (index === '') {
+                textarea.placeholder = '把难懂的文章粘贴到这里...';
+                textarea.value = '';
+                return;
+            }
+
+            const book = readingListData[parseInt(index)];
+            const hint = `【已选择：${book.title}】\n作者：${book.author}\n类型：${book.genre}\n推荐年级：${book.grade_recommended}\n难度：${book.difficulty_level}\n主题：${book.key_themes.join('、')}\n\n请粘贴《${book.title}》的片段到此处...`;
+
+            textarea.value = hint;
+            textarea.placeholder = `请粘贴《${book.title}》的原文片段...`;
+        }
+
         function rewriteText() {
             const sourceType = document.getElementById('source-type').value;
             const targetLevel = document.getElementById('target-level').value;
