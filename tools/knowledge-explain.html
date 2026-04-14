@@ -273,8 +273,9 @@
         let currentAttempt = '';
         let stepCount = 0;
         let learningPath = [];
+        let curriculumData = null;
 
-        function startLearning() {
+        async function startLearning() {
             const question = document.getElementById('question-input').value.trim();
             const subject = document.getElementById('subject-select').value;
             const attempt = document.getElementById('attempt-input').value.trim();
@@ -290,6 +291,29 @@
             stepCount = 0;
             learningPath = [];
 
+            // Fetch curriculum JSON for the subject
+            const subjectMap = {
+                '数学': 'math',
+                '物理': 'physics',
+                '化学': 'chemistry',
+                '生物': 'biology',
+                '语文': 'chinese',
+                '英语': 'english',
+                '历史': 'history',
+                '地理': 'geography'
+            };
+
+            const subjectKey = subjectMap[subject];
+            if (subjectKey) {
+                try {
+                    const response = await fetch(`../src/curriculum/${subjectKey}.json`);
+                    curriculumData = await response.json();
+                } catch (err) {
+                    console.error('Failed to load curriculum:', err);
+                    curriculumData = null;
+                }
+            }
+
             document.getElementById('query-section').style.display = 'none';
             document.getElementById('learning-section').classList.add('visible');
 
@@ -297,7 +321,12 @@
         }
 
         function generateFirstStep() {
-            const systemPrompt = `你是一位善于引导的老师，使用苏格拉底式教学法。学生问了一个关于"${currentSubject}"的问题："${currentQuestion}"。
+            let systemPrompt = `你是一位善于引导的老师，使用苏格拉底式教学法。学生问了一个关于"${currentSubject}"的问题："${currentQuestion}"。`;
+
+            // Inject curriculum context if available
+            if (curriculumData && curriculumData.knowledge_tree) {
+                systemPrompt += `\n\n以下是该知识点所在的知识体系：\n${JSON.stringify(curriculumData.knowledge_tree, null, 2)}\n\n请在此范围内讲解，不超纲。`;
+            }
 
 你的任务：
 1. 不要直接给答案，先问学生"你已经尝试过哪些方法？"或"你对这个问题有什么想法？"
