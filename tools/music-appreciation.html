@@ -249,6 +249,18 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
+        let musicDatabase = null;
+
+        // 页面加载时获取音乐数据集
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('../src/curriculum/music-classics.json')
+                .then(res => res.json())
+                .then(data => {
+                    musicDatabase = data.classics;
+                })
+                .catch(err => console.warn('音乐数据集加载失败:', err));
+        });
+
         function analyzeMusic() {
             const pieceName = document.getElementById('piece-name').value.trim();
             const composer = document.getElementById('composer').value.trim();
@@ -262,7 +274,29 @@
             btn.disabled = true;
             btn.textContent = 'AI解析中...';
 
-            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。请按以下JSON格式输出：
+            // 在数据库中搜索匹配的曲目
+            let matchedPiece = null;
+            if (musicDatabase) {
+                matchedPiece = musicDatabase.find(p =>
+                    p.title.includes(pieceName) || pieceName.includes(p.title)
+                );
+            }
+
+            // 构建system prompt，如果匹配到真实数据就注入
+            let extraContext = '';
+            if (matchedPiece) {
+                extraContext = `\n\n【真实曲目数据参考】
+曲式: ${matchedPiece.form}
+乐器: ${matchedPiece.instruments.join('、')}
+情绪: ${matchedPiece.mood}
+段落结构: ${matchedPiece.structure_sections.join(' → ')}
+
+请基于以上真实数据生成解析，确保曲式、乐器、情绪描述准确。`;
+            }
+
+            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。${extraContext}
+
+请按以下JSON格式输出：
 
 {
   "analysis": {
