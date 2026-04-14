@@ -249,7 +249,7 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
-        function breakdownScoring() {
+        async function breakdownScoring() {
             const subject = document.getElementById('subject-select').value;
             const question = document.getElementById('question-input').value.trim();
 
@@ -272,7 +272,28 @@
                 geography: '地理'
             };
 
-            const systemPrompt = `你是${subjectNames[subject]}阅卷专家,正在拆解大题的采分点。请按以下JSON格式输出：
+            // Fetch exam standards
+            let examStandards;
+            try {
+                const response = await fetch('../src/curriculum/exam-standards.json');
+                examStandards = await response.json();
+            } catch (err) {
+                console.error('Failed to load exam standards:', err);
+                examStandards = null;
+            }
+
+            // Build system prompt with subject-specific scoring rules
+            let systemPrompt = `你是${subjectNames[subject]}阅卷专家,正在拆解大题的采分点。`;
+
+            if (examStandards) {
+                if (subject === 'math' && examStandards.math_scoring) {
+                    systemPrompt += `\n\n以下是数学解答题评分标准（踩点给分原则）：\n${JSON.stringify(examStandards.math_scoring, null, 2)}\n\n核心原则：按步骤采分，步骤正确即给分，不因后续错误累计扣分。`;
+                } else if (subject === 'physics' && examStandards.physics_scoring) {
+                    systemPrompt += `\n\n以下是物理计算题评分标准（踩点给分原则）：\n${JSON.stringify(examStandards.physics_scoring, null, 2)}\n\n核心原则：按步骤采分，前步错误不影响后步得分。`;
+                }
+            }
+
+            systemPrompt += `\n\n请按以下JSON格式输出：
 
 {
   "points": [
