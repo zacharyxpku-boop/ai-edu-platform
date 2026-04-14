@@ -263,7 +263,7 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
-        function gradeEssay() {
+        async function gradeEssay() {
             const genre = document.getElementById('genre-select').value;
             const essay = document.getElementById('essay-input').value.trim();
 
@@ -283,7 +283,33 @@
                 poetry: '诗歌'
             };
 
-            const systemPrompt = `你是专业的语文老师,正在批改一篇${genreNames[genre]}。请按以下格式输出：
+            // Fetch exam standards
+            let examStandards;
+            try {
+                const response = await fetch('../src/curriculum/exam-standards.json');
+                examStandards = await response.json();
+            } catch (err) {
+                console.error('Failed to load exam standards:', err);
+                examStandards = null;
+            }
+
+            // Build system prompt with rubric and common mistakes
+            let systemPrompt = `你是专业的语文老师,正在批改一篇${genreNames[genre]}。`;
+
+            if (examStandards && examStandards.essay_rubric) {
+                systemPrompt += `\n\n以下是中考作文真实评分标准：\n${JSON.stringify(examStandards.essay_rubric, null, 2)}\n\n请严格按此标准评分。基准分42分。`;
+            }
+
+            if (examStandards && examStandards.common_mistakes && examStandards.common_mistakes.math) {
+                const chineseMistakes = examStandards.common_mistakes.math.filter(m =>
+                    m.category.includes('语文') || m.category.includes('答题规范')
+                );
+                if (chineseMistakes.length > 0) {
+                    systemPrompt += `\n\n常见失分点：\n${JSON.stringify(chineseMistakes, null, 2)}`;
+                }
+            }
+
+            systemPrompt += `\n\n请按以下格式输出：
 
 [SCORES]
 内容:分数/20
