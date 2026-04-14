@@ -3,233 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>原点未来研究院 — AI教育前沿洞察</title>
-    <meta name="description" content="原点未来研究院：探索AI时代孩子教育的前沿路径，输出有分量的教育内容与认知。深度报告、行业分析、案例研究。">
+    <title>原点研究院 | AI时代家庭教育深度内容 | 原点智学</title>
+    <meta name="description" content="免费、实用、不贩卖焦虑。实操指南、工具测评、认知升级、分龄建议——看完之后，家长能立刻做点什么。">
     <meta name="theme-color" content="#F5A623">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
-    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="canonical" href="https://www.yuandianzhixue.com/articles.html">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="src/theme.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
     <style>
-        .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
-        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
-        .page-section { padding: var(--sp-section) 0; }
-        .page-section:nth-child(even) { background: var(--grad-section); }
-        .page-content { max-width: 1120px; margin: 0 auto; padding: 0 var(--sp-lg); }
-        .article-grid { display: grid; grid-template-columns: 3fr 2fr; gap: var(--sp-lg); margin-top: var(--sp-xl); }
-        .article-card {
-            background: rgba(22,33,62,0.6);
-            border: 1px solid var(--c-ink-border);
-            border-radius: var(--r-lg);
-            padding: var(--sp-lg);
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .article-card:hover { border-color: rgba(233,77,53,0.3); transform: translateY(-2px); }
-        .article-tag {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: var(--r-pill);
-            font-size: var(--fs-caption);
-            font-weight: 700;
-            margin-bottom: var(--sp-sm);
-        }
-        .tag-insight { background: rgba(233,77,53,0.12); color: var(--c-origin-soft); }
-        .tag-case { background: rgba(45,159,111,0.12); color: var(--c-success); }
-        .tag-guide { background: rgba(15,52,96,0.3); color: #7EB8DA; }
-        .tag-debate { background: rgba(212,168,67,0.12); color: var(--c-warning); }
-        .article-card h3 { margin-bottom: var(--sp-sm); font-size: var(--fs-h3); }
-        .article-card p { color: var(--c-warm-gray); font-size: var(--fs-small); }
-        .article-date { color: var(--c-warm-dim); font-size: var(--fs-caption); margin-top: var(--sp-sm); }
-        .article-grid-row2 { display: grid; grid-template-columns: 2fr 3fr; gap: var(--sp-lg); margin-top: var(--sp-lg); }
-        .content-types { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-lg); margin-top: var(--sp-xl); }
-        .content-type { background: rgba(22,33,62,0.5); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); border-left: 3px solid var(--c-origin); }
-        .content-type h3 { margin-bottom: var(--sp-sm); }
-        .content-type p { color: var(--c-warm-gray); font-size: var(--fs-small); }
-        @media (max-width: 767px) {
-            .article-grid, .article-grid-row2, .content-types { grid-template-columns: 1fr; }
-        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--green:#059669;--blue:#2563EB;--purple:#7C3AED;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .w{max-width:860px;margin:0 auto;padding:0 24px}
+
+        .nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bdr)}
+        .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+        .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+        .nav-brand svg{width:24px;height:24px}
+        .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
+        .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+        .nav-a.on{color:var(--amber);background:var(--amber-bg)}
+        .nav-cta-btn{background:var(--ink);color:#fff;border:none;padding:6px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+
+        .hero{padding:64px 0 40px}
+        .hero h1{font-size:clamp(28px,5vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:8px;line-height:1.15}
+        .hero-sub{font-size:16px;color:var(--ink2);max-width:480px}
+        .hero-rule{font-size:14px;color:var(--ink3);margin-top:16px;padding:12px 16px;background:var(--amber-bg);border-radius:var(--r);border-left:3px solid var(--amber);max-width:480px}
+
+        /* categories */
+        .cats{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--r);overflow:hidden;margin:40px 0}
+        .cat{padding:24px 20px;transition:background .2s}
+        .cat:nth-child(1){background:rgba(232,89,12,0.05)}
+        .cat:nth-child(2){background:rgba(37,99,235,0.05)}
+        .cat:nth-child(3){background:rgba(124,58,237,0.05)}
+        .cat:nth-child(4){background:rgba(5,150,105,0.05)}
+        .cat:hover{background:var(--card)}
+        .cat h3{font-size:15px;font-weight:800;margin-bottom:4px}
+        .cat p{font-size:13px;color:var(--ink2);line-height:1.6}
+        @media(max-width:600px){.cats{grid-template-columns:1fr}}
+
+        /* article list */
+        .label{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.5px;margin-bottom:6px}
+        .stitle{font-size:clamp(22px,3.5vw,30px);font-weight:900;letter-spacing:-0.3px;margin-bottom:24px;line-height:1.2}
+
+        .articles{display:flex;flex-direction:column;gap:0}
+        .article{display:grid;grid-template-columns:1fr auto;gap:16px;padding:24px 0;border-bottom:1px solid var(--bdr);text-decoration:none;color:inherit;transition:all .15s;align-items:start}
+        .article:hover{padding-left:8px}
+        .article:last-child{border-bottom:none}
+        .article-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;align-self:start;margin-top:4px}
+        .tag-guide{background:rgba(232,89,12,0.08);color:var(--cta)}
+        .tag-review{background:rgba(37,99,235,0.08);color:var(--blue)}
+        .tag-think{background:rgba(124,58,237,0.08);color:var(--purple)}
+        .tag-age{background:rgba(5,150,105,0.08);color:var(--green)}
+        .article h3{font-size:17px;font-weight:700;margin-bottom:4px;line-height:1.4}
+        .article p{font-size:13px;color:var(--ink3);line-height:1.6}
+        .article-meta{font-size:11px;color:var(--ink4);margin-top:6px}
+
+        /* cta */
+        .cta-box{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px;text-align:center;margin:48px 0}
+        .cta-box h3{font-size:20px;font-weight:800;margin-bottom:8px}
+        .cta-box p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:20px}
+        .cta-btn{background:var(--amber);color:var(--ink);border:none;padding:12px 28px;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .15s}
+        .cta-btn:hover{opacity:.9}
+
+        .foot{border-top:1px solid var(--bdr);padding:24px 0;text-align:center;font-size:12px;color:var(--ink4)}
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="/" class="nav-brand">
-                <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>
-                原点智学
-            </a>
-            <div class="nav-links">
-                <a href="study-tools.html">学习工具</a>
-                <a href="methods.html">成长课</a>
-                <a href="articles.html">研究院</a>
-                <a href="about.html">关于</a>
-            </div>
-            <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
-            <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
-        </div>
-    </nav>
-    <div id="mobile-nav" class="mobile-nav">
-        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
-        <a href="tools-guide.html" onclick="toggleMobileNav()">原点AI学伴</a>
-        <a href="assistant.html" onclick="toggleMobileNav()">原点少年营</a>
-        <a href="articles.html" onclick="toggleMobileNav()">原点未来研究院</a>
-        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
-        <a href="/#contact" onclick="toggleMobileNav()">预约试听</a>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>原点智学</a>
+    <a href="/" class="nav-a">学习工具</a>
+    <a href="methods.html" class="nav-a">少年营</a>
+    <a href="articles.html" class="nav-a on">研究院</a>
+    <a href="about.html" class="nav-a">关于</a>
+    <button class="nav-cta-btn" onclick="location.href='methods.html#pricing'">报名少年营</button>
+</div></nav>
+
+<section class="hero"><div class="w">
+    <h1>原点研究院</h1>
+    <p class="hero-sub">AI时代家庭教育的深度内容。免费、实用、不贩卖焦虑。</p>
+    <div class="hero-rule">每篇文章都有一个标准：看完之后，家长能立刻做点什么。</div>
+</div></section>
+
+<section><div class="w">
+    <div class="cats">
+        <div class="cat"><h3>实操指南</h3><p>不花一分钱，在家就能带孩子做的AI学习活动。具体到用什么工具、说什么话、怎么引导。</p></div>
+        <div class="cat"><h3>工具测评</h3><p>ChatGPT、豆包、Kimi、通义千问……到底哪个适合孩子用？亲测对比，给真实推荐。</p></div>
+        <div class="cat"><h3>认知升级</h3><p>AI时代什么能力最重要？用数据和案例帮你看清趋势，做出理性判断。</p></div>
+        <div class="cat"><h3>分龄建议</h3><p>6岁和16岁接触AI的方式完全不同。按年龄段给出具体的、可操作的引导建议。</p></div>
     </div>
+</div></section>
 
-    <section class="page-hero">
-        <a href="/" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
-        <h1>原点研究院</h1>
-        <p class="section-desc">AI时代家庭教育的深度内容——免费、实用、不贩卖焦虑</p>
-    </section>
-
-    <!-- 内容分类 -->
-    <section class="page-section">
-        <div class="page-content">
-            <h2 style="text-align:center">我们写什么</h2>
-            <p class="section-desc">每篇文章都有一个标准：看完之后，家长能立刻做点什么</p>
-            <div class="content-types">
-                <div class="content-type">
-                    <h3>实操指南</h3>
-                    <p>不花一分钱，在家就能带孩子做的AI学习活动。具体到用什么工具、说什么话、怎么引导。</p>
-                </div>
-                <div class="content-type">
-                    <h3>工具测评</h3>
-                    <p>ChatGPT、豆包、Kimi、通义千问……到底哪个适合孩子用？我们亲测对比，给出真实推荐。</p>
-                </div>
-                <div class="content-type">
-                    <h3>认知升级</h3>
-                    <p>AI时代什么能力最重要？不贩卖焦虑，用数据和案例帮你看清趋势，做出理性判断。</p>
-                </div>
-                <div class="content-type">
-                    <h3>分龄建议</h3>
-                    <p>6岁和16岁接触AI的方式完全不同。我们按年龄段给出具体的、可操作的引导建议。</p>
-                </div>
+<section><div class="w">
+    <div class="label">文章</div>
+    <div class="stitle">最新内容</div>
+    <div class="articles">
+        <a href="#" class="article">
+            <div>
+                <h3>18个北京中学生里，只有1个在用AI做这件事</h3>
+                <p>采访18个北京名校中学生，17个把AI当百度用，第18个用Claude给自己写了一个背古文的小工具。消费者和创造者的分水岭，在开始的时候就定型了。</p>
+                <div class="article-meta">公众号「原点AI学堂」首发</div>
             </div>
-        </div>
-    </section>
-
-    <!-- 文章列表 -->
-    <section class="page-section">
-        <div class="page-content">
-            <h2 style="text-align:center">最新文章</h2>
-            <p class="section-desc">持续更新中——每篇都值得收藏</p>
-            <div class="article-grid">
-                <div class="article-card">
-                    <span class="article-tag tag-guide">实操指南</span>
-                    <h3>不花一分钱，在家用AI提升孩子学习效率的5个方法</h3>
-                    <p>不需要买课、不需要懂编程。5个今天就能和孩子一起做的AI学习活动，从6岁到16岁都能用。每个活动附完整操作步骤。</p>
-                    <div class="article-date">2026年3月 · 约8分钟阅读</div>
-                </div>
-                <div class="article-card">
-                    <span class="article-tag tag-insight">认知升级</span>
-                    <h3>AI时代，什么能力是不可替代的？</h3>
-                    <p>世界经济论坛预测：到2030年，40%的现有工作技能将过时。但有四种底层能力，AI越强它们越值钱。这篇文章帮你看清全局。</p>
-                    <div class="article-date">2026年3月 · 约10分钟阅读</div>
-                </div>
+            <span class="article-tag tag-think">认知</span>
+        </a>
+        <a href="#" class="article">
+            <div>
+                <h3>今晚就能做的5件事：用AI陪孩子学习的入门指南</h3>
+                <p>不需要任何工具，不需要会编程。打开任意AI助手，输入一段话，让孩子跟它聊一道作业题。附完整提示词模板。</p>
+                <div class="article-meta">实操系列 · 第1篇</div>
             </div>
-            <div class="article-grid-row2">
-                <div class="article-card">
-                    <span class="article-tag tag-case">工具测评</span>
-                    <h3>ChatGPT/豆包/Kimi/通义千问，哪个更适合孩子用？</h3>
-                    <p>我们用同一组问题测试了4个主流AI工具，从安全性、回答质量、适龄程度三个维度打分。结论可能和你想的不一样。</p>
-                    <div class="article-date">即将发布</div>
-                </div>
-                <div class="article-card">
-                    <span class="article-tag tag-debate">分龄建议</span>
-                    <h3>给6-16岁孩子的AI启蒙：分龄指南</h3>
-                    <p>6岁该不该接触AI？12岁用AI写作业算不算作弊？每个年龄段的核心问题和建议，一篇讲清楚。</p>
-                    <div class="article-date">即将发布</div>
-                </div>
+            <span class="article-tag tag-guide">实操</span>
+        </a>
+        <a href="#" class="article">
+            <div>
+                <h3>豆包 vs Kimi vs 通义千问：哪个最适合初中生？</h3>
+                <p>用同一道数学题、同一篇作文、同一个英语对话测试三款免费AI。结论可能跟你想的不一样。</p>
+                <div class="article-meta">工具测评系列 · 第1篇</div>
             </div>
-        </div>
-    </section>
-
-    <!-- 在哪找到我们 -->
-    <section class="page-section">
-        <div class="page-content" style="max-width:720px;margin:0 auto;padding:0 var(--sp-lg)">
-            <h2 style="text-align:center">在这些平台也能找到我们</h2>
-            <p style="text-align:center;color:var(--c-warm-gray);margin-bottom:var(--sp-xl)">同样的内容，选你习惯的平台关注就好</p>
-            <div class="trust-grid">
-                <div class="trust-item">
-                    <div class="trust-num" style="font-size:1.5rem">📕</div>
-                    <div class="trust-desc">小红书<br>搜索「原点智学」</div>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-num" style="font-size:1.5rem">📝</div>
-                    <div class="trust-desc">微信公众号<br>搜索「原点智学」</div>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-num" style="font-size:1.5rem">📹</div>
-                    <div class="trust-desc">抖音 / 视频号<br>即将开通</div>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-num" style="font-size:1.5rem">💬</div>
-                    <div class="trust-desc">家长社群<br><a href="/#contact" style="color:var(--c-origin)">免费加入 →</a></div>
-                </div>
+            <span class="article-tag tag-review">测评</span>
+        </a>
+        <a href="#" class="article">
+            <div>
+                <h3>6岁、10岁、14岁：三个年龄段接触AI的正确姿势</h3>
+                <p>6岁重在好奇心保护，10岁重在提问训练，14岁重在判断力培养。每个年龄段给3条具体建议。</p>
+                <div class="article-meta">分龄系列 · 第1篇</div>
             </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <h2>所有内容免费，因为我们相信利他</h2>
-            <p>好内容应该让所有人受益。不买课也值得关注——如果内容帮到了你，帮我们转发给一个需要的朋友。</p>
-            <div class="cta-actions">
-                <button class="btn-primary" onclick="location.href='/#contact'">加入家长社群</button>
-                <button class="btn-secondary" onclick="location.href='methods.html'">了解我们的课程</button>
+            <span class="article-tag tag-age">分龄</span>
+        </a>
+        <a href="#" class="article">
+            <div>
+                <h3>AI时代，「聪明」可能不值钱了</h3>
+                <p>AI最擅长帮聪明孩子更快拿到答案。那不聪明但有韧性的孩子呢？也许他们才是AI时代的赢家。</p>
+                <div class="article-meta">认知系列 · 第2篇</div>
             </div>
-        </div>
-    </section>
-
-    <!-- Share Bar -->
-    <div id="share-bar" class="share-bar">
-        <span class="share-bar-label">觉得有用？分享给朋友</span>
-        <button class="share-btn" onclick="shareAction('wechat')"><span class="share-btn-icon">💬</span> 微信</button>
-        <button class="share-btn" onclick="shareAction('xiaohongshu')"><span class="share-btn-icon">📕</span> 小红书</button>
-        <button class="share-btn" onclick="shareAction('weibo')"><span class="share-btn-icon">🔥</span> 微博</button>
-        <button class="share-btn" onclick="shareAction('copy')"><span class="share-btn-icon">🔗</span> 复制链接</button>
+            <span class="article-tag tag-think">认知</span>
+        </a>
+        <a href="#" class="article">
+            <div>
+                <h3>费曼学习法 × AI：让孩子教AI，比AI教孩子更有效</h3>
+                <p>反过来让孩子当老师，AI当学生。孩子讲不清楚的地方就是没真懂的地方。附完整操作流程。</p>
+                <div class="article-meta">实操系列 · 第2篇</div>
+            </div>
+            <span class="article-tag tag-guide">实操</span>
+        </a>
     </div>
+</div></section>
 
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <h3>◉ 原点智学</h3>
-                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
-            </div>
-            <div class="footer-links">
-                <h4>产品</h4>
-                <a href="methods.html">智元成长课</a>
-                <a href="tools-guide.html">原点AI学伴</a>
-                <a href="assistant.html">原点少年营</a>
-            </div>
-            <div class="footer-links">
-                <h4>了解更多</h4>
-                <a href="about.html">关于我们</a>
-                <a href="about.html">关于</a>
-                <a href="/#contact">联系</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span>
-            <span>AI是教练，不是替代者。</span>
-        </div>
-    </footer>
-    <script src="src/app.js"></script>
-    <script>
-    (function(){
-        var bar = document.getElementById('share-bar');
-        if (!bar) return;
-        var shown = false;
-        window.addEventListener('scroll', function(){
-            if (!shown && window.scrollY > 300) {
-                bar.classList.add('visible');
-                shown = true;
-            }
-        }, {passive:true});
-    })();
-    </script>
+<div class="w">
+    <div class="cta-box">
+        <h3>关注「原点AI学堂」</h3>
+        <p>每周更新，不买课也值得看。</p>
+        <button class="cta-btn" onclick="location.href='/#contact'">微信搜索「原点AI学堂」</button>
+    </div>
+</div>
+
+<footer class="foot"><div class="w">
+    <p>© 2026 原点智学 · business@yuandianzhixue.com</p>
+</div></footer>
+
 </body>
 </html>

@@ -3,238 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于原点智学 — AI时代家庭教育成长平台</title>
-    <meta name="description" content="原点智学：回到能力培养的本质出发点。了解我们的品牌哲学、设计原则和团队使命。">
+    <title>关于原点智学 | 十年教育老兵 × 清北AI前沿团队</title>
+    <meta name="description" content="原点智学：AI自学提分×AI能力培养×AI商业产出。北大经院+伦敦商学院创始人，10+名企AI专家，50+清北哈佛剑桥导师。">
     <meta name="theme-color" content="#F5A623">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
-    <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="canonical" href="https://www.yuandianzhixue.com/about.html">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="src/theme.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%231C1C1E'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
     <style>
-        .about-hero {
-            padding: 120px 24px 60px;
-            text-align: center;
-            background: var(--grad-hero);
-        }
-        .about-hero h1 {
-            font-family: var(--font-heading);
-            font-size: var(--fs-hero);
-            margin: var(--sp-lg) 0 var(--sp-md);
-        }
-        .about-section { padding: var(--sp-section) 0; }
-        .about-section:nth-child(even) { background: var(--grad-section); }
-        .about-content {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 var(--sp-lg);
-        }
-        .about-content h2 { text-align: left; margin-bottom: var(--sp-lg); }
-        .about-content p {
-            color: var(--c-warm-gray);
-            line-height: 2;
-            margin-bottom: var(--sp-md);
-        }
-        .about-content strong { color: var(--c-warm-white); }
-        .principles-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--sp-lg);
-            margin: var(--sp-xl) 0;
-        }
-        .principle {
-            background: rgba(22,33,62,0.6);
-            border: 1px solid var(--c-ink-border);
-            border-radius: var(--r-lg);
-            padding: var(--sp-lg);
-            border-top: 3px solid var(--c-origin);
-        }
-        .principle h4 {
-            font-family: var(--font-heading);
-            margin-bottom: var(--sp-sm);
-            color: var(--c-warm-white);
-        }
-        .principle p { color: var(--c-warm-gray); font-size: var(--fs-small); margin: 0; }
-        .ip-section {
-            background: rgba(233,77,53,0.04);
-            border-left: 3px solid var(--c-origin);
-            border-radius: 0 var(--r-md) var(--r-md) 0;
-            padding: var(--sp-lg);
-            margin: var(--sp-xl) 0;
-        }
-        .ip-section h3 {
-            font-family: var(--font-heading);
-            margin-bottom: var(--sp-sm);
-        }
-        .ip-section p { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-sm); }
-        .about-contact {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--sp-md);
-            margin-top: var(--sp-xl);
-        }
-        .about-contact-card {
-            background: rgba(22,33,62,0.6);
-            border: 1px solid var(--c-ink-border);
-            border-radius: var(--r-lg);
-            padding: var(--sp-lg);
-            text-align: center;
-        }
-        .about-contact-card h4 { margin-bottom: var(--sp-xs); color: var(--c-warm-white); }
-        .about-contact-card p { color: var(--c-warm-gray); font-size: var(--fs-small); margin: 0; }
-        @media (max-width: 767px) {
-            .principles-grid { grid-template-columns: 1fr; }
-            .about-contact { grid-template-columns: 1fr; }
-        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--green:#059669;--blue:#2563EB;--purple:#7C3AED;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+        .w{max-width:860px;margin:0 auto;padding:0 24px}
+
+        .nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bdr)}
+        .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+        .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+        .nav-brand svg{width:24px;height:24px}
+        .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
+        .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+        .nav-a.on{color:var(--amber);background:var(--amber-bg)}
+        .nav-cta-btn{background:var(--ink);color:#fff;border:none;padding:6px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+
+        section{padding:56px 0}
+        section:nth-child(even){background:var(--card)}
+        .label{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.5px;margin-bottom:6px}
+        .stitle{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2}
+
+        /* hero */
+        .hero{padding:72px 0 48px;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:-80px;right:-120px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.06) 0%,transparent 70%);pointer-events:none}
+        .hero h1{font-size:clamp(30px,5vw,48px);font-weight:900;line-height:1.12;letter-spacing:-1px;margin-bottom:16px}
+        .hero h1 em{font-style:normal;color:var(--cta)}
+        .hero-sub{font-size:17px;color:var(--ink2);max-width:520px;line-height:1.8}
+        .hero-sub strong{color:var(--ink)}
+
+        /* three things */
+        .three{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-radius:var(--r);overflow:hidden;margin-bottom:48px}
+        .three-cell{padding:32px 24px;text-align:center;transition:background .2s}
+        .three-cell:nth-child(1){background:rgba(232,89,12,0.06)}
+        .three-cell:nth-child(2){background:rgba(37,99,235,0.06)}
+        .three-cell:nth-child(3){background:rgba(5,150,105,0.06)}
+        .three-cell:hover{background:var(--card)}
+        .three-num{font-size:36px;font-weight:900;opacity:0.12;margin-bottom:4px}
+        .three-h{font-size:16px;font-weight:800;margin-bottom:6px}
+        .three-p{font-size:13px;color:var(--ink2);line-height:1.6}
+        @media(max-width:600px){.three{grid-template-columns:1fr}}
+
+        /* team */
+        .team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+        .team-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px 16px;text-align:center;transition:all .2s}
+        .team-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.05)}
+        .team-big{font-size:32px;font-weight:900;margin-bottom:4px;letter-spacing:-1px}
+        .team-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+        @media(max-width:700px){.team{grid-template-columns:1fr 1fr}}
+
+        /* founder */
+        .founder{position:relative;padding:40px 0}
+        .founder::before{content:'\201C';position:absolute;top:-20px;left:-8px;font-size:100px;color:var(--amber);opacity:0.08;font-family:Georgia,serif;line-height:1;pointer-events:none}
+        .founder h2{font-size:24px;font-weight:800;margin-bottom:20px}
+        .founder p{font-size:15px;color:var(--ink2);line-height:1.85;margin-bottom:16px}
+        .founder strong{color:var(--ink)}
+        .founder-sig{margin-top:24px;padding-top:16px;border-top:1px solid var(--bdr)}
+        .founder-sig b{font-size:15px;display:block;margin-bottom:2px}
+        .founder-sig span{font-size:13px;color:var(--ink4);display:block}
+
+        /* vision cards */
+        .vision{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .v-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px}
+        .v-card h4{font-size:15px;font-weight:700;margin-bottom:6px}
+        .v-card p{font-size:13px;color:var(--ink2);line-height:1.7}
+        @media(max-width:600px){.vision{grid-template-columns:1fr}}
+
+        /* market */
+        .market{display:flex;gap:24px;flex-wrap:wrap}
+        .market-item{flex:1;min-width:160px;text-align:center}
+        .market-num{font-size:28px;font-weight:900;color:var(--cta)}
+        .market-label{font-size:12px;color:var(--ink3);margin-top:2px}
+
+        .foot{border-top:1px solid var(--bdr);padding:24px 0;text-align:center;font-size:12px;color:var(--ink4)}
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="/" class="nav-brand">
-                <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>
-                原点智学
-            </a>
-            <div class="nav-links">
-                <a href="study-tools.html">学习工具</a>
-                <a href="methods.html">成长课</a>
-                <a href="articles.html">研究院</a>
-                <a href="about.html">关于</a>
-            </div>
-            <button class="nav-cta" onclick="location.href='/#contact'">预约试听</button>
-            <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#F5A623"/><circle cx="13" cy="13" r="5.5" fill="#1C1C1E"/><circle cx="13" cy="13" r="2.2" fill="#FAFAF7"/></svg>原点智学</a>
+    <a href="/" class="nav-a">学习工具</a>
+    <a href="methods.html" class="nav-a">少年营</a>
+    <a href="articles.html" class="nav-a">研究院</a>
+    <a href="about.html" class="nav-a on">关于</a>
+    <button class="nav-cta-btn" onclick="location.href='methods.html#pricing'">报名少年营</button>
+</div></nav>
+
+<section class="hero"><div class="w">
+    <div class="label">ORIGIN AI EDU</div>
+    <h1>不教孩子<em>用AI</em><br>教孩子<em>驾驭AI</em></h1>
+    <p class="hero-sub">我们做三件事。每一件都指向同一个目标——<strong>让孩子站在AI的肩膀上学习、创造、看见未来</strong>。</p>
+</div></section>
+
+<section><div class="w">
+    <div class="label">我们做三件事</div>
+    <div class="stitle">AI自学提分 · AI能力培养 · AI商业产出</div>
+    <div class="three">
+        <div class="three-cell">
+            <div class="three-num">01</div>
+            <div class="three-h">AI自学提分</div>
+            <p class="three-p">用AI把孩子的薄弱知识点打穿，一对一诊断式学习。学得快，学得准。</p>
         </div>
-    </nav>
-    <div id="mobile-nav" class="mobile-nav">
-        <a href="methods.html" onclick="toggleMobileNav()">智元成长课</a>
-        <a href="tools-guide.html" onclick="toggleMobileNav()">原点AI学伴</a>
-        <a href="assistant.html" onclick="toggleMobileNav()">原点少年营</a>
-        <a href="articles.html" onclick="toggleMobileNav()">原点未来研究院</a>
-        <a href="about.html" onclick="toggleMobileNav()">关于我们</a>
-        <a href="/#contact" onclick="toggleMobileNav()">预约试听</a>
+        <div class="three-cell">
+            <div class="three-num">02</div>
+            <div class="three-h">AI能力培养</div>
+            <p class="three-p">Prompt思维、AI协作、信息判断力——未来10年的底层能力。不会被AI替代的那些。</p>
+        </div>
+        <div class="three-cell">
+            <div class="three-num">03</div>
+            <div class="three-h">AI商业产出</div>
+            <p class="three-p">孩子做出真实可用的产品、文案、作品集。走进真实世界，不是纸上谈兵。</p>
+        </div>
     </div>
+</div></section>
 
-    <section class="about-hero">
-        <a href="/" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
-        <h1>关于原点智学</h1>
-        <p class="section-desc">一个刚开始的教育品牌，和它背后那个认真的人</p>
-    </section>
+<section><div class="w">
+    <div class="label">团队</div>
+    <div class="stitle">十年教育老兵 × 清北AI前沿科技</div>
+    <div class="team">
+        <div class="team-card"><div class="team-big">10+</div><div class="team-desc">字节/阿里/腾讯/商汤<br>一线名企AI专家</div></div>
+        <div class="team-card"><div class="team-big">50+</div><div class="team-desc">清北哈佛剑桥<br>在读导师陪练</div></div>
+        <div class="team-card"><div class="team-big">5+</div><div class="team-desc">清北专家教授<br>长期学术顾问</div></div>
+        <div class="team-card"><div class="team-big">3000+</div><div class="team-desc">原点AI学堂<br>累计服务家庭</div></div>
+    </div>
+</div></section>
 
-    <!-- 创始人故事 -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2>创始人</h2>
-            <p>我叫Zack Zhang，北大经济学院本科，伦敦商学院管理学硕士。</p>
-            <p>在做教育行业研究的过程中，我花了很多时间研究市面上的AI教育产品。结论让我很不舒服：<strong>大部分产品在教孩子依赖AI，而不是驾驭AI。</strong></p>
-            <p>搜题App让孩子不用思考就能拿到答案。AI写作工具让孩子不用组织语言就能交作文。表面上效率提升了，实际上孩子失去了最宝贵的东西——独立思考的能力。</p>
-            <p>我想做一个不一样的产品：<strong>不是教孩子「用AI」，而是教孩子「用AI思考」</strong>。成绩会提升，但更重要的是，孩子学会了提问、判断和创造。</p>
-            <p>原点智学现在还很小。这是我们的第一期课程，我亲自授课。我不会用假数据和编造的故事来说服你——我只能用课程本身的质量来证明。</p>
-            <p>如果你有任何问题，可以直接给我发邮件。我会亲自回复每一封。</p>
-            <div class="founder-sig" style="margin-top:var(--sp-lg);padding-top:var(--sp-lg);border-top:1px solid rgba(15,52,96,0.3)">
-                <strong style="font-size:var(--fs-h3);color:var(--c-warm-white)">Zack Zhang</strong>
-                <span style="color:var(--c-warm-dim);font-size:var(--fs-small)">原点智学创始人</span>
-                <span style="color:var(--c-warm-dim);font-size:var(--fs-small)">北京大学经济学院 · 伦敦商学院</span>
-                <span style="color:var(--c-origin);font-size:var(--fs-small)">business@yuandianzhixue.com</span>
-            </div>
+<section><div class="w">
+    <div class="founder">
+        <div class="label">创始人</div>
+        <h2>为什么做原点智学？</h2>
+        <p>我花了很多时间研究市面上的AI教育产品。结论让我不舒服：<strong>大部分产品在教孩子依赖AI，而不是驾驭AI</strong>。</p>
+        <p>搜题App让孩子不用思考就能拿到答案。AI写作工具让孩子不用组织语言就能交作文。表面上效率提升了，实际上孩子失去了最宝贵的东西——独立思考的能力。</p>
+        <p>我想做一个不一样的产品：<strong>不是教孩子「用AI」，而是教孩子「用AI思考」</strong>。成绩会提升，但更重要的是，孩子学会了提问、判断和创造。</p>
+        <p>「原点」这个名字，取自我们的办公地点——海淀东升大厦，我们叫它"原点大厦"，全国AI人才密度最高的区域之一。也取自教育的原点：培养一个能独立思考、有产出能力的人。</p>
+        <div class="founder-sig">
+            <b>Zack Zhang</b>
+            <span>原点智学创始人</span>
+            <span>北大经济学院 · 伦敦商学院(LBS) · 天使投资人</span>
+            <span>NYU × LBS × 清北经管 × 哈佛牛剑</span>
         </div>
-    </section>
+    </div>
+</div></section>
 
-    <!-- 我们相信什么 -->
-    <section class="about-section">
-        <div class="about-content" style="max-width:900px">
-            <h2 style="text-align:center">我们相信什么</h2>
-            <p class="section-desc">这四条原则指导我们设计每一节课</p>
-            <div class="principles-grid">
-                <div class="principle">
-                    <h4>AI是教练，不是替代者</h4>
-                    <p>我们的课堂里，AI永远不会替孩子完成任务。AI的角色是提问、引导、反馈——思考永远由孩子自己完成。</p>
-                </div>
-                <div class="principle">
-                    <h4>成绩和能力，一起抓</h4>
-                    <p>不做「只管提分」或「只讲素质」的二选一。我们的课程设计目标是：学习效率提升的同时，批判性思维同步成长。</p>
-                </div>
-                <div class="principle">
-                    <h4>看得见的成长</h4>
-                    <p>每期课程结束，孩子带走一份自己做的AI作品。不是考卷上的分数，是能拿在手里、展示给人看的真实产出。</p>
-                </div>
-                <div class="principle">
-                    <h4>家长和孩子一起学</h4>
-                    <p>AI时代的教育不只是孩子的事。我们同时为家长提供内容和社群，帮你理解孩子正在经历什么。</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section><div class="w">
+    <div class="label">五张王牌</div>
+    <div class="stitle">为什么选原点，不选别家</div>
+    <div class="vision">
+        <div class="v-card"><h4>全球最顶尖AI工具</h4><p>GPT-4 + Claude + Gemini，不只是国产平替。让孩子接触世界级AI。</p></div>
+        <div class="v-card"><h4>原点社区数千位AI创业者</h4><p>中国最顶尖AI社群，孩子接触的不是理论，是正在发生的真实AI世界。</p></div>
+        <div class="v-card"><h4>清北哈佛数十人团队</h4><p>不是挂名顾问，是每周参与课程设计和答疑的真实导师。</p></div>
+        <div class="v-card"><h4>世界顶级商学院创始人</h4><p>北大经院 + LBS + NYU + 哈佛商学院的视野和资源网络。</p></div>
+    </div>
+</div></section>
 
-    <!-- 为什么叫"原点" -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2>为什么叫「原点」？</h2>
-            <p><strong>「原点」</strong>——回到能力培养的本质出发点。在AI工具泛滥的时代，真正有价值的不是对某款工具的熟练程度，而是底层的思维方式、学习能力和创造力。</p>
-            <p><strong>「智」</strong>——智慧，不是知识；智能，不只是技术；智识，是融合AI与人类思维的高阶能力。</p>
-            <p><strong>「学」</strong>——不只是学习，而是学得快、学得透、用得好。一种面向AI时代的学习方法论。</p>
-        </div>
-    </section>
+<section><div class="w">
+    <div class="label">市场背景</div>
+    <div class="stitle">AI教育不是选修课，是必修课</div>
+    <div class="market">
+        <div class="market-item"><div class="market-num">¥3000亿+</div><div class="market-label">2026年中国AI教育市场</div></div>
+        <div class="market-item"><div class="market-num">≥8课时/年</div><div class="market-label">2025.9起全国中小学AI必修</div></div>
+        <div class="market-item"><div class="market-num">509所</div><div class="market-label">AI教育基地校</div></div>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:var(--ink3);text-align:center">2026年4月10日，教育部等五部门联发《"人工智能+教育"行动计划》</p>
+</div></section>
 
-    <!-- 诚实的现状 -->
-    <section class="about-section">
-        <div class="about-content">
-            <h2>我们现在在哪？</h2>
-            <p>坦诚地说，原点智学目前还处于非常早期的阶段：</p>
-            <p>✓ <strong>已完成</strong>：课程体系设计（4个年龄段、12周课纲）、品牌定位、官网上线</p>
-            <p>◐ <strong>进行中</strong>：首批种子学员招募、AI学伴产品开发、研究院内容生产</p>
-            <p>○ <strong>规划中</strong>：原点少年营（2026暑期首发）、AI学伴正式版</p>
-            <p style="margin-top:var(--sp-md)">我们不会假装自己已经很成熟。但我们对课程设计的用心程度，你看过详情页就能感受到。</p>
-        </div>
-    </section>
+<footer class="foot"><div class="w">
+    <p>© 2026 原点智学 · 公众号「原点AI学堂」· business@yuandianzhixue.com</p>
+    <p style="margin-top:4px">让孩子站在AI的肩膀上学习、创造、看见未来</p>
+</div></footer>
 
-    <!-- 联系 -->
-    <section class="about-section">
-        <div class="about-content" style="max-width:900px">
-            <h2 style="text-align:center">联系</h2>
-            <p class="section-desc">任何问题，创始人亲自回复</p>
-            <div class="about-contact">
-                <div class="about-contact-card">
-                    <h4>📧 邮箱</h4>
-                    <p>business@yuandianzhixue.com</p>
-                </div>
-                <div class="about-contact-card">
-                    <h4>💬 微信</h4>
-                    <p>搜索「原点智学」</p>
-                </div>
-                <div class="about-contact-card">
-                    <h4>🌐 官网</h4>
-                    <p>www.yuandianzhixue.com</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <h3>◉ 原点智学</h3>
-                <p>让每个孩子站在更高的出发点<br>AI时代家庭教育成长平台</p>
-            </div>
-            <div class="footer-links">
-                <h4>产品</h4>
-                <a href="methods.html">智元成长课</a>
-                <a href="tools-guide.html">原点AI学伴</a>
-                <a href="assistant.html">原点少年营</a>
-            </div>
-            <div class="footer-links">
-                <h4>了解更多</h4>
-                <a href="about.html">关于我们</a>
-                <a href="about.html">关于</a>
-                <a href="/#contact">联系</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 原点智学 YUANDIAN ZHIXUE. All rights reserved.</span>
-            <span>AI是教练，不是替代者。</span>
-        </div>
-    </footer>
-    <script src="src/app.js"></script>
 </body>
 </html>
