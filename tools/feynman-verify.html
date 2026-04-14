@@ -238,6 +238,14 @@
             <h2>你要教AI什么知识？</h2>
             <div class="form-grid">
                 <div class="form-field">
+                    <label>选择科目 *</label>
+                    <select id="subject-select">
+                        <option value="math">数学</option>
+                        <option value="physics">物理</option>
+                        <option value="chemistry">化学</option>
+                    </select>
+                </div>
+                <div class="form-field">
                     <label>知识点名称 *</label>
                     <input type="text" id="topic-input" placeholder="例如：浮力、二次函数、光合作用">
                 </div>
@@ -295,11 +303,14 @@
         let conversationHistory = [];
         let currentTopic = '';
         let currentLevel = '';
+        let currentSubject = '';
         let questionCount = 0;
+        let examStandards = null;
 
         function startSession() {
             const topic = document.getElementById('topic-input').value.trim();
             const level = document.getElementById('level-select').value;
+            const subject = document.getElementById('subject-select').value;
 
             if (!topic) {
                 alert('请输入知识点名称');
@@ -308,6 +319,7 @@
 
             currentTopic = topic;
             currentLevel = level;
+            currentSubject = subject;
             conversationHistory = [];
             questionCount = 0;
 
@@ -361,19 +373,38 @@
             generateAIResponse();
         }
 
-        function generateAIResponse() {
+        async function generateAIResponse() {
             const sendBtn = document.getElementById('send-btn');
             sendBtn.disabled = true;
             sendBtn.textContent = 'AI思考中...';
 
-            const systemPrompt = `你是一个完全不懂"${currentTopic}"的好奇学生，正在听用户（小老师）讲解。你的任务是：
+            // Fetch exam standards if not already loaded
+            if (!examStandards) {
+                try {
+                    const response = await fetch('../src/curriculum/exam-standards.json');
+                    examStandards = await response.json();
+                } catch (err) {
+                    console.error('Failed to load exam standards:', err);
+                }
+            }
+
+            // Build system prompt with common mistakes
+            let systemPrompt = `你是一个完全不懂"${currentTopic}"的好奇学生，正在听用户（小老师）讲解。你的任务是：
 1. 用追问的方式帮助小老师发现自己的知识盲区
 2. 每次回复只问1-2个问题，不要一次问太多
 3. 如果小老师讲得不够清楚、有逻辑漏洞、用了你不懂的新词，立刻追问
 4. 用"等等"、"可是"、"那"开头，像真实学生一样表达困惑
-5. 如果小老师连续3轮都讲得很清楚，判断是否通过验证
+5. 如果小老师连续3轮都讲得很清楚，判断是否通过验证`;
 
-当前对话轮次：${questionCount + 1}
+            // Inject common mistakes for the subject
+            if (examStandards && examStandards.common_mistakes) {
+                const subjectKey = currentSubject; // 'math', 'physics', or 'chemistry'
+                if (examStandards.common_mistakes[subjectKey]) {
+                    systemPrompt += `\n\n以下是该科目常见错误认知：\n${JSON.stringify(examStandards.common_mistakes[subjectKey], null, 2)}\n\n请重点追问这些易错点。`;
+                }
+            }
+
+            systemPrompt += `\n\n当前对话轮次：${questionCount + 1}
 
 判断标准：
 - 如果小老师已经能用最简单的话把核心原理讲清楚，且能回答你的追问，输出"[PASS]通过验证"开头的总结
