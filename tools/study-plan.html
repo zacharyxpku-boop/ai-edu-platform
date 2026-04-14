@@ -313,7 +313,7 @@
     var taskStates = {}; // { 'day1-task0': true/false }
     var STORAGE_KEY = 'ydzx_study_plan_' + Date.now();
 
-    function generatePlan() {
+    async function generatePlan() {
         var grade = document.getElementById('grade').value;
         var days = parseInt(document.getElementById('days').value);
         var weakSubjects = document.getElementById('weak-subjects').value;
@@ -325,8 +325,40 @@
             return;
         }
 
-        var systemPrompt = '你是一个专业的学习规划师。根据学生的年级、薄弱科目、学习目标和每日可用时间，生成' + days + '天的详细学习计划。\n\n' +
-            '要求：\n' +
+        // Extract subject names and fetch curriculum data
+        var subjectMap = {
+            '数学': 'math',
+            '物理': 'physics',
+            '化学': 'chemistry',
+            '生物': 'biology',
+            '语文': 'chinese',
+            '英语': 'english',
+            '历史': 'history',
+            '地理': 'geography'
+        };
+
+        var curriculumInfo = '';
+        for (var subjectName in subjectMap) {
+            if (weakSubjects.includes(subjectName)) {
+                try {
+                    var response = await fetch('../src/curriculum/' + subjectMap[subjectName] + '.json');
+                    var data = await response.json();
+                    if (data.knowledge_tree) {
+                        curriculumInfo += '\n\n' + subjectName + '各知识点的中考权重：\n' + JSON.stringify(data.knowledge_tree, null, 2);
+                    }
+                } catch (err) {
+                    console.error('Failed to load curriculum for ' + subjectName, err);
+                }
+            }
+        }
+
+        var systemPrompt = '你是一个专业的学习规划师。根据学生的年级、薄弱科目、学习目标和每日可用时间，生成' + days + '天的详细学习计划。';
+
+        if (curriculumInfo) {
+            systemPrompt += curriculumInfo + '\n\n请优先安排必考和常考知识点。';
+        }
+
+        systemPrompt += '\n\n要求：\n' +
             '1. 每天3-5个任务，总时长不超过每日可用时间\n' +
             '2. 任务包含具体的学习内容和时间分配（分钟）\n' +
             '3. 难度循序渐进，前3天基础巩固，中间天数强化训练，最后2天综合复习\n' +
