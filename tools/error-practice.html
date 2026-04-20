@@ -224,31 +224,36 @@
             <h2>设置练习参数</h2>
             <div class="form-row">
                 <div class="form-field">
-                    <label>年级 *</label>
-                    <select id="grade">
-                        <option>小学三年级</option>
-                        <option>小学四年级</option>
-                        <option>小学五年级</option>
-                        <option>小学六年级</option>
-                        <option selected>初一</option>
-                        <option>初二</option>
-                        <option>初三</option>
-                        <option>高一</option>
-                        <option>高二</option>
-                        <option>高三</option>
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label>科目 *</label>
-                    <select id="subject">
-                        <option selected>数学</option>
-                        <option>语文</option>
-                        <option>英语</option>
-                        <option>物理</option>
-                        <option>化学</option>
-                        <option>生物</option>
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择科目</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="form-field">
                     <label>题量 *</label>
                     <select id="quantity">

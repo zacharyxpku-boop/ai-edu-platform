@@ -217,29 +217,32 @@
             <h2>输入错题信息</h2>
             <div class="form-row">
                 <div class="form-field">
-                    <label>年级 *</label>
-                    <select id="grade">
-                        <option>小学三年级</option>
-                        <option>小学四年级</option>
-                        <option>小学五年级</option>
-                        <option>小学六年级</option>
-                        <option selected>初一</option>
-                        <option>初二</option>
-                        <option>初三</option>
-                        <option>高一</option>
-                        <option>高二</option>
-                        <option>高三</option>
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
                     </select>
                 </div>
                 <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
                     <label>科目 *</label>
                     <select id="subject">
-                        <option selected>数学</option>
-                        <option>语文</option>
-                        <option>英语</option>
-                        <option>物理</option>
-                        <option>化学</option>
-                        <option>生物</option>
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择科目</option>
                     </select>
                 </div>
             </div>
@@ -365,6 +368,7 @@
     // 课纲数据和真题样本缓存
     var curriculumData = null;
     var seedQuestions = null;
+    var textbookIndex = null;
 
     var subjectMap = {
         '数学': 'math',
@@ -372,6 +376,102 @@
         '化学': 'chemistry',
         '生物': 'biology'
     };
+
+    // 学段-年级映射
+    var gradesByStage = {
+        '小学': ['三年级', '四年级', '五年级', '六年级'],
+        '初中': ['七年级', '八年级', '九年级'],
+        '高中': ['高一', '高二', '高三']
+    };
+
+    // 科目中文名映射
+    var subjectNameMap = {
+        '数学': '数学', '语文': '语文', '英语': '英语',
+        '物理': '物理', '化学': '化学', '生物': '生物学',
+        '历史': '历史', '地理': '地理', '政治': '道德与法治'
+    };
+
+    // 加载教材索引
+    async function loadTextbookIndex() {
+        if (textbookIndex) return textbookIndex;
+        try {
+            var response = await fetch('../src/curriculum/textbook-index.json');
+            textbookIndex = await response.json();
+            return textbookIndex;
+        } catch (e) {
+            console.error('加载教材索引失败', e);
+            return null;
+        }
+    }
+
+    // 学段选择联动
+    function updateGradeOptions() {
+        var stageSelect = document.getElementById('school-stage');
+        var gradeSelect = document.getElementById('grade');
+        var stage = stageSelect.value;
+        gradeSelect.innerHTML = '<option value="">请选择年级</option>';
+        if (!stage) return;
+        var grades = gradesByStage[stage];
+        if (grades) {
+            grades.forEach(function(grade) {
+                var option = document.createElement('option');
+                option.value = grade;
+                option.textContent = grade;
+                gradeSelect.appendChild(option);
+            });
+            if (stage === '初中') gradeSelect.value = '七年级';
+        }
+        updateSubjectOptions();
+    }
+
+    // 年级选择联动
+    function updateSubjectOptions() {
+        var stageSelect = document.getElementById('school-stage');
+        var subjectSelect = document.getElementById('subject');
+        var stage = stageSelect.value;
+        var grade = document.getElementById('grade').value;
+        subjectSelect.innerHTML = '<option value="">请选择科目</option>';
+        if (!stage || !grade) return;
+        var subjects = [];
+        if (stage === '初中') subjects = ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'];
+        else if (stage === '小学') subjects = ['语文', '数学', '英语'];
+        else if (stage === '高中') subjects = ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'];
+        subjects.forEach(function(subject) {
+            var option = document.createElement('option');
+            option.value = subject;
+            option.textContent = subject;
+            subjectSelect.appendChild(option);
+        });
+        if (subjects.includes('数学')) subjectSelect.value = '数学';
+        updateVersionOptions();
+    }
+
+    // 科目选择联动
+    async function updateVersionOptions() {
+        var stageSelect = document.getElementById('school-stage');
+        var subjectSelect = document.getElementById('subject');
+        var versionSelect = document.getElementById('textbook-version');
+        var stage = stageSelect.value;
+        var subject = subjectSelect.value;
+        versionSelect.innerHTML = '<option value="">请选择版本</option>';
+        if (!stage || !subject) return;
+        await loadTextbookIndex();
+        if (!textbookIndex) return;
+        var stageData = textbookIndex[stage];
+        if (!stageData) return;
+        var subjectName = subjectNameMap[subject];
+        var subjectData = stageData[subjectName];
+        if (!subjectData) return;
+        var versions = Object.keys(subjectData);
+        versions.forEach(function(version) {
+            var option = document.createElement('option');
+            option.value = version;
+            option.textContent = version;
+            versionSelect.appendChild(option);
+        });
+        if (versions.length > 0) versionSelect.value = versions[0];
+        loadCurriculumData(subject);
+    }
 
     // 加载课纲数据
     async function loadCurriculumData(subject) {
@@ -436,30 +536,44 @@
     // 监听科目变化
     document.addEventListener('DOMContentLoaded', function() {
         loadSeedQuestions();
+        loadTextbookIndex();
+        var stageSelect = document.getElementById('school-stage');
+        var gradeSelect = document.getElementById('grade');
         var subjectSelect = document.getElementById('subject');
-        var initialSubject = subjectSelect.value;
-        loadCurriculumData(initialSubject);
-
+        var versionSelect = document.getElementById('textbook-version');
+        stageSelect.addEventListener('change', updateGradeOptions);
+        gradeSelect.addEventListener('change', updateSubjectOptions);
         subjectSelect.addEventListener('change', function() {
+            updateVersionOptions();
             loadCurriculumData(this.value);
         });
+        versionSelect.addEventListener('change', function() {
+            var subject = subjectSelect.value;
+            if (subject) loadCurriculumData(subject);
+        });
+        updateGradeOptions();
     });
 
     function analyzeError() {
+        var stage = document.getElementById('school-stage').value;
         var grade = document.getElementById('grade').value;
         var subject = document.getElementById('subject').value;
+        var version = document.getElementById('textbook-version').value;
         var question = document.getElementById('question').value;
         var myAnswer = document.getElementById('my-answer').value;
         var correctAnswer = document.getElementById('correct-answer').value;
 
-        if (!question) {
-            alert('请输入题目内容');
-            return;
-        }
+        if (!stage) { alert('请选择学段'); return; }
+        if (!grade) { alert('请选择年级'); return; }
+        if (!subject) { alert('请选择科目'); return; }
+        if (!version) { alert('请选择教材版本'); return; }
+        if (!question) { alert('请输入题目内容'); return; }
 
         // 动态注入课纲和真题格式
         var knowledgePoints = extractKnowledgePoints(grade, subject);
         var sampleQuestions = getSeedQuestionSamples(subject);
+
+        var versionSection = '\n\n**教材信息：**学段：' + stage + '，年级：' + grade + '，科目：' + subject + '，版本：' + version + '\n';
 
         var knowledgeSection = knowledgePoints ?
             '\n\n**该科目知识点体系：**\n' + knowledgePoints + '\n请基于这些知识点分析错因。' :
@@ -470,7 +584,7 @@
             '';
 
         var systemPrompt = '你是一个专业的错题分析专家。对于学生的错题，你需要：' +
-            knowledgeSection + sampleSection + '\n\n' +
+            versionSection + knowledgeSection + sampleSection + '\n\n' +
             '1. 五重错因分析：从以下5个维度判断错误原因\n' +
             '   - 知识盲区：缺少必要的知识点或概念\n' +
             '   - 方法错误：解题思路或方法不对\n' +
@@ -496,7 +610,7 @@
             '  ]\n' +
             '}';
 
-        var userMsg = '年级：' + grade + '\n科目：' + subject + '\n\n题目：\n' + question + '\n\n' +
+        var userMsg = '学段：' + stage + '\n年级：' + grade + '\n科目：' + subject + '\n教材版本：' + version + '\n\n题目：\n' + question + '\n\n' +
             (myAnswer ? '我的答案：' + myAnswer + '\n\n' : '') +
             (correctAnswer ? '正确答案：' + correctAnswer : '');
 
