@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识游乐场 · 玩游戏学知识 | 原点智学</title>
+<meta name="description" content="把知识点变成经典小游戏。消消乐背元素、打地鼠练口诀、贪吃蛇学词性。">
+<meta name="theme-color" content="#F5A623">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;
+  --pink:#EC4899;--blue:#2563EB;--green:#059669;--purple:#7C3AED;
+  --font:'Noto Sans SC',system-ui,sans-serif;--r:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+
+.wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+.hero{margin-bottom:28px}
+.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;margin-bottom:10px;letter-spacing:.5px}
+h1{font-size:clamp(24px,4vw,36px);font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+h1 em{font-style:normal;color:var(--cta)}
+.sub{color:var(--ink3);font-size:14px;max-width:560px}
+
+/* ===== CONFIG ===== */
+.cfg{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:20px}
+.cfg-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:700px){.cfg-row{grid-template-columns:repeat(2,1fr)}}
+.cfg-field{display:flex;flex-direction:column;gap:4px}
+.cfg-field label{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.5px}
+.cfg-field select,.cfg-field input{padding:8px 10px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px;background:var(--bg);color:var(--ink);outline:none}
+.cfg-field select:focus,.cfg-field input:focus{border-color:var(--amber)}
+.kp-input{width:100%;padding:10px 14px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);outline:none;margin-bottom:12px}
+.kp-input:focus{border-color:var(--amber)}
+
+/* ===== GAME PICKER ===== */
+.games{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:700px){.games{grid-template-columns:repeat(2,1fr)}}
+.gbtn{padding:16px 10px;border:2px solid var(--bdr);border-radius:var(--r);background:var(--card);cursor:pointer;font-family:var(--font);text-align:center;transition:all .2s}
+.gbtn:hover{border-color:var(--ink3);transform:translateY(-2px)}
+.gbtn.on{border-color:var(--amber);background:var(--amber-bg)}
+.gbtn-emoji{font-size:26px;display:block;margin-bottom:4px}
+.gbtn-name{font-size:13px;font-weight:700}
+.gbtn-meta{font-size:10px;color:var(--ink4);margin-top:2px}
+
+.start-btn{width:100%;padding:14px;background:var(--cta);color:#fff;border:none;border-radius:var(--r);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.start-btn:hover{background:#9A3412}
+.start-btn:disabled{background:var(--ink4);cursor:not-allowed}
+
+/* ===== STAGE ===== */
+.stage{display:none;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:20px}
+.stage.on{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stage-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.stage-title{font-size:16px;font-weight:800}
+.stage-stats{display:flex;gap:16px;font-size:13px;color:var(--ink3)}
+.stage-stats b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+
+.loading{text-align:center;padding:40px 20px;color:var(--ink3)}
+.loading::after{content:'...';animation:dots 1.2s steps(3,end) infinite}
+@keyframes dots{0%{content:''}33%{content:'.'}66%{content:'..'}100%{content:'...'}}
+
+/* ===== WHACK-A-MOLE ===== */
+.whack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:420px;margin:0 auto}
+.hole{aspect-ratio:1;background:#D1CCC0;border-radius:50%;position:relative;overflow:hidden;cursor:pointer;user-select:none}
+.mole{position:absolute;inset:8px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;transform:translateY(100%);transition:transform .25s cubic-bezier(.34,1.56,.64,1);font-size:12px;text-align:center;line-height:1.3;font-weight:600}
+.mole.up{transform:translateY(0)}
+.mole.right{background:#ECFDF5;color:#047857;border:2px solid #059669}
+.mole.wrong{background:#FEF2F2;color:#B91C1C;border:2px solid #DC2626}
+.mole.hit{animation:hit .4s}
+@keyframes hit{0%{transform:scale(1.1)}50%{transform:scale(.8) rotate(15deg)}100%{transform:translateY(100%)}}
+
+/* ===== MATCH-3 ===== */
+.match-board{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;max-width:420px;margin:0 auto;background:#E4E4E7;padding:4px;border-radius:8px}
+.cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;user-select:none;text-align:center;padding:4px;line-height:1.1;transition:all .15s}
+.cell.selected{outline:3px solid var(--amber);transform:scale(1.05);z-index:2}
+.cell.matched{animation:pop .4s forwards}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(0);opacity:0}}
+
+/* color coding for match-3 categories */
+.cat-0{background:#FEE2E2;color:#991B1B}
+.cat-1{background:#DBEAFE;color:#1E3A8A}
+.cat-2{background:#D1FAE5;color:#065F46}
+.cat-3{background:#FEF3C7;color:#92400E}
+.cat-4{background:#E0E7FF;color:#3730A3}
+.cat-5{background:#FCE7F3;color:#9D174D}
+
+/* ===== RESULT ===== */
+.result{display:none;background:linear-gradient(135deg,var(--amber-bg),#FEF3C7);border:2px solid var(--amber);border-radius:var(--r);padding:28px;text-align:center}
+.result.on{display:block;animation:fadeIn .4s}
+.result h2{font-size:22px;font-weight:900;margin-bottom:8px}
+.result-score{font-size:48px;font-weight:900;color:var(--cta);letter-spacing:-2px;line-height:1;margin:12px 0}
+.result-stats{display:flex;justify-content:center;gap:24px;font-size:13px;color:var(--ink2);margin:16px 0 20px}
+.result-stats b{display:block;font-size:18px;color:var(--ink);font-weight:800}
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.result-actions button{padding:10px 20px;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--cta);color:#fff}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--bdr)!important}
+
+.notice{background:#FEF3C7;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin-top:12px;line-height:1.6}
+
+.foot{border-top:1px solid var(--bdr);padding:20px 0;text-align:center;font-size:12px;color:var(--ink4)}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
+    <a href="/" class="nav-a">工具箱</a>
+    <a href="/methods.html" class="nav-a">少年营</a>
+    <a href="/articles.html" class="nav-a">研究院</a>
+    <a href="/about.html" class="nav-a">关于</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="hero">
+    <div class="pill">新工具 · 学得快维度</div>
+    <h1>知识<em>游乐场</em></h1>
+    <p class="sub">把任何一个知识点，变成一局经典小游戏。孩子玩一会儿，AI就把知识送进他脑子里。</p>
+</section>
+
+<!-- 配置 -->
+<section class="cfg">
+    <div class="cfg-row">
+        <div class="cfg-field">
+            <label>学段</label>
+            <select id="stage-sel">
+                <option value="小学">小学</option>
+                <option value="初中" selected>初中</option>
+                <option value="高中">高中</option>
+            </select>
+        </div>
+        <div class="cfg-field">
+            <label>年级</label>
+            <select id="grade-sel"><option>初二</option></select>
+        </div>
+        <div class="cfg-field">
+            <label>科目</label>
+            <select id="subject-sel">
+                <option>数学</option><option>语文</option><option>英语</option>
+                <option>物理</option><option>化学</option><option>生物</option>
+                <option>历史</option><option>地理</option><option>政治</option>
+            </select>
+        </div>
+        <div class="cfg-field">
+            <label>版本</label>
+            <select id="edition-sel">
+                <option>人教版</option><option>北师大版</option><option>苏教版</option><option>沪教版</option>
+            </select>
+        </div>
+    </div>
+    <input class="kp-input" id="kp-input" placeholder="输入一个知识点（例：一元二次方程 / 元素周期表 / 词性分类）" />
+
+    <div class="games">
+        <button class="gbtn on" data-game="whack"><span class="gbtn-emoji">🔨</span><span class="gbtn-name">打地鼠</span><div class="gbtn-meta">判断题</div></button>
+        <button class="gbtn" data-game="match"><span class="gbtn-emoji">💎</span><span class="gbtn-name">消消乐</span><div class="gbtn-meta">分类题</div></button>
+        <button class="gbtn" data-game="snake" disabled style="opacity:.4"><span class="gbtn-emoji">🐍</span><span class="gbtn-name">贪吃蛇</span><div class="gbtn-meta">即将上线</div></button>
+        <button class="gbtn" data-game="sokoban" disabled style="opacity:.4"><span class="gbtn-emoji">📦</span><span class="gbtn-name">推箱子</span><div class="gbtn-meta">即将上线</div></button>
+    </div>
+
+    <button class="start-btn" id="start-btn" onclick="startGame()">让AI出题 开始游戏</button>
+    <div class="notice">玩法会根据你选的游戏类型自动切换。AI会基于你选的教材版本和知识点出题，难度匹配你的年级。</div>
+</section>
+
+<!-- 游戏舞台 -->
+<section class="stage" id="stage">
+    <div class="stage-top">
+        <div class="stage-title" id="stage-title">打地鼠 · 正在加载</div>
+        <div class="stage-stats">
+            <div>得分 <b id="s-score">0</b></div>
+            <div>剩余 <b id="s-time">30</b>s</div>
+            <div>连击 <b id="s-combo">0</b></div>
+        </div>
+    </div>
+    <div id="game-host" class="loading">AI正在设计关卡</div>
+</section>
+
+<!-- 结算 -->
+<section class="result" id="result">
+    <h2>🎉 通关啦！</h2>
+    <div class="result-score" id="r-score">0</div>
+    <div class="result-stats">
+        <div><b id="r-correct">0</b>答对</div>
+        <div><b id="r-wrong">0</b>答错</div>
+        <div><b id="r-combo">0</b>最高连击</div>
+    </div>
+    <p style="font-size:13px;color:var(--ink3);margin-bottom:8px" id="r-comment">继续加油！</p>
+    <div class="result-actions">
+        <button class="btn-primary" onclick="startGame()">再来一局</button>
+        <button class="btn-ghost" onclick="location.href='/'">返回工具箱</button>
+    </div>
+</section>
+
+</main>
+
+<footer class="foot">© 2026 原点智学 · 游戏化学习只是入口，真正学到脑子里才是目的</footer>
+
+<script src="/src/api-manager.js"></script>
+<script>
+// ==========================================
+// 游戏状态机
+// ==========================================
+let currentGame = 'whack';
+let state = {
+    score: 0, correct: 0, wrong: 0, combo: 0, maxCombo: 0,
+    timeLeft: 30, timer: null, running: false, items: []
+};
+
+// 游戏选择器
+document.querySelectorAll('.gbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        document.querySelectorAll('.gbtn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        currentGame = btn.dataset.game;
+    });
+});
+
+// ==========================================
+// 启动流程
+// ==========================================
+async function startGame() {
+    const kp = document.getElementById('kp-input').value.trim();
+    if (!kp) { alert('请输入一个知识点'); return; }
+
+    const stage = document.getElementById('stage-sel').value;
+    const grade = document.getElementById('grade-sel').value;
+    const subject = document.getElementById('subject-sel').value;
+    const edition = document.getElementById('edition-sel').value;
+
+    // 重置状态
+    Object.assign(state, { score: 0, correct: 0, wrong: 0, combo: 0, maxCombo: 0, timeLeft: 30, items: [] });
+    updateHUD();
+    document.getElementById('result').classList.remove('on');
+    document.getElementById('stage').classList.add('on');
+    document.getElementById('game-host').className = 'loading';
+    document.getElementById('game-host').textContent = 'AI正在设计关卡';
+    document.getElementById('stage-title').textContent = gameTitle(currentGame);
+    document.getElementById('stage').scrollIntoView({behavior:'smooth'});
+
+    // 请求AI生成关卡数据
+    try {
+        const data = await generateLevel({ kp, stage, grade, subject, edition, game: currentGame });
+        state.items = data.items;
+        launchGame(currentGame);
+    } catch (e) {
+        document.getElementById('game-host').className = '';
+        document.getElementById('game-host').innerHTML = '<p style="color:#B91C1C">出题失败：'+ (e.message||e) +'</p><p style="margin-top:8px;font-size:13px;color:var(--ink3)">可能是API未配置。<a href="/settings.html" style="color:var(--cta)">去设置</a></p>';
+    }
+}
+
+function gameTitle(g) {
+    return { whack: '🔨 打地鼠', match: '💎 消消乐', snake: '🐍 贪吃蛇', sokoban: '📦 推箱子' }[g] || g;
+}
+
+function updateHUD() {
+    document.getElementById('s-score').textContent = state.score;
+    document.getElementById('s-time').textContent = state.timeLeft;
+    document.getElementById('s-combo').textContent = state.combo;
+}
+
+// ==========================================
+// AI出题
+// ==========================================
+async function generateLevel({ kp, stage, grade, subject, edition, game }) {
+    const specs = {
+        whack: `请生成12道【判断题】，每题一句话，要么是关于"${kp}"的正确陈述，要么是常见错误陈述。JSON格式:
+{"items":[{"text":"陈述","correct":true或false,"why":"错在哪或为什么对（简短）"}]}`,
+        match: `请生成6个类别，每类4-5个同类项目，用于"${kp}"分类消消乐。JSON格式:
+{"items":[{"category":"类别名","members":["项1","项2","项3","项4"]}]}`
+    };
+
+    const systemPrompt = `你是${stage}${grade}${subject}（${edition}）老师。知识点：${kp}。
+严格按要求输出纯JSON，不要markdown代码块包裹。题目必须在该年级课标范围内，通俗易懂。
+${specs[game]}`;
+
+    return new Promise((resolve, reject) => {
+        if (!window.YdzxAI) {
+            reject(new Error('API未加载，请刷新页面'));
+            return;
+        }
+        window.YdzxAI.call({
+            messages: [{role:'user', content:`出题：${kp}`}],
+            systemPrompt,
+            temperature: 0.7,
+            maxTokens: 1800,
+            onDone(response) {
+                try {
+                    let txt = response.trim();
+                    // 剥掉可能的markdown代码块
+                    txt = txt.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'');
+                    const data = JSON.parse(txt);
+                    if (!data.items || !data.items.length) throw new Error('题目为空');
+                    resolve(data);
+                } catch (e) {
+                    reject(new Error('AI返回格式错误：'+e.message));
+                }
+            },
+            onError(err){ reject(new Error(err)); }
+        });
+    });
+}
+
+// ==========================================
+// 打地鼠 Whack-A-Mole
+// ==========================================
+function launchGame(g) {
+    const host = document.getElementById('game-host');
+    host.className = '';
+    if (g === 'whack') renderWhack(host);
+    else if (g === 'match') renderMatch(host);
+}
+
+function renderWhack(host) {
+    host.innerHTML = '<div class="whack-grid" id="whack-grid">' +
+        Array(9).fill(0).map((_,i) => `<div class="hole" data-i="${i}"><div class="mole" id="mole-${i}"></div></div>`).join('') + '</div>';
+
+    state.running = true;
+    state.timeLeft = 30;
+    startTimer();
+
+    // 循环弹出
+    const pop = () => {
+        if (!state.running) return;
+        const slot = Math.floor(Math.random()*9);
+        const item = state.items[Math.floor(Math.random()*state.items.length)];
+        if (!item) return;
+        const mole = document.getElementById('mole-'+slot);
+        if (mole.classList.contains('up')) { setTimeout(pop, 400); return; }
+        mole.textContent = item.text;
+        mole.dataset.correct = item.correct;
+        mole.classList.add('up');
+        mole.onclick = () => hitMole(mole, item);
+        setTimeout(() => {
+            if (mole.classList.contains('up') && !mole.classList.contains('hit')) {
+                mole.classList.remove('up');
+                // 没打=错过，正确陈述没打算对
+                if (item.correct === true) { state.wrong++; state.combo = 0; updateHUD(); }
+            }
+        }, 1800);
+        setTimeout(pop, 700 + Math.random()*600);
+    };
+    pop();
+}
+
+function hitMole(mole, item) {
+    if (mole.classList.contains('hit')) return;
+    mole.classList.add('hit');
+    // 逻辑：打正确陈述得分；打错误陈述扣分
+    if (item.correct === true) {
+        mole.classList.add('right');
+        state.score += 10 * (1 + state.combo * 0.1);
+        state.score = Math.round(state.score);
+        state.correct++;
+        state.combo++;
+        state.maxCombo = Math.max(state.maxCombo, state.combo);
+    } else {
+        mole.classList.add('wrong');
+        state.score = Math.max(0, state.score - 5);
+        state.wrong++;
+        state.combo = 0;
+    }
+    updateHUD();
+    setTimeout(() => mole.classList.remove('up','hit','right','wrong'), 400);
+}
+
+// ==========================================
+// 消消乐 Match-3
+// ==========================================
+function renderMatch(host) {
+    // 把items（category+members）打平成36格
+    const pool = [];
+    state.items.forEach((cat, ci) => {
+        cat.members.forEach(m => pool.push({ text: m, cat: ci % 6 }));
+    });
+    // 填满到36
+    while (pool.length < 36) {
+        const c = Math.floor(Math.random() * state.items.length);
+        const mem = state.items[c].members;
+        pool.push({ text: mem[Math.floor(Math.random()*mem.length)], cat: c % 6 });
+    }
+    // 洗牌
+    for (let i = pool.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [pool[i],pool[j]] = [pool[j],pool[i]];
+    }
+    state.board = pool.slice(0, 36);
+    state.selected = null;
+
+    host.innerHTML = '<div class="match-board" id="match-board"></div>';
+    renderMatchBoard();
+
+    state.running = true;
+    state.timeLeft = 60;
+    startTimer();
+}
+
+function renderMatchBoard() {
+    const board = document.getElementById('match-board');
+    if (!board) return;
+    board.innerHTML = state.board.map((c, i) =>
+        c ? `<div class="cell cat-${c.cat} ${state.selected===i?'selected':''}" data-i="${i}">${c.text}</div>`
+          : `<div class="cell" style="background:#F4F4F5;opacity:.3"></div>`
+    ).join('');
+    board.querySelectorAll('.cell[data-i]').forEach(cell => {
+        cell.onclick = () => clickCell(parseInt(cell.dataset.i));
+    });
+}
+
+function clickCell(i) {
+    if (!state.board[i]) return;
+    if (state.selected === null) {
+        state.selected = i;
+        renderMatchBoard();
+        return;
+    }
+    if (state.selected === i) {
+        state.selected = null;
+        renderMatchBoard();
+        return;
+    }
+    // 是否相邻
+    const [r1, c1] = [Math.floor(state.selected/6), state.selected%6];
+    const [r2, c2] = [Math.floor(i/6), i%6];
+    const adjacent = Math.abs(r1-r2) + Math.abs(c1-c2) === 1;
+
+    if (!adjacent) {
+        state.selected = i;
+        renderMatchBoard();
+        return;
+    }
+    // 交换
+    [state.board[state.selected], state.board[i]] = [state.board[i], state.board[state.selected]];
+    state.selected = null;
+    renderMatchBoard();
+    setTimeout(checkMatches, 200);
+}
+
+function checkMatches() {
+    const toRemove = new Set();
+    // 水平检查：3个同类别相邻
+    for (let r = 0; r < 6; r++) {
+        for (let c = 0; c < 4; c++) {
+            const i = r*6+c;
+            const a = state.board[i], b = state.board[i+1], d = state.board[i+2];
+            if (a && b && d && a.cat === b.cat && b.cat === d.cat) {
+                toRemove.add(i); toRemove.add(i+1); toRemove.add(i+2);
+            }
+        }
+    }
+    // 垂直
+    for (let c = 0; c < 6; c++) {
+        for (let r = 0; r < 4; r++) {
+            const i = r*6+c;
+            const a = state.board[i], b = state.board[i+6], d = state.board[i+12];
+            if (a && b && d && a.cat === b.cat && b.cat === d.cat) {
+                toRemove.add(i); toRemove.add(i+6); toRemove.add(i+12);
+            }
+        }
+    }
+    if (toRemove.size === 0) return;
+
+    // 消除+计分
+    state.score += toRemove.size * 15;
+    state.correct += toRemove.size;
+    state.combo++;
+    state.maxCombo = Math.max(state.maxCombo, state.combo);
+    updateHUD();
+
+    // 标记动画
+    toRemove.forEach(i => state.board[i] = null);
+    renderMatchBoard();
+
+    // 延迟后下落+补充
+    setTimeout(() => {
+        // 下落
+        for (let c = 0; c < 6; c++) {
+            const col = [];
+            for (let r = 5; r >= 0; r--) {
+                const i = r*6+c;
+                if (state.board[i]) col.push(state.board[i]);
+            }
+            for (let r = 5; r >= 0; r--) {
+                const i = r*6+c;
+                const idx = 5 - r;
+                if (col[idx]) {
+                    state.board[i] = col[idx];
+                } else {
+                    // 新生成
+                    const randCat = Math.floor(Math.random()*state.items.length);
+                    const mem = state.items[randCat].members;
+                    state.board[i] = { text: mem[Math.floor(Math.random()*mem.length)], cat: randCat % 6 };
+                }
+            }
+        }
+        renderMatchBoard();
+        setTimeout(checkMatches, 300);
+    }, 400);
+}
+
+// ==========================================
+// 计时器 + 结算
+// ==========================================
+function startTimer() {
+    clearInterval(state.timer);
+    state.timer = setInterval(() => {
+        state.timeLeft--;
+        updateHUD();
+        if (state.timeLeft <= 0) endGame();
+    }, 1000);
+}
+
+function endGame() {
+    clearInterval(state.timer);
+    state.running = false;
+    document.getElementById('stage').classList.remove('on');
+    document.getElementById('result').classList.add('on');
+    document.getElementById('r-score').textContent = state.score;
+    document.getElementById('r-correct').textContent = state.correct;
+    document.getElementById('r-wrong').textContent = state.wrong;
+    document.getElementById('r-combo').textContent = state.maxCombo;
+    const comments = {
+        0: '再试一次，你会更快', 50: '起步不错，继续',
+        100: '节奏很好', 200: '厉害！记住这种感觉', 500: '学霸模式启动'
+    };
+    let c = '继续加油！';
+    Object.entries(comments).forEach(([k,v]) => { if (state.score >= +k) c = v; });
+    document.getElementById('r-comment').textContent = c;
+    document.getElementById('result').scrollIntoView({behavior:'smooth'});
+
+    // localStorage记录
+    try {
+        const logs = JSON.parse(localStorage.getItem('yuandian_usage_logs') || '[]');
+        logs.push({ tool:'knowledge-arcade', game:currentGame, score:state.score, timestamp:Date.now() });
+        localStorage.setItem('yuandian_usage_logs', JSON.stringify(logs));
+    } catch(e){}
+}
+</script>
+</body>
+</html>
