@@ -217,6 +217,31 @@
         <div class="visual-layout">
             <!-- 左侧知识树 -->
             <div class="tree-panel">
+                <div style="padding:16px;border-bottom:1px solid var(--border);">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                        <div style="display:flex;flex-direction:column;">
+                            <label style="font-size:12px;color:var(--text-3);margin-bottom:4px;">学段</label>
+                            <select id="school-stage" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+                                <option value="">请选择</option>
+                                <option value="小学">小学</option>
+                                <option value="初中" selected>初中</option>
+                                <option value="高中">高中</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;flex-direction:column;">
+                            <label style="font-size:12px;color:var(--text-3);margin-bottom:4px;">年级</label>
+                            <select id="grade" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+                                <option value="">请先选择学段</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;">
+                        <label style="font-size:12px;color:var(--text-3);margin-bottom:4px;">教材版本</label>
+                        <select id="textbook-version" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+                            <option value="">请先选择年级</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="tree-tabs">
                     <button class="tree-tab active" onclick="switchSubject('math')">数学</button>
                     <button class="tree-tab" onclick="switchSubject('physics')">物理</button>
@@ -286,6 +311,16 @@
         // 课纲数据缓存（动态加载）
         const curriculumCache = {};
         const knowledgeTree = {}; // 从JSON转换后的结构
+        let textbookIndex = null;
+
+        var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+        var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+
+        async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+        function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } if (s) updateVersionOptions(); }
+
+        async function updateVersionOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !g) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s]) return; var allVersions = new Set(); ['数学', '物理', '化学', '生物学'].forEach(function(subName) { var subData = textbookIndex[s][subName]; if (subData) { Object.keys(subData).forEach(function(v) { allVersions.add(v); }); } }); Array.from(allVersions).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (allVersions.size > 0) ver.value = Array.from(allVersions)[0]; }
 
         const subjectMap = {
             'math': 'math',
@@ -549,6 +584,10 @@ currentVisualType === 'mindmap' ?
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('knowledge-visual.html');
+        loadTextbookIndex();
+        document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+        document.getElementById('grade').addEventListener('change', updateVersionOptions);
+        updateGradeOptions();
     });
     </script>
     <!-- 快捷导航 -->
