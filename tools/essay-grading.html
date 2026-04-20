@@ -222,14 +222,39 @@
     <div class="essay-container">
         <div class="input-card" id="input-section">
             <h2>粘贴你的作文</h2>
-            <div class="form-field">
-                <label>文体 *</label>
-                <select id="genre-select">
-                    <option value="narrative">记叙文</option>
-                    <option value="argumentative">议论文</option>
-                    <option value="expository">说明文</option>
-                    <option value="poetry">诗歌</option>
-                </select>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>文体 *</label>
+                    <select id="genre-select">
+                        <option value="narrative">记叙文</option>
+                        <option value="argumentative">议论文</option>
+                        <option value="expository">说明文</option>
+                        <option value="poetry">诗歌</option>
+                    </select>
+                </div>
             </div>
             <div class="form-field">
                 <label>作文内容 *</label>
@@ -263,6 +288,15 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
+        let textbookIndex = null;
+        var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+
+        async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+        function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateVersionOptions(); }
+
+        async function updateVersionOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !g) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s] || !textbookIndex[s]['语文']) return; var subData = textbookIndex[s]['语文']; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
+
         async function gradeEssay() {
             const genre = document.getElementById('genre-select').value;
             const essay = document.getElementById('essay-input').value.trim();
@@ -446,6 +480,10 @@
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('essay-grading.html');
+        loadTextbookIndex();
+        document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+        document.getElementById('grade').addEventListener('change', updateVersionOptions);
+        updateGradeOptions();
     });
     </script>
     <!-- 快捷导航 -->
