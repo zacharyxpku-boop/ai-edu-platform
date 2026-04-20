@@ -216,23 +216,26 @@
     <div class="music-container">
         <div class="input-card">
             <h2>输入要欣赏的音乐作品</h2>
-            <div class="input-row">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
                 <div class="form-field">
-                    <label>学段参考</label>
-                    <select id="school-stage">
-                        <option value="">不限</option>
+                    <label>学段 *</label>
+                    <select id="xueduan">
+                        <option value="">请选择学段</option>
                         <option value="小学">小学</option>
                         <option value="初中" selected>初中</option>
                         <option value="高中">高中</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label>年级参考</label>
-                    <select id="grade">
-                        <option value="">不限</option>
-                        <option value="七年级" selected>七年级</option>
-                        <option value="八年级">八年级</option>
-                        <option value="九年级">九年级</option>
+                    <label>年级 *</label>
+                    <select id="nianji">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本</label>
+                    <select id="banben">
+                        <option value="">请先选择年级</option>
                     </select>
                 </div>
             </div>
@@ -270,15 +273,87 @@
     <script src="../src/learning-store.js"></script>
     <script>
         let musicDatabase = null;
+        let textbookIndex = null;
+
+        // 教材联动数据
+        const gradesByStage = {
+            '小学': ['三年级', '四年级', '五年级', '六年级'],
+            '初中': ['七年级', '八年级', '九年级'],
+            '高中': ['高一', '高二', '高三']
+        };
+
+        // 加载教材索引
+        async function loadTextbookIndex() {
+            if (textbookIndex) return;
+            try {
+                const response = await fetch('../src/curriculum/textbook-index.json');
+                textbookIndex = await response.json();
+            } catch (e) {
+                console.error('教材索引加载失败:', e);
+            }
+        }
+
+        // 更新年级选项
+        function updateGradeOptions() {
+            const stage = document.getElementById('xueduan').value;
+            const gradeSelect = document.getElementById('nianji');
+            gradeSelect.innerHTML = '<option value="">请选择年级</option>';
+
+            if (stage && gradesByStage[stage]) {
+                gradesByStage[stage].forEach(grade => {
+                    const option = document.createElement('option');
+                    option.value = grade;
+                    option.textContent = grade;
+                    gradeSelect.appendChild(option);
+                });
+                if (stage === '初中') gradeSelect.value = '七年级';
+            }
+            updateVersionOptions();
+        }
+
+        // 更新版本选项
+        async function updateVersionOptions() {
+            const stage = document.getElementById('xueduan').value;
+            const versionSelect = document.getElementById('banben');
+            versionSelect.innerHTML = '<option value="">请选择版本</option>';
+
+            if (!stage) return;
+
+            await loadTextbookIndex();
+            if (!textbookIndex || !textbookIndex[stage] || !textbookIndex[stage]['音乐']) return;
+
+            const musicData = textbookIndex[stage]['音乐'];
+            Object.keys(musicData).forEach(version => {
+                const option = document.createElement('option');
+                option.value = version;
+                option.textContent = version;
+                versionSelect.appendChild(option);
+            });
+
+            if (Object.keys(musicData).length > 0) {
+                versionSelect.value = Object.keys(musicData)[0];
+            }
+        }
 
         // 页面加载时获取音乐数据集
         window.addEventListener('DOMContentLoaded', () => {
+            // 加载音乐数据
             fetch('../src/curriculum/music-classics.json')
                 .then(res => res.json())
                 .then(data => {
                     musicDatabase = data.classics;
                 })
                 .catch(err => console.warn('音乐数据集加载失败:', err));
+
+            // 加载教材索引
+            loadTextbookIndex();
+
+            // 绑定联动事件
+            document.getElementById('xueduan').addEventListener('change', updateGradeOptions);
+            document.getElementById('nianji').addEventListener('change', updateVersionOptions);
+
+            // 初始化年级选项
+            updateGradeOptions();
         });
 
         function analyzeMusic() {
@@ -293,6 +368,20 @@
             const btn = document.getElementById('analyze-btn');
             btn.disabled = true;
             btn.textContent = 'AI解析中...';
+
+            // 获取教材信息
+            const stage = document.getElementById('xueduan').value;
+            const grade = document.getElementById('nianji').value;
+            const version = document.getElementById('banben').value;
+
+            let gradeContext = '';
+            if (stage && grade) {
+                gradeContext = `\n\n【教学参考】你正在为${stage}${grade}的学生提供音乐欣赏引导`;
+                if (version) {
+                    gradeContext += `，参考教材版本：${version}`;
+                }
+                gradeContext += '。请根据该年龄段的音乐认知水平调整解析的深度和用词。';
+            }
 
             // 在数据库中搜索匹配的曲目
             let matchedPiece = null;
@@ -314,7 +403,7 @@
 请基于以上真实数据生成解析，确保曲式、乐器、情绪描述准确。`;
             }
 
-            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。${extraContext}
+            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。${gradeContext}${extraContext}
 
 请按以下JSON格式输出：
 
