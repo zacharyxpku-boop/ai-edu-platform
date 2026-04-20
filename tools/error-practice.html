@@ -320,6 +320,7 @@
     <script>
     // 真题样本缓存
     var seedQuestions = null;
+    var textbookIndex = null;
 
     var subjectMap = {
         '数学': 'math',
@@ -327,6 +328,17 @@
         '化学': 'chemistry',
         '生物': 'biology'
     };
+
+    var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+    var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+
+    async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+    function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateSubjectOptions(); }
+
+    function updateSubjectOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, sub = document.getElementById('subject'); sub.innerHTML = '<option value="">请选择科目</option>'; if (!s || !g) return; var subjects = s === '初中' ? ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'] : s === '小学' ? ['语文', '数学', '英语'] : ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治']; subjects.forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; sub.appendChild(o); }); if (subjects.includes('数学')) sub.value = '数学'; updateVersionOptions(); }
+
+    async function updateVersionOptions() { var s = document.getElementById('school-stage').value, sub = document.getElementById('subject').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !sub) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s]) return; var subName = subjectNameMap[sub], subData = textbookIndex[s][subName]; if (!subData) return; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
 
     // 加载真题样本
     async function loadSeedQuestions() {
@@ -363,29 +375,38 @@
     // 页面加载时预加载真题
     document.addEventListener('DOMContentLoaded', function() {
         loadSeedQuestions();
+        loadTextbookIndex();
+        document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+        document.getElementById('grade').addEventListener('change', updateSubjectOptions);
+        document.getElementById('subject').addEventListener('change', updateVersionOptions);
+        updateGradeOptions();
     });
 
     var stats = { total: 0, viewed: 0, errors: 0 };
 
     function generatePractice() {
+        var stage = document.getElementById('school-stage').value;
         var grade = document.getElementById('grade').value;
         var subject = document.getElementById('subject').value;
+        var version = document.getElementById('textbook-version').value;
         var quantity = document.getElementById('quantity').value;
         var keyword = document.getElementById('keyword').value;
 
-        if (!keyword) {
-            alert('请输入知识点或关键词');
-            return;
-        }
+        if (!stage) { alert('请选择学段'); return; }
+        if (!grade) { alert('请选择年级'); return; }
+        if (!subject) { alert('请选择科目'); return; }
+        if (!version) { alert('请选择教材版本'); return; }
+        if (!keyword) { alert('请输入知识点或关键词'); return; }
 
         // 动态注入真题样本
         var sampleQuestions = getSampleQuestions(subject);
+        var versionSection = '\n\n**教材信息：**学段：' + stage + '，年级：' + grade + '，科目：' + subject + '，版本：' + version + '\n';
         var sampleSection = sampleQuestions ?
             '\n\n' + sampleQuestions + '\n' :
             '';
 
         var systemPrompt = '你是一个专业的出题专家。根据学生的年级、科目和指定知识点，生成' + quantity + '道练习题。' +
-            sampleSection + '\n' +
+            versionSection + sampleSection + '\n' +
             '要求：\n' +
             '1. 题目难度分布：简单30%、中等50%、困难20%\n' +
             '2. 题目类型多样：选择题、填空题、计算题、简答题\n' +
@@ -405,7 +426,7 @@
             '  ]\n' +
             '}';
 
-        var userMsg = '年级：' + grade + '\n科目：' + subject + '\n知识点：' + keyword + '\n题量：' + quantity + '道';
+        var userMsg = '学段：' + stage + '\n年级：' + grade + '\n科目：' + subject + '\n教材版本：' + version + '\n知识点：' + keyword + '\n题量：' + quantity + '道';
 
         document.getElementById('result-section').classList.add('visible');
         document.getElementById('questions-container').innerHTML = '<p style="text-align:center;color:var(--c-warm-gray)">AI正在生成练习题...</p>';
