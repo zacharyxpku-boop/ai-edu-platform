@@ -637,6 +637,92 @@
           }
         }
       }
+    },
+    "美术": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·美术七年级上册",
+              "path": "初中/美术/人教版-人民教育出版社/七年级/义务教育教科书·美术七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/七年级/义务教育教科书·美术七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·美术七年级下册",
+              "path": "初中/美术/人教版-人民教育出版社/七年级/义务教育教科书·美术七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/七年级/义务教育教科书·美术七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·美术八年级上册",
+              "path": "初中/美术/人教版-人民教育出版社/八年级/义务教育教科书·美术八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/八年级/义务教育教科书·美术八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·美术八年级下册",
+              "path": "初中/美术/人教版-人民教育出版社/八年级/义务教育教科书·美术八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/八年级/义务教育教科书·美术八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·美术九年级上册",
+              "path": "初中/美术/人教版-人民教育出版社/九年级/义务教育教科书·美术九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/九年级/义务教育教科书·美术九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·美术九年级下册",
+              "path": "初中/美术/人教版-人民教育出版社/九年级/义务教育教科书·美术九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/美术/人教版-人民教育出版社/九年级/义务教育教科书·美术九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "音乐": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·音乐（简谱）七年级上册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/七年级/义务教育教科书·音乐（简谱）七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/七年级/义务教育教科书·音乐（简谱）七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·音乐（简谱）七年级下册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/七年级/义务教育教科书·音乐（简谱）七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/七年级/义务教育教科书·音乐（简谱）七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·音乐（简谱）八年级上册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/八年级/义务教育教科书·音乐（简谱）八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/八年级/义务教育教科书·音乐（简谱）八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·音乐（简谱）八年级下册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/八年级/义务教育教科书·音乐（简谱）八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/八年级/义务教育教科书·音乐（简谱）八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·音乐（简谱）九年级上册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/九年级/义务教育教科书·音乐（简谱）九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/九年级/义务教育教科书·音乐（简谱）九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·音乐（简谱）九年级下册",
+              "path": "初中/音乐/人教版（简谱）-人民教育出版社/九年级/义务教育教科书·音乐（简谱）九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/音乐/人教版（简谱）-人民教育出版社/九年级/义务教育教科书·音乐（简谱）九年级下册.pdf"
+            }
+          }
+        }
+      }
     }
   }
 }
