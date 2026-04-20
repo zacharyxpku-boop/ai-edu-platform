@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点会员 · 一个人帮你把全球AI学习工具用起来 | 原点智学</title>
+<meta name="description" content="¥99/月解锁中文指南+答疑。¥299/月代账号+代付+一站式使用。前100名半价。">
+<meta name="theme-color" content="#F5A623">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+
+.hero{padding:56px 20px 32px;text-align:center;max-width:860px;margin:0 auto}
+.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;margin-bottom:14px;letter-spacing:.5px}
+h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:14px}
+h1 em{font-style:normal;color:var(--cta)}
+.hero-sub{font-size:16px;color:var(--ink2);max-width:620px;margin:0 auto;line-height:1.8}
+
+.why{padding:40px 20px;background:var(--card)}
+.why-in{max-width:860px;margin:0 auto}
+.why h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:24px}
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:700px){.pains{grid-template-columns:1fr}}
+.pain{padding:20px;background:var(--bg);border-radius:var(--r);border:1px solid var(--bdr)}
+.pain-icon{font-size:26px;margin-bottom:8px}
+.pain h3{font-size:14px;font-weight:800;margin-bottom:6px}
+.pain p{font-size:13px;color:var(--ink3);line-height:1.7}
+
+.tiers-sec{padding:48px 20px}
+.tiers-sec h2{font-size:26px;font-weight:900;text-align:center;margin-bottom:8px}
+.tiers-sub{text-align:center;color:var(--ink3);font-size:14px;margin-bottom:32px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:860px;margin:0 auto}
+@media(max-width:700px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:28px 24px;position:relative}
+.tier.hot{border-color:var(--amber);border-width:2px;box-shadow:0 8px 30px rgba(245,166,35,.12)}
+.tier-badge{position:absolute;top:-11px;right:20px;background:var(--cta);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.tier-name{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.5px;margin-bottom:4px}
+.tier-title{font-size:22px;font-weight:900;margin-bottom:12px}
+.tier-price{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
+.tier-price-now{font-size:36px;font-weight:900;color:var(--cta);letter-spacing:-1px}
+.tier-price-unit{font-size:13px;color:var(--ink3)}
+.tier-price-old{font-size:13px;color:var(--ink4);text-decoration:line-through}
+.tier-note{font-size:11px;color:var(--ink4);margin-bottom:18px}
+.tier ul{list-style:none;margin-bottom:20px}
+.tier li{padding:7px 0;font-size:13px;color:var(--ink2);display:flex;gap:8px}
+.tier li::before{content:'✓';color:#047857;font-weight:800;flex-shrink:0}
+.tier li.locked{color:var(--ink4)}
+.tier li.locked::before{content:'✗';color:var(--ink4)}
+.tier-btn{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer}
+.tier.hot .tier-btn{background:var(--cta)}
+.tier-btn:hover{opacity:.9}
+
+.faq{padding:48px 20px;background:var(--card)}
+.faq-in{max-width:800px;margin:0 auto}
+.faq h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:24px}
+.q{border-bottom:1px solid var(--bdr);padding:18px 0}
+.q:last-child{border:none}
+.q h4{font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)}
+.q p{font-size:13px;color:var(--ink2);line-height:1.7}
+
+.contact{padding:36px 20px;text-align:center;background:var(--ink);color:#fff}
+.contact h3{font-size:18px;font-weight:900;margin-bottom:8px}
+.contact p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:14px}
+.contact-btn{background:var(--amber);color:var(--ink);border:none;padding:10px 22px;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer}
+
+.foot{padding:18px 0;text-align:center;font-size:12px;color:var(--ink4);border-top:1px solid var(--bdr)}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
+    <a href="/" class="nav-a">工具箱</a>
+    <a href="/tools/global-picks.html" class="nav-a">全球精选</a>
+    <a href="/membership.html" class="nav-a on">会员</a>
+    <a href="/methods.html" class="nav-a">少年营</a>
+    <a href="/about.html" class="nav-a">关于</a>
+</div></nav>
+
+<header class="hero">
+    <div class="pill">前100名半价 · 不满意30天内全退</div>
+    <h1>原点会员<br>一个人帮你把<em>全球AI学习工具</em>用起来</h1>
+    <p class="hero-sub">你不用翻墙、不用懂英文、不用有外卡。付钱给一个能信任的中文教练，比冒险信20个陌生网站省心多了。</p>
+</header>
+
+<section class="why"><div class="why-in">
+    <h2>为什么家长需要一个"AI学习教练"</h2>
+    <div class="pains">
+        <div class="pain">
+            <div class="pain-icon">🔍</div>
+            <h3>工具太多不知道选哪个</h3>
+            <p>Khanmigo、Brilliant、Synthesis、IXL…每个都说自己最好。家长要花几十小时对比。我们替你测完。</p>
+        </div>
+        <div class="pain">
+            <div class="pain-icon">🌐</div>
+            <h3>翻墙+外卡+英文三道坎</h3>
+            <p>ChatGPT要VPN、要Visa、要英文输入——任何一关卡住，80%的家长就放弃了。我们代办三件事。</p>
+        </div>
+        <div class="pain">
+            <div class="pain-icon">👨‍👩‍👧</div>
+            <h3>孩子用起来没人管</h3>
+            <p>工具开了号不等于学得好。每周1v1答疑让家长知道孩子真的在用、用得对、学到了什么。</p>
+        </div>
+    </div>
+</div></section>
+
+<section class="tiers-sec">
+    <h2>两档会员，按你最需要的那一项选</h2>
+    <p class="tiers-sub">双月起订 · 随时可退 · 前100名锁定半价永久续</p>
+
+    <div class="tiers">
+        <div class="tier">
+            <div class="tier-name">🌱 基础会员</div>
+            <div class="tier-title">中文使用指南</div>
+            <div class="tier-price">
+                <span class="tier-price-now">¥99</span>
+                <span class="tier-price-unit">/月</span>
+                <span class="tier-price-old">原价¥198</span>
+            </div>
+            <div class="tier-note">适合：孩子能自己翻墙、英文够用的家庭</div>
+            <ul>
+                <li>20+全球AI工具中文深度评测</li>
+                <li>每个工具的分年龄使用指南</li>
+                <li>15个原点自研AI工具无限用</li>
+                <li>每月2次微信1v1答疑</li>
+                <li>入群：智父智母社群</li>
+                <li class="locked">不代办账号注册</li>
+                <li class="locked">不代付外卡订阅</li>
+            </ul>
+            <button class="tier-btn" onclick="joinMember('basic')">加入基础会员</button>
+        </div>
+
+        <div class="tier hot">
+            <span class="tier-badge">推荐 · 省心</span>
+            <div class="tier-name">🔥 全家会员</div>
+            <div class="tier-title">一站式代办</div>
+            <div class="tier-price">
+                <span class="tier-price-now">¥299</span>
+                <span class="tier-price-unit">/月</span>
+                <span class="tier-price-old">原价¥598</span>
+            </div>
+            <div class="tier-note">适合：不想折腾、希望即开即用的家庭</div>
+            <ul>
+                <li>基础会员一切权益</li>
+                <li>代账号注册（ChatGPT/Claude/Brilliant等）</li>
+                <li>代外卡支付（按原价代扣，无加价）</li>
+                <li>每周1次1v1答疑（30分钟）</li>
+                <li>优先客服（24小时内回复）</li>
+                <li>孩子使用报告月度推送</li>
+                <li>新工具首发体验权</li>
+            </ul>
+            <button class="tier-btn" onclick="joinMember('family')">加入全家会员</button>
+        </div>
+    </div>
+</section>
+
+<section class="faq"><div class="faq-in">
+    <h2>家长最常问的几个问题</h2>
+    <div class="q">
+        <h4>代账号是什么意思？账号安全吗？</h4>
+        <p>我们用你的邮箱给你注册ChatGPT/Claude等账号，你拥有完整登录权限。密码你自己改。原点只负责帮你过注册这一关（需要外国手机号/IP的那部分我们搞定）。</p>
+    </div>
+    <div class="q">
+        <h4>外卡代付怎么算钱？</h4>
+        <p>工具原价按当月汇率人民币代扣，不加价不赚差价。原点的收入只来自会员费，这样才没有利益冲突。</p>
+    </div>
+    <div class="q">
+        <h4>为什么不直接把会员费做成年付送折扣？</h4>
+        <p>因为你没用过，不知道值不值。月付能让你随时退。前100名半价永久续是给早期信任我们的家长的锁定福利。</p>
+    </div>
+    <div class="q">
+        <h4>我孩子小学2年级，能用这些工具吗？</h4>
+        <p>能。Khanmigo、Duolingo、Socratic、IXL都覆盖小学段。答疑时我会根据你孩子的具体情况给定制方案。</p>
+    </div>
+    <div class="q">
+        <h4>退费怎么操作？</h4>
+        <p>30天内任何理由全退。只需要微信告诉我一声"不合适"，当天原路退款。我从做产品第一天就不想留住不想留的人。</p>
+    </div>
+</div></section>
+
+<section class="contact">
+    <h3>准备好了吗？</h3>
+    <p>加创始人Zack微信（zacharyxpku@gmail.com）备注「会员」，1v1沟通后开通</p>
+    <button class="contact-btn" onclick="joinMember('contact')">加微信 · 创始人亲自对接</button>
+</section>
+
+<footer class="foot">© 2026 原点智学 · 不替孩子学，替家长选好</footer>
+
+<script>
+function joinMember(tier) {
+    const tierName = { basic:'基础会员¥99/月', family:'全家会员¥299/月', contact:'咨询' }[tier] || '会员';
+    const msg = `原点${tierName}预约\n\n请加微信「原点AI学堂」\n邮箱: business@yuandianzhixue.com\n备注「会员」+ 你选的套餐\n\n创始人Zack亲自对接，24小时内回复\n前100名享半价永久锁定`;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText('business@yuandianzhixue.com');
+        alert(msg + '\n\n✓ 邮箱已复制到剪贴板');
+    } else {
+        alert(msg);
+    }
+}
+</script>
+</body>
+</html>
