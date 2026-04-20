@@ -207,6 +207,35 @@
     </section>
 
     <div class="profile-container">
+        <div style="background:rgba(22,33,62,0.6);border:1px solid var(--c-ink-border);border-radius:16px;padding:24px;margin-bottom:24px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+                <div style="display:flex;flex-direction:column;">
+                    <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">学段筛选</label>
+                    <select id="school-stage" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                        <option value="">全部学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中">初中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div style="display:flex;flex-direction:column;">
+                    <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">年级筛选</label>
+                    <select id="grade" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                        <option value="">全部年级</option>
+                    </select>
+                </div>
+                <div style="display:flex;flex-direction:column;">
+                    <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">科目筛选</label>
+                    <select id="subject-filter" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                        <option value="">全部科目</option>
+                        <option value="数学">数学</option>
+                        <option value="物理">物理</option>
+                        <option value="化学">化学</option>
+                        <option value="生物">生物</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="stats-grid" id="stats-grid"></div>
 
         <div class="chart-section">
