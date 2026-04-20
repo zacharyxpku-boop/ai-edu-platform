@@ -223,20 +223,36 @@
             <h2>设置学习目标</h2>
             <div class="form-row">
                 <div class="form-field">
-                    <label>年级 *</label>
-                    <select id="grade">
-                        <option>小学三年级</option>
-                        <option>小学四年级</option>
-                        <option>小学五年级</option>
-                        <option>小学六年级</option>
-                        <option selected>初一</option>
-                        <option>初二</option>
-                        <option>初三</option>
-                        <option>高一</option>
-                        <option>高二</option>
-                        <option>高三</option>
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
                     </select>
                 </div>
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject">
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择科目</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="form-field">
                     <label>计划天数 *</label>
                     <select id="days">
@@ -312,6 +328,18 @@
     var planData = null;
     var taskStates = {}; // { 'day1-task0': true/false }
     var STORAGE_KEY = 'ydzx_study_plan_' + Date.now();
+    var textbookIndex = null;
+
+    var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+    var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+
+    async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+    function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateSubjectOptions(); }
+
+    function updateSubjectOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, sub = document.getElementById('subject'); sub.innerHTML = '<option value="">请选择科目</option>'; if (!s || !g) return; var subjects = s === '初中' ? ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'] : s === '小学' ? ['语文', '数学', '英语'] : ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治']; subjects.forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; sub.appendChild(o); }); if (subjects.includes('数学')) sub.value = '数学'; updateVersionOptions(); }
+
+    async function updateVersionOptions() { var s = document.getElementById('school-stage').value, sub = document.getElementById('subject').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !sub) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s]) return; var subName = subjectNameMap[sub], subData = textbookIndex[s][subName]; if (!subData) return; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
 
     async function generatePlan() {
         var grade = document.getElementById('grade').value;
@@ -501,6 +529,11 @@
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('study-plan.html');
+        loadTextbookIndex();
+        document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+        document.getElementById('grade').addEventListener('change', updateSubjectOptions);
+        document.getElementById('subject').addEventListener('change', updateVersionOptions);
+        updateGradeOptions();
     });
     </script>
 </body>
