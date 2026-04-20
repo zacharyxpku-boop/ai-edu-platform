@@ -208,10 +208,10 @@
 
     <div class="profile-container">
         <div style="background:rgba(22,33,62,0.6);border:1px solid var(--c-ink-border);border-radius:16px;padding:24px;margin-bottom:24px;">
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
                 <div style="display:flex;flex-direction:column;">
                     <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">学段筛选</label>
-                    <select id="school-stage" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                    <select id="xueduan" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
                         <option value="">全部学段</option>
                         <option value="小学">小学</option>
                         <option value="初中">初中</option>
@@ -220,18 +220,20 @@
                 </div>
                 <div style="display:flex;flex-direction:column;">
                     <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">年级筛选</label>
-                    <select id="grade" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                    <select id="nianji" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
                         <option value="">全部年级</option>
                     </select>
                 </div>
                 <div style="display:flex;flex-direction:column;">
                     <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">科目筛选</label>
-                    <select id="subject-filter" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                    <select id="kemu" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
                         <option value="">全部科目</option>
-                        <option value="数学">数学</option>
-                        <option value="物理">物理</option>
-                        <option value="化学">化学</option>
-                        <option value="生物">生物</option>
+                    </select>
+                </div>
+                <div style="display:flex;flex-direction:column;">
+                    <label style="color:var(--c-warm-gray);font-size:13px;margin-bottom:4px;">版本筛选</label>
+                    <select id="banben" style="padding:10px 12px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:8px;color:var(--c-warm-white);font-size:15px;">
+                        <option value="">全部版本</option>
                     </select>
                 </div>
             </div>
@@ -286,6 +288,100 @@
             subjects: {},
             achievements: []
         };
+
+        let textbookIndex = null;
+
+        // 教材联动数据
+        const gradesByStage = {
+            '小学': ['三年级', '四年级', '五年级', '六年级'],
+            '初中': ['七年级', '八年级', '九年级'],
+            '高中': ['高一', '高二', '高三']
+        };
+
+        const subjectNameMap = {
+            '数学': '数学',
+            '语文': '语文',
+            '英语': '英语',
+            '物理': '物理',
+            '化学': '化学',
+            '生物': '生物学',
+            '历史': '历史',
+            '地理': '地理',
+            '政治': '道德与法治',
+            '美术': '美术',
+            '音乐': '音乐'
+        };
+
+        // 加载教材索引
+        async function loadTextbookIndex() {
+            if (textbookIndex) return;
+            try {
+                const response = await fetch('../src/curriculum/textbook-index.json');
+                textbookIndex = await response.json();
+            } catch (e) {
+                console.error('教材索引加载失败:', e);
+            }
+        }
+
+        // 更新年级选项
+        function updateGradeOptions() {
+            const stage = document.getElementById('xueduan').value;
+            const gradeSelect = document.getElementById('nianji');
+            gradeSelect.innerHTML = '<option value="">全部年级</option>';
+
+            if (stage && gradesByStage[stage]) {
+                gradesByStage[stage].forEach(grade => {
+                    const option = document.createElement('option');
+                    option.value = grade;
+                    option.textContent = grade;
+                    gradeSelect.appendChild(option);
+                });
+            }
+            updateSubjectOptions();
+        }
+
+        // 更新科目选项
+        async function updateSubjectOptions() {
+            const stage = document.getElementById('xueduan').value;
+            const subjectSelect = document.getElementById('kemu');
+            subjectSelect.innerHTML = '<option value="">全部科目</option>';
+
+            if (!stage) return;
+
+            await loadTextbookIndex();
+            if (!textbookIndex || !textbookIndex[stage]) return;
+
+            const subjects = Object.keys(textbookIndex[stage]);
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectSelect.appendChild(option);
+            });
+
+            updateVersionOptions();
+        }
+
+        // 更新版本选项
+        async function updateVersionOptions() {
+            const stage = document.getElementById('xueduan').value;
+            const subject = document.getElementById('kemu').value;
+            const versionSelect = document.getElementById('banben');
+            versionSelect.innerHTML = '<option value="">全部版本</option>';
+
+            if (!stage || !subject) return;
+
+            await loadTextbookIndex();
+            if (!textbookIndex || !textbookIndex[stage] || !textbookIndex[stage][subject]) return;
+
+            const versions = Object.keys(textbookIndex[stage][subject]);
+            versions.forEach(version => {
+                const option = document.createElement('option');
+                option.value = version;
+                option.textContent = version;
+                versionSelect.appendChild(option);
+            });
+        }
 
         function loadLearningData() {
             // 从localStorage读取所有学习记录
@@ -478,11 +574,23 @@
 
         // 页面加载时执行
         window.addEventListener('load', function() {
+            // 加载学习数据
             loadLearningData();
             renderStats();
             renderChart();
             renderAchievements();
             renderReportCard();
+
+            // 加载教材索引并初始化联动
+            loadTextbookIndex();
+
+            // 绑定联动事件
+            document.getElementById('xueduan').addEventListener('change', updateGradeOptions);
+            document.getElementById('nianji').addEventListener('change', updateSubjectOptions);
+            document.getElementById('kemu').addEventListener('change', updateVersionOptions);
+
+            // 初始化年级选项
+            updateGradeOptions();
         });
     </script>
     <!-- 快捷导航 -->
