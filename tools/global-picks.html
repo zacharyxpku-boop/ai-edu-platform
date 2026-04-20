@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>全球AI学习工具精选 · 一站式用起来 | 原点智学</title>
-<meta name="description" content="Khanmigo、Brilliant、Grammarly、Duolingo……世界最好的AI学习工具，中文指南，原点会员一站式使用。">
+<title>全球AI学习工具精选 · 60个工具一站查 | 原点智学</title>
+<meta name="description" content="Khanmigo、Brilliant、Grammarly、Duolingo、Poe……60个海外AI学习工具中文测评，标注国内访问/支付情况，会员一站式使用。">
 <meta name="theme-color" content="#F5A623">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
@@ -15,7 +15,7 @@
   --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
   --bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--cta-h:#9A3412;
   --tutoring:#7C3AED;--subject:#2563EB;--language:#059669;--writing:#DB2777;
-  --creative:#F59E0B;--coding:#0891B2;--general:#6B7280;
+  --creative:#F59E0B;--coding:#0891B2;--general:#EF4444;--reading:#16A34A;--test:#9333EA;
   --font:'Noto Sans SC',system-ui,sans-serif;--r:10px;
 }
 html{scroll-behavior:smooth}
@@ -29,26 +29,32 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .nav-a.on{color:var(--amber);background:var(--amber-bg)}
 
-.hero{max-width:1200px;margin:0 auto;padding:48px 20px 24px}
-.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;margin-bottom:12px;letter-spacing:.5px}
-h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:10px}
+.hero{max-width:1200px;margin:0 auto;padding:40px 20px 20px}
+.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;margin-bottom:10px;letter-spacing:.5px}
+h1{font-size:clamp(24px,4vw,36px);font-weight:900;letter-spacing:-.5px;line-height:1.15;margin-bottom:8px}
 h1 em{font-style:normal;color:var(--cta)}
-.hero-sub{font-size:16px;color:var(--ink2);max-width:640px;line-height:1.7}
+.hero-sub{font-size:15px;color:var(--ink2);max-width:680px;line-height:1.7}
 
-/* filters */
-.filters{max-width:1200px;margin:20px auto 24px;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.filt-label{font-size:12px;color:var(--ink3);font-weight:600;margin-right:4px}
-.filt-btn{padding:6px 12px;border:1px solid var(--bdr);border-radius:100px;background:var(--card);cursor:pointer;font-family:var(--font);font-size:12px;color:var(--ink2);transition:all .15s}
+.stats-strip{max-width:1200px;margin:16px auto;padding:0 20px;display:flex;gap:14px;flex-wrap:wrap}
+.stats-strip div{font-size:12px;color:var(--ink3)}
+.stats-strip b{color:var(--ink);font-weight:800}
+
+.filters{max-width:1200px;margin:12px auto;padding:0 20px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filt-label{font-size:11px;color:var(--ink4);font-weight:700;margin-right:2px;letter-spacing:.5px}
+.filt-btn{padding:5px 10px;border:1px solid var(--bdr);border-radius:100px;background:var(--card);cursor:pointer;font-family:var(--font);font-size:11px;color:var(--ink2);transition:all .12s}
 .filt-btn:hover{border-color:var(--ink3);color:var(--ink)}
 .filt-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* grid */
-.grid{max-width:1200px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.tool{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:0;overflow:hidden;display:flex;flex-direction:column;transition:all .2s}
-.tool:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.06);border-color:#D4D4D8}
+.search-row{max-width:1200px;margin:12px auto;padding:0 20px}
+.search-in{width:100%;padding:10px 16px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px;background:var(--card);outline:none}
+.search-in:focus{border-color:var(--amber)}
 
-.tool-top{padding:16px 18px 0;display:flex;align-items:start;justify-content:space-between;gap:10px}
-.tool-avatar{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0}
+.grid{max-width:1200px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.tool{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:all .2s}
+.tool:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.06);border-color:#D4D4D8}
+
+.tool-top{padding:14px 16px 0;display:flex;align-items:start;justify-content:space-between;gap:10px}
+.tool-avatar{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0;letter-spacing:-.5px}
 .cat-tutoring{background:var(--tutoring)}
 .cat-subject{background:var(--subject)}
 .cat-language{background:var(--language)}
@@ -56,48 +62,44 @@ h1 em{font-style:normal;color:var(--cta)}
 .cat-creative{background:var(--creative)}
 .cat-coding{background:var(--coding)}
 .cat-general{background:var(--general)}
-.tool-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:.3px}
-.tag-free{background:#ECFDF5;color:#047857}
-.tag-paid{background:#FEF3C7;color:#92400E}
-.tag-freemium{background:#EFF6FF;color:#1E40AF}
+.cat-reading{background:var(--reading)}
+.cat-test{background:var(--test)}
 
-.tool-body{padding:12px 18px 0;flex:1}
-.tool-name{font-size:16px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.tool-sub{font-size:12px;color:var(--ink4);font-weight:500;margin-bottom:10px}
-.tool-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
+.tool-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;letter-spacing:.3px;white-space:nowrap}
+.badge-cnok{background:#DCFCE7;color:#15803D}
+.badge-cnvpn{background:#FEE2E2;color:#B91C1C}
+.badge-cnpay{background:#DBEAFE;color:#1D4ED8}
+.badge-free{background:#ECFDF5;color:#047857}
+.badge-paid{background:#FEF3C7;color:#92400E}
+.badge-affiliate{background:#FCE7F3;color:#9D174D}
 
-.tool-meta{display:flex;gap:10px;flex-wrap:wrap;padding:10px 18px;font-size:11px;color:var(--ink3);border-top:1px dashed var(--bdr);margin-top:8px}
-.tool-meta span{display:flex;align-items:center;gap:3px}
-.tool-meta b{color:var(--ink);font-weight:700}
+.tool-body{padding:10px 16px 12px;flex:1}
+.tool-name{font-size:15px;font-weight:800;margin-bottom:2px}
+.tool-meta-inline{font-size:11px;color:var(--ink4);margin-bottom:8px}
+.tool-desc{font-size:12px;color:var(--ink2);line-height:1.65;margin-bottom:8px}
+.tool-diff{font-size:11px;color:var(--ink3);background:#F9FAFB;padding:6px 10px;border-radius:6px;border-left:2px solid var(--amber);margin-bottom:8px}
+.tool-pain{font-size:11px;color:#B91C1C;font-style:italic}
 
-.tool-foot{padding:10px 18px 14px;display:flex;gap:6px;border-top:1px solid #F4F4F5}
-.btn-go{flex:1;padding:8px;background:var(--cta);color:#fff;border:none;border-radius:7px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
+.tool-foot{padding:10px 16px 14px;display:flex;gap:6px;border-top:1px solid #F4F4F5;align-items:center}
+.btn-go{flex:1;padding:7px;background:var(--cta);color:#fff;border:none;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center}
 .btn-go:hover{background:var(--cta-h)}
-.btn-guide{padding:8px 12px;background:var(--card);color:var(--ink2);border:1px solid var(--bdr);border-radius:7px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center}
-.btn-guide:hover{border-color:var(--ink3);color:var(--ink)}
+.btn-member{padding:7px 10px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);border-radius:6px;font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center}
 
-.need-vpn{font-size:10px;color:#B91C1C;background:#FEF2F2;padding:2px 6px;border-radius:4px}
-.cn-ok{font-size:10px;color:#047857;background:#ECFDF5;padding:2px 6px;border-radius:4px}
+.empty{text-align:center;padding:60px 20px;color:var(--ink3);grid-column:1/-1}
 
-/* membership CTA */
-.mcta{max-width:1200px;margin:40px auto;padding:0 20px}
-.mcta-box{background:linear-gradient(135deg,#1C1C1E,#27272A);color:#fff;border-radius:var(--r);padding:32px;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center}
+.mcta{max-width:1200px;margin:20px auto;padding:0 20px}
+.mcta-box{background:linear-gradient(135deg,#1C1C1E,#27272A);color:#fff;border-radius:var(--r);padding:28px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
 @media(max-width:700px){.mcta-box{grid-template-columns:1fr}}
-.mcta-box h3{font-size:22px;font-weight:900;margin-bottom:10px;line-height:1.3}
+.mcta-box h3{font-size:20px;font-weight:900;margin-bottom:8px;line-height:1.3}
 .mcta-box h3 em{font-style:normal;color:var(--amber)}
-.mcta-box p{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.7}
-.mcta-tiers{display:flex;gap:10px;flex-direction:column}
-.mtier{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px 16px}
-.mtier-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
-.mtier-name{font-size:14px;font-weight:700}
-.mtier-price{font-size:18px;font-weight:900;color:var(--amber)}
-.mtier-price s{color:rgba(255,255,255,.3);font-size:12px;font-weight:500;margin-right:4px}
-.mtier-desc{font-size:12px;color:rgba(255,255,255,.5)}
-.mtier.hot{background:rgba(245,166,35,.08);border-color:var(--amber)}
-.mjoin-btn{margin-top:10px;background:var(--amber);color:#1C1C1E;border:none;padding:11px;width:100%;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:800;cursor:pointer}
-.mjoin-btn:hover{background:#EAB308}
+.mcta-box p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7}
+.mcta-box .cta-btn{margin-top:14px;background:var(--amber);color:#1C1C1E;border:none;padding:11px 22px;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.mcta-nums{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcta-num{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:14px;text-align:center}
+.mcta-num b{display:block;font-size:24px;font-weight:900;color:var(--amber)}
+.mcta-num span{font-size:11px;color:rgba(255,255,255,.5)}
 
-.empty{text-align:center;padding:40px;color:var(--ink3);font-size:14px;grid-column:1/-1}
 .foot{border-top:1px solid var(--bdr);padding:20px 0;text-align:center;font-size:12px;color:var(--ink4)}
 </style>
 </head>
@@ -107,145 +109,209 @@ h1 em{font-style:normal;color:var(--cta)}
     <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
     <a href="/" class="nav-a">工具箱</a>
     <a href="/tools/global-picks.html" class="nav-a on">全球精选</a>
+    <a href="/membership.html" class="nav-a">会员</a>
     <a href="/methods.html" class="nav-a">少年营</a>
-    <a href="/articles.html" class="nav-a">研究院</a>
     <a href="/about.html" class="nav-a">关于</a>
 </div></nav>
 
 <header class="hero">
-    <div class="pill">全球精选 · 中文上手指南</div>
-    <h1>世界最好的AI学习工具<br>我们替你<em>选好、用顺、讲明白</em></h1>
-    <p class="hero-sub">不翻墙、不懂英文、没有外卡——家长只要会微信，孩子就能用上Khanmigo、Brilliant、Grammarly这些国外同龄人在用的工具。</p>
+    <div class="pill">全球精选 · 60个工具 · 中文查表</div>
+    <h1>世界最好的AI学习工具<br>原点替你<em>查完、选好、用顺</em></h1>
+    <p class="hero-sub">ChatGPT被墙？Khanmigo要外卡？英文看不懂？——下面60个工具，每个都标注了国内是否能访问、是否有支付宝、中国家长典型踩坑。</p>
 </header>
 
-<div class="filters" id="filters">
-    <span class="filt-label">类别：</span>
-    <button class="filt-btn on" data-f="all" data-v="all">全部</button>
-    <button class="filt-btn" data-f="cat" data-v="tutoring">AI导师</button>
-    <button class="filt-btn" data-f="cat" data-v="subject">学科AI</button>
-    <button class="filt-btn" data-f="cat" data-v="language">语言学习</button>
-    <button class="filt-btn" data-f="cat" data-v="writing">写作阅读</button>
-    <button class="filt-btn" data-f="cat" data-v="creative">创作</button>
-    <button class="filt-btn" data-f="cat" data-v="general">通用AI</button>
+<div class="stats-strip" id="stats-strip">
+    <div>共收录 <b id="s-total">60</b> 个</div>
+    <div>国内可直连 <b id="s-cnok">—</b></div>
+    <div>支持中国支付 <b id="s-cnpay">—</b></div>
+    <div>免费/部分免费 <b id="s-free">—</b></div>
 </div>
 
-<main class="grid" id="grid"></main>
+<div class="search-row">
+    <input class="search-in" id="q" placeholder="搜索工具名、公司、类别（例如 ChatGPT / 数学 / 音乐）" oninput="render()" />
+</div>
+
+<div class="filters">
+    <span class="filt-label">类别</span>
+    <button class="filt-btn on" data-k="cat" data-v="all" onclick="setFilter('cat','all',this)">全部</button>
+    <button class="filt-btn" data-k="cat" data-v="AI Tutoring" onclick="setFilter('cat','AI Tutoring',this)">AI导师</button>
+    <button class="filt-btn" data-k="cat" data-v="Subject-Specific AI" onclick="setFilter('cat','Subject-Specific AI',this)">学科AI</button>
+    <button class="filt-btn" data-k="cat" data-v="Language Learning AI" onclick="setFilter('cat','Language Learning AI',this)">语言</button>
+    <button class="filt-btn" data-k="cat" data-v="Writing/Reading AI" onclick="setFilter('cat','Writing/Reading AI',this)">写作阅读</button>
+    <button class="filt-btn" data-k="cat" data-v="Creative AI" onclick="setFilter('cat','Creative AI',this)">创作</button>
+    <button class="filt-btn" data-k="cat" data-v="Coding/STEM AI" onclick="setFilter('cat','Coding/STEM AI',this)">编程</button>
+    <button class="filt-btn" data-k="cat" data-v="General AI Assistants" onclick="setFilter('cat','General AI Assistants',this)">通用AI</button>
+    <button class="filt-btn" data-k="cat" data-v="Test Prep AI" onclick="setFilter('cat','Test Prep AI',this)">考试</button>
+    <button class="filt-btn" data-k="cat" data-v="Reading/E-book AI" onclick="setFilter('cat','Reading/E-book AI',this)">阅读</button>
+</div>
+
+<div class="filters">
+    <span class="filt-label">访问</span>
+    <button class="filt-btn on" data-k="cn" data-v="all" onclick="setFilter('cn','all',this)">不限</button>
+    <button class="filt-btn" data-k="cn" data-v="ok" onclick="setFilter('cn','ok',this)">🟢 国内直连</button>
+    <button class="filt-btn" data-k="cn" data-v="vpn" onclick="setFilter('cn','vpn',this)">🔴 需要翻墙</button>
+    <button class="filt-btn" data-k="cn" data-v="pay" onclick="setFilter('cn','pay',this)">💳 支持中国支付</button>
+</div>
+
+<main class="grid" id="grid"><div class="empty">正在加载60个工具…</div></main>
 
 <section class="mcta">
     <div class="mcta-box">
         <div>
-            <h3>一个会员，打通<em>全球AI学习工具</em></h3>
-            <p>原点替你解决翻墙、外卡、语言三件事。你不用下载20个App、不用注册20个账号——在原点一个地方，用会员身份直接用起来。</p>
-            <p style="color:var(--amber);font-size:13px;font-weight:700">⚡ 前100名会员享半价 · 不满意30天内全额退</p>
+            <h3>看到感兴趣的？让原点帮你<em>一次全搞定</em></h3>
+            <p>¥299/月全家会员：代账号+代付+每周1v1答疑。你不用为每个工具分别折腾——付钱给一个中文教练，比信任20个陌生网站省心。前100名半价永久锁定。</p>
+            <a class="cta-btn" href="/membership.html">查看会员详情 →</a>
         </div>
-        <div class="mcta-tiers">
-            <div class="mtier">
-                <div class="mtier-top">
-                    <span class="mtier-name">🌱 基础会员</span>
-                    <span class="mtier-price"><s>¥198</s>¥99<span style="font-size:10px;font-weight:500">/月</span></span>
-                </div>
-                <div class="mtier-desc">全套中文使用指南+工具测评+2次1v1答疑</div>
-            </div>
-            <div class="mtier hot">
-                <div class="mtier-top">
-                    <span class="mtier-name">🔥 全家会员</span>
-                    <span class="mtier-price"><s>¥598</s>¥299<span style="font-size:10px;font-weight:500">/月</span></span>
-                </div>
-                <div class="mtier-desc">代账号+代付+每周答疑+优先客服，真正一站式</div>
-            </div>
-            <button class="mjoin-btn" onclick="joinMember()">加入会员 · 立即解锁 →</button>
+        <div class="mcta-nums">
+            <div class="mcta-num"><b>60+</b><span>全球工具</span></div>
+            <div class="mcta-num"><b>¥99/月</b><span>基础会员起</span></div>
+            <div class="mcta-num"><b>30天</b><span>不满意全退</span></div>
+            <div class="mcta-num"><b>100人</b><span>半价名额</span></div>
         </div>
     </div>
 </section>
 
-<footer class="foot">© 2026 原点智学 · 我们不替孩子学，替家长把世界最好的学习工具找齐</footer>
+<footer class="foot">© 2026 原点智学 · 数据每月更新 · 不替孩子学，替家长选好</footer>
 
 <script>
-// ========================================
-// Seed Data — 手工维护的Top 20优质工具
-// 后续由 src/curriculum/global-ai-tools.json 调研结果替换/扩充
-// ========================================
-const TOOLS = [
-    {name:'Khanmigo',sub:'Khan Academy AI导师',cat:'tutoring',price:'freemium',priceNote:'$4/月或教师免费',age:'6-18',blurb:'GPT-4驱动的苏格拉底式导师，不给答案只追问。美国家长最信任的学习陪伴。',cn:'中国可访问但慢，付费需外卡',diff:'覆盖完整课程体系',url:'https://www.khanmigo.ai',avatar:'K'},
-    {name:'Brilliant',sub:'交互式数理科学',cat:'subject',price:'paid',priceNote:'¥72/月',age:'10+',blurb:'从零开始的数学、物理、CS交互式课程。每道题都是动手玩，不是看视频。',cn:'可访问，支付需外卡',diff:'视觉化教学全球第一',url:'https://brilliant.org',avatar:'B'},
-    {name:'Duolingo',sub:'最大的语言学习App',cat:'language',price:'freemium',priceNote:'免费/¥56/月',age:'4+',blurb:'游戏化学英语日语法语西语。AI Role Play练口语，Max会员有GPT-4解释语法错误。',cn:'可访问',diff:'坚持率最高',url:'https://www.duolingo.com',avatar:'D'},
-    {name:'Grammarly',sub:'英文写作AI助手',cat:'writing',price:'freemium',priceNote:'免费/$12/月',age:'12+',blurb:'查语法、改风格、练流畅。对于要出国或学英语写作的孩子，准标配。',cn:'可访问',diff:'30亿+用户信任',url:'https://www.grammarly.com',avatar:'G'},
-    {name:'Photomath',sub:'拍题秒解数学',cat:'subject',price:'freemium',priceNote:'免费/$70年',age:'10+',blurb:'拍题给出分步解法。不仅给答案，还讲每一步怎么想的。',cn:'可访问',diff:'步骤讲解最详细',url:'https://photomath.com',avatar:'P'},
-    {name:'Wolfram Alpha',sub:'数理计算知识库',cat:'subject',price:'freemium',priceNote:'免费/$5月',age:'12+',blurb:'输入任何公式、方程、物理题，它直接算出答案并画图。理科家长必备。',cn:'可访问',diff:'计算能力最强',url:'https://www.wolframalpha.com',avatar:'W'},
-    {name:'Synthesis',sub:'团队协作AI学习',cat:'tutoring',price:'paid',priceNote:'$99/月',age:'7-14',blurb:'SpaceX创始人Elon Musk的孩子也在用。通过团队协作+AI导师学习数学和批判性思维。',cn:'有点慢，付费需外卡',diff:'协作学习全球独特',url:'https://www.synthesis.com',avatar:'S'},
-    {name:'ChatGPT',sub:'OpenAI通用AI',cat:'general',price:'freemium',priceNote:'免费/$20月',age:'13+',blurb:'全球最强大的通用AI。会写作业、会讲知识点、会陪孩子头脑风暴。Plus解锁GPT-4和图像。',cn:'需翻墙+外卡',diff:'最强通用能力',url:'https://chat.openai.com',avatar:'C'},
-    {name:'Claude',sub:'Anthropic的AI',cat:'general',price:'freemium',priceNote:'免费/$20月',age:'13+',blurb:'写作和长文理解最强。文科学习特别合适，能读完整篇论文和书。',cn:'需翻墙+外卡',diff:'写作水平最高',url:'https://claude.ai',avatar:'Cl'},
-    {name:'Perplexity',sub:'带引用的AI搜索',cat:'general',price:'freemium',priceNote:'免费/$20月',age:'10+',blurb:'问问题直接给答案+信息来源链接。孩子做research project的神器。',cn:'可访问',diff:'学术级引用',url:'https://www.perplexity.ai',avatar:'P'},
-    {name:'Speak',sub:'AI英语口语陪练',cat:'language',price:'paid',priceNote:'$20/月',age:'8+',blurb:'跟AI练真实对话，发音纠错到音节级别。OpenAI投资的口语训练App。',cn:'可访问',diff:'口语反馈最准',url:'https://www.speak.com',avatar:'Sp'},
-    {name:'Quizlet',sub:'AI闪卡+学习伙伴',cat:'tutoring',price:'freemium',priceNote:'免费/$36年',age:'10+',blurb:'全球5亿学生用的闪卡工具。Q-Chat功能用GPT-4给每张卡片出题。',cn:'可访问',diff:'闪卡生态最大',url:'https://quizlet.com',avatar:'Q'},
-    {name:'Suno',sub:'AI音乐生成',cat:'creative',price:'freemium',priceNote:'免费/$10月',age:'8+',blurb:'输入歌词秒生成带旋律的歌曲。孩子把历史年表唱出来记得更快。',cn:'可访问',diff:'音乐质量最高',url:'https://suno.com',avatar:'🎵'},
-    {name:'ElevenLabs',sub:'AI配音生成',cat:'creative',price:'freemium',priceNote:'免费/$5月',age:'10+',blurb:'把任何文字转成逼真人声。孩子做演讲稿录音、配音频作品集用它。',cn:'可访问',diff:'最接近真人',url:'https://elevenlabs.io',avatar:'🎙'},
-    {name:'Replit',sub:'浏览器编程+AI',cat:'coding',price:'freemium',priceNote:'免费/$20月',age:'10+',blurb:'不用装任何东西，浏览器里写代码。AI助手陪孩子一起debug。',cn:'可访问',diff:'零配置编程',url:'https://replit.com',avatar:'R'},
-    {name:'NaturalReader',sub:'听文章/课本',cat:'writing',price:'freemium',priceNote:'免费/$10月',age:'8+',blurb:'把PDF、网页文章转成人声朗读。累了让孩子"听"课本。',cn:'可访问',diff:'支持PDF最好',url:'https://www.naturalreaders.com',avatar:'N'},
-    {name:'Canva Magic',sub:'AI海报设计',cat:'creative',price:'freemium',priceNote:'免费/¥40月',age:'8+',blurb:'Magic Design一键生成PPT和海报。孩子做作业展示、汇报PPT的首选。',cn:'可访问',diff:'设计门槛最低',url:'https://www.canva.com',avatar:'🎨'},
-    {name:'Socratic',sub:'Google拍题答疑',cat:'subject',price:'free',priceNote:'免费',age:'8-18',blurb:'Google Education出品，拍一下题目就给详细讲解。全免费没有广告。',cn:'需要翻墙',diff:'完全免费',url:'https://socratic.org',avatar:'So'},
-    {name:'Codecademy',sub:'交互式学编程',cat:'coding',price:'freemium',priceNote:'免费/$20月',age:'10+',blurb:'在浏览器里边学边写。Python、JS、HTML/CSS系统入门课程。',cn:'可访问',diff:'上手最平滑',url:'https://www.codecademy.com',avatar:'</>'},
-    {name:'IXL',sub:'K12全科适应性练习',cat:'tutoring',price:'paid',priceNote:'$20/月',age:'6-18',blurb:'美国家长追加作业的首选。根据孩子表现动态调整题目难度。',cn:'可访问',diff:'自适应最精准',url:'https://www.ixl.com',avatar:'I'}
-];
+let allTools = [];
+let filters = { cat:'all', cn:'all' };
 
-const CAT_NAMES = {
-    tutoring:'AI导师',subject:'学科AI',language:'语言学习',
-    writing:'写作阅读',creative:'创作',coding:'编程',general:'通用AI'
+// category mapping
+const CAT_MAP = {
+    'AI Tutoring':'tutoring',
+    'Subject-Specific AI':'subject',
+    'Language Learning AI':'language',
+    'Writing/Reading AI':'writing',
+    'Creative AI':'creative',
+    'Coding/STEM AI':'coding',
+    'General AI Assistants':'general',
+    'Test Prep AI':'test',
+    'Reading/E-book AI':'reading'
 };
 
-const PRICE_LABELS = {
-    free:'免费',paid:'付费',freemium:'部分免费'
+const CAT_ZH = {
+    'AI Tutoring':'AI导师',
+    'Subject-Specific AI':'学科AI',
+    'Language Learning AI':'语言学习',
+    'Writing/Reading AI':'写作阅读',
+    'Creative AI':'创作',
+    'Coding/STEM AI':'编程',
+    'General AI Assistants':'通用AI',
+    'Test Prep AI':'考试',
+    'Reading/E-book AI':'阅读'
 };
 
-let filterCat = 'all';
+// classify china access
+function cnStatus(t) {
+    const a = (t.china_access || '').toLowerCase();
+    const blocked = /block|gfw|vpn|翻墙|not accessible|unavailable in china/i.test(a);
+    const cnPay = /alipay|wechat pay|支付宝|微信|chinese payment|canva\.cn/i.test(a);
+    return { blocked, cnPay };
+}
+
+function cnOk(t){ return !cnStatus(t).blocked }
+function cnPay(t){ return cnStatus(t).cnPay }
+
+function priceIsFree(t) {
+    const p = (t.price || '').toLowerCase();
+    return /free/.test(p);
+}
+
+function initials(name) {
+    const s = name.replace(/[^\w]/g,'').slice(0,2);
+    return s.toUpperCase() || '?';
+}
+
+async function loadTools() {
+    try {
+        const r = await fetch('/src/curriculum/global-ai-tools.json');
+        allTools = await r.json();
+        updateStats();
+        render();
+    } catch (e) {
+        document.getElementById('grid').innerHTML = '<div class="empty">加载失败: '+e.message+'</div>';
+    }
+}
+
+function updateStats() {
+    document.getElementById('s-total').textContent = allTools.length;
+    document.getElementById('s-cnok').textContent = allTools.filter(cnOk).length;
+    document.getElementById('s-cnpay').textContent = allTools.filter(cnPay).length;
+    document.getElementById('s-free').textContent = allTools.filter(priceIsFree).length;
+}
+
+function setFilter(k, v, btn) {
+    filters[k] = v;
+    // update active state within same group
+    btn.parentElement.querySelectorAll('.filt-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    render();
+}
+
+function shortPrice(p) {
+    if (!p) return '价格未知';
+    if (/free for/i.test(p) && /\$/.test(p)) return '部分免费';
+    if (/^free/i.test(p)) return '免费';
+    const m = p.match(/\$([\d.]+)\s*\/?\s*(mo|month|月)/i);
+    if (m) return '$' + m[1] + '/月';
+    const y = p.match(/\$([\d.]+)\s*\/?\s*(yr|year|年)/i);
+    if (y) return '$' + y[1] + '/年';
+    return p.slice(0, 30) + (p.length > 30 ? '…' : '');
+}
 
 function render() {
+    const q = (document.getElementById('q').value || '').toLowerCase().trim();
+    const list = allTools.filter(t => {
+        if (filters.cat !== 'all' && t.category !== filters.cat) return false;
+        if (filters.cn === 'ok' && !cnOk(t)) return false;
+        if (filters.cn === 'vpn' && cnOk(t)) return false;
+        if (filters.cn === 'pay' && !cnPay(t)) return false;
+        if (q) {
+            const hay = (t.name + ' ' + (t.company||'') + ' ' + t.category + ' ' + (t.differentiator||'')).toLowerCase();
+            if (!hay.includes(q)) return false;
+        }
+        return true;
+    });
+
     const grid = document.getElementById('grid');
-    const list = filterCat === 'all' ? TOOLS : TOOLS.filter(t => t.cat === filterCat);
     if (!list.length) {
-        grid.innerHTML = '<div class="empty">还在收录中，稍等两天</div>';
+        grid.innerHTML = '<div class="empty">没有匹配的工具。试试换个筛选条件。</div>';
         return;
     }
-    grid.innerHTML = list.map(t => `
+
+    grid.innerHTML = list.map(t => {
+        const cat = CAT_MAP[t.category] || 'general';
+        const st = cnStatus(t);
+        const badges = [];
+        if (st.blocked) badges.push('<span class="badge badge-cnvpn">需翻墙</span>');
+        else badges.push('<span class="badge badge-cnok">国内直连</span>');
+        if (st.cnPay) badges.push('<span class="badge badge-cnpay">中国支付</span>');
+        if (priceIsFree(t)) badges.push('<span class="badge badge-free">有免费</span>');
+        if (t.affiliate) badges.push('<span class="badge badge-affiliate">有返利</span>');
+
+        const ownFriendly = !st.blocked && st.cnPay;
+        return `
         <article class="tool">
             <div class="tool-top">
-                <div class="tool-avatar cat-${t.cat}">${t.avatar}</div>
-                <span class="tool-tag tag-${t.price}">${PRICE_LABELS[t.price]}</span>
+                <div class="tool-avatar cat-${cat}">${initials(t.name)}</div>
+                <div class="tool-badges">${badges.join('')}</div>
             </div>
             <div class="tool-body">
-                <h3 class="tool-name">${t.name}</h3>
-                <div class="tool-sub">${t.sub}</div>
-                <p class="tool-desc">${t.blurb}</p>
-                <div style="font-size:11px;color:var(--ink4);margin-bottom:4px">💡 ${t.diff}</div>
-            </div>
-            <div class="tool-meta">
-                <span>💰 <b>${t.priceNote}</b></span>
-                <span>👤 ${t.age}岁</span>
-                <span>${t.cn.includes('翻墙')?'<span class="need-vpn">需翻墙</span>':'<span class="cn-ok">国内可用</span>'}</span>
+                <div class="tool-name">${t.name}</div>
+                <div class="tool-meta-inline">${CAT_ZH[t.category]||t.category} · ${t.age||'全龄'}岁 · ${shortPrice(t.price)}</div>
+                <div class="tool-diff">${t.differentiator||''}</div>
+                ${t.cn_parent_pain ? `<div class="tool-pain">⚠️ ${t.cn_parent_pain}</div>` : ''}
             </div>
             <div class="tool-foot">
-                <a class="btn-go" href="${t.url}" target="_blank" rel="noopener">打开官网 →</a>
-                <a class="btn-guide" href="/articles.html">中文指南</a>
+                <a class="btn-go" href="${t.url}" target="_blank" rel="noopener">${ownFriendly?'直接使用':'查看官网'} →</a>
+                ${!ownFriendly ? '<a class="btn-member" href="/membership.html">会员代办</a>' : ''}
             </div>
-        </article>
-    `).join('');
+        </article>`;
+    }).join('');
 }
 
-document.querySelectorAll('.filt-btn').forEach(b => {
-    b.addEventListener('click', () => {
-        document.querySelectorAll('.filt-btn').forEach(x => x.classList.remove('on'));
-        b.classList.add('on');
-        filterCat = b.dataset.v;
-        render();
-    });
-});
-
-function joinMember() {
-    alert('原点会员预约\n\n请加微信「原点AI学堂」（zacharyxpku@gmail.com）备注「会员」，创始人1v1回复，前100名享半价。');
-}
-
-// 首次渲染
-render();
+loadTools();
 </script>
 </body>
 </html>
