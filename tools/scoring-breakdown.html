@@ -213,17 +213,36 @@
     <div class="breakdown-container">
         <div class="input-card">
             <h2>粘贴大题题目</h2>
-            <div class="form-field">
-                <label>科目 *</label>
-                <select id="subject-select">
-                    <option value="math">数学</option>
-                    <option value="physics">物理</option>
-                    <option value="chemistry">化学</option>
-                    <option value="biology">生物</option>
-                    <option value="politics">政治</option>
-                    <option value="history">历史</option>
-                    <option value="geography">地理</option>
-                </select>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择学段</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label>科目 *</label>
+                    <select id="subject-select">
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择科目</option>
+                    </select>
+                </div>
             </div>
             <div class="form-field">
                 <label>题目内容 *</label>
@@ -249,6 +268,19 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
+        var textbookIndex = null;
+        var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+        var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+        var subjectValueMap = {'数学': 'math', '物理': 'physics', '化学': 'chemistry', '生物': 'biology', '政治': 'politics', '历史': 'history', '地理': 'geography'};
+
+        async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+        function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateSubjectOptions(); }
+
+        function updateSubjectOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, sub = document.getElementById('subject-select'); sub.innerHTML = '<option value="">请选择科目</option>'; if (!s || !g) return; var subjects = s === '初中' ? ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'] : s === '小学' ? ['语文', '数学', '英语'] : ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治']; subjects.forEach(function(v) { var value = subjectValueMap[v] || ''; if (value) { var o = document.createElement('option'); o.value = value; o.textContent = v; sub.appendChild(o); } }); if (subjects.includes('数学')) sub.value = 'math'; updateVersionOptions(); }
+
+        async function updateVersionOptions() { var s = document.getElementById('school-stage').value, sub = document.getElementById('subject-select').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !sub) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s]) return; var subjectDisplayNames = {'math': '数学', 'physics': '物理', 'chemistry': '化学', 'biology': '生物学', 'politics': '道德与法治', 'history': '历史', 'geography': '地理'}; var subName = subjectDisplayNames[sub], subData = textbookIndex[s][subName]; if (!subData) return; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
+
         async function breakdownScoring() {
             const subject = document.getElementById('subject-select').value;
             const question = document.getElementById('question-input').value.trim();
@@ -388,6 +420,11 @@
     <script>
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('scoring-breakdown.html');
+        loadTextbookIndex();
+        document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+        document.getElementById('grade').addEventListener('change', updateSubjectOptions);
+        document.getElementById('subject-select').addEventListener('change', updateVersionOptions);
+        updateGradeOptions();
     });
     </script>
     <!-- 快捷导航 -->
