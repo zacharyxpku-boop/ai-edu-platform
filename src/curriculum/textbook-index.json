@@ -1,0 +1,642 @@
+{
+  "初中": {
+    "语文": {
+      "统编版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·语文七年级上册",
+              "path": "初中/语文/统编版-人民教育出版社/七年级/义务教育教科书·语文七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/七年级/义务教育教科书·语文七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·语文七年级下册",
+              "path": "初中/语文/统编版-人民教育出版社/七年级/义务教育教科书·语文七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/七年级/义务教育教科书·语文七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·语文八年级上册",
+              "path": "初中/语文/统编版-人民教育出版社/八年级/义务教育教科书·语文八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/八年级/义务教育教科书·语文八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·语文八年级下册",
+              "path": "初中/语文/统编版-人民教育出版社/八年级/义务教育教科书·语文八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/八年级/义务教育教科书·语文八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·语文九年级上册",
+              "path": "初中/语文/统编版-人民教育出版社/九年级/义务教育教科书·语文九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/九年级/义务教育教科书·语文九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·语文九年级下册",
+              "path": "初中/语文/统编版-人民教育出版社/九年级/义务教育教科书·语文九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/语文/统编版-人民教育出版社/九年级/义务教育教科书·语文九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "数学": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·数学七年级上册",
+              "path": "初中/数学/人教版-人民教育出版社/七年级/义务教育教科书·数学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/七年级/义务教育教科书·数学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学七年级下册",
+              "path": "初中/数学/人教版-人民教育出版社/七年级/义务教育教科书·数学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/七年级/义务教育教科书·数学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·数学八年级上册",
+              "path": "初中/数学/人教版-人民教育出版社/八年级/义务教育教科书·数学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/八年级/义务教育教科书·数学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学八年级下册",
+              "path": "初中/数学/人教版-人民教育出版社/八年级/义务教育教科书·数学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/八年级/义务教育教科书·数学八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·数学九年级上册",
+              "path": "初中/数学/人教版-人民教育出版社/九年级/义务教育教科书·数学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/九年级/义务教育教科书·数学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学九年级下册",
+              "path": "初中/数学/人教版-人民教育出版社/九年级/义务教育教科书·数学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/人教版-人民教育出版社/九年级/义务教育教科书·数学九年级下册.pdf"
+            }
+          }
+        }
+      },
+      "北师大版": {
+        "provider": "北京师范大学出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·数学七年级上册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/七年级/义务教育教科书·数学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/七年级/义务教育教科书·数学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学七年级下册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/七年级/义务教育教科书·数学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/七年级/义务教育教科书·数学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·数学八年级上册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/八年级/义务教育教科书·数学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/八年级/义务教育教科书·数学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学八年级下册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/八年级/义务教育教科书·数学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/八年级/义务教育教科书·数学八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·数学九年级上册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/九年级/义务教育教科书·数学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/九年级/义务教育教科书·数学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学九年级下册",
+              "path": "初中/数学/北师大版-北京师范大学出版社/九年级/义务教育教科书·数学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/北师大版-北京师范大学出版社/九年级/义务教育教科书·数学九年级下册.pdf"
+            }
+          }
+        }
+      },
+      "苏科版": {
+        "provider": "江苏凤凰科学技术出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·数学七年级上册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/七年级/义务教育教科书·数学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/七年级/义务教育教科书·数学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学七年级下册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/七年级/义务教育教科书·数学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/七年级/义务教育教科书·数学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·数学八年级上册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·数学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·数学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学八年级下册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·数学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·数学八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·数学九年级上册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·数学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·数学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学九年级下册",
+              "path": "初中/数学/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·数学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·数学九年级下册.pdf"
+            }
+          }
+        }
+      },
+      "青岛版": {
+        "provider": "青岛出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·数学七年级上册",
+              "path": "初中/数学/青岛版-青岛出版社/七年级/义务教育教科书·数学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/七年级/义务教育教科书·数学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学七年级下册",
+              "path": "初中/数学/青岛版-青岛出版社/七年级/义务教育教科书·数学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/七年级/义务教育教科书·数学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·数学八年级上册",
+              "path": "初中/数学/青岛版-青岛出版社/八年级/义务教育教科书·数学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/八年级/义务教育教科书·数学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学八年级下册",
+              "path": "初中/数学/青岛版-青岛出版社/八年级/义务教育教科书·数学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/八年级/义务教育教科书·数学八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·数学九年级上册",
+              "path": "初中/数学/青岛版-青岛出版社/九年级/义务教育教科书·数学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/九年级/义务教育教科书·数学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·数学九年级下册",
+              "path": "初中/数学/青岛版-青岛出版社/九年级/义务教育教科书·数学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/数学/青岛版-青岛出版社/九年级/义务教育教科书·数学九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "英语": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·英语七年级上册",
+              "path": "初中/英语/人教版-人民教育出版社/七年级/义务教育教科书·英语七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/人教版-人民教育出版社/七年级/义务教育教科书·英语七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·英语七年级下册",
+              "path": "初中/英语/人教版-人民教育出版社/七年级/义务教育教科书·英语七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/人教版-人民教育出版社/七年级/义务教育教科书·英语七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·英语八年级上册",
+              "path": "初中/英语/人教版-人民教育出版社/八年级/义务教育教科书·英语八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/人教版-人民教育出版社/八年级/义务教育教科书·英语八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·英语八年级下册",
+              "path": "初中/英语/人教版-人民教育出版社/八年级/义务教育教科书·英语八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/人教版-人民教育出版社/八年级/义务教育教科书·英语八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "全一册": {
+              "title": "义务教育教科书·英语九年级全一册",
+              "path": "初中/英语/人教版-人民教育出版社/九年级/义务教育教科书·英语九年级全一册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/人教版-人民教育出版社/九年级/义务教育教科书·英语九年级全一册.pdf"
+            }
+          }
+        }
+      },
+      "外研社版": {
+        "provider": "外语教学与研究出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·英语七年级上册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/七年级/义务教育教科书·英语七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/七年级/义务教育教科书·英语七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·英语七年级下册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/七年级/义务教育教科书·英语七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/七年级/义务教育教科书·英语七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·英语八年级上册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/八年级/义务教育教科书·英语八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/八年级/义务教育教科书·英语八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·英语八年级下册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/八年级/义务教育教科书·英语八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/八年级/义务教育教科书·英语八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·英语九年级上册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/九年级/义务教育教科书·英语九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/九年级/义务教育教科书·英语九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·英语九年级下册",
+              "path": "初中/英语/外研社版-外语教学与研究出版社/九年级/义务教育教科书·英语九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/英语/外研社版-外语教学与研究出版社/九年级/义务教育教科书·英语九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "物理": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·物理八年级上册",
+              "path": "初中/物理/人教版-人民教育出版社/八年级/义务教育教科书·物理八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/人教版-人民教育出版社/八年级/义务教育教科书·物理八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·物理八年级下册",
+              "path": "初中/物理/人教版-人民教育出版社/八年级/义务教育教科书·物理八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/人教版-人民教育出版社/八年级/义务教育教科书·物理八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "全一册": {
+              "title": "义务教育教科书·物理九年级全一册",
+              "path": "初中/物理/人教版-人民教育出版社/九年级/义务教育教科书·物理九年级全一册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/人教版-人民教育出版社/九年级/义务教育教科书·物理九年级全一册.pdf"
+            }
+          }
+        }
+      },
+      "北师大版": {
+        "provider": "北京师范大学出版社",
+        "grades": {
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·物理八年级上册",
+              "path": "初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/八年级/义务教育教科书·物理八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/八年级/义务教育教科书·物理八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·物理八年级下册",
+              "path": "初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/八年级/义务教育教科书·物理八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/八年级/义务教育教科书·物理八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "全一册": {
+              "title": "义务教育教科书·物理九年级全一册",
+              "path": "初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/九年级/义务教育教科书·物理九年级全一册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/北师大版（主编：郭玉英）-北京师范大学出版社/九年级/义务教育教科书·物理九年级全一册.pdf"
+            }
+          }
+        }
+      },
+      "苏科版": {
+        "provider": "江苏凤凰科学技术出版社",
+        "grades": {
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·物理八年级上册",
+              "path": "初中/物理/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·物理八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·物理八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·物理八年级下册",
+              "path": "初中/物理/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·物理八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/苏科版-江苏凤凰科学技术出版社/八年级/义务教育教科书·物理八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·物理九年级上册",
+              "path": "初中/物理/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·物理九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·物理九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·物理九年级下册",
+              "path": "初中/物理/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·物理九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/物理/苏科版-江苏凤凰科学技术出版社/九年级/义务教育教科书·物理九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "化学": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·化学九年级上册",
+              "path": "初中/化学/人教版-人民教育出版社/九年级/义务教育教科书·化学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/化学/人教版-人民教育出版社/九年级/义务教育教科书·化学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·化学九年级下册",
+              "path": "初中/化学/人教版-人民教育出版社/九年级/义务教育教科书·化学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/化学/人教版-人民教育出版社/九年级/义务教育教科书·化学九年级下册.pdf"
+            }
+          }
+        }
+      },
+      "沪教版": {
+        "provider": "上海教育出版社",
+        "grades": {
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·化学九年级上册",
+              "path": "初中/化学/沪教版-上海教育出版社/九年级/义务教育教科书·化学九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/化学/沪教版-上海教育出版社/九年级/义务教育教科书·化学九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·化学九年级下册",
+              "path": "初中/化学/沪教版-上海教育出版社/九年级/义务教育教科书·化学九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/化学/沪教版-上海教育出版社/九年级/义务教育教科书·化学九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "生物学": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学七年级上册",
+              "path": "初中/生物学/人教版-人民教育出版社/七年级/义务教育教科书·生物学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/人教版-人民教育出版社/七年级/义务教育教科书·生物学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学七年级下册",
+              "path": "初中/生物学/人教版-人民教育出版社/七年级/义务教育教科书·生物学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/人教版-人民教育出版社/七年级/义务教育教科书·生物学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学八年级上册",
+              "path": "初中/生物学/人教版-人民教育出版社/八年级/义务教育教科书·生物学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/人教版-人民教育出版社/八年级/义务教育教科书·生物学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学八年级下册",
+              "path": "初中/生物学/人教版-人民教育出版社/八年级/义务教育教科书·生物学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/人教版-人民教育出版社/八年级/义务教育教科书·生物学八年级下册.pdf"
+            }
+          }
+        }
+      },
+      "北师大版": {
+        "provider": "北京师范大学出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学七年级上册",
+              "path": "初中/生物学/北师大版-北京师范大学出版社/七年级/义务教育教科书·生物学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/北师大版-北京师范大学出版社/七年级/义务教育教科书·生物学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学七年级下册",
+              "path": "初中/生物学/北师大版-北京师范大学出版社/七年级/义务教育教科书·生物学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/北师大版-北京师范大学出版社/七年级/义务教育教科书·生物学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学八年级上册",
+              "path": "初中/生物学/北师大版-北京师范大学出版社/八年级/义务教育教科书·生物学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/北师大版-北京师范大学出版社/八年级/义务教育教科书·生物学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学八年级下册",
+              "path": "初中/生物学/北师大版-北京师范大学出版社/八年级/义务教育教科书·生物学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/北师大版-北京师范大学出版社/八年级/义务教育教科书·生物学八年级下册.pdf"
+            }
+          }
+        }
+      },
+      "苏教版": {
+        "provider": "江苏凤凰教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学七年级上册",
+              "path": "初中/生物学/苏教版-江苏凤凰教育出版社/七年级/义务教育教科书·生物学七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/苏教版-江苏凤凰教育出版社/七年级/义务教育教科书·生物学七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学七年级下册",
+              "path": "初中/生物学/苏教版-江苏凤凰教育出版社/七年级/义务教育教科书·生物学七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/苏教版-江苏凤凰教育出版社/七年级/义务教育教科书·生物学七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·生物学八年级上册",
+              "path": "初中/生物学/苏教版-江苏凤凰教育出版社/八年级/义务教育教科书·生物学八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/苏教版-江苏凤凰教育出版社/八年级/义务教育教科书·生物学八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·生物学八年级下册",
+              "path": "初中/生物学/苏教版-江苏凤凰教育出版社/八年级/义务教育教科书·生物学八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/生物学/苏教版-江苏凤凰教育出版社/八年级/义务教育教科书·生物学八年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "历史": {
+      "统编版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·历史七年级上册",
+              "path": "初中/历史/统编版-人民教育出版社/七年级/义务教育教科书·历史七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/七年级/义务教育教科书·历史七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·历史七年级下册",
+              "path": "初中/历史/统编版-人民教育出版社/七年级/义务教育教科书·历史七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/七年级/义务教育教科书·历史七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·历史八年级上册",
+              "path": "初中/历史/统编版-人民教育出版社/八年级/义务教育教科书·历史八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/八年级/义务教育教科书·历史八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·历史八年级下册",
+              "path": "初中/历史/统编版-人民教育出版社/八年级/义务教育教科书·历史八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/八年级/义务教育教科书·历史八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·历史九年级上册",
+              "path": "初中/历史/统编版-人民教育出版社/九年级/义务教育教科书·历史九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/九年级/义务教育教科书·历史九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·历史九年级下册",
+              "path": "初中/历史/统编版-人民教育出版社/九年级/义务教育教科书·历史九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/历史/统编版-人民教育出版社/九年级/义务教育教科书·历史九年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "地理": {
+      "人教版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·地理七年级上册",
+              "path": "初中/地理/人教版-人民教育出版社/七年级/义务教育教科书·地理七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/人教版-人民教育出版社/七年级/义务教育教科书·地理七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·地理七年级下册",
+              "path": "初中/地理/人教版-人民教育出版社/七年级/义务教育教科书·地理七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/人教版-人民教育出版社/七年级/义务教育教科书·地理七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·地理八年级上册",
+              "path": "初中/地理/人教版-人民教育出版社/八年级/义务教育教科书·地理八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/人教版-人民教育出版社/八年级/义务教育教科书·地理八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·地理八年级下册",
+              "path": "初中/地理/人教版-人民教育出版社/八年级/义务教育教科书·地理八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/人教版-人民教育出版社/八年级/义务教育教科书·地理八年级下册.pdf"
+            }
+          }
+        }
+      },
+      "湘教版": {
+        "provider": "湖南教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·地理七年级上册",
+              "path": "初中/地理/湘教版-湖南教育出版社/七年级/义务教育教科书·地理七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/湘教版-湖南教育出版社/七年级/义务教育教科书·地理七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·地理七年级下册",
+              "path": "初中/地理/湘教版-湖南教育出版社/七年级/义务教育教科书·地理七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/湘教版-湖南教育出版社/七年级/义务教育教科书·地理七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·地理八年级上册",
+              "path": "初中/地理/湘教版-湖南教育出版社/八年级/义务教育教科书·地理八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/湘教版-湖南教育出版社/八年级/义务教育教科书·地理八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·地理八年级下册",
+              "path": "初中/地理/湘教版-湖南教育出版社/八年级/义务教育教科书·地理八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/地理/湘教版-湖南教育出版社/八年级/义务教育教科书·地理八年级下册.pdf"
+            }
+          }
+        }
+      }
+    },
+    "道德与法治": {
+      "统编版": {
+        "provider": "人民教育出版社",
+        "grades": {
+          "七年级": {
+            "上册": {
+              "title": "义务教育教科书·道德与法治七年级上册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/七年级/义务教育教科书·道德与法治七年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/七年级/义务教育教科书·道德与法治七年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·道德与法治七年级下册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/七年级/义务教育教科书·道德与法治七年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/七年级/义务教育教科书·道德与法治七年级下册.pdf"
+            }
+          },
+          "八年级": {
+            "上册": {
+              "title": "义务教育教科书·道德与法治八年级上册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/八年级/义务教育教科书·道德与法治八年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/八年级/义务教育教科书·道德与法治八年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·道德与法治八年级下册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/八年级/义务教育教科书·道德与法治八年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/八年级/义务教育教科书·道德与法治八年级下册.pdf"
+            }
+          },
+          "九年级": {
+            "上册": {
+              "title": "义务教育教科书·道德与法治九年级上册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/九年级/义务教育教科书·道德与法治九年级上册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/九年级/义务教育教科书·道德与法治九年级上册.pdf"
+            },
+            "下册": {
+              "title": "义务教育教科书·道德与法治九年级下册",
+              "path": "初中/道德与法治/统编版-人民教育出版社/九年级/义务教育教科书·道德与法治九年级下册.pdf",
+              "github_url": "https://github.com/TapXWorld/ChinaTextbook/blob/master/初中/道德与法治/统编版-人民教育出版社/九年级/义务教育教科书·道德与法治九年级下册.pdf"
+            }
+          }
+        }
+      }
+    }
+  }
+}
