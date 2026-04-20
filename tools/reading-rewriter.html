@@ -209,6 +209,29 @@
         <div class="control-panel">
             <div class="control-grid">
                 <div class="form-field">
+                    <label>学段 *</label>
+                    <select id="school-stage">
+                        <option value="">请选择</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>年级 *</label>
+                    <select id="grade">
+                        <option value="">请先选择学段</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>教材版本 *</label>
+                    <select id="textbook-version">
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-grid">
+                <div class="form-field">
                     <label>原文类型 *</label>
                     <select id="source-type">
                         <option value="classical">文言文</option>
@@ -275,9 +298,21 @@
     <script src="../src/learning-store.js"></script>
     <script>
         let readingListData = null;
+        let textbookIndex = null;
+        var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
+
+        async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
+
+        function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateVersionOptions(); }
+
+        async function updateVersionOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !g) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s] || !textbookIndex[s]['语文']) return; var subData = textbookIndex[s]['语文']; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
 
         // 页面加载时获取书目数据集
         window.addEventListener('DOMContentLoaded', () => {
+            loadTextbookIndex();
+            document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
+            document.getElementById('grade').addEventListener('change', updateVersionOptions);
+            updateGradeOptions();
             fetch('../src/curriculum/reading-list.json')
                 .then(res => res.json())
                 .then(data => {
