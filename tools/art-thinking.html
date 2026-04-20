@@ -217,6 +217,26 @@
     <div class="art-container">
         <div class="setup-card" id="setup-section">
             <h2>描述或上传你要欣赏的作品</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div class="form-field" style="margin-bottom:0;">
+                    <label>学段参考</label>
+                    <select id="school-stage" style="padding:12px 16px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
+                        <option value="">不限</option>
+                        <option value="小学">小学</option>
+                        <option value="初中" selected>初中</option>
+                        <option value="高中">高中</option>
+                    </select>
+                </div>
+                <div class="form-field" style="margin-bottom:0;">
+                    <label>年级参考</label>
+                    <select id="grade" style="padding:12px 16px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
+                        <option value="">不限</option>
+                        <option value="七年级" selected>七年级</option>
+                        <option value="八年级">八年级</option>
+                        <option value="九年级">九年级</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-field">
                 <label>作品描述或图片URL *</label>
                 <textarea id="artwork-input" placeholder="描述作品内容,或粘贴图片URL链接...&#10;例如：梵高的《星空》&#10;或：https://example.com/image.jpg"></textarea>
