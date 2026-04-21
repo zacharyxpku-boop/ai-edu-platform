@@ -169,12 +169,31 @@
             body: JSON.stringify(body)
         };
 
+        // 把上游错误 payload 翻译成人话
+        function friendlyErr(status, raw) {
+            var code = '';
+            try { var j = JSON.parse(raw); code = j.error || ''; } catch (e) {}
+            if (useProxy && status === 500 && code === 'not_configured') {
+                return '平台免费额度暂时不可用（服务端尚未配置 Key）。你可以去「API 设置」填入自己的 Key 继续使用，BYOK 无每日限制。';
+            }
+            if (useProxy && status === 429 && code === 'rate_limited') {
+                return '今日平台免费额度已满，明天再试或去「API 设置」填入自己的 Key（无限额）。';
+            }
+            if (status === 401 || status === 403) {
+                return 'API Key 无效或权限不足。请去「API 设置」检查你的 Key。';
+            }
+            if (status === 429) {
+                return '调用过于频繁，稍等 30 秒再试。';
+            }
+            return 'AI 服务暂时异常（' + status + '）' + (raw ? '：' + raw.substring(0, 120) : '');
+        }
+
         if (options.onChunk) {
             // Streaming mode
             fetch(targetUrl, fetchOptions).then(function (response) {
                 if (!response.ok) {
                     return response.text().then(function (text) {
-                        throw new Error('API错误 (' + response.status + '): ' + text.substring(0, 200));
+                        throw new Error(friendlyErr(response.status, text));
                     });
                 }
                 incrementUsage();
@@ -217,7 +236,7 @@
             fetch(targetUrl, fetchOptions).then(function (response) {
                 if (!response.ok) {
                     return response.text().then(function (text) {
-                        throw new Error('API错误 (' + response.status + '): ' + text.substring(0, 200));
+                        throw new Error(friendlyErr(response.status, text));
                     });
                 }
                 return response.json();
