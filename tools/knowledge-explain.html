@@ -363,6 +363,8 @@
                 systemPrompt += `\n\n以下是该知识点所在的知识体系：\n${JSON.stringify(curriculumData.knowledge_tree, null, 2)}\n\n请在此范围内讲解，不超纲。`;
             }
 
+            systemPrompt += `
+
 你的任务：
 1. 不要直接给答案，先问学生"你已经尝试过哪些方法？"或"你对这个问题有什么想法？"
 2. 根据学生的回答（如果有），找到他们的思路中哪里对了，哪里有误区
