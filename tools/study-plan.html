@@ -279,6 +279,10 @@
         </div>
 
         <div class="result-section" id="result-section">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                <button class="btn-primary" onclick="sharePlan()" style="padding:10px 18px;font-size:13px">分享给朋友</button>
+                <button class="btn-primary" onclick="location.reload()" style="padding:10px 18px;font-size:13px;background:transparent;color:#18181B;border:1px solid #E4E4E7">重新生成</button>
+            </div>
             <!-- 进度卡片 -->
             <div class="progress-header">
                 <h2>学习进度</h2>
@@ -323,6 +327,7 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script src="../src/app.js"></script>
     <script>
     var planData = null;
@@ -514,6 +519,28 @@
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(taskStates));
         } catch (e) { /* */ }
+    }
+
+    function sharePlan() {
+        if (!planData) { alert('先生成学习计划再分享'); return; }
+        var stage = (document.getElementById('school-stage')||{}).value || '';
+        var grade = (document.getElementById('grade')||{}).value || '';
+        var subject = (document.getElementById('subject')||{}).value || '';
+        var duration = (document.getElementById('duration')||{}).value || '';
+        var totalTasks = 0;
+        (planData.days||[]).forEach(function(d){ totalTasks += (d.tasks||[]).length; });
+
+        YdzxShare.open({
+            source: 'study-plan',
+            title: '用原点AI给娃排好了这周学习计划',
+            subtitle: [stage+grade, subject, duration+'周'].filter(Boolean).join(' · '),
+            metrics: [
+                { label:'天数', value: String((planData.days||[]).length) },
+                { label:'任务', value: String(totalTasks) },
+                { label:'目标', value: (planData.goal||'').substring(0,4)||'达标' }
+            ],
+            quote: '不用自己猜每天学什么，AI 按教材章节自动排'
+        });
     }
 
     function loadTaskStates() {

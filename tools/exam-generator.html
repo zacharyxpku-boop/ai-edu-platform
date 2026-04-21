@@ -287,6 +287,7 @@
             <div class="action-buttons">
                 <button class="btn-primary" onclick="window.print()">打印试卷</button>
                 <button class="btn-secondary" onclick="toggleAnswerPage()">显示/隐藏答案页</button>
+                <button class="btn-secondary" onclick="shareExam()">分享给朋友</button>
                 <button class="btn-secondary" onclick="location.reload()">重新生成</button>
             </div>
 
@@ -314,6 +315,7 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="../src/app.js"></script>
     <script>
@@ -627,6 +629,34 @@
 
     function toggleAnswerPage() {
         document.getElementById('answer-page').classList.toggle('visible');
+    }
+
+    function shareExam() {
+        var stage = document.getElementById('school-stage').value || '';
+        var grade = document.getElementById('grade').value || '';
+        var subject = document.getElementById('subject').value || '';
+        var difficulty = document.getElementById('difficulty').value || '';
+        var chapter = (document.getElementById('chapter')||{}).value || '';
+        var c = parseInt(document.getElementById('choice-count').value||'0',10);
+        var b = parseInt(document.getElementById('blank-count').value||'0',10);
+        var k = parseInt(document.getElementById('calc-count').value||'0',10);
+        var total = c + b + k;
+
+        var subtitle = [stage+grade, subject, difficulty].filter(Boolean).join(' · ');
+        if (chapter) subtitle += ' · ' + chapter;
+
+        YdzxShare.open({
+            source: 'exam-generator',
+            title: '今天用原点AI给娃出了一份卷子',
+            subtitle: subtitle,
+            metrics: [
+                { label:'总题量', value: String(total) },
+                { label:'选择', value: String(c) },
+                { label:'填空', value: String(b) },
+                { label:'计算', value: String(k) }
+            ],
+            quote: '选题贴合教材章节，省下一小时备课'
+        });
     }
     </script>
     <script src="../src/tools-nav.js"></script>

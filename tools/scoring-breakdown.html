@@ -252,6 +252,10 @@
         </div>
 
         <div class="result-section" id="result-section">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+                <button class="btn-primary" onclick="shareScore()" style="padding:10px 18px;font-size:13px">分享给朋友</button>
+                <button class="btn-primary" onclick="location.reload()" style="padding:10px 18px;font-size:13px;background:transparent;color:#18181B;border:1px solid #E4E4E7">再拆一道</button>
+            </div>
             <div class="scoring-points">
                 <h2>采分点拆解</h2>
                 <div id="points-list"></div>
@@ -267,8 +271,31 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script>
         var textbookIndex = null;
+        window._sbLast = null;
+        function shareScore() {
+            if (!window._sbLast) { alert('先拆解一道大题再分享'); return; }
+            var stage = (document.getElementById('school-stage')||{}).value || '';
+            var grade = (document.getElementById('grade')||{}).value || '';
+            var sel = document.getElementById('subject');
+            var subject = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+            var pts = (window._sbLast.points||[]).length;
+            var totalScore = (window._sbLast.points||[]).reduce(function(a,p){return a+(parseInt(p.score)||0);},0);
+            var steps = (window._sbLast.template||[]).length;
+            YdzxShare.open({
+                source: 'scoring-breakdown',
+                title: '原点AI 拆解大题，不再糊涂丢分',
+                subtitle: [stage+grade, subject].filter(Boolean).join(' · '),
+                metrics: [
+                    { label:'采分点', value: String(pts) },
+                    { label:'总分', value: String(totalScore) },
+                    { label:'步骤', value: String(steps) }
+                ],
+                quote: '每一步踩哪个点、得几分，一目了然'
+            });
+        }
         var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
         var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治', '思想政治': '思想政治', '道德与法治': '道德与法治', '科学': '科学', '美术': '美术', '音乐': '音乐'};
         var subjectValueMap = {'数学': 'math', '物理': 'physics', '化学': 'chemistry', '生物': 'biology', '政治': 'politics', '历史': 'history', '地理': 'geography'};
@@ -381,6 +408,7 @@
         }
 
         function renderBreakdown(data) {
+            window._sbLast = data;
             // 渲染采分点
             const pointsHtml = data.points.map(point => `
                 <div class="point-item">
