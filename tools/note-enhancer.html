@@ -334,8 +334,14 @@
                 console.error('Failed to load curriculum:', err);
             }
 
+            // 教材版本
+            const _ne_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _ne_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _ne_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _ne_tag = _ne_ver ? `${_ne_stage}${_ne_grade}（${_ne_ver}）` : `${_ne_stage}${_ne_grade}`;
+
             // Build system prompt with knowledge tree
-            let systemPrompt = `你是笔记增强专家,正在帮学生补全课堂笔记。`;
+            let systemPrompt = `你是${_ne_tag ? _ne_tag + ' ' : ''}笔记增强专家,正在帮学生补全课堂笔记。所有补充内容须对齐该版本教材的术语和知识边界。`;
 
             if (curriculumData && curriculumData.knowledge_tree) {
                 // Extract knowledge point list

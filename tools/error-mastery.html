@@ -583,7 +583,11 @@
             '\n\n' + sampleQuestions + '\n变式题请参考以上格式。' :
             '';
 
-        var systemPrompt = '你是一个专业的错题分析专家。对于学生的错题，你需要：' +
+        var _em_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+        var _em_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+        var _em_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+        var _em_tag = _em_ver ? _em_stage + _em_grade + '（' + _em_ver + '）' : _em_stage + _em_grade;
+        var systemPrompt = '你是针对' + (_em_tag || '该年级') + '学生的错题分析专家。分析需贴合该版本教材的章节与用语。对于学生的错题，你需要：' +
             versionSection + knowledgeSection + sampleSection + '\n\n' +
             '1. 五重错因分析：从以下5个维度判断错误原因\n' +
             '   - 知识盲区：缺少必要的知识点或概念\n' +

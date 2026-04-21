@@ -314,8 +314,14 @@
                 examStandards = null;
             }
 
+            // 教材版本
+            const _sb_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _sb_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _sb_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _sb_tag = _sb_ver ? `${_sb_stage}${_sb_grade}（${_sb_ver}）` : `${_sb_stage}${_sb_grade}`;
+
             // Build system prompt with subject-specific scoring rules
-            let systemPrompt = `你是${subjectNames[subject]}阅卷专家,正在拆解大题的采分点。`;
+            let systemPrompt = `你是${_sb_tag ? _sb_tag + ' ' : ''}${subjectNames[subject]}阅卷专家,按该年级中考/期末评分规则拆解大题的采分点。`;
 
             if (examStandards) {
                 if (subject === 'math' && examStandards.math_scoring) {

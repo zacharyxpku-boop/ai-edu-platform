@@ -386,7 +386,11 @@
                 strict: '完全保留原文所有信息和细节,只改变表达方式'
             };
 
-            const systemPrompt = `你是阅读理解专家,正在将${typeNames[sourceType]}改写成${levelNames[targetLevel]}水平的学生能读懂的版本。
+            const _rr_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _rr_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _rr_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _rr_tag = _rr_ver ? `${_rr_stage}${_rr_grade}（${_rr_ver}）` : `${_rr_stage}${_rr_grade}`;
+            const systemPrompt = `你是${_rr_tag ? _rr_tag + ' ' : ''}语文阅读理解专家,正在将${typeNames[sourceType]}改写成${levelNames[targetLevel]}水平的学生能读懂的版本。改写用词须对齐该版本教材字词表。
 
 要求：
 1. ${preserveInstructions[preserveLevel]}

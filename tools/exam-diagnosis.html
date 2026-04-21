@@ -779,7 +779,11 @@
                 '一等(45-50分)：立意深刻，内容充实，材料新颖，结构完整，语言流畅生动。';
         }
 
-        var systemPrompt = '你是一个专业的学习诊断专家。基于学生的考试成绩和错题，你需要从13个维度进行精准诊断，并给出提分建议。' +
+        var _ed_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+        var _ed_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+        var _ed_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+        var _ed_tag = _ed_ver ? _ed_stage + _ed_grade + '（' + _ed_ver + '）' : _ed_stage + _ed_grade;
+        var systemPrompt = '你是针对' + (_ed_tag || '该年级') + '学生的专业学习诊断专家。所有建议需贴合该版本教材知识点与考点。基于学生的考试成绩和错题，你需要从13个维度进行精准诊断，并给出提分建议。' +
             versionSection + curriculumSection + standardsSection + '\n\n' +
             '13个诊断维度：\n' +
             '1. 知识点掌握度 - 对该科目核心知识点的理解程度\n' +

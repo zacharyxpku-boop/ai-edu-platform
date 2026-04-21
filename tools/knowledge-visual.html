@@ -463,7 +463,11 @@
             loading.classList.add('visible');
             canvas.innerHTML = '';
 
-            const systemPrompt = `你是一位数据可视化专家。用户想要理解"${currentTopic}"（${getSubjectName(currentSubject)}）。
+            const _kv_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _kv_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _kv_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _kv_tag = _kv_ver ? `${_kv_stage}${_kv_grade}（${_kv_ver}）` : `${_kv_stage}${_kv_grade}`;
+            const systemPrompt = `你是一位面向${_kv_tag || '该年级'}学生的数据可视化专家。用户想要理解"${currentTopic}"（${getSubjectName(currentSubject)}）。图示内容必须对齐该版本教材的表述。
 
 请生成Mermaid图表代码，类型：${getVisualTypeName(currentVisualType)}
 

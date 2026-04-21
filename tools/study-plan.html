@@ -380,7 +380,11 @@
             }
         }
 
-        var systemPrompt = '你是一个专业的学习规划师。根据学生的年级、薄弱科目、学习目标和每日可用时间，生成' + days + '天的详细学习计划。';
+        var _sp_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+        var _sp_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+        var _sp_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+        var _sp_tag = _sp_ver ? _sp_stage + _sp_grade + '（' + _sp_ver + '）' : _sp_stage + _sp_grade;
+        var systemPrompt = '你是针对' + (_sp_tag || '该年级') + '学生的专业学习规划师。所有知识点必须对齐该版本教材当前章节与中高考考纲。根据学生的年级、薄弱科目、学习目标和每日可用时间，生成' + days + '天的详细学习计划。';
 
         if (curriculumInfo) {
             systemPrompt += curriculumInfo + '\n\n请优先安排必考和常考知识点。';

@@ -405,7 +405,11 @@
             '\n\n' + sampleQuestions + '\n' :
             '';
 
-        var systemPrompt = '你是一个专业的出题专家。根据学生的年级、科目和指定知识点，生成' + quantity + '道练习题。' +
+        var _ep_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+        var _ep_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+        var _ep_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+        var _ep_tag = _ep_ver ? _ep_stage + _ep_grade + '（' + _ep_ver + '）' : _ep_stage + _ep_grade;
+        var systemPrompt = '你是' + (_ep_tag || '该年级') + '的变式出题专家，严格对齐该版本教材。根据学生的年级、科目和指定知识点，生成' + quantity + '道练习题。' +
             versionSection + sampleSection + '\n' +
             '要求：\n' +
             '1. 题目难度分布：简单30%、中等50%、困难20%\n' +
