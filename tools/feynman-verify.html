@@ -556,7 +556,8 @@
                             let tier = 'bronze', xp = 30, bid = 'feynman_bronze';
                             if (/金级|gold|金嗓子/i.test(cleanResponse)) { tier = 'gold'; xp = 100; bid = 'feynman_gold'; }
                             else if (/银级|silver|银讲师/i.test(cleanResponse)) { tier = 'silver'; xp = 60; bid = 'feynman_silver'; }
-                            window.GAME.addXP(xp, '费曼验证 · ' + tier + ' · ' + currentTopic);
+                            var _fv_subjZh = ({ math:'数学', physics:'物理', chemistry:'化学', biology:'生物', history:'历史', geography:'地理', politics:'政治' })[currentSubject] || '';
+                            window.GAME.addXP(xp, '费曼验证 · ' + (_fv_subjZh ? _fv_subjZh + ' · ' : '') + tier + ' · ' + currentTopic);
                             window.GAME.unlockBadge(bid);
                             if (window.YdzxHUD) window.YdzxHUD.refresh();
                         }

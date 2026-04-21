@@ -308,8 +308,27 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
         rebuildGradePills();
         renderBooks();
         // 深链 ?book=<path>&ch=<N> —— 从 arcade 反链跳进来直接打开对应章
+        // 深链 ?stage=初中&subject=数学 —— 从 progress 学科矩阵跳进来直接预筛
         try {
             var qs = new URLSearchParams(location.search);
+            var stageQ = qs.get('stage');
+            var subjQ  = qs.get('subject');
+            if (stageQ || subjQ) {
+                if (stageQ) {
+                    FILTER.stage = stageQ;
+                    document.querySelectorAll('#stage-pills .pill-btn').forEach(function(x){
+                        x.classList.toggle('on', (x.dataset.stage || '') === stageQ);
+                    });
+                    rebuildGradePills();
+                }
+                if (subjQ) {
+                    FILTER.subj = subjQ;
+                    document.querySelectorAll('#subj-pills .pill-btn').forEach(function(x){
+                        x.classList.toggle('on', (x.dataset.subj || '') === subjQ);
+                    });
+                }
+                renderBooks();
+            }
             var bp = qs.get('book');
             var chq = parseInt(qs.get('ch') || '0', 10);
             if (bp && chq) {

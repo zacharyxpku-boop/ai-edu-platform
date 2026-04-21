@@ -138,6 +138,48 @@
     .reset-row{margin-top:24px;text-align:center}
     .reset-btn{background:none;border:none;color:var(--ink4);font-size:11px;cursor:pointer;font-family:var(--font);text-decoration:underline}
     .reset-btn:hover{color:var(--red)}
+
+    /* 学科进度矩阵 */
+    .subj-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px}
+    .subj-sub-h{font-size:13px;font-weight:700;color:var(--ink2);margin:4px 0 12px;letter-spacing:.2px}
+    .subj-sub-h .muted{color:var(--ink4);font-weight:500;margin-left:6px;font-size:11px}
+    .subj-grid{display:grid;grid-template-columns:80px repeat(3,1fr);gap:8px}
+    .subj-head{font-size:12px;color:var(--ink3);font-weight:700;padding:8px 4px;text-align:center}
+    .subj-head.row{text-align:left;padding:12px 10px;display:flex;align-items:center}
+    .subj-cell{background:var(--bg);border:1px solid var(--bdr);border-radius:10px;padding:12px 14px;min-height:82px;display:flex;flex-direction:column;justify-content:space-between}
+    .subj-cell.empty{opacity:.55}
+    .subj-cell .sc-top{display:flex;align-items:baseline;gap:6px}
+    .subj-cell .sc-n{font-size:22px;font-weight:900;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
+    .subj-cell .sc-d{font-size:11px;color:var(--ink3);font-weight:500}
+    .subj-cell .sc-bar{height:5px;background:#F4F4F5;border-radius:999px;overflow:hidden;margin-top:8px}
+    .subj-cell .sc-fill{height:100%;background:linear-gradient(90deg,#F5A623,#D97706);border-radius:999px;transition:width .5s ease}
+    .subj-cell.math .sc-fill{background:linear-gradient(90deg,#2563EB,#1D4ED8)}
+    .subj-cell.physics .sc-fill{background:linear-gradient(90deg,#7C3AED,#6D28D9)}
+    .subj-cell.chemistry .sc-fill{background:linear-gradient(90deg,#059669,#047857)}
+    .subj-cell .sc-cta{font-size:11px;color:var(--ink4);margin-top:6px}
+    .subj-cell.has .sc-cta a{color:var(--amber);text-decoration:none;font-weight:600}
+    .subj-cell.has .sc-cta a:hover{text-decoration:underline}
+
+    .subj-act{margin-top:16px;background:var(--bg);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
+    .subj-act-row{display:grid;grid-template-columns:90px repeat(3,1fr);align-items:center;border-top:1px solid var(--bdr);padding:12px 14px;gap:8px}
+    .subj-act-row:first-child{border-top:none;background:#FAFAF9;font-size:11px;color:var(--ink3);font-weight:700}
+    .subj-act-row .ar-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+    .subj-act-row .ar-n{font-size:16px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums}
+    .subj-act-row .ar-n.zero{color:var(--ink4);font-weight:500}
+    .subj-act-row .ar-t{font-size:11px;color:var(--ink3);margin-left:4px;font-weight:500}
+    .subj-chip{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:5px}
+    .subj-chip.math{background:#2563EB}
+    .subj-chip.physics{background:#7C3AED}
+    .subj-chip.chemistry{background:#059669}
+
+    @media(max-width:640px){
+        .subj-grid{grid-template-columns:60px repeat(3,1fr);gap:6px}
+        .subj-head{font-size:11px;padding:6px 2px}
+        .subj-cell{padding:10px 10px;min-height:74px}
+        .subj-cell .sc-n{font-size:18px}
+        .subj-act-row{grid-template-columns:70px repeat(3,1fr);padding:10px;gap:6px}
+        .subj-act-row .ar-n{font-size:14px}
+    }
     </style>
 </head>
 <body>
@@ -222,6 +264,20 @@
     </div>
     <div class="chart-wrap chart-pad">
         <div class="chart" id="chart"></div>
+    </div>
+</section>
+
+<!-- 学科进度矩阵 -->
+<section class="sec" id="subj-sec">
+    <div class="sec-h">
+        <div class="sec-t">学科进度</div>
+        <div class="sec-sub">读 → 练 → 悟 · 按学段拆开看</div>
+    </div>
+    <div class="subj-wrap">
+        <div class="subj-sub-h">📖 教材阅读<span class="muted">数据来源 · 教材原文工具</span></div>
+        <div class="subj-grid" id="subj-read-grid"></div>
+        <div class="subj-sub-h" style="margin-top:20px">🧠 答题 · 攻克 · 讲清<span class="muted">数据来源 · 题库速练 / 错题举一反三 / 费曼验证</span></div>
+        <div class="subj-act" id="subj-act-wrap"></div>
     </div>
 </section>
 
@@ -660,10 +716,134 @@ function renderFsrs() {
     }
 }
 
+// ===== 学科进度矩阵 =====
+var SUBJ_KEYS = ['math', 'physics', 'chemistry'];
+var SUBJ_ZH = { math: '数学', physics: '物理', chemistry: '化学' };
+
+function parseSubjActivity() {
+    // 从 gamification log 的 reason 字段提取 题库/错题/费曼 per 学科
+    var log = [];
+    try { log = GAME.getLog() || []; } catch(e){}
+    var acc = { math: {arcade:0, error:0, feynman:0}, physics: {arcade:0, error:0, feynman:0}, chemistry: {arcade:0, error:0, feynman:0} };
+    log.forEach(function(e){
+        if (e.type !== 'xp' || !e.reason) return;
+        var r = e.reason;
+        var subj = null;
+        // reason 里学科串是中文
+        if (r.indexOf('数学') >= 0) subj = 'math';
+        else if (r.indexOf('物理') >= 0) subj = 'physics';
+        else if (r.indexOf('化学') >= 0) subj = 'chemistry';
+        if (!subj) return;
+        if (r.indexOf('题库速练') >= 0) acc[subj].arcade++;
+        else if (r.indexOf('错题分析') >= 0 || r.indexOf('错题攻克') >= 0) acc[subj].error++;
+        else if (r.indexOf('费曼验证') >= 0) acc[subj].feynman++;
+    });
+    return acc;
+}
+
+function parseTextbookRead(manifest) {
+    var read = new Set();
+    try { read = new Set(JSON.parse(localStorage.getItem('ydzx_textbook_read') || '[]')); } catch(e){}
+    // { 初中: { math: {done, total}, ... }, 高中: { ... } }
+    var out = { '初中': { math:{done:0,total:0,books:0}, physics:{done:0,total:0,books:0}, chemistry:{done:0,total:0,books:0} },
+                '高中': { math:{done:0,total:0,books:0}, physics:{done:0,total:0,books:0}, chemistry:{done:0,total:0,books:0} } };
+    var subjMap = { '数学': 'math', '物理': 'physics', '化学': 'chemistry' };
+    (manifest.books || []).forEach(function(b){
+        var stg = b.stage;
+        var subj = subjMap[b.subject];
+        if (!out[stg] || !subj) return;
+        out[stg][subj].books++;
+        (b.chapters || []).forEach(function(c){
+            out[stg][subj].total++;
+            if (read.has(b.path + '::ch' + c.ch)) out[stg][subj].done++;
+        });
+    });
+    return out;
+}
+
+function renderReadGrid(matrix, manifest) {
+    var grid = document.getElementById('subj-read-grid');
+    if (!grid) return;
+    var h = '';
+    h += '<div class="subj-head"></div>';
+    h += '<div class="subj-head"><span class="subj-chip math"></span>数学</div>';
+    h += '<div class="subj-head"><span class="subj-chip physics"></span>物理</div>';
+    h += '<div class="subj-head"><span class="subj-chip chemistry"></span>化学</div>';
+    ['初中','高中'].forEach(function(stg){
+        h += '<div class="subj-head row">' + stg + '</div>';
+        SUBJ_KEYS.forEach(function(sk){
+            var d = matrix[stg][sk];
+            if (!d.total) {
+                h += '<div class="subj-cell empty ' + sk + '">'
+                    + '<div class="sc-top"><span class="sc-n" style="color:var(--ink4)">—</span></div>'
+                    + '<div class="sc-cta">教材缺货</div>'
+                    + '</div>';
+                return;
+            }
+            var pct = Math.round(d.done / d.total * 100);
+            var hasRead = d.done > 0;
+            var hint = hasRead ? (d.done + ' / ' + d.total + ' 章') : ('共 ' + d.total + ' 章 · ' + d.books + ' 本');
+            var cta = hasRead
+                ? '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH[sk]) + '">继续读 →</a>'
+                : '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH[sk]) + '">开始 →</a>';
+            h += '<div class="subj-cell ' + sk + (hasRead ? ' has' : '') + '">'
+                + '<div>'
+                  + '<div class="sc-top"><span class="sc-n">' + pct + '<span style="font-size:13px;font-weight:700;color:var(--ink3)">%</span></span></div>'
+                  + '<div class="sc-d">' + hint + '</div>'
+                + '</div>'
+                + '<div>'
+                  + '<div class="sc-bar"><div class="sc-fill" style="width:' + pct + '%"></div></div>'
+                  + '<div class="sc-cta">' + cta + '</div>'
+                + '</div>'
+                + '</div>';
+        });
+    });
+    grid.innerHTML = h;
+}
+
+function renderActivityTable(act) {
+    var wrap = document.getElementById('subj-act-wrap');
+    if (!wrap) return;
+    var h = '';
+    h += '<div class="subj-act-row">'
+       + '<div>学科</div>'
+       + '<div>题库速练</div>'
+       + '<div>错题攻克</div>'
+       + '<div>费曼讲清</div>'
+       + '</div>';
+    SUBJ_KEYS.forEach(function(sk){
+        var d = act[sk];
+        var cell = function(n, unit){
+            return '<div><span class="ar-n ' + (n===0?'zero':'') + '">' + n + '</span><span class="ar-t">' + unit + '</span></div>';
+        };
+        h += '<div class="subj-act-row">'
+           + '<div class="ar-name"><span class="subj-chip ' + sk + '"></span>' + SUBJ_ZH[sk] + '</div>'
+           + cell(d.arcade, ' 次')
+           + cell(d.error, ' 题')
+           + cell(d.feynman, ' 轮')
+           + '</div>';
+    });
+    wrap.innerHTML = h;
+}
+
+function renderSubjects() {
+    var act = parseSubjActivity();
+    renderActivityTable(act);
+    // manifest 需异步拉
+    fetch('/data/extracted/manifest.json', { cache: 'force-cache' })
+        .then(function(r){ return r.ok ? r.json() : { books: [] }; })
+        .catch(function(){ return { books: [] }; })
+        .then(function(m){
+            var mx = parseTextbookRead(m);
+            renderReadGrid(mx, m);
+        });
+}
+
 // init
 GAME.pingToday('progress');
 render();
 renderFsrs();
+renderSubjects();
 </script>
 
 </body>
