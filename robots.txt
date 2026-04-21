@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /settings.html
 Disallow: /src/api-manager.js
+Disallow: /leads.html
+Disallow: /leads
 
 Sitemap: https://www.yuandianzhixue.com/sitemap.xml
