@@ -69,6 +69,22 @@
     .sec-t{font-size:20px;font-weight:900;letter-spacing:-.3px}
     .sec-sub{font-size:12px;color:var(--ink3);font-weight:500}
 
+    /* SMART NEXT */
+    .smart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media(max-width:780px){.smart-grid{grid-template-columns:1fr}}
+    .smart-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-height:128px}
+    .smart-card.read{border-left:4px solid #4B7F9F}
+    .smart-card.practice{border-left:4px solid #D97706}
+    .smart-card.write{border-left:4px solid #6B9E6E}
+    .smart-card.fsrs{border-left:4px solid #9F7FBF}
+    .smart-head{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3);font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+    .smart-head .emo{font-size:16px}
+    .smart-title{font-size:15px;font-weight:800;color:var(--ink);line-height:1.45}
+    .smart-reason{font-size:12px;color:var(--ink3);line-height:1.5;flex:1}
+    .smart-cta{align-self:flex-start;padding:7px 14px;background:var(--ink);color:#fff;text-decoration:none;border-radius:6px;font-size:12px;font-weight:700;transition:all .2s}
+    .smart-cta:hover{background:#000}
+    .smart-empty{padding:28px;text-align:center;color:var(--ink4);font-size:13px;background:var(--card);border:1px dashed var(--bdr);border-radius:var(--r)}
+
     /* QUESTS */
     .quests{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     @media(max-width:700px){.quests{grid-template-columns:1fr}}
@@ -219,6 +235,15 @@
         <div class="streak-hint">连续使用原点</div>
         <div class="streak-best">历史最佳 · <b id="streak-best">0</b> 天 · 累计 XP <b id="xp-total">0</b></div>
     </div>
+</section>
+
+<!-- SMART NEXT STEPS -->
+<section class="sec" id="smart-sec">
+    <div class="sec-h">
+        <div class="sec-t">为你准备的 3 件事</div>
+        <div class="sec-sub">根据你的进度和最弱项推出</div>
+    </div>
+    <div class="smart-grid" id="smart-grid"></div>
 </section>
 
 <!-- DAILY QUESTS -->
@@ -839,11 +864,137 @@ function renderSubjects() {
         });
 }
 
+// ============== SMART NEXT STEPS ==============
+// 基于用户现状推 3 件最值得做的事：读弱科 / 练冷科 / 补弱维
+function renderSmartNext() {
+    var grid = document.getElementById('smart-grid');
+    if (!grid) return;
+    var cards = [];
+
+    // 1. FSRS 到期（最紧迫）
+    try {
+        if (window.LearningStore && window.LearningStore.getFlashcardStats) {
+            var fs = window.LearningStore.getFlashcardStats();
+            if (fs && fs.due > 0) {
+                cards.push({
+                    cls: 'fsrs', emo: '🎯', tag: '复习',
+                    title: fs.due + ' 张闪卡等你',
+                    reason: '再不复习就忘掉了 · 5 分钟搞定',
+                    cta: '去复习', href: 'tools/note-enhancer.html'
+                });
+            }
+        }
+    } catch (e) {}
+
+    // 2. 弱科阅读 —— 从 subj matrix 拿最低完成率的学段×学科
+    fetch('/data/extracted/manifest.json', { cache: 'force-cache' })
+        .then(function(r){ return r.ok ? r.json() : { books: [] }; })
+        .catch(function(){ return { books: [] }; })
+        .then(function(m){
+            try {
+                var mx = parseTextbookRead(m);
+                var worst = null;
+                ['初中','高中'].forEach(function(st){
+                    ['math','physics','chemistry'].forEach(function(sj){
+                        var v = mx[st] && mx[st][sj];
+                        if (!v || v.total === 0) return;
+                        var pct = v.read / v.total;
+                        if (!worst || pct < worst.pct) worst = { stage: st, subj: sj, pct: pct, read: v.read, total: v.total };
+                    });
+                });
+                if (worst && worst.pct < 0.5) {
+                    var zhSubj = ({math:'数学',physics:'物理',chemistry:'化学'})[worst.subj];
+                    cards.push({
+                        cls: 'read', emo: '📖', tag: '读',
+                        title: worst.stage + zhSubj + '进度 ' + Math.round(worst.pct*100) + '%',
+                        reason: '只读了 ' + worst.read + '/' + worst.total + ' 章 · 去读下一章',
+                        cta: '去读', href: 'tools/textbook-browser.html?stage=' + encodeURIComponent(worst.stage) + '&subject=' + encodeURIComponent(zhSubj)
+                    });
+                }
+            } catch(e) {}
+
+            // 3. 冷科练习 —— 从 game log 看哪个学科最久没练
+            try {
+                var log = (window.GAME && window.GAME.getLog && window.GAME.getLog()) || [];
+                var lastByS = { math: 0, physics: 0, chemistry: 0 };
+                log.forEach(function(e){
+                    if (e.type !== 'xp' || !e.reason) return;
+                    var r = e.reason;
+                    if (r.indexOf('题库速练') < 0) return;
+                    var s = r.indexOf('数学') >= 0 ? 'math' : r.indexOf('物理') >= 0 ? 'physics' : r.indexOf('化学') >= 0 ? 'chemistry' : null;
+                    if (s && e.ts > lastByS[s]) lastByS[s] = e.ts;
+                });
+                var coldest = null;
+                ['math','physics','chemistry'].forEach(function(s){
+                    var daysAgo = lastByS[s] ? Math.floor((Date.now() - lastByS[s]) / 86400000) : 999;
+                    if (!coldest || daysAgo > coldest.days) coldest = { s: s, days: daysAgo };
+                });
+                if (coldest && coldest.days >= 3) {
+                    var zh = ({math:'数学',physics:'物理',chemistry:'化学'})[coldest.s];
+                    cards.push({
+                        cls: 'practice', emo: '🧠', tag: '练',
+                        title: zh + (coldest.days >= 999 ? ' 还没练过' : ' 冷了 ' + coldest.days + ' 天'),
+                        reason: '3 题速练 · 手感回来得快',
+                        cta: '去速练', href: 'tools/knowledge-arcade.html?subject=' + coldest.s
+                    });
+                }
+            } catch(e) {}
+
+            // 4. 作文弱维
+            try {
+                if (window.LearningStore && window.LearningStore.getEssayHistory) {
+                    var hist = window.LearningStore.getEssayHistory();
+                    if (hist.length >= 2) {
+                        var agg = {};
+                        hist.slice(0, 8).forEach(function(r){
+                            var s = r.scores || {};
+                            Object.keys(s).forEach(function(k){
+                                var v = Number(s[k]) || 0;
+                                if (!agg[k]) agg[k] = [0, 0];
+                                agg[k][0] += v; agg[k][1] += 1;
+                            });
+                        });
+                        var ks = Object.keys(agg);
+                        if (ks.length) {
+                            var rows = ks.map(function(k){ return { k: k, avg: agg[k][0] / agg[k][1] }; })
+                                         .sort(function(a,b){ return a.avg - b.avg; });
+                            var weakest = rows[0];
+                            cards.push({
+                                cls: 'write', emo: '✍', tag: '写',
+                                title: '作文「' + weakest.k + '」偏弱',
+                                reason: '近 ' + Math.min(hist.length, 8) + ' 篇平均 ' + weakest.avg.toFixed(1) + ' · 再写一篇重点攻',
+                                cta: '去批改', href: 'tools/essay-grading.html'
+                            });
+                        }
+                    }
+                }
+            } catch(e) {}
+
+            // 按优先级取前 3 张；不足 3 张补默认 fallback
+            if (cards.length === 0) {
+                cards.push({ cls: 'read', emo: '📖', tag: '读', title: '打开教材读第一章', reason: '从 哪本书都行 · 读 → 练 → 悟 的起点', cta: '去读', href: 'tools/textbook-browser.html' });
+                cards.push({ cls: 'practice', emo: '🧠', tag: '练', title: '3 题速练 热身', reason: '一分钟之内查漏', cta: '去速练', href: 'tools/knowledge-arcade.html' });
+                cards.push({ cls: 'write', emo: '✍', tag: '写', title: '写一篇作文看看 AI 怎么改', reason: '立意·结构·语言 五维评分', cta: '去批改', href: 'tools/essay-grading.html' });
+            }
+            cards = cards.slice(0, 3);
+
+            grid.innerHTML = cards.map(function(c){
+                return '<div class="smart-card ' + c.cls + '">'
+                    + '<div class="smart-head"><span class="emo">' + c.emo + '</span>' + c.tag + '</div>'
+                    + '<div class="smart-title">' + c.title + '</div>'
+                    + '<div class="smart-reason">' + c.reason + '</div>'
+                    + '<a class="smart-cta" href="' + c.href + '">' + c.cta + ' →</a>'
+                    + '</div>';
+            }).join('');
+        });
+}
+
 // init
 GAME.pingToday('progress');
 render();
 renderFsrs();
 renderSubjects();
+renderSmartNext();
 </script>
 
 </body>
