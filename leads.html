@@ -46,13 +46,15 @@ code{background:#F5F5F4;padding:1px 6px;border-radius:4px;font-size:12px}
     <div class="sub">localStorage <code>ydzx_leads</code> · 仅本浏览器可见 · 飞书 webhook 配好后线索会同时推送到群</div>
 
     <div class="warn">
-        <strong>注意</strong>: 这个页面只看你当前浏览器提交过的线索（诊断/恢复用）。真实用户线索需等飞书 webhook URL 替换 <code>YOUR_WEBHOOK_ID</code> 才会实时入群。
+        <strong>说明</strong>: 本机记录（localStorage 诊断用）。真实留资通过 <code>POST /api/lead</code> 入飞书群，需在 Vercel 设 <code>FEISHU_WEBHOOK_URL</code> 环境变量。
     </div>
 
     <div class="stats">
         <div class="stat"><div class="stat-label">总数</div><div class="stat-value" id="s-total">0</div></div>
-        <div class="stat"><div class="stat-label">会员预约</div><div class="stat-value cta" id="s-member">0</div></div>
-        <div class="stat"><div class="stat-label">官网留资</div><div class="stat-value amber" id="s-contact">0</div></div>
+        <div class="stat"><div class="stat-label">会员</div><div class="stat-value cta" id="s-member">0</div></div>
+        <div class="stat"><div class="stat-label">少年营</div><div class="stat-value amber" id="s-camp">0</div></div>
+        <div class="stat"><div class="stat-label">订阅</div><div class="stat-value" id="s-news">0</div></div>
+        <div class="stat"><div class="stat-label">上线通知</div><div class="stat-value" id="s-notify">0</div></div>
         <div class="stat"><div class="stat-label">今天</div><div class="stat-value" id="s-today">0</div></div>
     </div>
 
@@ -73,10 +75,15 @@ function read(){
     try { return JSON.parse(localStorage.getItem('ydzx_leads')||'[]'); } catch(e){ return []; }
 }
 function kindLabel(k){
-    return k==='membership'?'会员':(k?k:'留资');
+    var map = { membership:'会员', camp:'少年营', newsletter:'订阅', notify:'上线通知', contact:'咨询' };
+    return map[k] || (k || '留资');
 }
 function kindClass(k){
-    return k==='membership'?'member':'contact';
+    if (k==='membership') return 'member';
+    if (k==='camp') return '';
+    if (k==='newsletter') return 'contact';
+    if (k==='notify') return 'contact';
+    return 'contact';
 }
 function fmt(iso){
     try {
@@ -98,9 +105,12 @@ function render(){
         return JSON.stringify(l).toLowerCase().indexOf(q) > -1;
     }) : all;
 
-    document.getElementById('s-total').textContent = all.length;
-    document.getElementById('s-member').textContent = all.filter(function(l){return l.kind==='membership';}).length;
-    document.getElementById('s-contact').textContent = all.filter(function(l){return !l.kind || l.kind!=='membership';}).length;
+    var countBy = function(k){ return all.filter(function(l){return l.kind===k;}).length; };
+    document.getElementById('s-total').textContent  = all.length;
+    document.getElementById('s-member').textContent = countBy('membership');
+    document.getElementById('s-camp').textContent   = countBy('camp');
+    document.getElementById('s-news').textContent   = countBy('newsletter');
+    document.getElementById('s-notify').textContent = countBy('notify');
     var ts = todayStart();
     document.getElementById('s-today').textContent = all.filter(function(l){
         var t = new Date(l.time).getTime(); return t >= ts;
