@@ -321,6 +321,8 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
+    <script src="../src/gamification.js"></script>
+    <script src="../src/gamification-hud.js"></script>
     <script src="../src/tools-nav.js"></script>
     <script>
         function shareFeynman() {
@@ -550,6 +552,14 @@
                         addMessage('ai', cleanResponse);
                         setTimeout(() => showBadge(), 1000);
                         saveLearningRecord(true);
+                        if (window.GAME) {
+                            let tier = 'bronze', xp = 30, bid = 'feynman_bronze';
+                            if (/金级|gold|金嗓子/i.test(cleanResponse)) { tier = 'gold'; xp = 100; bid = 'feynman_gold'; }
+                            else if (/银级|silver|银讲师/i.test(cleanResponse)) { tier = 'silver'; xp = 60; bid = 'feynman_silver'; }
+                            window.GAME.addXP(xp, '费曼验证 · ' + tier + ' · ' + currentTopic);
+                            window.GAME.unlockBadge(bid);
+                            if (window.YdzxHUD) window.YdzxHUD.refresh();
+                        }
                     } else {
                         addMessage('ai', response);
                     }

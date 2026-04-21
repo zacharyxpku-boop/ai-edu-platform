@@ -652,6 +652,19 @@
                         (j.next_step ? '<p class="judge-foot">👉 下一步：' + j.next_step + '</p>' : '') +
                         '</div>';
 
+                    // 游戏化埋点
+                    if (window.GAME) {
+                        if (score >= 9) window.GAME.addXP(15, '练习正确 · ' + lastContext.keyword);
+                        else if (score >= 7) window.GAME.addXP(8, '部分正确 · ' + lastContext.keyword);
+                        else window.GAME.addXP(3, '尝试作答 · ' + lastContext.keyword);
+                        // 攻克徽章：基于错题池累计
+                        if (window.LearningStore) {
+                            var errs = window.LearningStore.getErrors();
+                            if (errs.length >= 10) window.GAME.unlockBadge('error_sweeper_10');
+                            if (errs.length >= 50) window.GAME.unlockBadge('error_sweeper_50');
+                        }
+                        if (window.YdzxHUD) window.YdzxHUD.refresh();
+                    }
                     // 低分自动写入错题池
                     if (score < 7 && window.LearningStore) {
                         window.LearningStore.saveError({
@@ -719,6 +732,8 @@
         document.getElementById('error-count').textContent = stats.errors;
     }
     </script>
+    <script src="../src/gamification.js"></script>
+    <script src="../src/gamification-hud.js"></script>
     <script src="../src/tools-nav.js"></script>
     <script>
     window.addEventListener('DOMContentLoaded', () => {

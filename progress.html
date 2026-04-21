@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成长档案 — 原点智学</title>
+    <meta name="description" content="你在原点智学的学习成长档案：等级、连续天数、徽章墙、每日任务、XP 曲线，一键分享。">
+    <meta name="theme-color" content="#F5A623">
+    <link rel="canonical" href="https://www.yuandianzhixue.com/progress.html">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%2318181B'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
+    <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+        --bdr:#E4E4E7;--bdr2:#D4D4D8;
+        --amber:#F5A623;--amber-bg:#FFFBF0;
+        --gold:#D97706;
+        --purple:#7C3AED;--purple-bg:#F5F3FF;
+        --green:#059669;--green-bg:#ECFDF5;
+        --blue:#2563EB;--blue-bg:#EFF6FF;
+        --red:#DC2626;--red-bg:#FEF2F2;
+        --font:'Noto Sans SC',system-ui,sans-serif;
+        --r:12px;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;
+        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.85);
+        backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+    .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+    .nav-brand svg{width:24px;height:24px}
+    .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
+    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+    .nav-a.on{color:var(--amber);background:var(--amber-bg)}
+    @media(max-width:720px){.nav-links-wrap{display:none}}
+    .nav-links-wrap{display:flex;gap:2px}
+
+    /* HERO */
+    .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+    .hero{margin:32px auto 0;display:grid;grid-template-columns:2fr 1fr;gap:18px}
+    @media(max-width:780px){.hero{grid-template-columns:1fr}}
+
+    .hero-main{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:28px 26px;position:relative;overflow:hidden}
+    .hero-main::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;
+        background:radial-gradient(circle,rgba(245,166,35,0.12),transparent 70%);pointer-events:none}
+    .lv-emoji{font-size:44px;line-height:1;margin-bottom:6px}
+    .lv-name{font-size:28px;font-weight:900;letter-spacing:-.5px;line-height:1.2}
+    .lv-meta{font-size:13px;color:var(--ink3);margin-top:4px;font-weight:500}
+    .xp-bar{margin-top:18px;height:10px;background:#F4F4F5;border-radius:999px;overflow:hidden;position:relative}
+    .xp-bar::after{content:'';position:absolute;inset:0;width:var(--w,0%);
+        background:linear-gradient(90deg,#F5A623,#D97706);border-radius:999px;transition:width .6s ease}
+    .xp-label{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-top:8px;font-weight:500}
+    .xp-label b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+
+    .hero-side{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;justify-content:center}
+    .streak-big{font-size:44px;font-weight:900;letter-spacing:-1px;line-height:1;display:flex;align-items:center;gap:8px}
+    .streak-big .fire{font-size:36px}
+    .streak-hint{color:var(--ink3);font-size:13px;margin-top:6px;font-weight:500}
+    .streak-best{margin-top:14px;padding-top:14px;border-top:1px dashed var(--bdr);font-size:12px;color:var(--ink3)}
+    .streak-best b{color:var(--ink);font-weight:700}
+
+    /* SECTION */
+    .sec{margin:40px auto 0}
+    .sec-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+    .sec-t{font-size:20px;font-weight:900;letter-spacing:-.3px}
+    .sec-sub{font-size:12px;color:var(--ink3);font-weight:500}
+
+    /* QUESTS */
+    .quests{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media(max-width:700px){.quests{grid-template-columns:1fr}}
+    .q{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;position:relative}
+    .q.done{border-color:var(--green);background:var(--green-bg)}
+    .q-name{font-size:14px;font-weight:700;color:var(--ink)}
+    .q-r{font-size:12px;color:var(--ink3);margin-top:4px}
+    .q-r b{color:var(--amber);font-weight:700}
+    .q-bar{margin-top:10px;height:6px;background:#F4F4F5;border-radius:999px;overflow:hidden}
+    .q-bar::after{content:'';display:block;height:100%;width:var(--p,0%);background:#F5A623;border-radius:999px;transition:width .5s ease}
+    .q.done .q-bar::after{background:var(--green)}
+    .q-badge{position:absolute;top:12px;right:12px;font-size:16px;display:none}
+    .q.done .q-badge{display:block}
+
+    /* BADGES */
+    .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+    .b{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 14px;text-align:center;transition:all .2s;cursor:default}
+    .b.on{border-color:var(--amber);background:var(--amber-bg)}
+    .b.off{opacity:.45;filter:grayscale(1)}
+    .b-e{font-size:34px;line-height:1;margin-bottom:6px}
+    .b-n{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px}
+    .b-h{font-size:11px;color:var(--ink3);line-height:1.4}
+    .b:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.06)}
+
+    /* CHART */
+    .chart-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px}
+    .chart{display:flex;align-items:flex-end;gap:10px;height:140px;margin-top:6px}
+    .bar{flex:1;background:linear-gradient(180deg,#F5A623,#D97706);border-radius:5px 5px 0 0;position:relative;min-height:3px;transition:height .5s ease}
+    .bar.zero{background:#E4E4E7}
+    .bar-v{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--ink);white-space:nowrap}
+    .bar-d{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink4);white-space:nowrap}
+    .chart-pad{padding-bottom:28px}
+
+    /* LOG */
+    .log{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+    .log-row{padding:12px 18px;border-top:1px solid var(--bdr);display:flex;align-items:center;gap:12px;font-size:13px}
+    .log-row:first-child{border-top:none}
+    .log-t{font-size:11px;color:var(--ink4);width:90px;flex-shrink:0;font-variant-numeric:tabular-nums}
+    .log-k{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;background:#F4F4F5;color:var(--ink3)}
+    .log-k.xp{background:var(--amber-bg);color:var(--gold)}
+    .log-k.badge{background:var(--purple-bg);color:var(--purple)}
+    .log-k.levelup{background:var(--green-bg);color:var(--green)}
+    .log-v{color:var(--ink2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .log-empty{padding:28px;text-align:center;color:var(--ink4);font-size:13px}
+
+    /* SHARE */
+    .share-card{margin-top:28px;background:linear-gradient(135deg,#FFFBF0,#FFF7ED);border:1px solid var(--amber);border-radius:var(--r);padding:24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+    .share-text{flex:1;min-width:200px}
+    .share-t{font-size:17px;font-weight:900;margin-bottom:4px}
+    .share-s{font-size:13px;color:var(--ink2)}
+    .share-btn{background:var(--ink);color:#fff;border:none;padding:12px 22px;border-radius:8px;font:700 14px var(--font);cursor:pointer;transition:all .2s}
+    .share-btn:hover{background:#000;transform:translateY(-1px)}
+    .share-btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+    .share-btn.ghost:hover{background:var(--ink);color:#fff}
+
+    /* CTA */
+    .cta{margin:36px 0 48px;text-align:center}
+    .cta a{display:inline-block;padding:12px 28px;background:var(--ink);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin:0 4px;transition:all .2s}
+    .cta a:hover{background:#000;transform:translateY(-1px)}
+    .cta a.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+    .cta a.ghost:hover{background:var(--ink);color:#fff}
+
+    /* FOOT */
+    .foot{text-align:center;padding:30px 20px;color:var(--ink4);font-size:12px;border-top:1px solid var(--bdr);margin-top:40px}
+
+    /* RESET BTN */
+    .reset-row{margin-top:24px;text-align:center}
+    .reset-btn{background:none;border:none;color:var(--ink4);font-size:11px;cursor:pointer;font-family:var(--font);text-decoration:underline}
+    .reset-btn:hover{color:var(--red)}
+    </style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#F5A623"/><circle cx="12" cy="12" r="5" fill="#18181B"/><circle cx="12" cy="12" r="2" fill="#FAFAF7"/></svg>
+        原点智学
+    </a>
+    <div class="nav-links-wrap">
+        <a href="/" class="nav-a">首页</a>
+        <a href="study-tools.html" class="nav-a">工具箱</a>
+        <a href="membership.html" class="nav-a">会员</a>
+        <a href="assistant.html" class="nav-a">成长课</a>
+        <a href="progress.html" class="nav-a on">成长档案</a>
+        <a href="articles.html" class="nav-a">研究院</a>
+    </div>
+    <button class="nav-a" style="background:none;border:1px solid var(--bdr);padding:5px 12px;cursor:pointer" onclick="location.href='settings.html'">API 设置</button>
+</div></nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-main">
+        <div class="lv-emoji" id="lv-emoji">🌱</div>
+        <div class="lv-name"><span id="lv-num">LV.1</span> · <span id="lv-text">初入门径</span></div>
+        <div class="lv-meta" id="lv-meta">距离下一级还需 <b>100</b> XP · 下一级 <b>勤学弟子</b></div>
+        <div class="xp-bar" id="xp-bar"></div>
+        <div class="xp-label">
+            <span>当前等级 · <b id="xp-cur">0</b> XP</span>
+            <span>下一级 · <b id="xp-next">100</b> XP</span>
+        </div>
+    </div>
+    <div class="hero-side">
+        <div class="streak-big"><span class="fire">🔥</span><span id="streak-n">0</span> 天</div>
+        <div class="streak-hint">连续使用原点</div>
+        <div class="streak-best">历史最佳 · <b id="streak-best">0</b> 天 · 累计 XP <b id="xp-total">0</b></div>
+    </div>
+</section>
+
+<!-- DAILY QUESTS -->
+<section class="sec">
+    <div class="sec-h">
+        <div class="sec-t">今日任务</div>
+        <div class="sec-sub" id="today-date"></div>
+    </div>
+    <div class="quests" id="quests"></div>
+</section>
+
+<!-- XP CHART -->
+<section class="sec">
+    <div class="sec-h">
+        <div class="sec-t">7 天学习曲线</div>
+        <div class="sec-sub">每日获得 XP</div>
+    </div>
+    <div class="chart-wrap chart-pad">
+        <div class="chart" id="chart"></div>
+    </div>
+</section>
+
+<!-- BADGES -->
+<section class="sec">
+    <div class="sec-h">
+        <div class="sec-t">徽章墙</div>
+        <div class="sec-sub"><span id="badge-count">0</span> / <span id="badge-total">0</span></div>
+    </div>
+    <div class="badges" id="badges"></div>
+</section>
+
+<!-- SHARE -->
+<div class="share-card">
+    <div class="share-text">
+        <div class="share-t">把成长晒给朋友，邀ta一起升级</div>
+        <div class="share-s">朋友免注册可体验，每邀一位激活用户你 +50 XP（未来上线）</div>
+    </div>
+    <button class="share-btn" onclick="shareMe()">生成分享卡</button>
+    <button class="share-btn ghost" onclick="copyProgress()">复制文案</button>
+</div>
+
+<!-- LOG -->
+<section class="sec">
+    <div class="sec-h">
+        <div class="sec-t">最近动态</div>
+        <div class="sec-sub">仅本地记录</div>
+    </div>
+    <div class="log" id="log"></div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+    <a href="study-tools.html">回工具箱继续学</a>
+    <a href="assistant.html" class="ghost">看看成长课</a>
+</div>
+
+<div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">清空本地游戏数据（不可恢复）</button>
+</div>
+
+</div>
+
+<footer class="foot">© 2026 原点智学 · 把学习变成长期游戏，而不是短期苦役</footer>
+
+<script src="/src/gamification.js"></script>
+<script>
+// 日期展示
+(function () {
+    var d = new Date();
+    var w = ['日','一','二','三','四','五','六'][d.getDay()];
+    document.getElementById('today-date').textContent =
+        d.getFullYear() + '年 ' + (d.getMonth()+1) + '月 ' + d.getDate() + '日 · 周' + w;
+})();
+
+function dayKey(ts) {
+    var d = new Date(ts);
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function render() {
+    var p = GAME.getProfile();
+    var lv = p.levelInfo;
+
+    // HERO
+    document.getElementById('lv-emoji').textContent = lv.emoji;
+    document.getElementById('lv-num').textContent = 'LV.' + lv.lv;
+    document.getElementById('lv-text').textContent = lv.name;
+    if (lv.nextLevelXp != null) {
+        document.getElementById('lv-meta').innerHTML =
+            '距离下一级还需 <b>' + (lv.nextLevelXp - p.xp) + '</b> XP · 下一级 <b>' + lv.nextName + '</b>';
+        document.getElementById('xp-next').textContent = lv.nextLevelXp;
+    } else {
+        document.getElementById('lv-meta').innerHTML = '已达最高等级 · 继续刷新纪录';
+        document.getElementById('xp-next').textContent = '—';
+    }
+    document.getElementById('xp-bar').style.setProperty('--w', lv.progress + '%');
+    document.getElementById('xp-cur').textContent = p.xp;
+    document.getElementById('streak-n').textContent = p.streak || 0;
+    document.getElementById('streak-best').textContent = p.streakBest || 0;
+    document.getElementById('xp-total').textContent = p.totalXpEver || p.xp;
+
+    // QUESTS
+    var qHtml = '';
+    GAME.getDailyQuests().forEach(function (q) {
+        var pct = q.done ? 100 : (q.progress || 0);
+        qHtml += '<div class="q' + (q.done ? ' done' : '') + '">'
+            + '<div class="q-badge">✅</div>'
+            + '<div class="q-name">' + q.name + '</div>'
+            + '<div class="q-r">完成奖励 <b>+' + q.reward + ' XP</b></div>'
+            + '<div class="q-bar" style="--p:' + pct + '%"></div>'
+            + '</div>';
+    });
+    document.getElementById('quests').innerHTML = qHtml;
+
+    // CHART — 近 7 天
+    var daily = p.daily || {};
+    var bars = [];
+    var maxV = 1;
+    for (var i = 6; i >= 0; i--) {
+        var t = Date.now() - i * 86400000;
+        var k = dayKey(t);
+        var xp = (daily[k] && daily[k].xp) || 0;
+        if (xp > maxV) maxV = xp;
+        var d2 = new Date(t);
+        bars.push({ k: k, xp: xp, label: (d2.getMonth()+1) + '/' + d2.getDate() });
+    }
+    var chartHtml = bars.map(function (b) {
+        var h = b.xp === 0 ? 4 : Math.max(8, Math.round(b.xp / maxV * 120));
+        return '<div class="bar' + (b.xp === 0 ? ' zero' : '') + '" style="height:' + h + 'px">'
+            + (b.xp > 0 ? '<span class="bar-v">' + b.xp + '</span>' : '')
+            + '<span class="bar-d">' + b.label + '</span>'
+            + '</div>';
+    }).join('');
+    document.getElementById('chart').innerHTML = chartHtml;
+
+    // BADGES
+    var all = GAME.getAllBadges();
+    var unlocked = all.filter(function (b) { return b.unlocked; }).length;
+    document.getElementById('badge-count').textContent = unlocked;
+    document.getElementById('badge-total').textContent = all.length;
+    var bHtml = all.map(function (b) {
+        return '<div class="b ' + (b.unlocked ? 'on' : 'off') + '" title="' + b.hint + '">'
+            + '<div class="b-e">' + b.emoji + '</div>'
+            + '<div class="b-n">' + b.name + '</div>'
+            + '<div class="b-h">' + b.hint + '</div>'
+            + '</div>';
+    }).join('');
+    document.getElementById('badges').innerHTML = bHtml;
+
+    // LOG
+    var log = GAME.getLog().slice(-30).reverse();
+    if (log.length === 0) {
+        document.getElementById('log').innerHTML = '<div class="log-empty">还没有动态，去工具箱开刷吧</div>';
+    } else {
+        var logHtml = log.map(function (e) {
+            var d = new Date(e.ts);
+            var ts = (d.getMonth()+1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+            var kind = e.type || '';
+            var label = { xp: 'XP', badge: '徽章', levelup: '升级', action: '动作' }[kind] || kind;
+            var text = '';
+            if (kind === 'xp') text = '+' + e.amount + ' · ' + (e.reason || '');
+            else if (kind === 'badge') text = '解锁 ' + e.name;
+            else if (kind === 'levelup') text = '升到 LV.' + e.toLv + ' ' + e.name;
+            else text = (e.source || '') + ' · ' + (e.action || '');
+            return '<div class="log-row">'
+                + '<div class="log-t">' + ts + '</div>'
+                + '<div class="log-k ' + kind + '">' + label + '</div>'
+                + '<div class="log-v">' + text + '</div>'
+                + '</div>';
+        }).join('');
+        document.getElementById('log').innerHTML = logHtml;
+    }
+}
+
+function shareMe() {
+    var s = GAME.getSummary();
+    var text = '我在原点智学已到 LV.' + s.level + '「' + s.levelName + '」' + s.emoji +
+        '，累计 ' + s.xp + ' XP，连续 ' + s.streak + ' 天，解锁 ' + s.badgesCount + '/' + s.totalBadges + ' 个徽章。' +
+        '一起来免注册体验 → https://yuandianzhixue.com/study-tools.html';
+    if (navigator.share) {
+        navigator.share({ title: '原点智学成长档案', text: text, url: 'https://yuandianzhixue.com/progress.html' })
+            .catch(function(){});
+    } else {
+        copyText(text);
+        alert('分享文案已复制，去朋友圈/群里粘贴');
+    }
+}
+function copyProgress() {
+    var s = GAME.getSummary();
+    var text = '我在原点智学已到 LV.' + s.level + '「' + s.levelName + '」' + s.emoji +
+        '，累计 ' + s.xp + ' XP，连续 ' + s.streak + ' 天，解锁 ' + s.badgesCount + '/' + s.totalBadges + ' 个徽章。' +
+        '一起来免注册体验 → https://yuandianzhixue.com/study-tools.html';
+    copyText(text);
+    var btns = document.querySelectorAll('.share-btn');
+    btns[1].textContent = '✓ 已复制';
+    setTimeout(function(){ btns[1].textContent = '复制文案'; }, 1800);
+}
+function copyText(t) {
+    try {
+        if (navigator.clipboard) navigator.clipboard.writeText(t);
+        else {
+            var ta = document.createElement('textarea');
+            ta.value = t; document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); ta.remove();
+        }
+    } catch (e) {}
+}
+
+function resetProgress() {
+    if (!confirm('确定要清空所有游戏化数据吗？等级、XP、连续天数、徽章都会归零，不可恢复。')) return;
+    localStorage.removeItem('ydzx_game_profile_v1');
+    localStorage.removeItem('ydzx_game_log_v1');
+    location.reload();
+}
+
+// init
+GAME.pingToday('progress');
+render();
+</script>
+
+</body>
+</html>

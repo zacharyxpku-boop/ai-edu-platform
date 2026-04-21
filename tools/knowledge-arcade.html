@@ -244,6 +244,8 @@ h1 em{font-style:normal;color:var(--cta)}
 
 <script src="/src/api-manager.js"></script>
 <script src="/src/share-kit.js"></script>
+<script src="/src/gamification.js"></script>
+<script src="/src/gamification-hud.js"></script>
 <script>
 // ==========================================
 // 游戏状态机
@@ -600,6 +602,15 @@ function endGame() {
         document.getElementById('r-best').textContent = Math.max(prevBest, state.score);
         document.getElementById('r-best-badge').style.display = isNew && state.score > 0 ? 'inline-block' : 'none';
     } catch(e){}
+
+    // 游戏化埋点：按最终得分折算 XP
+    if (window.GAME && state.score > 0) {
+        const gainedXP = Math.round(state.score / 3);
+        const gameNames = { whack:'打地鼠', match:'消消乐', snake:'贪吃蛇', sokoban:'推箱子' };
+        window.GAME.addXP(gainedXP, '游乐场 · ' + (gameNames[currentGame] || currentGame));
+        if (state.score >= 100) window.GAME.unlockBadge('arcade_centurion');
+        if (window.YdzxHUD) window.YdzxHUD.refresh();
+    }
 }
 
 function shareArcade() {

@@ -378,6 +378,8 @@
     <script src="../src/learning-store.js"></script>
     <script src="../src/report-generator.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="../src/gamification.js"></script>
+    <script src="../src/gamification-hud.js"></script>
     <script src="../src/tools-nav.js"></script>
     <script src="../src/app.js"></script>
     <script>
@@ -865,6 +867,14 @@
                             result: result,
                             timestamp: Date.now()
                         });
+                    }
+                    // 游戏化埋点
+                    if (window.GAME) {
+                        window.GAME.addXP(50, '完成考试诊断 · ' + subject);
+                        window.GAME.unlockBadge('first_diagnosis');
+                        var recs = (window.LearningStore && window.LearningStore.getDiagnosisRecords()) || [];
+                        if (recs.length >= 3) window.GAME.unlockBadge('diagnosis_streak_3');
+                        if (window.YdzxHUD) window.YdzxHUD.refresh();
                     }
                 } catch (e) {
                     console.error('解析失败', e);
