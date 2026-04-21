@@ -327,8 +327,16 @@
                 examStandards = null;
             }
 
+            // 教材版本注入
+            const stage = document.getElementById('school-stage').value || '初中';
+            const grade = document.getElementById('grade').value || '';
+            const tbVersion = document.getElementById('textbook-version').value || '';
+            const versionHeader = tbVersion
+                ? `你是${stage}${grade}语文（${tbVersion}）老师`
+                : `你是专业的语文老师`;
+
             // Build system prompt with rubric and common mistakes
-            let systemPrompt = `你是专业的语文老师,正在批改一篇${genreNames[genre]}。`;
+            let systemPrompt = `${versionHeader},正在批改一篇${genreNames[genre]}。批改时请对齐${stage}${grade}学生的认知水平，不要用超出课标范围的要求。`;
 
             if (examStandards && examStandards.essay_rubric) {
                 systemPrompt += `\n\n以下是中考作文真实评分标准：\n${JSON.stringify(examStandards.essay_rubric, null, 2)}\n\n请严格按此标准评分。基准分42分。`;

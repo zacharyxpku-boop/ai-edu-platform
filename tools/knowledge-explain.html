@@ -351,7 +351,12 @@
         }
 
         function generateFirstStep() {
-            let systemPrompt = `你是一位善于引导的老师，使用苏格拉底式教学法。学生问了一个关于"${currentSubject}"的问题："${currentQuestion}"。`;
+            // 教材版本注入
+            const stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const tbVersion = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const versionTag = tbVersion ? `${stage}${grade}${currentSubject}（${tbVersion}）` : currentSubject;
+            let systemPrompt = `你是一位善于引导的${versionTag}老师，使用苏格拉底式教学法。学生问了一个关于"${currentSubject}"的问题："${currentQuestion}"。讲解时请用${stage||'学生'}能理解的语言，不超出该年级教材范围。`;
 
             // Inject curriculum context if available
             if (curriculumData && curriculumData.knowledge_tree) {
@@ -517,7 +522,11 @@ ${currentAttempt ? `学生已经说了自己的尝试：${currentAttempt}` : '�
         }
 
         function generateSummary() {
-            const systemPrompt = `学生通过多轮引导已经理解了"${currentQuestion}"（${currentSubject}）。
+            const _stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _tb = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _vtag = _tb ? `（${_tb}·${_stage}${_grade}）` : '';
+            const systemPrompt = `学生通过多轮引导已经理解了"${currentQuestion}"${_vtag}。${_tb ? '所有用语须贴合该版本教材。' : ''}
 
 请给出一个完整的知识点总结，包括：
 1. 核心概念（是什么）

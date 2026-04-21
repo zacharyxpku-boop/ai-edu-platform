@@ -459,7 +459,14 @@
             standardsSection = '\n\n**作文评分标准：**满分50分，基础40分+发展10分。一等(45-50)：立意深刻、内容充实、结构完整。';
         }
 
-        var systemPrompt = '你是一个专业的出题专家。根据要求生成一份完整的试卷。' +
+        // 教材版本注入
+        var stage = document.getElementById('school-stage').value || '初中';
+        var textbookVersion = document.getElementById('textbook-version').value || '';
+        var versionHeader = textbookVersion
+            ? '你是' + stage + grade + subject + '（' + textbookVersion + '）出题专家。出题必须严格对齐' + textbookVersion + '该年级教材章节与用语。'
+            : '你是一个专业的出题专家。';
+
+        var systemPrompt = versionHeader + '根据要求生成一份完整的试卷。' +
             knowledgeSection + sampleSection + standardsSection + '\n\n' +
             '要求：\n' +
             '1. 选择题：每题4个选项（A/B/C/D），只有一个正确答案\n' +
