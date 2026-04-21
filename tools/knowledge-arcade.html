@@ -1048,6 +1048,22 @@ function sbReveal(idx, confidentlyCorrect) {
         window.MathJax.typesetPromise([ans]).catch(function(){});
     }
 }
+
+// 深链：?subject=math|physics|chemistry 预激活学科模式并滚到题库区
+(function(){
+    try {
+        var q = new URLSearchParams(location.search);
+        var s = q.get('subject');
+        if (!s) return;
+        if (['math','physics','chemistry'].indexOf(s) === -1) return;
+        // 等 DOM 和题库脚本都就绪后再激活
+        setTimeout(function(){
+            if (typeof loadSubjectBank === 'function') loadSubjectBank(s);
+            var host = document.getElementById('subject-mode');
+            if (host) host.scrollIntoView({ behavior:'smooth', block:'start' });
+        }, 150);
+    } catch(e){}
+})();
 </script>
 </body>
 </html>

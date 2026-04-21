@@ -1,0 +1,349 @@
+{
+  "generated_at": "2026-04-22",
+  "source": "ChinaTextbook github.com/TapXWorld/ChinaTextbook",
+  "book_count": 6,
+  "scan_count": 5,
+  "total": 11,
+  "books": [
+    {
+      "stage": "初中",
+      "subject": "化学",
+      "edition": "人教版",
+      "grade": "九年级",
+      "volume": "上册",
+      "page_count": 162,
+      "path": "初中/化学/人教版/九年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 29
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 30,
+          "end_page": 51
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 52,
+          "end_page": 71
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 72,
+          "end_page": 95
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 96,
+          "end_page": 109
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 110,
+          "end_page": 131
+        },
+        {
+          "ch": 7,
+          "title": "第七单元",
+          "start_page": 132,
+          "end_page": 162
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "上册",
+      "page_count": 162,
+      "path": "初中/数学/人教版/七年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章　有理数",
+          "start_page": 8,
+          "end_page": 59
+        },
+        {
+          "ch": 2,
+          "title": "第二章　整式的加减",
+          "start_page": 60,
+          "end_page": 83
+        },
+        {
+          "ch": 3,
+          "title": "第三章　一元一次方程",
+          "start_page": 84,
+          "end_page": 119
+        },
+        {
+          "ch": 4,
+          "title": "第四章　几何图形初步",
+          "start_page": 120,
+          "end_page": 162
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "九年级",
+      "volume": "上册",
+      "page_count": 163,
+      "path": "初中/数学/人教版/九年级/上册",
+      "chapters": [
+        {
+          "ch": 21,
+          "title": "第二十一章　一元二次方程",
+          "start_page": 8,
+          "end_page": 33
+        },
+        {
+          "ch": 22,
+          "title": "第二十二章　二次函数",
+          "start_page": 34,
+          "end_page": 64
+        },
+        {
+          "ch": 23,
+          "title": "第二十三章　旋转",
+          "start_page": 65,
+          "end_page": 84
+        },
+        {
+          "ch": 24,
+          "title": "第二十四章　圆",
+          "start_page": 85,
+          "end_page": 132
+        },
+        {
+          "ch": 25,
+          "title": "第二十五章　概率初步",
+          "start_page": 133,
+          "end_page": 163
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "上册",
+      "page_count": 170,
+      "path": "初中/数学/人教版/八年级/上册",
+      "chapters": [
+        {
+          "ch": 11,
+          "title": "第十一章　三角形",
+          "start_page": 8,
+          "end_page": 36
+        },
+        {
+          "ch": 12,
+          "title": "第十二章　全等三角形",
+          "start_page": 37,
+          "end_page": 63
+        },
+        {
+          "ch": 13,
+          "title": "第十三章　轴对称",
+          "start_page": 64,
+          "end_page": 100
+        },
+        {
+          "ch": 14,
+          "title": "第十四章　整式的乘法与",
+          "start_page": 101,
+          "end_page": 132
+        },
+        {
+          "ch": 15,
+          "title": "第十五章　分式",
+          "start_page": 133,
+          "end_page": 170
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "物理",
+      "edition": "人教版",
+      "grade": "九年级",
+      "volume": "全一册",
+      "page_count": 191,
+      "path": "初中/物理/人教版/九年级/全一册",
+      "chapters": [
+        {
+          "ch": 13,
+          "title": "第十三章",
+          "start_page": 8,
+          "end_page": 22
+        },
+        {
+          "ch": 14,
+          "title": "第十四章",
+          "start_page": 23,
+          "end_page": 37
+        },
+        {
+          "ch": 15,
+          "title": "第十五章",
+          "start_page": 38,
+          "end_page": 60
+        },
+        {
+          "ch": 16,
+          "title": "第十六章",
+          "start_page": 61,
+          "end_page": 79
+        },
+        {
+          "ch": 17,
+          "title": "第十七章",
+          "start_page": 80,
+          "end_page": 92
+        },
+        {
+          "ch": 18,
+          "title": "第十八章",
+          "start_page": 93,
+          "end_page": 110
+        },
+        {
+          "ch": 19,
+          "title": "第十九章",
+          "start_page": 111,
+          "end_page": 124
+        },
+        {
+          "ch": 20,
+          "title": "第二十章",
+          "start_page": 125,
+          "end_page": 150
+        },
+        {
+          "ch": 21,
+          "title": "第二十一章",
+          "start_page": 151,
+          "end_page": 171
+        },
+        {
+          "ch": 22,
+          "title": "第二十二章",
+          "start_page": 172,
+          "end_page": 191
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "物理",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "上册",
+      "page_count": 131,
+      "path": "初中/物理/人教版/八年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章  机械运动",
+          "start_page": 14,
+          "end_page": 30
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 31,
+          "end_page": 50
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 51,
+          "end_page": 72
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 73,
+          "end_page": 93
+        },
+        {
+          "ch": 5,
+          "title": "第五章",
+          "start_page": 94,
+          "end_page": 111
+        },
+        {
+          "ch": 6,
+          "title": "第六章",
+          "start_page": 112,
+          "end_page": 131
+        }
+      ]
+    }
+  ],
+  "scans": [
+    {
+      "stage": "初中",
+      "subject": "化学",
+      "edition": "人教版",
+      "grade": "九年级",
+      "volume": "下册",
+      "page_count": 121,
+      "path": "初中/化学/人教版/九年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 172,
+      "path": "初中/数学/人教版/七年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "九年级",
+      "volume": "下册",
+      "page_count": 120,
+      "path": "初中/数学/人教版/九年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 145,
+      "path": "初中/数学/人教版/八年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "物理",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 96,
+      "path": "初中/物理/人教版/八年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    }
+  ]
+}

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教材原文库 · 人教版初中 | 原点智学</title>
+<meta name="description" content="直接读你手里的那本教材。人教版初中数学、物理、化学，按章节精抽，一点即读。">
+<meta name="theme-color" content="#F5A623">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(#g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;
+  --green:#059669;--blue:#2563EB;--purple:#7C3AED;
+  --font:'Noto Sans SC',system-ui,sans-serif;--r:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 80px}
+.hero{margin-bottom:24px}
+.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;margin-bottom:10px;letter-spacing:.5px}
+h1{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+h1 em{font-style:normal;color:var(--cta)}
+.sub{color:var(--ink3);font-size:14px;max-width:600px}
+
+/* ===== SUBJECT + GRADE FILTERS ===== */
+.cfg{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px;margin-bottom:20px}
+.cfg h3{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill-btn{padding:7px 14px;border:1px solid var(--bdr);background:var(--bg);color:var(--ink2);border-radius:100px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.pill-btn:hover{border-color:var(--ink3);color:var(--ink)}
+.pill-btn.on{background:var(--amber);border-color:var(--amber);color:#fff}
+.pill-btn.all.on{background:var(--ink);border-color:var(--ink)}
+
+.stats-bar{font-size:12px;color:var(--ink3);display:flex;gap:16px;flex-wrap:wrap;padding-top:6px;border-top:1px dashed var(--bdr);margin-top:6px}
+.stats-bar b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+
+/* ===== BOOK GRID ===== */
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:28px}
+.book{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:8px}
+.book:hover{border-color:var(--amber);transform:translateY(-2px);box-shadow:0 4px 16px rgba(245,166,35,.1)}
+.book.on{border-color:var(--amber);background:var(--amber-bg)}
+.book.scan{opacity:.55;cursor:not-allowed}
+.book.scan:hover{border-color:var(--bdr);transform:none;box-shadow:none}
+.book-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.book-sub{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.3px}
+.sub-math{background:#FEF3C7;color:#92400E}
+.sub-physics{background:#DBEAFE;color:#1E3A8A}
+.sub-chem{background:#D1FAE5;color:#065F46}
+.book-scan-tag{background:#F4F4F5;color:var(--ink3);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px}
+.book-title{font-size:15px;font-weight:800;line-height:1.35}
+.book-meta{font-size:12px;color:var(--ink3);display:flex;gap:10px}
+.book-meta b{color:var(--ink2);font-weight:700}
+.book-read-mark{font-size:11px;color:var(--green);font-weight:700}
+
+/* ===== CHAPTER PANEL ===== */
+.panel{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:20px;display:none}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.panel-title{font-size:18px;font-weight:800}
+.panel-title small{display:block;font-size:12px;color:var(--ink3);font-weight:500;margin-top:2px}
+.panel-close{background:none;border:1px solid var(--bdr);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:var(--font);font-size:12px;color:var(--ink3)}
+.panel-close:hover{background:var(--bg);color:var(--ink)}
+
+.chapters{display:grid;gap:8px}
+.ch-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--bdr);border-radius:8px;cursor:pointer;transition:.12s;gap:12px}
+.ch-row:hover{border-color:var(--amber);background:var(--amber-bg)}
+.ch-row-left{flex:1;min-width:0}
+.ch-num{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.ch-title{font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-meta{font-size:11px;color:var(--ink4);white-space:nowrap;flex-shrink:0}
+.ch-done{font-size:11px;color:var(--green);font-weight:700;white-space:nowrap}
+
+/* ===== READER MODAL ===== */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+.modal.on{display:flex}
+.reader{background:var(--card);max-width:760px;width:100%;border-radius:var(--r);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);margin:auto}
+.reader-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--bdr);background:var(--bg);position:sticky;top:0;z-index:3}
+.reader-title{font-size:15px;font-weight:800;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reader-head small{font-size:11px;font-weight:500;color:var(--ink3);display:block}
+.reader-close{background:none;border:1px solid var(--bdr);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:var(--font);font-size:13px}
+.reader-close:hover{background:#fff}
+
+.reader-jump{padding:10px 20px;background:var(--amber-bg);border-bottom:1px solid var(--bdr);display:flex;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--ink3);align-items:center}
+.reader-jump b{color:var(--ink2);font-weight:700;margin-right:4px}
+.sec-chip{padding:3px 10px;background:#fff;border:1px solid var(--bdr);border-radius:100px;cursor:pointer;color:var(--ink2);font-size:11px;font-weight:600;text-decoration:none}
+.sec-chip:hover{border-color:var(--amber);color:var(--amber)}
+
+.reader-body{padding:24px 32px 40px;font-size:15px;line-height:1.85;color:var(--ink2)}
+.reader-body .page{margin-bottom:26px;padding-bottom:26px;border-bottom:1px dashed var(--bdr)}
+.reader-body .page:last-child{border-bottom:none}
+.page-num{font-size:11px;color:var(--ink4);font-weight:700;letter-spacing:.5px;margin-bottom:10px}
+.reader-body p{margin-bottom:10px;white-space:pre-wrap;word-wrap:break-word}
+
+.reader-foot{padding:16px 20px;border-top:1px solid var(--bdr);background:var(--bg);display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:0}
+.rf-btn{padding:10px 16px;border:1px solid var(--bdr);background:var(--card);color:var(--ink2);border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.rf-btn:hover{border-color:var(--amber);color:var(--amber)}
+.rf-btn.primary{background:var(--cta);color:#fff;border-color:var(--cta)}
+.rf-btn.primary:hover{background:#9A3412;color:#fff}
+
+.empty{text-align:center;padding:60px 20px;color:var(--ink3);font-size:14px}
+.empty em{display:block;font-size:13px;color:var(--ink4);font-style:normal;margin-top:6px}
+
+.notice{background:#FFFBF0;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin:16px 0 0;line-height:1.7}
+
+.xp-toast{position:fixed;top:80px;right:20px;background:var(--cta);color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(194,65,12,.4);z-index:300;opacity:0;transform:translateX(20px);transition:.3s}
+.xp-toast.on{opacity:1;transform:translateX(0)}
+
+.foot{border-top:1px solid var(--bdr);padding:24px 0;text-align:center;font-size:12px;color:var(--ink4)}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
+    <a href="/" class="nav-a">工具箱</a>
+    <a href="/tools/knowledge-arcade" class="nav-a">题库速练</a>
+    <a href="/progress" class="nav-a">成长档案</a>
+    <a href="/articles.html" class="nav-a">研究院</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="hero">
+    <span class="pill">ChinaTextbook · 人教版</span>
+    <h1>教材原文库 · <em>直接读你手里那本</em></h1>
+    <p class="sub">从 github.com/TapXWorld/ChinaTextbook 拉的官方 PDF，按章节精抽成可阅读的页面。先上架初中数学、物理、化学 6 本上册共 37 章，下册因为是扫描件在排队上 OCR。</p>
+</section>
+
+<section class="cfg">
+    <h3>学科</h3>
+    <div class="pills" id="subj-pills">
+        <button class="pill-btn all on" data-subj="">全部</button>
+        <button class="pill-btn" data-subj="数学">数学</button>
+        <button class="pill-btn" data-subj="物理">物理</button>
+        <button class="pill-btn" data-subj="化学">化学</button>
+    </div>
+    <h3>年级</h3>
+    <div class="pills" id="grade-pills">
+        <button class="pill-btn all on" data-grade="">全部</button>
+        <button class="pill-btn" data-grade="七年级">七年级</button>
+        <button class="pill-btn" data-grade="八年级">八年级</button>
+        <button class="pill-btn" data-grade="九年级">九年级</button>
+    </div>
+    <div class="stats-bar" id="stats">加载中...</div>
+</section>
+
+<section id="book-grid" class="books"><div class="empty">加载中...</div></section>
+
+<section id="ch-panel" class="panel">
+    <div class="panel-head">
+        <div>
+            <div class="panel-title" id="panel-title">章节目录</div>
+        </div>
+        <button class="panel-close" onclick="closePanel()">收起</button>
+    </div>
+    <div class="chapters" id="chapters"></div>
+    <div class="notice" id="panel-notice" style="display:none">字号启发抽章，偶尔会有 1-2 章首页识别偏移，以实际页码范围为准。发现问题请反馈到<a href="/" style="color:var(--cta)">工具箱</a>底部。</div>
+</section>
+
+<div class="modal" id="reader-modal">
+    <div class="reader">
+        <div class="reader-head">
+            <div class="reader-title" id="reader-title">—</div>
+            <button class="reader-close" onclick="closeReader()">关闭</button>
+        </div>
+        <div class="reader-jump" id="reader-jump"></div>
+        <div class="reader-body" id="reader-body"><div class="empty">加载中...</div></div>
+        <div class="reader-foot" id="reader-foot"></div>
+    </div>
+</div>
+
+<div class="xp-toast" id="xp-toast">+5 XP · 读完一章</div>
+
+<footer class="foot">教材原文来自人教社官方 PDF · 仅供学习参考 · ChinaTextbook (TapXWorld)</footer>
+
+</main>
+
+<script src="/src/gamification.js"></script>
+<script src="/src/gamification-hud.js"></script>
+<script>
+// ===== STATE =====
+var MANIFEST = null;
+var FILTER = { subj: '', grade: '' };
+var ACTIVE_BOOK = null;       // the currently opened book
+var ACTIVE_CHAPTER = null;    // the currently opened chapter
+var READ_KEY = 'ydzx_textbook_read';  // set of "{path}::ch{N}"
+
+function getRead(){
+    try { return new Set(JSON.parse(localStorage.getItem(READ_KEY) || '[]')); }
+    catch(e){ return new Set(); }
+}
+function markRead(sig){
+    var s = getRead();
+    if (s.has(sig)) return false;
+    s.add(sig);
+    localStorage.setItem(READ_KEY, JSON.stringify(Array.from(s)));
+    return true;
+}
+
+// ===== SHORTCUTS =====
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s || '').replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+}); }
+function subjCls(subj){
+    if (subj === '数学') return 'sub-math';
+    if (subj === '物理') return 'sub-physics';
+    if (subj === '化学') return 'sub-chem';
+    return '';
+}
+function showXP(text){
+    var t = $('xp-toast');
+    t.textContent = text;
+    t.classList.add('on');
+    setTimeout(function(){ t.classList.remove('on'); }, 1800);
+}
+
+// ===== LOAD MANIFEST =====
+fetch('/data/extracted/manifest.json', { cache: 'no-store' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+        MANIFEST = j;
+        renderStats();
+        renderBooks();
+    })
+    .catch(function(e){
+        $('book-grid').innerHTML = '<div class="empty">加载教材清单失败<em>' + esc(e.message) + '</em></div>';
+    });
+
+// ===== FILTERS =====
+document.querySelectorAll('#subj-pills .pill-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+        document.querySelectorAll('#subj-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        FILTER.subj = b.dataset.subj || '';
+        renderBooks();
+    });
+});
+document.querySelectorAll('#grade-pills .pill-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+        document.querySelectorAll('#grade-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        FILTER.grade = b.dataset.grade || '';
+        renderBooks();
+    });
+});
+
+// ===== RENDER =====
+function renderStats(){
+    if (!MANIFEST) return;
+    var totalCh = (MANIFEST.books || []).reduce(function(s,b){ return s + (b.chapters||[]).length; }, 0);
+    var read = getRead();
+    $('stats').innerHTML =
+        '<span><b>' + MANIFEST.book_count + '</b> 本精抽</span>' +
+        '<span><b>' + totalCh + '</b> 章可读</span>' +
+        '<span><b>' + MANIFEST.scan_count + '</b> 本待 OCR</span>' +
+        '<span><b>' + read.size + '</b> 章已读</span>';
+}
+
+function matchesFilter(b){
+    if (FILTER.subj && b.subject !== FILTER.subj) return false;
+    if (FILTER.grade && b.grade !== FILTER.grade) return false;
+    return true;
+}
+
+function renderBooks(){
+    if (!MANIFEST) return;
+    var all = [].concat(MANIFEST.books || [], (MANIFEST.scans || []).map(function(s){ s._scan = true; return s; }));
+    var list = all.filter(matchesFilter);
+    if (list.length === 0) {
+        $('book-grid').innerHTML = '<div class="empty">没有匹配的教材<em>试试清空筛选</em></div>';
+        return;
+    }
+    var read = getRead();
+    var html = list.map(function(b){
+        var isScan = b._scan || false;
+        var chCount = isScan ? 0 : (b.chapters || []).length;
+        var bookSig = b.path;
+        var readCount = 0;
+        (b.chapters || []).forEach(function(c){
+            if (read.has(bookSig + '::ch' + c.ch)) readCount++;
+        });
+        var cls = 'book' + (isScan ? ' scan' : '');
+        var subtag = isScan ? '<span class="book-scan-tag">待 OCR</span>' :
+                    '<span class="book-sub ' + subjCls(b.subject) + '">' + esc(b.subject) + '</span>';
+        var mark = readCount > 0 ? '<div class="book-read-mark">已读 ' + readCount + ' / ' + chCount + ' 章</div>' : '';
+        return '<div class="' + cls + '" data-path="' + esc(b.path) + '" data-scan="' + (isScan?'1':'0') + '">' +
+            '<div class="book-top">' + subtag + '</div>' +
+            '<div class="book-title">' + esc(b.grade) + ' · ' + esc(b.volume) + '</div>' +
+            '<div class="book-meta">' +
+                '<span><b>' + (isScan ? '' : chCount + ' 章 · ') + b.page_count + '</b> 页</span>' +
+                (isScan ? '<span>扫描件，解码中</span>' : '<span>' + esc(b.edition) + '</span>') +
+            '</div>' +
+            mark +
+        '</div>';
+    }).join('');
+    $('book-grid').innerHTML = html;
+    document.querySelectorAll('.book').forEach(function(el){
+        el.addEventListener('click', function(){
+            if (el.dataset.scan === '1') return;
+            openBook(el.dataset.path);
+        });
+    });
+}
+
+function openBook(path){
+    var book = (MANIFEST.books || []).find(function(b){ return b.path === path; });
+    if (!book) return;
+    ACTIVE_BOOK = book;
+    document.querySelectorAll('.book').forEach(function(el){
+        el.classList.toggle('on', el.dataset.path === path);
+    });
+    $('panel-title').innerHTML = esc(book.subject) + ' · ' + esc(book.grade) + ' · ' + esc(book.volume) +
+        ' <small style="display:inline;color:var(--ink4);font-weight:500">' + esc(book.edition) + ' · ' + book.page_count + ' 页</small>';
+    $('panel-notice').style.display = 'block';
+    var read = getRead();
+    var html = (book.chapters || []).map(function(c){
+        var sig = book.path + '::ch' + c.ch;
+        var isRead = read.has(sig);
+        return '<div class="ch-row" data-ch="' + c.ch + '">' +
+            '<div class="ch-row-left">' +
+                '<div class="ch-num">第 ' + c.ch + ' 章</div>' +
+                '<div class="ch-title">' + esc(c.title) + '</div>' +
+            '</div>' +
+            '<div>' +
+                '<div class="ch-meta">p' + c.start_page + '–' + c.end_page + ' · ' + (c.end_page - c.start_page + 1) + ' 页</div>' +
+                (isRead ? '<div class="ch-done">✓ 已读</div>' : '') +
+            '</div>' +
+        '</div>';
+    }).join('');
+    $('chapters').innerHTML = html;
+    document.querySelectorAll('#chapters .ch-row').forEach(function(el){
+        el.addEventListener('click', function(){ openChapter(parseInt(el.dataset.ch, 10)); });
+    });
+    $('ch-panel').classList.add('on');
+    $('ch-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closePanel(){
+    $('ch-panel').classList.remove('on');
+    document.querySelectorAll('.book').forEach(function(el){ el.classList.remove('on'); });
+    ACTIVE_BOOK = null;
+}
+
+function openChapter(ch){
+    if (!ACTIVE_BOOK) return;
+    var chObj = (ACTIVE_BOOK.chapters || []).find(function(x){ return x.ch === ch; });
+    if (!chObj) return;
+    ACTIVE_CHAPTER = chObj;
+    $('reader-title').innerHTML = '第 ' + ch + ' 章 · ' + esc(chObj.title) +
+        '<small>' + esc(ACTIVE_BOOK.subject) + ' · ' + esc(ACTIVE_BOOK.grade) + ' ' + esc(ACTIVE_BOOK.volume) + ' · p' + chObj.start_page + '–' + chObj.end_page + '</small>';
+    $('reader-body').innerHTML = '<div class="empty">加载正文中...</div>';
+    $('reader-jump').innerHTML = '';
+    $('reader-foot').innerHTML = '';
+    $('reader-modal').classList.add('on');
+    document.body.style.overflow = 'hidden';
+    var url = '/data/extracted/' + ACTIVE_BOOK.path.split('/').map(encodeURIComponent).join('/') + '/ch' + ch + '.json';
+    fetch(url, { cache: 'force-cache' })
+        .then(function(r){ return r.json(); })
+        .then(renderChapter)
+        .catch(function(e){
+            $('reader-body').innerHTML = '<div class="empty">章节加载失败<em>' + esc(e.message) + '</em></div>';
+        });
+}
+
+function closeReader(){
+    $('reader-modal').classList.remove('on');
+    document.body.style.overflow = '';
+    ACTIVE_CHAPTER = null;
+}
+
+function renderChapter(data){
+    var sig = ACTIVE_BOOK.path + '::ch' + data.ch;
+    var firstRead = markRead(sig);
+    if (firstRead && window.GAME) {
+        window.GAME.addXP(5, '教材精读 · ' + ACTIVE_BOOK.subject + ' 第' + data.ch + '章');
+        window.GAME.pingToday();
+        showXP('+5 XP · 读完「第 ' + data.ch + ' 章」');
+        // unlock badges
+        var readAll = getRead();
+        if (readAll.size === 1) window.GAME.unlockBadge && window.GAME.unlockBadge('first_chapter', '教材第一章');
+        if (readAll.size >= 10) window.GAME.unlockBadge && window.GAME.unlockBadge('ten_chapters', '十章笃行');
+        renderStats();
+        // update panel mark
+        if (ACTIVE_BOOK) openBook(ACTIVE_BOOK.path);
+    }
+    // jump chips
+    var jump = '';
+    if (data.sections && data.sections.length) {
+        jump = '<b>小节</b>';
+        data.sections.forEach(function(s, i){
+            jump += '<a class="sec-chip" href="#pg-' + s.page + '">' + esc(s.code) + (s.title ? ' ' + esc(s.title).slice(0, 14) : '') + '</a>';
+        });
+    } else {
+        jump = '<b>跳页</b>';
+        var pages = data.pages || [];
+        for (var j = 0; j < pages.length; j += Math.max(1, Math.floor(pages.length / 8))) {
+            jump += '<a class="sec-chip" href="#pg-' + pages[j].page + '">p' + pages[j].page + '</a>';
+        }
+    }
+    $('reader-jump').innerHTML = jump;
+    // body
+    var body = (data.pages || []).map(function(p){
+        var txt = (p.text || '').trim();
+        if (!txt) return '';
+        return '<div class="page" id="pg-' + p.page + '">' +
+            '<div class="page-num">第 ' + p.page + ' 页</div>' +
+            '<p>' + esc(txt) + '</p>' +
+        '</div>';
+    }).join('');
+    $('reader-body').innerHTML = body || '<div class="empty">这一章没有抽出正文文本</div>';
+    // footer CTAs
+    var kaQS = '?subject=' + encodeURIComponent(ACTIVE_BOOK.subject === '数学' ? 'math' : ACTIVE_BOOK.subject === '物理' ? 'physics' : 'chemistry');
+    var topic = data.title + ' ' + (data.sections && data.sections[0] ? data.sections[0].title : '');
+    $('reader-foot').innerHTML =
+        '<a class="rf-btn primary" href="/tools/knowledge-arcade' + kaQS + '">→ 刷这科题库</a>' +
+        '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">让 AI 讲解这章</a>' +
+        '<a class="rf-btn" href="/tools/feynman-verify">用费曼法复述</a>' +
+        '<button class="rf-btn" onclick="closeReader()">继续浏览</button>';
+}
+
+// ===== ESC to close =====
+window.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+        if ($('reader-modal').classList.contains('on')) closeReader();
+        else if ($('ch-panel').classList.contains('on')) closePanel();
+    }
+});
+$('reader-modal').addEventListener('click', function(e){
+    if (e.target === $('reader-modal')) closeReader();
+});
+</script>
+
+</body>
+</html>
