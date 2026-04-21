@@ -69,7 +69,7 @@
                 <a href="articles.html">研究院</a>
                 <a href="about.html">关于</a>
             </div>
-            <button class="nav-cta" onclick="location.href='/membership.html'">预约试听</button>
+            <button class="nav-cta" data-lead-kind="camp" data-lead-title="预约少年营试听咨询" data-lead-sub="助教先了解孩子情况，再决定推哪期。">预约试听</button>
             <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">☰</button>
         </div>
     </nav>
@@ -88,7 +88,7 @@
         <a href="index.html" style="color:var(--c-warm-gray);text-decoration:none;font-size:var(--fs-small)">← 返回首页</a>
         <h1>3天后，你的孩子将带着<br>一个<span class="accent">自己做的AI产品</span>回家</h1>
         <p class="section-desc" style="margin-bottom:var(--sp-lg)">阿里参访 × AI实战 × Demo Day路演<br>10-14岁 · 20人小班 · 首期仅20个名额</p>
-        <button class="btn-primary" onclick="location.href='membership.html'" style="font-size:1.1rem;padding:16px 32px">立即咨询报名</button>
+        <button class="btn-primary" data-lead-kind="camp" data-lead-title="预约少年营咨询" style="font-size:1.1rem;padding:16px 32px">立即咨询报名</button>
     </section>
 
     <!-- 三大卖点 -->
@@ -172,7 +172,7 @@
                     3天2夜全包（含场地、住宿、餐饮、物料、证书、照片册）<br>
                     社群成员价 ¥2,480 · 兄弟姐妹第二人 ¥1,980 · 老带新双方各减 ¥200
                 </div>
-                <button class="btn-primary" onclick="location.href='membership.html'" style="margin-top:var(--sp-lg);font-size:1.1rem;padding:16px 32px">咨询报名（仅20个名额）</button>
+                <button class="btn-primary" data-lead-kind="camp" data-lead-title="预约少年营咨询（仅 20 个名额）" style="margin-top:var(--sp-lg);font-size:1.1rem;padding:16px 32px">咨询报名（仅20个名额）</button>
             </div>
         </div>
     </section>
@@ -207,7 +207,7 @@
             <h2>首期仅20个名额，满了就关</h2>
             <p>不是「又一个AI夏令营」——是唯一一个让孩子真正做出产品的AI创造营。</p>
             <div class="cta-actions">
-                <button class="btn-primary" onclick="location.href='membership.html'">立即咨询报名</button>
+                <button class="btn-primary" data-lead-kind="camp" data-lead-title="预约少年营咨询">立即咨询报名</button>
                 <button class="btn-secondary" onclick="location.href='index.html'">了解原点智学</button>
             </div>
         </div>
@@ -247,6 +247,7 @@
         </div>
     </footer>
     <script src="src/app.js"></script>
+    <script src="src/lead-modal.js" defer></script>
     <script>
     (function(){
         var bar = document.getElementById('share-bar');
