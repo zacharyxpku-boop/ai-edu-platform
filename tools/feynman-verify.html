@@ -345,6 +345,48 @@
         let questionCount = 0;
         let examStandards = null;
         let textbookIndex = null;
+        let feynmanLib = null; // { four_steps, prompt_library, rubric }
+
+        async function loadFeynmanLib() {
+            if (feynmanLib) return feynmanLib;
+            try {
+                const r = await fetch('../src/curriculum/feynman-prompts.json');
+                feynmanLib = await r.json();
+            } catch (e) { console.warn('feynman 库加载失败', e); feynmanLib = null; }
+            return feynmanLib;
+        }
+
+        // 按 subject + topic 关键词匹配最近的 library 条目
+        function matchLibraryEntry(subject, topic) {
+            if (!feynmanLib || !feynmanLib.prompt_library) return null;
+            const subjectZh = { math: '数学', physics: '物理', chemistry: '化学', biology: '生物', history: '历史', geography: '地理', politics: '政治' }[subject] || '';
+            const candidates = feynmanLib.prompt_library.filter(p => p.subject === subjectZh);
+            if (!candidates.length) return null;
+            // 取 topic 和候选 topic 的最长公共子串得分
+            const lower = topic.toLowerCase();
+            let best = null, bestScore = 0;
+            candidates.forEach(c => {
+                const ct = (c.topic || '').toLowerCase();
+                let score = 0;
+                for (let i = 0; i < ct.length; i++) {
+                    for (let j = i + 1; j <= ct.length; j++) {
+                        const sub = ct.slice(i, j);
+                        if (sub.length >= 2 && lower.indexOf(sub) !== -1 && sub.length > score) score = sub.length;
+                    }
+                }
+                if (score > bestScore) { bestScore = score; best = c; }
+            });
+            return bestScore >= 2 ? best : null;
+        }
+
+        // 根据对话轮次选四步中的哪一步
+        function pickFeynmanStep(turn) {
+            // 1-2 轮：讲给我听；3-4 轮：挑漏洞；5-6 轮：用类比；7+：再讲一遍
+            if (turn <= 2) return 0;
+            if (turn <= 4) return 1;
+            if (turn <= 6) return 2;
+            return 3;
+        }
 
         var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
         var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治', '思想政治': '思想政治', '道德与法治': '道德与法治', '科学': '科学', '美术': '美术', '音乐': '音乐'};
@@ -438,6 +480,7 @@
                     console.error('Failed to load exam standards:', err);
                 }
             }
+            await loadFeynmanLib();
 
             // 教材版本：装成该年级同学
             const _fv_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
@@ -445,27 +488,43 @@
             const _fv_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
             const _fv_tag = _fv_ver ? `${_fv_stage}${_fv_grade}（${_fv_ver}）` : `${_fv_stage}${_fv_grade}`;
 
-            // Build system prompt with common mistakes
-            let systemPrompt = `你是一个${_fv_tag || '该年级'}、完全不懂"${currentTopic}"的好奇同学，正在听用户（小老师）讲解。请用${_fv_stage || '该年级'}学生的语气和认知水平提问。你的任务是：
-1. 用追问的方式帮助小老师发现自己的知识盲区
-2. 每次回复只问1-2个问题，不要一次问太多
-3. 如果小老师讲得不够清楚、有逻辑漏洞、用了你不懂的新词，立刻追问
-4. 用"等等"、"可是"、"那"开头，像真实学生一样表达困惑
-5. 如果小老师连续3轮都讲得很清楚，判断是否通过验证`;
+            // 四步法：根据对话轮次切换追问风格
+            const turn = questionCount + 1;
+            const stepIdx = pickFeynmanStep(turn);
+            const step = feynmanLib && feynmanLib.four_steps ? feynmanLib.four_steps[stepIdx] : null;
+            const libEntry = matchLibraryEntry(currentSubject, currentTopic);
 
-            // Inject common mistakes for the subject
-            if (examStandards && examStandards.common_mistakes) {
-                const subjectKey = currentSubject; // 'math', 'physics', or 'chemistry'
-                if (examStandards.common_mistakes[subjectKey]) {
-                    systemPrompt += `\n\n以下是该科目常见错误认知：\n${JSON.stringify(examStandards.common_mistakes[subjectKey], null, 2)}\n\n请重点追问这些易错点。`;
+            let systemPrompt;
+            if (step) {
+                systemPrompt = `${step.ai_persona_prompt}\n\n当前阶段：第 ${step.step} 步「${step.name}」· 目标：${step.goal}\n你在和一位${_fv_tag || '该年级'}的小老师对话，讲解主题是"${currentTopic}"。用${_fv_stage || '该年级'}学生的语气和词汇，每次只问 1 个问题。`;
+            } else {
+                systemPrompt = `你是一个${_fv_tag || '该年级'}、完全不懂"${currentTopic}"的好奇同学。每次只问 1-2 个问题，用"等等"、"可是"、"那"开头。`;
+            }
+
+            // 注入这个主题的常见盲区 + 候选追问 + 类比参考（如命中库）
+            if (libEntry) {
+                systemPrompt += `\n\n**这个主题常见的理解盲区（请重点追问，但用你自己的话问）：**\n`
+                    + (libEntry.common_gaps || []).map(g => '- ' + g).join('\n');
+                systemPrompt += `\n\n**可参考的追问（改编，不要原封不动照抄）：**\n`
+                    + (libEntry.probe_questions || []).map(q => '- ' + q).join('\n');
+                if (stepIdx === 2 && libEntry.analogies && libEntry.analogies.length) {
+                    systemPrompt += `\n\n**若小老师类比卡住，可提示这类比方：** ${libEntry.analogies.join(' / ')}`;
                 }
             }
 
-            systemPrompt += `\n\n当前对话轮次：${questionCount + 1}
+            // 旧的通用 common_mistakes 作兜底
+            if (!libEntry && examStandards && examStandards.common_mistakes) {
+                const subjectKey = currentSubject;
+                if (examStandards.common_mistakes[subjectKey]) {
+                    systemPrompt += `\n\n该科目常见错误认知（从中挑贴近本题的追问）：\n${JSON.stringify(examStandards.common_mistakes[subjectKey], null, 2)}`;
+                }
+            }
 
-判断标准：
-- 如果小老师已经能用最简单的话把核心原理讲清楚，且能回答你的追问，输出"[PASS]通过验证"开头的总结
-- 如果还有疑问或发现盲区，继续追问`;
+            systemPrompt += `\n\n当前对话轮次：${turn}
+
+通过条件：
+- 若小老师已经能用最简单的话讲清核心 + 补上关键盲区 + 给出贴切类比，输出「[PASS]通过验证」开头，并附评级（铜/银/金），以及一句 next_gap 指出下次还可深挖的一点。
+- 否则继续追问，每轮只问 1 个问题。`;
 
             const messages = conversationHistory.map(msg => ({
                 role: msg.role === 'user' ? 'user' : 'assistant',
