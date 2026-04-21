@@ -420,8 +420,14 @@
                 }
             }
 
+            // 教材版本：装成该年级同学
+            const _fv_stage = document.getElementById('school-stage') ? document.getElementById('school-stage').value : '';
+            const _fv_grade = document.getElementById('grade') ? document.getElementById('grade').value : '';
+            const _fv_ver = document.getElementById('textbook-version') ? document.getElementById('textbook-version').value : '';
+            const _fv_tag = _fv_ver ? `${_fv_stage}${_fv_grade}（${_fv_ver}）` : `${_fv_stage}${_fv_grade}`;
+
             // Build system prompt with common mistakes
-            let systemPrompt = `你是一个完全不懂"${currentTopic}"的好奇学生，正在听用户（小老师）讲解。你的任务是：
+            let systemPrompt = `你是一个${_fv_tag || '该年级'}、完全不懂"${currentTopic}"的好奇同学，正在听用户（小老师）讲解。请用${_fv_stage || '该年级'}学生的语气和认知水平提问。你的任务是：
 1. 用追问的方式帮助小老师发现自己的知识盲区
 2. 每次回复只问1-2个问题，不要一次问太多
 3. 如果小老师讲得不够清楚、有逻辑漏洞、用了你不懂的新词，立刻追问

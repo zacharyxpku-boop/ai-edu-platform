@@ -403,7 +403,11 @@
 请基于以上真实数据生成解析，确保曲式、乐器、情绪描述准确。`;
             }
 
-            const systemPrompt = `你是音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。${gradeContext}${extraContext}
+            const _ma_xd = document.getElementById('xueduan') ? document.getElementById('xueduan').value : '';
+            const _ma_nj = document.getElementById('nianji') ? document.getElementById('nianji').value : '';
+            const _ma_bb = document.getElementById('banben') ? document.getElementById('banben').value : '';
+            const _ma_tag = _ma_bb ? `${_ma_xd}${_ma_nj}（${_ma_bb}）` : `${_ma_xd}${_ma_nj}`;
+            const systemPrompt = `你是${_ma_tag || ''}音乐理论专家,正在为学生解析"${composer}的《${pieceName}》"。讲解请对齐${_ma_tag || '该年级'}教材音乐鉴赏模块的术语与深度。${gradeContext}${extraContext}
 
 请按以下JSON格式输出：
 

@@ -469,7 +469,11 @@
 在追问时，可以基于以上真实数据提出更精准的观察引导问题。`;
             }
 
-            const systemPrompt = `你是美术教育专家,正在用苏格拉底式追问引导${viewerRole}观察作品："${artworkDescription}"。${gradeContext}${artworkContext}
+            const _at_xd = document.getElementById('xueduan') ? document.getElementById('xueduan').value : '';
+            const _at_nj = document.getElementById('nianji') ? document.getElementById('nianji').value : '';
+            const _at_bb = document.getElementById('banben') ? document.getElementById('banben').value : '';
+            const _at_tag = _at_bb ? `${_at_xd}${_at_nj}（${_at_bb}）` : `${_at_xd}${_at_nj}`;
+            const systemPrompt = `你是${_at_tag || ''}美术教育专家,正在用苏格拉底式追问引导${viewerRole}观察作品："${artworkDescription}"。追问深度需贴合${_at_tag || '该年级'}美术教材的审美目标。${gradeContext}${artworkContext}
 
 你的任务：
 1. 不评判好坏,只通过追问引导观察
