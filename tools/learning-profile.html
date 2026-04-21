@@ -274,11 +274,15 @@
                 </div>
                 <div class="report-footer">持续学习 · 稳步进步</div>
             </div>
-            <button class="btn-primary" onclick="downloadReport()">下载报告卡</button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px">
+                <button class="btn-primary" onclick="downloadReport()">下载报告卡</button>
+                <button class="btn-primary" style="background:#18181B" onclick="shareProfile()">📣 分享给朋友</button>
+            </div>
         </div>
     </div>
 
     <script src="../src/api-manager.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script src="../src/learning-store.js"></script>
     <script>
         let learningData = {
@@ -572,6 +576,31 @@
                 link.download = '原点智学_学习报告_' + Date.now() + '.png';
                 link.href = canvas.toDataURL();
                 link.click();
+            });
+        }
+
+        function shareProfile() {
+            if (!window.YdzxShare) {
+                alert('分享模块加载中，稍后再试');
+                return;
+            }
+            // 找出最强维度
+            const subjMetrics = Object.entries(learningData.subjects || {})
+                .map(([k, v]) => ({ name: k, score: (v && typeof v.score === 'number') ? v.score : 0 }))
+                .sort((a, b) => b.score - a.score);
+            const topSubj = subjMetrics[0] ? subjMetrics[0].name : '综合';
+
+            window.YdzxShare.open({
+                source: 'learning-profile',
+                title: '我的 AI 学习画像',
+                subtitle: '原点智学 · 免费雷达图测评',
+                metrics: [
+                    { label: '练习', value: String(learningData.totalPractice || 0) },
+                    { label: '费曼通过', value: String(learningData.feynmanPassed || 0) },
+                    { label: '错题攻克', value: String(learningData.errorMastered || 0) },
+                    { label: '最强科目', value: topSubj }
+                ],
+                quote: '持续学习 · 稳步进步'
             });
         }
 
