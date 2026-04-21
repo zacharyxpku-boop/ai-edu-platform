@@ -120,6 +120,16 @@ h1 em{font-style:normal;color:var(--cta)}
 
 .notice{background:#FFFBF0;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin:16px 0 0;line-height:1.7}
 
+.resume{background:linear-gradient(135deg,#FEF3C7 0%,#FDE68A 100%);border:1px solid #F59E0B;border-radius:var(--r);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.resume-l{flex:1;min-width:0}
+.resume-tag{font-size:10px;font-weight:800;color:#92400E;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+.resume-title{font-size:15px;font-weight:800;color:var(--ink);line-height:1.35}
+.resume-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.resume-btn{background:var(--cta);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.resume-btn:hover{background:#9A3412}
+.resume-close{background:transparent;border:none;color:var(--ink3);cursor:pointer;font-size:16px;padding:4px 8px}
+.resume-close:hover{color:var(--ink)}
+
 .xp-toast{position:fixed;top:80px;right:20px;background:var(--cta);color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(194,65,12,.4);z-index:300;opacity:0;transform:translateX(20px);transition:.3s}
 .xp-toast.on{opacity:1;transform:translateX(0)}
 
@@ -166,6 +176,7 @@ h1 em{font-style:normal;color:var(--cta)}
     <div class="stats-bar" id="stats">加载中...</div>
 </section>
 
+<section id="resume-banner" class="resume" style="display:none"></section>
 <section id="search-hits" class="panel" style="display:none"></section>
 
 <section id="book-grid" class="books"><div class="empty">加载中...</div></section>
@@ -208,6 +219,7 @@ var FILTER = { stage: '', subj: '', grade: '' };
 var ACTIVE_BOOK = null;       // the currently opened book
 var ACTIVE_CHAPTER = null;    // the currently opened chapter
 var READ_KEY = 'ydzx_textbook_read';  // set of "{path}::ch{N}"
+var LAST_KEY = 'ydzx_textbook_last'; // {path, ch, ts}
 
 function getRead(){
     try { return new Set(JSON.parse(localStorage.getItem(READ_KEY) || '[]')); }
@@ -220,6 +232,18 @@ function markRead(sig){
     localStorage.setItem(READ_KEY, JSON.stringify(Array.from(s)));
     return true;
 }
+function setLast(path, ch){
+    try { localStorage.setItem(LAST_KEY, JSON.stringify({path: path, ch: ch, ts: Date.now()})); } catch(e){}
+}
+function getLast(){
+    try {
+        var d = JSON.parse(localStorage.getItem(LAST_KEY) || 'null');
+        if (!d || !d.path || !d.ch) return null;
+        // 7 天内才显示
+        if (Date.now() - (d.ts || 0) > 7 * 86400000) return null;
+        return d;
+    } catch(e){ return null; }
+}
 
 // ===== SHORTCUTS =====
 function $(id){ return document.getElementById(id); }
@@ -231,6 +255,41 @@ function subjCls(subj){
     if (subj === '物理') return 'sub-physics';
     if (subj === '化学') return 'sub-chem';
     return '';
+}
+function renderResume(){
+    var host = $('resume-banner');
+    if (!host) return;
+    var last = getLast();
+    if (!last || !MANIFEST) { host.style.display = 'none'; return; }
+    var book = (MANIFEST.books || []).find(function(b){ return b.path === last.path; });
+    if (!book) { host.style.display = 'none'; return; }
+    var ch = (book.chapters || []).find(function(c){ return c.ch === last.ch; });
+    if (!ch) { host.style.display = 'none'; return; }
+    var mins = Math.round((Date.now() - last.ts) / 60000);
+    var ago = mins < 60 ? (mins + ' 分钟前')
+            : mins < 1440 ? (Math.round(mins/60) + ' 小时前')
+            : (Math.round(mins/1440) + ' 天前');
+    host.innerHTML =
+        '<div class="resume-l">' +
+            '<div class="resume-tag">继续阅读</div>' +
+            '<div class="resume-title">' + esc(book.subject) + ' · ' + esc(book.grade) + ' ' + esc(book.volume) + ' · 第 ' + ch.ch + ' 章 ' + esc(ch.title) + '</div>' +
+            '<div class="resume-sub">上次在 ' + ago + ' 读过 · p' + ch.start_page + '–' + ch.end_page + '</div>' +
+        '</div>' +
+        '<button class="resume-btn" onclick="resumeLast()">→ 回到这里</button>' +
+        '<button class="resume-close" onclick="dismissResume()" title="收起">×</button>';
+    host.style.display = 'flex';
+}
+function resumeLast(){
+    var last = getLast();
+    if (!last) return;
+    var book = (MANIFEST.books || []).find(function(b){ return b.path === last.path; });
+    if (!book) return;
+    ACTIVE_BOOK = book;
+    openChapter(last.ch);
+}
+function dismissResume(){
+    try { localStorage.removeItem(LAST_KEY); } catch(e){}
+    $('resume-banner').style.display = 'none';
 }
 function showXP(text){
     var t = $('xp-toast');
@@ -245,6 +304,7 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
     .then(function(j){
         MANIFEST = j;
         renderStats();
+        renderResume();
         rebuildGradePills();
         renderBooks();
     })
@@ -413,6 +473,8 @@ function openChapter(ch){
     var chObj = (ACTIVE_BOOK.chapters || []).find(function(x){ return x.ch === ch; });
     if (!chObj) return;
     ACTIVE_CHAPTER = chObj;
+    setLast(ACTIVE_BOOK.path, ch);
+    renderResume();
     $('reader-title').innerHTML = '第 ' + ch + ' 章 · ' + esc(chObj.title) +
         '<small>' + esc(ACTIVE_BOOK.subject) + ' · ' + esc(ACTIVE_BOOK.grade) + ' ' + esc(ACTIVE_BOOK.volume) + ' · p' + chObj.start_page + '–' + chObj.end_page + '</small>';
     $('reader-body').innerHTML = '<div class="empty">加载正文中...</div>';
