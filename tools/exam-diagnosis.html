@@ -330,7 +330,23 @@
                 <h2>13维能力诊断报告</h2>
                 <div class="radar-container" id="radar-section">
                     <canvas id="radar-chart" width="500" height="500"></canvas>
+                    <div id="radar-legend" style="display:none;margin-top:12px;padding:10px 14px;background:#FFFBF0;border:1px solid #F5D78E;border-radius:8px;font-size:13px;line-height:1.6">
+                        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:500">
+                                <input type="checkbox" id="toggle-prev" checked onchange="togglePrevOverlay()">
+                                显示上次诊断对比
+                            </label>
+                            <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#E94D35;display:inline-block"></span>本次</span>
+                            <span style="display:inline-flex;align-items:center;gap:5px;color:#6B7280"><span style="width:14px;height:2px;background:#94A3B8;display:inline-block;border-top:1px dashed transparent"></span>上次 <span id="prev-date-label" style="font-size:11px"></span></span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="form-card" id="delta-card" style="display:none">
+                <h2>📈 vs 上次变化</h2>
+                <div id="delta-summary" style="padding:12px 14px;background:#F8F7F4;border-radius:8px;margin-bottom:12px;font-size:14px;line-height:1.7"></div>
+                <div class="dimension-grid" id="delta-grid"></div>
             </div>
 
             <div class="form-card">
@@ -890,10 +906,50 @@
         });
     }
 
+    // 缓存当前 + 上次 dimensions 给 toggle 用
+    var _currentDims = null;
+    var _prevDims = null;
+    var _prevMeta = null;
+
+    // 查询最近一次同 grade+subject 诊断（不含本次）
+    function findPrevDiagnosis(grade, subject) {
+        if (!window.LearningStore) return null;
+        var records = window.LearningStore.getDiagnosisRecords({ grade: grade, subject: subject }) || [];
+        // 本次已经 saveDiagnosis 过，数组末尾是本次，取倒数第二条
+        if (records.length < 2) return null;
+        return records[records.length - 2];
+    }
+
     // 渲染报告
     function renderReport(result) {
-        // 渲染雷达图
-        drawRadarChart(result.dimensions);
+        _currentDims = result.dimensions;
+
+        // 查上次同科诊断
+        var grade = document.getElementById('grade').value;
+        var subject = document.getElementById('subject').value;
+        var prev = findPrevDiagnosis(grade, subject);
+        if (prev && prev.result && prev.result.dimensions) {
+            _prevDims = prev.result.dimensions;
+            _prevMeta = {
+                timestamp: prev.timestamp,
+                examName: prev.examName,
+                score: prev.score,
+                totalScore: prev.totalScore
+            };
+            var d = new Date(prev.timestamp);
+            document.getElementById('prev-date-label').textContent =
+                '(' + (d.getMonth()+1) + '月' + d.getDate() + '日 ' + (prev.examName || '') + ')';
+            document.getElementById('radar-legend').style.display = 'block';
+            renderDeltaCard(result.dimensions, _prevDims);
+        } else {
+            _prevDims = null;
+            _prevMeta = null;
+            document.getElementById('radar-legend').style.display = 'none';
+            document.getElementById('delta-card').style.display = 'none';
+        }
+
+        // 渲染雷达图（带 overlay）
+        drawRadarChart(result.dimensions, _prevDims);
 
         // 渲染维度卡片
         var html = result.dimensions.map(function(d) {
@@ -914,8 +970,72 @@
         document.getElementById('suggestions').innerHTML = sugHtml;
     }
 
-    // 绘制雷达图（简化版，使用Canvas）
-    function drawRadarChart(dimensions) {
+    // toggle 上次叠加
+    function togglePrevOverlay() {
+        var on = document.getElementById('toggle-prev').checked;
+        drawRadarChart(_currentDims, on ? _prevDims : null);
+    }
+    window.togglePrevOverlay = togglePrevOverlay;
+
+    // 渲染差异卡
+    function renderDeltaCard(cur, prev) {
+        // 按名字匹配
+        var prevMap = {};
+        prev.forEach(function (d) { prevMap[d.name] = d.score; });
+        var deltas = cur.map(function (d) {
+            var pv = prevMap[d.name];
+            if (pv == null) return { name: d.name, cur: d.score, prev: null, diff: null };
+            return { name: d.name, cur: d.score, prev: pv, diff: d.score - pv };
+        }).filter(function (x) { return x.diff !== null; });
+
+        if (deltas.length === 0) {
+            document.getElementById('delta-card').style.display = 'none';
+            return;
+        }
+
+        var avgDiff = deltas.reduce(function (s, x) { return s + x.diff; }, 0) / deltas.length;
+        var up = deltas.filter(function (x) { return x.diff > 0; }).length;
+        var down = deltas.filter(function (x) { return x.diff < 0; }).length;
+        var flat = deltas.length - up - down;
+
+        var trend = avgDiff > 2 ? '整体上升' : (avgDiff < -2 ? '整体下滑' : '基本持平');
+        var trendColor = avgDiff > 2 ? '#059669' : (avgDiff < -2 ? '#DC2626' : '#6B7280');
+
+        var days = '';
+        if (_prevMeta && _prevMeta.timestamp) {
+            var g = Math.round((Date.now() - _prevMeta.timestamp) / 86400000);
+            days = '间隔 ' + g + ' 天 · ';
+        }
+
+        document.getElementById('delta-summary').innerHTML =
+            '<span style="color:' + trendColor + ';font-weight:700">' + trend + '</span>（平均 ' +
+            (avgDiff >= 0 ? '+' : '') + avgDiff.toFixed(1) + ' 分）· ' +
+            days +
+            '<span style="color:#059669">↑' + up + '</span> 项上升 · ' +
+            '<span style="color:#DC2626">↓' + down + '</span> 项下滑 · ' +
+            '<span style="color:#6B7280">=' + flat + '</span> 项持平';
+
+        // 排序：下滑幅度大的在前（要先看问题）
+        deltas.sort(function (a, b) { return a.diff - b.diff; });
+
+        var html = deltas.map(function (x) {
+            var sign = x.diff > 0 ? '+' : '';
+            var color = x.diff > 0 ? '#059669' : (x.diff < 0 ? '#DC2626' : '#6B7280');
+            var arrow = x.diff > 0 ? '↑' : (x.diff < 0 ? '↓' : '→');
+            return '<div class="dimension-card" style="border-left:3px solid ' + color + '">' +
+                '<div class="dimension-card-header">' +
+                '<span class="dimension-title">' + x.name + '</span>' +
+                '<span style="color:' + color + ';font-weight:700;font-size:18px">' + arrow + ' ' + sign + x.diff + '</span>' +
+                '</div>' +
+                '<p class="dimension-desc">上次 ' + x.prev + ' → 本次 ' + x.cur + '</p>' +
+                '</div>';
+        }).join('');
+        document.getElementById('delta-grid').innerHTML = html;
+        document.getElementById('delta-card').style.display = '';
+    }
+
+    // 绘制雷达图（简化版，使用Canvas）· 可选 prevDimensions 叠加
+    function drawRadarChart(dimensions, prevDimensions) {
         var canvas = document.getElementById('radar-chart');
         var ctx = canvas.getContext('2d');
         var centerX = 250, centerY = 250, radius = 180;
@@ -990,6 +1110,56 @@
             ctx.beginPath();
             ctx.arc(x, y, 4, 0, Math.PI * 2);
             ctx.fill();
+        }
+
+        // === 叠加上次诊断（虚线 + 半透明） ===
+        if (prevDimensions && prevDimensions.length) {
+            // 对齐：用 name 字典映射到本次的角度顺序
+            var prevMap = {};
+            prevDimensions.forEach(function (d) { prevMap[d.name] = d.score; });
+
+            ctx.save();
+            ctx.setLineDash([6, 5]);
+            ctx.strokeStyle = '#94A3B8';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = 'rgba(148,163,184,0.12)';
+            ctx.beginPath();
+            var hasAny = false;
+            for (var k = 0; k < n; k++) {
+                var nm = dimensions[k].name;
+                var pScore = prevMap[nm];
+                if (pScore == null) continue;
+                var a2 = (Math.PI * 2 / n) * k - Math.PI / 2;
+                var r2 = radius * pScore / 100;
+                var px = centerX + r2 * Math.cos(a2);
+                var py = centerY + r2 * Math.sin(a2);
+                if (!hasAny) { ctx.moveTo(px, py); hasAny = true; }
+                else ctx.lineTo(px, py);
+            }
+            if (hasAny) {
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            }
+            // 上次数据点（空心）
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#94A3B8';
+            ctx.lineWidth = 1.5;
+            for (var m = 0; m < n; m++) {
+                var nm2 = dimensions[m].name;
+                var pS = prevMap[nm2];
+                if (pS == null) continue;
+                var a3 = (Math.PI * 2 / n) * m - Math.PI / 2;
+                var r3 = radius * pS / 100;
+                var qx = centerX + r3 * Math.cos(a3);
+                var qy = centerY + r3 * Math.sin(a3);
+                ctx.beginPath();
+                ctx.arc(qx, qy, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+            ctx.restore();
         }
     }
 

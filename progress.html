@@ -188,6 +188,23 @@
     <div class="quests" id="quests"></div>
 </section>
 
+<!-- FSRS 闪卡状态 -->
+<section class="sec" id="fsrs-sec" style="display:none">
+    <div class="sec-h">
+        <div class="sec-t">闪卡复习队列</div>
+        <div class="sec-sub">基于遗忘曲线</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+        <div style="display:flex;gap:22px;flex:1;min-width:260px">
+            <div><div style="font-size:28px;font-weight:900;color:var(--amber);line-height:1" id="fs-due">0</div><div style="font-size:11px;color:var(--ink3);margin-top:3px;font-weight:500">今日到期</div></div>
+            <div><div style="font-size:28px;font-weight:900;color:var(--blue);line-height:1" id="fs-learning">0</div><div style="font-size:11px;color:var(--ink3);margin-top:3px;font-weight:500">学习中</div></div>
+            <div><div style="font-size:28px;font-weight:900;color:var(--green);line-height:1" id="fs-mature">0</div><div style="font-size:11px;color:var(--ink3);margin-top:3px;font-weight:500">已熟练</div></div>
+            <div><div style="font-size:28px;font-weight:900;color:var(--ink);line-height:1" id="fs-total">0</div><div style="font-size:11px;color:var(--ink3);margin-top:3px;font-weight:500">总卡数</div></div>
+        </div>
+        <a href="tools/note-enhancer.html" class="share-btn" style="text-decoration:none;display:inline-block" id="fs-cta">去复习 →</a>
+    </div>
+</section>
+
 <!-- XP CHART -->
 <section class="sec">
     <div class="sec-h">
@@ -241,6 +258,7 @@
 
 <footer class="foot">© 2026 原点智学 · 把学习变成长期游戏，而不是短期苦役</footer>
 
+<script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script>
 // 日期展示
@@ -392,9 +410,33 @@ function resetProgress() {
     location.reload();
 }
 
+// FSRS 数据
+function renderFsrs() {
+    if (!window.LearningStore || !window.LearningStore.getFlashcardStats) return;
+    var s = window.LearningStore.getFlashcardStats();
+    if (s.total === 0) {
+        document.getElementById('fsrs-sec').style.display = 'none';
+        return;
+    }
+    document.getElementById('fsrs-sec').style.display = '';
+    document.getElementById('fs-due').textContent = s.due;
+    document.getElementById('fs-learning').textContent = s.learning;
+    document.getElementById('fs-mature').textContent = s.mature;
+    document.getElementById('fs-total').textContent = s.total;
+    var cta = document.getElementById('fs-cta');
+    if (s.due > 0) {
+        cta.textContent = '去复习 ' + s.due + ' 张 →';
+        cta.style.background = 'var(--amber)';
+        cta.style.color = '#fff';
+    } else {
+        cta.textContent = '查看全部闪卡 →';
+    }
+}
+
 // init
 GAME.pingToday('progress');
 render();
+renderFsrs();
 </script>
 
 </body>

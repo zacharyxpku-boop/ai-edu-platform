@@ -10,7 +10,8 @@
         STUDY_PLAN: 'ydzx_study_plans',      // 学习计划
         PROGRESS: 'ydzx_progress_data',      // 进步追踪
         PRACTICE: 'ydzx_practice_records',   // 练习记录
-        ERRORS:   'ydzx_errors_pool'         // 错题池（跨工具共享）
+        ERRORS:   'ydzx_errors_pool',        // 错题池（跨工具共享）
+        FLASHCARDS: 'ydzx_flashcards_pool'   // 闪卡池 · FSRS 简化版复习队列
     };
 
     // 安全localStorage操作
@@ -242,6 +243,140 @@
             return safeSet(KEYS.ERRORS, pool);
         },
 
+        // ===== 闪卡 FSRS 简化版复习队列 =====
+        // 新卡：next=now；评分 0=不会 / 1=模糊 / 2=会了
+        // gaps: 不会重置到 stage 0，模糊 stage-1，会了 stage+1
+        // stage -> days: [0.02(30分钟), 1, 3, 7, 15, 30, 60, 120]
+
+        /**
+         * 批量保存闪卡（从 note-enhancer 写入）
+         * cards: [{ question, answer }]
+         * meta:  { subject, stage, grade, textbookVersion, chapter }
+         */
+        saveFlashcards: function (cards, meta) {
+            if (!Array.isArray(cards) || cards.length === 0) return false;
+            var pool = safeGet(KEYS.FLASHCARDS);
+            var now = Date.now();
+            cards.forEach(function (c, i) {
+                pool.push({
+                    id: 'card_' + now + '_' + i + '_' + Math.random().toString(36).substr(2, 6),
+                    question: c.question || '',
+                    answer: c.answer || '',
+                    subject: (meta && meta.subject) || '',
+                    stage: (meta && meta.stage) || '',
+                    grade: (meta && meta.grade) || '',
+                    textbookVersion: (meta && meta.textbookVersion) || '',
+                    chapter: (meta && meta.chapter) || '',
+                    source: (meta && meta.source) || 'note-enhancer',
+                    createdAt: now,
+                    nextReviewAt: now,       // 新卡立刻到期
+                    lastReviewAt: null,
+                    reviewStage: 0,          // 0..7
+                    reviewCount: 0,
+                    lapses: 0                // 失败次数
+                });
+            });
+            // 同一科目 + 相同 question 去重（保留新的）
+            var seen = {};
+            var dedup = [];
+            for (var k = pool.length - 1; k >= 0; k--) {
+                var key = (pool[k].subject || '') + '|' + (pool[k].question || '').trim();
+                if (seen[key]) continue;
+                seen[key] = true;
+                dedup.unshift(pool[k]);
+            }
+            if (dedup.length > 800) dedup = dedup.slice(-800);
+            return safeSet(KEYS.FLASHCARDS, dedup);
+        },
+
+        /**
+         * 取所有到期闪卡（nextReviewAt <= now）
+         * filter: { subject?, grade?, limit? }
+         */
+        getDueFlashcards: function (filter) {
+            var pool = safeGet(KEYS.FLASHCARDS);
+            var now = Date.now();
+            var due = pool.filter(function (c) {
+                if (c.nextReviewAt > now) return false;
+                if (filter && filter.subject && c.subject !== filter.subject) return false;
+                if (filter && filter.grade && c.grade !== filter.grade) return false;
+                return true;
+            });
+            // 到期越久越先复习
+            due.sort(function (a, b) { return a.nextReviewAt - b.nextReviewAt; });
+            if (filter && filter.limit) due = due.slice(0, filter.limit);
+            return due;
+        },
+
+        /** 所有闪卡 */
+        getAllFlashcards: function (filter) {
+            var pool = safeGet(KEYS.FLASHCARDS);
+            if (!filter) return pool;
+            return pool.filter(function (c) {
+                if (filter.subject && c.subject !== filter.subject) return false;
+                if (filter.grade && c.grade !== filter.grade) return false;
+                return true;
+            });
+        },
+
+        /**
+         * 评分：id + rating (0/1/2)
+         * 0 = 不会：stage=0, lapses+1, next = +30 分钟
+         * 1 = 模糊：stage = max(0, stage-1), next = 按新 stage
+         * 2 = 会了：stage+=1, next = 按新 stage
+         */
+        reviewFlashcard: function (id, rating) {
+            var pool = safeGet(KEYS.FLASHCARDS);
+            // 天数映射：[30分钟, 1天, 3天, 7天, 15天, 30天, 60天, 120天]
+            var gapsMs = [
+                30 * 60 * 1000,
+                1 * 86400000,
+                3 * 86400000,
+                7 * 86400000,
+                15 * 86400000,
+                30 * 86400000,
+                60 * 86400000,
+                120 * 86400000
+            ];
+            var updated = null;
+            for (var i = 0; i < pool.length; i++) {
+                if (pool[i].id !== id) continue;
+                var c = pool[i];
+                c.reviewCount = (c.reviewCount || 0) + 1;
+                c.lastReviewAt = Date.now();
+                if (rating === 0) {
+                    c.reviewStage = 0;
+                    c.lapses = (c.lapses || 0) + 1;
+                } else if (rating === 1) {
+                    c.reviewStage = Math.max(0, (c.reviewStage || 0) - 1);
+                } else {
+                    c.reviewStage = Math.min(gapsMs.length - 1, (c.reviewStage || 0) + 1);
+                }
+                c.nextReviewAt = Date.now() + gapsMs[c.reviewStage];
+                updated = c;
+                break;
+            }
+            safeSet(KEYS.FLASHCARDS, pool);
+            return updated;
+        },
+
+        /** 删除闪卡 */
+        deleteFlashcard: function (id) {
+            var pool = safeGet(KEYS.FLASHCARDS);
+            var filtered = pool.filter(function (c) { return c.id !== id; });
+            return safeSet(KEYS.FLASHCARDS, filtered);
+        },
+
+        /** 闪卡统计 · progress.html 可用 */
+        getFlashcardStats: function () {
+            var pool = safeGet(KEYS.FLASHCARDS);
+            var now = Date.now();
+            var due = pool.filter(function (c) { return c.nextReviewAt <= now; }).length;
+            var learning = pool.filter(function (c) { return (c.reviewStage || 0) < 3; }).length;
+            var mature = pool.filter(function (c) { return (c.reviewStage || 0) >= 5; }).length;
+            return { total: pool.length, due: due, learning: learning, mature: mature };
+        },
+
         /**
          * 导出所有数据为JSON
          * @returns {String}
@@ -253,8 +388,9 @@
                 progress: safeGet(KEYS.PROGRESS),
                 practice: safeGet(KEYS.PRACTICE),
                 errors: safeGet(KEYS.ERRORS),
+                flashcards: safeGet(KEYS.FLASHCARDS),
                 exportTime: Date.now(),
-                version: '1.1'
+                version: '1.2'
             };
             return JSON.stringify(allData, null, 2);
         },
@@ -272,6 +408,7 @@
                     safeSet(KEYS.PROGRESS, data.progress || []);
                     safeSet(KEYS.PRACTICE, data.practice || []);
                     safeSet(KEYS.ERRORS, data.errors || []);
+                    safeSet(KEYS.FLASHCARDS, data.flashcards || []);
                     alert('数据导入成功！');
                     return true;
                 }
