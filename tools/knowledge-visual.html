@@ -314,7 +314,7 @@
         let textbookIndex = null;
 
         var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
-        var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+        var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治', '思想政治': '思想政治', '道德与法治': '道德与法治', '科学': '科学', '美术': '美术', '音乐': '音乐'};
 
         async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
 

@@ -331,13 +331,13 @@
     };
 
     var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
-    var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治'};
+    var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治', '思想政治': '思想政治', '道德与法治': '道德与法治', '科学': '科学', '美术': '美术', '音乐': '音乐'};
 
     async function loadTextbookIndex() { if (textbookIndex) return; try { var r = await fetch('../src/curriculum/textbook-index.json'); textbookIndex = await r.json(); } catch (e) { console.error(e); } }
 
     function updateGradeOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade'); g.innerHTML = '<option value="">请选择年级</option>'; if (s && gradesByStage[s]) { gradesByStage[s].forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; g.appendChild(o); }); if (s === '初中') g.value = '七年级'; } updateSubjectOptions(); }
 
-    function updateSubjectOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, sub = document.getElementById('subject'); sub.innerHTML = '<option value="">请选择科目</option>'; if (!s || !g) return; var subjects = s === '初中' ? ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'] : s === '小学' ? ['语文', '数学', '英语'] : ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治']; subjects.forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; sub.appendChild(o); }); if (subjects.includes('数学')) sub.value = '数学'; updateVersionOptions(); }
+    function updateSubjectOptions() { var s = document.getElementById('school-stage').value, g = document.getElementById('grade').value, sub = document.getElementById('subject'); sub.innerHTML = '<option value="">请选择科目</option>'; if (!s || !g) return; var subjects = s === '初中' ? ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '政治'] : s === '小学' ? ['语文', '数学', '英语', '道德与法治', '科学', '美术', '音乐'] : ['语文', '数学', '英语', '物理', '化学', '生物', '历史', '地理', '思想政治']; subjects.forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; sub.appendChild(o); }); if (subjects.includes('数学')) sub.value = '数学'; updateVersionOptions(); }
 
     async function updateVersionOptions() { var s = document.getElementById('school-stage').value, sub = document.getElementById('subject').value, ver = document.getElementById('textbook-version'); ver.innerHTML = '<option value="">请选择版本</option>'; if (!s || !sub) return; await loadTextbookIndex(); if (!textbookIndex || !textbookIndex[s]) return; var subName = subjectNameMap[sub], subData = textbookIndex[s][subName]; if (!subData) return; Object.keys(subData).forEach(function(v) { var o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o); }); if (Object.keys(subData).length > 0) ver.value = Object.keys(subData)[0]; }
 
