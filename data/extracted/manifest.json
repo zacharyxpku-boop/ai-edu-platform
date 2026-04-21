@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-04-22",
   "source": "ChinaTextbook github.com/TapXWorld/ChinaTextbook",
-  "book_count": 16,
-  "scan_count": 8,
+  "book_count": 17,
+  "scan_count": 7,
   "total": 24,
   "books": [
     {
@@ -90,6 +90,53 @@
           "title": "第四章　几何图形初步",
           "start_page": 120,
           "end_page": 162
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "数学",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 172,
+      "path": "初中/数学/人教版/七年级/下册",
+      "chapters": [
+        {
+          "ch": 5,
+          "title": "10第五章相交线与平行线",
+          "start_page": 16,
+          "end_page": 44
+        },
+        {
+          "ch": 6,
+          "title": "第六章实数 同学们，你们知道宇宙飞船离开地球进入地",
+          "start_page": 45,
+          "end_page": 68
+        },
+        {
+          "ch": 7,
+          "title": "第七章 平面直角坐标系",
+          "start_page": 69,
+          "end_page": 92
+        },
+        {
+          "ch": 8,
+          "title": "第八章 二元一次方程组",
+          "start_page": 93,
+          "end_page": 118
+        },
+        {
+          "ch": 9,
+          "title": "第九章 不等式与不等式组",
+          "start_page": 119,
+          "end_page": 139
+        },
+        {
+          "ch": 10,
+          "title": "第十章 数据的收集、整理",
+          "start_page": 140,
+          "end_page": 172
         }
       ]
     },
@@ -671,16 +718,6 @@
       "volume": "下册",
       "page_count": 121,
       "path": "初中/化学/人教版/九年级/下册",
-      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
-    },
-    {
-      "stage": "初中",
-      "subject": "数学",
-      "edition": "人教版",
-      "grade": "七年级",
-      "volume": "下册",
-      "page_count": 172,
-      "path": "初中/数学/人教版/七年级/下册",
       "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
     },
     {
