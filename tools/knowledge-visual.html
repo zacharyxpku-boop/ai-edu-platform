@@ -280,6 +280,7 @@
                 <div class="visual-actions">
                     <button class="btn-primary" onclick="regenerateVisual()" id="regen-btn" style="display:none;">🔄 重新生成</button>
                     <button class="btn-secondary" onclick="downloadImage()" id="download-btn" style="display:none;">💾 下载PNG</button>
+                    <button class="btn-secondary" onclick="shareVisual()" id="share-btn" style="display:none;">🔗 分享</button>
                 </div>
 
                 <div class="loading-overlay" id="loading-overlay">
@@ -291,6 +292,25 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
+    <script>
+    function shareVisual() {
+        var title = (document.getElementById('visual-title')||{}).textContent || '一个知识点';
+        var activeBtn = document.querySelector('.visual-type-btn.active');
+        var type = activeBtn ? activeBtn.textContent : '图表';
+        YdzxShare.open({
+            source: 'knowledge-visual',
+            title: '原点AI 把「'+title+'」画成了图',
+            subtitle: '类型: ' + type + ' · 文字→结构化可视化',
+            metrics: [
+                { label:'图表类型', value: type },
+                { label:'可切换', value: '3 种' },
+                { label:'下载', value: 'PNG' }
+            ],
+            quote: '复习笔记改成图，比干看文字好记 5 倍'
+        });
+    }
+    </script>
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({
@@ -502,6 +522,7 @@ currentVisualType === 'mindmap' ?
 
                     document.getElementById('regen-btn').style.display = 'inline-block';
                     document.getElementById('download-btn').style.display = 'inline-block';
+                    document.getElementById('share-btn').style.display = 'inline-block';
                 },
                 onError: function(err) {
                     loading.classList.remove('visible');

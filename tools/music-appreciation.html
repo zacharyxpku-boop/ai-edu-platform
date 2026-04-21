@@ -253,6 +253,9 @@
         </div>
 
         <div class="result-section" id="result-section">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                <button class="btn-primary" onclick="shareMusic()">分享给朋友</button>
+            </div>
             <div class="analysis-grid" id="analysis-grid"></div>
 
             <div class="timeline-section">
@@ -271,7 +274,26 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script>
+        function shareMusic() {
+            var composer = (document.getElementById('composer')||{}).value || '';
+            var piece = (document.getElementById('piece-name')||{}).value || '';
+            if (!piece) { alert('先解析一首乐曲再分享'); return; }
+            var sections = document.querySelectorAll('#timeline-track .timeline-section, #timeline-track > div').length;
+            var questions = document.querySelectorAll('#question-list li').length;
+            YdzxShare.open({
+                source: 'music-appreciation',
+                title: '原点AI 带娃听懂了《'+piece+'》',
+                subtitle: composer + (composer?' · ':'') + '段落结构 + 引导聆听',
+                metrics: [
+                    { label:'段落', value: String(Math.max(sections-1,3)) },
+                    { label:'引导题', value: String(questions||5) },
+                    { label:'作曲家', value: composer.substring(0,6)||'—' }
+                ],
+                quote: '不是灌术语，是带娃耳朵去找每个段落的变化'
+            });
+        }
         let musicDatabase = null;
         let textbookIndex = null;
 

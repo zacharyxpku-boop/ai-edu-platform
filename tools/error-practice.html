@@ -271,6 +271,9 @@
         </div>
 
         <div class="result-section" id="result-section">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                <button class="btn-primary" onclick="sharePractice()">分享给朋友</button>
+            </div>
             <div class="input-card">
                 <h2>练习题</h2>
                 <div id="questions-container"></div>
@@ -315,6 +318,28 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
+    <script>
+    function sharePractice() {
+        var total = document.querySelectorAll('#questions-container .question-item').length || document.querySelectorAll('#questions-container > div').length;
+        if (!total) { alert('先生成练习题再分享'); return; }
+        var stage = (document.getElementById('school-stage')||{}).value || '';
+        var grade = (document.getElementById('grade')||{}).value || '';
+        var subj = (document.getElementById('subject')||{}).value || '';
+        var kw = (document.getElementById('keyword')||{}).value || '';
+        YdzxShare.open({
+            source: 'error-practice',
+            title: '原点AI 按错题类型出了一组变式练习',
+            subtitle: [stage+grade, subj, kw].filter(Boolean).join(' · '),
+            metrics: [
+                { label:'题数', value: String(total) },
+                { label:'类型', value: kw ? kw.substring(0,4) : '同型' },
+                { label:'答案', value: '带讲解' }
+            ],
+            quote: '同类型多题反复练，薄弱点 3 天就能翻红'
+        });
+    }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="../src/app.js"></script>
     <script>

@@ -274,6 +274,7 @@
             <div class="comparison-header">
                 <h2>双栏对照阅读</h2>
                 <span class="info-tag" id="info-tag"></span>
+                <button class="btn-primary" onclick="shareRewrite()" style="margin-left:auto;padding:8px 14px;font-size:12px">分享</button>
             </div>
             <div class="dual-column">
                 <div class="column-card">
@@ -296,7 +297,27 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script>
+        function shareRewrite() {
+            var origLen = (document.getElementById('original-content').textContent||'').length;
+            var newLen = (document.getElementById('rewritten-content').textContent||'').length;
+            if (!origLen) { alert('先改写一段文字再分享'); return; }
+            var tl = document.getElementById('target-level');
+            var levelTxt = tl && tl.options[tl.selectedIndex] ? tl.options[tl.selectedIndex].text : '';
+            var info = (document.getElementById('info-tag')||{}).textContent || '';
+            YdzxShare.open({
+                source: 'reading-rewriter',
+                title: '原点AI 把晦涩原文改到娃读得懂',
+                subtitle: levelTxt ? (info + ' · ' + levelTxt) : info,
+                metrics: [
+                    { label:'原文字数', value: String(origLen) },
+                    { label:'改写字数', value: String(newLen) },
+                    { label:'对齐', value: '教材字词' }
+                ],
+                quote: '超纲词换成娃认识的字，理解门槛直接降下来'
+            });
+        }
         let readingListData = null;
         let textbookIndex = null;
         var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};

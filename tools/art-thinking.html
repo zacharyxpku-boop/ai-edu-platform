@@ -266,6 +266,7 @@
                     <textarea id="user-input" placeholder="我看到了..."></textarea>
                     <div style="display:flex;flex-direction:column;gap:var(--sp-sm);">
                         <button class="btn-primary" onclick="sendMessage()" id="send-btn">发送</button>
+                        <button class="btn-secondary" onclick="shareArt()">分享</button>
                         <button class="btn-secondary" onclick="resetDialogue()">重新开始</button>
                     </div>
                 </div>
@@ -275,7 +276,25 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script>
+        function shareArt() {
+            var artwork = (document.getElementById('artwork-input')||{}).value || '一幅作品';
+            var turns = document.querySelectorAll('#chat-history .chat-msg').length;
+            if (!turns) { alert('先开始对话再分享'); return; }
+            var focus = (document.getElementById('current-focus')||{}).textContent || '';
+            YdzxShare.open({
+                source: 'art-thinking',
+                title: '原点AI 带娃用苏格拉底式追问看一幅画',
+                subtitle: artwork.substring(0,20),
+                metrics: [
+                    { label:'追问轮次', value: String(turns) },
+                    { label:'维度', value: '5 维' },
+                    { label:'当前', value: focus.substring(0,4)||'观察' }
+                ],
+                quote: '不告诉答案，只追问，娃自己看出来的才记得住'
+            });
+        }
         let conversationHistory = [];
         let artworkDescription = '';
         let viewerRole = '';
