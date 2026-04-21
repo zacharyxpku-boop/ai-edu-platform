@@ -124,26 +124,16 @@
             return;
         }
 
-        // Get API key
+        // Get API key (BYOK only, no hardcoded platform key on client)
         var apiKey = '';
         var encKey = sGet('ydzx_apikey_' + providerKey);
         if (encKey) {
             apiKey = deobfuscate(encKey);
         }
-        // Fallback to platform default key (free tier with rate limit)
-        if (!apiKey) {
-            var PLATFORM_DEFAULTS = {
-                qwen: 'sk-78d76ee8d247485da8a46c5a3edb2a6d'
-            };
-            apiKey = PLATFORM_DEFAULTS[providerKey] || '';
-        }
 
-        if (!apiKey) {
-            if (options.onError) {
-                options.onError('未设置API Key。请前往设置页面配置你的' + config.name + ' API Key。');
-            }
-            return;
-        }
+        // Free tier without BYOK → route through server proxy /api/ai-proxy
+        // BYOK → direct to provider
+        var useProxy = !apiKey;
 
         // Build messages
         var messages = [];
@@ -160,18 +150,28 @@
             stream: !!options.onChunk
         };
 
-        var fetchOptions = {
-            method: 'POST',
-            headers: {
+        var targetUrl, fetchHeaders;
+        if (useProxy) {
+            targetUrl = '/api/ai-proxy';
+            fetchHeaders = { 'Content-Type': 'application/json' };
+            body.provider = providerKey;
+        } else {
+            targetUrl = config.baseUrl;
+            fetchHeaders = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + apiKey
-            },
+            };
+        }
+
+        var fetchOptions = {
+            method: 'POST',
+            headers: fetchHeaders,
             body: JSON.stringify(body)
         };
 
         if (options.onChunk) {
             // Streaming mode
-            fetch(config.baseUrl, fetchOptions).then(function (response) {
+            fetch(targetUrl, fetchOptions).then(function (response) {
                 if (!response.ok) {
                     return response.text().then(function (text) {
                         throw new Error('API错误 (' + response.status + '): ' + text.substring(0, 200));
@@ -214,7 +214,7 @@
             });
         } else {
             // Non-streaming mode
-            fetch(config.baseUrl, fetchOptions).then(function (response) {
+            fetch(targetUrl, fetchOptions).then(function (response) {
                 if (!response.ok) {
                     return response.text().then(function (text) {
                         throw new Error('API错误 (' + response.status + '): ' + text.substring(0, 200));
