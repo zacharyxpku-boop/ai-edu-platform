@@ -274,8 +274,9 @@
             <div class="summary-card" id="summary-card" style="display:none;">
                 <h3>🎯 知识点总结</h3>
                 <div class="summary-content" id="summary-content"></div>
-                <div style="margin-top:var(--sp-lg);">
-                    <button class="btn-primary" onclick="resetLearning()">学习新知识点</button>
+                <div style="margin-top:var(--sp-lg);display:flex;gap:10px;flex-wrap:wrap">
+                    <button class="btn-primary" onclick="shareExplain()">分享给朋友</button>
+                    <button class="btn-primary" onclick="resetLearning()" style="background:transparent;color:var(--c-ink);border:1px solid var(--c-ink-border)">学习新知识点</button>
                 </div>
             </div>
         </div>
@@ -283,9 +284,28 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script>
+        function shareExplain() {
+            var stage = (document.getElementById('school-stage')||{}).value || '';
+            var grade = (document.getElementById('grade')||{}).value || '';
+            var sel = document.getElementById('subject');
+            var subj = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+            var steps = document.querySelectorAll('#steps-container .step-item').length || document.querySelectorAll('#steps-container > div').length;
+            YdzxShare.open({
+                source: 'knowledge-explain',
+                title: '原点AI 用苏格拉底追问把知识点讲透了',
+                subtitle: [stage+grade, subj].filter(Boolean).join(' · '),
+                metrics: [
+                    { label:'步骤', value: String(steps||5) },
+                    { label:'提问', value: '追问式' },
+                    { label:'深度', value: '达标' }
+                ],
+                quote: 'AI 会反问，比直接给答案有用一万倍'
+            });
+        }
         let currentQuestion = '';
         let currentSubject = '';
         let currentAttempt = '';

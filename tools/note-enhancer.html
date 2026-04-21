@@ -276,6 +276,10 @@
         </div>
 
         <div class="result-section" id="result-section">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                <button class="btn-primary" onclick="shareNote()">分享给朋友</button>
+                <button class="btn-primary" onclick="location.reload()" style="background:transparent;color:var(--c-ink);border:1px solid var(--c-ink-border)">再补一份</button>
+            </div>
             <div class="enhanced-notes">
                 <h2>补全后的笔记</h2>
                 <div class="notes-content" id="enhanced-content"></div>
@@ -298,7 +302,27 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script>
+        function shareNote() {
+            var stage = (document.getElementById('school-stage')||{}).value || '';
+            var grade = (document.getElementById('grade')||{}).value || '';
+            var sel = document.getElementById('subject');
+            var subj = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+            var cards = document.querySelectorAll('#flashcards-grid .flashcard').length;
+            var enhancedLen = (document.getElementById('enhanced-content').textContent||'').length;
+            YdzxShare.open({
+                source: 'note-enhancer',
+                title: '原点AI 把娃课堂笔记补成了带导图的完整版',
+                subtitle: [stage+grade, subj].filter(Boolean).join(' · '),
+                metrics: [
+                    { label:'补后字数', value: String(enhancedLen) },
+                    { label:'闪卡', value: String(cards||8) },
+                    { label:'导图', value: '1 份' }
+                ],
+                quote: '碎笔记→思维导图→闪卡，一键变完整复习包'
+            });
+        }
         let textbookIndex = null;
         var gradesByStage = {'小学': ['三年级', '四年级', '五年级', '六年级'], '初中': ['七年级', '八年级', '九年级'], '高中': ['高一', '高二', '高三']};
         var subjectNameMap = {'数学': '数学', '语文': '语文', '英语': '英语', '物理': '物理', '化学': '化学', '生物': '生物学', '历史': '历史', '地理': '地理', '政治': '道德与法治', '思想政治': '思想政治', '道德与法治': '道德与法治', '科学': '科学', '美术': '美术', '音乐': '音乐'};

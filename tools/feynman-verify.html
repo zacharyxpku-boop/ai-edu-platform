@@ -306,7 +306,10 @@
             <div class="badge-icon">🏆</div>
             <div class="badge-title">小老师认证通过</div>
             <div class="badge-subtitle">你已经能把这个知识点讲得清清楚楚了</div>
-            <button class="btn-primary" onclick="closeBadge()">继续学习</button>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+                <button class="btn-primary" onclick="shareFeynman()">分享给朋友</button>
+                <button class="btn-secondary" onclick="closeBadge()">继续学习</button>
+            </div>
         </div>
     </div>
 
@@ -317,8 +320,24 @@
 
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
+    <script src="../src/share-kit.js"></script>
     <script src="../src/tools-nav.js"></script>
     <script>
+        function shareFeynman() {
+            var topic = (document.getElementById('current-topic')||{}).textContent || '一个知识点';
+            var turns = document.querySelectorAll('#chat-history .chat-msg').length || 0;
+            YdzxShare.open({
+                source: 'feynman-verify',
+                title: '娃用费曼法把「'+topic+'」讲通了',
+                subtitle: '原点智学 · 教给 AI 学生听 · 真懂才能过',
+                metrics: [
+                    { label:'对话轮次', value: String(turns) },
+                    { label:'认证', value: '通过' },
+                    { label:'方法', value: '费曼' }
+                ],
+                quote: '能讲明白才是真懂，讲不明白就是没懂透'
+            });
+        }
         let conversationHistory = [];
         let currentTopic = '';
         let currentLevel = '';
