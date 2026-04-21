@@ -3,6 +3,9 @@ node_modules/
 .vercel
 scripts/ct-files.txt
 
+# Raw PDF downloads — 规避仓库体积（data/extracted JSON 可以入库）
+data/textbooks-raw/
+
 # Env secrets - NEVER commit
 .env
 .env.local
