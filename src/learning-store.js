@@ -11,7 +11,8 @@
         PROGRESS: 'ydzx_progress_data',      // 进步追踪
         PRACTICE: 'ydzx_practice_records',   // 练习记录
         ERRORS:   'ydzx_errors_pool',        // 错题池（跨工具共享）
-        FLASHCARDS: 'ydzx_flashcards_pool'   // 闪卡池 · FSRS 简化版复习队列
+        FLASHCARDS: 'ydzx_flashcards_pool',  // 闪卡池 · FSRS 简化版复习队列
+        ESSAYS:   'ydzx_essay_history'       // 作文批改历史
     };
 
     // 安全localStorage操作
@@ -367,6 +368,44 @@
             return safeSet(KEYS.FLASHCARDS, filtered);
         },
 
+        /**
+         * 保存作文批改记录
+         * @param {Object} rec - { scores, total, stage, grade, genre, title, essay, annotations }
+         */
+        saveEssayGrading: function (rec) {
+            var list = safeGet(KEYS.ESSAYS);
+            rec.id = rec.id || ('essay_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7));
+            rec.timestamp = rec.timestamp || Date.now();
+            list.unshift(rec);
+            if (list.length > 100) list = list.slice(0, 100);
+            safeSet(KEYS.ESSAYS, list);
+            return rec.id;
+        },
+
+        /** 获取作文批改历史 */
+        getEssayHistory: function (filter) {
+            var list = safeGet(KEYS.ESSAYS);
+            if (filter && filter.stage) list = list.filter(function (r) { return r.stage === filter.stage; });
+            if (filter && filter.grade) list = list.filter(function (r) { return r.grade === filter.grade; });
+            if (filter && filter.genre) list = list.filter(function (r) { return r.genre === filter.genre; });
+            return list;
+        },
+
+        /** 删除某条 */
+        deleteEssay: function (id) {
+            var list = safeGet(KEYS.ESSAYS);
+            safeSet(KEYS.ESSAYS, list.filter(function (r) { return r.id !== id; }));
+        },
+
+        /** 作文进步曲线数据 — 返回按时间升序 {ts, total} */
+        getEssayTrend: function (limit) {
+            var list = safeGet(KEYS.ESSAYS);
+            var lim = limit || 12;
+            return list.slice(0, lim).reverse().map(function (r) {
+                return { ts: r.timestamp, total: r.total || 0, genre: r.genre || '', grade: r.grade || '' };
+            });
+        },
+
         /** 闪卡统计 · progress.html 可用 */
         getFlashcardStats: function () {
             var pool = safeGet(KEYS.FLASHCARDS);
@@ -389,8 +428,9 @@
                 practice: safeGet(KEYS.PRACTICE),
                 errors: safeGet(KEYS.ERRORS),
                 flashcards: safeGet(KEYS.FLASHCARDS),
+                essays: safeGet(KEYS.ESSAYS),
                 exportTime: Date.now(),
-                version: '1.2'
+                version: '1.3'
             };
             return JSON.stringify(allData, null, 2);
         },
@@ -409,6 +449,7 @@
                     safeSet(KEYS.PRACTICE, data.practice || []);
                     safeSet(KEYS.ERRORS, data.errors || []);
                     safeSet(KEYS.FLASHCARDS, data.flashcards || []);
+                    safeSet(KEYS.ESSAYS, data.essays || []);
                     alert('数据导入成功！');
                     return true;
                 }

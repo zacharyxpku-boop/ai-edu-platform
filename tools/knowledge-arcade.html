@@ -206,6 +206,41 @@ h1 em{font-style:normal;color:var(--cta)}
     <div class="notice">玩法会根据你选的游戏类型自动切换。AI会基于你选的教材版本和知识点出题，难度匹配你的年级。</div>
 </section>
 
+<!-- 学科模式：100 题题库速练 -->
+<section class="cfg" id="subject-mode" style="margin-top:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div>
+            <div style="font-weight:800;color:#18181B;font-size:16px">学科速练模式</div>
+            <div style="font-size:12px;color:#71717A;margin-top:2px">免 AI 等待，100 道精选初一题库按学科过滤，一题一解一 XP。</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap" id="subject-tabs">
+            <button class="subtab on" data-sub="math" onclick="loadSubjectBank('math')">数学 · 50</button>
+            <button class="subtab" data-sub="physics" onclick="loadSubjectBank('physics')">物理 · 30</button>
+            <button class="subtab" data-sub="chemistry" onclick="loadSubjectBank('chemistry')">化学 · 20</button>
+        </div>
+    </div>
+    <div id="sb-host" style="background:#FEFCF8;border:1px solid #E4E4E7;border-radius:10px;padding:16px;min-height:100px">
+        <div style="text-align:center;color:#A1A1AA;padding:16px 0;font-size:13px">点上方学科开始速练</div>
+    </div>
+</section>
+<style>
+.subtab{font:600 12px/1 var(--font);padding:7px 12px;background:#fff;border:1px solid #E4E4E7;border-radius:100px;cursor:pointer;color:#57534E}
+.subtab.on{background:#18181B;color:#fff;border-color:#18181B}
+.subtab:hover{border-color:#18181B}
+.sb-card{background:#fff;border:1px solid #E4E4E7;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.sb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.sb-idx{font:700 11px var(--font);color:#A8A29E}
+.sb-tag{font:600 11px var(--font);padding:2px 8px;background:#FFF5DE;border-radius:4px;color:#92400E}
+.sb-tag.easy{background:#E6F7ED;color:#14532D}
+.sb-tag.hard{background:#FCE8E8;color:#991B1B}
+.sb-q{font-size:14px;color:#18181B;line-height:1.7;margin-bottom:8px}
+.sb-ans{display:none;background:#FEF7E6;border-left:3px solid #F5A623;border-radius:0 6px 6px 0;padding:10px 12px;margin-top:8px;font-size:13px;line-height:1.7}
+.sb-ans.on{display:block}
+.sb-btn{font:600 12px var(--font);padding:6px 12px;border:1px solid #18181B;background:transparent;color:#18181B;border-radius:6px;cursor:pointer;margin-right:6px}
+.sb-btn.primary{background:#18181B;color:#fff}
+.sb-kps{font-size:11px;color:#71717A;margin-top:6px;font-style:italic}
+</style>
+
 <!-- 游戏舞台 -->
 <section class="stage" id="stage">
     <div class="stage-top">
@@ -246,6 +281,9 @@ h1 em{font-style:normal;color:var(--cta)}
 <script src="/src/share-kit.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/gamification-hud.js"></script>
+<!-- MathJax 用于学科速练的 LaTeX 公式 -->
+<script>window.MathJax={tex:{inlineMath:[['$','$']]},svg:{fontCache:'global'}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <script>
 // ==========================================
 // 游戏状态机
@@ -913,6 +951,101 @@ function checkSokWin() {
                 drawSok();
             }, 600);
         }
+    }
+}
+
+// ==========================================
+// 学科速练模式：seed-questions.json 过滤
+// ==========================================
+let _sbBank = null;
+let _sbCurrent = { subject: null, items: [], answered: new Set() };
+
+async function loadSeedBank() {
+    if (_sbBank) return _sbBank;
+    try {
+        const r = await fetch('/src/curriculum/seed-questions.json');
+        _sbBank = await r.json();
+        return _sbBank;
+    } catch (e) {
+        console.error('seed bank 加载失败', e);
+        return null;
+    }
+}
+
+async function loadSubjectBank(subject) {
+    document.querySelectorAll('.subtab').forEach(b => b.classList.toggle('on', b.dataset.sub === subject));
+    const host = document.getElementById('sb-host');
+    host.innerHTML = '<div style="text-align:center;color:#A1A1AA;padding:24px 0;font-size:13px">加载题库中…</div>';
+    const bank = await loadSeedBank();
+    if (!bank) {
+        host.innerHTML = '<div style="text-align:center;color:#C74040;padding:16px 0;font-size:13px">题库加载失败，请刷新重试</div>';
+        return;
+    }
+    const items = bank.questions.filter(q => q.subject === subject);
+    // 打乱并取前 10
+    const shuffled = items.slice().sort(() => Math.random() - 0.5).slice(0, 10);
+    _sbCurrent = { subject: subject, items: shuffled, answered: new Set() };
+    renderSubjectBank();
+}
+
+function renderSubjectBank() {
+    const host = document.getElementById('sb-host');
+    if (!_sbCurrent.items.length) {
+        host.innerHTML = '<div style="text-align:center;color:#A1A1AA;padding:16px 0;font-size:13px">该学科暂无题目</div>';
+        return;
+    }
+    const subjectName = { math:'数学', physics:'物理', chemistry:'化学' }[_sbCurrent.subject] || _sbCurrent.subject;
+    const html = '<div style="font-size:12px;color:#71717A;margin-bottom:10px">本轮 <b style="color:#18181B">' + subjectName + '</b> 速练 · 共 ' + _sbCurrent.items.length + ' 道 · 已解 <b id="sb-done">0</b> 道</div>'
+        + _sbCurrent.items.map((q, i) => renderBankCard(q, i)).join('')
+        + '<div style="text-align:center;margin-top:12px"><button class="sb-btn primary" onclick="loadSubjectBank(\'' + _sbCurrent.subject + '\')">换一批 10 题</button></div>';
+    host.innerHTML = html;
+    // 渲染 MathJax（如果可用）
+    if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([host]).catch(function(){});
+    }
+}
+
+function renderBankCard(q, idx) {
+    const diffMap = { easy:'简单', medium:'中等', hard:'困难' };
+    const diffCls = { easy:'easy', hard:'hard' }[q.difficulty] || '';
+    const kps = (q.knowledge_points || []).slice(0, 3).join(' · ');
+    const qt = (q.question_text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const ans = (q.answer || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const steps = (q.solution_steps || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return '<div class="sb-card" id="sb-c-' + idx + '">'
+        + '<div class="sb-head">'
+        + '<div><span class="sb-idx">#' + (idx+1) + '</span> <span class="sb-tag ' + diffCls + '">' + (diffMap[q.difficulty]||'—') + '</span> <span class="sb-idx">' + (q.chapter||'') + '</span></div>'
+        + '</div>'
+        + '<div class="sb-q">' + qt + '</div>'
+        + '<button class="sb-btn primary" onclick="sbReveal(' + idx + ', true)">我会了</button>'
+        + '<button class="sb-btn" onclick="sbReveal(' + idx + ', false)">看解析</button>'
+        + '<div class="sb-ans" id="sb-a-' + idx + '"><b>答案：</b>' + ans + '<br><b>思路：</b>' + steps + (kps ? '<div class="sb-kps">知识点：' + kps + '</div>' : '') + '</div>'
+        + '</div>';
+}
+
+function sbReveal(idx, confidentlyCorrect) {
+    const q = _sbCurrent.items[idx];
+    if (!q) return;
+    const alreadyDone = _sbCurrent.answered.has(idx);
+    _sbCurrent.answered.add(idx);
+    const ans = document.getElementById('sb-a-' + idx);
+    if (ans) ans.classList.add('on');
+    const doneBadge = document.getElementById('sb-done');
+    if (doneBadge) doneBadge.textContent = _sbCurrent.answered.size;
+
+    // XP 只算第一次
+    if (!alreadyDone && window.GAME) {
+        const xp = confidentlyCorrect ? 4 : 2;
+        const subjName = { math:'数学', physics:'物理', chemistry:'化学' }[_sbCurrent.subject] || _sbCurrent.subject;
+        window.GAME.addXP(xp, '题库速练 · ' + subjName);
+        if (window.YdzxHUD) window.YdzxHUD.refresh();
+    }
+    // 满 10 道解锁
+    if (_sbCurrent.answered.size >= 10 && window.GAME) {
+        window.GAME.unlockBadge('all_five_tools'); // 通用多练徽章
+    }
+    if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise([ans]).catch(function(){});
     }
 }
 </script>

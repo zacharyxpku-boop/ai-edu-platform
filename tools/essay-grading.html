@@ -263,6 +263,20 @@
             <button class="btn-primary" onclick="gradeEssay()" id="grade-btn">开始批改</button>
         </div>
 
+        <!-- 批改历史 + 进步曲线 -->
+        <section id="essay-history" style="display:none;background:#fff;border:1px solid var(--c-ink-border);border-radius:var(--r-lg);padding:var(--sp-xl);margin-bottom:var(--sp-lg)">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+                <h2 style="margin:0;font-size:18px">批改历史</h2>
+                <div style="font-size:12px;color:var(--c-warm-gray)">最近 <span id="eh-count">0</span> 篇 · 平均 <b id="eh-avg" style="color:var(--c-origin)">—</b> 分 · 最高 <b id="eh-max">—</b></div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--c-ink-border);border-radius:var(--r-md);padding:14px;margin-bottom:14px">
+                <div style="font-size:12px;color:var(--c-warm-gray);margin-bottom:8px">总分趋势 · 从左到右按时间</div>
+                <canvas id="eh-curve" width="640" height="140" style="width:100%;height:auto;display:block"></canvas>
+                <div id="eh-curve-empty" style="display:none;text-align:center;color:var(--c-warm-dim);padding:18px 0;font-size:13px">批改 2 篇以后会显示进步曲线</div>
+            </div>
+            <div id="eh-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px"></div>
+        </section>
+
         <div class="result-section" id="result-section">
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
                 <button class="btn-primary" onclick="shareEssay()" style="padding:10px 18px;font-size:13px">分享给朋友</button>
@@ -513,6 +527,21 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            // 独立作文历史（给批改历史+进步曲线用）
+            if (window.LearningStore && window.LearningStore.saveEssayGrading && window._essayLast) {
+                var stage = document.getElementById('school-stage').value || '';
+                var grade = document.getElementById('grade').value || '';
+                var genreSel = document.getElementById('genre-select');
+                var genreTxt = genreSel && genreSel.options[genreSel.selectedIndex] ? genreSel.options[genreSel.selectedIndex].text : '';
+                window.LearningStore.saveEssayGrading({
+                    scores: window._essayLast.scores,
+                    total: window._essayLast.total,
+                    stage: stage, grade: grade, genre: genreTxt,
+                    snippet: (essay || '').slice(0, 80),
+                    length: (essay || '').length
+                });
+                renderEssayHistory();
+            }
             // 游戏化：按总分分档
             if (window.GAME) {
                 var total = (result && (result.totalScore || result.total || result.score)) || 0;
@@ -521,6 +550,104 @@
                 if (total >= 85) window.GAME.unlockBadge('essay_polisher');
                 if (window.YdzxHUD) window.YdzxHUD.refresh();
             }
+        }
+
+        // ============ 批改历史 ============
+        function renderEssayHistory() {
+            if (!window.LearningStore || !window.LearningStore.getEssayHistory) return;
+            var hist = window.LearningStore.getEssayHistory();
+            var sec = document.getElementById('essay-history');
+            if (!hist.length) { sec.style.display = 'none'; return; }
+            sec.style.display = '';
+            var total = hist.reduce(function (a, r) { return a + (r.total || 0); }, 0);
+            var avg = Math.round(total / hist.length);
+            var max = hist.reduce(function (m, r) { return Math.max(m, r.total || 0); }, 0);
+            document.getElementById('eh-count').textContent = hist.length;
+            document.getElementById('eh-avg').textContent = avg;
+            document.getElementById('eh-max').textContent = max;
+
+            var list = hist.slice(0, 12);
+            var html = list.map(function (r) {
+                var d = new Date(r.timestamp);
+                var dateStr = (d.getMonth()+1) + '月' + d.getDate() + '日';
+                var badge = r.total >= 85 ? '优' : (r.total >= 70 ? '良' : '可进');
+                var bg = r.total >= 85 ? '#E6F7ED' : (r.total >= 70 ? '#FFF5DE' : '#FCE8E8');
+                return '<div style="background:' + bg + ';border:1px solid var(--c-ink-border);border-radius:10px;padding:12px 14px">'
+                    + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'
+                    + '<div style="font-size:28px;font-weight:900;color:#18181B;font-family:var(--font-heading)">' + (r.total||0) + '<span style="font-size:12px;color:var(--c-warm-gray);font-weight:500">/100</span></div>'
+                    + '<div style="font-size:11px;padding:2px 8px;background:#fff;border-radius:4px;color:#18181B;font-weight:600">' + badge + '</div>'
+                    + '</div>'
+                    + '<div style="font-size:12px;color:var(--c-warm-gray);margin-bottom:4px">' + [r.stage, r.grade, r.genre].filter(Boolean).join(' · ') + '</div>'
+                    + '<div style="font-size:11px;color:var(--c-warm-dim)">' + dateStr + ' · ' + (r.length||0) + ' 字</div>'
+                    + (r.snippet ? '<div style="font-size:11px;color:#57534E;margin-top:6px;line-height:1.5;opacity:.8">' + r.snippet.replace(/[<>&]/g, function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]}) + '...</div>' : '')
+                    + '</div>';
+            }).join('');
+            document.getElementById('eh-list').innerHTML = html;
+
+            // 曲线
+            var trend = window.LearningStore.getEssayTrend(12);
+            var cv = document.getElementById('eh-curve');
+            var empty = document.getElementById('eh-curve-empty');
+            if (trend.length < 2) {
+                cv.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            cv.style.display = 'block';
+            empty.style.display = 'none';
+            drawTrendCurve(cv, trend);
+        }
+
+        function drawTrendCurve(canvas, trend) {
+            var ctx = canvas.getContext('2d');
+            var W = canvas.width, H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
+            var pad = 28;
+            var plotW = W - pad*2;
+            var plotH = H - pad*2;
+            var maxVal = 100;
+            var minVal = 0;
+            // 网格线（60/80/100）
+            ctx.strokeStyle = '#EEE';
+            ctx.lineWidth = 1;
+            [60, 80, 100].forEach(function (y) {
+                var py = pad + plotH - (y - minVal) / (maxVal - minVal) * plotH;
+                ctx.beginPath();
+                ctx.moveTo(pad, py); ctx.lineTo(W - pad, py); ctx.stroke();
+                ctx.fillStyle = '#A8A29E'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+                ctx.fillText(String(y), pad - 4, py + 3);
+            });
+            // 折线
+            var pts = trend.map(function (t, i) {
+                var x = pad + (trend.length === 1 ? plotW/2 : i / (trend.length - 1) * plotW);
+                var y = pad + plotH - (t.total - minVal) / (maxVal - minVal) * plotH;
+                return { x: x, y: y, total: t.total };
+            });
+            // 填充
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, H - pad);
+            pts.forEach(function (p) { ctx.lineTo(p.x, p.y); });
+            ctx.lineTo(pts[pts.length-1].x, H - pad);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(217, 119, 6, 0.12)';
+            ctx.fill();
+            // 线
+            ctx.beginPath();
+            pts.forEach(function (p, i) { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
+            ctx.strokeStyle = '#D97706';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            // 点
+            pts.forEach(function (p) {
+                ctx.fillStyle = '#D97706';
+                ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#18181B';
+                ctx.font = '600 11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(String(p.total), p.x, p.y - 8);
+            });
         }
     </script>
     <script src="../src/gamification.js"></script>
@@ -533,6 +660,7 @@
         document.getElementById('school-stage').addEventListener('change', updateGradeOptions);
         document.getElementById('grade').addEventListener('change', updateVersionOptions);
         updateGradeOptions();
+        renderEssayHistory();
     });
     </script>
     <!-- 快捷导航 -->
