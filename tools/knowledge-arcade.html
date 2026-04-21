@@ -562,6 +562,8 @@ function startTimer() {
 
 function endGame() {
     clearInterval(state.timer);
+    if (snakeState && snakeState.tick) { clearInterval(snakeState.tick); snakeState.tick = null; }
+    document.onkeydown = null;
     state.running = false;
     document.getElementById('stage').classList.remove('on');
     document.getElementById('result').classList.add('on');
@@ -638,7 +640,8 @@ function placeSnakeFoods() {
     document.getElementById('snake-q').textContent = q.q;
     const foods = [];
     const occupied = new Set(snakeState.snake.map(s => s.x+','+s.y));
-    const pool = [{text:q.right, good:true}, ...q.wrong.map(w=>({text:w,good:false}))];
+    const wrongArr = Array.isArray(q.wrong) ? q.wrong : [];
+    const pool = [{text:q.right, good:true}, ...wrongArr.map(w=>({text:w,good:false}))];
     pool.forEach(item => {
         let x, y, tries=0;
         do {
@@ -762,15 +765,23 @@ function buildSokLevel(idx) {
     const picks = [];
     for (let i = 0; i < n; i++) picks.push(state.items[(idx+i) % state.items.length]);
 
-    // 地图: 外圈墙(不必)，简化为开放地图
     const grid = Array(SOK_H).fill(0).map(() => Array(SOK_W).fill('floor'));
     const boxes = [];
     const targets = [];
-    // 把每对(concept, target)放左右两列
+    // 概念箱放左列，目标打乱放右列，避免同行送分
+    const rows = [1, 2, 3].slice(0, n);
+    const shuffled = rows.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    // 若洗牌后恰好每行自身对应（概率 1/6），强制再换一次，保证至少一对错位
+    if (shuffled.every((r, i) => r === rows[i]) && shuffled.length > 1) {
+        [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+    }
     picks.forEach((p, i) => {
-        const y = i + 1;
-        boxes.push({x: 2, y, text: p.concept, target: p.target});
-        targets.push({x: 5, y, text: p.target});
+        boxes.push({x: 2, y: rows[i], text: p.concept, target: p.target});
+        targets.push({x: 5, y: shuffled[i], text: p.target});
     });
     const player = {x: 0, y: 0};
     return { q, picks, grid, boxes, targets, player };
