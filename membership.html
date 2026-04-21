@@ -286,18 +286,12 @@ function mbSubmit(e) {
         utm_campaign: clean(params.get('utm_campaign'))
     };
 
-    // Webhook (占位，Zack 部署时替换 WEBHOOK_ID)
-    const _wh = ['aHR0cHM6Ly9vcGVuLmZlaXNodS5jbi9vcGVuLWFwaXMvYm90L3Yy', 'L2hvb2svWU9VUl9XRUJIT09LX0lE'];
-    let WH = '';
-    try { WH = atob(_wh[0]) + atob(_wh[1]); } catch(e){}
-    const payload = {
-        msg_type: 'text',
-        content: {
-            text: '💎 会员预约 — 原点智学\n套餐: ' + lead.tier_label + '\n姓名: ' + lead.name + '\n手机: ' + lead.phone + '\n孩子: ' + (lead.kid||'未填') + '\nUTM: ' + (lead.utm_source||'直接访问') + '\n时间: ' + lead.time
-        }
-    };
-
-    fetch(WH, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
+    // 走服务端 /api/lead，env 里的 FEISHU_WEBHOOK_URL 负责转发
+    fetch('/api/lead', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(lead)
+    })
         .catch(function(){})
         .finally(function(){
             try {
