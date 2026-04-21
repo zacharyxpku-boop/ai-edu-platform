@@ -607,6 +607,61 @@ function switchDim(d){
     };
 })();
 </script>
+<!-- 首访 onboarding：一问直达工具 -->
+<div id="ob-modal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(24,24,27,.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:14px;max-width:460px;width:100%;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.3);font-family:'Noto Sans SC',system-ui,sans-serif;color:#18181B">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+      <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:.5px">欢迎 · 30 秒自测</div>
+      <button id="ob-close" style="border:none;background:transparent;font-size:22px;color:#A1A1AA;cursor:pointer;line-height:1;padding:0" aria-label="关闭">×</button>
+    </div>
+    <h3 style="font-size:20px;font-weight:900;margin:4px 0 6px;line-height:1.3">你家孩子，现在最让你头疼的是哪件？</h3>
+    <p style="font-size:12px;color:#71717A;margin-bottom:18px">选一个，直接跳到对应的工具或指南。不收集任何信息。</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="ob-pick" data-pick="plan" data-go="tools/learning-profile.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
+        <span style="display:block;font-size:15px">📅 作业拖拉 / 时间管理差</span>
+        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 生成孩子的学习画像，给出本周计划</span>
+      </button>
+      <button class="ob-pick" data-pick="prompt" data-go="prompts.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
+        <span style="display:block;font-size:15px">🧠 孩子不会用 AI / 只会百度式提问</span>
+        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 打开 Prompt 训练场，3 道题练手</span>
+      </button>
+      <button class="ob-pick" data-pick="read" data-go="articles.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
+        <span style="display:block;font-size:15px">📖 我自己先不懂 AI，不知从哪开始</span>
+        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 今晚就能做的 5 件事 + 实操指南</span>
+      </button>
+      <button class="ob-pick" data-pick="skip" style="text-align:left;background:transparent;border:none;padding:6px 0;font-family:inherit;font-size:12px;cursor:pointer;color:#A1A1AA">先自己逛逛 →</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='ydzx_ob_seen';
+  try { if (localStorage.getItem(KEY)==='1') return; } catch(e){}
+  // 延迟 1.2s，避免第一屏还没看就弹
+  setTimeout(function(){
+    var m=document.getElementById('ob-modal'); if(!m) return;
+    m.style.display='flex'; document.body.style.overflow='hidden';
+    try { if (window.YdzxTrack) window.YdzxTrack.send('onboarding_shown'); } catch(e){}
+  }, 1200);
+  function close(){
+    var m=document.getElementById('ob-modal'); if(!m) return;
+    m.style.display='none'; document.body.style.overflow='';
+    try { localStorage.setItem(KEY,'1'); } catch(e){}
+  }
+  document.getElementById('ob-close').onclick=close;
+  document.getElementById('ob-modal').addEventListener('click',function(e){ if(e.target.id==='ob-modal') close(); });
+  var btns=document.querySelectorAll('.ob-pick');
+  for (var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      var pick=this.getAttribute('data-pick');
+      var go=this.getAttribute('data-go');
+      try { if (window.YdzxTrack) window.YdzxTrack.send('onboarding_pick',{pick:pick}); } catch(e){}
+      close();
+      if (go) location.href=go;
+    });
+  }
+})();
+</script>
 <script src="/src/analytics.js" defer></script>
 </body>
 </html>
