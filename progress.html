@@ -234,6 +234,7 @@
         <div class="streak-big"><span class="fire">🔥</span><span id="streak-n">0</span> 天</div>
         <div class="streak-hint">连续使用原点</div>
         <div class="streak-best">历史最佳 · <b id="streak-best">0</b> 天 · 累计 XP <b id="xp-total">0</b></div>
+        <button type="button" onclick="shareProgress()" style="margin-top:14px;width:100%;background:var(--ink);color:#fff;border:none;padding:10px 14px;border-radius:6px;font:700 13px var(--font);cursor:pointer;transition:all .2s" onmouseover="this.style.background='#000'" onmouseout="this.style.background='var(--ink)'">📤 晒战绩给朋友看</button>
     </div>
 </section>
 
@@ -365,7 +366,33 @@
 
 <script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
+<script src="/src/share-kit.js"></script>
 <script>
+// ========= 战绩分享 =========
+function shareProgress() {
+    if (!window.YdzxShare || !window.GAME) { alert('分享模块加载中，请稍候再试'); return; }
+    var p = GAME.getProfile() || {};
+    var lv = (window.GAME.computeLevel ? GAME.computeLevel(p.xp || 0) : null);
+    var todayK = (function(){ var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })();
+    var todayXP = (p.daily && p.daily[todayK] && p.daily[todayK].xp) || 0;
+    var badges = (p.badges || []).length;
+    var metrics = [
+        { label: '连续天数', value: String(p.streak || 0) + ' 天' },
+        { label: '累计 XP', value: String(p.totalXpEver || p.xp || 0) },
+        { label: '等级', value: (lv ? ('LV.' + lv.lv) : ('LV.' + (p.level || 1))) }
+    ];
+    if (badges > 0) metrics.push({ label: '徽章', value: String(badges) });
+    var subtitle = (lv ? lv.emoji + ' ' + lv.name : '修行中');
+    if (todayXP > 0) subtitle += ' · 今天 +' + todayXP + ' XP';
+    YdzxShare.open({
+        source: 'progress',
+        title: (p.streak || 0) + ' 天坚持 · 我用原点智学在学',
+        subtitle: subtitle,
+        metrics: metrics,
+        quote: (p.streak >= 7 ? '连续一周不断卡，学习本身就是复利' : '家里小朋友开始喜欢学习了')
+    });
+}
+
 // 日期展示
 (function () {
     var d = new Date();

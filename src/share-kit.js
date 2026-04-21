@@ -48,10 +48,15 @@
         'music-appreciation':{emoji:'🎵', verb:'听懂了一首乐曲' },
         'art-thinking':     { emoji:'🎨', verb:'看懂了一幅画' },
         'learning-profile': { emoji:'📈', verb:'生成了能力画像' },
-        'knowledge-arcade': { emoji:'🎮', verb:'玩了知识街机' }
+        'knowledge-arcade': { emoji:'🎮', verb:'玩了知识街机' },
+        'progress':         { emoji:'🔥', verb:'坚持学习的战绩' }
     };
 
     function buildURL(source) {
+        // progress 特殊：回到首页而非 tools/progress.html（档案走根路径）
+        if (source === 'progress') {
+            return 'https://www.yuandianzhixue.com/progress.html?utm_source=share&utm_medium=png&utm_campaign=progress';
+        }
         return 'https://www.yuandianzhixue.com/tools/' + source + '.html?utm_source=share&utm_medium=png&utm_campaign=' + source;
     }
 
