@@ -173,8 +173,21 @@
     <button class="nav-set" onclick="location.href='settings.html'">API 设置</button>
 </div></nav>
 
-<!-- PROMO CARDS -->
+<!-- DAILY CHALLENGE -->
 <div style="max-width:1120px;margin:16px auto 0;padding:0 20px">
+<div id="daily-ch" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#fff;border:1px dashed #F5A623;border-radius:10px">
+    <div id="dc-emoji" style="font-size:24px">🎯</div>
+    <div style="flex:1;min-width:0">
+        <div style="font-size:11px;color:#A1A1AA;font-weight:500;margin-bottom:2px;letter-spacing:.5px">今日试玩挑战 · <span id="dc-streak" style="color:#E8590C">连续 0 天</span></div>
+        <div id="dc-line" style="font-size:14px;font-weight:700;color:#18181B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">3 分钟生成你的 AI 学习画像</div>
+    </div>
+    <button id="dc-swap" title="换一个" style="background:none;border:1px solid #E4E4E7;border-radius:7px;padding:6px 9px;font-size:11px;color:#71717A;cursor:pointer;font-family:inherit">↻</button>
+    <a id="dc-go" href="tools/learning-profile.html" style="padding:7px 14px;background:#18181B;color:#fff;border-radius:7px;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap">开始 →</a>
+</div>
+</div>
+
+<!-- PROMO CARDS -->
+<div style="max-width:1120px;margin:10px auto 0;padding:0 20px">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
     <a href="tools/global-picks.html" style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#FFFBF0;border:1px solid #F5A623;border-radius:10px;text-decoration:none;color:inherit;transition:transform .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
         <div style="font-size:26px">🌍</div>
@@ -525,6 +538,68 @@ function switchDim(d){
         for(var i=1;i<ds.length;i++){d=new Date(d.getTime()-864e5);if(ds[i]===d.toDateString())s++;else break}
         return s;
     }
+})();
+
+// Daily Challenge rotator
+(function(){
+    var pool=[
+        {e:'🎯',t:'3 分钟生成你的 AI 学习画像',h:'tools/learning-profile.html'},
+        {e:'📝',t:'1 分钟生成本章模拟卷，按弱项出题',h:'tools/exam-generator.html'},
+        {e:'✍️',t:'作文上传 · AI 按高考 5 维度打分',h:'tools/essay-grading.html'},
+        {e:'🧠',t:'费曼验证：讲给 AI 听，看你真懂了没',h:'tools/feynman-verify.html'},
+        {e:'🩻',t:'拍一张试卷 · AI 做错题归因 + 3 道变式',h:'tools/exam-diagnosis.html'},
+        {e:'🎮',t:'知识街机：5 款游戏边玩边记知识点',h:'tools/knowledge-arcade.html'},
+        {e:'🗺️',t:'输入考试日期 · 生成每日学习计划',h:'tools/study-plan.html'},
+        {e:'📊',t:'60 秒看懂每道题的得分结构',h:'tools/scoring-breakdown.html'},
+        {e:'🔁',t:'错题 → AI 出 3 道同类变式，立刻练透',h:'tools/error-practice.html'},
+        {e:'💡',t:'知识点秒讲：从生活例子 → 考试用法',h:'tools/knowledge-explain.html'},
+        {e:'🗂️',t:'笔记一键升级：要点 / 思维导图 / 闪卡',h:'tools/note-enhancer.html'},
+        {e:'📖',t:'阅读难 → AI 三档难度改写，读到懂',h:'tools/reading-rewriter.html'},
+        {e:'🌍',t:'看看全球 60+ 款 AI 学习工具都在做什么',h:'tools/global-picks.html'}
+    ];
+    var KEY='ydzx_dc_idx', DAY='ydzx_dc_day', STR='ydzx_dc_streak';
+    var today=new Date().toDateString();
+    var idx=parseInt(localStorage.getItem(KEY)||'-1',10);
+    var lastDay=localStorage.getItem(DAY);
+    if(idx<0||lastDay!==today){
+        // pick next based on day-of-year for stable rotation
+        var doy=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/864e5);
+        idx=doy%pool.length;
+        localStorage.setItem(KEY,String(idx));
+        localStorage.setItem(DAY,today);
+    }
+    function render(){
+        var it=pool[idx];
+        var em=document.getElementById('dc-emoji');
+        var ln=document.getElementById('dc-line');
+        var go=document.getElementById('dc-go');
+        if(em)em.textContent=it.e;
+        if(ln)ln.textContent=it.t;
+        if(go)go.href=it.h+'?utm_source=home&utm_medium=daily&utm_campaign=challenge';
+    }
+    render();
+    // streak badge mirrors existing s-str but from a simpler signal: days visited
+    try{
+        var visited=JSON.parse(localStorage.getItem('ydzx_dc_visits')||'[]');
+        if(!visited.includes(today)){visited.push(today);}
+        visited=visited.slice(-60);
+        localStorage.setItem('ydzx_dc_visits',JSON.stringify(visited));
+        var s=1,d=new Date();
+        for(var i=0;i<30;i++){
+            var k=new Date(d.getTime()-i*864e5).toDateString();
+            if(i===0){if(!visited.includes(k))break;continue}
+            if(visited.includes(k))s++;else break;
+        }
+        var el=document.getElementById('dc-streak');
+        if(el&&visited.length>0)el.textContent='连续 '+s+' 天';
+    }catch(e){}
+    // swap button
+    var sw=document.getElementById('dc-swap');
+    if(sw)sw.onclick=function(){
+        idx=(idx+1)%pool.length;
+        localStorage.setItem(KEY,String(idx));
+        render();
+    };
 })();
 </script>
 </body>
