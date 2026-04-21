@@ -63,7 +63,9 @@ h1 em{font-style:normal;color:var(--cta)}
 .book-title{font-size:15px;font-weight:800;line-height:1.35}
 .book-meta{font-size:12px;color:var(--ink3);display:flex;gap:10px}
 .book-meta b{color:var(--ink2);font-weight:700}
-.book-read-mark{font-size:11px;color:var(--green);font-weight:700}
+.book-read-mark{font-size:11px;color:var(--green);font-weight:700;display:flex;align-items:center;gap:8px}
+.book-progress{flex:1;height:4px;background:#F1F5F9;border-radius:100px;overflow:hidden;min-width:60px}
+.book-progress-fill{height:100%;background:var(--green);border-radius:100px;transition:width .4s ease}
 
 /* ===== CHAPTER PANEL ===== */
 .panel{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;margin-bottom:20px;display:none}
@@ -95,6 +97,8 @@ h1 em{font-style:normal;color:var(--cta)}
 .reader-close:hover{background:#fff}
 
 .reader-jump{padding:10px 20px;background:var(--amber-bg);border-bottom:1px solid var(--bdr);display:flex;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--ink3);align-items:center}
+.kbd-hint{font-size:10px;color:var(--ink4);margin-left:auto;white-space:nowrap}
+.kbd-hint kbd{background:#fff;border:1px solid var(--bdr);border-radius:4px;padding:1px 5px;font-family:var(--font);font-size:10px;font-weight:700;color:var(--ink2)}
 .reader-jump b{color:var(--ink2);font-weight:700;margin-right:4px}
 .sec-chip{padding:3px 10px;background:#fff;border:1px solid var(--bdr);border-radius:100px;cursor:pointer;color:var(--ink2);font-size:11px;font-weight:600;text-decoration:none}
 .sec-chip:hover{border-color:var(--amber);color:var(--amber)}
@@ -338,7 +342,14 @@ function renderBooks(){
         var subtag = isScan
             ? stagetag + ' <span class="book-scan-tag">待 OCR</span>'
             : stagetag + ' <span class="book-sub ' + subjCls(b.subject) + '">' + esc(b.subject) + '</span>';
-        var mark = readCount > 0 ? '<div class="book-read-mark">已读 ' + readCount + ' / ' + chCount + ' 章</div>' : '';
+        var pct = chCount > 0 ? Math.round(readCount / chCount * 100) : 0;
+        var mark = readCount > 0
+          ? '<div class="book-read-mark">' +
+              '<span>已读 ' + readCount + '/' + chCount + '</span>' +
+              '<div class="book-progress"><div class="book-progress-fill" style="width:' + pct + '%"></div></div>' +
+              '<span>' + pct + '%</span>' +
+            '</div>'
+          : '';
         return '<div class="' + cls + '" data-path="' + esc(b.path) + '" data-scan="' + (isScan?'1':'0') + '">' +
             '<div class="book-top">' + subtag + '</div>' +
             '<div class="book-title">' + esc(b.grade) + ' · ' + esc(b.volume) + '</div>' +
@@ -453,6 +464,7 @@ function renderChapter(data){
             jump += '<a class="sec-chip" href="#pg-' + pages[j].page + '">p' + pages[j].page + '</a>';
         }
     }
+    jump += '<span class="kbd-hint"><kbd>←</kbd><kbd>→</kbd> 切章 · <kbd>Esc</kbd> 关闭</span>';
     $('reader-jump').innerHTML = jump;
     // body
     var body = (data.pages || []).map(function(p){
@@ -467,11 +479,33 @@ function renderChapter(data){
     // footer CTAs
     var kaQS = '?subject=' + encodeURIComponent(ACTIVE_BOOK.subject === '数学' ? 'math' : ACTIVE_BOOK.subject === '物理' ? 'physics' : 'chemistry');
     var topic = data.title + ' ' + (data.sections && data.sections[0] ? data.sections[0].title : '');
+    var chs = (ACTIVE_BOOK.chapters || []);
+    var idx = chs.findIndex(function(c){ return c.ch === data.ch; });
+    var hasNext = idx >= 0 && idx < chs.length - 1;
+    var hasPrev = idx > 0;
+    var nextBtn = hasNext
+      ? '<button class="rf-btn primary" onclick="openChapter(' + chs[idx+1].ch + ')">→ 第 ' + chs[idx+1].ch + ' 章 · ' + esc(chs[idx+1].title).slice(0,10) + '</button>'
+      : '<a class="rf-btn primary" href="/tools/knowledge-arcade' + kaQS + '">→ 刷这科题库</a>';
+    var prevBtn = hasPrev
+      ? '<button class="rf-btn" onclick="openChapter(' + chs[idx-1].ch + ')">← 上一章</button>'
+      : '';
     $('reader-foot').innerHTML =
-        '<a class="rf-btn primary" href="/tools/knowledge-arcade' + kaQS + '">→ 刷这科题库</a>' +
-        '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">让 AI 讲解这章</a>' +
-        '<a class="rf-btn" href="/tools/feynman-verify">用费曼法复述</a>' +
-        '<button class="rf-btn" onclick="closeReader()">继续浏览</button>';
+        prevBtn +
+        nextBtn +
+        '<a class="rf-btn" href="/tools/knowledge-arcade' + kaQS + '">刷题库</a>' +
+        '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">AI 讲解</a>' +
+        '<a class="rf-btn" href="/tools/feynman-verify">费曼复述</a>' +
+        '<button class="rf-btn" onclick="closeReader()">关闭</button>';
+}
+
+function navChapter(dir){
+    if (!ACTIVE_BOOK || !ACTIVE_CHAPTER) return;
+    var chs = ACTIVE_BOOK.chapters || [];
+    var idx = chs.findIndex(function(c){ return c.ch === ACTIVE_CHAPTER.ch; });
+    if (idx < 0) return;
+    var ni = idx + dir;
+    if (ni < 0 || ni >= chs.length) return;
+    openChapter(chs[ni].ch);
 }
 
 // ===== SEARCH =====
@@ -530,11 +564,17 @@ function clearSearch(){
     document.getElementById('search').dispatchEvent(new Event('input'));
 }
 
-// ===== ESC to close =====
+// ===== ESC / 方向键 =====
 window.addEventListener('keydown', function(e){
+    var modalOn = $('reader-modal').classList.contains('on');
     if (e.key === 'Escape') {
-        if ($('reader-modal').classList.contains('on')) closeReader();
+        if (modalOn) closeReader();
         else if ($('ch-panel').classList.contains('on')) closePanel();
+        return;
+    }
+    if (modalOn) {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { navChapter(1); e.preventDefault(); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { navChapter(-1); e.preventDefault(); }
     }
 });
 $('reader-modal').addEventListener('click', function(e){
