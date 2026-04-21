@@ -307,6 +307,19 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
         renderResume();
         rebuildGradePills();
         renderBooks();
+        // 深链 ?book=<path>&ch=<N> —— 从 arcade 反链跳进来直接打开对应章
+        try {
+            var qs = new URLSearchParams(location.search);
+            var bp = qs.get('book');
+            var chq = parseInt(qs.get('ch') || '0', 10);
+            if (bp && chq) {
+                var book = (MANIFEST.books || []).find(function(b){ return b.path === bp; });
+                if (book) {
+                    ACTIVE_BOOK = book;
+                    setTimeout(function(){ openChapter(chq); }, 200);
+                }
+            }
+        } catch(e){}
     })
     .catch(function(e){
         $('book-grid').innerHTML = '<div class="empty">加载教材清单失败<em>' + esc(e.message) + '</em></div>';

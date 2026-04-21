@@ -959,6 +959,47 @@ function checkSokWin() {
 // ==========================================
 let _sbBank = null;
 let _sbCurrent = { subject: null, items: [], answered: new Set() };
+let _sbTxtManifest = null;
+
+async function loadTxtManifest() {
+    if (_sbTxtManifest !== null) return _sbTxtManifest;
+    try {
+        const r = await fetch('/data/extracted/manifest.json', { cache: 'force-cache' });
+        _sbTxtManifest = await r.json();
+    } catch(e) { _sbTxtManifest = { books: [] }; }
+    return _sbTxtManifest;
+}
+
+// 反链：给一道题匹配最贴近的教材章节
+function matchTextbookChapter(subject, q) {
+    if (!_sbTxtManifest || !_sbTxtManifest.books) return null;
+    const zhSubj = { math:'数学', physics:'物理', chemistry:'化学' }[subject];
+    if (!zhSubj) return null;
+    const hint = (q.chapter || '').trim();
+    const kps = (q.knowledge_points || []).map(function(k){ return String(k||'').trim(); }).filter(Boolean);
+    const candidates = _sbTxtManifest.books.filter(function(b){ return b.subject === zhSubj; });
+    if (!candidates.length) return null;
+    let best = null, bestScore = 0;
+    candidates.forEach(function(b){
+        (b.chapters || []).forEach(function(c){
+            const title = String(c.title || '');
+            let score = 0;
+            if (hint && title.indexOf(hint) >= 0) score += 12;
+            else if (hint && hint.length >= 3) {
+                // 关键 3-gram 粗匹
+                for (let i = 0; i + 3 <= hint.length; i++) {
+                    if (title.indexOf(hint.slice(i, i+3)) >= 0) { score += 4; break; }
+                }
+            }
+            kps.forEach(function(k){
+                if (k && title.indexOf(k) >= 0) score += 6;
+                else if (k && k.length >= 3 && title.indexOf(k.slice(0, 3)) >= 0) score += 2;
+            });
+            if (score > bestScore) { bestScore = score; best = { book: b, ch: c }; }
+        });
+    });
+    return bestScore >= 6 ? best : null;  // 门槛防乱接
+}
 
 async function loadSeedBank() {
     if (_sbBank) return _sbBank;
@@ -976,7 +1017,7 @@ async function loadSubjectBank(subject) {
     document.querySelectorAll('.subtab').forEach(b => b.classList.toggle('on', b.dataset.sub === subject));
     const host = document.getElementById('sb-host');
     host.innerHTML = '<div style="text-align:center;color:#A1A1AA;padding:24px 0;font-size:13px">加载题库中…</div>';
-    const bank = await loadSeedBank();
+    const [bank] = await Promise.all([loadSeedBank(), loadTxtManifest()]);
     if (!bank) {
         host.innerHTML = '<div style="text-align:center;color:#C74040;padding:16px 0;font-size:13px">题库加载失败，请刷新重试</div>';
         return;
@@ -1019,7 +1060,9 @@ function renderBankCard(q, idx) {
         + '<div class="sb-q">' + qt + '</div>'
         + '<button class="sb-btn primary" onclick="sbReveal(' + idx + ', true)">我会了</button>'
         + '<button class="sb-btn" onclick="sbReveal(' + idx + ', false)">看解析</button>'
-        + '<div class="sb-ans" id="sb-a-' + idx + '"><b>答案：</b>' + ans + '<br><b>思路：</b>' + steps + (kps ? '<div class="sb-kps">知识点：' + kps + '</div>' : '') + '</div>'
+        + '<div class="sb-ans" id="sb-a-' + idx + '"><b>答案：</b>' + ans + '<br><b>思路：</b>' + steps + (kps ? '<div class="sb-kps">知识点：' + kps + '</div>' : '')
+        + '<div id="sb-txt-' + idx + '" style="margin-top:10px"></div>'
+        + '</div>'
         + '</div>';
 }
 
@@ -1046,6 +1089,22 @@ function sbReveal(idx, confidentlyCorrect) {
     }
     if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetPromise([ans]).catch(function(){});
+    }
+
+    // 反链：查原文教材
+    const slot = document.getElementById('sb-txt-' + idx);
+    if (slot && !slot.dataset.filled) {
+        const match = matchTextbookChapter(_sbCurrent.subject, q);
+        if (match) {
+            const b = match.book, c = match.ch;
+            const bookPath = b.path.split('/').map(encodeURIComponent).join('/');
+            const href = '/tools/textbook-browser?book=' + encodeURIComponent(b.path) + '&ch=' + c.ch;
+            slot.innerHTML =
+                '<div style="font-size:12px;color:#71717A;margin-bottom:6px">对应教材原文</div>' +
+                '<a class="sb-btn" style="display:inline-block;text-decoration:none;background:#FEF3C7;color:#92400E;border-color:#F59E0B" href="' + href + '">' +
+                '📖 查' + b.stage + b.subject + '·' + b.grade + b.volume + ' 第' + c.ch + '章' + (c.title ? ' ' + c.title : '') + '</a>';
+            slot.dataset.filled = '1';
+        }
     }
 }
 
