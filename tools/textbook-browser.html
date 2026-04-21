@@ -54,7 +54,7 @@ h1 em{font-style:normal;color:var(--cta)}
 .book.on{border-color:var(--amber);background:var(--amber-bg)}
 .book.scan{opacity:.55;cursor:not-allowed}
 .book.scan:hover{border-color:var(--bdr);transform:none;box-shadow:none}
-.book-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.book-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .book-sub{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.3px}
 .sub-math{background:#FEF3C7;color:#92400E}
 .sub-physics{background:#DBEAFE;color:#1E3A8A}
@@ -137,10 +137,16 @@ h1 em{font-style:normal;color:var(--cta)}
 <section class="hero">
     <span class="pill">ChinaTextbook · 人教版</span>
     <h1>教材原文库 · <em>直接读你手里那本</em></h1>
-    <p class="sub">从 github.com/TapXWorld/ChinaTextbook 拉的官方 PDF，按章节精抽成可阅读的页面。先上架初中数学、物理、化学 6 本上册共 37 章，下册因为是扫描件在排队上 OCR。</p>
+    <p class="sub">从 github.com/TapXWorld/ChinaTextbook 拉的官方 PDF，按章节精抽成可读页面。初中+高中人教版数学、物理、化学已上架 16 本 80 章正文，扫描件排队上 OCR。</p>
 </section>
 
 <section class="cfg">
+    <h3>学段</h3>
+    <div class="pills" id="stage-pills">
+        <button class="pill-btn all on" data-stage="">全部</button>
+        <button class="pill-btn" data-stage="初中">初中</button>
+        <button class="pill-btn" data-stage="高中">高中</button>
+    </div>
     <h3>学科</h3>
     <div class="pills" id="subj-pills">
         <button class="pill-btn all on" data-subj="">全部</button>
@@ -148,12 +154,9 @@ h1 em{font-style:normal;color:var(--cta)}
         <button class="pill-btn" data-subj="物理">物理</button>
         <button class="pill-btn" data-subj="化学">化学</button>
     </div>
-    <h3>年级</h3>
+    <h3id="grade-label">年级 / 分册</h3>
     <div class="pills" id="grade-pills">
         <button class="pill-btn all on" data-grade="">全部</button>
-        <button class="pill-btn" data-grade="七年级">七年级</button>
-        <button class="pill-btn" data-grade="八年级">八年级</button>
-        <button class="pill-btn" data-grade="九年级">九年级</button>
     </div>
     <div class="stats-bar" id="stats">加载中...</div>
 </section>
@@ -194,7 +197,7 @@ h1 em{font-style:normal;color:var(--cta)}
 <script>
 // ===== STATE =====
 var MANIFEST = null;
-var FILTER = { subj: '', grade: '' };
+var FILTER = { stage: '', subj: '', grade: '' };
 var ACTIVE_BOOK = null;       // the currently opened book
 var ACTIVE_CHAPTER = null;    // the currently opened chapter
 var READ_KEY = 'ydzx_textbook_read';  // set of "{path}::ch{N}"
@@ -235,6 +238,7 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
     .then(function(j){
         MANIFEST = j;
         renderStats();
+        rebuildGradePills();
         renderBooks();
     })
     .catch(function(e){
@@ -242,6 +246,16 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
     });
 
 // ===== FILTERS =====
+document.querySelectorAll('#stage-pills .pill-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+        document.querySelectorAll('#stage-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        FILTER.stage = b.dataset.stage || '';
+        FILTER.grade = '';
+        rebuildGradePills();
+        renderBooks();
+    });
+});
 document.querySelectorAll('#subj-pills .pill-btn').forEach(function(b){
     b.addEventListener('click', function(){
         document.querySelectorAll('#subj-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
@@ -250,14 +264,35 @@ document.querySelectorAll('#subj-pills .pill-btn').forEach(function(b){
         renderBooks();
     });
 });
-document.querySelectorAll('#grade-pills .pill-btn').forEach(function(b){
-    b.addEventListener('click', function(){
-        document.querySelectorAll('#grade-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
-        b.classList.add('on');
-        FILTER.grade = b.dataset.grade || '';
-        renderBooks();
+
+// 动态按当前学段下可用分册重建年级 pill
+function rebuildGradePills(){
+    if (!MANIFEST) return;
+    var all = [].concat(MANIFEST.books || [], MANIFEST.scans || []);
+    var grades = new Set();
+    all.forEach(function(b){
+        if (FILTER.stage && b.stage !== FILTER.stage) return;
+        if (b.grade) grades.add(b.grade);
     });
-});
+    var ordered = Array.from(grades).sort(function(a,b){
+        var rank = { '七年级':1, '八年级':2, '九年级':3, '必修':4, '选择性必修':5 };
+        return (rank[a]||99) - (rank[b]||99);
+    });
+    var host = document.getElementById('grade-pills');
+    var html = '<button class="pill-btn all on" data-grade="">全部</button>';
+    ordered.forEach(function(g){
+        html += '<button class="pill-btn" data-grade="' + esc(g) + '">' + esc(g) + '</button>';
+    });
+    host.innerHTML = html;
+    host.querySelectorAll('.pill-btn').forEach(function(b){
+        b.addEventListener('click', function(){
+            host.querySelectorAll('.pill-btn').forEach(function(x){ x.classList.remove('on'); });
+            b.classList.add('on');
+            FILTER.grade = b.dataset.grade || '';
+            renderBooks();
+        });
+    });
+}
 
 // ===== RENDER =====
 function renderStats(){
@@ -272,6 +307,7 @@ function renderStats(){
 }
 
 function matchesFilter(b){
+    if (FILTER.stage && b.stage !== FILTER.stage) return false;
     if (FILTER.subj && b.subject !== FILTER.subj) return false;
     if (FILTER.grade && b.grade !== FILTER.grade) return false;
     return true;
@@ -295,8 +331,10 @@ function renderBooks(){
             if (read.has(bookSig + '::ch' + c.ch)) readCount++;
         });
         var cls = 'book' + (isScan ? ' scan' : '');
-        var subtag = isScan ? '<span class="book-scan-tag">待 OCR</span>' :
-                    '<span class="book-sub ' + subjCls(b.subject) + '">' + esc(b.subject) + '</span>';
+        var stagetag = '<span class="book-scan-tag" style="background:#E0E7FF;color:#3730A3">' + esc(b.stage) + '</span>';
+        var subtag = isScan
+            ? stagetag + ' <span class="book-scan-tag">待 OCR</span>'
+            : stagetag + ' <span class="book-sub ' + subjCls(b.subject) + '">' + esc(b.subject) + '</span>';
         var mark = readCount > 0 ? '<div class="book-read-mark">已读 ' + readCount + ' / ' + chCount + ' 章</div>' : '';
         return '<div class="' + cls + '" data-path="' + esc(b.path) + '" data-scan="' + (isScan?'1':'0') + '">' +
             '<div class="book-top">' + subtag + '</div>' +

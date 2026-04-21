@@ -1,0 +1,43 @@
+{
+  "stage": "高中",
+  "subject": "物理",
+  "edition": "人教版",
+  "grade": "选择性必修",
+  "volume": "第三册",
+  "pdf": "data/textbooks-raw/高中/物理/人教版/选择性必修/第三册.pdf",
+  "page_count": 143,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章",
+      "start_page": 6,
+      "end_page": 22
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 23,
+      "end_page": 49
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 50,
+      "end_page": 70
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 71,
+      "end_page": 104
+    },
+    {
+      "ch": 5,
+      "title": "第五章",
+      "start_page": 105,
+      "end_page": 143
+    }
+  ]
+}

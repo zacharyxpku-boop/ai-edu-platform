@@ -1,0 +1,31 @@
+{
+  "stage": "高中",
+  "subject": "数学",
+  "edition": "人教A版",
+  "grade": "选择性必修",
+  "volume": "第三册",
+  "pdf": "data/textbooks-raw/高中/数学/人教A版/选择性必修/第三册.pdf",
+  "page_count": 154,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 6,
+      "title": "第六章",
+      "start_page": 6,
+      "end_page": 47
+    },
+    {
+      "ch": 7,
+      "title": "第七章",
+      "start_page": 48,
+      "end_page": 96
+    },
+    {
+      "ch": 8,
+      "title": "第八章",
+      "start_page": 97,
+      "end_page": 154
+    }
+  ]
+}

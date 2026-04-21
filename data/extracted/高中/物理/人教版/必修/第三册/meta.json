@@ -1,0 +1,43 @@
+{
+  "stage": "高中",
+  "subject": "物理",
+  "edition": "人教版",
+  "grade": "必修",
+  "volume": "第三册",
+  "pdf": "data/textbooks-raw/高中/物理/人教版/必修/第三册.pdf",
+  "page_count": 143,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 9,
+      "title": "第九章",
+      "start_page": 6,
+      "end_page": 29
+    },
+    {
+      "ch": 10,
+      "title": "第十章",
+      "start_page": 30,
+      "end_page": 56
+    },
+    {
+      "ch": 11,
+      "title": "第十一章",
+      "start_page": 57,
+      "end_page": 82
+    },
+    {
+      "ch": 12,
+      "title": "第十二章",
+      "start_page": 83,
+      "end_page": 107
+    },
+    {
+      "ch": 13,
+      "title": "第十三章",
+      "start_page": 108,
+      "end_page": 143
+    }
+  ]
+}

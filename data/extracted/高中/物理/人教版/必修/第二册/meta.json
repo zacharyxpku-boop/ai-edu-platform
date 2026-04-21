@@ -1,0 +1,37 @@
+{
+  "stage": "高中",
+  "subject": "物理",
+  "edition": "人教版",
+  "grade": "必修",
+  "volume": "第二册",
+  "pdf": "data/textbooks-raw/高中/物理/人教版/必修/第二册.pdf",
+  "page_count": 114,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 5,
+      "title": "第五章",
+      "start_page": 6,
+      "end_page": 26
+    },
+    {
+      "ch": 6,
+      "title": "第六章",
+      "start_page": 27,
+      "end_page": 47
+    },
+    {
+      "ch": 7,
+      "title": "第七章",
+      "start_page": 48,
+      "end_page": 77
+    },
+    {
+      "ch": 8,
+      "title": "第八章",
+      "start_page": 78,
+      "end_page": 114
+    }
+  ]
+}

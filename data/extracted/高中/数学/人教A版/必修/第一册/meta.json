@@ -1,0 +1,13 @@
+{
+  "stage": "高中",
+  "subject": "数学",
+  "edition": "人教A版",
+  "grade": "必修",
+  "volume": "第一册",
+  "pdf": "data/textbooks-raw/高中/数学/人教A版/必修/第一册.pdf",
+  "page_count": 270,
+  "status": "scan_only",
+  "avg_chars_per_page": 1.5,
+  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
+  "extracted_at": "2026-04-22"
+}

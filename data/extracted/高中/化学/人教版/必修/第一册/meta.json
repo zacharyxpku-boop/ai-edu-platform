@@ -1,0 +1,37 @@
+{
+  "stage": "高中",
+  "subject": "化学",
+  "edition": "人教版",
+  "grade": "必修",
+  "volume": "第一册",
+  "pdf": "data/textbooks-raw/高中/化学/人教版/必修/第一册.pdf",
+  "page_count": 139,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章",
+      "start_page": 10,
+      "end_page": 37
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 38,
+      "end_page": 71
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 72,
+      "end_page": 95
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 96,
+      "end_page": 139
+    }
+  ]
+}
