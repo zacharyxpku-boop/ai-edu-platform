@@ -158,8 +158,11 @@ h1 em{font-style:normal;color:var(--cta)}
     <div class="pills" id="grade-pills">
         <button class="pill-btn all on" data-grade="">全部</button>
     </div>
+    <input type="text" id="search" placeholder="搜索章节标题，比如「二次函数」「牛顿第一定律」" style="width:100%;padding:10px 14px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px;background:var(--bg);color:var(--ink);outline:none;margin-top:10px">
     <div class="stats-bar" id="stats">加载中...</div>
 </section>
+
+<section id="search-hits" class="panel" style="display:none"></section>
 
 <section id="book-grid" class="books"><div class="empty">加载中...</div></section>
 
@@ -469,6 +472,62 @@ function renderChapter(data){
         '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">让 AI 讲解这章</a>' +
         '<a class="rf-btn" href="/tools/feynman-verify">用费曼法复述</a>' +
         '<button class="rf-btn" onclick="closeReader()">继续浏览</button>';
+}
+
+// ===== SEARCH =====
+document.getElementById('search').addEventListener('input', function(e){
+    var q = (e.target.value || '').trim().toLowerCase();
+    var host = document.getElementById('search-hits');
+    var grid = document.getElementById('book-grid');
+    if (!q || !MANIFEST) {
+        host.style.display = 'none';
+        host.innerHTML = '';
+        grid.style.display = '';
+        return;
+    }
+    var hits = [];
+    (MANIFEST.books || []).forEach(function(b){
+        if (FILTER.stage && b.stage !== FILTER.stage) return;
+        if (FILTER.subj && b.subject !== FILTER.subj) return;
+        (b.chapters || []).forEach(function(c){
+            if ((c.title || '').toLowerCase().indexOf(q) >= 0) {
+                hits.push({ book: b, ch: c });
+            }
+        });
+    });
+    grid.style.display = 'none';
+    host.style.display = 'block';
+    host.classList.add('on');
+    var html = '<div class="panel-head"><div class="panel-title">搜索命中 ' + hits.length + ' 章<small>关键词「' + esc(q) + '」</small></div><button class="panel-close" onclick="clearSearch()">清空</button></div>';
+    if (hits.length === 0) {
+        html += '<div class="empty">没有匹配章节<em>试换一个关键词</em></div>';
+    } else {
+        html += '<div class="chapters">' + hits.slice(0, 40).map(function(h){
+            return '<div class="ch-row" data-path="' + esc(h.book.path) + '" data-ch="' + h.ch.ch + '">' +
+                '<div class="ch-row-left">' +
+                    '<div class="ch-num">' + esc(h.book.stage) + ' · ' + esc(h.book.subject) + ' · ' + esc(h.book.grade) + ' ' + esc(h.book.volume) + '</div>' +
+                    '<div class="ch-title">第 ' + h.ch.ch + ' 章 · ' + esc(h.ch.title) + '</div>' +
+                '</div>' +
+                '<div class="ch-meta">p' + h.ch.start_page + '–' + h.ch.end_page + '</div>' +
+            '</div>';
+        }).join('') + '</div>';
+        if (hits.length > 40) html += '<div class="notice">只显示前 40 条，收缩关键词看完整列表</div>';
+    }
+    host.innerHTML = html;
+    host.querySelectorAll('.ch-row').forEach(function(el){
+        el.addEventListener('click', function(){
+            var path = el.dataset.path;
+            var ch = parseInt(el.dataset.ch, 10);
+            var book = (MANIFEST.books || []).find(function(b){ return b.path === path; });
+            if (!book) return;
+            ACTIVE_BOOK = book;
+            openChapter(ch);
+        });
+    });
+});
+function clearSearch(){
+    document.getElementById('search').value = '';
+    document.getElementById('search').dispatchEvent(new Event('input'));
 }
 
 // ===== ESC to close =====

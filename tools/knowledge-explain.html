@@ -649,6 +649,16 @@ ${currentAttempt ? `学生已经说了自己的尝试：${currentAttempt}` : '�
         document.getElementById('grade').addEventListener('change', updateSubjectOptions);
         document.getElementById('subject-select').addEventListener('change', updateVersionOptions);
         updateGradeOptions();
+        // 深链：?topic=xxx 预填问题并滚动到查询卡
+        try {
+            const q = new URLSearchParams(location.search).get('topic');
+            if (q) {
+                const qi = document.getElementById('question-input');
+                if (qi) qi.value = q;
+                const qs = document.getElementById('query-section');
+                if (qs) qs.scrollIntoView({ behavior:'smooth', block:'start' });
+            }
+        } catch(e){}
     });
     </script>
     <!-- 快捷导航 -->
