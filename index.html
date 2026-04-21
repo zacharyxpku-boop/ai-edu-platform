@@ -607,6 +607,54 @@ function switchDim(d){
     };
 })();
 </script>
+<!-- 浮动分享 FAB -->
+<button id="ydz-fab-share" data-track="fab_share" aria-label="发给朋友"
+  style="position:fixed;right:18px;bottom:18px;z-index:90;background:#18181B;color:#fff;border:none;border-radius:100px;padding:12px 18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.22);display:flex;align-items:center;gap:8px;transition:transform .18s">
+  <span style="font-size:16px">↗</span>发给一起鸡娃的朋友
+</button>
+<script>
+(function(){
+  var btn=document.getElementById('ydz-fab-share'); if(!btn) return;
+  btn.addEventListener('mouseenter',function(){ btn.style.transform='translateY(-2px)'; });
+  btn.addEventListener('mouseleave',function(){ btn.style.transform='translateY(0)'; });
+  // 滚动 200px 后才显示，避免遮挡首屏
+  btn.style.opacity='0'; btn.style.pointerEvents='none';
+  btn.style.transition='opacity .25s, transform .18s';
+  window.addEventListener('scroll',function(){
+    var on = window.scrollY > 200;
+    btn.style.opacity = on?'1':'0';
+    btn.style.pointerEvents = on?'auto':'none';
+  },{passive:true});
+  btn.addEventListener('click', async function(){
+    var url = 'https://www.yuandianzhixue.com/?utm_source=share_link&utm_medium=friend&utm_campaign=home_fab';
+    var text = '这个网站有 17 个免费 AI 学习工具（不用注册），孩子能直接用。还可以装到手机桌面。';
+    try { if (window.YdzxTrack) window.YdzxTrack.send('share_click',{from:'home_fab'}); } catch(e){}
+    if (navigator.share) {
+      try {
+        await navigator.share({ title:'原点智学 · 17 个免费 AI 学习工具', text:text, url:url });
+        try { if (window.YdzxTrack) window.YdzxTrack.send('share_done',{from:'home_fab',ok:1}); } catch(e){}
+        return;
+      } catch(e) { /* 用户取消，回落复制 */ }
+    }
+    try {
+      await navigator.clipboard.writeText(text + ' ' + url);
+      toast('✓ 复制了，粘贴发给朋友');
+      try { if (window.YdzxTrack) window.YdzxTrack.send('share_done',{from:'home_fab',ok:1,mode:'copy'}); } catch(e){}
+    } catch(e) {
+      prompt('复制下面这段发给朋友：', text + ' ' + url);
+    }
+  });
+  function toast(msg){
+    var t=document.createElement('div');
+    t.textContent=msg;
+    t.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#18181B;color:#fff;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:600;z-index:10000;box-shadow:0 10px 24px rgba(0,0,0,.25);font-family:\"Noto Sans SC\",system-ui,sans-serif';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.style.opacity='0'; t.style.transition='opacity .25s'; },1600);
+    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); },2000);
+  }
+})();
+</script>
+
 <!-- 首访 onboarding：一问直达工具 -->
 <div id="ob-modal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(24,24,27,.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:14px;max-width:460px;width:100%;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.3);font-family:'Noto Sans SC',system-ui,sans-serif;color:#18181B">
