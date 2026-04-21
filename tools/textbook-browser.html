@@ -120,6 +120,29 @@ h1 em{font-style:normal;color:var(--cta)}
 
 .notice{background:#FFFBF0;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin:16px 0 0;line-height:1.7}
 
+/* AI 出题弹出 */
+.aiq-box{margin:0 32px 24px;padding:18px 20px;background:linear-gradient(135deg,#FFF7ED 0%,#FEF3C7 100%);border:1px solid #F59E0B;border-radius:12px}
+.aiq-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.aiq-t{font-size:13px;font-weight:800;color:#78350F;letter-spacing:.2px}
+.aiq-sub{font-size:11px;color:#A16207;font-weight:600}
+.aiq-close{background:none;border:none;color:#A16207;cursor:pointer;font-size:18px;line-height:1;padding:2px 6px}
+.aiq-item{background:#fff;border:1px solid #FCD34D;border-radius:10px;padding:14px 16px;margin-top:10px}
+.aiq-q{font-size:14px;font-weight:700;color:var(--ink);line-height:1.55;margin-bottom:10px}
+.aiq-opts{display:flex;flex-direction:column;gap:6px}
+.aiq-opt{padding:9px 12px;background:#FAFAF7;border:1px solid var(--bdr);border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink2);display:flex;align-items:flex-start;gap:8px;transition:all .15s}
+.aiq-opt:hover{border-color:#F59E0B;background:#FFFBEB}
+.aiq-opt.picked{border-color:#F59E0B;background:#FEF3C7}
+.aiq-opt.correct{border-color:#059669;background:#ECFDF5;color:#064E3B}
+.aiq-opt.wrong{border-color:#DC2626;background:#FEF2F2;color:#7F1D1D}
+.aiq-opt .letter{width:20px;height:20px;border-radius:50%;background:#E7E5E4;color:var(--ink2);font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.aiq-opt.correct .letter{background:#059669;color:#fff}
+.aiq-opt.wrong .letter{background:#DC2626;color:#fff}
+.aiq-reveal{margin-top:10px;padding:10px 12px;background:#FAFAF7;border-left:3px solid #059669;border-radius:6px;font-size:12px;color:var(--ink2);line-height:1.65;display:none}
+.aiq-reveal.on{display:block}
+.aiq-reveal b{color:#065F46;font-weight:700}
+.aiq-loading{text-align:center;padding:20px;color:#A16207;font-size:12px}
+.aiq-err{padding:10px 12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;font-size:12px;color:#991B1B;margin-top:10px}
+
 .resume{background:linear-gradient(135deg,#FEF3C7 0%,#FDE68A 100%);border:1px solid #F59E0B;border-radius:var(--r);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .resume-l{flex:1;min-width:0}
 .resume-tag{font-size:10px;font-weight:800;color:#92400E;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
@@ -200,6 +223,7 @@ h1 em{font-style:normal;color:var(--cta)}
         </div>
         <div class="reader-jump" id="reader-jump"></div>
         <div class="reader-body" id="reader-body"><div class="empty">加载中...</div></div>
+        <div id="reader-aiq"></div>
         <div class="reader-foot" id="reader-foot"></div>
     </div>
 </div>
@@ -586,10 +610,130 @@ function renderChapter(data){
     $('reader-foot').innerHTML =
         prevBtn +
         nextBtn +
+        '<button class="rf-btn" onclick="aiGenQuestions()">🎯 AI 出 3 道题</button>' +
         '<a class="rf-btn" href="/tools/knowledge-arcade' + kaQS + '">刷题库</a>' +
         '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">AI 讲解</a>' +
         '<a class="rf-btn" href="/tools/feynman-verify">费曼复述</a>' +
         '<button class="rf-btn" onclick="closeReader()">关闭</button>';
+    // 清空残留 AI 问答
+    $('reader-aiq').innerHTML = '';
+    CURRENT_AIQ = null;
+}
+
+// ===== AI 出题（调 /api/ai-proxy · 每 IP 每日 20 次额度） =====
+var CURRENT_AIQ = null; // { questions: [{q, options:[...], answer, explanation, picked}] }
+
+function aiGenQuestions(){
+    if (!ACTIVE_CHAPTER || !ACTIVE_BOOK) return;
+    var slot = $('reader-aiq');
+    slot.innerHTML = '<div class="aiq-box"><div class="aiq-loading">🤔 AI 正在读这章，出 3 道题...（约 10 秒）</div></div>';
+    // 截取章节原文（过长会吃 token，够 3 道题足矣）
+    var txt = '';
+    var pages = (ACTIVE_CHAPTER.pages || []);
+    for (var i = 0; i < pages.length && txt.length < 3500; i++) {
+        txt += (pages[i].text || '') + '\n';
+    }
+    txt = txt.slice(0, 3500);
+    var subject = ACTIVE_BOOK.subject;
+    var grade = ACTIVE_BOOK.grade;
+    var chTitle = ACTIVE_CHAPTER.title || ('第' + ACTIVE_CHAPTER.ch + '章');
+    var sys = '你是' + grade + subject + '老师。仅根据我给你的课本原文出题，禁止编造课本没覆盖的知识点。';
+    var user = '课本章节：《' + chTitle + '》\n\n原文节选：\n' + txt + '\n\n请出 3 道选择题（难度从易到难），覆盖本章核心概念。严格输出 JSON，不要 Markdown：\n[\n  {"q":"题干","options":["A...","B...","C...","D..."],"answer":"A","explanation":"一句话解释为何选 A，引用原文概念"},\n  ...共 3 道\n]';
+    fetch('/api/ai-proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            provider: 'deepseek',
+            temperature: 0.4,
+            max_tokens: 1400,
+            stream: false,
+            messages: [
+                { role: 'system', content: sys },
+                { role: 'user', content: user }
+            ]
+        })
+    }).then(function(r){
+        if (!r.ok) return r.json().then(function(j){ throw new Error(j.message || ('HTTP ' + r.status)); });
+        return r.json();
+    }).then(function(j){
+        var raw = ((j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || '').trim();
+        // 剥 ```json ... ``` 包装
+        raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+        // 找第一个 [ 到最后一个 ]
+        var s = raw.indexOf('['), e = raw.lastIndexOf(']');
+        if (s >= 0 && e > s) raw = raw.slice(s, e+1);
+        var qs;
+        try { qs = JSON.parse(raw); } catch(err){ throw new Error('AI 回应不是合法 JSON · 再点一次试试'); }
+        if (!Array.isArray(qs) || qs.length === 0) throw new Error('AI 没出出题');
+        CURRENT_AIQ = { questions: qs.map(function(q){ q.picked = null; return q; }) };
+        renderAiQuestions();
+        if (window.GAME) {
+            window.GAME.addXP(8, '章内 AI 出题 · ' + subject + ' 第' + ACTIVE_CHAPTER.ch + '章');
+            window.GAME.pingToday();
+            showXP('+8 XP · AI 出了 3 道题');
+        }
+    }).catch(function(err){
+        slot.innerHTML = '<div class="aiq-box"><div class="aiq-hd"><div class="aiq-t">🎯 AI 出题</div><button class="aiq-close" onclick="closeAiq()">×</button></div><div class="aiq-err">' + esc(err.message) + '</div></div>';
+    });
+}
+
+function closeAiq(){
+    $('reader-aiq').innerHTML = '';
+    CURRENT_AIQ = null;
+}
+
+function renderAiQuestions(){
+    if (!CURRENT_AIQ) return;
+    var slot = $('reader-aiq');
+    var h = '<div class="aiq-box">' +
+        '<div class="aiq-hd">' +
+            '<div><div class="aiq-t">🎯 AI 出了 3 道题 · 覆盖本章核心</div><div class="aiq-sub">做完答对 +15 XP · 不限时</div></div>' +
+            '<button class="aiq-close" onclick="closeAiq()" title="收起">×</button>' +
+        '</div>';
+    CURRENT_AIQ.questions.forEach(function(q, i){
+        h += '<div class="aiq-item" id="aiq-it-' + i + '">';
+        h += '<div class="aiq-q">' + (i+1) + '. ' + esc(q.q || '') + '</div>';
+        h += '<div class="aiq-opts">';
+        (q.options || []).forEach(function(opt, j){
+            var letter = String.fromCharCode(65 + j);
+            var cls = q.picked === letter ? 'picked' : '';
+            if (q.picked != null) {
+                if (letter === (q.answer || '').toUpperCase()) cls = 'correct';
+                else if (letter === q.picked) cls = 'wrong';
+            }
+            h += '<div class="aiq-opt ' + cls + '" data-i="' + i + '" data-l="' + letter + '" onclick="pickAiq(' + i + ',\'' + letter + '\')">';
+            h += '<span class="letter">' + letter + '</span>';
+            h += '<span>' + esc(String(opt).replace(/^[A-D][.、\s]*/, '')) + '</span>';
+            h += '</div>';
+        });
+        h += '</div>';
+        var revealed = q.picked != null;
+        h += '<div class="aiq-reveal' + (revealed ? ' on' : '') + '" id="aiq-rev-' + i + '">' +
+            '<b>正确：' + esc((q.answer || '').toUpperCase()) + '</b> · ' + esc(q.explanation || '') +
+            '</div>';
+        h += '</div>';
+    });
+    h += '</div>';
+    slot.innerHTML = h;
+}
+
+function pickAiq(i, letter){
+    if (!CURRENT_AIQ || !CURRENT_AIQ.questions[i]) return;
+    var q = CURRENT_AIQ.questions[i];
+    if (q.picked != null) return; // 已答
+    q.picked = letter;
+    var correct = letter === (q.answer || '').toUpperCase();
+    if (correct && window.GAME) {
+        window.GAME.addXP(5, 'AI 章内练习 · ' + ACTIVE_BOOK.subject + ' 答对');
+    }
+    renderAiQuestions();
+    // 全对送彩蛋
+    var allDone = CURRENT_AIQ.questions.every(function(x){ return x.picked != null; });
+    var allRight = CURRENT_AIQ.questions.every(function(x){ return (x.picked || '').toUpperCase() === (x.answer || '').toUpperCase(); });
+    if (allDone && allRight && window.GAME) {
+        window.GAME.addXP(15, '章内 AI 题 3/3 · ' + ACTIVE_BOOK.subject);
+        showXP('+15 XP · 3/3 全对');
+    }
 }
 
 function navChapter(dir){
