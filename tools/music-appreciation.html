@@ -539,6 +539,10 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            if (window.GAME) {
+                window.GAME.addXP(14, '音乐鉴赏 · ' + (piece || '作品'));
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
     </script>
     <script src="../src/gamification.js"></script>

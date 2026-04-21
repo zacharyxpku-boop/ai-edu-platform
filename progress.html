@@ -188,6 +188,15 @@
     <div class="quests" id="quests"></div>
 </section>
 
+<!-- WEEKLY QUESTS -->
+<section class="sec">
+    <div class="sec-h">
+        <div class="sec-t">本周任务</div>
+        <div class="sec-sub" id="week-range"></div>
+    </div>
+    <div class="quests" id="weekly"></div>
+</section>
+
 <!-- FSRS 闪卡状态 -->
 <section class="sec" id="fsrs-sec" style="display:none">
     <div class="sec-h">
@@ -231,8 +240,23 @@
         <div class="share-t">把成长晒给朋友，邀ta一起升级</div>
         <div class="share-s">朋友免注册可体验，每邀一位激活用户你 +50 XP（未来上线）</div>
     </div>
-    <button class="share-btn" onclick="shareMe()">生成分享卡</button>
+    <button class="share-btn" onclick="generateShareImage()">生成分享海报</button>
     <button class="share-btn ghost" onclick="copyProgress()">复制文案</button>
+</div>
+
+<!-- 分享卡预览弹窗 -->
+<div id="poster-modal" style="display:none;position:fixed;inset:0;background:rgba(24,24,27,0.75);z-index:999;align-items:center;justify-content:center;padding:20px">
+    <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:92vh;overflow:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="font-size:13px;color:var(--ink3);font-weight:600">长按保存 · 发朋友圈</div>
+            <button onclick="closePoster()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink3);line-height:1">×</button>
+        </div>
+        <canvas id="poster-canvas" width="720" height="1080" style="width:100%;height:auto;border-radius:10px;display:block;margin-bottom:14px"></canvas>
+        <div style="display:flex;gap:8px">
+            <button class="share-btn" onclick="downloadPoster()" style="flex:1">下载海报</button>
+            <button class="share-btn ghost" onclick="closePoster()" style="flex:1">完成</button>
+        </div>
+    </div>
 </div>
 
 <!-- LOG -->
@@ -308,6 +332,27 @@ function render() {
             + '</div>';
     });
     document.getElementById('quests').innerHTML = qHtml;
+
+    // WEEKLY QUESTS
+    if (GAME.getWeeklyQuests) {
+        var wqs = GAME.getWeeklyQuests();
+        var wHtml = '';
+        wqs.forEach(function (q) {
+            var pct = q.done ? 100 : (q.progress || 0);
+            var subText = '已完成 ' + q.current + ' / ' + q.target;
+            wHtml += '<div class="q' + (q.done ? ' done' : '') + '">'
+                + '<div class="q-badge">🏁</div>'
+                + '<div class="q-name">' + q.name + '<div style="font-size:11px;color:var(--ink3);font-weight:500;margin-top:3px">' + subText + '</div></div>'
+                + '<div class="q-r">完成奖励 <b>+' + q.reward + ' XP</b></div>'
+                + '<div class="q-bar" style="--p:' + pct + '%"></div>'
+                + '</div>';
+        });
+        document.getElementById('weekly').innerHTML = wHtml;
+        var now = new Date();
+        var start = new Date(now.getTime() - 6*86400000);
+        var fmt = function(d){ return (d.getMonth()+1)+'月'+d.getDate()+'日'; };
+        document.getElementById('week-range').textContent = fmt(start) + ' — ' + fmt(now);
+    }
 
     // CHART — 近 7 天
     var daily = p.daily || {};
@@ -401,6 +446,188 @@ function copyText(t) {
             document.execCommand('copy'); ta.remove();
         }
     } catch (e) {}
+}
+
+// ---------- PNG 分享海报 ----------
+function generateShareImage() {
+    var s = GAME.getSummary();
+    var profile = GAME.getProfile();
+    var allBadges = GAME.getAllBadges();
+    var log = GAME.getLog();
+    var canvas = document.getElementById('poster-canvas');
+    var ctx = canvas.getContext('2d');
+    var W = 720, H = 1080;
+
+    // 背景
+    ctx.fillStyle = '#FAF9F7';
+    ctx.fillRect(0, 0, W, H);
+
+    // 顶部墨色条
+    ctx.fillStyle = '#1C1917';
+    ctx.fillRect(0, 0, W, 96);
+    ctx.fillStyle = '#D97706';
+    ctx.fillRect(0, 96, W, 4);
+
+    // 品牌
+    ctx.fillStyle = '#FFF';
+    ctx.font = '700 36px "Noto Sans SC", sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('原点智学', 40, 48);
+    ctx.fillStyle = '#D4B896';
+    ctx.font = '400 18px "Noto Sans SC", sans-serif';
+    ctx.fillText('成长档案 · 从答题到思考', 40, 78);
+
+    // 主卡片 — 等级+XP
+    var cardY = 140;
+    ctx.fillStyle = '#FFF';
+    roundRect(ctx, 40, cardY, 640, 240, 16);
+    ctx.fill();
+    ctx.strokeStyle = '#E7E5E4';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // emoji
+    ctx.font = '96px sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(s.emoji, 72, cardY + 110);
+
+    // LV.N
+    ctx.fillStyle = '#1C1917';
+    ctx.font = '700 72px "Noto Sans SC", sans-serif';
+    ctx.fillText('LV.' + s.level, 210, cardY + 80);
+    // 等级名
+    ctx.fillStyle = '#57534E';
+    ctx.font = '500 22px "Noto Sans SC", sans-serif';
+    ctx.fillText(s.levelName, 210, cardY + 135);
+
+    // XP 进度条
+    var barX = 72, barY = cardY + 180, barW = 596, barH = 12;
+    ctx.fillStyle = '#F5F5F4';
+    roundRect(ctx, barX, barY, barW, barH, 6);
+    ctx.fill();
+    var pct = Math.max(0.02, Math.min(1, (s.xp - s.levelFloor) / Math.max(1, s.levelCap - s.levelFloor)));
+    if (s.level >= 10) pct = 1;
+    ctx.fillStyle = '#D97706';
+    roundRect(ctx, barX, barY, barW * pct, barH, 6);
+    ctx.fill();
+    ctx.fillStyle = '#78716C';
+    ctx.font = '500 16px "Noto Sans SC", sans-serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText(s.xp + ' XP', barX, barY + 24);
+    ctx.textAlign = 'right';
+    ctx.fillText(s.level >= 10 ? '已封顶' : ('下一级 ' + s.levelCap), barX + barW, barY + 24);
+    ctx.textAlign = 'left';
+
+    // 三格数据
+    var tripY = 400;
+    var stats = [
+        { n: s.streak, t: '连续打卡', u: '天', c: '#D97706' },
+        { n: s.xp, t: '累计 XP', u: '', c: '#1C1917' },
+        { n: s.badgesCount + '/' + s.totalBadges, t: '徽章', u: '', c: '#1C1917' }
+    ];
+    stats.forEach(function(st, i) {
+        var x = 40 + i * 220;
+        ctx.fillStyle = '#FFF';
+        roundRect(ctx, x, tripY, 200, 110, 12);
+        ctx.fill();
+        ctx.strokeStyle = '#E7E5E4';
+        ctx.stroke();
+        ctx.fillStyle = st.c;
+        ctx.font = '700 40px "Noto Sans SC", sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(String(st.n) + (st.u || ''), x + 18, tripY + 42);
+        ctx.fillStyle = '#78716C';
+        ctx.font = '500 14px "Noto Sans SC", sans-serif';
+        ctx.fillText(st.t, x + 18, tripY + 80);
+    });
+
+    // 徽章墙
+    var badgeY = 550;
+    ctx.fillStyle = '#1C1917';
+    ctx.font = '700 20px "Noto Sans SC", sans-serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText('徽章墙', 40, badgeY);
+    ctx.fillStyle = '#78716C';
+    ctx.font = '500 14px "Noto Sans SC", sans-serif';
+    ctx.fillText('已点亮 ' + s.badgesCount + ' / ' + s.totalBadges, 40, badgeY + 28);
+
+    var gridY = badgeY + 60;
+    var cols = 5;
+    var cellW = 124;
+    var cellH = 112;
+    allBadges.slice(0, 15).forEach(function(b, i) {
+        var c = i % cols, r = Math.floor(i / cols);
+        var x = 40 + c * (cellW + 6);
+        var y = gridY + r * (cellH + 6);
+        ctx.fillStyle = b.unlocked ? '#FEF3C7' : '#F5F5F4';
+        roundRect(ctx, x, y, cellW, cellH, 10);
+        ctx.fill();
+        ctx.font = '40px sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        if (b.unlocked) {
+            ctx.fillText(b.icon, x + cellW/2, y + 46);
+        } else {
+            ctx.fillStyle = '#D6D3D1';
+            ctx.fillText('🔒', x + cellW/2, y + 46);
+        }
+        ctx.fillStyle = b.unlocked ? '#78350F' : '#A8A29E';
+        ctx.font = '500 12px "Noto Sans SC", sans-serif';
+        var name = b.name.length > 6 ? b.name.slice(0, 6) : b.name;
+        ctx.fillText(name, x + cellW/2, y + 88);
+        ctx.textAlign = 'left';
+    });
+
+    // 底部号召
+    var ctaY = H - 160;
+    ctx.fillStyle = '#1C1917';
+    roundRect(ctx, 40, ctaY, 640, 120, 14);
+    ctx.fill();
+    ctx.fillStyle = '#FFF';
+    ctx.font = '700 22px "Noto Sans SC", sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillText(personalCta(s), 64, ctaY + 42);
+    ctx.fillStyle = '#D4B896';
+    ctx.font = '500 16px "Noto Sans SC", sans-serif';
+    ctx.fillText('yuandianzhixue.com — 免注册体验 13 款学习工具', 64, ctaY + 82);
+
+    // 显示
+    var modal = document.getElementById('poster-modal');
+    modal.style.display = 'flex';
+}
+
+function personalCta(s) {
+    if (s.streak >= 7) return '连续 ' + s.streak + ' 天不断，来挑战我 👊';
+    if (s.badgesCount >= 5) return '我已经拿了 ' + s.badgesCount + ' 枚徽章，你敢来追？';
+    if (s.level >= 5) return '已到 LV.' + s.level + '，一起免注册试试';
+    if (s.xp >= 100) return '开启新玩法：用 AI 陪自己学习';
+    return '我在原点智学学了 ' + s.xp + ' XP，免注册你也来';
+}
+
+function downloadPoster() {
+    var canvas = document.getElementById('poster-canvas');
+    var profile = GAME.getProfile();
+    var link = document.createElement('a');
+    link.download = '原点智学-成长档案-LV' + profile.level + '-' + Date.now() + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+function closePoster() {
+    document.getElementById('poster-modal').style.display = 'none';
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    if (w < 2*r) r = w/2;
+    if (h < 2*r) r = h/2;
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y,   x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x,   y+h, r);
+    ctx.arcTo(x,   y+h, x,   y,   r);
+    ctx.arcTo(x,   y,   x+w, y,   r);
+    ctx.closePath();
 }
 
 function resetProgress() {

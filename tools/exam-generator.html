@@ -535,6 +535,11 @@
                             exam: result
                         });
                     }
+                    if (window.GAME) {
+                        var qcount = (result && result.questions && result.questions.length) || 10;
+                        window.GAME.addXP(20 + Math.min(15, Math.round(qcount / 2)), '出题 · ' + subject + ' ' + qcount + ' 道');
+                        if (window.YdzxHUD) window.YdzxHUD.refresh();
+                    }
                 } catch (e) {
                     console.error('解析失败', e);
                     document.getElementById('paper-container').innerHTML = '<p style="color:#C94040;text-align:center;padding:40px">AI回复格式异常，请重试。</p>';

@@ -450,6 +450,10 @@
                             plan: planData
                         });
                     }
+                    if (window.GAME) {
+                        window.GAME.addXP(35, '生成学习计划 · ' + (planData.days || []).length + ' 天');
+                        if (window.YdzxHUD) window.YdzxHUD.refresh();
+                    }
                 } catch (e) {
                     console.error('解析失败', e);
                     document.getElementById('daily-tasks-container').innerHTML = '<p style="color:var(--c-error);text-align:center;padding:40px">AI回复格式异常，请重试。</p>';

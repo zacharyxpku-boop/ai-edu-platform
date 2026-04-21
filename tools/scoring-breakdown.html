@@ -448,6 +448,10 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            if (window.GAME) {
+                window.GAME.addXP(18, '拆分打分 · ' + (subject || '题目'));
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
     </script>
     <script src="../src/gamification.js"></script>

@@ -250,6 +250,73 @@
     }
 
     // Daily 任务（基础 3 条，完成即加分）
+    // 本周（过去 7 天，含今天）聚合
+    function getWeekStats() {
+        var p = getProfile();
+        var now = new Date();
+        var xpSum = 0, actionSum = 0;
+        var toolSet = {};
+        var days = [];
+        for (var i = 6; i >= 0; i--) {
+            var d = new Date(now.getTime() - i*86400000);
+            var k = dayKey(d.getTime());
+            var dd = p.daily[k] || { xp: 0, actions: 0, tools: [] };
+            xpSum += (dd.xp || 0);
+            actionSum += (dd.actions || 0);
+            (dd.tools || []).forEach(function(t){ toolSet[t] = true; });
+            days.push({ day: k, xp: dd.xp || 0, actions: dd.actions || 0, tools: (dd.tools||[]).length });
+        }
+        var flashReviewed = 0;
+        try {
+            var log = safeGet(K.LOG, []) || [];
+            var cutoff = Date.now() - 7*86400000;
+            log.forEach(function(e){
+                if (e.ts >= cutoff && typeof e.reason === 'string' && /闪卡|复习|FSRS/.test(e.reason)) flashReviewed++;
+            });
+        } catch (e) {}
+        return {
+            xp: xpSum,
+            actions: actionSum,
+            toolDiversity: Object.keys(toolSet).length,
+            tools: Object.keys(toolSet),
+            days: days,
+            flashReviewed: flashReviewed
+        };
+    }
+
+    function getWeeklyQuests() {
+        var w = getWeekStats();
+        return [
+            {
+                id: 'w_earn_500xp',
+                name: '本周累计获得 500 XP',
+                current: w.xp,
+                target: 500,
+                progress: Math.min(100, Math.round(w.xp / 500 * 100)),
+                done: w.xp >= 500,
+                reward: 50
+            },
+            {
+                id: 'w_five_tools',
+                name: '本周使用 5 件不同工具',
+                current: w.toolDiversity,
+                target: 5,
+                progress: Math.min(100, Math.round(w.toolDiversity / 5 * 100)),
+                done: w.toolDiversity >= 5,
+                reward: 40
+            },
+            {
+                id: 'w_flash_30',
+                name: '本周复习闪卡 30 次',
+                current: w.flashReviewed,
+                target: 30,
+                progress: Math.min(100, Math.round(w.flashReviewed / 30 * 100)),
+                done: w.flashReviewed >= 30,
+                reward: 60
+            }
+        ];
+    }
+
     function getDailyQuests() {
         var p = getProfile();
         var today = dayKey();
@@ -289,7 +356,10 @@
             level: lv.lv, levelName: lv.name, emoji: lv.emoji,
             xp: p.xp, streak: p.streak || 0, streakBest: p.streakBest || 0,
             badgesCount: (p.badges || []).length,
-            totalBadges: BADGES.length
+            totalBadges: BADGES.length,
+            levelFloor: lv.curLevelXp,
+            levelCap: lv.nextLevelXp || lv.curLevelXp,
+            progress: lv.progress
         };
     }
 
@@ -305,6 +375,8 @@
         getAllBadges: getAllBadges,
         getBadgeById: getBadgeById,
         getDailyQuests: getDailyQuests,
+        getWeeklyQuests: getWeeklyQuests,
+        getWeekStats: getWeekStats,
         getLog: getLog,
         recordAction: recordAction,
         getSummary: getProfile_forShare,

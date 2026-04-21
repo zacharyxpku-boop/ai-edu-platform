@@ -629,6 +629,13 @@ ${currentAttempt ? `学生已经说了自己的尝试：${currentAttempt}` : '�
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            if (window.GAME) {
+                // 每步 3 XP，走完一整轮苏格拉底给附加奖励
+                var base = Math.min(30, (stepCount || 1) * 3);
+                var extra = (stepCount >= 4) ? 10 : 0;
+                window.GAME.addXP(base + extra, '知识讲解 · ' + stepCount + ' 步对话');
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
     </script>
     <script src="../src/gamification.js"></script>

@@ -523,6 +523,12 @@ currentVisualType === 'mindmap' ?
                     document.getElementById('regen-btn').style.display = 'inline-block';
                     document.getElementById('download-btn').style.display = 'inline-block';
                     document.getElementById('share-btn').style.display = 'inline-block';
+
+                    if (window.GAME) {
+                        window.GAME.addXP(18, '知识可视化 · 生成图表');
+                        window.GAME.unlockBadge('knowledge_cartographer');
+                        if (window.YdzxHUD) window.YdzxHUD.refresh();
+                    }
                 },
                 onError: function(err) {
                     loading.classList.remove('visible');

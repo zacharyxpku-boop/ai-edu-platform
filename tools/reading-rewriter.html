@@ -476,6 +476,10 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            if (window.GAME) {
+                window.GAME.addXP(15, '阅读改写 · ' + (level || '难度调整'));
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
     </script>
     <script src="../src/gamification.js"></script>

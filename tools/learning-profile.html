@@ -628,6 +628,16 @@
 
             // 初始化年级选项
             updateGradeOptions();
+
+            // 游戏化：一天首次打开画像 +8 XP（防刷）
+            try {
+                var today = new Date().toISOString().slice(0, 10);
+                if (localStorage.getItem('ydzx_profile_reward_day') !== today && window.GAME) {
+                    window.GAME.addXP(8, '查看学习画像');
+                    localStorage.setItem('ydzx_profile_reward_day', today);
+                    if (window.YdzxHUD) window.YdzxHUD.refresh();
+                }
+            } catch (e) {}
         });
     </script>
     <!-- 快捷导航 -->

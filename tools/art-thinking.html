@@ -565,6 +565,11 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            if (window.GAME) {
+                var dims = (currentDimension && currentDimension.length) || 1;
+                window.GAME.addXP(12 + dims * 3, '艺术思维 · 探索 ' + dims + ' 个维度');
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
 
         // 回车发送

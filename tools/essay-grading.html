@@ -513,6 +513,14 @@
             if (window.LearningStore && window.LearningStore.savePractice) {
                 window.LearningStore.savePractice(record);
             }
+            // 游戏化：按总分分档
+            if (window.GAME) {
+                var total = (result && (result.totalScore || result.total || result.score)) || 0;
+                var xp = total >= 85 ? 40 : (total >= 70 ? 25 : 15);
+                window.GAME.addXP(xp, '作文批改 · ' + total + ' 分');
+                if (total >= 85) window.GAME.unlockBadge('essay_polisher');
+                if (window.YdzxHUD) window.YdzxHUD.refresh();
+            }
         }
     </script>
     <script src="../src/gamification.js"></script>
