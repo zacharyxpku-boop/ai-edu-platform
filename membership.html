@@ -201,17 +201,134 @@ h1 em{font-style:normal;color:var(--cta)}
 
 <footer class="foot">© 2026 原点智学 · 不替孩子学，替家长选好</footer>
 
+<!-- 预约模态 -->
+<div id="mb-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(24,24,27,.72);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px">
+    <div style="background:#fff;border-radius:14px;max-width:420px;width:100%;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.25)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:.5px" id="mb-tier-badge">基础会员</div>
+            <button onclick="mbClose()" style="border:none;background:transparent;font-size:22px;color:#A1A1AA;cursor:pointer;line-height:1;padding:0">×</button>
+        </div>
+        <h3 style="font-size:20px;font-weight:900;margin-bottom:6px" id="mb-title">预约会员 1v1 沟通</h3>
+        <p style="font-size:12px;color:#71717A;margin-bottom:18px">留个联系方式，Zack 24 小时内主动加你。前 100 名半价永久锁定。</p>
+        <form id="mb-form" onsubmit="return mbSubmit(event)">
+            <input type="hidden" id="mb-tier" value="">
+            <label style="font-size:12px;color:#3F3F46;display:block;margin-bottom:4px">称呼 *</label>
+            <input id="mb-name" required maxlength="20" style="width:100%;padding:10px 12px;border:1px solid #E4E4E7;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px" placeholder="方便我怎么称呼你">
+            <label style="font-size:12px;color:#3F3F46;display:block;margin-bottom:4px">手机号 *</label>
+            <input id="mb-phone" required pattern="1[3-9]\d{9}" maxlength="11" inputmode="tel" style="width:100%;padding:10px 12px;border:1px solid #E4E4E7;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px" placeholder="11位手机号，加微信用">
+            <label style="font-size:12px;color:#3F3F46;display:block;margin-bottom:4px">孩子情况（选填）</label>
+            <input id="mb-kid" maxlength="40" style="width:100%;padding:10px 12px;border:1px solid #E4E4E7;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:16px" placeholder="例如 初一男孩，数学薄弱">
+            <button type="submit" id="mb-submit" style="width:100%;padding:12px;border:none;background:#C2410C;color:#fff;font-size:14px;font-weight:700;border-radius:8px;cursor:pointer;font-family:inherit">提交预约</button>
+        </form>
+        <p style="font-size:11px;color:#A1A1AA;margin-top:10px;text-align:center">不方便留号？<a href="javascript:void(0)" onclick="mbCopyEmail()" style="color:#C2410C">直接复制邮箱</a> business@yuandianzhixue.com</p>
+    </div>
+</div>
+
 <script>
+const MB_TIER_NAME = { basic:'基础会员 ¥99/月', family:'全家会员 ¥299/月', contact:'会员咨询' };
+
 function joinMember(tier) {
-    const tierName = { basic:'基础会员¥99/月', family:'全家会员¥299/月', contact:'咨询' }[tier] || '会员';
-    const msg = `原点${tierName}预约\n\n请加微信「原点AI学堂」\n邮箱: business@yuandianzhixue.com\n备注「会员」+ 你选的套餐\n\n创始人Zack亲自对接，24小时内回复\n前100名享半价永久锁定`;
+    document.getElementById('mb-tier').value = tier;
+    document.getElementById('mb-tier-badge').textContent = MB_TIER_NAME[tier] || '会员';
+    document.getElementById('mb-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ document.getElementById('mb-name').focus(); }, 60);
+}
+
+function mbClose() {
+    document.getElementById('mb-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function mbCopyEmail() {
     if (navigator.clipboard) {
         navigator.clipboard.writeText('business@yuandianzhixue.com');
-        alert(msg + '\n\n✓ 邮箱已复制到剪贴板');
+        alert('邮箱已复制 ✓\n备注「会员」+ 你的诉求，Zack 24 小时内回复');
     } else {
-        alert(msg);
+        alert('请手动复制: business@yuandianzhixue.com');
     }
 }
+
+function mbSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('mb-name').value.trim();
+    const phone = document.getElementById('mb-phone').value.trim();
+    const kid = document.getElementById('mb-kid').value.trim();
+    const tier = document.getElementById('mb-tier').value;
+
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
+        alert('请输入正确的 11 位手机号');
+        return false;
+    }
+    if (/[<>{}()\\\/]|https?:|javascript:/i.test(name + kid)) {
+        alert('含无效字符，请重填');
+        return false;
+    }
+
+    const btn = document.getElementById('mb-submit');
+    btn.disabled = true;
+    btn.textContent = '提交中...';
+
+    const params = new URLSearchParams(window.location.search);
+    const clean = function(s){ return String(s||'').replace(/[<>"'&\\`]/g,'').substring(0,200); };
+    const lead = {
+        kind: 'membership',
+        tier: tier,
+        tier_label: MB_TIER_NAME[tier] || tier,
+        name: clean(name),
+        phone: phone,
+        kid: clean(kid),
+        time: new Date().toISOString(),
+        page: '/membership.html',
+        referrer: clean(document.referrer),
+        utm_source: clean(params.get('utm_source')),
+        utm_medium: clean(params.get('utm_medium')),
+        utm_campaign: clean(params.get('utm_campaign'))
+    };
+
+    // Webhook (占位，Zack 部署时替换 WEBHOOK_ID)
+    const _wh = ['aHR0cHM6Ly9vcGVuLmZlaXNodS5jbi9vcGVuLWFwaXMvYm90L3Yy', 'L2hvb2svWU9VUl9XRUJIT09LX0lE'];
+    let WH = '';
+    try { WH = atob(_wh[0]) + atob(_wh[1]); } catch(e){}
+    const payload = {
+        msg_type: 'text',
+        content: {
+            text: '💎 会员预约 — 原点智学\n套餐: ' + lead.tier_label + '\n姓名: ' + lead.name + '\n手机: ' + lead.phone + '\n孩子: ' + (lead.kid||'未填') + '\nUTM: ' + (lead.utm_source||'直接访问') + '\n时间: ' + lead.time
+        }
+    };
+
+    fetch(WH, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
+        .catch(function(){})
+        .finally(function(){
+            try {
+                const leads = JSON.parse(localStorage.getItem('ydzx_leads')||'[]');
+                leads.push(lead);
+                localStorage.setItem('ydzx_leads', JSON.stringify(leads));
+                localStorage.setItem('ydzx_last_membership_tier', tier);
+            } catch(e){}
+
+            btn.textContent = '✓ 已提交，Zack 24h 内联系';
+            btn.style.background = '#2D9F6F';
+            setTimeout(function(){
+                mbClose();
+                btn.textContent = '提交预约';
+                btn.style.background = '';
+                btn.disabled = false;
+                document.getElementById('mb-form').reset();
+            }, 2200);
+        });
+
+    return false;
+}
+
+// ESC 关闭
+document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && document.getElementById('mb-modal').style.display === 'flex') mbClose();
+});
+// 点击遮罩关闭
+document.getElementById('mb-modal').addEventListener('click', function(e){
+    if (e.target === this) mbClose();
+});
 </script>
 </body>
 </html>
