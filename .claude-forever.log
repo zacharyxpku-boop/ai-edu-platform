@@ -1,15 +1,28 @@
-2026-04-14 12:23:32 | 不眠模式v2启动 | 任务: 项目在当前目录。3个工具有对应数据集但还没接入。
+2026-04-21 00:47:15 | 不眠模式v2启动 | 任务: 项目在当前目录(ai-edu-platform)。完整任务清单在 .run-forever-prompt.md，读它开始工作。
 
-1. tools/music-appreciation.html — 接入 src/curriculum/music-classics.json
-   页面加载时fetch这个JSON，用户输入曲名后在50首曲目中匹配，如果匹配到就把该曲目的form/instruments/mood/structure_sections注入prompt，让AI基于真实曲目数据做分析。如果没匹配到就让AI自由分析。
+核心目标：让15个工具都能'选学段/年级/科目/版本'，基于ChinaTextbook（GitHub TapXWorld/ChinaTextbook 10.3万星）的真实中国教材目录生成内容。
 
-2. tools/art-thinking.html — 接入 src/curriculum/art-masterpieces.json
-   用户输入画名后在50幅画作中匹配，匹配到就把composition_notes/color_palette/light_source/emotional_tone注入prompt作为参考。AI追问时可以基于真实画作信息提出更精准的观察引导。
+立即开始Phase 1：
+1. WebFetch https://github.com/TapXWorld/ChinaTextbook 和子目录了解结构
+2. 用WebFetch抓取 https://api.github.com/repos/TapXWorld/ChinaTextbook/git/trees/main?recursive=1 拿到完整文件列表
+3. 过滤出初中部分的PDF文件路径（文件名包含：初中/七年级/八年级/九年级 或 7年级/8年级/9年级）
+4. 按'科目×版本×册次'结构化为 src/curriculum/textbook-index.json
+5. git add + commit + push
 
-3. tools/reading-rewriter.html — 接入 src/curriculum/reading-list.json
-   页面加一个'推荐篇目'下拉框，从reading-list.json生成选项列表。用户选择后自动填入对应的原文片段提示。如果用户自己粘贴文本也行。
+然后进入Phase 2（UI升级）——给15个工具统一加4级联动下拉框（学段/年级/科目/版本），选完后fetch对应子集注入system prompt。
 
-每个改完 git add + git commit。最后 git push origin main。
-2026-04-14 12:23:33 | 第1轮开始
-2026-04-14 12:30:26 | 所有任务完成
-2026-04-14 12:30:27 | 不眠模式结束 (1轮, 0次重试)
+约束：
+- 每完成一个文件立即 git commit + push
+- 不允许停止
+- 遇到阻塞写TODO继续推进
+- 保持亮色主题和logo统一
+- 不用Inter/Roboto字体
+
+持续运转，直到全部15个工具都支持'年级+科目+版本'三选一加载对应教材数据。
+2026-04-21 00:47:16 | 第1轮开始
+2026-04-21 01:04:24 | 第1轮正常结束，检查是否还有未完成任务
+2026-04-21 01:04:30 | 第2轮开始
+2026-04-21 01:25:10 | 第2轮正常结束，检查是否还有未完成任务
+2026-04-21 01:25:16 | 第3轮开始
+2026-04-21 01:42:28 | 所有任务完成
+2026-04-21 01:42:28 | 不眠模式结束 (3轮, 0次重试)
