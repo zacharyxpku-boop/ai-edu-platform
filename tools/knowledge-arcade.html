@@ -998,7 +998,14 @@ function matchTextbookChapter(subject, q) {
             if (score > bestScore) { bestScore = score; best = { book: b, ch: c }; }
         });
     });
-    return bestScore >= 6 ? best : null;  // 门槛防乱接
+    if (bestScore >= 6) return best;  // 强匹配
+    // 弱匹配兜底：返回本学科任一本 + 第 1 章，用户至少有「相关教材」入口
+    if (!best && candidates.length) {
+        const b = candidates[0];
+        const firstCh = (b.chapters || [])[0];
+        if (firstCh) return { book: b, ch: firstCh, weak: true };
+    }
+    return null;
 }
 
 async function loadSeedBank() {
@@ -1097,12 +1104,18 @@ function sbReveal(idx, confidentlyCorrect) {
         const match = matchTextbookChapter(_sbCurrent.subject, q);
         if (match) {
             const b = match.book, c = match.ch;
-            const bookPath = b.path.split('/').map(encodeURIComponent).join('/');
             const href = '/tools/textbook-browser?book=' + encodeURIComponent(b.path) + '&ch=' + c.ch;
+            const isWeak = match.weak;
+            const label = isWeak
+                ? '📚 翻一翻 ' + b.stage + b.subject + ' · ' + b.grade + b.volume
+                : '📖 查' + b.stage + b.subject + '·' + b.grade + b.volume + ' 第' + c.ch + '章' + (c.title ? ' ' + c.title : '');
+            const hint = isWeak ? '相关教材（未精确匹配）' : '对应教材原文';
+            const bg = isWeak ? '#F5F5F4' : '#FEF3C7';
+            const fg = isWeak ? '#57534E' : '#92400E';
+            const bd = isWeak ? '#D6D3D1' : '#F59E0B';
             slot.innerHTML =
-                '<div style="font-size:12px;color:#71717A;margin-bottom:6px">对应教材原文</div>' +
-                '<a class="sb-btn" style="display:inline-block;text-decoration:none;background:#FEF3C7;color:#92400E;border-color:#F59E0B" href="' + href + '">' +
-                '📖 查' + b.stage + b.subject + '·' + b.grade + b.volume + ' 第' + c.ch + '章' + (c.title ? ' ' + c.title : '') + '</a>';
+                '<div style="font-size:12px;color:#71717A;margin-bottom:6px">' + hint + '</div>' +
+                '<a class="sb-btn" style="display:inline-block;text-decoration:none;background:' + bg + ';color:' + fg + ';border-color:' + bd + '" href="' + href + '">' + label + '</a>';
             slot.dataset.filled = '1';
         }
     }
