@@ -274,6 +274,14 @@
                 <canvas id="eh-curve" width="640" height="140" style="width:100%;height:auto;display:block"></canvas>
                 <div id="eh-curve-empty" style="display:none;text-align:center;color:var(--c-warm-dim);padding:18px 0;font-size:13px">批改 2 篇以后会显示进步曲线</div>
             </div>
+            <!-- 维度诊断：哪一维最稳、哪一维需补 -->
+            <div id="eh-dims-wrap" style="background:var(--bg);border:1px solid var(--c-ink-border);border-radius:var(--r-md);padding:14px;margin-bottom:14px;display:none">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+                    <div style="font-size:12px;color:var(--c-warm-gray)">各维度平均（最近 <span id="eh-dims-n">0</span> 篇）</div>
+                    <div id="eh-dims-verdict" style="font-size:12px;color:#18181B"></div>
+                </div>
+                <div id="eh-dims" style="display:grid;grid-template-columns:1fr;gap:6px"></div>
+            </div>
             <div id="eh-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px"></div>
         </section>
 
@@ -591,11 +599,66 @@
             if (trend.length < 2) {
                 cv.style.display = 'none';
                 empty.style.display = 'block';
-                return;
+            } else {
+                cv.style.display = 'block';
+                empty.style.display = 'none';
+                drawTrendCurve(cv, trend);
             }
-            cv.style.display = 'block';
-            empty.style.display = 'none';
-            drawTrendCurve(cv, trend);
+
+            // 维度诊断
+            renderDimensionBars(hist);
+        }
+
+        // 聚合各维度平均 → 横条 + 最弱/最稳维度评语
+        function renderDimensionBars(hist) {
+            var wrap = document.getElementById('eh-dims-wrap');
+            if (!hist || hist.length < 2) { wrap.style.display = 'none'; return; }
+            var sample = hist.slice(0, 12);
+            // 每维度累加（容差：key 可能是「立意」「内容」「结构」「语言」「逻辑」「创意」 —— 全部接）
+            var agg = {}; // { 维度名: [sum, count, max] }
+            sample.forEach(function (r) {
+                var s = r.scores || {};
+                Object.keys(s).forEach(function (k) {
+                    var v = Number(s[k]) || 0;
+                    if (!agg[k]) agg[k] = [0, 0, 0];
+                    agg[k][0] += v;
+                    agg[k][1] += 1;
+                    if (v > agg[k][2]) agg[k][2] = v;
+                });
+            });
+            var keys = Object.keys(agg);
+            if (!keys.length) { wrap.style.display = 'none'; return; }
+            wrap.style.display = '';
+            document.getElementById('eh-dims-n').textContent = sample.length;
+            // 推断每维度满分：看 max，>20 → /100 尺度；否则 /20
+            var rows = keys.map(function (k) {
+                var sum = agg[k][0], n = agg[k][1], maxSeen = agg[k][2];
+                var avg = Math.round(sum / n * 10) / 10;
+                var scaleMax = maxSeen > 20 ? 100 : 20;
+                var pct = Math.max(0, Math.min(100, avg / scaleMax * 100));
+                return { k: k, avg: avg, max: scaleMax, pct: pct };
+            }).sort(function (a, b) { return b.pct - a.pct; });
+            var best = rows[0], weakest = rows[rows.length - 1];
+            // verdict
+            var verdict = '';
+            if (rows.length >= 2 && best.pct - weakest.pct >= 10) {
+                verdict = '💪 <b>' + best.k + '</b> 最稳 · 📍 下一篇抓 <b style="color:#C74040">' + weakest.k + '</b>';
+            } else {
+                verdict = '✨ 各维度均衡，继续保持';
+            }
+            document.getElementById('eh-dims-verdict').innerHTML = verdict;
+            // 条
+            document.getElementById('eh-dims').innerHTML = rows.map(function (r) {
+                var color = r.pct >= 80 ? '#6B9E6E' : (r.pct >= 65 ? '#D97706' : '#C74040');
+                var bg = r.pct >= 80 ? '#E6F7ED' : (r.pct >= 65 ? '#FFF5DE' : '#FCE8E8');
+                return '<div style="display:grid;grid-template-columns:60px 1fr 70px;gap:10px;align-items:center;font-size:13px">'
+                    + '<div style="color:#18181B;font-weight:600">' + r.k + '</div>'
+                    + '<div style="background:' + bg + ';border:1px solid var(--c-ink-border);border-radius:4px;height:14px;position:relative;overflow:hidden">'
+                    +     '<div style="background:' + color + ';height:100%;width:' + r.pct.toFixed(1) + '%;transition:width .4s"></div>'
+                    + '</div>'
+                    + '<div style="color:' + color + ';font-weight:700;text-align:right;font-size:12px">' + r.avg + '<span style="color:var(--c-warm-gray);font-weight:400">/' + r.max + '</span></div>'
+                    + '</div>';
+            }).join('');
         }
 
         function drawTrendCurve(canvas, trend) {
