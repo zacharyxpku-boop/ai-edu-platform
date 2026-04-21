@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>本机线索记录 · 原点智学</title>
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:#FAFAF7;color:#18181B;padding:32px 20px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto}
+h1{font-size:24px;font-weight:900;margin-bottom:4px}
+.sub{font-size:12px;color:#71717A;margin-bottom:24px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.bar input{padding:8px 10px;border:1px solid #E4E4E7;border-radius:7px;font-family:inherit;font-size:13px;min-width:200px}
+.btn{padding:8px 14px;border:1px solid #E4E4E7;background:#fff;border-radius:7px;font-family:inherit;font-size:13px;cursor:pointer;color:#18181B}
+.btn:hover{background:#F5F5F4}
+.btn.cta{background:#18181B;color:#fff;border-color:#18181B}
+.btn.danger{color:#C2410C;border-color:#FCA5A5}
+.stats{display:flex;gap:18px;margin-bottom:18px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #E4E4E7;border-radius:10px;padding:14px 18px;min-width:120px}
+.stat-label{font-size:11px;color:#71717A;text-transform:uppercase;letter-spacing:.5px}
+.stat-value{font-size:24px;font-weight:900;color:#18181B;margin-top:2px}
+.stat-value.amber{color:#F5A623}
+.stat-value.cta{color:#C2410C}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #E4E4E7;font-size:13px}
+th{background:#F5F5F4;text-align:left;padding:10px 12px;font-weight:700;font-size:12px;color:#3F3F46;border-bottom:1px solid #E4E4E7}
+td{padding:10px 12px;border-bottom:1px solid #F5F5F4;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FFFBF0}
+.pill{display:inline-block;padding:2px 8px;font-size:11px;font-weight:700;border-radius:100px;background:#FFFBF0;color:#F5A623}
+.pill.member{background:#FEF3F2;color:#C2410C}
+.pill.contact{background:#EFF6FF;color:#1D4ED8}
+.empty{padding:60px 20px;text-align:center;color:#A1A1AA;font-size:14px;background:#fff;border:1px dashed #E4E4E7;border-radius:10px}
+.warn{background:#FFFBF0;border:1px solid #FCD34D;border-radius:8px;padding:12px 14px;font-size:12px;color:#78350F;margin-bottom:18px;line-height:1.7}
+code{background:#F5F5F4;padding:1px 6px;border-radius:4px;font-size:12px}
+.hide-mobile{}
+@media(max-width:700px){.hide-mobile{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>本机线索记录</h1>
+    <div class="sub">localStorage <code>ydzx_leads</code> · 仅本浏览器可见 · 飞书 webhook 配好后线索会同时推送到群</div>
+
+    <div class="warn">
+        <strong>注意</strong>: 这个页面只看你当前浏览器提交过的线索（诊断/恢复用）。真实用户线索需等飞书 webhook URL 替换 <code>YOUR_WEBHOOK_ID</code> 才会实时入群。
+    </div>
+
+    <div class="stats">
+        <div class="stat"><div class="stat-label">总数</div><div class="stat-value" id="s-total">0</div></div>
+        <div class="stat"><div class="stat-label">会员预约</div><div class="stat-value cta" id="s-member">0</div></div>
+        <div class="stat"><div class="stat-label">官网留资</div><div class="stat-value amber" id="s-contact">0</div></div>
+        <div class="stat"><div class="stat-label">今天</div><div class="stat-value" id="s-today">0</div></div>
+    </div>
+
+    <div class="bar">
+        <input type="text" id="q" placeholder="搜姓名/手机/备注..." oninput="render()">
+        <button class="btn cta" onclick="exportCSV()">导出 CSV</button>
+        <button class="btn" onclick="render()">刷新</button>
+        <button class="btn danger" onclick="clearAll()">清空本机</button>
+        <span style="flex:1"></span>
+        <a href="index.html" class="btn">← 返回首页</a>
+    </div>
+
+    <div id="list"></div>
+</div>
+
+<script>
+function read(){
+    try { return JSON.parse(localStorage.getItem('ydzx_leads')||'[]'); } catch(e){ return []; }
+}
+function kindLabel(k){
+    return k==='membership'?'会员':(k?k:'留资');
+}
+function kindClass(k){
+    return k==='membership'?'member':'contact';
+}
+function fmt(iso){
+    try {
+        var d = new Date(iso);
+        var pad = function(n){return n<10?'0'+n:n;};
+        return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());
+    } catch(e){ return iso||''; }
+}
+function esc(s){
+    return String(s||'').replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});
+}
+function todayStart(){
+    var d = new Date(); d.setHours(0,0,0,0); return d.getTime();
+}
+function render(){
+    var all = read();
+    var q = document.getElementById('q').value.trim().toLowerCase();
+    var filtered = q ? all.filter(function(l){
+        return JSON.stringify(l).toLowerCase().indexOf(q) > -1;
+    }) : all;
+
+    document.getElementById('s-total').textContent = all.length;
+    document.getElementById('s-member').textContent = all.filter(function(l){return l.kind==='membership';}).length;
+    document.getElementById('s-contact').textContent = all.filter(function(l){return !l.kind || l.kind!=='membership';}).length;
+    var ts = todayStart();
+    document.getElementById('s-today').textContent = all.filter(function(l){
+        var t = new Date(l.time).getTime(); return t >= ts;
+    }).length;
+
+    var list = document.getElementById('list');
+    if (!filtered.length) {
+        list.innerHTML = '<div class="empty">'+(all.length?'没有匹配的记录':'还没有线索。先去首页表单或会员页提交一条测试')+'</div>';
+        return;
+    }
+    // 倒序(最新在前)
+    filtered = filtered.slice().reverse();
+    var rows = filtered.map(function(l){
+        return '<tr>'+
+            '<td>'+fmt(l.time)+'</td>'+
+            '<td><span class="pill '+kindClass(l.kind)+'">'+esc(kindLabel(l.kind))+'</span></td>'+
+            '<td><strong>'+esc(l.name)+'</strong></td>'+
+            '<td>'+esc(l.phone)+'</td>'+
+            '<td>'+esc(l.tier_label||l.age||l.kid||'')+'</td>'+
+            '<td class="hide-mobile">'+esc(l.page||'')+'</td>'+
+            '<td class="hide-mobile">'+esc(l.utm_source||'直接')+'</td>'+
+        '</tr>';
+    }).join('');
+    list.innerHTML = '<table><thead><tr>'+
+        '<th>时间</th><th>类型</th><th>姓名</th><th>手机</th><th>备注/套餐</th>'+
+        '<th class="hide-mobile">来源页</th><th class="hide-mobile">UTM</th>'+
+        '</tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+function exportCSV(){
+    var all = read();
+    if (!all.length) { alert('暂无数据'); return; }
+    var headers = ['time','kind','name','phone','tier','age_or_kid','page','referrer','utm_source','utm_medium','utm_campaign'];
+    var lines = [headers.join(',')];
+    all.forEach(function(l){
+        var row = [
+            l.time, l.kind||'contact', l.name, l.phone,
+            l.tier_label||l.tier||'', l.kid||l.age||'',
+            l.page||'', l.referrer||'',
+            l.utm_source||'', l.utm_medium||'', l.utm_campaign||''
+        ].map(function(v){
+            v = String(v==null?'':v);
+            if (v.indexOf(',')>-1 || v.indexOf('"')>-1 || v.indexOf('\n')>-1) v = '"'+v.replace(/"/g,'""')+'"';
+            return v;
+        });
+        lines.push(row.join(','));
+    });
+    var csv = '\ufeff' + lines.join('\n'); // BOM for Excel 中文
+    var blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'ydzx-leads-'+new Date().toISOString().slice(0,10)+'.csv';
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
+}
+
+function clearAll(){
+    if (!confirm('确认清空本机所有线索记录？这只清你当前浏览器的 localStorage，不影响飞书群。')) return;
+    localStorage.removeItem('ydzx_leads');
+    render();
+}
+
+render();
+</script>
+</body>
+</html>
