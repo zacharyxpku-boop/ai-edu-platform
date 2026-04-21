@@ -6,8 +6,40 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/化学/人教版/九年级/下册.pdf",
   "page_count": 121,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 121,
+  "chapters": [
+    {
+      "ch": 8,
+      "title": "第八单元金属和金属材料",
+      "start_page": 10,
+      "end_page": 28
+    },
+    {
+      "ch": 9,
+      "title": "第九单元 溶液",
+      "start_page": 29,
+      "end_page": 52
+    },
+    {
+      "ch": 10,
+      "title": "第十单元 酸和碱",
+      "start_page": 53,
+      "end_page": 74
+    },
+    {
+      "ch": 11,
+      "title": "第十一单元 盐化肥",
+      "start_page": 75,
+      "end_page": 92
+    },
+    {
+      "ch": 12,
+      "title": "第十二单元 化学与生活",
+      "start_page": 93,
+      "end_page": 121
+    }
+  ]
 }

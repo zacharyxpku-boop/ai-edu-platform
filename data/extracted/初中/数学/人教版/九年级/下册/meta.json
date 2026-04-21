@@ -6,8 +6,34 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/数学/人教版/九年级/下册.pdf",
   "page_count": 120,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 120,
+  "chapters": [
+    {
+      "ch": 26,
+      "title": "第二十六章反比例函数",
+      "start_page": 9,
+      "end_page": 28
+    },
+    {
+      "ch": 27,
+      "title": "第二十七章 相似",
+      "start_page": 29,
+      "end_page": 65
+    },
+    {
+      "ch": 28,
+      "title": "第二十八章 锐角三角函数",
+      "start_page": 66,
+      "end_page": 91
+    },
+    {
+      "ch": 29,
+      "title": "第二十九章 投影与视图",
+      "start_page": 92,
+      "end_page": 120
+    }
+  ]
 }

@@ -6,8 +6,28 @@
   "volume": "第一册",
   "pdf": "data/textbooks-raw/高中/数学/人教A版/选择性必修/第一册.pdf",
   "page_count": 154,
-  "status": "scan_only",
-  "avg_chars_per_page": 1.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 154,
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "4第一章空间向量与立体几何",
+      "start_page": 9,
+      "end_page": 54
+    },
+    {
+      "ch": 2,
+      "title": "第二章 直线和圆的方程",
+      "start_page": 55,
+      "end_page": 108
+    },
+    {
+      "ch": 3,
+      "title": "第三章 圆锥曲线的方程",
+      "start_page": 109,
+      "end_page": 154
+    }
+  ]
 }

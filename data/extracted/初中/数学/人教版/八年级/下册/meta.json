@@ -6,8 +6,40 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/数学/人教版/八年级/下册.pdf",
   "page_count": 145,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 145,
+  "chapters": [
+    {
+      "ch": 16,
+      "title": "20第十六章二次根式",
+      "start_page": 26,
+      "end_page": 26
+    },
+    {
+      "ch": 17,
+      "title": "第十七章 勾股定理",
+      "start_page": 27,
+      "end_page": 45
+    },
+    {
+      "ch": 18,
+      "title": "第十八章 平行四边形",
+      "start_page": 46,
+      "end_page": 75
+    },
+    {
+      "ch": 19,
+      "title": "第十九章 一次函数",
+      "start_page": 76,
+      "end_page": 115
+    },
+    {
+      "ch": 20,
+      "title": "第二十章 数据的分析",
+      "start_page": 116,
+      "end_page": 145
+    }
+  ]
 }

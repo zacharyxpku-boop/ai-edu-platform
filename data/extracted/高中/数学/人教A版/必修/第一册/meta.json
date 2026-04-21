@@ -6,8 +6,40 @@
   "volume": "第一册",
   "pdf": "data/textbooks-raw/高中/数学/人教A版/必修/第一册.pdf",
   "page_count": 270,
-  "status": "scan_only",
-  "avg_chars_per_page": 1.5,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 270,
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "2第一章集合与常用逻辑用语",
+      "start_page": 9,
+      "end_page": 42
+    },
+    {
+      "ch": 2,
+      "title": "第二章 一元二次函数、方程和不等式",
+      "start_page": 43,
+      "end_page": 65
+    },
+    {
+      "ch": 3,
+      "title": "第三章 函数的概念与性质",
+      "start_page": 66,
+      "end_page": 109
+    },
+    {
+      "ch": 4,
+      "title": "第四章 指数函数与对数函数",
+      "start_page": 110,
+      "end_page": 173
+    },
+    {
+      "ch": 5,
+      "title": "第五章 三角函数",
+      "start_page": 174,
+      "end_page": 270
+    }
+  ]
 }

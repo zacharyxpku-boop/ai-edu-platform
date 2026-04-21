@@ -6,8 +6,22 @@
   "volume": "第二册",
   "pdf": "data/textbooks-raw/高中/数学/人教A版/选择性必修/第二册.pdf",
   "page_count": 114,
-  "status": "scan_only",
-  "avg_chars_per_page": 1.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 114,
+  "chapters": [
+    {
+      "ch": 4,
+      "title": "26第四章数列",
+      "start_page": 31,
+      "end_page": 62
+    },
+    {
+      "ch": 5,
+      "title": "第五章 一元函数的导数及其应用",
+      "start_page": 63,
+      "end_page": 114
+    }
+  ]
 }

@@ -6,8 +6,46 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/物理/人教版/八年级/下册.pdf",
   "page_count": 96,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 96,
+  "chapters": [
+    {
+      "ch": 7,
+      "title": "第七章力9",
+      "start_page": 13,
+      "end_page": 18
+    },
+    {
+      "ch": 8,
+      "title": "第八章 运动和力",
+      "start_page": 19,
+      "end_page": 31
+    },
+    {
+      "ch": 9,
+      "title": "第九章 压强",
+      "start_page": 32,
+      "end_page": 51
+    },
+    {
+      "ch": 10,
+      "title": "第十章 浮力",
+      "start_page": 52,
+      "end_page": 64
+    },
+    {
+      "ch": 11,
+      "title": "第十一章 功和机械能",
+      "start_page": 65,
+      "end_page": 78
+    },
+    {
+      "ch": 12,
+      "title": "第十二章 简单机械",
+      "start_page": 79,
+      "end_page": 96
+    }
+  ]
 }
