@@ -1,0 +1,548 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-21",
+  "meta": {
+    "usage": "error-mastery.html 做错因诊断时的标准标签；error-practice.html 做错题池分流时的标签",
+    "output_contract": "AI 分析一道错题后，必须返回 {l1_tag, l2_tag, l3_tag[], evidence, suggested_drill}",
+    "scope": "K12 中小学错题（数学/物理/化学/语文/英语通用，示例以数学/物理为主）",
+    "cardinality": {
+      "l1_count": 3,
+      "l2_count": 15,
+      "l3_count": 64
+    },
+    "usage_rules": [
+      "一道错题可同时命中多个 l3 标签，但主 l1 只能选一个（占比最高的）",
+      "evidence 必须从学生原始解答里摘原文，禁止 AI 自己编",
+      "若无法归类，返回 l3_id='unknown.need_human_review'，由人工兜底",
+      "suggested_drill 必须是可立即执行的 3-10 分钟练习，禁止说'多练习'"
+    ]
+  },
+  "categories": [
+    {
+      "l1_id": "knowledge",
+      "l1_name": "知识缺漏",
+      "l1_desc": "学生脑子里没有正确的知识点，或记住的是错的版本，不是能力问题",
+      "l1_remedy_principle": "回到课本原文或基础概念卡，补完整定义+正反例，不靠刷题能修",
+      "subcategories": [
+        {
+          "l2_id": "knowledge.definition_vague",
+          "l2_name": "定义模糊",
+          "l2_signals": [
+            "口述定义时漏关键限定词",
+            "判断某对象是否属于该概念时摇摆",
+            "遇到边界情况（0、1、负数、空集）就错"
+          ],
+          "tags": [
+            {
+              "l3_id": "knowledge.definition_vague.wrong_boundary",
+              "l3_name": "定义边界错",
+              "example": "把'素数'定义成'只能被1和自己整除'，忘了还要>1，于是把1也算成素数",
+              "suggested_drill": "反例卡片 5 张，给出 0/1/2/-3/9 五个数逐一判断是否为素数并说出理由，3分钟内完成"
+            },
+            {
+              "l3_id": "knowledge.definition_vague.missing_qualifier",
+              "l3_name": "限定词缺失",
+              "example": "把'平行四边形对角线互相平分'记成'所有四边形对角线互相平分'，在梯形题里也这么用",
+              "suggested_drill": "把定义里的限定词（'任意/存在/非零/正'等）用红笔圈出，抄写 3 遍，当天晚上默写"
+            },
+            {
+              "l3_id": "knowledge.definition_vague.reverse_wrong",
+              "l3_name": "正逆定义混用",
+              "example": "'偶函数满足 f(-x)=f(x)' 学生反过来以为'f(-x)=f(x) 一定是偶函数'，忽略定义域必须关于原点对称",
+              "suggested_drill": "列出 4 个形如 'A→B' 的命题，逐一判断逆命题是否成立，写出反例"
+            },
+            {
+              "l3_id": "knowledge.definition_vague.partial_memory",
+              "l3_name": "定义记一半",
+              "example": "'一次函数 y=kx+b' 只记 y=kx+b 但忘了 k≠0 的条件，把 y=3 也当一次函数",
+              "suggested_drill": "用自己的话把定义完整说一遍并录音 30 秒，听回放检查是否漏条件"
+            }
+          ]
+        },
+        {
+          "l2_id": "knowledge.formula_wrong",
+          "l2_name": "公式记错",
+          "l2_signals": [
+            "写出的公式符号/系数与课本不符",
+            "只记住口诀但不会推导",
+            "遇到公式变形就不会了"
+          ],
+          "tags": [
+            {
+              "l3_id": "knowledge.formula_wrong.sign_flip",
+              "l3_name": "符号记反",
+              "example": "写成 (a-b)²=a²-2ab-b²，把最后一项符号写错",
+              "suggested_drill": "用 a=3,b=2 代入验证 (a-b)²=(3-2)²=1，逐项代数一遍公式两侧，发现符号错误立即改正"
+            },
+            {
+              "l3_id": "knowledge.formula_wrong.coefficient_error",
+              "l3_name": "系数记错",
+              "example": "三角形面积写成 S=a·h，漏掉 1/2",
+              "suggested_drill": "画一个底4高3的三角形并放进边长4×3的矩形里，数格子验证面积=6 而非 12"
+            },
+            {
+              "l3_id": "knowledge.formula_wrong.variable_swap",
+              "l3_name": "变量位置错",
+              "example": "韦达定理 x₁x₂=c/a 写成 x₁x₂=b/a，把和与积的公式搞混",
+              "suggested_drill": "在一张卡片左右两栏分别抄'和=-b/a'和'积=c/a'，每栏下写一个具体方程验证"
+            },
+            {
+              "l3_id": "knowledge.formula_wrong.cannot_derive",
+              "l3_name": "只背不会推",
+              "example": "等差求和公式 n(a₁+aₙ)/2 忘了，也不会用'倒序相加'推导出来",
+              "suggested_drill": "用 1+2+...+10 为例，正序+倒序两行相加=11×10，每项除2，手推一次完整过程"
+            }
+          ]
+        },
+        {
+          "l2_id": "knowledge.concept_confusion",
+          "l2_name": "概念混淆",
+          "l2_signals": [
+            "两个相近概念互相替代使用",
+            "判断题选反了",
+            "名词解释时内容张冠李戴"
+          ],
+          "tags": [
+            {
+              "l3_id": "knowledge.concept_confusion.synonym_pair",
+              "l3_name": "相近概念混用",
+              "example": "把'频率'和'频数'互换，50人中30人及格，写成'频数=0.6'",
+              "suggested_drill": "用'频数是个数，频率是比例'一句话自造两道题，一道问个数一道问比例，判断答案单位"
+            },
+            {
+              "l3_id": "knowledge.concept_confusion.category_wrong",
+              "l3_name": "分类归属错",
+              "example": "把'√2'归入有理数，因为'它写得出来就是有理数'",
+              "suggested_drill": "画一张数集包含图（自然数⊂整数⊂有理数⊂实数），把 √2、π、0、-3、1/3 各自放进对应圈"
+            },
+            {
+              "l3_id": "knowledge.concept_confusion.cause_effect_reverse",
+              "l3_name": "因果倒置",
+              "example": "物理里把'因为物体受力所以有加速度'写成'因为有加速度所以受力'，在分析惯性题时逻辑反了",
+              "suggested_drill": "把牛顿第二定律写成 F=ma 和 a=F/m 两行，各造一道例题，区分'已知力求加速度'和'已知加速度求力'"
+            },
+            {
+              "l3_id": "knowledge.concept_confusion.scope_overextend",
+              "l3_name": "适用范围扩大",
+              "example": "勾股定理 a²+b²=c² 用在非直角三角形上",
+              "suggested_drill": "列出定理的 3 个适用条件，给 3 个三角形（锐角/直角/钝角）分别判断能否用，能用的算一次"
+            }
+          ]
+        },
+        {
+          "l2_id": "knowledge.prerequisite_missing",
+          "l2_name": "前置知识缺失",
+          "l2_signals": [
+            "当前章节没问题但卡在上一学段内容",
+            "一写到分数/小数/负数就停下",
+            "题目涉及以前学过的模型就空白"
+          ],
+          "tags": [
+            {
+              "l3_id": "knowledge.prerequisite_missing.fraction_ops",
+              "l3_name": "分数运算未掌握",
+              "example": "初二解方程 x/2+x/3=5，通分时 1/2+1/3 算成 2/5",
+              "suggested_drill": "回到五年级通分练习，做 6 题异分母加减，每题写清最小公倍数再通分"
+            },
+            {
+              "l3_id": "knowledge.prerequisite_missing.negative_number",
+              "l3_name": "负数处理不熟",
+              "example": "初一学有理数运算，-3-(-5) 算成 -8，把'减负'没转成'加正'",
+              "suggested_drill": "用温度计模型，起点 -3℃ 升 5℃ 到 2℃，对应 -3-(-5)=-3+5=2，画图做 5 道"
+            },
+            {
+              "l3_id": "knowledge.prerequisite_missing.basic_geometry",
+              "l3_name": "小学几何缺漏",
+              "example": "初中圆的题目里不会算扇形面积，因为小学没记牢圆面积 πr²",
+              "suggested_drill": "默写 6 个基本图形面积公式（正方形/长方形/三角形/平行四边形/梯形/圆），每个写一道应用题"
+            },
+            {
+              "l3_id": "knowledge.prerequisite_missing.english_vocab",
+              "l3_name": "基础词汇未过",
+              "example": "高中阅读理解里 'abandon/ancient/agriculture' 三个词不认识，导致整段看不懂",
+              "suggested_drill": "用艾宾浩斯表背高考必备 3500 词，每天 50 词，当天听写一次"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "l1_id": "ability",
+      "l1_name": "能力缺漏",
+      "l1_desc": "知识点会背，但'用'的时候出问题：读不懂题、算不对、推不下去、写不清楚",
+      "l1_remedy_principle": "刷对应专项题+拆解过程+放慢动作训练，不能光看答案",
+      "subcategories": [
+        {
+          "l2_id": "ability.reading_inaccurate",
+          "l2_name": "审题不准",
+          "l2_signals": [
+            "答非所问，求 x 答成 y",
+            "漏看条件或多加条件",
+            "看错数字或符号"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.reading_inaccurate.condition_missed",
+              "l3_name": "漏看关键条件",
+              "example": "题目说'非负整数解'，学生只写出 x=2,3,4 忘了 x=0 也算",
+              "suggested_drill": "拿到题先用铅笔把所有条件（含隐含条件）圈出，数一数条件个数，写在题头再动笔"
+            },
+            {
+              "l3_id": "ability.reading_inaccurate.question_wrong",
+              "l3_name": "答非所问",
+              "example": "题目问'最大值与最小值之差'，学生只求出最大值 7 就停笔",
+              "suggested_drill": "在题目最后一句'问什么'下划双横线，写完答案对照一次再交卷"
+            },
+            {
+              "l3_id": "ability.reading_inaccurate.number_misread",
+              "l3_name": "数字看错",
+              "example": "题目里 0.25 看成 0.5，导致后面全算错",
+              "suggested_drill": "抄题时把关键数字大写重抄一次（如 0.25→零点二五），做完题与原题再对一次"
+            },
+            {
+              "l3_id": "ability.reading_inaccurate.hidden_info",
+              "l3_name": "隐含信息没挖",
+              "example": "阅读理解里 'she finally smiled' 没抓住 'finally' 隐含的'之前一直不开心'",
+              "suggested_drill": "训练 3 题，每题读完后写出 3 条题目'没明说但推得出'的信息"
+            },
+            {
+              "l3_id": "ability.reading_inaccurate.unit_ignored",
+              "l3_name": "单位信息忽略",
+              "example": "物理题给出 'v=72 km/h' 但直接代入公式 s=vt（t 单位为 s），忘了换成 20 m/s",
+              "suggested_drill": "做题前把所有量的单位统一转成 SI 制写在草稿上角，每题花 20 秒做这件事"
+            }
+          ]
+        },
+        {
+          "l2_id": "ability.calculation_error",
+          "l2_name": "运算失误",
+          "l2_signals": [
+            "思路对但算错数",
+            "草稿混乱跳步",
+            "心算超出能力还要硬算"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.calculation_error.arithmetic_slip",
+              "l3_name": "四则运算算错",
+              "example": "7×8 写成 54，28+37 写成 55，基础口算出错",
+              "suggested_drill": "每天 3 分钟口算 50 题（99乘法+两位数加减），错题当场重做"
+            },
+            {
+              "l3_id": "ability.calculation_error.sign_in_calc",
+              "l3_name": "运算中符号错",
+              "example": "-3×(-2)=6 下一步写成 -6，负负得正被忘掉",
+              "suggested_drill": "把每步运算的符号用铅笔单独写一行：先判符号再算绝对值，做 10 道有理数混合运算"
+            },
+            {
+              "l3_id": "ability.calculation_error.step_skipped",
+              "l3_name": "跳步算错",
+              "example": "解 2(x-3)=5x+4 直接写 2x-3=5x+4，忘了分配律乘进括号里",
+              "suggested_drill": "强制'一步一行'，每一行只做一件事（去括号/移项/合并/系数化一），做 5 题解方程"
+            },
+            {
+              "l3_id": "ability.calculation_error.big_number_mental",
+              "l3_name": "大数硬心算",
+              "example": "125×48 想心算，结果写成 5400，实际是 6000",
+              "suggested_drill": "规则：任何超过两位数×两位数的运算必须列竖式或拆分（125×48=125×8×6=1000×6）"
+            }
+          ]
+        },
+        {
+          "l2_id": "ability.modeling_blocked",
+          "l2_name": "建模受阻",
+          "l2_signals": [
+            "看得懂题但不知道用哪个公式/模型",
+            "应用题不会设未知数",
+            "物理题画不出受力图或过程图"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.modeling_blocked.cannot_set_unknown",
+              "l3_name": "不会设未知数",
+              "example": "鸡兔同笼 35 头 94 足，学生只会画图数，不会设'鸡 x 只兔 (35-x) 只'",
+              "suggested_drill": "做 5 道应用题，强制第一步写'设... 为 x'，不做任何计算，只练设元"
+            },
+            {
+              "l3_id": "ability.modeling_blocked.wrong_model_choice",
+              "l3_name": "模型选错",
+              "example": "相遇问题用了追及公式 s=(v₁-v₂)t，应该用 s=(v₁+v₂)t",
+              "suggested_drill": "整理 '相遇/追及/环形跑道/顺逆水' 四类行程问题公式卡，每类做 2 题对比"
+            },
+            {
+              "l3_id": "ability.modeling_blocked.no_diagram",
+              "l3_name": "不会画图辅助",
+              "example": "几何证明题没画图直接写字证明，结果漏掉一个相似三角形",
+              "suggested_drill": "规定：几何题/物理题必须画图，图至少标注 3 个已知量，画错罚画一遍大图"
+            },
+            {
+              "l3_id": "ability.modeling_blocked.force_diagram_wrong",
+              "l3_name": "受力分析漏力",
+              "example": "斜面上木块只画了重力和支持力，忘了摩擦力",
+              "suggested_drill": "'重弹摩其他'四字口诀，每道力学题按这个顺序过一遍，做 5 道斜面题"
+            }
+          ]
+        },
+        {
+          "l2_id": "ability.reasoning_jump",
+          "l2_name": "推理跳步",
+          "l2_signals": [
+            "证明题写几步就跳结论",
+            "说不出为什么这一步成立",
+            "关键条件没用到"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.reasoning_jump.missing_justification",
+              "l3_name": "步骤无依据",
+              "example": "证明三角形全等时直接写'∴△ABC≌△DEF'没写根据（SAS/ASA 等）",
+              "suggested_drill": "每一步后强制加'（依据：XXX定理）'，做 3 题全等证明"
+            },
+            {
+              "l3_id": "ability.reasoning_jump.unused_condition",
+              "l3_name": "已知条件没用",
+              "example": "题目给了'AB=AC'但整个证明没用到这个条件，结果思路错了",
+              "suggested_drill": "动笔前把所有已知列成 bullet，证明完后每条前打勾，没打勾的回去想怎么用"
+            },
+            {
+              "l3_id": "ability.reasoning_jump.wrong_direction",
+              "l3_name": "逆向证成正向",
+              "example": "要证 A→B 却在证 B→A，逻辑方向搞反",
+              "suggested_drill": "画出'条件→结论'箭头，证明的每一步都要沿着箭头方向走，做 2 题几何证明"
+            },
+            {
+              "l3_id": "ability.reasoning_jump.case_missing",
+              "l3_name": "分类讨论漏",
+              "example": "|x-2|=3 只算了 x-2=3 得 x=5，漏了 x-2=-3 得 x=-1",
+              "suggested_drill": "绝对值/开方/二次项系数 三类题目做完后自问'还有别的情况吗'，做 5 道含参讨论题"
+            }
+          ]
+        },
+        {
+          "l2_id": "ability.expression_unclear",
+          "l2_name": "表达不清",
+          "l2_signals": [
+            "答案对但写得老师看不懂",
+            "步骤顺序混乱",
+            "语文作文/英语作文结构散"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.expression_unclear.order_mess",
+              "l3_name": "步骤顺序乱",
+              "example": "几何证明先写结论再写过程，步骤和理由位置颠倒",
+              "suggested_drill": "按'已知→推理→结论'三段式重写一道做过的证明题"
+            },
+            {
+              "l3_id": "ability.expression_unclear.symbol_abuse",
+              "l3_name": "符号使用错",
+              "example": "'∵' 和 '∴' 混用，集合 {x|x>0} 写成 {x,x>0}",
+              "suggested_drill": "整理一页'数学符号速查表'（∵∴⇒⇔∈⊂∀∃），每个符号造一个句子"
+            },
+            {
+              "l3_id": "ability.expression_unclear.chinese_logic_weak",
+              "l3_name": "中文逻辑衔接弱",
+              "example": "作文段落之间没过渡词，读起来像列 bullet",
+              "suggested_drill": "改写自己的作文段首，每段开头加一个衔接词（首先/然而/更进一步/反观）"
+            },
+            {
+              "l3_id": "ability.expression_unclear.english_structure",
+              "l3_name": "英语句子散乱",
+              "example": "英语作文通篇 simple sentence 堆砌，没有复合句",
+              "suggested_drill": "挑自己作文里 5 个简单句，用 when/although/which 改写成复合句"
+            }
+          ]
+        },
+        {
+          "l2_id": "ability.time_strategy_poor",
+          "l2_name": "时间策略差",
+          "l2_signals": [
+            "大题不会但花了太久，小题反而没时间",
+            "卷子做不完",
+            "容易在一道题上死磕"
+          ],
+          "tags": [
+            {
+              "l3_id": "ability.time_strategy_poor.stuck_on_one",
+              "l3_name": "死磕单题",
+              "example": "模拟考一道压轴题花了 40 分钟，后面两道大题没时间写",
+              "suggested_drill": "设规则：单题超 8 分钟没头绪就跳过，最后 15 分钟回头攻，计时做一套卷"
+            },
+            {
+              "l3_id": "ability.time_strategy_poor.no_allocation",
+              "l3_name": "无时间分配",
+              "example": "选填 30 分钟就该做完却用了 50 分钟，大题时间被压缩",
+              "suggested_drill": "做卷前用 1 分钟写出 4 个时间节点（选填/填空/大题/检查），考中对表"
+            },
+            {
+              "l3_id": "ability.time_strategy_poor.no_check_time",
+              "l3_name": "不留检查时间",
+              "example": "交卷前 0 秒写完最后一题，完全没检查就交",
+              "suggested_drill": "规则：最后 10 分钟不再做新题，回头检查已写部分的数字和单位"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "l1_id": "habit",
+      "l1_name": "习惯失误",
+      "l1_desc": "知识和能力都有，但因为习惯/态度/非智力因素在最后一步掉链子",
+      "l1_remedy_principle": "靠检查清单和规则约束，不是刷题能解决的，需要家长/老师盯流程",
+      "subcategories": [
+        {
+          "l2_id": "habit.copy_error",
+          "l2_name": "抄写错误",
+          "l2_signals": [
+            "草稿算对了但答案卡写错",
+            "上一行的数抄到下一行时变了",
+            "题干抄到答题区就变了"
+          ],
+          "tags": [
+            {
+              "l3_id": "habit.copy_error.draft_to_answer",
+              "l3_name": "草稿抄到答案错",
+              "example": "草稿纸算出 x=1/3，答案卡写成 x=1/2",
+              "suggested_drill": "写答案时读出声：'答案 x 等于三分之一'，边读边写，做 10 道计算题"
+            },
+            {
+              "l3_id": "habit.copy_error.line_to_line",
+              "l3_name": "跨行抄错",
+              "example": "竖式 357+168，第二行 168 抄成 186",
+              "suggested_drill": "每抄一行用尺子对齐位数，做 5 道三位数加减"
+            },
+            {
+              "l3_id": "habit.copy_error.sign_dropped",
+              "l3_name": "抄题丢符号",
+              "example": "题目 -3x+5=2，抄成 3x+5=2，负号丢了",
+              "suggested_drill": "抄完题后把题干里所有'-'号用红笔描一遍，做 3 题"
+            }
+          ]
+        },
+        {
+          "l2_id": "habit.format_penalty",
+          "l2_name": "格式扣分",
+          "l2_signals": [
+            "答案对但被扣步骤分",
+            "没写'解'字或证明格式不完整",
+            "答题卡涂错区"
+          ],
+          "tags": [
+            {
+              "l3_id": "habit.format_penalty.missing_solve_word",
+              "l3_name": "漏写'解/证明'",
+              "example": "解答题没写'解：'直接开始算，扣 1 分",
+              "suggested_drill": "所有解答题第一行必写'解：'或'证明：'，把这条贴在书桌"
+            },
+            {
+              "l3_id": "habit.format_penalty.no_final_answer",
+              "l3_name": "缺最后答句",
+              "example": "应用题算出 x=3 就停笔，没写'答：小明有 3 个苹果'",
+              "suggested_drill": "把'答：...'作为做完应用题最后一步的固定动作，做 5 题"
+            },
+            {
+              "l3_id": "habit.format_penalty.card_mis_fill",
+              "l3_name": "答题卡涂错",
+              "example": "第 5 题涂到了第 6 题位置，后面全错位",
+              "suggested_drill": "每做完 5 题回填一次答题卡，并用尺子比对行号"
+            },
+            {
+              "l3_id": "habit.format_penalty.handwriting_bad",
+              "l3_name": "字迹潦草被扣",
+              "example": "作文字迹潦草，阅卷老师扣 2 分卷面分",
+              "suggested_drill": "每天抄 100 字课文，用正楷，连续 10 天"
+            }
+          ]
+        },
+        {
+          "l2_id": "habit.unit_missing",
+          "l2_name": "单位遗漏",
+          "l2_signals": [
+            "物理/化学题数字对但单位忘了",
+            "面积体积写错单位",
+            "换算单位时漏乘幂"
+          ],
+          "tags": [
+            {
+              "l3_id": "habit.unit_missing.no_unit",
+              "l3_name": "答案无单位",
+              "example": "求得面积 24，没写 cm²，直接扣 1 分",
+              "suggested_drill": "做完题把所有数字后面对应的单位用绿笔补上，做 10 题应用题"
+            },
+            {
+              "l3_id": "habit.unit_missing.unit_wrong_dimension",
+              "l3_name": "单位量纲错",
+              "example": "体积写成 m² 而非 m³",
+              "suggested_drill": "做题前把'长度/面积/体积' 对应 m/m²/m³ 写在草稿边上，每题前看一眼"
+            },
+            {
+              "l3_id": "habit.unit_missing.conversion_wrong",
+              "l3_name": "单位换算错",
+              "example": "1 m² = 100 cm²（实际是 10000），导致面积换算错",
+              "suggested_drill": "背诵并默写 '长度×10、面积×100、体积×1000' 的换算规则，做 5 道换算题"
+            }
+          ]
+        },
+        {
+          "l2_id": "habit.no_checking",
+          "l2_name": "检查缺失",
+          "l2_signals": [
+            "写完就不看第二眼",
+            "明显的计算错误不查出",
+            "代回验证从不做"
+          ],
+          "tags": [
+            {
+              "l3_id": "habit.no_checking.never_review",
+              "l3_name": "从不检查",
+              "example": "20 分钟交完卷，剩 30 分钟发呆，不检查",
+              "suggested_drill": "强制规则：做完卷子先合上试卷闭眼 30 秒再重新从第 1 题看答案，每次模考执行"
+            },
+            {
+              "l3_id": "habit.no_checking.no_substitute_back",
+              "l3_name": "不代回验证",
+              "example": "解方程得 x=2，不代回原方程验算",
+              "suggested_drill": "每道解方程题写完在旁边加一行'验：左边=..., 右边=...'，做 5 题"
+            },
+            {
+              "l3_id": "habit.no_checking.no_sanity_check",
+              "l3_name": "不做合理性判断",
+              "example": "算出'小明年龄 -3 岁'也照抄，没发现不合理",
+              "suggested_drill": "做完应用题问自己'这个数在现实里可能吗'，列 5 条合理性检查点"
+            }
+          ]
+        },
+        {
+          "l2_id": "habit.draft_messy",
+          "l2_name": "草稿混乱",
+          "l2_signals": [
+            "草稿纸写得到处都是",
+            "回头找不到刚算过的中间结果",
+            "草稿上错一步就整片涂黑"
+          ],
+          "tags": [
+            {
+              "l3_id": "habit.draft_messy.no_structure",
+              "l3_name": "草稿无结构",
+              "example": "一张草稿纸 5 道题混在一起，找不到第 3 题在哪",
+              "suggested_drill": "草稿纸对折两次分 4 格，每格一道题，做一套卷"
+            },
+            {
+              "l3_id": "habit.draft_messy.over_erase",
+              "l3_name": "频繁涂改",
+              "example": "一步算错后整列涂黑重算，最后自己都看不清",
+              "suggested_drill": "错了划一条斜线重起一行，不涂黑，做 3 题"
+            },
+            {
+              "l3_id": "habit.draft_messy.mid_result_lost",
+              "l3_name": "中间结果丢失",
+              "example": "算到一半去解下一题，回头找不到之前那道的 x=?",
+              "suggested_drill": "每道题算完在草稿右上角写'T3:x=5'（T3代表第3题），做一套卷"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ai_analysis_prompt": "你是原点智学的错题归因专家。给你一道错题（含题干、标准答案、学生解答），按以下规则输出分析。\n\n【输出格式】严格返回 JSON，字段如下：\n{\n  \"l1_tag\": \"knowledge | ability | habit（三选一）\",\n  \"l2_tag\": \"对应 l2_id（如 ability.calculation_error）\",\n  \"l3_tag\": [\"对应 l3_id 数组，可 1-3 个\"],\n  \"evidence\": \"从学生原解答里摘原文片段（不超过40字），证明你的判断\",\n  \"root_cause\": \"一句话说清为什么错（30字内，避免'粗心'这种废话）\",\n  \"suggested_drill\": \"对应 l3 的 suggested_drill 字段，或更具体的替代方案\",\n  \"confidence\": \"high | medium | low\"\n}\n\n【硬规则】\n1. 必须用 mistake-taxonomy.json 里已有的 l1_id/l2_id/l3_id，禁止自造新标签。无法归类时返回 l3_tag=[\"unknown.need_human_review\"] 并在 root_cause 里说明原因。\n2. evidence 必须从学生解答里摘原文，不能自己编。若学生解答缺失某关键步骤，evidence 写 \"学生跳过该步骤\"。\n3. 一道题可同时命中多个 l3（如'符号错+单位漏'），但 l1 只选主要那一个。\n4. root_cause 禁止使用'粗心/马虎/不认真/态度问题'等模糊词，必须指向具体知识点或具体步骤。\n5. confidence=low 时必须追加字段 \"need_more_info\": \"需要学生补充哪些信息（如完整草稿、口述思路）\"。\n6. 输出必须是合法 JSON，禁止任何 JSON 以外的文字。\n\n【判断顺序】先问'知识对吗'→再问'能力够吗'→最后问'习惯稳吗'，第一个 No 就是 l1。"
+}

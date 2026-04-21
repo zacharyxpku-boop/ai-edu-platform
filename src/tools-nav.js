@@ -18,8 +18,7 @@ const TOOLS_CONFIG = {
         { name: '作文打分', file: 'essay-grading.html', icon: '✍️' },
         { name: '阅读理解改写', file: 'reading-rewriter.html', icon: '📖' },
         { name: '音乐欣赏', file: 'music-appreciation.html', icon: '🎵' },
-        { name: '美术思维引导', file: 'art-thinking.html', icon: '🎨' },
-        { name: '大题得分点拆解', file: 'scoring-breakdown.html', icon: '🎯' }
+        { name: '美术思维引导', file: 'art-thinking.html', icon: '🎨' }
     ],
     '成长区': [
         { name: '学习档案', file: 'learning-profile.html', icon: '📊' },

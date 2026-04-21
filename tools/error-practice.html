@@ -137,13 +137,13 @@
 
         .tool-container { max-width: 900px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
 
-        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
         .input-card h2 { font-family: var(--font-heading); margin-bottom: var(--sp-lg); color: var(--c-warm-white); }
 
         .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
         .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
         .form-field input, .form-field select, .form-field textarea {
-            width: 100%; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--c-ink-border);
             border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
         }
         .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--c-origin); outline: none; }
@@ -154,12 +154,12 @@
         .btn-primary:hover { transform: translateY(-2px); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        .btn-secondary { padding: 12px 24px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); }
+        .btn-secondary { padding: 12px 24px; background: var(--bg); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); }
 
         .result-section { display: none; }
         .result-section.visible { display: block; }
 
-        .practice-question { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
+        .practice-question { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); margin-bottom: var(--sp-md); }
         .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); }
         .question-num { font-weight: 700; color: var(--c-warm-white); font-size: var(--fs-h3); }
         .question-difficulty { font-size: var(--fs-small); padding: 4px 12px; border-radius: var(--r-pill); }
@@ -170,13 +170,36 @@
         .question-content { color: var(--c-warm-white); line-height: 1.8; margin-bottom: var(--sp-md); }
         .question-actions { display: flex; gap: var(--sp-sm); flex-wrap: wrap; }
 
-        .answer-section { background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); margin-top: var(--sp-md); display: none; }
+        .answer-section { background: var(--amber-light); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-md); margin-top: var(--sp-md); display: none; }
         .answer-section.visible { display: block; }
         .answer-section strong { color: var(--c-success); }
 
         .btn-small { padding: 8px 16px; border-radius: var(--r-md); font-size: var(--fs-small); cursor: pointer; font-family: var(--font-body); }
         .btn-show { background: rgba(45,159,111,0.2); color: var(--c-success); border: 1px solid var(--c-success); }
         .btn-mark-error { background: rgba(201,64,64,0.2); color: var(--c-error); border: 1px solid var(--c-error); }
+        .btn-submit { background: var(--amber); color: #fff; border: 1px solid var(--amber); font-weight: 600; }
+        .btn-submit:hover { background: #C2410C; border-color: #C2410C; }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .answer-input-wrap { margin: var(--sp-md) 0; }
+        .answer-input-wrap label { display: block; font-size: var(--fs-small); color: var(--text-3); margin-bottom: 6px; font-weight: 500; }
+        .answer-input { width: 100%; min-height: 88px; padding: 12px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: var(--fs-body); line-height: 1.6; resize: vertical; box-sizing: border-box; }
+        .answer-input:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-glow); }
+        .answer-input:disabled { background: #F5F4F0; color: var(--text-3); }
+
+        .judge-card { margin-top: var(--sp-md); padding: var(--sp-md); border-radius: var(--r-md); border-left: 4px solid var(--border); background: var(--amber-light); display: none; }
+        .judge-card.visible { display: block; }
+        .judge-card.correct { border-left-color: var(--success); background: var(--success-bg); }
+        .judge-card.partial { border-left-color: var(--warning); background: var(--warning-bg); }
+        .judge-card.wrong { border-left-color: var(--error); background: var(--error-bg); }
+        .judge-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .judge-score { font-family: var(--font-heading); font-weight: 900; font-size: 1.6rem; color: var(--text); }
+        .judge-verdict { font-weight: 700; color: var(--text); }
+        .judge-body { color: var(--text-2); line-height: 1.7; font-size: var(--fs-small); }
+        .judge-body strong { color: var(--text); }
+        .mistake-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .mistake-tag { padding: 3px 10px; background: #fff; border: 1px solid var(--border); border-radius: var(--r-pill, 999px); font-size: 12px; color: var(--text-2); }
+        .judge-foot { margin-top: 10px; font-size: var(--fs-small); color: var(--text-3); }
 
         .summary-card { background: rgba(45,159,111,0.1); border: 1px solid rgba(45,159,111,0.3); border-radius: var(--r-lg); padding: var(--sp-lg); }
         .summary-stats { display: flex; gap: var(--sp-xl); justify-content: center; margin: var(--sp-md) 0; }
@@ -187,11 +210,11 @@
         @media (max-width: 767px) {
             .form-row { grid-template-columns: 1fr; }
             .summary-stats { flex-direction: column; gap: var(--sp-md); }
-        }        .quick-nav-section { background: rgba(22,33,62,0.6); border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
+        }        .quick-nav-section { background: #FFFFFF; border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
         .quick-nav-container { max-width: 900px; margin: 0 auto; }
         .quick-nav-title { font-family: var(--font-heading); color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
         .quick-nav-list { display: flex; gap: var(--sp-md); flex-wrap: wrap; justify-content: center; }
-        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
+        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: var(--amber-light); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
         .quick-nav-item:hover { border-color: var(--c-origin); transform: translateY(-2px); }
         .quick-nav-icon { font-size: 1.8rem; }
         .quick-nav-name { color: var(--c-warm-white); font-size: var(--fs-small); text-align: center; }
@@ -473,8 +496,10 @@
                     var jsonMatch = fullText.match(/\{[\s\S]*\}/);
                     if (!jsonMatch) throw new Error('无法解析AI回复');
                     var result = JSON.parse(jsonMatch[0]);
-                    renderQuestions(result.questions);
-                    stats.total = result.questions.length;
+                    lastQuestions = result.questions || [];
+                    lastContext = { subject: subject, grade: grade, keyword: keyword };
+                    renderQuestions(lastQuestions);
+                    stats.total = lastQuestions.length;
                     updateStats();
                     document.getElementById('summary-card').style.display = 'block';
 
@@ -507,16 +532,22 @@
             var answerRendered = renderMath(q.answer);
             var explanationRendered = renderMath(q.explanation);
 
-            return '<div class="practice-question">' +
+            return '<div class="practice-question" data-idx="' + i + '">' +
                 '<div class="question-header">' +
                 '<span class="question-num">第 ' + (i+1) + ' 题</span>' +
                 '<span class="question-difficulty ' + difficultyClass + '">' + q.difficulty + '</span>' +
                 '</div>' +
                 '<div class="question-content">' + contentRendered + '</div>' +
+                '<div class="answer-input-wrap">' +
+                '<label for="stu-ans-' + i + '">你的作答（写出思路和结论，AI 会判分）</label>' +
+                '<textarea class="answer-input" id="stu-ans-' + i + '" placeholder="这里直接写解题过程，数学可写文字描述或 $x=1$"></textarea>' +
+                '</div>' +
                 '<div class="question-actions">' +
+                '<button class="btn-small btn-submit" id="submit-btn-' + i + '" onclick="submitAnswer(' + i + ')">提交作答 · AI 判分</button>' +
                 '<button class="btn-small btn-show" onclick="showAnswer(' + i + ')">查看答案</button>' +
                 '<button class="btn-small btn-mark-error" onclick="markAsError(' + i + ')">标记为错题</button>' +
                 '</div>' +
+                '<div class="judge-card" id="judge-' + i + '"></div>' +
                 '<div class="answer-section" id="answer-' + i + '">' +
                 '<strong>答案：</strong>' + answerRendered + '<br><br>' +
                 '<strong>解析：</strong>' + explanationRendered +
@@ -548,13 +579,138 @@
         answerEl.classList.toggle('visible');
     }
 
+    // 缓存最近一次生成的题目（submitAnswer 时读取对照答案）
+    var lastQuestions = [];
+    var lastContext = { subject: '', grade: '', keyword: '' };
+
+    // 判题：0-10 分 + verdict + 错因标签 + 下一步建议
+    function submitAnswer(index) {
+        var q = lastQuestions[index];
+        if (!q) return;
+        var studentAns = (document.getElementById('stu-ans-' + index).value || '').trim();
+        if (!studentAns) { alert('请先写下你的作答'); return; }
+
+        var btn = document.getElementById('submit-btn-' + index);
+        var card = document.getElementById('judge-' + index);
+        btn.disabled = true;
+        btn.textContent = 'AI 正在判分…';
+        card.className = 'judge-card visible';
+        card.innerHTML = '<div class="judge-body">AI 正在比对你的思路和标准答案…</div>';
+
+        var sys = '你是一位' + (lastContext.grade || '该年级') + lastContext.subject + '老师，负责判一道练习题。判分只看思路和最终结论，不抠格式。\n\n'
+            + '打分规则：\n'
+            + '- 9-10 分：结论正确 + 关键步骤完整\n'
+            + '- 7-8 分：结论正确但步骤缺失或跳步\n'
+            + '- 4-6 分：思路对了一半，结论错或算错关键步\n'
+            + '- 1-3 分：方向错了\n'
+            + '- 0 分：空白或完全不相关\n\n'
+            + '错因标签（从以下选，最多 3 个）：概念混淆 / 公式记错 / 审题漏条件 / 计算失误 / 单位遗漏 / 推理跳步 / 建模错误 / 书写不规范 / 方向正确但步骤缺失\n\n'
+            + '严格返回 JSON：\n'
+            + '{\n'
+            + '  "score": 整数 0-10,\n'
+            + '  "verdict": "correct" | "partial" | "wrong",\n'
+            + '  "correct_points": "学生做对的部分，一句话",\n'
+            + '  "gap": "学生真正缺什么，一句话，具体到知识点或步骤，禁用粗心/马虎",\n'
+            + '  "mistake_tags": ["..."],\n'
+            + '  "next_step": "下一步该做什么，一句话可执行"\n'
+            + '}\n\n'
+            + '禁止输出 JSON 之外的任何文字。';
+
+        var userMsg = '题目：' + q.content + '\n'
+            + '标准答案：' + q.answer + '\n'
+            + '标准解析：' + q.explanation + '\n\n'
+            + '学生作答：\n' + studentAns;
+
+        window.YdzxAI.call({
+            systemPrompt: sys,
+            messages: [{ role: 'user', content: userMsg }],
+            maxTokens: 800,
+            onDone: function (fullText) {
+                btn.disabled = false;
+                btn.textContent = '重新提交';
+                try {
+                    var m = fullText.match(/\{[\s\S]*\}/);
+                    if (!m) throw new Error('无法解析');
+                    var j = JSON.parse(m[0]);
+                    var score = Math.max(0, Math.min(10, parseInt(j.score, 10) || 0));
+                    var verdict = j.verdict || (score >= 9 ? 'correct' : score >= 6 ? 'partial' : 'wrong');
+                    var cls = verdict === 'correct' ? 'correct' : (verdict === 'partial' ? 'partial' : 'wrong');
+                    var emoji = verdict === 'correct' ? '✅' : (verdict === 'partial' ? '⚠️' : '❌');
+                    var label = verdict === 'correct' ? '正确' : (verdict === 'partial' ? '部分正确' : '答错了');
+                    var tags = (j.mistake_tags || []).map(function (t) { return '<span class="mistake-tag">' + t + '</span>'; }).join('');
+
+                    card.className = 'judge-card visible ' + cls;
+                    card.innerHTML =
+                        '<div class="judge-head">' +
+                        '<span class="judge-score">' + score + '/10</span>' +
+                        '<span class="judge-verdict">' + emoji + ' ' + label + '</span>' +
+                        '</div>' +
+                        '<div class="judge-body">' +
+                        (j.correct_points ? '<p><strong>做对了：</strong>' + j.correct_points + '</p>' : '') +
+                        (j.gap ? '<p><strong>缺在哪：</strong>' + j.gap + '</p>' : '') +
+                        (tags ? '<div class="mistake-tags">' + tags + '</div>' : '') +
+                        (j.next_step ? '<p class="judge-foot">👉 下一步：' + j.next_step + '</p>' : '') +
+                        '</div>';
+
+                    // 低分自动写入错题池
+                    if (score < 7 && window.LearningStore) {
+                        window.LearningStore.saveError({
+                            source: 'error-practice',
+                            subject: lastContext.subject,
+                            grade: lastContext.grade,
+                            keyword: lastContext.keyword,
+                            question: q.content,
+                            studentAnswer: studentAns,
+                            correctAnswer: q.answer,
+                            explanation: q.explanation,
+                            score: score,
+                            verdict: verdict,
+                            gap: j.gap || '',
+                            mistakeTags: j.mistake_tags || []
+                        });
+                        stats.errors++;
+                        updateStats();
+                    } else if (score >= 9) {
+                        // 做对的题目不写入错题池
+                    }
+                } catch (e) {
+                    card.className = 'judge-card visible';
+                    card.innerHTML = '<div class="judge-body">AI 回复格式异常，已显示原文：<br><em>' + fullText.replace(/</g, '&lt;').slice(0, 400) + '</em></div>';
+                }
+            },
+            onError: function (err) {
+                btn.disabled = false;
+                btn.textContent = '重试';
+                card.className = 'judge-card visible wrong';
+                card.innerHTML = '<div class="judge-body">判分失败：' + err + '</div>';
+            }
+        });
+    }
+
     function markAsError(index) {
-        if (confirm('确定标记为错题吗？将保存到错题本。')) {
-            stats.errors++;
-            updateStats();
-            alert('已标记为错题，可在错题本中查看');
-            // TODO: 实际保存到错题本
+        var q = lastQuestions[index];
+        if (!q) return;
+        if (!confirm('标记为错题？会连同题目/解析一起存入错题本。')) return;
+        var studentAns = (document.getElementById('stu-ans-' + index).value || '').trim();
+        if (window.LearningStore) {
+            window.LearningStore.saveError({
+                source: 'error-practice',
+                subject: lastContext.subject,
+                grade: lastContext.grade,
+                keyword: lastContext.keyword,
+                question: q.content,
+                studentAnswer: studentAns || '（未作答）',
+                correctAnswer: q.answer,
+                explanation: q.explanation,
+                score: 0,
+                verdict: 'wrong',
+                gap: '用户手动标记',
+                mistakeTags: ['用户手动标记']
+            });
         }
+        stats.errors++;
+        updateStats();
+        alert('已存入错题本，可在「学习档案」或「错题举一反三」中复习。');
     }
 
     function updateStats() {

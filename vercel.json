@@ -17,5 +17,14 @@
       ]
     }
   ],
-  "rewrites": []
+  "rewrites": [],
+  "redirects": [
+    { "source": "/methods", "destination": "/assistant", "permanent": true },
+    { "source": "/methods.html", "destination": "/assistant", "permanent": true },
+    { "source": "/about-brand", "destination": "/about", "permanent": true },
+    { "source": "/about-brand.html", "destination": "/about", "permanent": true },
+    { "source": "/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
+    { "source": "/tools/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
+    { "source": "/tools/scoring-breakdown.html", "destination": "/tools/exam-diagnosis", "permanent": true }
+  ]
 }

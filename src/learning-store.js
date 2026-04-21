@@ -9,7 +9,8 @@
         DIAGNOSIS: 'ydzx_diagnosis_records', // 诊断记录
         STUDY_PLAN: 'ydzx_study_plans',      // 学习计划
         PROGRESS: 'ydzx_progress_data',      // 进步追踪
-        PRACTICE: 'ydzx_practice_records'    // 练习记录
+        PRACTICE: 'ydzx_practice_records',   // 练习记录
+        ERRORS:   'ydzx_errors_pool'         // 错题池（跨工具共享）
     };
 
     // 安全localStorage操作
@@ -186,6 +187,62 @@
         },
 
         /**
+         * 写入错题（error-practice / error-mastery / exam-diagnosis 共用）
+         * @param {Object} err - { subject, grade, keyword, question, studentAnswer, correctAnswer, explanation, score, verdict, mistakeTags, source }
+         */
+        saveError: function (err) {
+            var pool = safeGet(KEYS.ERRORS);
+            err.id = 'err_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            err.timestamp = Date.now();
+            err.reviewCount = 0;
+            err.nextReviewAt = Date.now() + 24 * 3600 * 1000; // 24h 后首次复习
+            pool.push(err);
+            if (pool.length > 500) pool = pool.slice(-500);
+            return safeSet(KEYS.ERRORS, pool);
+        },
+
+        /**
+         * 读取错题（支持 subject / keyword / dueOnly 过滤）
+         */
+        getErrors: function (filter) {
+            var pool = safeGet(KEYS.ERRORS);
+            if (!filter) return pool;
+            var now = Date.now();
+            return pool.filter(function (e) {
+                if (filter.subject && e.subject !== filter.subject) return false;
+                if (filter.keyword && (e.keyword || '').indexOf(filter.keyword) === -1) return false;
+                if (filter.dueOnly && (e.nextReviewAt || 0) > now) return false;
+                return true;
+            });
+        },
+
+        /**
+         * 按 ID 删除错题
+         */
+        deleteError: function (id) {
+            var pool = safeGet(KEYS.ERRORS);
+            return safeSet(KEYS.ERRORS, pool.filter(function (e) { return e.id !== id; }));
+        },
+
+        /**
+         * 标记错题已复习（下次复习按 FSRS 简化版递增）
+         */
+        markErrorReviewed: function (id, remembered) {
+            var pool = safeGet(KEYS.ERRORS);
+            var gaps = [1, 3, 7, 15, 30]; // 天
+            for (var i = 0; i < pool.length; i++) {
+                if (pool[i].id === id) {
+                    pool[i].reviewCount = (pool[i].reviewCount || 0) + 1;
+                    var idx = remembered ? Math.min(pool[i].reviewCount, gaps.length - 1) : 0;
+                    pool[i].nextReviewAt = Date.now() + gaps[idx] * 24 * 3600 * 1000;
+                    pool[i].lastReviewAt = Date.now();
+                    break;
+                }
+            }
+            return safeSet(KEYS.ERRORS, pool);
+        },
+
+        /**
          * 导出所有数据为JSON
          * @returns {String}
          */
@@ -195,8 +252,9 @@
                 studyPlans: safeGet(KEYS.STUDY_PLAN),
                 progress: safeGet(KEYS.PROGRESS),
                 practice: safeGet(KEYS.PRACTICE),
+                errors: safeGet(KEYS.ERRORS),
                 exportTime: Date.now(),
-                version: '1.0'
+                version: '1.1'
             };
             return JSON.stringify(allData, null, 2);
         },
@@ -213,6 +271,7 @@
                     safeSet(KEYS.STUDY_PLAN, data.studyPlans || []);
                     safeSet(KEYS.PROGRESS, data.progress || []);
                     safeSet(KEYS.PRACTICE, data.practice || []);
+                    safeSet(KEYS.ERRORS, data.errors || []);
                     alert('数据导入成功！');
                     return true;
                 }
@@ -260,12 +319,17 @@
             var plans = safeGet(KEYS.STUDY_PLAN);
             var progress = safeGet(KEYS.PROGRESS);
             var practice = safeGet(KEYS.PRACTICE);
+            var errors = safeGet(KEYS.ERRORS);
+            var now = Date.now();
+            var dueErrors = errors.filter(function (e) { return (e.nextReviewAt || 0) <= now; }).length;
 
             return {
                 totalDiagnosis: diagnosis.length,
                 totalPlans: plans.length,
                 totalProgress: progress.length,
                 totalPractice: practice.length,
+                totalErrors: errors.length,
+                dueErrors: dueErrors,
                 lastDiagnosisDate: diagnosis.length > 0 ? diagnosis[diagnosis.length - 1].timestamp : null,
                 storage: this.getStorageUsage()
             };

@@ -136,12 +136,12 @@
 
         .art-container { max-width: 1100px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
 
-        .setup-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .setup-card { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
         .setup-card h2 { margin-bottom: var(--sp-lg); }
         .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
         .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
         .form-field input, .form-field textarea {
-            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            padding: 12px 16px; background: var(--bg); border: 1px solid var(--c-ink-border);
             border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
         }
         .form-field textarea { min-height: 120px; line-height: 1.8; resize: vertical; }
@@ -151,7 +151,7 @@
         .btn-primary { padding: 14px 32px; background: var(--grad-cta); color: #fff; border: none; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: transform 0.2s; width: 100%; }
         .btn-primary:hover { transform: translateY(-2px); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-secondary { padding: 12px 28px; background: rgba(15,52,96,0.4); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
+        .btn-secondary { padding: 12px 28px; background: var(--bg); color: var(--c-warm-white); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); font-size: var(--fs-body); cursor: pointer; font-family: var(--font-body); transition: all 0.2s; }
         .btn-secondary:hover { border-color: var(--c-origin); }
 
         .dialogue-section { display: none; }
@@ -161,32 +161,32 @@
         .focus-label { color: var(--c-success); font-weight: 700; font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
         .focus-desc { color: var(--c-warm-gray); font-size: var(--fs-small); }
 
-        .chat-history { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); max-height: 600px; overflow-y: auto; margin-bottom: var(--sp-lg); }
+        .chat-history { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); max-height: 600px; overflow-y: auto; margin-bottom: var(--sp-lg); }
         .chat-message { margin-bottom: var(--sp-lg); display: flex; gap: var(--sp-md); }
         .chat-message.user { flex-direction: row-reverse; }
         .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--grad-cta); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
-        .chat-message.ai .chat-avatar { background: rgba(15,52,96,0.4); }
-        .chat-bubble { max-width: 75%; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); line-height: 1.7; }
+        .chat-message.ai .chat-avatar { background: var(--bg); }
+        .chat-bubble { max-width: 75%; background: var(--bg); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); line-height: 1.7; }
         .chat-message.user .chat-bubble { background: var(--c-origin-glow); border-color: var(--c-origin); }
         .chat-bubble p { margin-bottom: var(--sp-sm); }
         .chat-bubble p:last-child { margin-bottom: 0; }
 
-        .input-area { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); }
+        .input-area { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-md); }
         .input-hint { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-sm); text-align: center; }
         .input-group { display: flex; gap: var(--sp-md); }
         .input-group textarea {
-            flex: 1; min-height: 100px; padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            flex: 1; min-height: 100px; padding: 12px 16px; background: var(--bg); border: 1px solid var(--c-ink-border);
             border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body); resize: vertical;
         }
         .input-group textarea:focus { border-color: var(--c-origin); outline: none; }
 
         @media (max-width: 767px) {
             .chat-bubble { max-width: 85%; }
-        }        .quick-nav-section { background: rgba(22,33,62,0.6); border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
+        }        .quick-nav-section { background: #FFFFFF; border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
         .quick-nav-container { max-width: 900px; margin: 0 auto; }
         .quick-nav-title { font-family: var(--font-heading); color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
         .quick-nav-list { display: flex; gap: var(--sp-md); flex-wrap: wrap; justify-content: center; }
-        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
+        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: var(--amber-light); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
         .quick-nav-item:hover { border-color: var(--c-origin); transform: translateY(-2px); }
         .quick-nav-icon { font-size: 1.8rem; }
         .quick-nav-name { color: var(--c-warm-white); font-size: var(--fs-small); text-align: center; }
@@ -220,7 +220,7 @@
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
                 <div class="form-field" style="margin-bottom:0;">
                     <label>学段 *</label>
-                    <select id="xueduan" style="padding:12px 16px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
+                    <select id="xueduan" style="padding:12px 16px;background:var(--bg);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
                         <option value="">请选择学段</option>
                         <option value="小学">小学</option>
                         <option value="初中" selected>初中</option>
@@ -229,13 +229,13 @@
                 </div>
                 <div class="form-field" style="margin-bottom:0;">
                     <label>年级 *</label>
-                    <select id="nianji" style="padding:12px 16px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
+                    <select id="nianji" style="padding:12px 16px;background:var(--bg);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
                         <option value="">请先选择学段</option>
                     </select>
                 </div>
                 <div class="form-field" style="margin-bottom:0;">
                     <label>教材版本</label>
-                    <select id="banben" style="padding:12px 16px;background:rgba(15,52,96,0.4);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
+                    <select id="banben" style="padding:12px 16px;background:var(--bg);border:1px solid var(--c-ink-border);border-radius:var(--r-md);color:var(--c-warm-white);font-size:var(--fs-body);">
                         <option value="">请先选择年级</option>
                     </select>
                 </div>

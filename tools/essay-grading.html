@@ -136,16 +136,16 @@
 
         .essay-container { max-width: 1200px; margin: var(--sp-section) auto; padding: 0 var(--sp-lg); }
 
-        .input-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .input-card { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
         .input-card h2 { margin-bottom: var(--sp-lg); }
         .form-field { display: flex; flex-direction: column; margin-bottom: var(--sp-md); }
         .form-field label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
         .form-field select {
-            padding: 12px 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            padding: 12px 16px; background: var(--bg); border: 1px solid var(--c-ink-border);
             border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
         }
         .form-field textarea {
-            min-height: 300px; padding: 16px; background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border);
+            min-height: 300px; padding: 16px; background: var(--bg); border: 1px solid var(--c-ink-border);
             border-radius: var(--r-md); color: var(--c-warm-white); font-size: var(--fs-body); font-family: var(--font-body);
             line-height: 1.8; resize: vertical;
         }
@@ -159,14 +159,14 @@
         .result-section.visible { display: block; }
 
         .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp-md); margin-bottom: var(--sp-lg); }
-        .score-card { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); text-align: center; }
+        .score-card { background: var(--bg); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); text-align: center; }
         .score-label { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-xs); }
         .score-value { font-size: 2rem; font-weight: 900; color: var(--c-origin); font-family: var(--font-heading); }
         .score-max { font-size: var(--fs-small); color: var(--c-warm-dim); }
         .total-score { background: var(--c-origin-glow); border-color: var(--c-origin); }
         .total-score .score-value { font-size: 3rem; }
 
-        .annotation-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
+        .annotation-section { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); margin-bottom: var(--sp-lg); }
         .annotation-section h2 { margin-bottom: var(--sp-md); }
         .paragraph { padding: var(--sp-md); margin-bottom: var(--sp-md); border-radius: var(--r-md); line-height: 1.8; }
         .paragraph-text { margin-bottom: var(--sp-sm); }
@@ -176,22 +176,22 @@
         .paragraph.improvement { background: rgba(212,168,67,0.08); border-left: 3px solid var(--c-warning); }
         .paragraph.improvement .paragraph-comment { background: rgba(212,168,67,0.15); color: var(--c-warning); }
 
-        .comparison-section { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
+        .comparison-section { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-xl); }
         .comparison-section h2 { margin-bottom: var(--sp-md); }
         .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-lg); }
         .comparison-col h3 { color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
-        .comparison-text { background: rgba(15,52,96,0.4); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); line-height: 1.8; min-height: 400px; }
+        .comparison-text { background: var(--bg); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); padding: var(--sp-lg); line-height: 1.8; min-height: 400px; }
         .diff-add { background: rgba(45,159,111,0.15); padding: 2px 4px; border-radius: 3px; }
         .diff-remove { background: rgba(201,64,64,0.15); padding: 2px 4px; border-radius: 3px; text-decoration: line-through; }
 
         @media (max-width: 767px) {
             .comparison-grid { grid-template-columns: 1fr; }
             .score-grid { grid-template-columns: 1fr 1fr; }
-        }        .quick-nav-section { background: rgba(22,33,62,0.6); border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
+        }        .quick-nav-section { background: #FFFFFF; border-top: 1px solid var(--c-ink-border); padding: var(--sp-xl) var(--sp-lg); margin-top: var(--sp-2xl); }
         .quick-nav-container { max-width: 900px; margin: 0 auto; }
         .quick-nav-title { font-family: var(--font-heading); color: var(--c-warm-gray); font-size: var(--fs-small); margin-bottom: var(--sp-md); text-align: center; }
         .quick-nav-list { display: flex; gap: var(--sp-md); flex-wrap: wrap; justify-content: center; }
-        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: rgba(15,52,96,0.3); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
+        .quick-nav-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-xs); padding: var(--sp-md); background: var(--amber-light); border: 1px solid var(--c-ink-border); border-radius: var(--r-md); text-decoration: none; transition: all 0.2s; min-width: 100px; }
         .quick-nav-item:hover { border-color: var(--c-origin); transform: translateY(-2px); }
         .quick-nav-icon { font-size: 1.8rem; }
         .quick-nav-name { color: var(--c-warm-white); font-size: var(--fs-small); text-align: center; }
