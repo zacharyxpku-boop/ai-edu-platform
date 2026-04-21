@@ -178,6 +178,16 @@ let allTools = [];
 let filters = { cat:'all', cn:'all' };
 
 // category mapping
+// 规范化 category → 族名（JSON 里形如 "Subject-Specific AI (Math)" 统一映到 "Subject-Specific AI"）
+function catFamily(cat) {
+    if (!cat) return '';
+    // 去掉括号内的细分
+    const base = cat.replace(/\s*\(.*?\)\s*$/, '').trim();
+    // 单复数归一：General AI Assistant / Assistants
+    if (/^General AI Assistant/i.test(base)) return 'General AI Assistants';
+    return base;
+}
+
 const CAT_MAP = {
     'AI Tutoring':'tutoring',
     'Subject-Specific AI':'subject',
@@ -201,6 +211,19 @@ const CAT_ZH = {
     'Test Prep AI':'考试',
     'Reading/E-book AI':'阅读'
 };
+
+// 细分 tag (括号内的专业领域) → 中文补充
+const CAT_SUB_ZH = {
+    'Math':'数学','Math/Science':'数理','Math/Science/CS':'数理计算机',
+    'Math/ELA':'数学+语言','General':'通用','Music':'音乐','Voice/Audio':'语音',
+    'Design':'设计'
+};
+function catDisplay(cat) {
+    const fam = catFamily(cat);
+    const m = cat.match(/\(([^)]+)\)/);
+    const sub = m && CAT_SUB_ZH[m[1]] ? `·${CAT_SUB_ZH[m[1]]}` : '';
+    return (CAT_ZH[fam] || fam) + sub;
+}
 
 // classify china access
 function cnStatus(t) {
@@ -263,7 +286,7 @@ function shortPrice(p) {
 function render() {
     const q = (document.getElementById('q').value || '').toLowerCase().trim();
     const list = allTools.filter(t => {
-        if (filters.cat !== 'all' && t.category !== filters.cat) return false;
+        if (filters.cat !== 'all' && catFamily(t.category) !== filters.cat) return false;
         if (filters.cn === 'ok' && !cnOk(t)) return false;
         if (filters.cn === 'vpn' && cnOk(t)) return false;
         if (filters.cn === 'pay' && !cnPay(t)) return false;
@@ -281,7 +304,7 @@ function render() {
     }
 
     grid.innerHTML = list.map(t => {
-        const cat = CAT_MAP[t.category] || 'general';
+        const cat = CAT_MAP[catFamily(t.category)] || 'general';
         const st = cnStatus(t);
         const badges = [];
         if (st.blocked) badges.push('<span class="badge badge-cnvpn">需翻墙</span>');
@@ -299,7 +322,7 @@ function render() {
             </div>
             <div class="tool-body">
                 <div class="tool-name">${t.name}</div>
-                <div class="tool-meta-inline">${CAT_ZH[t.category]||t.category} · ${t.age||'全龄'}岁 · ${shortPrice(t.price)}</div>
+                <div class="tool-meta-inline">${catDisplay(t.category)} · ${t.age||'全龄'}岁 · ${shortPrice(t.price)}</div>
                 <div class="tool-diff">${t.differentiator||''}</div>
                 ${t.cn_parent_pain ? `<div class="tool-pain">⚠️ ${t.cn_parent_pain}</div>` : ''}
             </div>
