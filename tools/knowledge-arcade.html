@@ -970,6 +970,32 @@ async function loadTxtManifest() {
     return _sbTxtManifest;
 }
 
+// 语义别名：seed 题的 chapter hint 多半是类目名（力学/光学/电学），需要映射到人教版真实章节关键词
+const CHAPTER_ALIASES = {
+    physics: {
+        '力学基础':['力','运动','机械'],'力学':['力','运动','机械'],'力学综合':['机械','功','简单机械'],
+        '声学':['声'],'光学':['光','透镜'],
+        '电学':['电','欧姆','电路','电压','电流','电功率','信息'],
+        '磁学':['磁','电与磁'],'磁场与电流':['磁','电与磁'],
+        '运动学':['运动'],'功与能':['功','机械能'],
+        '内能与热量':['内能','热'],'惯性':['运动','力'],'力与运动':['运动和力','力']
+    },
+    chemistry: {
+        '物质的组成':['物质构成','奥秘','元素'],'元素周期表':['物质构成','元素'],'原子结构':['物质构成','奥秘'],
+        '化学反应计算':['化学方程式'],'化学综合':['化学方程式','化学反应'],'化学反应类型':['化学方程式'],
+        '酸碱中和':['酸和碱'],'质量守恒':['化学方程式'],
+        '常见物质':['碳','空气','水'],'氧化还原':['碳的氧化物','燃料'],'氧气的制备':['空气','周围的空气'],
+        '金属活动性':['金属'],'溶液计算':['溶液'],
+        '碳酸钠与碳酸氢钠':['盐','化肥']
+    },
+    math: {
+        '数据的描述':['统计','概率'],'数据分析':['统计','概率'],
+        '比和比例':['比例','分式'],'相似三角形':['相似','图形'],
+        '面积与体积':['立体几何','几何'],'整式的乘除':['整式','代数'],
+        '综合应用':['方程','应用'],'综合':['综合']
+    }
+};
+
 // 反链：给一道题匹配最贴近的教材章节
 function matchTextbookChapter(subject, q) {
     if (!_sbTxtManifest || !_sbTxtManifest.books) return null;
@@ -977,6 +1003,7 @@ function matchTextbookChapter(subject, q) {
     if (!zhSubj) return null;
     const hint = (q.chapter || '').trim();
     const kps = (q.knowledge_points || []).map(function(k){ return String(k||'').trim(); }).filter(Boolean);
+    const aliases = (CHAPTER_ALIASES[subject] || {})[hint] || [];
     const candidates = _sbTxtManifest.books.filter(function(b){ return b.subject === zhSubj; });
     if (!candidates.length) return null;
     let best = null, bestScore = 0;
@@ -991,6 +1018,10 @@ function matchTextbookChapter(subject, q) {
                     if (title.indexOf(hint.slice(i, i+3)) >= 0) { score += 4; break; }
                 }
             }
+            // 类目 hint 语义别名（力学→力/运动/机械）
+            aliases.forEach(function(a){
+                if (a && title.indexOf(a) >= 0) { score += 8; }
+            });
             kps.forEach(function(k){
                 if (k && title.indexOf(k) >= 0) score += 6;
                 else if (k && k.length >= 3 && title.indexOf(k.slice(0, 3)) >= 0) score += 2;

@@ -12,6 +12,32 @@ S = json.load(open(ROOT / "src/curriculum/seed-questions.json", encoding="utf-8"
 
 SUBJ = {"math": "数学", "physics": "物理", "chemistry": "化学"}
 
+# 和 knowledge-arcade.html 里 CHAPTER_ALIASES 保持一致
+ALIASES = {
+    "physics": {
+        "力学基础":["力","运动","机械"],"力学":["力","运动","机械"],"力学综合":["机械","功","简单机械"],
+        "声学":["声"],"光学":["光","透镜"],
+        "电学":["电","欧姆","电路","电压","电流","电功率","信息"],
+        "磁学":["磁","电与磁"],"磁场与电流":["磁","电与磁"],
+        "运动学":["运动"],"功与能":["功","机械能"],
+        "内能与热量":["内能","热"],"惯性":["运动","力"],"力与运动":["运动和力","力"],
+    },
+    "chemistry": {
+        "物质的组成":["物质构成","奥秘","元素"],"元素周期表":["物质构成","元素"],"原子结构":["物质构成","奥秘"],
+        "化学反应计算":["化学方程式"],"化学综合":["化学方程式","化学反应"],"化学反应类型":["化学方程式"],
+        "酸碱中和":["酸和碱"],"质量守恒":["化学方程式"],
+        "常见物质":["碳","空气","水"],"氧化还原":["碳的氧化物","燃料"],"氧气的制备":["空气","周围的空气"],
+        "金属活动性":["金属"],"溶液计算":["溶液"],
+        "碳酸钠与碳酸氢钠":["盐","化肥"],
+    },
+    "math": {
+        "数据的描述":["统计","概率"],"数据分析":["统计","概率"],
+        "比和比例":["比例","分式"],"相似三角形":["相似","图形"],
+        "面积与体积":["立体几何","几何"],"整式的乘除":["整式","代数"],
+        "综合应用":["方程","应用"],"综合":["综合"],
+    },
+}
+
 
 def score_and_match(subject_en, q):
     zh = SUBJ.get(subject_en)
@@ -19,6 +45,7 @@ def score_and_match(subject_en, q):
         return None, 0
     hint = (q.get("chapter") or "").strip()
     kps = [str(k).strip() for k in q.get("knowledge_points", []) if k]
+    aliases = ALIASES.get(subject_en, {}).get(hint, [])
     books = [b for b in M["books"] if b["subject"] == zh]
     best, best_score = None, 0
     for b in books:
@@ -32,6 +59,9 @@ def score_and_match(subject_en, q):
                     if hint[i:i+3] in title:
                         score += 4
                         break
+            for a in aliases:
+                if a and a in title:
+                    score += 8
             for k in kps:
                 if k and k in title:
                     score += 6
