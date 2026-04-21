@@ -1,0 +1,43 @@
+{
+  "stage": "初中",
+  "subject": "数学",
+  "edition": "人教版",
+  "grade": "九年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/数学/人教版/九年级/上册.pdf",
+  "page_count": 163,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 21,
+      "title": "第二十一章　一元二次方程",
+      "start_page": 8,
+      "end_page": 33
+    },
+    {
+      "ch": 22,
+      "title": "第二十二章　二次函数",
+      "start_page": 34,
+      "end_page": 64
+    },
+    {
+      "ch": 23,
+      "title": "第二十三章　旋转",
+      "start_page": 65,
+      "end_page": 84
+    },
+    {
+      "ch": 24,
+      "title": "第二十四章　圆",
+      "start_page": 85,
+      "end_page": 132
+    },
+    {
+      "ch": 25,
+      "title": "第二十五章　概率初步",
+      "start_page": 133,
+      "end_page": 163
+    }
+  ]
+}

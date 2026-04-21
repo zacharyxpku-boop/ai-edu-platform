@@ -1,0 +1,43 @@
+{
+  "stage": "初中",
+  "subject": "数学",
+  "edition": "人教版",
+  "grade": "八年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/数学/人教版/八年级/上册.pdf",
+  "page_count": 170,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 11,
+      "title": "第十一章　三角形",
+      "start_page": 8,
+      "end_page": 36
+    },
+    {
+      "ch": 12,
+      "title": "第十二章　全等三角形",
+      "start_page": 37,
+      "end_page": 63
+    },
+    {
+      "ch": 13,
+      "title": "第十三章　轴对称",
+      "start_page": 64,
+      "end_page": 100
+    },
+    {
+      "ch": 14,
+      "title": "第十四章　整式的乘法与",
+      "start_page": 101,
+      "end_page": 132
+    },
+    {
+      "ch": 15,
+      "title": "第十五章　分式",
+      "start_page": 133,
+      "end_page": 170
+    }
+  ]
+}

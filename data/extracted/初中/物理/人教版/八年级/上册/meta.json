@@ -1,0 +1,49 @@
+{
+  "stage": "初中",
+  "subject": "物理",
+  "edition": "人教版",
+  "grade": "八年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/物理/人教版/八年级/上册.pdf",
+  "page_count": 131,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章  机械运动",
+      "start_page": 14,
+      "end_page": 30
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 31,
+      "end_page": 50
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 51,
+      "end_page": 72
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 73,
+      "end_page": 93
+    },
+    {
+      "ch": 5,
+      "title": "第五章",
+      "start_page": 94,
+      "end_page": 111
+    },
+    {
+      "ch": 6,
+      "title": "第六章",
+      "start_page": 112,
+      "end_page": 131
+    }
+  ]
+}

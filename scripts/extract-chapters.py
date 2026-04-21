@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = ROOT / "data" / "textbooks-raw"
 OUT_DIR = ROOT / "data" / "extracted"
 
-CHAPTER_RE = re.compile(r"第([一二三四五六七八九十]+)章")
+CHAPTER_RE = re.compile(r"第([一二三四五六七八九十]+)(?:章|单元)")
 # 支持 ASCII "1.1" 也支持全角 "１．１"
 SECTION_RE = re.compile(
     r"^\s*([1-9１-９]\d?[.．][1-9１-９]\d?(?:[.．][1-9１-９]\d?)?)"
@@ -75,7 +75,7 @@ def extract_spans(page):
 
 def find_chapters(doc, min_title_size=60.0):
     """基于字号识别章节标题页。返回 [(page_index_0based, ch_num, title_text)]"""
-    cand = {}  # ch_num -> (page, size, title)
+    cand = {}
     for i in range(doc.page_count):
         for size, txt, _ in extract_spans(doc[i]):
             if size < min_title_size: continue
@@ -89,6 +89,44 @@ def find_chapters(doc, min_title_size=60.0):
     out = []
     for ch in sorted(cand.keys()):
         pg, sz, title = cand[ch]
+        out.append((pg, ch, title))
+    return out
+
+
+def find_chapters_relaxed(doc, min_size=20.0):
+    """物理/化学教材：字号只到 36pt 左右，用「页上仅 1 个章节号」区分 TOC vs 正文。
+    扫描每页，记录该页出现了哪些章节号。目录页会有多个，正文章节首页只有 1 个。"""
+    per_page = []  # [(page_i, {ch_num: (size, text)})]
+    for i in range(doc.page_count):
+        found = {}
+        for size, txt, _ in extract_spans(doc[i]):
+            if size < min_size: continue
+            m = CHAPTER_RE.search(txt)
+            if not m: continue
+            ch = zh_to_int(m.group(1))
+            if ch == 0: continue
+            if ch not in found or size > found[ch][0]:
+                found[ch] = (size, txt)
+        if found:
+            per_page.append((i, found))
+
+    chapters = {}  # ch -> (page, size, title)
+    for i, found in per_page:
+        # 单章节页=大概率正文章节起始
+        if len(found) == 1:
+            ch, (sz, txt) = next(iter(found.items()))
+            if ch not in chapters:
+                chapters[ch] = (i, sz, txt)
+    # 补缺：某些章节可能从来没有单章节页（稀有），取多章节页里最大字号作为候选
+    seen = set(chapters.keys())
+    for i, found in per_page:
+        for ch, (sz, txt) in found.items():
+            if ch in seen: continue
+            if ch not in chapters or sz > chapters[ch][1]:
+                chapters[ch] = (i, sz, txt)
+    out = []
+    for ch in sorted(chapters.keys()):
+        pg, sz, title = chapters[ch]
         out.append((pg, ch, title))
     return out
 
@@ -114,6 +152,19 @@ def page_text(page) -> str:
     return page.get_text("text")
 
 
+def detect_scan_only(doc, sample=20):
+    """采样 N 页，算平均每页字符密度。<80 认为是扫描件（无文字层）。"""
+    step = max(1, doc.page_count // sample)
+    total = 0
+    n = 0
+    for i in range(0, doc.page_count, step):
+        t = doc[i].get_text("text") or ""
+        total += len(t.strip())
+        n += 1
+    avg = total / max(1, n)
+    return avg < 80, avg
+
+
 def extract(stage, subject, edition, grade, volume):
     pdf = RAW_DIR / stage / subject / edition / grade / f"{volume}.pdf"
     if not pdf.exists():
@@ -125,10 +176,32 @@ def extract(stage, subject, edition, grade, volume):
     doc = fitz.open(str(pdf))
     print(f"  总页数 {doc.page_count}")
 
+    # 扫描 PDF 短路
+    is_scan, avg_chars = detect_scan_only(doc)
+    if is_scan:
+        print(f"  跳过：扫描件（平均每页 {avg_chars:.0f} 字，需 OCR）")
+        # 清掉旧的错误产物
+        for old in out.glob("ch*.json"):
+            old.unlink()
+        stub = {
+            "stage": stage, "subject": subject, "edition": edition,
+            "grade": grade, "volume": volume,
+            "pdf": str(pdf.relative_to(ROOT)).replace("\\", "/"),
+            "page_count": doc.page_count,
+            "status": "scan_only",
+            "avg_chars_per_page": round(avg_chars, 1),
+            "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
+            "extracted_at": "2026-04-22"
+        }
+        (out / "meta.json").write_text(json.dumps(stub, ensure_ascii=False, indent=2), encoding="utf-8")
+        return False
+
     chapters = find_chapters(doc)
     if not chapters:
-        print("  警告: 未找到章节（字号启发失败，用 TOC 兜底）")
-        # fallback: PDF 自带 TOC
+        print("  主字号启发未命中 (需 ≥60pt)，降级到松散字号+单章节页规则")
+        chapters = find_chapters_relaxed(doc)
+    if not chapters:
+        print("  松散启发也失败，用 TOC 兜底")
         toc = doc.get_toc()
         if not toc:
             print("  TOC 也为空，放弃")
@@ -139,7 +212,8 @@ def extract(stage, subject, edition, grade, volume):
 
     print(f"  找到章节 {len(chapters)}:")
     for pg, ch, title in chapters:
-        print(f"    第{ch}章 p{pg+1}  {title[:40]}")
+        safe = title[:40].encode("gbk", errors="replace").decode("gbk", errors="replace")
+        print(f"    第{ch}章 p{pg+1}  {safe}")
 
     # 组装每章页范围
     ch_ranges = []

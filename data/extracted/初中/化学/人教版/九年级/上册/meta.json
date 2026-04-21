@@ -1,0 +1,55 @@
+{
+  "stage": "初中",
+  "subject": "化学",
+  "edition": "人教版",
+  "grade": "九年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/化学/人教版/九年级/上册.pdf",
+  "page_count": 162,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 6,
+      "end_page": 29
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 30,
+      "end_page": 51
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 52,
+      "end_page": 71
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 72,
+      "end_page": 95
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 96,
+      "end_page": 109
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 110,
+      "end_page": 131
+    },
+    {
+      "ch": 7,
+      "title": "第七单元",
+      "start_page": 132,
+      "end_page": 162
+    }
+  ]
+}
