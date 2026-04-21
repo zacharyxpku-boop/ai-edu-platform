@@ -223,6 +223,8 @@ h1 em{font-style:normal;color:var(--cta)}
 <section class="result" id="result">
     <h2>🎉 通关啦！</h2>
     <div class="result-score" id="r-score">0</div>
+    <div id="r-best-badge" style="display:none;font-size:12px;font-weight:700;color:#C2410C;background:#FFFBF0;border:1px solid #F5A623;padding:4px 12px;border-radius:100px;margin:6px auto 0;width:fit-content">🏆 个人新纪录</div>
+    <div id="r-best-line" style="font-size:12px;color:#71717A;margin-top:4px">个人最佳: <b id="r-best">—</b></div>
     <div class="result-stats">
         <div><b id="r-correct">0</b>答对</div>
         <div><b id="r-wrong">0</b>答错</div>
@@ -231,6 +233,7 @@ h1 em{font-style:normal;color:var(--cta)}
     <p style="font-size:13px;color:var(--ink3);margin-bottom:8px" id="r-comment">继续加油！</p>
     <div class="result-actions">
         <button class="btn-primary" onclick="startGame()">再来一局</button>
+        <button class="btn-primary" onclick="shareArcade()" style="background:transparent;color:#18181B;border:1px solid #E4E4E7">分享战绩</button>
         <button class="btn-ghost" onclick="location.href='/'">返回工具箱</button>
     </div>
 </section>
@@ -240,6 +243,7 @@ h1 em{font-style:normal;color:var(--cta)}
 <footer class="foot">© 2026 原点智学 · 游戏化学习只是入口，真正学到脑子里才是目的</footer>
 
 <script src="/src/api-manager.js"></script>
+<script src="/src/share-kit.js"></script>
 <script>
 // ==========================================
 // 游戏状态机
@@ -586,6 +590,39 @@ function endGame() {
         logs.push({ tool:'knowledge-arcade', game:currentGame, score:state.score, timestamp:Date.now() });
         localStorage.setItem('yuandian_usage_logs', JSON.stringify(logs));
     } catch(e){}
+
+    // 个人最佳
+    try {
+        const bestKey = 'ydzx_arcade_best_' + currentGame;
+        const prevBest = parseInt(localStorage.getItem(bestKey) || '0', 10);
+        const isNew = state.score > prevBest;
+        if (isNew) localStorage.setItem(bestKey, String(state.score));
+        document.getElementById('r-best').textContent = Math.max(prevBest, state.score);
+        document.getElementById('r-best-badge').style.display = isNew && state.score > 0 ? 'inline-block' : 'none';
+    } catch(e){}
+}
+
+function shareArcade() {
+    if (typeof YdzxShare === 'undefined') {
+        alert('分享模块加载中，请稍候再试');
+        return;
+    }
+    const gameNames = { whack:'打地鼠', match:'消消乐', snake:'贪吃蛇', sokoban:'推箱子' };
+    const gameName = gameNames[currentGame] || currentGame;
+    const bestKey = 'ydzx_arcade_best_' + currentGame;
+    const best = parseInt(localStorage.getItem(bestKey) || String(state.score), 10);
+    YdzxShare.open({
+        source: 'knowledge-arcade',
+        title: '原点知识街机 · '+gameName+' 拿下 '+state.score+' 分',
+        subtitle: 'AI 根据教材知识点出题，玩着就复习了',
+        metrics: [
+            { label:'本局得分', value: String(state.score) },
+            { label:'答对', value: String(state.correct) },
+            { label:'最高连击', value: String(state.maxCombo) },
+            { label:'个人最佳', value: String(best) }
+        ],
+        quote: '玩游戏也在记知识点，这波不亏'
+    });
 }
 
 // ==========================================
