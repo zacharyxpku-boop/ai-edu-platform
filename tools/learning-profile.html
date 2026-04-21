@@ -584,11 +584,16 @@
                 alert('分享模块加载中，稍后再试');
                 return;
             }
-            // 找出最强维度
+            // 找最强科目（subjects 是 name → 练习次数的 map）
+            const nameMap = {
+                math:'数学', physics:'物理', chemistry:'化学', chinese:'语文',
+                english:'英语', biology:'生物', politics:'政治', history:'历史', geography:'地理'
+            };
             const subjMetrics = Object.entries(learningData.subjects || {})
-                .map(([k, v]) => ({ name: k, score: (v && typeof v.score === 'number') ? v.score : 0 }))
-                .sort((a, b) => b.score - a.score);
-            const topSubj = subjMetrics[0] ? subjMetrics[0].name : '综合';
+                .map(([k, v]) => ({ key: k, count: Number(v) || 0 }))
+                .sort((a, b) => b.count - a.count);
+            const top = subjMetrics[0];
+            const topSubj = (top && top.count > 0) ? (nameMap[top.key] || top.key) : '尚无数据';
 
             window.YdzxShare.open({
                 source: 'learning-profile',
