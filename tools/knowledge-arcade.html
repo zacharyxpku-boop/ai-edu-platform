@@ -98,6 +98,36 @@ h1 em{font-style:normal;color:var(--cta)}
 .cat-4{background:#E0E7FF;color:#3730A3}
 .cat-5{background:#FCE7F3;color:#9D174D}
 
+/* ===== SNAKE ===== */
+.snake-wrap{max-width:520px;margin:0 auto}
+.snake-q{background:var(--amber-bg);border:1px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;text-align:center}
+.snake-board{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;background:#18181B;padding:4px;border-radius:8px;aspect-ratio:12/10}
+.snake-cell{background:#27272A;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;text-align:center;padding:1px;line-height:1;overflow:hidden}
+.snake-cell.snake{background:#F5A623}
+.snake-cell.head{background:#C2410C}
+.snake-cell.food{background:#059669;color:#fff}
+.snake-cell.bad{background:#DC2626;color:#fff}
+.snake-ctrl{display:grid;grid-template-columns:repeat(3,60px);grid-template-rows:60px 60px;gap:6px;justify-content:center;margin-top:14px}
+.snake-ctrl button{background:var(--card);border:1px solid var(--bdr);border-radius:8px;font-size:20px;cursor:pointer;font-weight:700}
+.snake-ctrl button:hover{background:var(--amber-bg);border-color:var(--amber)}
+.sc-up{grid-column:2;grid-row:1}
+.sc-left{grid-column:1;grid-row:2}
+.sc-down{grid-column:2;grid-row:2}
+.sc-right{grid-column:3;grid-row:2}
+
+/* ===== SOKOBAN ===== */
+.sok-wrap{max-width:480px;margin:0 auto;text-align:center}
+.sok-q{background:var(--amber-bg);border:1px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.sok-board{display:inline-grid;gap:3px;background:#E4E4E7;padding:6px;border-radius:8px;margin-bottom:10px}
+.sok-tile{width:56px;height:56px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;text-align:center;padding:2px;line-height:1.1;overflow:hidden;position:relative}
+.sok-floor{background:#F4F4F5;color:var(--ink3)}
+.sok-wall{background:#3F3F46}
+.sok-target{background:#DBEAFE;color:#1E3A8A;border:1px dashed #2563EB}
+.sok-box{background:var(--amber);color:#fff;box-shadow:inset 0 -3px 0 #C2410C}
+.sok-box.on-target{background:#059669;box-shadow:inset 0 -3px 0 #047857}
+.sok-player{background:#7C3AED;color:#fff;border-radius:50%;font-size:18px}
+@media(max-width:520px){.sok-tile{width:44px;height:44px;font-size:9px}}
+
 /* ===== RESULT ===== */
 .result{display:none;background:linear-gradient(135deg,var(--amber-bg),#FEF3C7);border:2px solid var(--amber);border-radius:var(--r);padding:28px;text-align:center}
 .result.on{display:block;animation:fadeIn .4s}
@@ -168,8 +198,8 @@ h1 em{font-style:normal;color:var(--cta)}
     <div class="games">
         <button class="gbtn on" data-game="whack"><span class="gbtn-emoji">🔨</span><span class="gbtn-name">打地鼠</span><div class="gbtn-meta">判断题</div></button>
         <button class="gbtn" data-game="match"><span class="gbtn-emoji">💎</span><span class="gbtn-name">消消乐</span><div class="gbtn-meta">分类题</div></button>
-        <button class="gbtn" data-game="snake" disabled style="opacity:.4"><span class="gbtn-emoji">🐍</span><span class="gbtn-name">贪吃蛇</span><div class="gbtn-meta">即将上线</div></button>
-        <button class="gbtn" data-game="sokoban" disabled style="opacity:.4"><span class="gbtn-emoji">📦</span><span class="gbtn-name">推箱子</span><div class="gbtn-meta">即将上线</div></button>
+        <button class="gbtn" data-game="snake"><span class="gbtn-emoji">🐍</span><span class="gbtn-name">贪吃蛇</span><div class="gbtn-meta">选择题</div></button>
+        <button class="gbtn" data-game="sokoban"><span class="gbtn-emoji">📦</span><span class="gbtn-name">推箱子</span><div class="gbtn-meta">配对题</div></button>
     </div>
 
     <button class="start-btn" id="start-btn" onclick="startGame()">让AI出题 开始游戏</button>
@@ -281,7 +311,11 @@ async function generateLevel({ kp, stage, grade, subject, edition, game }) {
         whack: `请生成12道【判断题】，每题一句话，要么是关于"${kp}"的正确陈述，要么是常见错误陈述。JSON格式:
 {"items":[{"text":"陈述","correct":true或false,"why":"错在哪或为什么对（简短）"}]}`,
         match: `请生成6个类别，每类4-5个同类项目，用于"${kp}"分类消消乐。JSON格式:
-{"items":[{"category":"类别名","members":["项1","项2","项3","项4"]}]}`
+{"items":[{"category":"类别名","members":["项1","项2","项3","项4"]}]}`,
+        snake: `请生成5道【单选题】，每题关于"${kp}"。每题1个问题+1个正确答案+3个干扰项，答案都应该是2-4个汉字短词。JSON格式:
+{"items":[{"q":"问题简短一句","right":"正确答案","wrong":["干扰1","干扰2","干扰3"]}]}`,
+        sokoban: `请生成4道【配对题】，每题关于"${kp}"。每题1个概念和1个对应定义/分类/属性。概念和配对目标都应2-5个字。JSON格式:
+{"items":[{"concept":"概念词","target":"对应词","hint":"为什么配对(简短)"}]}`
     };
 
     const systemPrompt = `你是${stage}${grade}${subject}（${edition}）老师。知识点：${kp}。
@@ -323,6 +357,8 @@ function launchGame(g) {
     host.className = '';
     if (g === 'whack') renderWhack(host);
     else if (g === 'match') renderMatch(host);
+    else if (g === 'snake') renderSnake(host);
+    else if (g === 'sokoban') renderSokoban(host);
 }
 
 function renderWhack(host) {
@@ -548,6 +584,277 @@ function endGame() {
         logs.push({ tool:'knowledge-arcade', game:currentGame, score:state.score, timestamp:Date.now() });
         localStorage.setItem('yuandian_usage_logs', JSON.stringify(logs));
     } catch(e){}
+}
+
+// ==========================================
+// 贪吃蛇 Snake
+// ==========================================
+const SNAKE_W = 12, SNAKE_H = 10;
+let snakeState = null;
+
+function renderSnake(host) {
+    host.innerHTML = `
+        <div class="snake-wrap">
+            <div class="snake-q" id="snake-q">准备...</div>
+            <div class="snake-board" id="snake-board"></div>
+            <div class="snake-ctrl">
+                <button class="sc-up" onclick="snakeTurn(0,-1)">↑</button>
+                <button class="sc-left" onclick="snakeTurn(-1,0)">←</button>
+                <button class="sc-down" onclick="snakeTurn(0,1)">↓</button>
+                <button class="sc-right" onclick="snakeTurn(1,0)">→</button>
+            </div>
+            <p style="text-align:center;font-size:12px;color:var(--ink3);margin-top:8px">键盘方向键或点按钮控制 · 吃绿色正确答案得分 · 吃红色干扰项扣分</p>
+        </div>`;
+
+    snakeState = {
+        snake: [{x:6,y:5}, {x:5,y:5}, {x:4,y:5}],
+        dir: {x:1, y:0},
+        qIndex: 0,
+        foods: [],
+        tick: null
+    };
+    placeSnakeFoods();
+    drawSnake();
+    state.running = true;
+    state.timeLeft = 60;
+    startTimer();
+
+    // 键盘
+    document.onkeydown = (e) => {
+        if (!state.running) return;
+        if (e.key === 'ArrowUp') snakeTurn(0,-1);
+        else if (e.key === 'ArrowDown') snakeTurn(0,1);
+        else if (e.key === 'ArrowLeft') snakeTurn(-1,0);
+        else if (e.key === 'ArrowRight') snakeTurn(1,0);
+    };
+
+    // 游戏tick
+    snakeState.tick = setInterval(snakeStep, 450);
+}
+
+function placeSnakeFoods() {
+    const q = state.items[snakeState.qIndex];
+    if (!q) return;
+    document.getElementById('snake-q').textContent = q.q;
+    const foods = [];
+    const occupied = new Set(snakeState.snake.map(s => s.x+','+s.y));
+    const pool = [{text:q.right, good:true}, ...q.wrong.map(w=>({text:w,good:false}))];
+    pool.forEach(item => {
+        let x, y, tries=0;
+        do {
+            x = Math.floor(Math.random()*SNAKE_W);
+            y = Math.floor(Math.random()*SNAKE_H);
+            tries++;
+        } while ((occupied.has(x+','+y) || foods.find(f=>f.x===x&&f.y===y)) && tries<50);
+        occupied.add(x+','+y);
+        foods.push({x, y, text:item.text, good:item.good});
+    });
+    snakeState.foods = foods;
+}
+
+function drawSnake() {
+    const board = document.getElementById('snake-board');
+    if (!board) return;
+    const cells = Array(SNAKE_W*SNAKE_H).fill(null);
+    snakeState.snake.forEach((s,i) => {
+        if (s.x>=0 && s.x<SNAKE_W && s.y>=0 && s.y<SNAKE_H) {
+            cells[s.y*SNAKE_W+s.x] = {type: i===0?'head':'snake', text:''};
+        }
+    });
+    snakeState.foods.forEach(f => {
+        cells[f.y*SNAKE_W+f.x] = {type: f.good?'food':'bad', text:f.text};
+    });
+    board.innerHTML = cells.map(c =>
+        c ? `<div class="snake-cell ${c.type}">${c.text}</div>` : '<div class="snake-cell"></div>'
+    ).join('');
+}
+
+function snakeTurn(dx, dy) {
+    if (!snakeState) return;
+    // 禁止反向
+    if (snakeState.dir.x === -dx && snakeState.dir.y === -dy) return;
+    snakeState.dir = {x:dx, y:dy};
+}
+
+function snakeStep() {
+    if (!state.running || !snakeState) return;
+    const head = snakeState.snake[0];
+    const newHead = {x: head.x + snakeState.dir.x, y: head.y + snakeState.dir.y};
+    // 穿墙
+    newHead.x = (newHead.x + SNAKE_W) % SNAKE_W;
+    newHead.y = (newHead.y + SNAKE_H) % SNAKE_H;
+    // 自咬
+    if (snakeState.snake.some(s => s.x===newHead.x && s.y===newHead.y)) {
+        state.wrong++; state.combo = 0; updateHUD();
+        endGame();
+        return;
+    }
+    snakeState.snake.unshift(newHead);
+    // 吃到东西?
+    const foodIdx = snakeState.foods.findIndex(f => f.x===newHead.x && f.y===newHead.y);
+    if (foodIdx >= 0) {
+        const food = snakeState.foods[foodIdx];
+        if (food.good) {
+            state.score += 20 * (1 + state.combo * 0.1);
+            state.score = Math.round(state.score);
+            state.correct++;
+            state.combo++;
+            state.maxCombo = Math.max(state.maxCombo, state.combo);
+            // 下一题
+            snakeState.qIndex = (snakeState.qIndex + 1) % state.items.length;
+            placeSnakeFoods();
+        } else {
+            state.score = Math.max(0, state.score - 10);
+            state.wrong++;
+            state.combo = 0;
+            // 蛇变短
+            if (snakeState.snake.length > 1) snakeState.snake.pop();
+            if (snakeState.snake.length > 1) snakeState.snake.pop();
+            snakeState.foods.splice(foodIdx, 1);
+        }
+        updateHUD();
+    } else {
+        snakeState.snake.pop();
+    }
+    drawSnake();
+}
+
+// ==========================================
+// 推箱子 Sokoban
+// ==========================================
+let sokState = null;
+const SOK_W = 7, SOK_H = 6;
+
+function renderSokoban(host) {
+    host.innerHTML = `
+        <div class="sok-wrap">
+            <div class="sok-q" id="sok-q">准备...</div>
+            <div id="sok-board-wrap"></div>
+            <div class="snake-ctrl">
+                <button class="sc-up" onclick="sokMove(0,-1)">↑</button>
+                <button class="sc-left" onclick="sokMove(-1,0)">←</button>
+                <button class="sc-down" onclick="sokMove(0,1)">↓</button>
+                <button class="sc-right" onclick="sokMove(1,0)">→</button>
+            </div>
+            <p style="text-align:center;font-size:12px;color:var(--ink3);margin-top:8px">推动橙色概念到蓝色目标 · 推对变绿 · 推错推到墙角无法回退</p>
+        </div>`;
+
+    sokState = { level: 0, ...buildSokLevel(0) };
+    drawSok();
+
+    state.running = true;
+    state.timeLeft = 90;
+    startTimer();
+
+    document.onkeydown = (e) => {
+        if (!state.running) return;
+        if (e.key === 'ArrowUp') sokMove(0,-1);
+        else if (e.key === 'ArrowDown') sokMove(0,1);
+        else if (e.key === 'ArrowLeft') sokMove(-1,0);
+        else if (e.key === 'ArrowRight') sokMove(1,0);
+    };
+}
+
+function buildSokLevel(idx) {
+    const q = state.items[idx % state.items.length];
+    // 3 concept-target pairs: 当前题 + 干扰2个
+    const n = Math.min(3, state.items.length);
+    const picks = [];
+    for (let i = 0; i < n; i++) picks.push(state.items[(idx+i) % state.items.length]);
+
+    // 地图: 外圈墙(不必)，简化为开放地图
+    const grid = Array(SOK_H).fill(0).map(() => Array(SOK_W).fill('floor'));
+    const boxes = [];
+    const targets = [];
+    // 把每对(concept, target)放左右两列
+    picks.forEach((p, i) => {
+        const y = i + 1;
+        boxes.push({x: 2, y, text: p.concept, target: p.target});
+        targets.push({x: 5, y, text: p.target});
+    });
+    const player = {x: 0, y: 0};
+    return { q, picks, grid, boxes, targets, player };
+}
+
+function drawSok() {
+    const wrap = document.getElementById('sok-board-wrap');
+    if (!wrap) return;
+    document.getElementById('sok-q').textContent = '把概念推到对应的分类/定义上';
+    const boxMap = {};
+    sokState.boxes.forEach(b => boxMap[b.x+','+b.y] = b);
+    const tgtMap = {};
+    sokState.targets.forEach(t => tgtMap[t.x+','+t.y] = t);
+
+    let html = `<div class="sok-board" style="grid-template-columns:repeat(${SOK_W},1fr)">`;
+    for (let y = 0; y < SOK_H; y++) {
+        for (let x = 0; x < SOK_W; x++) {
+            const b = boxMap[x+','+y];
+            const t = tgtMap[x+','+y];
+            const isPlayer = sokState.player.x === x && sokState.player.y === y;
+            let cls = 'sok-tile sok-floor';
+            let txt = '';
+            if (t && !b) { cls = 'sok-tile sok-target'; txt = t.text; }
+            if (b) {
+                const correct = t && t.text === b.target;
+                cls = correct ? 'sok-tile sok-box on-target' : 'sok-tile sok-box';
+                txt = b.text;
+            }
+            if (isPlayer) { cls = 'sok-tile sok-player'; txt = '🙂'; }
+            html += `<div class="${cls}">${txt}</div>`;
+        }
+    }
+    html += '</div>';
+    wrap.innerHTML = html;
+}
+
+function sokMove(dx, dy) {
+    if (!sokState || !state.running) return;
+    const p = sokState.player;
+    const nx = p.x + dx, ny = p.y + dy;
+    if (nx < 0 || nx >= SOK_W || ny < 0 || ny >= SOK_H) return;
+    // 前方有箱子?
+    const boxIdx = sokState.boxes.findIndex(b => b.x===nx && b.y===ny);
+    if (boxIdx >= 0) {
+        const bx = nx + dx, by = ny + dy;
+        if (bx < 0 || bx >= SOK_W || by < 0 || by >= SOK_H) return;
+        // 箱子目标格不能有其它箱子
+        if (sokState.boxes.some((b,i) => i!==boxIdx && b.x===bx && b.y===by)) return;
+        sokState.boxes[boxIdx].x = bx;
+        sokState.boxes[boxIdx].y = by;
+    }
+    sokState.player = {x:nx, y:ny};
+    drawSok();
+    checkSokWin();
+}
+
+function checkSokWin() {
+    // 所有箱子必须在正确的target上
+    const tgtMap = {};
+    sokState.targets.forEach(t => tgtMap[t.x+','+t.y] = t);
+    const matched = sokState.boxes.filter(b => {
+        const t = tgtMap[b.x+','+b.y];
+        return t && t.text === b.target;
+    }).length;
+
+    // 立即给分反馈
+    if (matched === sokState.boxes.length) {
+        state.score += 50 * (1 + state.combo * 0.1);
+        state.score = Math.round(state.score);
+        state.correct += matched;
+        state.combo++;
+        state.maxCombo = Math.max(state.maxCombo, state.combo);
+        updateHUD();
+        // 进入下一关
+        sokState.level++;
+        if (sokState.level >= state.items.length) {
+            setTimeout(endGame, 600);
+        } else {
+            setTimeout(() => {
+                sokState = { level: sokState.level, ...buildSokLevel(sokState.level) };
+                drawSok();
+            }, 600);
+        }
+    }
 }
 </script>
 </body>
