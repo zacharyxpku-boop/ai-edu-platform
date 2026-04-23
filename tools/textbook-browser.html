@@ -187,9 +187,7 @@ h1 em{font-style:normal;color:var(--cta)}
     <h3>学科</h3>
     <div class="pills" id="subj-pills">
         <button class="pill-btn all on" data-subj="">全部</button>
-        <button class="pill-btn" data-subj="数学">数学</button>
-        <button class="pill-btn" data-subj="物理">物理</button>
-        <button class="pill-btn" data-subj="化学">化学</button>
+        <!-- 其它 pill 由 buildSubjectPills() 按 manifest 动态生成 -->
     </div>
     <h3id="grade-label">年级 / 分册</h3>
     <div class="pills" id="grade-pills">
@@ -327,6 +325,7 @@ fetch('/data/extracted/manifest.json', { cache: 'no-store' })
     .then(function(r){ return r.json(); })
     .then(function(j){
         MANIFEST = j;
+        buildSubjectPills();
         renderStats();
         renderResume();
         rebuildGradePills();
@@ -379,14 +378,40 @@ document.querySelectorAll('#stage-pills .pill-btn').forEach(function(b){
         renderBooks();
     });
 });
-document.querySelectorAll('#subj-pills .pill-btn').forEach(function(b){
-    b.addEventListener('click', function(){
-        document.querySelectorAll('#subj-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
-        b.classList.add('on');
-        FILTER.subj = b.dataset.subj || '';
-        renderBooks();
-    });
+// 事件委托：pills 是动态生成的，挂到父容器
+document.getElementById('subj-pills').addEventListener('click', function(e){
+    var b = e.target.closest('.pill-btn'); if (!b) return;
+    document.querySelectorAll('#subj-pills .pill-btn').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    FILTER.subj = b.dataset.subj || '';
+    renderBooks();
 });
+
+// 按 manifest 实际有的学科构建 pills（教材扩到文科时自动显示，不需要改硬编码）
+function buildSubjectPills(){
+    if (!MANIFEST) return;
+    var host = document.getElementById('subj-pills');
+    // 保留全部 pill，其它清空重建
+    host.innerHTML = '<button class="pill-btn all on" data-subj="">全部</button>';
+    var subs = {};
+    (MANIFEST.books || []).forEach(function(b){ if (b.subject) subs[b.subject] = (subs[b.subject]||0)+1; });
+    // 学科常用顺序：理科优先，文科次之，其它按量排
+    var PREF = ['数学','物理','化学','生物学','语文','英语','历史','地理','道德与法治','思想政治'];
+    var keys = Object.keys(subs).sort(function(a,b){
+        var ia = PREF.indexOf(a), ib = PREF.indexOf(b);
+        if (ia !== -1 && ib !== -1) return ia - ib;
+        if (ia !== -1) return -1;
+        if (ib !== -1) return 1;
+        return subs[b] - subs[a];
+    });
+    keys.forEach(function(s){
+        var btn = document.createElement('button');
+        btn.className = 'pill-btn';
+        btn.dataset.subj = s;
+        btn.textContent = s + '（' + subs[s] + '）';
+        host.appendChild(btn);
+    });
+}
 
 // 动态按当前学段下可用分册重建年级 pill
 function rebuildGradePills(){

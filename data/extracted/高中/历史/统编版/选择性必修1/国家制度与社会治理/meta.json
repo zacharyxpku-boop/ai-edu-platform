@@ -1,0 +1,49 @@
+{
+  "stage": "高中",
+  "subject": "历史",
+  "edition": "统编版",
+  "grade": "选择性必修1",
+  "volume": "国家制度与社会治理",
+  "pdf": "data/textbooks-raw/高中/历史/统编版/选择性必修1/国家制度与社会治理.pdf",
+  "page_count": 119,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 6,
+      "end_page": 33
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 34,
+      "end_page": 48
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 49,
+      "end_page": 65
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 66,
+      "end_page": 90
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 91,
+      "end_page": 102
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 103,
+      "end_page": 119
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "stage": "初中",
+  "subject": "生物学",
+  "edition": "人教版",
+  "grade": "八年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/生物学/人教版/八年级/上册.pdf",
+  "page_count": 122,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章",
+      "start_page": 7,
+      "end_page": 45
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 46,
+      "end_page": 65
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 66,
+      "end_page": 70
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 71,
+      "end_page": 5
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 6,
+      "end_page": 99
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 100,
+      "end_page": 122
+    }
+  ]
+}

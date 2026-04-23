@@ -1,9 +1,9 @@
 {
   "generated_at": "2026-04-22",
   "source": "ChinaTextbook github.com/TapXWorld/ChinaTextbook",
-  "book_count": 24,
-  "scan_count": 0,
-  "total": 24,
+  "book_count": 53,
+  "scan_count": 5,
+  "total": 58,
   "books": [
     {
       "stage": "初中",
@@ -16,43 +16,43 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一单 走进化学世界",
+          "title": "第一单元",
           "start_page": 6,
           "end_page": 29
         },
         {
           "ch": 2,
-          "title": "第二单 我们周围的空气",
+          "title": "第二单元",
           "start_page": 30,
           "end_page": 51
         },
         {
           "ch": 3,
-          "title": "第三单 物质构成的奥秘",
+          "title": "第三单元",
           "start_page": 52,
           "end_page": 71
         },
         {
           "ch": 4,
-          "title": "第四单 自然界的水",
+          "title": "第四单元",
           "start_page": 72,
           "end_page": 95
         },
         {
           "ch": 5,
-          "title": "第五单 化学方程式",
+          "title": "第五单元",
           "start_page": 96,
           "end_page": 109
         },
         {
           "ch": 6,
-          "title": "第六单 碳和碳的氧化物",
+          "title": "第六单元",
           "start_page": 110,
           "end_page": 131
         },
         {
           "ch": 7,
-          "title": "第七单 燃料及其利用",
+          "title": "第七单元",
           "start_page": 132,
           "end_page": 162
         }
@@ -87,7 +87,7 @@
         },
         {
           "ch": 11,
-          "title": "第十一单 盐 化肥",
+          "title": "第十一单元 盐化肥",
           "start_page": 75,
           "end_page": 92
         },
@@ -96,6 +96,205 @@
           "title": "第十二单元 化学与生活",
           "start_page": 93,
           "end_page": 121
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 126,
+      "path": "初中/历史/统编版/七年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 31
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 32,
+          "end_page": 69
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 70,
+          "end_page": 126
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "九年级",
+      "volume": "下册",
+      "page_count": 119,
+      "path": "初中/历史/统编版/九年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 21
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 22,
+          "end_page": 37
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 38,
+          "end_page": 61
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 62,
+          "end_page": 77
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 78,
+          "end_page": 95
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 96,
+          "end_page": 119
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 114,
+      "path": "初中/历史/统编版/八年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 21
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 22,
+          "end_page": 37
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 38,
+          "end_page": 63
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 64,
+          "end_page": 79
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 80,
+          "end_page": 93
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 94,
+          "end_page": 114
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "上册",
+      "page_count": 112,
+      "path": "初中/地理/人教版/七年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 12,
+          "end_page": 39
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 40,
+          "end_page": 55
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 56,
+          "end_page": 79
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 80,
+          "end_page": 97
+        },
+        {
+          "ch": 5,
+          "title": "第五章",
+          "start_page": 98,
+          "end_page": 112
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "上册",
+      "page_count": 120,
+      "path": "初中/地理/人教版/八年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 25
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 26,
+          "end_page": 65
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 66,
+          "end_page": 87
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 88,
+          "end_page": 120
         }
       ]
     },
@@ -350,61 +549,61 @@
       "chapters": [
         {
           "ch": 13,
-          "title": "第十三章 内能",
+          "title": "第十三章",
           "start_page": 8,
           "end_page": 22
         },
         {
           "ch": 14,
-          "title": "第十四章 内能的利用",
+          "title": "第十四章",
           "start_page": 23,
           "end_page": 37
         },
         {
           "ch": 15,
-          "title": "第十五章 电流和电路",
+          "title": "第十五章",
           "start_page": 38,
           "end_page": 60
         },
         {
           "ch": 16,
-          "title": "第十六章 电压 电阻",
+          "title": "第十六章",
           "start_page": 61,
           "end_page": 79
         },
         {
           "ch": 17,
-          "title": "第十七章 欧姆定律",
+          "title": "第十七章",
           "start_page": 80,
           "end_page": 92
         },
         {
           "ch": 18,
-          "title": "第十八章 电功率",
+          "title": "第十八章",
           "start_page": 93,
           "end_page": 110
         },
         {
           "ch": 19,
-          "title": "第十九章 生活用电",
+          "title": "第十九章",
           "start_page": 111,
           "end_page": 124
         },
         {
           "ch": 20,
-          "title": "第二十章 电与磁",
+          "title": "第二十章",
           "start_page": 125,
           "end_page": 150
         },
         {
           "ch": 21,
-          "title": "第二十一章 信息的传递",
+          "title": "第二十一章",
           "start_page": 151,
           "end_page": 171
         },
         {
           "ch": 22,
-          "title": "第二十二章 能源与可持续发展",
+          "title": "第二十二章",
           "start_page": 172,
           "end_page": 191
         }
@@ -427,31 +626,31 @@
         },
         {
           "ch": 2,
-          "title": "第二章 声现象",
+          "title": "第二章",
           "start_page": 31,
           "end_page": 50
         },
         {
           "ch": 3,
-          "title": "第三章 物态变化",
+          "title": "第三章",
           "start_page": 51,
           "end_page": 72
         },
         {
           "ch": 4,
-          "title": "第四章 光现象",
+          "title": "第四章",
           "start_page": 73,
           "end_page": 93
         },
         {
           "ch": 5,
-          "title": "第五章 透镜及其应用",
+          "title": "第五章",
           "start_page": 94,
           "end_page": 111
         },
         {
           "ch": 6,
-          "title": "第六章 质量与密度",
+          "title": "第六章",
           "start_page": 112,
           "end_page": 131
         }
@@ -501,6 +700,376 @@
           "title": "第十二章 简单机械",
           "start_page": 79,
           "end_page": 96
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "上册",
+      "page_count": 147,
+      "path": "初中/生物学/人教版/七年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 18
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 19,
+          "end_page": 77
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 78,
+          "end_page": 122
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 123,
+          "end_page": 138
+        },
+        {
+          "ch": 6,
+          "title": "第六章",
+          "start_page": 139,
+          "end_page": 147
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "上册",
+      "page_count": 122,
+      "path": "初中/生物学/人教版/八年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 7,
+          "end_page": 45
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 46,
+          "end_page": 65
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 66,
+          "end_page": 70
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 71,
+          "end_page": 5
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 6,
+          "end_page": 99
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 100,
+          "end_page": 122
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "七年级",
+      "volume": "上册",
+      "page_count": 150,
+      "path": "初中/语文/统编版/七年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 25
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 26,
+          "end_page": 43
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 44,
+          "end_page": 71
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 72,
+          "end_page": 97
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 98,
+          "end_page": 117
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 118,
+          "end_page": 150
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 178,
+      "path": "初中/语文/统编版/七年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 33
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 34,
+          "end_page": 61
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 62,
+          "end_page": 93
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 94,
+          "end_page": 117
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 118,
+          "end_page": 135
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 136,
+          "end_page": 178
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "九年级",
+      "volume": "上册",
+      "page_count": 158,
+      "path": "初中/语文/统编版/九年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元  活动·探究",
+          "start_page": 8,
+          "end_page": 31
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 32,
+          "end_page": 55
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 56,
+          "end_page": 73
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 74,
+          "end_page": 102
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 103,
+          "end_page": 121
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 122,
+          "end_page": 158
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "九年级",
+      "volume": "下册",
+      "page_count": 158,
+      "path": "初中/语文/统编版/九年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 23
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 24,
+          "end_page": 53
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 54,
+          "end_page": 77
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 78,
+          "end_page": 102
+        },
+        {
+          "ch": 5,
+          "title": "第五单元  活动·探究",
+          "start_page": 103,
+          "end_page": 129
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 130,
+          "end_page": 158
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "八年级",
+      "volume": "上册",
+      "page_count": 170,
+      "path": "初中/语文/统编版/八年级/上册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元  活动·探究",
+          "start_page": 8,
+          "end_page": 27
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 28,
+          "end_page": 59
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 60,
+          "end_page": 79
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 80,
+          "end_page": 103
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 104,
+          "end_page": 141
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 142,
+          "end_page": 170
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "语文",
+      "edition": "统编版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 150,
+      "path": "初中/语文/统编版/八年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 33
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 34,
+          "end_page": 59
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 60,
+          "end_page": 83
+        },
+        {
+          "ch": 4,
+          "title": "第四单元  活动·探究",
+          "start_page": 84,
+          "end_page": 101
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 102,
+          "end_page": 121
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 122,
+          "end_page": 150
         }
       ]
     },
@@ -576,6 +1145,668 @@
     },
     {
       "stage": "高中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "必修",
+      "volume": "中外历史纲要（上）",
+      "page_count": 222,
+      "path": "高中/历史/统编版/必修/中外历史纲要（上）",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 33
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 34,
+          "end_page": 57
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 58,
+          "end_page": 82
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 83,
+          "end_page": 101
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 102,
+          "end_page": 121
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 122,
+          "end_page": 133
+        },
+        {
+          "ch": 7,
+          "title": "第七单元",
+          "start_page": 134,
+          "end_page": 146
+        },
+        {
+          "ch": 8,
+          "title": "第八单元",
+          "start_page": 147,
+          "end_page": 170
+        },
+        {
+          "ch": 9,
+          "title": "第九单元",
+          "start_page": 171,
+          "end_page": 186
+        },
+        {
+          "ch": 10,
+          "title": "第十单元",
+          "start_page": 187,
+          "end_page": 222
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "必修",
+      "volume": "中外历史纲要（下）",
+      "page_count": 166,
+      "path": "高中/历史/统编版/必修/中外历史纲要（下）",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 8,
+          "end_page": 20
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 21,
+          "end_page": 39
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 40,
+          "end_page": 50
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 51,
+          "end_page": 62
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 63,
+          "end_page": 74
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 75,
+          "end_page": 87
+        },
+        {
+          "ch": 7,
+          "title": "第七单元",
+          "start_page": 88,
+          "end_page": 113
+        },
+        {
+          "ch": 8,
+          "title": "第八单元",
+          "start_page": 114,
+          "end_page": 138
+        },
+        {
+          "ch": 9,
+          "title": "第九单元",
+          "start_page": 139,
+          "end_page": 166
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "选择性必修1",
+      "volume": "国家制度与社会治理",
+      "page_count": 119,
+      "path": "高中/历史/统编版/选择性必修1/国家制度与社会治理",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 33
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 34,
+          "end_page": 48
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 49,
+          "end_page": 65
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 66,
+          "end_page": 90
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 91,
+          "end_page": 102
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 103,
+          "end_page": 119
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "选择性必修2",
+      "volume": "经济与社会生活",
+      "page_count": 102,
+      "path": "高中/历史/统编版/选择性必修2/经济与社会生活",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 22
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 23,
+          "end_page": 39
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 40,
+          "end_page": 59
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 60,
+          "end_page": 72
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 73,
+          "end_page": 85
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 86,
+          "end_page": 102
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "历史",
+      "edition": "统编版",
+      "grade": "选择性必修3",
+      "volume": "文化交流与传播",
+      "page_count": 106,
+      "path": "高中/历史/统编版/选择性必修3/文化交流与传播",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 18
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 19,
+          "end_page": 37
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 38,
+          "end_page": 52
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 53,
+          "end_page": 64
+        },
+        {
+          "ch": 5,
+          "title": "第五单元",
+          "start_page": 65,
+          "end_page": 83
+        },
+        {
+          "ch": 6,
+          "title": "第六单元",
+          "start_page": 84,
+          "end_page": 106
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "必修",
+      "volume": "第一册",
+      "page_count": 134,
+      "path": "高中/地理/人教版/必修/第一册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 31
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 32,
+          "end_page": 49
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 50,
+          "end_page": 69
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 70,
+          "end_page": 85
+        },
+        {
+          "ch": 5,
+          "title": "第五章",
+          "start_page": 86,
+          "end_page": 103
+        },
+        {
+          "ch": 6,
+          "title": "第六章",
+          "start_page": 104,
+          "end_page": 134
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "必修",
+      "volume": "第二册",
+      "page_count": 134,
+      "path": "高中/地理/人教版/必修/第二册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 27
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 28,
+          "end_page": 57
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 58,
+          "end_page": 83
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 84,
+          "end_page": 99
+        },
+        {
+          "ch": 5,
+          "title": "第五章",
+          "start_page": 100,
+          "end_page": 134
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "选择性必修1",
+      "volume": "自然地理基础",
+      "page_count": 106,
+      "path": "高中/地理/人教版/选择性必修1/自然地理基础",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 21
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 22,
+          "end_page": 45
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 46,
+          "end_page": 67
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 68,
+          "end_page": 83
+        },
+        {
+          "ch": 5,
+          "title": "第五章",
+          "start_page": 84,
+          "end_page": 106
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "选择性必修2",
+      "volume": "区域发展",
+      "page_count": 102,
+      "path": "高中/地理/人教版/选择性必修2/区域发展",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 21
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 22,
+          "end_page": 43
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 44,
+          "end_page": 63
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 64,
+          "end_page": 102
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "选择性必修3",
+      "volume": "资源、环境与国家安全",
+      "page_count": 126,
+      "path": "高中/地理/人教版/选择性必修3/资源、环境与国家安全",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章",
+          "start_page": 6,
+          "end_page": 25
+        },
+        {
+          "ch": 2,
+          "title": "第二章",
+          "start_page": 26,
+          "end_page": 61
+        },
+        {
+          "ch": 3,
+          "title": "第三章",
+          "start_page": 62,
+          "end_page": 97
+        },
+        {
+          "ch": 4,
+          "title": "第四章",
+          "start_page": 98,
+          "end_page": 126
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "必修2",
+      "volume": "经济与社会",
+      "page_count": 70,
+      "path": "高中/思想政治/统编版/必修2/经济与社会",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 35
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 36,
+          "end_page": 70
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "必修3",
+      "volume": "政治与法治",
+      "page_count": 122,
+      "path": "高中/思想政治/统编版/必修3/政治与法治",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 39
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 40,
+          "end_page": 77
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 78,
+          "end_page": 122
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "必修4",
+      "volume": "哲学与文化",
+      "page_count": 134,
+      "path": "高中/思想政治/统编版/必修4/哲学与文化",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 51
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 52,
+          "end_page": 93
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 94,
+          "end_page": 134
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "选择性必修1",
+      "volume": "当代国际政治与经济",
+      "page_count": 126,
+      "path": "高中/思想政治/统编版/选择性必修1/当代国际政治与经济",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 29
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 30,
+          "end_page": 61
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 62,
+          "end_page": 87
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 88,
+          "end_page": 126
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "选择性必修2",
+      "volume": "法律与生活",
+      "page_count": 110,
+      "path": "高中/思想政治/统编版/选择性必修2/法律与生活",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 45
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 46,
+          "end_page": 63
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 64,
+          "end_page": 85
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 86,
+          "end_page": 110
+        }
+      ]
+    },
+    {
+      "stage": "高中",
+      "subject": "思想政治",
+      "edition": "统编版",
+      "grade": "选择性必修3",
+      "volume": "逻辑与思维",
+      "page_count": 130,
+      "path": "高中/思想政治/统编版/选择性必修3/逻辑与思维",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一单元",
+          "start_page": 6,
+          "end_page": 25
+        },
+        {
+          "ch": 2,
+          "title": "第二单元",
+          "start_page": 26,
+          "end_page": 75
+        },
+        {
+          "ch": 3,
+          "title": "第三单元",
+          "start_page": 76,
+          "end_page": 99
+        },
+        {
+          "ch": 4,
+          "title": "第四单元",
+          "start_page": 100,
+          "end_page": 130
+        }
+      ]
+    },
+    {
+      "stage": "高中",
       "subject": "数学",
       "edition": "人教A版",
       "grade": "必修",
@@ -626,31 +1857,31 @@
       "chapters": [
         {
           "ch": 6,
-          "title": "第六章 平面向量及其应用",
+          "title": "第六章",
           "start_page": 8,
           "end_page": 73
         },
         {
           "ch": 7,
-          "title": "第七章 复数",
+          "title": "第七章",
           "start_page": 74,
           "end_page": 102
         },
         {
           "ch": 8,
-          "title": "第八章 立体几何初步",
+          "title": "第八章",
           "start_page": 103,
           "end_page": 178
         },
         {
           "ch": 9,
-          "title": "第九章 统计",
+          "title": "第九章",
           "start_page": 179,
           "end_page": 233
         },
         {
           "ch": 10,
-          "title": "第十章 概率",
+          "title": "第十章",
           "start_page": 234,
           "end_page": 282
         }
@@ -696,19 +1927,19 @@
       "chapters": [
         {
           "ch": 6,
-          "title": "第六章 计数原理",
+          "title": "第六章",
           "start_page": 6,
           "end_page": 47
         },
         {
           "ch": 7,
-          "title": "第七章 随机变量及其分布",
+          "title": "第七章",
           "start_page": 48,
           "end_page": 96
         },
         {
           "ch": 8,
-          "title": "第八章 成对数据的统计分析",
+          "title": "第八章",
           "start_page": 97,
           "end_page": 154
         }
@@ -748,25 +1979,25 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章 运动的描述",
+          "title": "第一章",
           "start_page": 15,
           "end_page": 39
         },
         {
           "ch": 2,
-          "title": "第二章 匀变速直线运动的研究",
+          "title": "第二章",
           "start_page": 40,
           "end_page": 60
         },
         {
           "ch": 3,
-          "title": "第三章 相互作用—力",
+          "title": "第三章",
           "start_page": 61,
           "end_page": 86
         },
         {
           "ch": 4,
-          "title": "第四章 运动和力的关系",
+          "title": "第四章",
           "start_page": 87,
           "end_page": 134
         }
@@ -783,31 +2014,31 @@
       "chapters": [
         {
           "ch": 9,
-          "title": "第九章 静电场及其应用",
+          "title": "第九章",
           "start_page": 6,
           "end_page": 29
         },
         {
           "ch": 10,
-          "title": "第十章 静电场中的能量",
+          "title": "第十章",
           "start_page": 30,
           "end_page": 56
         },
         {
           "ch": 11,
-          "title": "第十一章 电路及其应用",
+          "title": "第十一章",
           "start_page": 57,
           "end_page": 82
         },
         {
           "ch": 12,
-          "title": "第十二章 电磁感应",
+          "title": "第十二章",
           "start_page": 83,
           "end_page": 107
         },
         {
           "ch": 13,
-          "title": "第十三章 电磁振荡与电磁波",
+          "title": "第十三章",
           "start_page": 108,
           "end_page": 143
         }
@@ -824,25 +2055,25 @@
       "chapters": [
         {
           "ch": 5,
-          "title": "第五章 抛体运动",
+          "title": "第五章",
           "start_page": 6,
           "end_page": 26
         },
         {
           "ch": 6,
-          "title": "第六章 圆周运动",
+          "title": "第六章",
           "start_page": 27,
           "end_page": 47
         },
         {
           "ch": 7,
-          "title": "第七章 万有引力与宇宙航行",
+          "title": "第七章",
           "start_page": 48,
           "end_page": 77
         },
         {
           "ch": 8,
-          "title": "第八章 机械能守恒定律",
+          "title": "第八章",
           "start_page": 78,
           "end_page": 114
         }
@@ -859,25 +2090,25 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章 动量守恒定律",
+          "title": "第一章",
           "start_page": 6,
           "end_page": 35
         },
         {
           "ch": 2,
-          "title": "第二章 机械振动",
+          "title": "第二章",
           "start_page": 36,
           "end_page": 65
         },
         {
           "ch": 3,
-          "title": "第三章 机械波",
+          "title": "第三章",
           "start_page": 66,
           "end_page": 88
         },
         {
           "ch": 4,
-          "title": "第四章 光",
+          "title": "第四章",
           "start_page": 89,
           "end_page": 130
         }
@@ -894,31 +2125,31 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章 分子动理论",
+          "title": "第一章",
           "start_page": 6,
           "end_page": 22
         },
         {
           "ch": 2,
-          "title": "第二章 气体、固体和液体",
+          "title": "第二章",
           "start_page": 23,
           "end_page": 49
         },
         {
           "ch": 3,
-          "title": "第三章 热力学定律",
+          "title": "第三章",
           "start_page": 50,
           "end_page": 70
         },
         {
           "ch": 4,
-          "title": "第四章 原子结构和波粒二象性",
+          "title": "第四章",
           "start_page": 71,
           "end_page": 104
         },
         {
           "ch": 5,
-          "title": "第五章 原子核",
+          "title": "第五章",
           "start_page": 105,
           "end_page": 143
         }
@@ -935,36 +2166,87 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章 安培力与洛伦兹力",
+          "title": "第一章",
           "start_page": 6,
           "end_page": 27
         },
         {
           "ch": 2,
-          "title": "第二章 电磁感应及其应用",
+          "title": "第二章",
           "start_page": 28,
           "end_page": 52
         },
         {
           "ch": 3,
-          "title": "第三章 交变电流",
+          "title": "第三章",
           "start_page": 53,
           "end_page": 74
         },
         {
           "ch": 4,
-          "title": "第四章 电磁振荡与电磁波",
+          "title": "第四章",
           "start_page": 75,
           "end_page": 94
         },
         {
           "ch": 5,
-          "title": "第五章 传感器",
+          "title": "第五章",
           "start_page": 95,
           "end_page": 122
         }
       ]
     }
   ],
-  "scans": []
+  "scans": [
+    {
+      "stage": "初中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 107,
+      "path": "初中/地理/人教版/七年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 120,
+      "path": "初中/生物学/人教版/七年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 120,
+      "path": "初中/生物学/人教版/八年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "英语",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 152,
+      "path": "初中/英语/人教版/七年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    },
+    {
+      "stage": "初中",
+      "subject": "英语",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 147,
+      "path": "初中/英语/人教版/八年级/下册",
+      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
+    }
+  ]
 }

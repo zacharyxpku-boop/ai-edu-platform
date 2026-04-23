@@ -1,0 +1,37 @@
+{
+  "stage": "高中",
+  "subject": "地理",
+  "edition": "人教版",
+  "grade": "选择性必修3",
+  "volume": "资源、环境与国家安全",
+  "pdf": "data/textbooks-raw/高中/地理/人教版/选择性必修3/资源、环境与国家安全.pdf",
+  "page_count": 126,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章",
+      "start_page": 6,
+      "end_page": 25
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 26,
+      "end_page": 61
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 62,
+      "end_page": 97
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 98,
+      "end_page": 126
+    }
+  ]
+}

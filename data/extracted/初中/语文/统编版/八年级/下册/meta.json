@@ -1,0 +1,49 @@
+{
+  "stage": "初中",
+  "subject": "语文",
+  "edition": "统编版",
+  "grade": "八年级",
+  "volume": "下册",
+  "pdf": "data/textbooks-raw/初中/语文/统编版/八年级/下册.pdf",
+  "page_count": 150,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 8,
+      "end_page": 33
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 34,
+      "end_page": 59
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 60,
+      "end_page": 83
+    },
+    {
+      "ch": 4,
+      "title": "第四单元  活动·探究",
+      "start_page": 84,
+      "end_page": 101
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 102,
+      "end_page": 121
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 122,
+      "end_page": 150
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "stage": "高中",
+  "subject": "思想政治",
+  "edition": "统编版",
+  "grade": "选择性必修2",
+  "volume": "法律与生活",
+  "pdf": "data/textbooks-raw/高中/思想政治/统编版/选择性必修2/法律与生活.pdf",
+  "page_count": 110,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 6,
+      "end_page": 45
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 46,
+      "end_page": 63
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 64,
+      "end_page": 85
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 86,
+      "end_page": 110
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "stage": "高中",
+  "subject": "历史",
+  "edition": "统编版",
+  "grade": "选择性必修3",
+  "volume": "文化交流与传播",
+  "pdf": "data/textbooks-raw/高中/历史/统编版/选择性必修3/文化交流与传播.pdf",
+  "page_count": 106,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 6,
+      "end_page": 18
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 19,
+      "end_page": 37
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 38,
+      "end_page": 52
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 53,
+      "end_page": 64
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 65,
+      "end_page": 83
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 84,
+      "end_page": 106
+    }
+  ]
+}

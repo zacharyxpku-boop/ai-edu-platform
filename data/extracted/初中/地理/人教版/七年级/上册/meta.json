@@ -1,0 +1,43 @@
+{
+  "stage": "初中",
+  "subject": "地理",
+  "edition": "人教版",
+  "grade": "七年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/地理/人教版/七年级/上册.pdf",
+  "page_count": 112,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章",
+      "start_page": 12,
+      "end_page": 39
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 40,
+      "end_page": 55
+    },
+    {
+      "ch": 3,
+      "title": "第三章",
+      "start_page": 56,
+      "end_page": 79
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 80,
+      "end_page": 97
+    },
+    {
+      "ch": 5,
+      "title": "第五章",
+      "start_page": 98,
+      "end_page": 112
+    }
+  ]
+}

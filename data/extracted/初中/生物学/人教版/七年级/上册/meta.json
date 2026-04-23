@@ -1,0 +1,43 @@
+{
+  "stage": "初中",
+  "subject": "生物学",
+  "edition": "人教版",
+  "grade": "七年级",
+  "volume": "上册",
+  "pdf": "data/textbooks-raw/初中/生物学/人教版/七年级/上册.pdf",
+  "page_count": 147,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 8,
+      "end_page": 18
+    },
+    {
+      "ch": 2,
+      "title": "第二章",
+      "start_page": 19,
+      "end_page": 77
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 78,
+      "end_page": 122
+    },
+    {
+      "ch": 4,
+      "title": "第四章",
+      "start_page": 123,
+      "end_page": 138
+    },
+    {
+      "ch": 6,
+      "title": "第六章",
+      "start_page": 139,
+      "end_page": 147
+    }
+  ]
+}

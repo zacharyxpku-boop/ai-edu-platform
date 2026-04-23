@@ -90,17 +90,46 @@ def list_editions(idx, stage, subject):
 
 def fetch_all_edition(idx, stage, subject, edition):
     try:
-        grades = idx[stage][subject][edition]["grades"]
+        node = idx[stage][subject][edition]
     except KeyError as e:
         print(f"索引缺 {stage}/{subject}/{edition}: {e}", file=sys.stderr)
         return 0
     ok = 0
     total = 0
-    for g, vols in grades.items():
-        for v in vols.keys():
+    # 方式一：grades{ 年级 : { 册 : entry } }（初中多数学科）
+    if "grades" in node:
+        for g, vols in node["grades"].items():
+            for v in vols.keys():
+                total += 1
+                if fetch_one(idx, stage, subject, edition, g, v):
+                    ok += 1
+    # 方式二：books{ "必修 第一册" : { path, ... } }（高中多数学科）
+    elif "books" in node:
+        for combo, entry in node["books"].items():
             total += 1
-            if fetch_one(idx, stage, subject, edition, g, v):
+            parts = combo.split(" ", 1)
+            if len(parts) == 2:
+                g, v = parts[0], parts[1]
+            else:
+                g, v = "全一册", combo
+            url = entry_to_url(entry["path"])
+            dst = out_path(stage, subject, edition, g, v)
+            if dst.exists():
+                print(f"已存在 跳过 {dst.relative_to(ROOT)}")
                 ok += 1
+                continue
+            print(f"下载 {url}")
+            print(f"    -> {dst.relative_to(ROOT)}")
+            try:
+                n = download(url, dst)
+                print(f"    完成 {n/1024/1024:.1f} MB")
+                ok += 1
+            except Exception as e:
+                print(f"    失败 {e}", file=sys.stderr)
+                if dst.exists() and dst.stat().st_size == 0:
+                    dst.unlink()
+    else:
+        print(f"索引 {stage}/{subject}/{edition} 既无 grades 也无 books", file=sys.stderr)
     print(f"\n=== {edition} {subject} 完成 {ok}/{total} ===")
     return ok
 

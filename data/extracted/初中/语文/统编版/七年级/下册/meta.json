@@ -1,0 +1,49 @@
+{
+  "stage": "初中",
+  "subject": "语文",
+  "edition": "统编版",
+  "grade": "七年级",
+  "volume": "下册",
+  "pdf": "data/textbooks-raw/初中/语文/统编版/七年级/下册.pdf",
+  "page_count": 178,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 8,
+      "end_page": 33
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 34,
+      "end_page": 61
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 62,
+      "end_page": 93
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 94,
+      "end_page": 117
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 118,
+      "end_page": 135
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 136,
+      "end_page": 178
+    }
+  ]
+}

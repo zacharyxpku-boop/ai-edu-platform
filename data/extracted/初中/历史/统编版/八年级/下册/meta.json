@@ -1,0 +1,49 @@
+{
+  "stage": "初中",
+  "subject": "历史",
+  "edition": "统编版",
+  "grade": "八年级",
+  "volume": "下册",
+  "pdf": "data/textbooks-raw/初中/历史/统编版/八年级/下册.pdf",
+  "page_count": 114,
+  "extracted_at": "2026-04-21",
+  "extractor_version": "1.0",
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一单元",
+      "start_page": 6,
+      "end_page": 21
+    },
+    {
+      "ch": 2,
+      "title": "第二单元",
+      "start_page": 22,
+      "end_page": 37
+    },
+    {
+      "ch": 3,
+      "title": "第三单元",
+      "start_page": 38,
+      "end_page": 63
+    },
+    {
+      "ch": 4,
+      "title": "第四单元",
+      "start_page": 64,
+      "end_page": 79
+    },
+    {
+      "ch": 5,
+      "title": "第五单元",
+      "start_page": 80,
+      "end_page": 93
+    },
+    {
+      "ch": 6,
+      "title": "第六单元",
+      "start_page": 94,
+      "end_page": 114
+    }
+  ]
+}
