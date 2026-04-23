@@ -6,8 +6,40 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/地理/人教版/七年级/下册.pdf",
   "page_count": 107,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 107,
+  "chapters": [
+    {
+      "ch": 6,
+      "title": "第六章我们生活的大洲—亚洲",
+      "start_page": 10,
+      "end_page": 16
+    },
+    {
+      "ch": 7,
+      "title": "第七章 我们邻近的地区和国家",
+      "start_page": 17,
+      "end_page": 46
+    },
+    {
+      "ch": 8,
+      "title": "第八章 东半球其他的地区和国家",
+      "start_page": 47,
+      "end_page": 76
+    },
+    {
+      "ch": 9,
+      "title": "第九章 西半球的国家",
+      "start_page": 77,
+      "end_page": 94
+    },
+    {
+      "ch": 10,
+      "title": "第十章 极地地区",
+      "start_page": 95,
+      "end_page": 107
+    }
+  ]
 }

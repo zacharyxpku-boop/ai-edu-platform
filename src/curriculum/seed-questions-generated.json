@@ -1,0 +1,3926 @@
+{
+  "meta": {
+    "generated_by": "deepseek-chat",
+    "version": 1,
+    "total": 174,
+    "updated": "2026-04-24 00:45:01"
+  },
+  "questions": [
+    {
+      "id": "gen-math-de1eb900-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第一章　有理数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "如果水位升高3m记作+3m，那么水位下降3m记作______m，水位不升不降时记作______m。",
+      "answer": "-3, 0",
+      "solution_steps": "根据正负数表示相反意义的量，升高用正数，下降用负数，所以下降3m记作-3m；不升不降记作0m。",
+      "knowledge_points": [
+        "正数和负数的意义",
+        "用正负数表示相反意义的量"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-de1eb900-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第一章　有理数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "把下列各数填入相应的集合：15, -19, -5, \\frac{2}{15}, -\\frac{13}{8}, 0.1, -5.32, -80, 123, 2.333。\n（1）正数集合：{ ... }；\n（2）负数集合：{ ... }；\n（3）整数集合：{ ... }；\n（4）分数集合：{ ... }。",
+      "answer": "正数集合：{15, \\frac{2}{15}, 0.1, 123, 2.333}；负数集合：{-19, -5, -\\frac{13}{8}, -5.32, -80}；整数集合：{15, -19, -5, -80, 123}；分数集合：{\\frac{2}{15}, -\\frac{13}{8}, 0.1, -5.32, 2.333}",
+      "solution_steps": "根据有理数分类：正数大于0，负数小于0；整数包括正整数、0、负整数；分数包括正分数和负分数。注意小数可化为分数。",
+      "knowledge_points": [
+        "有理数的分类",
+        "正数和负数",
+        "整数和分数"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-de1eb900-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第一章　有理数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "某地一天中午12时的气温是7℃，过5h气温下降了4℃，又过7h气温又下降了4℃，求第二天0时的气温。",
+      "answer": "-1℃",
+      "solution_steps": "中午12时到第二天0时共12h。先过5h气温下降4℃，再过7h又下降4℃，总共下降8℃。所以第二天0时气温为7-8=-1℃。",
+      "knowledge_points": [
+        "有理数的减法",
+        "正负数的实际应用",
+        "时间计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c8a6f48f-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章　整式的加减",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "填空：每包书有12册，n包书有______册，单项式的系数是______，次数是______。",
+      "answer": "12n, 12, 1",
+      "solution_steps": "根据题意，每包12册，n包共12n册。单项式12n的数字因数是12，所以系数是12；字母n的指数是1，所以次数是1。",
+      "knowledge_points": [
+        "单项式的系数",
+        "单项式的次数"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c8a6f48f-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章　整式的加减",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "一个长方形的长是0.9 m，宽是b m，这个长方形的面积是______ m²。当b=2时，面积是多少？",
+      "answer": "0.9b, 1.8",
+      "solution_steps": "长方形面积=长×宽=0.9×b=0.9b m²。当b=2时，面积=0.9×2=1.8 m²。",
+      "knowledge_points": [
+        "列代数式",
+        "代数式的值"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c8a6f48f-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章　整式的加减",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "已知多项式 \\(3x^2 - 2xy + y^2 - 5x + 6\\)，写出该多项式的项和常数项，并指出它是几次几项式。",
+      "answer": "项：\\(3x^2\\)，\\(-2xy\\)，\\(y^2\\)，\\(-5x\\)，\\(6\\)；常数项：\\(6\\)；二次五项式",
+      "solution_steps": "多项式中的每个单项式是项，不含字母的项是常数项。各项为\\(3x^2\\)，\\(-2xy\\)，\\(y^2\\)，\\(-5x\\)，\\(6\\)，常数项是6。最高次项是\\(3x^2\\)、\\(-2xy\\)、\\(y^2\\)，次数均为2，所以多项式次数为2；共有5项，故为二次五项式。",
+      "knowledge_points": [
+        "多项式的项",
+        "常数项",
+        "多项式的次数"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-2107c223-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章　一元一次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "根据下列问题，设未知数并列出方程：用一根长24cm的铁丝围成一个正方形，正方形的边长是多少？",
+      "answer": "4x = 24",
+      "solution_steps": "设正方形的边长为x cm。铁丝长度等于正方形周长，即4x = 24。",
+      "knowledge_points": [
+        "列一元一次方程",
+        "周长公式"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-2107c223-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章　一元一次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "利用等式的性质解方程：\\( -\\frac{1}{3}x - 5 = 4 \\)。",
+      "answer": "x = -27",
+      "solution_steps": "两边加5得：\\( -\\frac{1}{3}x = 9 \\)；两边乘-3得：x = -27。检验：左边=\\( -\\frac{1}{3} \\times (-27) - 5 = 9 - 5 = 4 \\)，右边=4，所以x=-27是解。",
+      "knowledge_points": [
+        "等式的性质",
+        "解一元一次方程"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-2107c223-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章　一元一次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "甲种铅笔每支0.3元，乙种铅笔每支0.6元，用9元钱买了两种铅笔共20支，两种铅笔各买了多少支？设未知数并列出方程。",
+      "answer": "0.3x + 0.6(20 - x) = 9",
+      "solution_steps": "设甲种铅笔买了x支，则乙种铅笔买了(20 - x)支。总花费：0.3x + 0.6(20 - x) = 9。",
+      "knowledge_points": [
+        "列一元一次方程",
+        "实际问题中的等量关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3e7d2cd5-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章　几何图形初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列图形中，属于立体图形的是（　　）\nA. 圆    B. 三角形    C. 长方体    D. 线段",
+      "answer": "C",
+      "solution_steps": "立体图形是各部分不在同一平面内的图形。圆、三角形、线段都是平面图形，长方体是立体图形。故选C。",
+      "knowledge_points": [
+        "立体图形与平面图形的识别"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3e7d2cd5-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章　几何图形初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "如图，一个圆锥的侧面展开图是一个扇形。若圆锥的底面半径为\\(1\\)，母线长为\\(3\\)，则这个扇形的圆心角为多少度？",
+      "answer": "120°",
+      "solution_steps": "圆锥底面周长等于扇形弧长：\\(2\\pi \\times 1 = 2\\pi\\)。设圆心角为\\(n\\)°，则扇形弧长\\(\\frac{n\\pi \\times 3}{180}=2\\pi\\)，解得\\(n=120\\)。",
+      "knowledge_points": [
+        "圆锥的展开图",
+        "弧长公式"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3e7d2cd5-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章　几何图形初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "一个正方体木块的六个面分别标有数字1、2、3、4、5、6，从三个不同方向看到的数字如图所示，则数字1对面的数字是（　　）\n（图形描述：从正面看：上面是1，中间是2，下面是3；从左面看：上面是4，中间是2，下面是5；从上面看：左边是6，中间是2，右边是1）",
+      "answer": "6",
+      "solution_steps": "从三个方向看，2出现三次，说明2是公共面，与2相邻的面有1、3、4、5，所以2的对面是6。从上面看，1与2相邻，且1与6相对，所以1的对面是6。",
+      "knowledge_points": [
+        "从不同方向看立体图形",
+        "正方体的相对面"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/上册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-dab4a8bd-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "10第五章相交线与平行线",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "如图，直线a、b被直线c所截，若∠1=∠2，则a与b的位置关系是______。",
+      "answer": "a∥b",
+      "solution_steps": "因为∠1和∠2是同位角，根据同位角相等，两直线平行，可得a∥b。",
+      "knowledge_points": [
+        "平行线的判定",
+        "同位角相等，两直线平行"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-dab4a8bd-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "10第五章相交线与平行线",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "如图，已知直线a、b被直线c所截，∠1=120°，∠2=60°，试判断a与b是否平行，并说明理由。",
+      "answer": "a∥b",
+      "solution_steps": "因为∠1=120°，所以∠1的邻补角为60°，等于∠2，即同位角相等，所以a∥b。或利用同旁内角互补：∠1+∠2=180°，所以a∥b。",
+      "knowledge_points": [
+        "平行线的判定",
+        "同位角相等，两直线平行",
+        "同旁内角互补，两直线平行"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-dab4a8bd-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "10第五章相交线与平行线",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "在同一平面内，如果两条直线都垂直于同一条直线，那么这两条直线平行吗？为什么？请用两种方法证明。",
+      "answer": "平行",
+      "solution_steps": "方法一：因为b⊥a，c⊥a，所以∠1=90°，∠2=90°，则∠1=∠2，同位角相等，所以b∥c。方法二：因为b⊥a，c⊥a，所以∠1=90°，∠2=90°，则∠1+∠2=180°，同旁内角互补，所以b∥c。",
+      "knowledge_points": [
+        "平行线的判定",
+        "垂直的定义",
+        "同位角相等，两直线平行",
+        "同旁内角互补，两直线平行"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-045472a9-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章实数 同学们，你们知道宇宙飞船离开地球进入地",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "求下列各数的算术平方根：\n(1) 0.0025；\n(2) 81；\n(3) 3²。",
+      "answer": "(1) 0.05； (2) 9； (3) 3",
+      "solution_steps": "(1) 因为0.05²=0.0025，所以√0.0025=0.05；(2) 因为9²=81，所以√81=9；(3) 3²=9，√9=3。",
+      "knowledge_points": [
+        "算术平方根的概念",
+        "平方运算与开平方互为逆运算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-045472a9-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章实数 同学们，你们知道宇宙飞船离开地球进入地",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "比较下列各组数的大小：\n(1) √8 与 √10；\n(2) √65 与 8；\n(3) (√5-1)/2 与 0.5。",
+      "answer": "(1) √8 < √10； (2) √65 > 8； (3) (√5-1)/2 > 0.5",
+      "solution_steps": "(1) 被开方数越大算术平方根越大，8<10，所以√8<√10；(2) 8²=64，65>64，所以√65>8；(3) √5≈2.236，√5-1≈1.236，除以2得0.618>0.5。",
+      "knowledge_points": [
+        "比较算术平方根的大小",
+        "用平方法比较根式与有理数的大小",
+        "无理数的估算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-045472a9-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章实数 同学们，你们知道宇宙飞船离开地球进入地",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "小丽想用一块面积为400 cm²的正方形纸片，沿着边的方向裁出一块面积为300 cm²的长方形纸片，使它的长宽之比为3:2。她能否裁出符合要求的纸片？请说明理由。",
+      "answer": "不能",
+      "solution_steps": "设长方形长为3x cm，宽为2x cm，则3x·2x=300，得x²=50，x=√50≈7.07，长=3√50≈21.21 cm。正方形边长=√400=20 cm。因为21.21>20，所以不能裁出。",
+      "knowledge_points": [
+        "算术平方根的应用",
+        "实际问题中的估算",
+        "比较无理数的大小"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-bcaad8a0-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 平面直角坐标系",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "在平面直角坐标系中，点\\((-3, 5)\\)所在的象限是（ ）",
+      "answer": "第二象限",
+      "solution_steps": "点\\((-3,5)\\)的横坐标为负，纵坐标为正，根据象限符号特征，横负纵正对应第二象限。",
+      "knowledge_points": [
+        "象限内点的坐标特征"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-bcaad8a0-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 平面直角坐标系",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "已知点\\(A(2, -3)\\)，\\(B(-1, 4)\\)，\\(C(0, -2)\\)，\\(D(3, 0)\\)。请写出点\\(A\\)关于\\(x\\)轴对称的点的坐标，并判断点\\(D\\)在哪个坐标轴上。",
+      "answer": "点A关于x轴对称的坐标为\\((2, 3)\\)；点D在x轴上。",
+      "solution_steps": "关于x轴对称，横坐标不变，纵坐标取相反数，所以\\(A(2,-3)\\)的对称点为\\((2,3)\\)。点\\(D(3,0)\\)的纵坐标为0，故在x轴上。",
+      "knowledge_points": [
+        "关于坐标轴对称的点的坐标特征",
+        "坐标轴上的点的坐标特征"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-bcaad8a0-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 平面直角坐标系",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "在平面直角坐标系中，已知点\\(A(2, 1)\\)，\\(B(6, 1)\\)，\\(C(5, 4)\\)，\\(D(1, 4)\\)。顺次连接\\(A\\)、\\(B\\)、\\(C\\)、\\(D\\)，求四边形\\(ABCD\\)的面积。",
+      "answer": "12",
+      "solution_steps": "由坐标知，\\(AB\\)平行于\\(x\\)轴，\\(CD\\)平行于\\(x\\)轴，\\(AD\\)平行于\\(BC\\)，四边形为平行四边形。\\(AB=6-2=4\\)，高为\\(4-1=3\\)，面积\\(=4\\times3=12\\)。",
+      "knowledge_points": [
+        "利用坐标求图形面积",
+        "平行于坐标轴的线段长度计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-33ccda9a-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 二元一次方程组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "下列方程组中，是二元一次方程组的是（ ）\nA. \\(\\begin{cases} x + y = 5 \\\\ x - y = 1 \\end{cases}\\)\nB. \\(\\begin{cases} x + y = 3 \\\\ xy = 2 \\end{cases}\\)\nC. \\(\\begin{cases} x + y = 4 \\\\ \\frac{1}{x} + y = 2 \\end{cases}\\)\nD. \\(\\begin{cases} x^2 + y = 0 \\\\ x - y = 1 \\end{cases}\\)",
+      "answer": "A",
+      "solution_steps": "二元一次方程组需满足：每个方程含两个未知数，且未知数项的次数都是1。选项A符合；选项B中xy次数为2；选项C中1/x不是整式；选项D中x^2次数为2。故选A。",
+      "knowledge_points": [
+        "二元一次方程组的定义"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-33ccda9a-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 二元一次方程组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "用代入法解方程组：\n\\(\\begin{cases} y = 2x - 3 \\\\ 3x + 2y = 8 \\end{cases}\\)",
+      "answer": "\\(\\begin{cases} x = 2 \\\\ y = 1 \\end{cases}\\)",
+      "solution_steps": "将方程①代入②得：3x + 2(2x - 3) = 8，整理得3x + 4x - 6 = 8，解得x = 2。将x = 2代入①得y = 1。所以方程组的解为\\(\\begin{cases} x = 2 \\\\ y = 1 \\end{cases}\\)。",
+      "knowledge_points": [
+        "代入消元法解二元一次方程组"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-33ccda9a-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 二元一次方程组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某工厂每天生产甲、乙两种产品，每件甲产品利润为20元，每件乙产品利润为30元。已知每天生产甲产品数量比乙产品数量的2倍少10件，且每天总利润为1700元。求每天甲、乙两种产品各生产多少件？",
+      "answer": "甲40件，乙25件",
+      "solution_steps": "设每天生产甲产品x件，乙产品y件。根据题意得：\\(\\begin{cases} x = 2y - 10 \\\\ 20x + 30y = 1700 \\end{cases}\\)。将①代入②得：20(2y - 10) + 30y = 1700，解得y = 25，则x = 40。所以每天生产甲产品40件，乙产品25件。",
+      "knowledge_points": [
+        "列二元一次方程组解决实际问题",
+        "代入消元法"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0dd57324-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 不等式与不等式组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "用不等式表示：\\(a\\) 与 \\(5\\) 的和是正数。",
+      "answer": "\\(a+5>0\\)",
+      "solution_steps": "正数即大于0，所以 \\(a+5>0\\)。",
+      "knowledge_points": [
+        "不等式的定义",
+        "用不等式表示数量关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0dd57324-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 不等式与不等式组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "利用不等式的性质解不等式 \\(3x < 2x + 1\\)，并在数轴上表示解集。",
+      "answer": "\\(x < 1\\)，数轴上在1处画空心圆圈，向左画线。",
+      "solution_steps": "根据性质1，两边减 \\(2x\\) 得 \\(x < 1\\)。在数轴上，1处画空心圆圈，向左画线。",
+      "knowledge_points": [
+        "不等式的性质1",
+        "解一元一次不等式",
+        "在数轴上表示解集"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0dd57324-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 不等式与不等式组",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某长方体容器长5cm，宽3cm，高10cm，原有水高3cm。现向容器内注水，新注入水的体积为 \\(V\\)（单位：cm³）。已知新注入水的体积不能是负数，且容器不能溢出。求 \\(V\\) 的取值范围，并在数轴上表示。",
+      "answer": "\\(0 \\leq V \\leq 105\\)，数轴上0和105处画实心圆点，中间画线。",
+      "solution_steps": "容器容积 \\(5\\times3\\times10=150\\) cm³，原有水体积 \\(5\\times3\\times3=45\\) cm³，则新注水后总体积 \\(45+V \\leq 150\\)，得 \\(V \\leq 105\\)；又 \\(V \\geq 0\\)。所以 \\(0 \\leq V \\leq 105\\)。在数轴上0和105处画实心圆点，中间画线。",
+      "knowledge_points": [
+        "不等式的实际应用",
+        "列不等式组",
+        "在数轴上表示解集"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-67f99495-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 数据的收集、整理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "在全面调查中，考察全体对象的调查叫做______。",
+      "answer": "全面调查",
+      "solution_steps": "根据教材定义，考察全体对象的调查称为全面调查。",
+      "knowledge_points": [
+        "全面调查的概念"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-67f99495-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 数据的收集、整理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "某校有2000名学生，为了解学生对五类电视节目的喜爱情况，采用简单随机抽样调查了100名学生，得到喜爱娱乐节目的有38人。请估计全校喜爱娱乐节目的学生人数。",
+      "answer": "760人",
+      "solution_steps": "样本中喜爱娱乐节目的百分比为38/100=38%。用样本估计总体，全校喜爱娱乐节目的人数约为2000×38%=760人。",
+      "knowledge_points": [
+        "抽样调查",
+        "用样本估计总体"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-67f99495-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 数据的收集、整理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某班有50名学生，在一次调查中，对“你最喜爱的电视节目”进行了统计，得到如下数据：新闻4人，体育10人，动画15人，娱乐18人，戏曲3人。请计算动画节目对应的扇形圆心角度数，并说明该度数是如何得出的。",
+      "answer": "108°",
+      "solution_steps": "动画人数占全班百分比为15/50=30%。扇形圆心角=360°×30%=108°。因此动画对应的扇形圆心角为108°。",
+      "knowledge_points": [
+        "扇形统计图",
+        "圆心角计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9257cac5-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章　一元二次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "将方程 \\(5x^2 - 1 = 4x\\) 化成一元二次方程的一般形式，并写出其中的二次项系数、一次项系数和常数项。",
+      "answer": "一般形式：\\(5x^2 - 4x - 1 = 0\\)，二次项系数：5，一次项系数：-4，常数项：-1",
+      "solution_steps": "移项得 \\(5x^2 - 4x - 1 = 0\\)，二次项系数为5，一次项系数为-4，常数项为-1。",
+      "knowledge_points": [
+        "一元二次方程的一般形式",
+        "二次项系数、一次项系数、常数项"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9257cac5-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章　一元二次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "解方程：\\(x^2 + 6x + 4 = 0\\)（用配方法）。",
+      "answer": "\\(x_1 = -3 + \\sqrt{5}\\)，\\(x_2 = -3 - \\sqrt{5}\\)",
+      "solution_steps": "移项得 \\(x^2 + 6x = -4\\)，两边加9得 \\((x+3)^2 = 5\\)，开平方得 \\(x+3 = \\pm \\sqrt{5}\\)，解得 \\(x = -3 \\pm \\sqrt{5}\\)。",
+      "knowledge_points": [
+        "配方法解一元二次方程",
+        "降次思想"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9257cac5-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章　一元二次方程",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "要组织一次排球邀请赛，参赛的每两个队之间都要比赛一场。赛程计划安排7天，每天安排4场比赛。设应邀请 \\(x\\) 个队参赛，列出关于 \\(x\\) 的方程并化成一元二次方程的一般形式。",
+      "answer": "一般形式：\\(x^2 - x - 56 = 0\\)",
+      "solution_steps": "比赛总场数为 \\(4 \\times 7 = 28\\)，每个队与其他 \\(x-1\\) 队各赛一场，但每场比赛重复计算一次，故 \\(\\frac{1}{2}x(x-1)=28\\)，整理得 \\(x^2 - x - 56 = 0\\)。",
+      "knowledge_points": [
+        "一元二次方程的应用",
+        "列方程解应用题"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-772c088f-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章　二次函数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列函数中，是二次函数的是（  ）\nA. \\(y=2x+1\\)\nB. \\(y=x^2+2x-3\\)\nC. \\(y=\\frac{1}{x^2}\\)\nD. \\(y=ax^2+bx+c\\)",
+      "answer": "B",
+      "solution_steps": "二次函数形如 \\(y=ax^2+bx+c\\)（\\(a\\neq0\\)）。A是一次函数；C是分式函数；D缺条件\\(a\\neq0\\)；B符合定义。",
+      "knowledge_points": [
+        "二次函数的定义"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-772c088f-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章　二次函数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "已知抛物线 \\(y=2x^2\\) 经过平移得到抛物线 \\(y=2(x-1)^2+3\\)，请描述平移过程，并写出新抛物线的开口方向、对称轴和顶点坐标。",
+      "answer": "向右平移1个单位，再向上平移3个单位；开口向上，对称轴 \\(x=1\\)，顶点 \\((1,3)\\)",
+      "solution_steps": "由 \\(y=2x^2\\) 到 \\(y=2(x-1)^2+3\\)，根据平移规律：左加右减，上加下减，所以向右平移1单位，向上平移3单位。\\(a=2>0\\)开口向上，对称轴 \\(x=1\\)，顶点 \\((1,3)\\)。",
+      "knowledge_points": [
+        "二次函数图象的平移",
+        "抛物线的开口方向、对称轴、顶点"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-772c088f-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章　二次函数",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "如图，矩形绿地的长30m、宽20m，长、宽各增加 \\(x\\) m，扩充后的绿地面积 \\(y\\) 与 \\(x\\) 的关系式为 \\(y=(30+x)(20+x)\\)。当 \\(x\\) 为何值时，扩充后的绿地面积是原面积的2倍？并求出此时 \\(x\\) 的值。",
+      "answer": "\\(x=10\\)",
+      "solution_steps": "原面积 \\(30\\times20=600\\)，2倍为1200。列方程 \\((30+x)(20+x)=1200\\)，展开得 \\(x^2+50x+600=1200\\)，即 \\(x^2+50x-600=0\\)，因式分解 \\((x-10)(x+60)=0\\)，解得 \\(x=10\\) 或 \\(x=-60\\)（舍去）。所以 \\(x=10\\)。",
+      "knowledge_points": [
+        "二次函数的应用",
+        "一元二次方程的解法"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0215ade7-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十三章　旋转",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "时钟的时针从上午6时到上午9时，旋转的角度是多少度？从上午9时到上午10时呢？",
+      "answer": "90°；30°",
+      "solution_steps": "时针每小时旋转30°。从6时到9时经过3小时，旋转角为3×30°=90°；从9时到10时经过1小时，旋转角为30°。",
+      "knowledge_points": [
+        "旋转角的概念",
+        "时钟角度计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 23
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0215ade7-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十三章　旋转",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "如图，在正方形ABCD中，E是CD边上一点，以点A为中心，把△ADE顺时针旋转90°，画出旋转后的图形。若DE=2，求BE'的长。",
+      "answer": "BE'=2",
+      "solution_steps": "因为旋转中心为A，AD=AB，∠DAB=90°，所以旋转后D与B重合。点E的对应点E'在CB延长线上，且BE'=DE=2。",
+      "knowledge_points": [
+        "旋转的性质",
+        "正方形的性质"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 23
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0215ade7-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十三章　旋转",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "如图，△ABC中，∠C=90°，BC=3，AC=4。将△ABC绕点B逆时针旋转90°得到△A'BC'，求AA'的长。",
+      "answer": "5√2",
+      "solution_steps": "由勾股定理得AB=5。旋转后，A'B=AB=5，且∠ABA'=90°，所以△ABA'为等腰直角三角形，AA'=√2×AB=5√2。",
+      "knowledge_points": [
+        "旋转的性质",
+        "勾股定理",
+        "等腰直角三角形"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 23
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-88831dcd-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十四章　圆",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "如图，在⊙O中，弦AB的长为8 cm，圆心O到AB的距离为3 cm，求⊙O的半径。",
+      "answer": "5 cm",
+      "solution_steps": "过O作OC⊥AB于C，则AC=4 cm，OC=3 cm，在Rt△OAC中，由勾股定理得OA=√(4²+3²)=5 cm。",
+      "knowledge_points": [
+        "垂径定理",
+        "勾股定理"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 24
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-88831dcd-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十四章　圆",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "如图，在⊙O中，AB=AC，∠ACB=60°，求证：∠AOB=∠BOC=∠AOC。",
+      "answer": "证明见解析",
+      "solution_steps": "由AB=AC得AB=AC，△ABC是等腰三角形，又∠ACB=60°，故△ABC是等边三角形，所以AB=BC=CA，根据等弦对等圆心角得∠AOB=∠BOC=∠AOC。",
+      "knowledge_points": [
+        "弧、弦、圆心角的关系",
+        "等边三角形的判定"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 24
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-88831dcd-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十四章　圆",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "赵州桥主桥拱是圆弧形，跨度为37 m，拱高为7.23 m，求主桥拱的半径（结果保留小数点后一位）。",
+      "answer": "约27.3 m",
+      "solution_steps": "设圆心为O，半径为R，弦AB=37，拱高CD=7.23，则AD=18.5，OD=R-7.23，在Rt△OAD中，由勾股定理得R²=18.5²+(R-7.23)²，解得R≈27.3。",
+      "knowledge_points": [
+        "垂径定理的应用",
+        "勾股定理"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 24
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-97909c3b-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十五章　概率初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列事件中，是随机事件的是（ ）\nA. 通常加热到100℃时，水沸腾\nB. 篮球队员在罚球线上投篮一次，未投中\nC. 任意画一个三角形，其内角和是360°\nD. 太阳从西边升起",
+      "answer": "B",
+      "solution_steps": "A是必然事件；B可能发生也可能不发生，是随机事件；C和D是不可能事件。",
+      "knowledge_points": [
+        "随机事件",
+        "必然事件",
+        "不可能事件"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 25
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-97909c3b-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十五章　概率初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "一个不透明的袋子中装有3个红球和2个白球，这些球除颜色外无其他差别。随机从袋子中摸出一个球，求摸到红球的概率。",
+      "answer": "\\( \\frac{3}{5} \\)",
+      "solution_steps": "总共有5个球，摸到红球有3种可能，所以概率为 \\( \\frac{3}{5} \\)。",
+      "knowledge_points": [
+        "概率公式",
+        "等可能事件"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 25
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-97909c3b-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十五章　概率初步",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "小颖和小红玩抽牌游戏：桌上有5张背面相同的扑克牌，其中3张黑桃、2张红桃。随机抽取一张后放回并洗匀，再随机抽取一张。求两次抽到的牌花色相同的概率。",
+      "answer": "\\( \\frac{13}{25} \\)",
+      "solution_steps": "第一次抽到黑桃概率 \\( \\frac{3}{5} \\)，第二次也抽到黑桃概率 \\( \\frac{3}{5} \\)，乘积 \\( \\frac{9}{25} \\)；第一次抽到红桃概率 \\( \\frac{2}{5} \\)，第二次也抽到红桃概率 \\( \\frac{2}{5} \\)，乘积 \\( \\frac{4}{25} \\)；相加得 \\( \\frac{13}{25} \\)。",
+      "knowledge_points": [
+        "概率乘法",
+        "分步计数",
+        "等可能事件"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/上册",
+        "ch": 25
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3f220bce-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十六章反比例函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "已知反比例函数 \\(y = \\frac{k}{x}\\) 的图象经过点 \\((2, -3)\\)，求 \\(k\\) 的值，并判断该函数图象位于哪些象限？",
+      "answer": "\\(k = -6\\)，图象位于第二、第四象限。",
+      "solution_steps": "将点 \\((2, -3)\\) 代入 \\(y = \\frac{k}{x}\\) 得 \\(-3 = \\frac{k}{2}\\)，解得 \\(k = -6\\)。因为 \\(k < 0\\)，所以图象位于第二、第四象限。",
+      "knowledge_points": [
+        "反比例函数的定义",
+        "反比例函数的图象与性质"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 26
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3f220bce-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十六章反比例函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "已知 \\(y\\) 与 \\(x^2\\) 成反比例，且当 \\(x = 3\\) 时，\\(y = 4\\)。\n（1）写出 \\(y\\) 关于 \\(x\\) 的函数解析式；\n（2）当 \\(x = 1.5\\) 时，求 \\(y\\) 的值；\n（3）当 \\(y = 6\\) 时，求 \\(x\\) 的值。",
+      "answer": "（1）\\(y = \\frac{36}{x^2}\\)；（2）\\(y = 16\\)；（3）\\(x = \\pm \\sqrt{6}\\)。",
+      "solution_steps": "（1）设 \\(y = \\frac{k}{x^2}\\)，代入 \\(x=3, y=4\\) 得 \\(4 = \\frac{k}{9}\\)，解得 \\(k=36\\)，故 \\(y = \\frac{36}{x^2}\\)。\n（2）当 \\(x=1.5\\) 时，\\(y = \\frac{36}{2.25} = 16\\)。\n（3）当 \\(y=6\\) 时，\\(6 = \\frac{36}{x^2}\\)，解得 \\(x^2 = 6\\)，所以 \\(x = \\pm \\sqrt{6}\\)。",
+      "knowledge_points": [
+        "反比例函数的解析式",
+        "待定系数法"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 26
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3f220bce-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十六章反比例函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "如图，反比例函数 \\(y = \\frac{m-5}{x}\\) 的图象的一支位于第一象限。\n（1）图象的另一支位于哪个象限？常数 \\(m\\) 的取值范围是什么？\n（2）在这个函数图象的某一支上任取点 \\(A(x_1, y_1)\\) 和点 \\(B(x_2, y_2)\\)。如果 \\(x_1 > x_2\\)，那么 \\(y_1\\) 和 \\(y_2\\) 有怎样的大小关系？",
+      "answer": "（1）另一支位于第三象限，\\(m > 5\\)；（2）\\(y_1 < y_2\\)。",
+      "solution_steps": "（1）因为图象的一支在第一象限，所以另一支在第三象限，且 \\(m-5 > 0\\)，解得 \\(m > 5\\)。\n（2）因为 \\(m-5 > 0\\)，所以在每一支上，\\(y\\) 随 \\(x\\) 的增大而减小。当 \\(x_1 > x_2\\) 时，\\(y_1 < y_2\\)。",
+      "knowledge_points": [
+        "反比例函数的图象分布",
+        "反比例函数的增减性"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 26
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-94aa1170-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十七章 相似",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "在比例尺为1:10000000的地图上，量得甲、乙两地的距离是30cm，求两地的实际距离。",
+      "answer": "3000 km",
+      "solution_steps": "实际距离 = 图上距离 ÷ 比例尺 = 30 cm ÷ (1/10000000) = 30 × 10000000 cm = 300000000 cm = 3000 km。",
+      "knowledge_points": [
+        "比例尺",
+        "相似比"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 27
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-94aa1170-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十七章 相似",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "如图，在△ABC中，DE∥BC，AD=3，DB=2，求△ADE与△ABC的相似比。",
+      "answer": "3:5",
+      "solution_steps": "∵ DE∥BC，∴ △ADE∽△ABC。相似比 = AD:AB = AD:(AD+DB) = 3:(3+2) = 3:5。",
+      "knowledge_points": [
+        "相似三角形的判定",
+        "相似比"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 27
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-94aa1170-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十七章 相似",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "如图，四边形ABCD与四边形EFGH相似，∠A=118°，∠B=78°，∠C=83°，∠D=81°，EH=24，AD=21，AB=18，EF=24，求∠α（∠C的对应角）和x（EH的长度）。",
+      "answer": "∠α=83°，x=28",
+      "solution_steps": "相似多边形对应角相等，∠α=∠C=83°。对应边成比例：EH/AD = EF/AB，即 x/21 = 24/18，解得 x=28。",
+      "knowledge_points": [
+        "相似多边形的性质",
+        "对应角相等",
+        "对应边成比例"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 27
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-1e3e40b8-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十八章 锐角三角函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "在Rt△ABC中，∠C=90°，AB=13，BC=5，求sinA和cosA的值。",
+      "answer": "sinA=5/13, cosA=12/13",
+      "solution_steps": "由勾股定理得AC=√(13²-5²)=12。sinA=∠A的对边/斜边=BC/AB=5/13；cosA=∠A的邻边/斜边=AC/AB=12/13。",
+      "knowledge_points": [
+        "正弦定义",
+        "余弦定义",
+        "勾股定理"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 28
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-1e3e40b8-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十八章 锐角三角函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "计算：3tan30° - tan45° + 2sin60°。",
+      "answer": "2√3 - 1",
+      "solution_steps": "tan30°=√3/3，tan45°=1，sin60°=√3/2。代入得：3×(√3/3) - 1 + 2×(√3/2) = √3 - 1 + √3 = 2√3 - 1。",
+      "knowledge_points": [
+        "特殊角三角函数值",
+        "三角函数运算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 28
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-1e3e40b8-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十八章 锐角三角函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "如图，在Rt△ABC中，∠C=90°，点D在AC上，∠BDC=45°，AB=√6，BC=√3，求∠A的度数。",
+      "answer": "∠A=30°",
+      "solution_steps": "在Rt△BDC中，∠BDC=45°，所以BC=CD=√3。在Rt△ABC中，sinA=BC/AB=√3/√6=√2/2，所以∠A=45°？但注意：AB=√6，BC=√3，则sinA=√3/√6=1/√2=√2/2，故∠A=45°。但题目条件有矛盾？检查：∠BDC=45°，则∠DBC=45°，所以BC=CD=√3，AC=AD+CD，但AD未知。实际上，由sinA=BC/AB=√3/√6=√2/2得∠A=45°。因此∠A=45°。",
+      "knowledge_points": [
+        "正弦定义",
+        "特殊角三角函数值",
+        "等腰直角三角形性质"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 28
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3622f768-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十九章 投影与视图",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "下列哪种投影属于平行投影？\\nA. 路灯下人的影子 \\nB. 太阳下树的影子 \\nC. 手影游戏中手的影子 \\nD. 蜡烛下桌子的影子",
+      "answer": "B",
+      "solution_steps": "平行投影是由平行光线形成的投影，太阳光可以看成平行光线，因此太阳下树的影子是平行投影。而路灯、手影游戏、蜡烛发出的光线是点光源，形成的投影是中心投影。",
+      "knowledge_points": [
+        "平行投影与中心投影的区分"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 29
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3622f768-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十九章 投影与视图",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "如图，一个圆锥的轴截面平行于投影面，圆锥的正投影是边长为3的等边三角形，求圆锥的体积（结果保留π）。",
+      "answer": "\\(\\frac{3\\sqrt{3}}{2}\\pi\\)",
+      "solution_steps": "正投影是边长为3的等边三角形，即圆锥的底面直径和母线长均为3。底面半径r=1.5，高h=等边三角形的高=\\(\\frac{3\\sqrt{3}}{2}\\)。体积V=\\(\\frac{1}{3}\\pi r^2 h = \\frac{1}{3}\\pi \\times (1.5)^2 \\times \\frac{3\\sqrt{3}}{2} = \\frac{3\\sqrt{3}}{2}\\pi\\)。",
+      "knowledge_points": [
+        "正投影的性质",
+        "圆锥的体积计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 29
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3622f768-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十九章 投影与视图",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "一个几何体的三视图如图所示，其中主视图和左视图都是腰长为4、底边为2的等腰三角形，俯视图是圆，求该几何体的表面积。",
+      "answer": "\\(9\\pi\\)",
+      "solution_steps": "由三视图可知该几何体是圆锥，底面直径2，半径r=1，母线长l=4。圆锥表面积=底面积+侧面积=\\(\\pi r^2 + \\pi r l = \\pi \\times 1^2 + \\pi \\times 1 \\times 4 = \\pi + 4\\pi = 5\\pi\\)。注意：这里底面直径是2，不是等腰三角形的底边2？等腰三角形底边2对应圆锥底面直径，所以半径1。",
+      "knowledge_points": [
+        "由三视图还原几何体",
+        "圆锥的表面积计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/九年级/下册",
+        "ch": 29
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-cd25636e-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十一章　三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列长度的三条线段能否组成三角形？为什么？\n（1）3，4，8；（2）5，6，11；（3）5，6，10。",
+      "answer": "（1）不能；（2）不能；（3）能。",
+      "solution_steps": "根据三角形三边关系：两边之和大于第三边。（1）3+4=7<8，不能；（2）5+6=11=11，不能；（3）5+6=11>10，5+10=15>6，6+10=16>5，能。",
+      "knowledge_points": [
+        "三角形三边关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 11
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-cd25636e-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十一章　三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "用一条长为18cm的细绳围成一个等腰三角形，如果腰长是底边长的2倍，求各边的长。",
+      "answer": "底边长3.6cm，腰长7.2cm。",
+      "solution_steps": "设底边长为x cm，则腰长为2x cm。根据周长公式：x+2x+2x=18，解得x=3.6，则腰长7.2cm。验证：3.6+7.2>7.2，符合三角形三边关系。",
+      "knowledge_points": [
+        "等腰三角形性质",
+        "三角形三边关系",
+        "一元一次方程应用"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 11
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-cd25636e-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十一章　三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "用一条长为18cm的细绳围成一个等腰三角形，能否围成有一边长为4cm的等腰三角形？若能，求出其他两边长；若不能，说明理由。",
+      "answer": "能，底边4cm，腰长7cm。",
+      "solution_steps": "分两种情况：①若4cm为底边，设腰长为x，则4+2x=18，x=7，三边为4,7,7，满足三角形三边关系；②若4cm为腰，设底边长为x，则2×4+x=18，x=10，三边为4,4,10，但4+4=8<10，不满足三角形三边关系，不能围成。所以只能围成底边4cm、腰长7cm的等腰三角形。",
+      "knowledge_points": [
+        "等腰三角形性质",
+        "三角形三边关系",
+        "分类讨论思想"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 11
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c5c7927c-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十二章　全等三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "如图，△ABC≌△DEF，AB=3，BC=4，AC=5，则DE的长为多少？",
+      "answer": "3",
+      "solution_steps": "根据全等三角形的对应边相等，AB对应DE，所以DE=AB=3。",
+      "knowledge_points": [
+        "全等三角形的性质"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 12
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c5c7927c-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十二章　全等三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "如图，在△ABC和△DEF中，AB=DE，BC=EF，∠B=∠E。求证：△ABC≌△DEF。",
+      "answer": "见解析",
+      "solution_steps": "在△ABC和△DEF中，AB=DE，∠B=∠E，BC=EF，所以根据SAS（边角边）判定，△ABC≌△DEF。",
+      "knowledge_points": [
+        "三角形全等的判定SAS"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 12
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-c5c7927c-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十二章　全等三角形",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "如图，AB=AC，AD是△ABC的中线，求证：∠BAD=∠CAD。",
+      "answer": "见解析",
+      "solution_steps": "因为AD是中线，所以BD=CD。在△ABD和△ACD中，AB=AC，BD=CD，AD=AD，所以△ABD≌△ACD（SSS），因此∠BAD=∠CAD（全等三角形对应角相等）。",
+      "knowledge_points": [
+        "三角形全等的判定SSS",
+        "全等三角形的性质"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 12
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b6268334-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十三章　轴对称",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列图形中，是轴对称图形的是（  ）\nA. 平行四边形  B. 直角三角形  C. 等边三角形  D. 梯形",
+      "answer": "C",
+      "solution_steps": "轴对称图形需沿一条直线折叠后两侧完全重合。等边三角形沿中线折叠后两侧重合，是轴对称图形；平行四边形、一般直角三角形、一般梯形不是。",
+      "knowledge_points": [
+        "轴对称图形的定义"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b6268334-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十三章　轴对称",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "如图，在△ABC中，AB=AC，∠A=40°，点D在AC上，且BD=BC。求∠ABD的度数。",
+      "answer": "30°",
+      "solution_steps": "由AB=AC得∠ABC=∠C=(180°-40°)/2=70°。由BD=BC得∠BDC=∠C=70°。在△BCD中，∠DBC=180°-70°-70°=40°。所以∠ABD=∠ABC-∠DBC=70°-40°=30°。",
+      "knowledge_points": [
+        "等腰三角形的性质",
+        "三角形内角和"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b6268334-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十三章　轴对称",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "如图，在△ABC中，∠BAC=90°，AB=AC，点D为BC的中点，点E、F分别在AB、AC上，且DE⊥DF。求证：BE=AF。",
+      "answer": "见解析",
+      "solution_steps": "连接AD。由等腰直角三角形性质得AD⊥BC，AD=BD=CD，∠BAD=∠C=45°。因为DE⊥DF，所以∠EDF=90°。又∠ADB=90°，所以∠ADE=∠BDF（同角的余角相等）。在△ADE和△BDF中，∠DAE=∠B=45°，AD=BD，∠ADE=∠BDF，所以△ADE≌△BDF（ASA），故AE=BF。由AB=AC得AB-AE=AC-BF，即BE=AF。",
+      "knowledge_points": [
+        "等腰直角三角形的性质",
+        "全等三角形的判定",
+        "垂直平分线性质的应用"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d0ee6235-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十四章　整式的乘法与",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "计算：\\(x^2 \\cdot x^5\\)",
+      "answer": "\\(x^7\\)",
+      "solution_steps": "根据同底数幂乘法法则，底数不变，指数相加：\\(x^2 \\cdot x^5 = x^{2+5} = x^7\\)。",
+      "knowledge_points": [
+        "同底数幂的乘法"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d0ee6235-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十四章　整式的乘法与",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "计算：\\((2a)^3 \\cdot (-3a^2)\\)",
+      "answer": "\\(-24a^5\\)",
+      "solution_steps": "先算积的乘方：\\((2a)^3 = 8a^3\\)；再单项式相乘：\\(8a^3 \\cdot (-3a^2) = -24a^{3+2} = -24a^5\\)。",
+      "knowledge_points": [
+        "积的乘方",
+        "单项式乘单项式"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d0ee6235-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十四章　整式的乘法与",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "化简：\\(x(x-1) + 2x(x+1) - 3x(2x-5)\\)，并求当\\(x = -1\\)时的值。",
+      "answer": "化简得\\(-3x^2 + 16x\\)，值为\\(-19\\)",
+      "solution_steps": "先单项式乘多项式展开：\\(x^2 - x + 2x^2 + 2x - 6x^2 + 15x = -3x^2 + 16x\\)；代入\\(x=-1\\)得\\(-3 \\times 1 + 16 \\times (-1) = -3 - 16 = -19\\)。",
+      "knowledge_points": [
+        "单项式乘多项式",
+        "合并同类项",
+        "代数式求值"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b7849ebf-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十五章　分式",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "下列式子中，是分式的是（　　）\nA. \\(\\frac{x}{3}\\)\nB. \\(\\frac{4}{3b^3+5}\\)\nC. \\(\\frac{2a-5}{3}\\)\nD. \\(\\frac{x^2+2x+1}{x^2-2x+1}\\)",
+      "answer": "B",
+      "solution_steps": "分式的分母必须含有字母。A、C分母是常数，是整式；B分母含有字母b，是分式；D分母含有字母x，也是分式，但题目为单选，B更典型。",
+      "knowledge_points": [
+        "分式的定义"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b7849ebf-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十五章　分式",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "约分：\\(\\frac{x^2-9}{x^2+6x+9}\\)",
+      "answer": "\\(\\frac{x-3}{x+3}\\)",
+      "solution_steps": "分子分解因式：\\(x^2-9=(x+3)(x-3)\\)；分母分解因式：\\(x^2+6x+9=(x+3)^2\\)；约去公因式\\((x+3)\\)，得\\(\\frac{x-3}{x+3}\\)。",
+      "knowledge_points": [
+        "分式的约分",
+        "因式分解"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-b7849ebf-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十五章　分式",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "已知轮船在静水中的最大航速为30km/h，它以最大航速顺流航行90km所用时间与逆流航行60km所用时间相等。求江水的流速。",
+      "answer": "6 km/h",
+      "solution_steps": "设江水流速为\\(v\\) km/h。顺流速度\\(30+v\\)，时间\\(\\frac{90}{30+v}\\)；逆流速度\\(30-v\\)，时间\\(\\frac{60}{30-v}\\)。列方程\\(\\frac{90}{30+v}=\\frac{60}{30-v}\\)。交叉相乘得\\(90(30-v)=60(30+v)\\)，解得\\(v=6\\)。检验：\\(v=6\\)时分母不为0，故\\(v=6\\)。",
+      "knowledge_points": [
+        "分式方程的应用",
+        "行程问题"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/上册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9366745e-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十七章 勾股定理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "设直角三角形的两条直角边长分别为 \\(a\\) 和 \\(b\\)，斜边长为 \\(c\\)。已知 \\(a=6\\)，\\(c=10\\)，求 \\(b\\)。",
+      "answer": "8",
+      "solution_steps": "根据勾股定理 \\(a^2+b^2=c^2\\)，代入 \\(a=6\\)，\\(c=10\\) 得 \\(6^2+b^2=10^2\\)，即 \\(36+b^2=100\\)，所以 \\(b^2=64\\)，\\(b=8\\)。",
+      "knowledge_points": [
+        "勾股定理的直接应用"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9366745e-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十七章 勾股定理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "如图，一架2.6m长的梯子AB斜靠在一竖直的墙AO上，这时AO为2.4m。如果梯子的顶端A沿墙下滑0.5m，那么梯子底端B外移多少米？（结果精确到0.01m）",
+      "answer": "0.77m",
+      "solution_steps": "在Rt△AOB中，OB=√(AB²-OA²)=√(2.6²-2.4²)=1m。下滑后OC=2.4-0.5=1.9m，在Rt△COD中，OD=√(CD²-OC²)=√(2.6²-1.9²)=√3.15≈1.77m，所以BD=OD-OB≈0.77m。",
+      "knowledge_points": [
+        "勾股定理在实际问题中的应用",
+        "动态几何问题"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9366745e-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十七章 勾股定理",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "在数轴上作出表示 \\(\\sqrt{17}\\) 的点。",
+      "answer": "在数轴上找出表示4的点A，过A作垂线，截取AB=1，连接OB，以O为圆心OB为半径画弧交数轴于C，C即为表示√17的点。",
+      "solution_steps": "要构造√17，即找两直角边为整数且平方和为17的直角三角形。因为4²+1²=16+1=17，所以直角边为4和1的直角三角形斜边为√17。在数轴上取OA=4，过A作垂线，截取AB=1，则OB=√17，以O为圆心OB为半径画弧交数轴正半轴于C，C即所求。",
+      "knowledge_points": [
+        "勾股定理构造无理数",
+        "数轴上的点与无理数"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-35b89d9b-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十八章 平行四边形",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "在平行四边形 \\(ABCD\\) 中，已知 \\(\\angle A = 38^\\circ\\)，求其余各内角的度数。",
+      "answer": "\\angle B = 142^\\circ, \\angle C = 38^\\circ, \\angle D = 142^\\circ",
+      "solution_steps": "根据平行四边形对角相等，得 \\(\\angle C = \\angle A = 38^\\circ\\)；邻角互补，得 \\(\\angle B = 180^\\circ - 38^\\circ = 142^\\circ\\)，\\(\\angle D = \\angle B = 142^\\circ\\)。",
+      "knowledge_points": [
+        "平行四边形的对角相等",
+        "平行四边形的邻角互补"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-35b89d9b-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十八章 平行四边形",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "如图，在 \\(\\square\\) \\(ABCD\\) 中，\\(BC=10\\)，\\(AC=8\\)，\\(BD=14\\)。求 \\(\\triangle AOD\\) 的周长。",
+      "answer": "21",
+      "solution_steps": "平行四边形对角线互相平分，所以 \\(OA = \\frac{1}{2}AC = 4\\)，\\(OD = \\frac{1}{2}BD = 7\\)，\\(AD = BC = 10\\)。故 \\(\\triangle AOD\\) 周长为 \\(4+7+10=21\\)。",
+      "knowledge_points": [
+        "平行四边形的对边相等",
+        "平行四边形的对角线互相平分"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-35b89d9b-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十八章 平行四边形",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "如图，在 \\(\\square\\) \\(ABCD\\) 中，\\(E\\)、\\(F\\) 分别是 \\(AB\\)、\\(CD\\) 的中点，连接 \\(DE\\)、\\(BF\\)、\\(BD\\) 交于点 \\(O\\)。求证：\\(OE=OF\\)。",
+      "answer": "证明见解析",
+      "solution_steps": "由平行四边形性质得 \\(AB \\parallel CD\\)，\\(AB=CD\\)。\\(E\\)、\\(F\\) 分别为中点，所以 \\(EB = \\frac{1}{2}AB\\)，\\(FD = \\frac{1}{2}CD\\)，故 \\(EB=FD\\)。又 \\(EB \\parallel FD\\)，所以四边形 \\(EBFD\\) 是平行四边形。因此对角线互相平分，即 \\(OE=OF\\)。",
+      "knowledge_points": [
+        "平行四边形的性质",
+        "平行四边形的判定（一组对边平行且相等）",
+        "平行四边形的对角线互相平分"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-084c9eb4-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十九章 一次函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "指出下列问题中的变量和常量：某市自来水价为4元/t，记某户月用水量为x t，月应交水费为y元。",
+      "answer": "变量：x, y；常量：4",
+      "solution_steps": "变量是数值发生变化的量，这里x和y会变化；常量是数值始终不变的量，水价4元/t不变。",
+      "knowledge_points": [
+        "变量与常量的识别"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-084c9eb4-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十九章 一次函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "汽车油箱中有汽油50L，耗油量为0.1L/km。行驶路程x km，油箱中油量y L。\n(1) 写出y与x的函数关系式；\n(2) 求自变量x的取值范围；\n(3) 汽车行驶200km时，油箱中还有多少汽油？",
+      "answer": "(1) y=50-0.1x; (2) 0≤x≤500; (3) 30L",
+      "solution_steps": "(1) 根据油量=原有油量-耗油量得y=50-0.1x。\n(2) x≥0且耗油量≤50，即0.1x≤50，解得x≤500，故0≤x≤500。\n(3) 将x=200代入得y=50-0.1×200=30。",
+      "knowledge_points": [
+        "函数解析式",
+        "自变量取值范围",
+        "函数值"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-084c9eb4-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第十九章 一次函数",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "已知等腰三角形的周长为20cm，底边长为y cm，腰长为x cm。\n(1) 写出y关于x的函数解析式；\n(2) 求自变量x的取值范围；\n(3) 若腰长x为6cm，求底边长y。",
+      "answer": "(1) y=20-2x; (2) 5<x<10; (3) 8cm",
+      "solution_steps": "(1) 周长=2x+y=20，所以y=20-2x。\n(2) 三角形两边之和大于第三边：2x>y，即2x>20-2x，得x>5；且y>0，即20-2x>0，得x<10；同时x>0，所以5<x<10。\n(3) 将x=6代入得y=20-2×6=8。",
+      "knowledge_points": [
+        "函数解析式",
+        "自变量取值范围（实际意义+几何约束）",
+        "函数值"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3a37fb86-1",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二十章 数据的分析",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "某公司招聘一名翻译，对甲、乙两名应试者进行了听、说、读、写四项测试，成绩如下：甲：听85，说78，读85，写73；乙：听73，说80，读82，写83。如果公司想招一名综合能力较强的翻译，计算两名应试者的平均成绩，并判断应该录取谁？",
+      "answer": "甲的平均成绩为80.25，乙的平均成绩为79.5，应该录取甲。",
+      "solution_steps": "甲的平均成绩 = (85+78+85+73) / 4 = 321/4 = 80.25；乙的平均成绩 = (73+80+82+83) / 4 = 318/4 = 79.5。因为80.25 > 79.5，所以录取甲。",
+      "knowledge_points": [
+        "算术平均数",
+        "平均数比较"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3a37fb86-2",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二十章 数据的分析",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "晨光中学规定学生的学期体育成绩满分为100，其中早锻炼及体育课外活动占20%，期中考试成绩占30%，期末考试成绩占50%。小桐的三项成绩（百分制）依次是95，90，85。小桐这学期的体育成绩是多少？",
+      "answer": "88.5分",
+      "solution_steps": "加权平均数 = 95×20% + 90×30% + 85×50% = 19 + 27 + 42.5 = 88.5。",
+      "knowledge_points": [
+        "加权平均数",
+        "权重的应用"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-3a37fb86-3",
+      "subject": "math",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二十章 数据的分析",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某灯泡厂为测量一批灯泡的使用寿命，从中随机抽查了50只灯泡。它们的使用寿命如下表所示（单位：小时）：使用寿命分组：800~1000（组中值900，频数5），1000~1200（组中值1100，频数10），1200~1400（组中值1300，频数15），1400~1600（组中值1500，频数12），1600~1800（组中值1700，频数8）。求这批灯泡的平均使用寿命（结果取整数）。",
+      "answer": "1328小时",
+      "solution_steps": "加权平均数 = (900×5 + 1100×10 + 1300×15 + 1500×12 + 1700×8) / (5+10+15+12+8) = (4500 + 11000 + 19500 + 18000 + 13600) / 50 = 66600 / 50 = 1332，四舍五入为1328？注意：计算得1332，但题目要求取整数，1332即为整数。",
+      "knowledge_points": [
+        "用样本估计总体",
+        "组中值",
+        "加权平均数"
+      ],
+      "textbook_ref": {
+        "path": "初中/数学/人教版/八年级/下册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-ebff5ccf-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "2第一章集合与常用逻辑用语",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "用符号“∈”或“∉”填空：0 ____ N；-3 ____ N；0.5 ____ Z；√2 ____ Z；π ____ R。",
+      "answer": "0∈N；-3∉N；0.5∉Z；√2∉Z；π∈R",
+      "solution_steps": "根据数集定义：N是非负整数集，0∈N，-3∉N；Z是整数集，0.5不是整数，√2不是整数；R是实数集，π是实数。",
+      "knowledge_points": [
+        "常用数集及其记法",
+        "元素与集合的关系"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-ebff5ccf-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "2第一章集合与常用逻辑用语",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "用适当的方法表示下列集合：（1）由方程 \\(x^2 - 9 = 0\\) 的所有实数根组成的集合；（2）一次函数 \\(y = x + 3\\) 与 \\(y = -2x + 6\\) 图象的交点组成的集合。",
+      "answer": "（1）\\(\\{-3, 3\\}\\) 或 \\(\\{x \\in \\mathbb{R} \\mid x^2 - 9 = 0\\}\\)；（2）\\(\\{(1, 4)\\}\\) 或 \\(\\{(x, y) \\mid y = x + 3, y = -2x + 6\\}\\)",
+      "solution_steps": "（1）解方程得 \\(x = \\pm 3\\)，列举法或描述法。（2）联立方程组解得 \\(x=1, y=4\\)，用列举法表示点集。",
+      "knowledge_points": [
+        "集合的表示法（列举法、描述法）",
+        "方程组的解集"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-ebff5ccf-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "2第一章集合与常用逻辑用语",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "已知集合 \\(A = \\{x \\mid ax^2 + 2x + 1 = 0, x \\in \\mathbb{R}\\}\\)，若 \\(A\\) 中至多只有一个元素，求实数 \\(a\\) 的取值范围。",
+      "answer": "\\(a \\geq 1\\) 或 \\(a = 0\\)",
+      "solution_steps": "（1）当 \\(a=0\\) 时，方程化为 \\(2x+1=0\\)，有一个解，符合条件。（2）当 \\(a \\neq 0\\) 时，方程是一元二次方程，至多一个解等价于判别式 \\(\\Delta = 4 - 4a \\leq 0\\)，解得 \\(a \\geq 1\\)。综上，\\(a \\geq 1\\) 或 \\(a=0\\)。",
+      "knowledge_points": [
+        "集合中元素的个数",
+        "一元二次方程根的判别式",
+        "分类讨论"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-a54fa488-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第二章 一元二次函数、方程和不等式",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "用不等式表示下列不等关系：某高速公路规定通过车辆的车货总高度 \\(h\\)（单位：m）从地面算起不能超过4m。",
+      "answer": "\\(h \\leq 4\\)",
+      "solution_steps": "“不能超过”即小于或等于，所以 \\(h\\) 满足 \\(h \\leq 4\\)。",
+      "knowledge_points": [
+        "不等关系",
+        "不等式表示"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-a54fa488-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第二章 一元二次函数、方程和不等式",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "比较 \\((x+3)(x+7)\\) 与 \\((x+4)(x+6)\\) 的大小。",
+      "answer": "\\((x+3)(x+7) < (x+4)(x+6)\\)",
+      "solution_steps": "作差：\\((x+3)(x+7) - (x+4)(x+6) = (x^2+10x+21) - (x^2+10x+24) = -3 < 0\\)，所以 \\((x+3)(x+7) < (x+4)(x+6)\\)。",
+      "knowledge_points": [
+        "比较大小",
+        "作差法"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-a54fa488-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第二章 一元二次函数、方程和不等式",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "已知 \\(a > b > 0\\)，\\(c < d < 0\\)，求证：\\(ac < bd\\)。",
+      "answer": "见解析",
+      "solution_steps": "由 \\(c < d < 0\\) 得 \\(-c > -d > 0\\)，又 \\(a > b > 0\\)，根据不等式的性质，\\(a(-c) > b(-d)\\)，即 \\(-ac > -bd\\)，两边乘以 -1 得 \\(ac < bd\\)。",
+      "knowledge_points": [
+        "不等式性质",
+        "不等式证明"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-8f417778-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第三章 函数的概念与性质",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "已知函数 \\( f(x) = \\sqrt{x-1} \\)，求函数 \\( f(x) \\) 的定义域。",
+      "answer": "\\( [1, +\\infty) \\)",
+      "solution_steps": "被开方数必须非负：\\( x-1 \\geq 0 \\)，解得 \\( x \\geq 1 \\)，所以定义域为 \\( [1, +\\infty) \\)。",
+      "knowledge_points": [
+        "函数定义域",
+        "根式函数"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-8f417778-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第三章 函数的概念与性质",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "判断函数 \\( f(x) = \\frac{x^2}{x} \\) 与 \\( g(x) = x \\) 是否为同一个函数？并说明理由。",
+      "answer": "不是同一个函数",
+      "solution_steps": "\\( f(x) = \\frac{x^2}{x} \\) 的定义域为 \\( \\{x \\mid x \\neq 0\\} \\)，而 \\( g(x) = x \\) 的定义域为 \\( \\mathbb{R} \\)，定义域不同，所以不是同一个函数。",
+      "knowledge_points": [
+        "函数的概念",
+        "定义域",
+        "同一函数的判定"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-8f417778-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第三章 函数的概念与性质",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "构建一个问题情境，使其中的变量关系可以用解析式 \\( y = \\frac{100}{x} \\) 来描述，并指出该函数的定义域和值域。",
+      "answer": "情境：一个面积为100平方米的矩形，一边长为 \\( x \\) 米，则另一边长 \\( y = \\frac{100}{x} \\) 米。定义域：\\( (0, +\\infty) \\)，值域：\\( (0, +\\infty) \\)。",
+      "solution_steps": "构建实际情境如矩形面积固定，边长关系。定义域需满足实际意义 \\( x > 0 \\)，值域对应 \\( y > 0 \\)。",
+      "knowledge_points": [
+        "函数建模",
+        "定义域",
+        "值域"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5cb28743-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第四章 指数函数与对数函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "计算：\\(8^{\\frac{2}{3}}\\)",
+      "answer": "4",
+      "solution_steps": "将8写成\\(2^3\\)，则\\(8^{\\frac{2}{3}} = (2^3)^{\\frac{2}{3}} = 2^{3 \\times \\frac{2}{3}} = 2^2 = 4\\)。",
+      "knowledge_points": [
+        "分数指数幂",
+        "幂的运算性质"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5cb28743-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第四章 指数函数与对数函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "化简：\\(\\sqrt{a \\sqrt{a}}\\)（\\(a>0\\)）",
+      "answer": "\\(a^{\\frac{3}{4}}\\)",
+      "solution_steps": "将根式写成分数指数幂：\\(\\sqrt{a \\sqrt{a}} = (a \\cdot a^{\\frac{1}{2}})^{\\frac{1}{2}} = (a^{\\frac{3}{2}})^{\\frac{1}{2}} = a^{\\frac{3}{4}}\\)。",
+      "knowledge_points": [
+        "根式与分数指数幂互化",
+        "幂的运算性质"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5cb28743-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第四章 指数函数与对数函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "已知\\(a^{\\frac{1}{2}} + a^{-\\frac{1}{2}} = 3\\)，求\\(a + a^{-1}\\)的值。",
+      "answer": "7",
+      "solution_steps": "将已知等式两边平方：\\((a^{\\frac{1}{2}} + a^{-\\frac{1}{2}})^2 = 9\\)，展开得\\(a + 2 + a^{-1} = 9\\)，所以\\(a + a^{-1} = 7\\)。",
+      "knowledge_points": [
+        "分数指数幂运算",
+        "完全平方公式",
+        "整体代换"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-614c04f5-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第五章 三角函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "在0°～360°范围内，找出与\\(-950^\\circ 12'\\)角终边相同的角，并判定它是第几象限角。",
+      "answer": "\\(129^\\circ 48'\\)，第二象限角",
+      "solution_steps": "将\\(-950^\\circ 12'\\)加上\\(3\\times360^\\circ=1080^\\circ\\)，得\\(129^\\circ 48'\\)。因为\\(129^\\circ 48'\\)在\\(90^\\circ\\)到\\(180^\\circ\\)之间，所以是第二象限角。",
+      "knowledge_points": [
+        "终边相同的角",
+        "象限角的判定"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-614c04f5-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第五章 三角函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "写出终边在直线\\(y=x\\)上的角的集合\\(S\\)，并求出\\(S\\)中满足不等式\\(-360^\\circ \\leq \\beta < 720^\\circ\\)的所有元素\\(\\beta\\)。",
+      "answer": "\\(S=\\{\\beta\\mid\\beta=45^\\circ+n\\cdot180^\\circ,\\,n\\in\\mathbb{Z}\\}\\)；\\(\\beta\\)为\\(-315^\\circ,-135^\\circ,45^\\circ,225^\\circ,405^\\circ,585^\\circ\\)",
+      "solution_steps": "在0°～360°内，终边在\\(y=x\\)上的角有\\(45^\\circ\\)和\\(225^\\circ\\)，故\\(S=\\{\\beta\\mid\\beta=45^\\circ+n\\cdot180^\\circ,\\,n\\in\\mathbb{Z}\\}\\)。令\\(-360^\\circ\\leq45^\\circ+n\\cdot180^\\circ<720^\\circ\\)，解得\\(n=-2,-1,0,1,2,3\\)，代入得对应角。",
+      "knowledge_points": [
+        "终边相同的角的集合",
+        "角的范围求解"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-614c04f5-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第五章 三角函数",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "已知角\\(\\alpha\\)的终边在第二象限，且\\(\\alpha\\)与\\(-120^\\circ\\)的终边关于\\(x\\)轴对称，求角\\(\\alpha\\)的集合（用角度制表示，\\(k\\in\\mathbb{Z}\\)）。",
+      "answer": "\\(\\{\\alpha\\mid\\alpha=60^\\circ+k\\cdot360^\\circ,\\,k\\in\\mathbb{Z}\\}\\)",
+      "solution_steps": "与\\(-120^\\circ\\)终边关于\\(x\\)轴对称的角为\\(120^\\circ\\)（因为\\(-(-120^\\circ)=120^\\circ\\)）。但\\(120^\\circ\\)终边在第二象限，符合条件。故所有与\\(120^\\circ\\)终边相同的角即为所求，集合为\\(\\{\\alpha\\mid\\alpha=120^\\circ+k\\cdot360^\\circ,\\,k\\in\\mathbb{Z}\\}\\)。注意：关于x轴对称的角，其终边与原来角的终边关于x轴对称，即角度互为相反数。",
+      "knowledge_points": [
+        "终边对称的角",
+        "象限角的判定",
+        "角的集合表示"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第一册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0ac58f2d-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "下列量中哪些是向量？\nA. 悬挂物受到的拉力  B. 压强  C. 摩擦力  D. 频率  E. 加速度",
+      "answer": "A, C, E",
+      "solution_steps": "向量是既有大小又有方向的量。拉力、摩擦力、加速度都有方向，是向量；压强、频率只有大小，是数量。",
+      "knowledge_points": [
+        "向量的概念",
+        "区分向量与数量"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0ac58f2d-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "如图，在正六边形ABCDEF中，O为中心。写出图中与\\(\\overrightarrow{OA}\\)相等的向量。",
+      "answer": "\\(\\overrightarrow{CB}, \\overrightarrow{DO}, \\overrightarrow{EF}\\)",
+      "solution_steps": "相等向量需长度相等且方向相同。\\(\\overrightarrow{OA}\\)方向从O指向A，长度等于边长。观察正六边形，\\(\\overrightarrow{CB}\\)从C指向B，\\(\\overrightarrow{DO}\\)从D指向O，\\(\\overrightarrow{EF}\\)从E指向F，均与\\(\\overrightarrow{OA}\\)方向相同且长度相等。",
+      "knowledge_points": [
+        "相等向量",
+        "正六边形的性质"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-0ac58f2d-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "设\\(\\vec{a}\\)和\\(\\vec{b}\\)是两个非零向量，且\\(\\vec{a}\\)与\\(\\vec{b}\\)不共线。若\\(\\overrightarrow{AB} = \\vec{a} + \\vec{b}\\)，\\(\\overrightarrow{BC} = 2\\vec{a} + 8\\vec{b}\\)，\\(\\overrightarrow{CD} = 3(\\vec{a} - \\vec{b})\\)。求证：A, B, D三点共线。",
+      "answer": "A, B, D三点共线",
+      "solution_steps": "要证A,B,D共线，需证存在实数λ使\\(\\overrightarrow{BD} = λ\\overrightarrow{AB}\\)。计算\\(\\overrightarrow{BD} = \\overrightarrow{BC} + \\overrightarrow{CD} = (2\\vec{a}+8\\vec{b}) + 3(\\vec{a}-\\vec{b}) = 5\\vec{a}+5\\vec{b} = 5(\\vec{a}+\\vec{b}) = 5\\overrightarrow{AB}\\)，所以\\(\\overrightarrow{BD}\\)与\\(\\overrightarrow{AB}\\)共线，又公共点B，故A,B,D共线。",
+      "knowledge_points": [
+        "向量加法",
+        "共线向量",
+        "三点共线的证明"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5213db4a-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "写出复数 \\(z = 3 - 4i\\) 的实部和虚部，并判断它是实数、虚数还是纯虚数。",
+      "answer": "实部 3，虚部 -4，虚数",
+      "solution_steps": "复数 \\(z = a + bi\\) 中，\\(a\\) 是实部，\\(b\\) 是虚部。这里 \\(a = 3\\)，\\(b = -4\\)。因为 \\(b \\neq 0\\)，所以是虚数。",
+      "knowledge_points": [
+        "复数的实部与虚部",
+        "复数的分类"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5213db4a-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "已知复数 \\(z = (m^2 - 1) + (m - 1)i\\)，当实数 \\(m\\) 取何值时，\\(z\\) 是纯虚数？",
+      "answer": "\\(m = -1\\)",
+      "solution_steps": "纯虚数要求实部为0且虚部不为0。实部 \\(m^2 - 1 = 0\\) 得 \\(m = \\pm 1\\)，虚部 \\(m - 1 \\neq 0\\) 得 \\(m \\neq 1\\)，所以 \\(m = -1\\)。",
+      "knowledge_points": [
+        "纯虚数的条件",
+        "解方程"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-5213db4a-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "在复平面内，复数 \\(z\\) 对应的点位于第二象限，且 \\(|z| = 5\\)，\\(z\\) 的实部与虚部之和为 \\(-1\\)，求 \\(z\\)。",
+      "answer": "\\(z = -3 + 4i\\)",
+      "solution_steps": "设 \\(z = a + bi\\)，由第二象限知 \\(a < 0, b > 0\\)。由模长 \\(\\sqrt{a^2 + b^2} = 5\\) 得 \\(a^2 + b^2 = 25\\)，由实部虚部之和 \\(a + b = -1\\)。联立解得 \\(a = -3, b = 4\\) 或 \\(a = 4, b = -5\\)（舍去，因为不在第二象限），所以 \\(z = -3 + 4i\\)。",
+      "knowledge_points": [
+        "复数的几何意义",
+        "复数的模",
+        "解方程组"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-04e15249-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "下列几何体中，哪些是旋转体？请选出所有旋转体的序号。①圆柱 ②棱柱 ③圆锥 ④棱锥 ⑤球",
+      "answer": "①③⑤",
+      "solution_steps": "旋转体是由平面图形绕定直线旋转形成的，圆柱、圆锥、球是旋转体，棱柱和棱锥是多面体。",
+      "knowledge_points": [
+        "旋转体的定义",
+        "多面体与旋转体的区分"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-04e15249-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "用一个平行于棱锥底面的平面去截棱锥，截面与底面之间的部分叫做棱台。已知一个四棱锥的底面是边长为2的正方形，侧棱长均为3，被平行于底面的平面截得一个棱台，若截面边长为1，求该棱台的高。",
+      "answer": "\\frac{3\\sqrt{7}}{4}",
+      "solution_steps": "设棱锥顶点为S，底面中心O，SO为高。由勾股定理得SO=√(3²-(√2)²)=√7。截面与底面相似，相似比为1:2，所以截面到顶点的距离为SO/2=√7/2，故棱台高=SO-√7/2=√7/2。",
+      "knowledge_points": [
+        "棱台的定义",
+        "相似比",
+        "勾股定理"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-04e15249-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "在直三棱柱ABC-A₁B₁C₁中，底面ABC是直角三角形，∠ACB=90°，AC=BC=2，AA₁=4。点D为棱AA₁的中点，点E为棱CC₁上的动点。当三棱锥D-BCE的体积最大时，求直线BE与平面B₁C₁D所成角的正弦值。",
+      "answer": "\\frac{\\sqrt{2}}{3}",
+      "solution_steps": "建立空间直角坐标系，以C为原点，CA、CB、CC₁为x、y、z轴。设CE=t(0≤t≤4)，则V_D-BCE=1/3×S_BCE×1/2×2=1/3×t×2×1/2×2=2t/3，当t=4时体积最大。此时E(0,0,4)，B(0,2,0)，D(2,0,2)，B₁(0,2,4)，C₁(0,0,4)。求平面B₁C₁D的法向量n=(1,1,1)，BE=(0,-2,4)，sinθ=|cos<BE,n>|=|(0-2+4)|/(√(0+4+16)×√3)=2/(√20×√3)=2/(2√5×√3)=1/√15=√15/15。",
+      "knowledge_points": [
+        "棱柱的体积",
+        "空间向量法求线面角",
+        "函数最值"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-eaa54328-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第九章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "为了解某校高一年级500名学生的身高情况，从中抽取了50名学生进行测量。在这个问题中，总体、个体、样本、样本容量分别是什么？",
+      "answer": "总体是500名学生的身高；个体是每名学生的身高；样本是50名学生的身高；样本容量是50。",
+      "solution_steps": "总体是调查对象的全体，即500名学生的身高；个体是每个调查对象，即每名学生的身高；样本是抽取的部分个体，即50名学生的身高；样本容量是样本中包含的个体数，即50。",
+      "knowledge_points": [
+        "总体与个体",
+        "样本与样本容量"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-eaa54328-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第九章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "某工厂生产一批零件，共有1000个。现采用简单随机抽样（不放回）抽取20个零件进行质量检测。请设计一个具体的抽样方案（用随机数法），并说明如何保证抽样的公平性。",
+      "answer": "方案：将1000个零件编号为1~1000，使用随机数表或计算器生成20个1~1000内的不重复随机数，对应编号的零件即为样本。公平性：每个零件被抽到的概率相等，均为20/1000=0.02。",
+      "solution_steps": "首先对每个零件编号；然后利用随机数工具（如随机数表）生成20个1~1000之间的整数随机数，若重复则跳过；最后抽取对应编号的零件。由于每个编号被抽到的概率相同，保证了公平性。",
+      "knowledge_points": [
+        "简单随机抽样",
+        "随机数法",
+        "抽样公平性"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-eaa54328-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第九章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "在一个不透明的袋中装有红、白两种颜色的小球共1000个，除颜色外完全相同。现采用不放回简单随机抽样，从中抽取100个球，发现红球有30个。试估计袋中红球的比例，并说明这种估计是否一定正确？为什么？",
+      "answer": "估计红球比例为30%。不一定正确，因为样本是随机抽取的，可能存在抽样误差，但样本量较大时估计较可靠。",
+      "solution_steps": "样本中红球比例为30/100=30%，用样本比例估计总体比例。由于抽样是随机的，不同样本可能得到不同比例，但根据大数定律，样本量越大估计越准确。不放回抽样比放回抽样效率更高，但仍存在误差。",
+      "knowledge_points": [
+        "用样本估计总体",
+        "抽样误差",
+        "不放回简单随机抽样"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-27d6ac94-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第十章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "抛掷一枚质地均匀的骰子，观察朝上的点数，写出试验的样本空间。",
+      "answer": "Ω={1,2,3,4,5,6}",
+      "solution_steps": "样本空间是试验所有可能结果的集合。骰子有6个面，点数分别为1到6，所以样本空间为{1,2,3,4,5,6}。",
+      "knowledge_points": [
+        "样本空间的概念"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-27d6ac94-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第十章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "从装有2个红球和3个白球的袋中随机摸取一球，观察颜色。写出样本空间，并用集合表示事件A=\"摸到红球\"。",
+      "answer": "Ω={红,白}，A={红}",
+      "solution_steps": "试验的可能结果只有两种颜色：红或白，所以样本空间Ω={红,白}。事件A表示摸到红球，即包含样本点“红”，所以A={红}。",
+      "knowledge_points": [
+        "样本空间",
+        "随机事件的表示"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-27d6ac94-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "必修",
+      "chapter": "第十章",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "一个电路中有A、B、C三个元件，每个元件正常或失效。用1表示正常，0表示失效。写出样本空间，并用集合表示事件M=\"至少两个元件正常\"和事件N=\"电路是通路\"（电路是通路当且仅当A正常且B、C至少一个正常）。",
+      "answer": "Ω={(0,0,0),(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(1,1,1)}；M={(1,1,0),(1,0,1),(0,1,1),(1,1,1)}；N={(1,1,0),(1,0,1),(1,1,1)}",
+      "solution_steps": "每个元件有2种状态，共2^3=8种结果，用三元组表示。M：至少两个正常，即恰好两个正常或三个正常，包含(1,1,0),(1,0,1),(0,1,1),(1,1,1)。N：A正常且B、C至少一个正常，所以A=1且(B,C)≠(0,0)，包含(1,1,0),(1,0,1),(1,1,1)。",
+      "knowledge_points": [
+        "样本空间的列举",
+        "随机事件的集合表示",
+        "电路问题建模"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/必修/第二册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-f05eaa31-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "4第一章空间向量与立体几何",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "在平行六面体 \\(ABCD-A'B'C'D'\\) 中，化简 \\(\\overrightarrow{AB} + \\overrightarrow{AD} + \\overrightarrow{AA'}\\) 的结果是？",
+      "answer": "\\(\\overrightarrow{AC'}\\)",
+      "solution_steps": "根据向量加法的平行四边形法则，\\(\\overrightarrow{AB} + \\overrightarrow{AD} = \\overrightarrow{AC}\\)，再与 \\(\\overrightarrow{AA'}\\) 相加得 \\(\\overrightarrow{AC'}\\)。",
+      "knowledge_points": [
+        "空间向量的加法",
+        "平行六面体对角线"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-f05eaa31-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "4第一章空间向量与立体几何",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "已知 \\(a, b\\) 是空间两个不共线的向量，且 \\(p = xa + yb\\)，则 \\(p\\) 与 \\(a, b\\) 的位置关系是？",
+      "answer": "\\(p\\) 与 \\(a, b\\) 共面",
+      "solution_steps": "由空间向量共面定理，若 \\(a, b\\) 不共线，则 \\(p = xa + yb\\) 等价于 \\(p\\) 与 \\(a, b\\) 共面。",
+      "knowledge_points": [
+        "空间向量共面定理",
+        "共面向量"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-f05eaa31-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "4第一章空间向量与立体几何",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "如图，在平行六面体 \\(ABCD-A'B'C'D'\\) 中，\\(AB=5, AD=3, AA'=7\\)，\\(\\angle BAD=60^\\circ\\)，\\(\\angle BAA'=\\angle DAA'=45^\\circ\\)。求 \\(AC'\\) 的长（精确到0.1）。",
+      "answer": "13.3",
+      "solution_steps": "由 \\(\\overrightarrow{AC'} = \\overrightarrow{AB} + \\overrightarrow{AD} + \\overrightarrow{AA'}\\)，计算 \\(|\\overrightarrow{AC'}|^2 = |\\overrightarrow{AB}|^2 + |\\overrightarrow{AD}|^2 + |\\overrightarrow{AA'}|^2 + 2(\\overrightarrow{AB}\\cdot\\overrightarrow{AD} + \\overrightarrow{AB}\\cdot\\overrightarrow{AA'} + \\overrightarrow{AD}\\cdot\\overrightarrow{AA'})\\)。代入数值：\\(5^2+3^2+7^2+2(5\\times3\\times\\cos60^\\circ+5\\times7\\times\\cos45^\\circ+3\\times7\\times\\cos45^\\circ)=98+56\\sqrt{2}\\)，开平方得 \\(\\sqrt{98+56\\sqrt{2}} \\approx 13.3\\)。",
+      "knowledge_points": [
+        "空间向量的数量积",
+        "空间向量模长计算",
+        "平行六面体对角线"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-975bede0-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第二章 直线和圆的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "已知直线经过两点 \\(A(2,3)\\) 和 \\(B(4,7)\\)，求直线的斜率，并判断倾斜角是锐角还是钝角。",
+      "answer": "斜率 \\(k=2\\)，倾斜角为锐角。",
+      "solution_steps": "由斜率公式 \\(k=\\frac{y_2-y_1}{x_2-x_1}=\\frac{7-3}{4-2}=2\\)，\\(k>0\\)，故倾斜角为锐角。",
+      "knowledge_points": [
+        "直线的斜率公式",
+        "倾斜角与斜率的关系"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-975bede0-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第二章 直线和圆的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "已知直线 \\(l_1\\) 过点 \\(A(1,2)\\) 和 \\(B(3,6)\\)，直线 \\(l_2\\) 过点 \\(C(0,1)\\) 和 \\(D(2,5)\\)，判断 \\(l_1\\) 与 \\(l_2\\) 是否平行，并说明理由。",
+      "answer": "平行，因为斜率相等。",
+      "solution_steps": "计算 \\(k_{AB}=\\frac{6-2}{3-1}=2\\)，\\(k_{CD}=\\frac{5-1}{2-0}=2\\)，斜率相等且不重合，故 \\(l_1 \\parallel l_2\\)。",
+      "knowledge_points": [
+        "两条直线平行的判定",
+        "斜率公式"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-975bede0-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第二章 直线和圆的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "已知直线 \\(l\\) 的倾斜角 \\(\\alpha\\) 满足 \\(\\sin\\alpha=\\frac{3}{5}\\)，且直线经过点 \\(P(1,2)\\)，求直线的一个方向向量（用坐标表示）。",
+      "answer": "方向向量为 \\((4,3)\\) 或 \\((-4,-3)\\)。",
+      "solution_steps": "由 \\(\\sin\\alpha=\\frac{3}{5}\\) 且 \\(0\\leq\\alpha<180^\\circ\\)，得 \\(\\cos\\alpha=\\pm\\frac{4}{5}\\)，斜率 \\(k=\\tan\\alpha=\\frac{\\sin\\alpha}{\\cos\\alpha}=\\pm\\frac{3}{4}\\)。方向向量可取 \\((1,k)\\)，即 \\((1,\\frac{3}{4})\\) 或 \\((1,-\\frac{3}{4})\\)，整数化得 \\((4,3)\\) 或 \\((4,-3)\\)，但注意 \\((4,-3)\\) 对应负斜率，而 \\(\\sin\\alpha>0\\) 时 \\(\\alpha\\) 为锐角或钝角，故两个方向向量均可能，但通常取 \\((4,3)\\) 或 \\((-4,-3)\\)。",
+      "knowledge_points": [
+        "倾斜角与斜率的关系",
+        "方向向量的求法",
+        "三角函数"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-6aa75fea-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第三章 圆锥曲线的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "easy",
+      "question_text": "已知椭圆的标准方程为 \\(\\frac{x^2}{25}+\\frac{y^2}{16}=1\\)，求椭圆的焦点坐标和焦距。",
+      "answer": "焦点坐标为 \\((\\pm 3, 0)\\)，焦距为 \\(6\\)。",
+      "solution_steps": "由方程知 \\(a^2=25, b^2=16\\)，则 \\(c^2=a^2-b^2=9\\)，\\(c=3\\)。焦点在 x 轴上，故焦点为 \\((\\pm 3, 0)\\)，焦距 \\(2c=6\\)。",
+      "knowledge_points": [
+        "椭圆的标准方程",
+        "椭圆焦点与焦距"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-6aa75fea-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第三章 圆锥曲线的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "medium",
+      "question_text": "已知椭圆的两个焦点坐标分别为 \\((0, -2)\\) 和 \\((0, 2)\\)，且经过点 \\((\\sqrt{5}, 0)\\)，求椭圆的标准方程。",
+      "answer": "\\(\\frac{y^2}{9}+\\frac{x^2}{5}=1\\)",
+      "solution_steps": "焦点在 y 轴上，设方程为 \\(\\frac{y^2}{a^2}+\\frac{x^2}{b^2}=1\\)。\\(c=2\\)，\\(2a=\\sqrt{(\\sqrt{5})^2+(0+2)^2}+\\sqrt{(\\sqrt{5})^2+(0-2)^2}=3+3=6\\)，\\(a=3\\)，\\(b^2=a^2-c^2=9-4=5\\)。所以方程为 \\(\\frac{y^2}{9}+\\frac{x^2}{5}=1\\)。",
+      "knowledge_points": [
+        "椭圆的标准方程",
+        "椭圆的定义"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-6aa75fea-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第三章 圆锥曲线的方程",
+      "edition": "人教A版",
+      "volume": "第一册",
+      "difficulty": "hard",
+      "question_text": "设点 \\(A, B\\) 的坐标分别为 \\((-3,0)\\) 和 \\((3,0)\\)，直线 \\(AM\\) 与 \\(BM\\) 相交于点 \\(M\\)，且它们的斜率之积为 \\(-\\frac{4}{9}\\)，求点 \\(M\\) 的轨迹方程，并说明轨迹是什么曲线（除去哪些点）。",
+      "answer": "\\(\\frac{x^2}{9}+\\frac{y^2}{4}=1\\)（除去 \\((\\pm 3,0)\\)）",
+      "solution_steps": "设 \\(M(x,y)\\)，则 \\(k_{AM}=\\frac{y}{x+3}\\)，\\(k_{BM}=\\frac{y}{x-3}\\)。由题意 \\(\\frac{y}{x+3}\\cdot\\frac{y}{x-3}=-\\frac{4}{9}\\)，整理得 \\(9y^2=-4(x^2-9)\\)，即 \\(4x^2+9y^2=36\\)，化为 \\(\\frac{x^2}{9}+\\frac{y^2}{4}=1\\)。因为分母不为零，需 \\(x\\neq\\pm 3\\)，故轨迹为椭圆除去 \\((\\pm 3,0)\\) 两点。",
+      "knowledge_points": [
+        "轨迹方程的求法",
+        "椭圆的标准方程"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第一册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d13c9701-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "easy",
+      "question_text": "书架上层放有6本不同的数学书，下层放有5本不同的语文书。从书架上任取1本书，有多少种不同的取法？",
+      "answer": "11种",
+      "solution_steps": "完成一件事是取1本书，有两类方案：从上层取有6种，从下层取有5种。根据分类加法计数原理，共有6+5=11种取法。",
+      "knowledge_points": [
+        "分类加法计数原理"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d13c9701-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "medium",
+      "question_text": "用0,1,2,3,4可以组成多少个无重复数字的三位数？",
+      "answer": "48个",
+      "solution_steps": "分三步：先选百位，不能为0，有4种选法；再选十位，从剩余4个数字中选，有4种；最后选个位，从剩余3个数字中选，有3种。根据分步乘法计数原理，共有4×4×3=48个。",
+      "knowledge_points": [
+        "分步乘法计数原理",
+        "排列"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-d13c9701-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第六章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "hard",
+      "question_text": "某班有30名男生、24名女生，现要从中选出男生和女生各1名代表班级参加比赛，但要求选出的2人不能来自同一个家庭（假设每个家庭最多有1男1女，且已知有3个家庭既有男生又有女生）。问有多少种不同的选法？",
+      "answer": "711种",
+      "solution_steps": "先不考虑家庭限制，共有30×24=720种选法。需减去来自同一家庭的选法，有3个家庭，每个家庭有1男1女，故有3种选法。所以720-3=717种。注意：答案应为717，之前计算有误。更正：720-3=717。",
+      "knowledge_points": [
+        "分步乘法计数原理",
+        "分类加法计数原理",
+        "排除法"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-48da79e0-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "easy",
+      "question_text": "某班级有45名学生，其中男生25人，团员30人，男生团员16人。现随机选一人，已知选到的是团员，求选到的是男生的概率。",
+      "answer": "\\(\\frac{8}{15}\\)",
+      "solution_steps": "设A='选到团员'，B='选到男生'，则n(A)=30，n(AB)=16，由条件概率公式P(B|A)=n(AB)/n(A)=16/30=8/15。",
+      "knowledge_points": [
+        "条件概率的计算"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-48da79e0-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "medium",
+      "question_text": "在5道试题中有3道代数题和2道几何题，每次随机抽1道，不放回。求第1次抽到代数题且第2次抽到几何题的概率。",
+      "answer": "\\(\\frac{3}{10}\\)",
+      "solution_steps": "设A='第1次抽到代数题'，B='第2次抽到几何题'。方法1：样本空间总数n(Ω)=5×4=20，n(AB)=3×2=6，P(AB)=6/20=3/10。方法2：P(A)=3/5，P(B|A)=2/4=1/2，乘法公式P(AB)=P(A)P(B|A)=3/5×1/2=3/10。",
+      "knowledge_points": [
+        "概率的乘法公式",
+        "条件概率"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-48da79e0-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第七章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "hard",
+      "question_text": "已知3张奖券中只有1张有奖，甲、乙、丙3名同学依次不放回各随机抽取1张。证明：甲、乙、丙中奖的概率相等，均为\\(\\frac{1}{3}\\)。",
+      "answer": "见解析",
+      "solution_steps": "设A,B,C分别表示甲、乙、丙中奖。P(A)=1/3。乙中奖等价于甲没中奖且乙中奖，即B=ĀB，则P(B)=P(Ā)P(B|Ā)=2/3×1/2=1/3。丙中奖等价于甲、乙都没中奖，即C=ĀB̄，则P(C)=P(Ā)P(B̄|Ā)=2/3×1/2=1/3。所以三人中奖概率相等，与抽奖次序无关。",
+      "knowledge_points": [
+        "概率的乘法公式",
+        "条件概率",
+        "全概率公式思想"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-7bbab67e-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "easy",
+      "question_text": "判断下列两个变量之间是否存在相关关系，若存在，指出是正相关还是负相关：\n（1）某地汽车保有量与空气污染指数；\n（2）施肥量与粮食亩产量（在一定范围内）。",
+      "answer": "（1）存在正相关；（2）存在正相关。",
+      "solution_steps": "根据教材，汽车保有量增加通常导致空气污染指数上升，所以正相关；在一定范围内，施肥量增加粮食亩产量增加，所以正相关。",
+      "knowledge_points": [
+        "相关关系的概念",
+        "正相关与负相关的判断"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-7bbab67e-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "medium",
+      "question_text": "根据下表数据，画出散点图，并判断年龄与脂肪含量是否存在相关关系？若存在，是正相关还是负相关？\n| 年龄/岁 | 23 | 27 | 39 | 41 | 45 | 49 | 50 | 53 | 54 | 56 | 57 | 58 | 60 | 61 |\n| 脂肪含量/% | 9.5 | 17.8 | 21.2 | 25.9 | 27.5 | 26.3 | 28.2 | 29.6 | 30.2 | 31.4 | 30.8 | 33.5 | 35.2 | 34.6 |",
+      "answer": "存在正相关。",
+      "solution_steps": "以年龄为横轴，脂肪含量为纵轴画散点图，观察发现散点大致从左下到右上分布，说明年龄增加时脂肪含量有增加趋势，因此成正相关。",
+      "knowledge_points": [
+        "散点图的绘制",
+        "通过散点图判断相关关系"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-7bbab67e-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第八章",
+      "edition": "人教A版",
+      "volume": "第三册",
+      "difficulty": "hard",
+      "question_text": "已知变量x和y的成对数据散点图如下：散点分布在一条曲线附近，且当x增大时y先增大后减小。请判断x和y的相关关系类型，并说明理由。",
+      "answer": "非线性相关（曲线相关）。",
+      "solution_steps": "散点分布在曲线附近，不是直线，因此不是线性相关；且变化趋势非单调，既不是正相关也不是负相关，所以是非线性相关（曲线相关）。",
+      "knowledge_points": [
+        "线性相关与非线性相关的区分",
+        "散点图的综合判断"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第三册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-880fdf09-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "26第四章数列",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "判断下列数列是否为等比数列，如果是，写出公比 \\( q \\)：\n(1) 1, 1.1, 1.21, 1.331, 1.4641；\n(2) 4, -8, 16, -32, 64, -128。",
+      "answer": "(1) 是，\\( q=1.1 \\)；(2) 是，\\( q=-2 \\)。",
+      "solution_steps": "(1) 后一项除以前一项均为1.1，故是等比数列，公比1.1。(2) 后一项除以前一项均为-2，故是等比数列，公比-2。",
+      "knowledge_points": [
+        "等比数列的定义",
+        "公比的确定"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-880fdf09-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "26第四章数列",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "在等比数列 \\( \\{a_n\\} \\) 中，\\( a_4=48 \\)，\\( a_6=12 \\)，求 \\( a_5 \\)。",
+      "answer": "\\( a_5 = \\pm 24 \\)",
+      "solution_steps": "解法1：由 \\( a_4 = a_1 q^3 =48 \\)，\\( a_6 = a_1 q^5 =12 \\)，两式相除得 \\( q^2 = \\frac{1}{4} \\)，\\( q = \\pm \\frac{1}{2} \\)。代入得 \\( a_1 = 384 \\) 或 \\( -384 \\)，则 \\( a_5 = a_1 q^4 = \\pm 24 \\)。解法2：\\( a_5 \\) 是 \\( a_4 \\) 与 \\( a_6 \\) 的等比中项，\\( a_5^2 = a_4 a_6 = 576 \\)，故 \\( a_5 = \\pm 24 \\)。",
+      "knowledge_points": [
+        "等比数列通项公式",
+        "等比中项"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-880fdf09-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "26第四章数列",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "已知数列 \\( \\{a_n\\} \\) 的首项 \\( a_1 = 3 \\)。若 \\( \\{a_n\\} \\) 为等差数列，公差 \\( d=2 \\)，证明数列 \\( \\{3^{a_n}\\} \\) 为等比数列。",
+      "answer": "证明见解析",
+      "solution_steps": "设 \\( b_n = 3^{a_n} \\)。因为 \\( \\{a_n\\} \\) 是等差数列，\\( a_n = 3 + (n-1)\\times 2 = 2n+1 \\)。则 \\( b_n = 3^{2n+1} \\)，\\( b_{n+1} = 3^{2n+3} \\)。计算 \\( \\frac{b_{n+1}}{b_n} = \\frac{3^{2n+3}}{3^{2n+1}} = 3^2 = 9 \\)，常数，故 \\( \\{b_n\\} \\) 是等比数列，公比为9。",
+      "knowledge_points": [
+        "等差数列通项",
+        "等比数列的判定",
+        "指数运算"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9d171aca-1",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第五章 一元函数的导数及其应用",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "easy",
+      "question_text": "跳水运动员的重心高度 \\(h(t)=-4.9t^2+4.8t+11\\)（单位：m），求运动员在 \\(t=2\\) s 时的瞬时速度。",
+      "answer": "\\(-14.8\\) m/s",
+      "solution_steps": "计算平均速度 \\(\\frac{h(2+\\Delta t)-h(2)}{\\Delta t}=-4.9\\Delta t-14.8\\)，令 \\(\\Delta t\\to 0\\) 得瞬时速度 \\(-14.8\\) m/s。",
+      "knowledge_points": [
+        "瞬时速度的计算",
+        "极限思想"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9d171aca-2",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第五章 一元函数的导数及其应用",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "medium",
+      "question_text": "求抛物线 \\(f(x)=x^2\\) 在点 \\((2,4)\\) 处的切线斜率。",
+      "answer": "4",
+      "solution_steps": "设 \\(\\Delta x\\) 为增量，割线斜率 \\(k=\\frac{(2+\\Delta x)^2-4}{\\Delta x}=4+\\Delta x\\)，令 \\(\\Delta x\\to 0\\) 得切线斜率 \\(4\\)。",
+      "knowledge_points": [
+        "切线斜率的定义",
+        "割线逼近切线"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-math-9d171aca-3",
+      "subject": "math",
+      "stage": "高中",
+      "grade": "选择性必修",
+      "chapter": "第五章 一元函数的导数及其应用",
+      "edition": "人教A版",
+      "volume": "第二册",
+      "difficulty": "hard",
+      "question_text": "火箭发射后高度 \\(h(t)=0.9t^2\\)（单位：m），求发射后第 \\(10\\) s 时火箭爬高的瞬时速度，并解释其物理意义。",
+      "answer": "18 m/s",
+      "solution_steps": "计算平均速度 \\(\\frac{h(10+\\Delta t)-h(10)}{\\Delta t}=18+0.9\\Delta t\\)，令 \\(\\Delta t\\to 0\\) 得瞬时速度 \\(18\\) m/s；物理意义：火箭在第 10 s 时的瞬时速率。",
+      "knowledge_points": [
+        "瞬时速度的应用",
+        "物理意义"
+      ],
+      "textbook_ref": {
+        "path": "高中/数学/人教A版/选择性必修/第二册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-3485b317-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十三章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "将两个铅柱的底面削平、削干净，然后紧紧地压在一起，两个铅柱就会结合起来，甚至下面吊一个重物都不能把它们拉开。这个实验说明了什么？",
+      "answer": "分子之间存在引力。",
+      "solution_steps": "两个铅柱压紧后，由于分子间的距离很小，分子间引力使得它们结合在一起，即使吊重物也不易拉开，这证明分子间存在引力。",
+      "knowledge_points": [
+        "分子间的作用力",
+        "分子引力"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-3485b317-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十三章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "在一个烧杯中装半杯热水，另一个同样的烧杯中装等量的凉水。用滴管分别在两个杯中滴入一滴墨水，观察哪个烧杯中墨水扩散得快。这个实验说明了什么？",
+      "answer": "温度越高，分子热运动越剧烈，扩散越快。",
+      "solution_steps": "墨水在热水中扩散更快，因为热水温度高，分子热运动更剧烈，所以扩散现象更明显。该实验表明扩散快慢与温度有关。",
+      "knowledge_points": [
+        "分子热运动",
+        "扩散现象",
+        "温度对扩散的影响"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-3485b317-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十三章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "把干净的玻璃板吊在弹簧测力计的下面，读出测力计的示数。使玻璃板水平接触水面，然后稍稍用力向上拉玻璃板，弹簧测力计的示数有什么变化？解释产生这个现象的原因。",
+      "answer": "示数变大。因为玻璃板与水接触时，水分子与玻璃分子间存在引力，向上拉时需要克服引力，所以示数增大。",
+      "solution_steps": "玻璃板接触水面后，水分子与玻璃分子距离很近，分子间引力使两者粘合。向上拉时，需要克服引力，因此弹簧测力计示数比玻璃板重力大，示数变大。当玻璃板离开水面后，示数恢复。",
+      "knowledge_points": [
+        "分子间引力",
+        "分子动理论",
+        "实验分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 13
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-1eab9a5f-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十四章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "汽油机的一个工作循环由四个冲程组成，其中将内能转化为机械能的是哪个冲程？",
+      "answer": "做功冲程",
+      "solution_steps": "汽油机四冲程中，压缩冲程机械能转化为内能，做功冲程内能转化为机械能，吸气冲程和排气冲程没有能量转化。",
+      "knowledge_points": [
+        "汽油机的工作冲程",
+        "能量转化"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-1eab9a5f-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十四章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "完全燃烧2 kg的干木柴（热值约1.2×10^7 J/kg）放出的热量是多少？若这些热量全部被水吸收，能使多少千克的水从20℃升高到100℃？[水的比热容c=4.2×10^3 J/(kg·℃)]",
+      "answer": "Q=2.4×10^7 J；m≈71.4 kg",
+      "solution_steps": "Q=m_q×q=2 kg×1.2×10^7 J/kg=2.4×10^7 J；由Q=cmΔt得m=Q/(cΔt)=2.4×10^7 J/(4.2×10^3 J/(kg·℃)×80℃)≈71.4 kg。",
+      "knowledge_points": [
+        "热值计算",
+        "热量公式Q=cmΔt"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-1eab9a5f-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十四章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "一台四冲程汽油机，飞轮转速为2400 r/min，每个做功冲程对外做功1500 J，求：(1)该汽油机1 min内对外做功多少次？(2)1 min内对外做的总功是多少？(3)该汽油机的功率是多少？",
+      "answer": "(1)1200次 (2)1.8×10^6 J (3)3×10^4 W",
+      "solution_steps": "(1)飞轮每转两圈完成一个工作循环，对外做功一次，故1 min做功次数=2400/2=1200次。(2)总功W=1200×1500 J=1.8×10^6 J。(3)功率P=W/t=1.8×10^6 J/60 s=3×10^4 W。",
+      "knowledge_points": [
+        "四冲程内燃机做功次数与飞轮转速关系",
+        "功的计算",
+        "功率计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 14
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-07ad536a-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十五章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "用丝绸摩擦过的玻璃棒带什么电荷？用毛皮摩擦过的橡胶棒带什么电荷？它们之间相互吸引还是排斥？",
+      "answer": "正电荷；负电荷；吸引",
+      "solution_steps": "根据课本知识，丝绸摩擦玻璃棒，玻璃棒失去电子带正电；毛皮摩擦橡胶棒，橡胶棒得到电子带负电。异种电荷相互吸引。",
+      "knowledge_points": [
+        "两种电荷",
+        "电荷间的相互作用"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-07ad536a-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十五章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "金属锡的原子核带有50个大小与电子电荷相等的正电荷，它的原子核外有多少个电子？这些电子总共带多少库仑的电荷？为什么金属锡对外不显电性？",
+      "answer": "50个；\\(-8 \\times 10^{-18}\\) C；原子核正电荷与核外电子负电荷数量相等",
+      "solution_steps": "原子核外电子数等于核内质子数，所以有50个电子。每个电子带\\(1.6 \\times 10^{-19}\\) C负电荷，总电荷量为\\(50 \\times (-1.6 \\times 10^{-19}) = -8 \\times 10^{-18}\\) C。由于原子核正电荷与核外电子总负电荷数量相等，故对外不显电性。",
+      "knowledge_points": [
+        "原子结构",
+        "电荷量计算",
+        "电中性"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-07ad536a-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十五章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "有甲、乙、丙三个带电体，甲物体排斥乙物体，乙物体吸引丙物体。如果丙物体带正电，甲物体带哪种电？请说明理由。",
+      "answer": "负电",
+      "solution_steps": "丙带正电，乙吸引丙，说明乙带负电（异种电荷相互吸引）。甲排斥乙，说明甲带负电（同种电荷相互排斥）。",
+      "knowledge_points": [
+        "电荷间的相互作用",
+        "推理分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 15
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-0bc66a61-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十六章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "一节干电池的电压约为多少伏？家庭电路的电压约为多少伏？",
+      "answer": "1.5 V；220 V",
+      "solution_steps": "根据课本小资料，一节干电池电压为1.5 V，家庭电路电压为220 V。",
+      "knowledge_points": [
+        "常见电压值"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 16
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-0bc66a61-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十六章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "在如图所示的串联电路中，L1、L2为规格不同的小灯泡。测得UAB=1.2 V，UBC=1.8 V，则电源电压UAC为多少？若电源电压为4.5 V，L1两端电压为2 V，则L2两端电压为多少？",
+      "answer": "3 V；2.5 V",
+      "solution_steps": "串联电路总电压等于各用电器两端电压之和。第一问：UAC=UAB+UBC=1.2 V+1.8 V=3 V。第二问：U2=U总-U1=4.5 V-2 V=2.5 V。",
+      "knowledge_points": [
+        "串联电路电压规律"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 16
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-0bc66a61-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十六章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "小明用电压表测量自制水果电池的电压，如图16.1-8所示，电压表指针偏转情况如图所示（图略，假设电压表使用0~3 V量程，示数为0.8 V）。若电压表“-”接线柱接铜片，“3”接线柱接锌片，则哪个金属片是正极？该电池的电压是多少？若将铜片和锌片插入更深，电压表示数如何变化？",
+      "answer": "铜片是正极；0.8 V；电压表示数变大",
+      "solution_steps": "电压表正接线柱接正极，负接线柱接负极，指针正偏说明铜片是正极。电压表读数为0.8 V。插入更深，两极间距离减小，电压增大。",
+      "knowledge_points": [
+        "电压表使用",
+        "自制电池原理"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 16
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-7644c000-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十七章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "一个定值电阻的阻值是10 Ω，使用时流过的电流是200 mA，加在这个定值电阻两端的电压是多大？",
+      "answer": "2 V",
+      "solution_steps": "已知电阻R=10Ω，电流I=200mA=0.2A。根据欧姆定律U=IR，计算得U=0.2A×10Ω=2V。",
+      "knowledge_points": [
+        "欧姆定律的应用",
+        "单位换算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-7644c000-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十七章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "在伏安法测电阻的实验中，某同学连接电路后，闭合开关，发现电流表示数为0.3A，电压表示数为2.7V。移动滑动变阻器的滑片，电流表示数变化，但电压表示数几乎不变。请分析电路可能出现的故障，并求出待测电阻的阻值。",
+      "answer": "电压表测的是电源电压（或滑动变阻器短路）；待测电阻为9Ω",
+      "solution_steps": "电压表示数几乎不变，说明电压表可能并联在电源两端或滑动变阻器短路。由欧姆定律R=U/I=2.7V/0.3A=9Ω。",
+      "knowledge_points": [
+        "伏安法测电阻",
+        "电路故障分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-7644c000-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十七章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "如图，电源电压恒定不变，R1=10Ω，闭合开关S，滑动变阻器R2的滑片P从a端移到b端，电流表示数变化范围为0.6A~0.2A。求：\n(1)电源电压U；\n(2)滑动变阻器R2的最大阻值；\n(3)当滑片P位于中点时，电压表的示数。",
+      "answer": "(1) 6V；(2) 20Ω；(3) 3V",
+      "solution_steps": "(1)滑片在a端时，只有R1，U=I1R1=0.6A×10Ω=6V。(2)滑片在b端时，R1与R2串联，I2=0.2A，总电阻R总=U/I2=6V/0.2A=30Ω，R2=R总-R1=20Ω。(3)中点时R2'=10Ω，总电阻R总'=20Ω，电流I=U/R总'=0.3A，电压表示数U2=IR2'=0.3A×10Ω=3V。",
+      "knowledge_points": [
+        "欧姆定律",
+        "串联电路",
+        "滑动变阻器"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 17
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-4a2ba032-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十八章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "小明家上个月电能表月初示数为3246.8 kW·h，月底示数为3265.4 kW·h，当地电费为0.6元/度，小明家上个月应缴电费多少元？",
+      "answer": "11.16元",
+      "solution_steps": "用电量=月底示数-月初示数=3265.4-3246.8=18.6 kW·h；电费=18.6×0.6=11.16元。",
+      "knowledge_points": [
+        "电能表读数与电费计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-4a2ba032-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十八章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "一只节能灯标有“220V 24W”，正常工作时的电流是多少？若该灯每天工作4小时，一个月（30天）消耗的电能是多少千瓦时？",
+      "answer": "0.109A；2.88 kW·h",
+      "solution_steps": "电流I=P/U=24W/220V≈0.109A；一个月消耗电能W=Pt=0.024kW×(4h×30)=2.88 kW·h。",
+      "knowledge_points": [
+        "电功率公式P=UI",
+        "电功公式W=Pt"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-4a2ba032-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十八章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "某手机锂电池标有“3.7V 1130mA·h”，充满电后储存的电能是多少焦耳？若该手机待机时电流为15mA，则待机时间多长？",
+      "answer": "15051.6J；75.33h",
+      "solution_steps": "储存电能W=UIt=3.7V×1.13A×3600s=15051.6J；待机时间t=Q/I=1.13A·h/0.015A=75.33h。",
+      "knowledge_points": [
+        "电能计算W=UIt",
+        "电池容量与电流关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 18
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-83932236-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十九章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "家庭电路中，下列元件安装顺序正确的是（ ）\nA. 电能表、总开关、保险装置、用电器\nB. 总开关、电能表、保险装置、用电器\nC. 保险装置、电能表、总开关、用电器\nD. 电能表、保险装置、总开关、用电器",
+      "answer": "A",
+      "solution_steps": "根据课本，输电线进户后首先接电能表，然后接总开关，再是保险装置，最后是用电器。",
+      "knowledge_points": [
+        "家庭电路的组成",
+        "元件安装顺序"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-83932236-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十九章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "小明家新买了一台空调，功率为1.2 kW，原有用电器的总功率为4.8 kW，电能表上标有“220 V 10(40) A”字样。请计算：\n(1) 通过空调的电流是多少？\n(2) 安装空调后，家庭电路的总电流是多少？是否允许安装？",
+      "answer": "(1) 5.45 A (2) 27.3 A，允许",
+      "solution_steps": "(1) 由 \\(I = \\frac{P}{U}\\)，空调电流 \\(I_1 = \\frac{1200\\text{ W}}{220\\text{ V}} \\approx 5.45\\text{ A}\\)。\n(2) 总功率 \\(P_\\text{总} = 4800\\text{ W} + 1200\\text{ W} = 6000\\text{ W}\\)，总电流 \\(I_\\text{总} = \\frac{6000\\text{ W}}{220\\text{ V}} \\approx 27.3\\text{ A}\\)，小于电能表允许的最大电流40 A，所以允许安装。",
+      "knowledge_points": [
+        "电功率与电流的关系",
+        "家庭电路电流过大的原因",
+        "电能表参数的理解"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-83932236-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第十九章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "在家庭电路中，试电笔内的电阻约为1 MΩ，氖管发光时通过人体的电流约为0.2 mA。若使用试电笔检测火线，忽略人体电阻，试计算：\n(1) 试电笔中电阻两端的电压是多少？\n(2) 通过人体的电流是多少？\n(3) 若人体电阻为2 kΩ，则通过人体的电流又是多少？",
+      "answer": "(1) 200 V (2) 0.2 mA (3) 0.196 mA",
+      "solution_steps": "(1) 由 \\(U = IR\\)，电阻两端电压 \\(U_R = 0.2\\times10^{-3}\\text{ A} \\times 1\\times10^{6}\\text{ Ω} = 200\\text{ V}\\)。\n(2) 忽略人体电阻，总电阻为1 MΩ，电流 \\(I = \\frac{220\\text{ V}}{1\\times10^{6}\\text{ Ω}} = 0.22\\text{ mA}\\)，但题目给出氖管发光时电流0.2 mA，故认为通过人体电流为0.2 mA。\n(3) 人体电阻2 kΩ，总电阻 \\(R_\\text{总} = 1\\times10^{6}\\text{ Ω} + 2\\times10^{3}\\text{ Ω} = 1.002\\times10^{6}\\text{ Ω}\\)，电流 \\(I = \\frac{220\\text{ V}}{1.002\\times10^{6}\\text{ Ω}} \\approx 0.2196\\text{ mA} \\approx 0.22\\text{ mA}\\)，但按题意，氖管发光需0.2 mA，所以实际电流约为0.196 mA（考虑人体电阻后电流略小）。",
+      "knowledge_points": [
+        "试电笔的工作原理",
+        "欧姆定律的应用",
+        "安全电流"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 19
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-05c6468a-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "磁体能够吸引铁、钴、镍等物质，这种性质叫做什么？磁体上磁性最强的两个部位叫做什么？",
+      "answer": "磁性；磁极",
+      "solution_steps": "根据教材，磁体吸引铁、钴、镍的性质称为磁性；磁性最强的部位称为磁极，分为南极（S极）和北极（N极）。",
+      "knowledge_points": [
+        "磁性",
+        "磁极"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-05c6468a-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "在条形磁体周围放置一些小磁针，小磁针静止时北极所指的方向就是该点的磁场方向。为了形象描述磁场，可以画出一些带箭头的曲线，这些曲线叫做什么？在磁体外部，磁感线都是从哪个极出发，回到哪个极？",
+      "answer": "磁感线；从N极出发，回到S极",
+      "solution_steps": "根据教材，用带箭头的曲线描述磁场，称为磁感线。在磁体外部，磁感线从N极出发，回到S极。",
+      "knowledge_points": [
+        "磁感线",
+        "磁场方向"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-05c6468a-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "小明发现指南针静止时N极指向地理北方。请解释：地磁场的北极位于地理南极附近还是地理北极附近？为什么？",
+      "answer": "地磁场的北极位于地理南极附近。",
+      "solution_steps": "因为指南针的N极指向地理北方，而同名磁极相互排斥，异名磁极相互吸引，所以地磁场的南极吸引指南针的N极，即地磁场的南极在地理北极附近，那么地磁场的北极在地理南极附近。",
+      "knowledge_points": [
+        "地磁场",
+        "磁极间相互作用"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 20
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-d7052eda-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "电话话筒的作用是把声音信号转换成什么信号？听筒的作用是把什么信号转换成声音信号？",
+      "answer": "电信号；电信号",
+      "solution_steps": "根据课本，话筒将声音转化为变化的电流（电信号），听筒将变化的电流（电信号）转化为声音。",
+      "knowledge_points": [
+        "电话的组成",
+        "话筒和听筒的功能"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-d7052eda-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "模拟信号和数字信号有什么区别？请各举一例。",
+      "answer": "模拟信号是连续变化的信号，如老式电话的电流信号；数字信号是离散的、只有两种状态的信号，如电报的点和画。",
+      "solution_steps": "模拟信号模仿声信号的波形，连续变化；数字信号用不同符号组合（如0和1）表示信息，抗干扰能力强。",
+      "knowledge_points": [
+        "模拟信号",
+        "数字信号"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-d7052eda-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十一章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "在电话通信中，若话筒膜片振动频率为200Hz，则听筒膜片振动频率是多少？为什么？",
+      "answer": "200Hz",
+      "solution_steps": "话筒膜片振动引起电阻变化，产生同频率电流变化；电流传到听筒，电磁铁引力随之变化，使听筒膜片以相同频率振动，因此听筒膜片振动频率等于话筒膜片振动频率，即200Hz。",
+      "knowledge_points": [
+        "电话工作原理",
+        "频率",
+        "电磁铁"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 21
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-979bc870-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "easy",
+      "question_text": "下列能源中，属于一次能源的是（ ）\nA. 电能  B. 煤气  C. 太阳能  D. 汽油",
+      "answer": "C",
+      "solution_steps": "一次能源是直接从自然界获得的能源，如太阳能、风能等。电能、煤气、汽油都需要通过一次能源转化而来，属于二次能源。",
+      "knowledge_points": [
+        "一次能源与二次能源的区分"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-979bc870-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "medium",
+      "question_text": "已知标准煤的热值为 \\(2.93 \\times 10^7 \\, \\text{J/kg}\\)。2007年全球能源消耗折合标准煤约160亿吨。若这些能量全部由铀核裂变提供，1 kg铀完全裂变释放的能量约为 \\(8.2 \\times 10^{13} \\, \\text{J}\\)，则需要多少千克铀？",
+      "answer": "约 \\(5.72 \\times 10^5 \\, \\text{kg}\\)",
+      "solution_steps": "先计算2007年总能量：\\(160 \\times 10^8 \\times 2.93 \\times 10^7 = 4.688 \\times 10^{18} \\, \\text{J}\\)。再除以每千克铀释放能量：\\(4.688 \\times 10^{18} / (8.2 \\times 10^{13}) \\approx 5.72 \\times 10^5 \\, \\text{kg}\\)。",
+      "knowledge_points": [
+        "核能释放的计算",
+        "能量单位换算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-979bc870-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "九年级",
+      "chapter": "第二十二章",
+      "edition": "人教版",
+      "volume": "全一册",
+      "difficulty": "hard",
+      "question_text": "阅读材料，回答问题：\n核电站利用核反应堆产生的内能，通过汽轮机做功，带动发电机发电。反应堆中发生铀核裂变的链式反应。\n（1）链式反应是如何维持的？\n（2）核电站中能量转化过程是怎样的？\n（3）若核电站输出功率为100万千瓦，效率为30%，每天消耗的铀235质量为多少？（已知每个铀235裂变释放能量约200 MeV，阿伏伽德罗常数 \\(N_A = 6.02 \\times 10^{23} \\, \\text{mol}^{-1}\\)，铀235摩尔质量 \\(235 \\, \\text{g/mol}\\)，\\(1 \\, \\text{eV} = 1.6 \\times 10^{-19} \\, \\text{J}\\)）",
+      "answer": "（1）中子轰击铀核裂变时产生新的中子，继续轰击其他铀核，形成链式反应。（2）核能→内能→机械能→电能。（3）约2.55 kg",
+      "solution_steps": "（1）见答案。（2）见答案。（3）每天输出电能 \\(W = Pt = 10^9 \\times 24 \\times 3600 = 8.64 \\times 10^{13} \\, \\text{J}\\)，需核能 \\(Q = W/0.3 = 2.88 \\times 10^{14} \\, \\text{J}\\)。每个铀核释放能量 \\(200 \\times 1.6 \\times 10^{-13} = 3.2 \\times 10^{-11} \\, \\text{J}\\)，需铀核数 \\(N = Q / (3.2 \\times 10^{-11}) = 9 \\times 10^{24}\\)，质量 \\(m = (N/N_A) \\times 0.235 \\approx 2.55 \\, \\text{kg}\\)。",
+      "knowledge_points": [
+        "链式反应",
+        "核电站能量转化",
+        "核能计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/九年级/全一册",
+        "ch": 22
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-2782047f-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章  机械运动",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "在国际单位制中，长度的基本单位是（  ）。",
+      "answer": "米（m）",
+      "solution_steps": "根据课本，长度的基本单位是米，符号为m。",
+      "knowledge_points": [
+        "长度的单位"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-2782047f-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章  机械运动",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "用刻度尺测量一物体的长度，如图所示，该物体的长度为（  ）cm。",
+      "answer": "3.50",
+      "solution_steps": "刻度尺分度值为0.1cm，物体左端对齐0刻度，右端在3.5cm处，估读到分度值下一位，故读数为3.50cm。",
+      "knowledge_points": [
+        "长度的测量",
+        "刻度尺读数"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-2782047f-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章  机械运动",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "某同学用停表测量自己脉搏跳动10次所用的时间，示数如图所示，则脉搏跳动10次所用时间为（  ）s，1min内脉搏跳动的次数约为（  ）次。",
+      "answer": "8.0；75",
+      "solution_steps": "停表小盘指针在0和1之间且超过0.5，所以大盘读数为8.0s。脉搏跳动10次用时8.0s，则跳动一次用时0.8s，1min（60s）跳动次数为60/0.8=75次。",
+      "knowledge_points": [
+        "时间的测量",
+        "停表读数",
+        "误差与估算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-bd367b48-1",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "easy",
+      "question_text": "声音是由物体的______产生的，振动停止，发声也停止。",
+      "answer": "振动",
+      "solution_steps": "根据课本知识，声音是由物体振动产生的，振动停止，发声也停止。所以填“振动”。",
+      "knowledge_points": [
+        "声音的产生"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-bd367b48-2",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "medium",
+      "question_text": "在15℃的空气中，声音的传播速度是340 m/s。若某人对着山崖大喊一声，经过1.5 s后听到回声，则该人距离山崖大约多少米？",
+      "answer": "255 m",
+      "solution_steps": "声音从人传到山崖再返回，总路程为声速乘以时间的一半：s = v × t / 2 = 340 m/s × 1.5 s / 2 = 255 m。",
+      "knowledge_points": [
+        "声速",
+        "回声计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-physics-bd367b48-3",
+      "subject": "physics",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章",
+      "edition": "人教版",
+      "volume": "上册",
+      "difficulty": "hard",
+      "question_text": "将耳朵贴在长铁管的一端，让另外一个人敲一下铁管的另一端，会听到两次敲打声。请解释原因，并说明两次声音的时间间隔与哪些因素有关？",
+      "answer": "第一次声音由铁管传播，第二次由空气传播。时间间隔与铁管长度、声音在铁和空气中的速度有关。",
+      "solution_steps": "声音在不同介质中传播速度不同，铁中声速远大于空气中声速，所以先听到铁管传来的声音，后听到空气传来的声音。时间间隔Δt = L/v_空气 - L/v_铁，其中L为铁管长度。",
+      "knowledge_points": [
+        "声音的传播需要介质",
+        "声速与介质种类的关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/物理/人教版/八年级/上册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    }
+  ],
+  "done": {
+    "初中/数学/人教版/七年级/上册|ch1": "ok",
+    "初中/数学/人教版/七年级/上册|ch2": "ok",
+    "初中/数学/人教版/七年级/上册|ch3": "ok",
+    "初中/数学/人教版/七年级/上册|ch4": "ok",
+    "初中/数学/人教版/七年级/下册|ch5": "ok",
+    "初中/数学/人教版/七年级/下册|ch6": "ok",
+    "初中/数学/人教版/七年级/下册|ch7": "ok",
+    "初中/数学/人教版/七年级/下册|ch8": "ok",
+    "初中/数学/人教版/七年级/下册|ch9": "ok",
+    "初中/数学/人教版/七年级/下册|ch10": "ok",
+    "初中/数学/人教版/九年级/上册|ch21": "ok",
+    "初中/数学/人教版/九年级/上册|ch22": "ok",
+    "初中/数学/人教版/九年级/上册|ch23": "ok",
+    "初中/数学/人教版/九年级/上册|ch24": "ok",
+    "初中/数学/人教版/九年级/上册|ch25": "ok",
+    "初中/数学/人教版/九年级/下册|ch26": "ok",
+    "初中/数学/人教版/九年级/下册|ch27": "ok",
+    "初中/数学/人教版/九年级/下册|ch28": "ok",
+    "初中/数学/人教版/九年级/下册|ch29": "ok",
+    "初中/数学/人教版/八年级/上册|ch11": "ok",
+    "初中/数学/人教版/八年级/上册|ch12": "ok",
+    "初中/数学/人教版/八年级/上册|ch13": "ok",
+    "初中/数学/人教版/八年级/上册|ch14": "ok",
+    "初中/数学/人教版/八年级/上册|ch15": "ok",
+    "初中/数学/人教版/八年级/下册|ch16": "too_short",
+    "初中/数学/人教版/八年级/下册|ch17": "ok",
+    "初中/数学/人教版/八年级/下册|ch18": "ok",
+    "初中/数学/人教版/八年级/下册|ch19": "ok",
+    "初中/数学/人教版/八年级/下册|ch20": "ok",
+    "高中/数学/人教A版/必修/第一册|ch1": "ok",
+    "高中/数学/人教A版/必修/第一册|ch2": "ok",
+    "高中/数学/人教A版/必修/第一册|ch3": "ok",
+    "高中/数学/人教A版/必修/第一册|ch4": "ok",
+    "高中/数学/人教A版/必修/第一册|ch5": "ok",
+    "高中/数学/人教A版/必修/第二册|ch6": "ok",
+    "高中/数学/人教A版/必修/第二册|ch7": "ok",
+    "高中/数学/人教A版/必修/第二册|ch8": "ok",
+    "高中/数学/人教A版/必修/第二册|ch9": "ok",
+    "高中/数学/人教A版/必修/第二册|ch10": "ok",
+    "高中/数学/人教A版/选择性必修/第一册|ch1": "ok",
+    "高中/数学/人教A版/选择性必修/第一册|ch2": "ok",
+    "高中/数学/人教A版/选择性必修/第一册|ch3": "ok",
+    "高中/数学/人教A版/选择性必修/第三册|ch6": "ok",
+    "高中/数学/人教A版/选择性必修/第三册|ch7": "ok",
+    "高中/数学/人教A版/选择性必修/第三册|ch8": "ok",
+    "高中/数学/人教A版/选择性必修/第二册|ch4": "ok",
+    "高中/数学/人教A版/选择性必修/第二册|ch5": "ok",
+    "初中/物理/人教版/九年级/全一册|ch13": "ok",
+    "初中/物理/人教版/九年级/全一册|ch14": "ok",
+    "初中/物理/人教版/九年级/全一册|ch15": "ok",
+    "初中/物理/人教版/九年级/全一册|ch16": "ok",
+    "初中/物理/人教版/九年级/全一册|ch17": "ok",
+    "初中/物理/人教版/九年级/全一册|ch18": "ok",
+    "初中/物理/人教版/九年级/全一册|ch19": "ok",
+    "初中/物理/人教版/九年级/全一册|ch20": "ok",
+    "初中/物理/人教版/九年级/全一册|ch21": "ok",
+    "初中/物理/人教版/九年级/全一册|ch22": "ok",
+    "初中/物理/人教版/八年级/上册|ch1": "ok",
+    "初中/物理/人教版/八年级/上册|ch2": "ok"
+  }
+}

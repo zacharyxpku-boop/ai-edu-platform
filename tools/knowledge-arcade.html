@@ -214,9 +214,7 @@ h1 em{font-style:normal;color:var(--cta)}
             <div style="font-size:12px;color:#71717A;margin-top:2px">免 AI 等待，100 道精选初一题库按学科过滤，一题一解一 XP。</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap" id="subject-tabs">
-            <button class="subtab on" data-sub="math" onclick="loadSubjectBank('math')">数学 · 50</button>
-            <button class="subtab" data-sub="physics" onclick="loadSubjectBank('physics')">物理 · 30</button>
-            <button class="subtab" data-sub="chemistry" onclick="loadSubjectBank('chemistry')">化学 · 20</button>
+            <!-- subtabs 由 rebuildSubjectTabs() 按题库动态生成 -->
         </div>
     </div>
     <div id="sb-host" style="background:#FEFCF8;border:1px solid #E4E4E7;border-radius:10px;padding:16px;min-height:100px">
@@ -1042,13 +1040,49 @@ function matchTextbookChapter(subject, q) {
 async function loadSeedBank() {
     if (_sbBank) return _sbBank;
     try {
-        const r = await fetch('/src/curriculum/seed-questions.json');
-        _sbBank = await r.json();
+        // 两份题库合并：seed-questions.json（人工 100 道）+ seed-questions-generated.json（DeepSeek 自动生成）
+        const [curatedRes, genRes] = await Promise.all([
+            fetch('/src/curriculum/seed-questions.json').then(r => r.ok ? r.json() : null).catch(() => null),
+            fetch('/src/curriculum/seed-questions-generated.json').then(r => r.ok ? r.json() : null).catch(() => null)
+        ]);
+        const qs = [];
+        if (curatedRes && Array.isArray(curatedRes.questions)) qs.push.apply(qs, curatedRes.questions);
+        if (genRes && Array.isArray(genRes.questions)) qs.push.apply(qs, genRes.questions);
+        _sbBank = { questions: qs, meta: { curated: curatedRes ? (curatedRes.questions||[]).length : 0, generated: genRes ? (genRes.questions||[]).length : 0 } };
         return _sbBank;
     } catch (e) {
         console.error('seed bank 加载失败', e);
         return null;
     }
+}
+
+// 按合并后题库的学科分布，动态渲染 subtab
+const SUBJECT_LABELS = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
+const SUBJECT_TAB_ORDER = ['math','physics','chemistry','biology','chinese','english','history','geography','politics','moral'];
+async function rebuildSubjectTabs() {
+    const host = document.getElementById('subject-tabs'); if (!host) return;
+    const bank = await loadSeedBank(); if (!bank) return;
+    const counts = {};
+    bank.questions.forEach(q => { if (q.subject) counts[q.subject] = (counts[q.subject]||0) + 1; });
+    const keys = Object.keys(counts).sort((a,b) => {
+        const ia = SUBJECT_TAB_ORDER.indexOf(a), ib = SUBJECT_TAB_ORDER.indexOf(b);
+        if (ia !== -1 && ib !== -1) return ia - ib;
+        if (ia !== -1) return -1; if (ib !== -1) return 1;
+        return counts[b] - counts[a];
+    });
+    if (!keys.length) { host.innerHTML = '<span style="font-size:12px;color:#A1A1AA">题库加载中…</span>'; return; }
+    host.innerHTML = keys.map((k, i) => {
+        const label = SUBJECT_LABELS[k] || k;
+        return '<button class="subtab' + (i===0?' on':'') + '" data-sub="' + k + '" onclick="loadSubjectBank(\'' + k + '\')">' + label + ' · ' + counts[k] + '</button>';
+    }).join('');
+    // 首次默认加载第一个学科
+    if (!_sbCurrent) loadSubjectBank(keys[0]);
+}
+// 页面就绪后先建 subtab
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', rebuildSubjectTabs);
+} else {
+    rebuildSubjectTabs();
 }
 
 async function loadSubjectBank(subject) {

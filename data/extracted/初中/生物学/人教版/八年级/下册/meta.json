@@ -6,8 +6,40 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/生物学/人教版/八年级/下册.pdf",
   "page_count": 120,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 120,
+  "chapters": [
+    {
+      "ch": 1,
+      "title": "第一章生物的生殖和发育",
+      "start_page": 11,
+      "end_page": 50
+    },
+    {
+      "ch": 2,
+      "title": "第二章生物的遗传与变异：47",
+      "start_page": 51,
+      "end_page": 62
+    },
+    {
+      "ch": 3,
+      "title": "第三章生命起源和生物进化59",
+      "start_page": 63,
+      "end_page": 33
+    },
+    {
+      "ch": 7,
+      "title": "30第七单元生物圈中生命的延续和发展",
+      "start_page": 34,
+      "end_page": 74
+    },
+    {
+      "ch": 8,
+      "title": "第八单元 健康地生活",
+      "start_page": 75,
+      "end_page": 120
+    }
+  ]
 }

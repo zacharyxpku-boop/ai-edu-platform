@@ -6,8 +6,46 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/生物学/人教版/七年级/下册.pdf",
   "page_count": 120,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
-  "extracted_at": "2026-04-22"
+  "extracted_at": "2026-04-22",
+  "extractor_version": "ocr-1.0",
+  "source": "rapidocr-onnxruntime",
+  "pages_ocred": 120,
+  "chapters": [
+    {
+      "ch": 2,
+      "title": "第二章 人体的营养",
+      "start_page": 22,
+      "end_page": 43
+    },
+    {
+      "ch": 3,
+      "title": "第三章 人体的呼吸",
+      "start_page": 44,
+      "end_page": 53
+    },
+    {
+      "ch": 4,
+      "title": "第四章 人体内物质的运输",
+      "start_page": 54,
+      "end_page": 75
+    },
+    {
+      "ch": 5,
+      "title": "第五章 人体内废物的排出",
+      "start_page": 76,
+      "end_page": 81
+    },
+    {
+      "ch": 6,
+      "title": "第六章 人体生命活动的调节",
+      "start_page": 82,
+      "end_page": 105
+    },
+    {
+      "ch": 7,
+      "title": "第七章 人类活动对生物圈的影响",
+      "start_page": 106,
+      "end_page": 120
+    }
+  ]
 }

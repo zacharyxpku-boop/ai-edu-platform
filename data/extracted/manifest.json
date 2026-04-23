@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-04-22",
   "source": "ChinaTextbook github.com/TapXWorld/ChinaTextbook",
-  "book_count": 53,
-  "scan_count": 5,
+  "book_count": 56,
+  "scan_count": 2,
   "total": 58,
   "books": [
     {
@@ -260,6 +260,47 @@
           "title": "第五章",
           "start_page": 98,
           "end_page": 112
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "地理",
+      "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 107,
+      "path": "初中/地理/人教版/七年级/下册",
+      "chapters": [
+        {
+          "ch": 6,
+          "title": "第六章我们生活的大洲—亚洲",
+          "start_page": 10,
+          "end_page": 16
+        },
+        {
+          "ch": 7,
+          "title": "第七章 我们邻近的地区和国家",
+          "start_page": 17,
+          "end_page": 46
+        },
+        {
+          "ch": 8,
+          "title": "第八章 东半球其他的地区和国家",
+          "start_page": 47,
+          "end_page": 76
+        },
+        {
+          "ch": 9,
+          "title": "第九章 西半球的国家",
+          "start_page": 77,
+          "end_page": 94
+        },
+        {
+          "ch": 10,
+          "title": "第十章 极地地区",
+          "start_page": 95,
+          "end_page": 107
         }
       ]
     },
@@ -748,6 +789,53 @@
       "stage": "初中",
       "subject": "生物学",
       "edition": "人教版",
+      "grade": "七年级",
+      "volume": "下册",
+      "page_count": 120,
+      "path": "初中/生物学/人教版/七年级/下册",
+      "chapters": [
+        {
+          "ch": 2,
+          "title": "第二章 人体的营养",
+          "start_page": 22,
+          "end_page": 43
+        },
+        {
+          "ch": 3,
+          "title": "第三章 人体的呼吸",
+          "start_page": 44,
+          "end_page": 53
+        },
+        {
+          "ch": 4,
+          "title": "第四章 人体内物质的运输",
+          "start_page": 54,
+          "end_page": 75
+        },
+        {
+          "ch": 5,
+          "title": "第五章 人体内废物的排出",
+          "start_page": 76,
+          "end_page": 81
+        },
+        {
+          "ch": 6,
+          "title": "第六章 人体生命活动的调节",
+          "start_page": 82,
+          "end_page": 105
+        },
+        {
+          "ch": 7,
+          "title": "第七章 人类活动对生物圈的影响",
+          "start_page": 106,
+          "end_page": 120
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
       "grade": "八年级",
       "volume": "上册",
       "page_count": 122,
@@ -788,6 +876,47 @@
           "title": "第六单元",
           "start_page": 100,
           "end_page": 122
+        }
+      ]
+    },
+    {
+      "stage": "初中",
+      "subject": "生物学",
+      "edition": "人教版",
+      "grade": "八年级",
+      "volume": "下册",
+      "page_count": 120,
+      "path": "初中/生物学/人教版/八年级/下册",
+      "chapters": [
+        {
+          "ch": 1,
+          "title": "第一章生物的生殖和发育",
+          "start_page": 11,
+          "end_page": 50
+        },
+        {
+          "ch": 2,
+          "title": "第二章生物的遗传与变异：47",
+          "start_page": 51,
+          "end_page": 62
+        },
+        {
+          "ch": 3,
+          "title": "第三章生命起源和生物进化59",
+          "start_page": 63,
+          "end_page": 33
+        },
+        {
+          "ch": 7,
+          "title": "30第七单元生物圈中生命的延续和发展",
+          "start_page": 34,
+          "end_page": 74
+        },
+        {
+          "ch": 8,
+          "title": "第八单元 健康地生活",
+          "start_page": 75,
+          "end_page": 120
         }
       ]
     },
@@ -2198,36 +2327,6 @@
     }
   ],
   "scans": [
-    {
-      "stage": "初中",
-      "subject": "地理",
-      "edition": "人教版",
-      "grade": "七年级",
-      "volume": "下册",
-      "page_count": 107,
-      "path": "初中/地理/人教版/七年级/下册",
-      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
-    },
-    {
-      "stage": "初中",
-      "subject": "生物学",
-      "edition": "人教版",
-      "grade": "七年级",
-      "volume": "下册",
-      "page_count": 120,
-      "path": "初中/生物学/人教版/七年级/下册",
-      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
-    },
-    {
-      "stage": "初中",
-      "subject": "生物学",
-      "edition": "人教版",
-      "grade": "八年级",
-      "volume": "下册",
-      "page_count": 120,
-      "path": "初中/生物学/人教版/八年级/下册",
-      "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层"
-    },
     {
       "stage": "初中",
       "subject": "英语",
