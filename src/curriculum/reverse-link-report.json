@@ -1,0 +1,426 @@
+{
+  "engine_version": "v1.2-alias-3gram",
+  "generated_at": "2026-04-24 11:57:51",
+  "total_questions": 943,
+  "total_books": 56,
+  "total_chapters": 284,
+  "matched": 907,
+  "match_rate": 0.9618,
+  "elapsed_seconds": 0.13,
+  "by_subject": {
+    "biology": {
+      "total": 60,
+      "matched": 60,
+      "rate": 1.0,
+      "avg_score": 12.03
+    },
+    "chemistry": {
+      "total": 80,
+      "matched": 66,
+      "rate": 0.825,
+      "avg_score": 11.88
+    },
+    "chinese": {
+      "total": 108,
+      "matched": 108,
+      "rate": 1.0,
+      "avg_score": 12.0
+    },
+    "geography": {
+      "total": 114,
+      "matched": 114,
+      "rate": 1.0,
+      "avg_score": 12.0
+    },
+    "history": {
+      "total": 156,
+      "matched": 156,
+      "rate": 1.0,
+      "avg_score": 12.0
+    },
+    "math": {
+      "total": 188,
+      "matched": 185,
+      "rate": 0.984,
+      "avg_score": 12.86
+    },
+    "physics": {
+      "total": 177,
+      "matched": 158,
+      "rate": 0.8927,
+      "avg_score": 12.13
+    },
+    "politics": {
+      "total": 60,
+      "matched": 60,
+      "rate": 1.0,
+      "avg_score": 12.0
+    }
+  },
+  "score_histogram": {
+    "4": 3,
+    "8": 9,
+    "12": 866,
+    "16": 28,
+    "20": 1
+  },
+  "sample_misses": [
+    {
+      "id": "seed-math-025",
+      "subject": "math",
+      "chapter_hint": "统计",
+      "knowledge_points": [
+        "众数",
+        "平均数",
+        "统计量"
+      ]
+    },
+    {
+      "id": "seed-math-038",
+      "subject": "math",
+      "chapter_hint": "统计",
+      "knowledge_points": [
+        "方差",
+        "标准差",
+        "数据的离散程度"
+      ]
+    },
+    {
+      "id": "seed-math-050",
+      "subject": "math",
+      "chapter_hint": "综合",
+      "knowledge_points": [
+        "正方形对角线",
+        "面积计算",
+        "综合应用"
+      ]
+    },
+    {
+      "id": "seed-phys-003",
+      "subject": "physics",
+      "chapter_hint": "密度",
+      "knowledge_points": [
+        "密度公式",
+        "密度单位换算",
+        "密度查表"
+      ]
+    },
+    {
+      "id": "seed-phys-004",
+      "subject": "physics",
+      "chapter_hint": "声学",
+      "knowledge_points": [
+        "声音的传播速度",
+        "声音的传播介质",
+        "声音在不同介质中的速度比较"
+      ]
+    },
+    {
+      "id": "seed-phys-005",
+      "subject": "physics",
+      "chapter_hint": "光学",
+      "knowledge_points": [
+        "光速",
+        "速度公式 s=vt"
+      ]
+    },
+    {
+      "id": "seed-phys-006",
+      "subject": "physics",
+      "chapter_hint": "光学",
+      "knowledge_points": [
+        "凸透镜成像公式",
+        "实像与虚像",
+        "焦距"
+      ]
+    },
+    {
+      "id": "seed-phys-007",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "欧姆定律",
+        "电压、电流、电阻的关系"
+      ]
+    },
+    {
+      "id": "seed-phys-008",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "并联电阻",
+        "等效电阻"
+      ]
+    },
+    {
+      "id": "seed-phys-009",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "电功率",
+        "电能计算",
+        "度（kWh）"
+      ]
+    },
+    {
+      "id": "seed-phys-010",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "串联电路",
+        "欧姆定律",
+        "电功率"
+      ]
+    },
+    {
+      "id": "seed-phys-013",
+      "subject": "physics",
+      "chapter_hint": "磁学",
+      "knowledge_points": [
+        "地磁场",
+        "磁偏角",
+        "地磁南北极"
+      ]
+    },
+    {
+      "id": "seed-phys-014",
+      "subject": "physics",
+      "chapter_hint": "电磁感应",
+      "knowledge_points": [
+        "电磁感应",
+        "发电机",
+        "电动机",
+        "能量转化"
+      ]
+    },
+    {
+      "id": "seed-phys-017",
+      "subject": "physics",
+      "chapter_hint": "内能与热量",
+      "knowledge_points": [
+        "比热容",
+        "热量计算公式"
+      ]
+    },
+    {
+      "id": "seed-phys-019",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "电能计算",
+        "电费计算",
+        "度（kWh）"
+      ]
+    },
+    {
+      "id": "seed-phys-020",
+      "subject": "physics",
+      "chapter_hint": "光学",
+      "knowledge_points": [
+        "光的折射定律",
+        "光疏介质与光密介质",
+        "折射角与入射角"
+      ]
+    },
+    {
+      "id": "seed-phys-021",
+      "subject": "physics",
+      "chapter_hint": "热学",
+      "knowledge_points": [
+        "物态变化",
+        "熔化与凝固",
+        "汽化与液化"
+      ]
+    },
+    {
+      "id": "seed-phys-022",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "额定功率",
+        "电功率公式变形",
+        "家庭电路"
+      ]
+    },
+    {
+      "id": "seed-phys-023",
+      "subject": "physics",
+      "chapter_hint": "声学",
+      "knowledge_points": [
+        "回声",
+        "声波反射",
+        "回声的最小距离"
+      ]
+    },
+    {
+      "id": "seed-phys-024",
+      "subject": "physics",
+      "chapter_hint": "核物理基础",
+      "knowledge_points": [
+        "原子结构",
+        "质子",
+        "中子",
+        "核外电子"
+      ]
+    },
+    {
+      "id": "seed-phys-025",
+      "subject": "physics",
+      "chapter_hint": "磁场与电流",
+      "knowledge_points": [
+        "安培定则",
+        "通电螺线管磁场",
+        "N极S极判断"
+      ]
+    },
+    {
+      "id": "seed-phys-029",
+      "subject": "physics",
+      "chapter_hint": "电学",
+      "knowledge_points": [
+        "保险丝",
+        "安全用电",
+        "电流热效应"
+      ]
+    },
+    {
+      "id": "seed-chem-001",
+      "subject": "chemistry",
+      "chapter_hint": "物质的组成",
+      "knowledge_points": [
+        "化学式的意义",
+        "分子构成",
+        "元素与原子的区别"
+      ]
+    },
+    {
+      "id": "seed-chem-002",
+      "subject": "chemistry",
+      "chapter_hint": "化学反应",
+      "knowledge_points": [
+        "化学方程式",
+        "化合反应",
+        "铁的燃烧"
+      ]
+    },
+    {
+      "id": "seed-chem-003",
+      "subject": "chemistry",
+      "chapter_hint": "元素周期表",
+      "knowledge_points": [
+        "元素周期表",
+        "周期规律",
+        "电子层排布"
+      ]
+    },
+    {
+      "id": "seed-chem-004",
+      "subject": "chemistry",
+      "chapter_hint": "化学反应计算",
+      "knowledge_points": [
+        "化学方程式计算",
+        "质量守恒定律",
+        "水的分解"
+      ]
+    },
+    {
+      "id": "seed-chem-006",
+      "subject": "chemistry",
+      "chapter_hint": "常见物质",
+      "knowledge_points": [
+        "CO₂的性质",
+        "检验CO₂的方法",
+        "石灰水反应"
+      ]
+    },
+    {
+      "id": "seed-chem-007",
+      "subject": "chemistry",
+      "chapter_hint": "氧化还原",
+      "knowledge_points": [
+        "氧化与还原",
+        "氧化剂与还原剂",
+        "冶炼金属"
+      ]
+    },
+    {
+      "id": "seed-chem-010",
+      "subject": "chemistry",
+      "chapter_hint": "质量守恒",
+      "knowledge_points": [
+        "质量守恒定律",
+        "原子守恒",
+        "化学反应本质"
+      ]
+    },
+    {
+      "id": "seed-chem-011",
+      "subject": "chemistry",
+      "chapter_hint": "碳和碳的氧化物",
+      "knowledge_points": [
+        "同素异形体",
+        "碳的结构与性质",
+        "结构决定性质"
+      ]
+    },
+    {
+      "id": "seed-chem-012",
+      "subject": "chemistry",
+      "chapter_hint": "化学反应类型",
+      "knowledge_points": [
+        "四种基本反应类型",
+        "化合/分解/置换/复分解反应"
+      ]
+    },
+    {
+      "id": "seed-chem-015",
+      "subject": "chemistry",
+      "chapter_hint": "化学反应计算",
+      "knowledge_points": [
+        "化学方程式计算",
+        "摩尔概念",
+        "质量守恒验证"
+      ]
+    },
+    {
+      "id": "seed-chem-016",
+      "subject": "chemistry",
+      "chapter_hint": "原子结构",
+      "knowledge_points": [
+        "电子排布",
+        "最外层电子与化学性质",
+        "金属活泼性"
+      ]
+    },
+    {
+      "id": "seed-chem-017",
+      "subject": "chemistry",
+      "chapter_hint": "氧气的制备",
+      "knowledge_points": [
+        "氧气的实验室制法",
+        "催化剂",
+        "O₂的检验方法"
+      ]
+    },
+    {
+      "id": "seed-chem-018",
+      "subject": "chemistry",
+      "chapter_hint": "酸的性质",
+      "knowledge_points": [
+        "盐酸的化学性质",
+        "酸的通性",
+        "化学方程式"
+      ]
+    },
+    {
+      "id": "seed-chem-020",
+      "subject": "chemistry",
+      "chapter_hint": "化学综合",
+      "knowledge_points": [
+        "化学方程式计算",
+        "摩尔计算",
+        "铁锈的化学反应"
+      ]
+    }
+  ]
+}

@@ -203,8 +203,8 @@ python scripts/gen-textbook-manifest.py</code>
       <div class="eng-k">engine · POST /api/chapter-match</div>
       <div class="eng-h">章节匹配引擎</div>
       <div class="eng-b">给一道题 → 秒级找到最匹配的教材章节。规则层 = 子串 + 3-gram + alias + kp 前缀 + 阈值。对比通用 LLM RAG：可解释、0 token、&lt;30ms。</div>
-      <ul class="eng-list">
-        <li>99% 命中率（seed-questions.json N=100 基准）</li>
+      <ul class="eng-list" id="engine-stats-list">
+        <li id="eng-stat-rate">加载中 · 反链命中率</li>
         <li>10 学科 alias 字典，自研 K12 语料标注</li>
         <li>Vercel edge runtime，manifest 内存缓存</li>
       </ul>
@@ -297,10 +297,11 @@ python scripts/gen-textbook-manifest.py</code>
 <script>
 async function loadStats(){
   try{
-    const [m, q1, q2] = await Promise.all([
+    const [m, q1, q2, rep] = await Promise.all([
       fetch('/data/extracted/manifest.json').then(r=>r.json()).catch(()=>null),
       fetch('/src/curriculum/seed-questions.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/curriculum/seed-questions-generated.json').then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/curriculum/reverse-link-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
     ]);
     const books = (m && m.books) || [];
     const chapters = books.reduce((n,b)=> n + ((b.chapters||[]).length), 0);
@@ -311,6 +312,13 @@ async function loadStats(){
     document.getElementById('s-questions').textContent = qTotal;
     document.getElementById('s-subjects').textContent = subjects;
     document.getElementById('fm').textContent = (m && m.generated_at) || 'live';
+    if (rep) {
+      const rateEl = document.getElementById('eng-stat-rate');
+      if (rateEl) {
+        const pct = (rep.match_rate * 100).toFixed(1);
+        rateEl.innerHTML = '<b>' + pct + '%</b> 反链命中率 · N=' + rep.total_questions + ' 题 · ' + rep.elapsed_seconds + 's 全量跑完';
+      }
+    }
   }catch(e){ /* silent */ }
 }
 loadStats();

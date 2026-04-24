@@ -194,11 +194,28 @@
         <div style="flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:#F5A623;display:flex;align-items:center;justify-content:center;font-weight:800;color:#18181B">自研</div>
         <div style="flex:1 1 260px;min-width:240px">
             <div style="font-weight:700;font-size:16px;letter-spacing:.3px">原点自研平台 · 教材 / 引擎 / 模型</div>
-            <div style="font-size:12px;color:#B8B8B0;margin-top:2px">56 本教材 · 272 章 · 798 题 · 章节匹配引擎 v1.2 · 章→题生成管道</div>
+            <div id="platform-banner-stats" style="font-size:12px;color:#B8B8B0;margin-top:2px">加载中 · 章节匹配引擎 v1.2 · 章→题生成管道</div>
         </div>
         <div style="flex:0 0 auto;font-size:13px;color:#F5A623;font-weight:600">看壁垒 →</div>
     </div>
 </a>
+<script>
+(async function(){
+  try {
+    var s = document.getElementById('platform-banner-stats'); if (!s) return;
+    var [mf, qc, qg] = await Promise.all([
+      fetch('/data/extracted/manifest.json', {cache:'force-cache'}).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/curriculum/seed-questions.json', {cache:'force-cache'}).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/curriculum/seed-questions-generated.json', {cache:'force-cache'}).then(r=>r.ok?r.json():null).catch(()=>null)
+    ]);
+    if (!mf) return;
+    var books = (mf.books||[]).length;
+    var chapters = (mf.books||[]).reduce((a,b)=>a+((b.chapters||[]).length),0);
+    var qs = ((qc&&qc.questions)||[]).length + ((qg&&qg.questions)||[]).length;
+    s.textContent = books + ' 本教材 · ' + chapters + ' 章 · ' + qs + ' 题 · 章节匹配引擎 v1.2 · 章→题生成管道';
+  } catch(e){}
+})();
+</script>
 
 <!-- DIMENSION SWITCHER -->
 <div class="switcher"><div class="sw-row">
