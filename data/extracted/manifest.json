@@ -16,43 +16,43 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一单元",
+          "title": "第一单元 走进化学世界",
           "start_page": 6,
           "end_page": 29
         },
         {
           "ch": 2,
-          "title": "第二单元",
+          "title": "第二单元 我们周围的空气",
           "start_page": 30,
           "end_page": 51
         },
         {
           "ch": 3,
-          "title": "第三单元",
+          "title": "第三单元 物质构成的奥秘",
           "start_page": 52,
           "end_page": 71
         },
         {
           "ch": 4,
-          "title": "第四单元",
+          "title": "第四单元 自然界的水",
           "start_page": 72,
           "end_page": 95
         },
         {
           "ch": 5,
-          "title": "第五单元",
+          "title": "第五单元 化学方程式",
           "start_page": 96,
           "end_page": 109
         },
         {
           "ch": 6,
-          "title": "第六单元",
+          "title": "第六单元 碳和碳的氧化物",
           "start_page": 110,
           "end_page": 131
         },
         {
           "ch": 7,
-          "title": "第七单元",
+          "title": "第七单元 燃料及其利用",
           "start_page": 132,
           "end_page": 162
         }
@@ -69,7 +69,7 @@
       "chapters": [
         {
           "ch": 8,
-          "title": "第八单元金属和金属材料",
+          "title": "第八单元 金属和金属材料",
           "start_page": 10,
           "end_page": 28
         },
@@ -87,7 +87,7 @@
         },
         {
           "ch": 11,
-          "title": "第十一单元 盐化肥",
+          "title": "第十一单元 盐 化肥",
           "start_page": 75,
           "end_page": 92
         },
@@ -590,61 +590,61 @@
       "chapters": [
         {
           "ch": 13,
-          "title": "第十三章",
+          "title": "第十三章 内能",
           "start_page": 8,
           "end_page": 22
         },
         {
           "ch": 14,
-          "title": "第十四章",
+          "title": "第十四章 内能的利用",
           "start_page": 23,
           "end_page": 37
         },
         {
           "ch": 15,
-          "title": "第十五章",
+          "title": "第十五章 电流和电路",
           "start_page": 38,
           "end_page": 60
         },
         {
           "ch": 16,
-          "title": "第十六章",
+          "title": "第十六章 电压 电阻",
           "start_page": 61,
           "end_page": 79
         },
         {
           "ch": 17,
-          "title": "第十七章",
+          "title": "第十七章 欧姆定律",
           "start_page": 80,
           "end_page": 92
         },
         {
           "ch": 18,
-          "title": "第十八章",
+          "title": "第十八章 电功率",
           "start_page": 93,
           "end_page": 110
         },
         {
           "ch": 19,
-          "title": "第十九章",
+          "title": "第十九章 生活用电",
           "start_page": 111,
           "end_page": 124
         },
         {
           "ch": 20,
-          "title": "第二十章",
+          "title": "第二十章 电与磁",
           "start_page": 125,
           "end_page": 150
         },
         {
           "ch": 21,
-          "title": "第二十一章",
+          "title": "第二十一章 信息的传递",
           "start_page": 151,
           "end_page": 171
         },
         {
           "ch": 22,
-          "title": "第二十二章",
+          "title": "第二十二章 能源与可持续发展",
           "start_page": 172,
           "end_page": 191
         }
@@ -661,37 +661,37 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章  机械运动",
+          "title": "第一章 机械运动",
           "start_page": 14,
           "end_page": 30
         },
         {
           "ch": 2,
-          "title": "第二章",
+          "title": "第二章 声现象",
           "start_page": 31,
           "end_page": 50
         },
         {
           "ch": 3,
-          "title": "第三章",
+          "title": "第三章 物态变化",
           "start_page": 51,
           "end_page": 72
         },
         {
           "ch": 4,
-          "title": "第四章",
+          "title": "第四章 光现象",
           "start_page": 73,
           "end_page": 93
         },
         {
           "ch": 5,
-          "title": "第五章",
+          "title": "第五章 透镜及其应用",
           "start_page": 94,
           "end_page": 111
         },
         {
           "ch": 6,
-          "title": "第六章",
+          "title": "第六章 质量与密度",
           "start_page": 112,
           "end_page": 131
         }
@@ -708,7 +708,7 @@
       "chapters": [
         {
           "ch": 7,
-          "title": "第七章力9",
+          "title": "第七章 力",
           "start_page": 13,
           "end_page": 18
         },
@@ -1945,7 +1945,7 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "2第一章集合与常用逻辑用语",
+          "title": "第一章 集合与常用逻辑用语",
           "start_page": 9,
           "end_page": 42
         },
@@ -1986,31 +1986,31 @@
       "chapters": [
         {
           "ch": 6,
-          "title": "第六章",
+          "title": "第六章 平面向量及其应用",
           "start_page": 8,
           "end_page": 73
         },
         {
           "ch": 7,
-          "title": "第七章",
+          "title": "第七章 复数",
           "start_page": 74,
           "end_page": 102
         },
         {
           "ch": 8,
-          "title": "第八章",
+          "title": "第八章 立体几何初步",
           "start_page": 103,
           "end_page": 178
         },
         {
           "ch": 9,
-          "title": "第九章",
+          "title": "第九章 统计",
           "start_page": 179,
           "end_page": 233
         },
         {
           "ch": 10,
-          "title": "第十章",
+          "title": "第十章 概率",
           "start_page": 234,
           "end_page": 282
         }
@@ -2027,7 +2027,7 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "4第一章空间向量与立体几何",
+          "title": "第一章 空间向量与立体几何",
           "start_page": 9,
           "end_page": 54
         },
@@ -2056,19 +2056,19 @@
       "chapters": [
         {
           "ch": 6,
-          "title": "第六章",
+          "title": "第六章 计数原理",
           "start_page": 6,
           "end_page": 47
         },
         {
           "ch": 7,
-          "title": "第七章",
+          "title": "第七章 随机变量及其分布",
           "start_page": 48,
           "end_page": 96
         },
         {
           "ch": 8,
-          "title": "第八章",
+          "title": "第八章 成对数据的统计分析",
           "start_page": 97,
           "end_page": 154
         }
@@ -2085,7 +2085,7 @@
       "chapters": [
         {
           "ch": 4,
-          "title": "26第四章数列",
+          "title": "第四章 数列",
           "start_page": 31,
           "end_page": 62
         },
@@ -2108,25 +2108,25 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章",
+          "title": "第一章 运动的描述",
           "start_page": 15,
           "end_page": 39
         },
         {
           "ch": 2,
-          "title": "第二章",
+          "title": "第二章 匀变速直线运动的研究",
           "start_page": 40,
           "end_page": 60
         },
         {
           "ch": 3,
-          "title": "第三章",
+          "title": "第三章 相互作用—力",
           "start_page": 61,
           "end_page": 86
         },
         {
           "ch": 4,
-          "title": "第四章",
+          "title": "第四章 运动和力的关系",
           "start_page": 87,
           "end_page": 134
         }
@@ -2143,31 +2143,31 @@
       "chapters": [
         {
           "ch": 9,
-          "title": "第九章",
+          "title": "第九章 静电场及其应用",
           "start_page": 6,
           "end_page": 29
         },
         {
           "ch": 10,
-          "title": "第十章",
+          "title": "第十章 静电场中的能量",
           "start_page": 30,
           "end_page": 56
         },
         {
           "ch": 11,
-          "title": "第十一章",
+          "title": "第十一章 电路及其应用",
           "start_page": 57,
           "end_page": 82
         },
         {
           "ch": 12,
-          "title": "第十二章",
+          "title": "第十二章 电磁感应",
           "start_page": 83,
           "end_page": 107
         },
         {
           "ch": 13,
-          "title": "第十三章",
+          "title": "第十三章 电磁振荡与电磁波",
           "start_page": 108,
           "end_page": 143
         }
@@ -2184,25 +2184,25 @@
       "chapters": [
         {
           "ch": 5,
-          "title": "第五章",
+          "title": "第五章 抛体运动",
           "start_page": 6,
           "end_page": 26
         },
         {
           "ch": 6,
-          "title": "第六章",
+          "title": "第六章 圆周运动",
           "start_page": 27,
           "end_page": 47
         },
         {
           "ch": 7,
-          "title": "第七章",
+          "title": "第七章 万有引力与宇宙航行",
           "start_page": 48,
           "end_page": 77
         },
         {
           "ch": 8,
-          "title": "第八章",
+          "title": "第八章 机械能守恒定律",
           "start_page": 78,
           "end_page": 114
         }
@@ -2219,25 +2219,25 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章",
+          "title": "第一章 动量守恒定律",
           "start_page": 6,
           "end_page": 35
         },
         {
           "ch": 2,
-          "title": "第二章",
+          "title": "第二章 机械振动",
           "start_page": 36,
           "end_page": 65
         },
         {
           "ch": 3,
-          "title": "第三章",
+          "title": "第三章 机械波",
           "start_page": 66,
           "end_page": 88
         },
         {
           "ch": 4,
-          "title": "第四章",
+          "title": "第四章 光",
           "start_page": 89,
           "end_page": 130
         }
@@ -2254,31 +2254,31 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章",
+          "title": "第一章 分子动理论",
           "start_page": 6,
           "end_page": 22
         },
         {
           "ch": 2,
-          "title": "第二章",
+          "title": "第二章 气体、固体和液体",
           "start_page": 23,
           "end_page": 49
         },
         {
           "ch": 3,
-          "title": "第三章",
+          "title": "第三章 热力学定律",
           "start_page": 50,
           "end_page": 70
         },
         {
           "ch": 4,
-          "title": "第四章",
+          "title": "第四章 原子结构和波粒二象性",
           "start_page": 71,
           "end_page": 104
         },
         {
           "ch": 5,
-          "title": "第五章",
+          "title": "第五章 原子核",
           "start_page": 105,
           "end_page": 143
         }
@@ -2295,31 +2295,31 @@
       "chapters": [
         {
           "ch": 1,
-          "title": "第一章",
+          "title": "第一章 安培力与洛伦兹力",
           "start_page": 6,
           "end_page": 27
         },
         {
           "ch": 2,
-          "title": "第二章",
+          "title": "第二章 电磁感应及其应用",
           "start_page": 28,
           "end_page": 52
         },
         {
           "ch": 3,
-          "title": "第三章",
+          "title": "第三章 交变电流",
           "start_page": 53,
           "end_page": 74
         },
         {
           "ch": 4,
-          "title": "第四章",
+          "title": "第四章 电磁振荡与电磁波",
           "start_page": 75,
           "end_page": 94
         },
         {
           "ch": 5,
-          "title": "第五章",
+          "title": "第五章 传感器",
           "start_page": 95,
           "end_page": 122
         }

@@ -84,22 +84,22 @@ TOPICS = {
 }
 
 
-def enrich_title(old_title, ch, topic):
-    """保留「第N章」/「第N单元」前缀，追加 topic。"""
-    if not old_title:
-        return f"第{ch}章 {topic}"
-    # 已经有 topic 就不重写（避免二次追加）
-    if topic in old_title:
-        return old_title
-    # 清掉尾部空白
-    t = old_title.strip()
-    # 识别「第N章」「第N单元」「第N章 xxx」形态
-    m = re.match(r"^(第[零一二三四五六七八九十百\d]+[章单节元])", t)
-    if m:
-        prefix = m.group(1)
-        return f"{prefix} {topic}"
-    # 形态未知，直接追加
-    return f"{t} {topic}"
+CN_NUM = ["零","一","二","三","四","五","六","七","八","九","十",
+          "十一","十二","十三","十四","十五","十六","十七","十八","十九","二十",
+          "二十一","二十二","二十三","二十四","二十五"]
+
+# 初中化学人教版用"单元"作单位，其它全用"章"
+UNIT_OF_BOOK = {
+    "初中/化学/人教版/九年级/上册": "单元",
+    "初中/化学/人教版/九年级/下册": "单元",
+}
+
+
+def enrich_title(book_path, ch, topic):
+    """直接重建完整标题 `第N{章|单元} topic`。忽略 OCR 残骸前缀。"""
+    unit = UNIT_OF_BOOK.get(book_path, "章")
+    n = CN_NUM[ch] if ch < len(CN_NUM) else str(ch)
+    return f"第{n}{unit} {topic}"
 
 
 def main():
@@ -116,7 +116,7 @@ def main():
             if not t:
                 continue
             old = c.get("title", "")
-            new = enrich_title(old, c["ch"], t)
+            new = enrich_title(b["path"], c["ch"], t)
             if new != old:
                 c["title"] = new
                 book_dirty = True
