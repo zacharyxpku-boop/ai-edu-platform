@@ -208,10 +208,15 @@ h1 em{font-style:normal;color:var(--cta)}
 
 <!-- 学科模式：100 题题库速练 -->
 <section class="cfg" id="subject-mode" style="margin-top:10px">
+    <div id="sb-moat-banner" style="background:linear-gradient(135deg,#1C1917,#292524);color:#FAFAF9;border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:12px;line-height:1.6;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:16px">🎯</span>
+        <span id="sb-moat-text" style="opacity:.9">加载反链成绩单…</span>
+        <a href="/platform.html" style="margin-left:auto;color:#FCD34D;text-decoration:none;font-weight:700">看引擎 →</a>
+    </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div>
             <div style="font-weight:800;color:#18181B;font-size:16px">学科速练模式</div>
-            <div style="font-size:12px;color:#71717A;margin-top:2px">免 AI 等待，100 道精选初一题库按学科过滤，一题一解一 XP。</div>
+            <div style="font-size:12px;color:#71717A;margin-top:2px">免 AI 等待，<span id="sb-bank-n">900+</span> 道真题题库按学科过滤，一题一解一 XP，做完跳回教材原文。</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap" id="subject-tabs">
             <!-- subtabs 由 rebuildSubjectTabs() 按题库动态生成 -->
@@ -1025,6 +1030,16 @@ function matchTextbookChapter(subject, q) {
     if (!_sbTxtManifest || !_sbTxtManifest.books) return null;
     const zhSubj = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物学', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思想政治', moral:'道德与法治' }[subject];
     if (!zhSubj) return null;
+    // 捷径：生成题已带 textbook_ref，直接用它（生成引擎本来就从这章抽的）
+    const ref = q && q.textbook_ref;
+    if (ref && ref.path && ref.ch != null) {
+        for (let i = 0; i < _sbTxtManifest.books.length; i++) {
+            const b = _sbTxtManifest.books[i];
+            if (b.path !== ref.path) continue;
+            const c = (b.chapters || []).find(function(x){ return x.ch === ref.ch; });
+            if (c) return { book: b, ch: c, direct: true };
+        }
+    }
     const hint = (q.chapter || '').trim();
     const kps = (q.knowledge_points || []).map(function(k){ return String(k||'').trim(); }).filter(Boolean);
     const aliases = (CHAPTER_ALIASES[subject] || {})[hint] || [];
@@ -1103,6 +1118,25 @@ async function rebuildSubjectTabs() {
     }).join('');
     // 首次默认加载第一个学科
     if (!_sbCurrent) loadSubjectBank(keys[0]);
+    // 更新题库总数与反链 banner
+    const nEl = document.getElementById('sb-bank-n');
+    if (nEl) nEl.textContent = bank.questions.length;
+    loadMoatBanner(bank.questions.length, keys.length);
+}
+
+async function loadMoatBanner(totalQs, subjectsCount) {
+    try {
+        const res = await fetch('/src/curriculum/reverse-link-report.json').then(r => r.ok ? r.json() : null).catch(() => null);
+        const el = document.getElementById('sb-moat-text');
+        if (!el) return;
+        if (res && res.match_rate != null) {
+            const pct = (res.match_rate * 100).toFixed(1);
+            el.innerHTML = '<b style="color:#FCD34D;font-size:13px">' + pct + '% 反链命中率</b>' +
+                ' · 本题库 <b>' + totalQs + '</b> 道 · <b>' + subjectsCount + '</b> 学科 · ' + res.total_books + ' 本教材 · ' + res.total_chapters + ' 章 OCR 全覆盖 · 每道题都回得到教材原文';
+        } else {
+            el.textContent = '原点自研章节匹配引擎 · ' + totalQs + ' 道题 · ' + subjectsCount + ' 学科 · 做完查原文';
+        }
+    } catch(e) {}
 }
 // 页面就绪后先建 subtab
 if (document.readyState === 'loading') {
@@ -1133,7 +1167,7 @@ function renderSubjectBank() {
         host.innerHTML = '<div style="text-align:center;color:#A1A1AA;padding:16px 0;font-size:13px">该学科暂无题目</div>';
         return;
     }
-    const subjectName = { math:'数学', physics:'物理', chemistry:'化学' }[_sbCurrent.subject] || _sbCurrent.subject;
+    const subjectName = SUBJECT_LABELS[_sbCurrent.subject] || _sbCurrent.subject;
     const html = '<div style="font-size:12px;color:#71717A;margin-bottom:10px">本轮 <b style="color:#18181B">' + subjectName + '</b> 速练 · 共 ' + _sbCurrent.items.length + ' 道 · 已解 <b id="sb-done">0</b> 道</div>'
         + _sbCurrent.items.map((q, i) => renderBankCard(q, i)).join('')
         + '<div style="text-align:center;margin-top:12px"><button class="sb-btn primary" onclick="loadSubjectBank(\'' + _sbCurrent.subject + '\')">换一批 10 题</button></div>';
@@ -1177,7 +1211,7 @@ function sbReveal(idx, confidentlyCorrect) {
     // XP 只算第一次
     if (!alreadyDone && window.GAME) {
         const xp = confidentlyCorrect ? 4 : 2;
-        const subjName = { math:'数学', physics:'物理', chemistry:'化学' }[_sbCurrent.subject] || _sbCurrent.subject;
+        const subjName = SUBJECT_LABELS[_sbCurrent.subject] || _sbCurrent.subject;
         window.GAME.addXP(xp, '题库速练 · ' + subjName);
         if (window.YdzxHUD) window.YdzxHUD.refresh();
     }
@@ -1212,13 +1246,13 @@ function sbReveal(idx, confidentlyCorrect) {
     }
 }
 
-// 深链：?subject=math|physics|chemistry 预激活学科模式并滚到题库区
+// 深链：?subject=<10科任一> 预激活学科模式并滚到题库区
 (function(){
     try {
         var q = new URLSearchParams(location.search);
         var s = q.get('subject');
         if (!s) return;
-        if (['math','physics','chemistry'].indexOf(s) === -1) return;
+        if (SUBJECT_TAB_ORDER.indexOf(s) === -1) return;
         // 等 DOM 和题库脚本都就绪后再激活
         setTimeout(function(){
             if (typeof loadSubjectBank === 'function') loadSubjectBank(s);
