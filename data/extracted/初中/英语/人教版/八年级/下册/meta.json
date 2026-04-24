@@ -6,8 +6,8 @@
   "volume": "下册",
   "pdf": "data/textbooks-raw/初中/英语/人教版/八年级/下册.pdf",
   "page_count": 147,
-  "status": "scan_only",
-  "avg_chars_per_page": 0.0,
-  "reason": "需 OCR（PaddleOCR / 其他）处理才能抽取文字层",
+  "status": "scan_only_ocr_failed",
+  "pages_ocred": 147,
+  "total_chars": 187675,
   "extracted_at": "2026-04-22"
 }

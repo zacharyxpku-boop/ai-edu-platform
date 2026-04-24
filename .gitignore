@@ -10,3 +10,10 @@ data/textbooks-raw/
 .env
 .env.local
 .env.*.local
+
+# Local sandbox scratch - 不进仓库
+push*.log
+push-*.log
+logcleanup.log
+.commit-msg.txt
+*.tmp.log
