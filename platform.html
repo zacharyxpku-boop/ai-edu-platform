@@ -234,6 +234,28 @@ python scripts/gen-textbook-manifest.py</code>
   </div>
 </section>
 
+<section class="sec" id="scorecard">
+  <div class="sec-h">moat 成绩单 · 分科反链命中率</div>
+  <div class="sec-s">每学科现有题库全量跑进章节匹配引擎，算出"有几道题能落到源章"。下面数字由 scripts/eval-reverse-link.py 0.1 秒内算出，写入 reverse-link-report.json，前端实时读。</div>
+  <div id="scorecard-wrap" style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px">
+    <div id="scorecard-head" style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div>
+        <div id="sc-rate" style="font:800 28px/1 var(--font);color:var(--ink)">—</div>
+        <div id="sc-meta" style="font:500 12px/1.5 var(--font);color:var(--ink3);margin-top:4px">加载中…</div>
+      </div>
+      <div style="text-align:right;font:600 11px/1.4 var(--font);color:var(--ink3)">
+        <div>engine · <span id="sc-eng">v1.2-alias-3gram</span></div>
+        <div id="sc-run">reverse-link-report.json</div>
+      </div>
+    </div>
+    <div id="sc-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px"></div>
+    <div style="margin-top:14px;font:500 11px/1.5 var(--font);color:var(--ink3);border-top:1px dashed var(--bdr);padding-top:10px">
+      规则可读：子串 +12 · 3-gram +4·n · alias +8 · kp +6 · 阈值 ≥6 &nbsp;·&nbsp;
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-reverse-link.py" target="_blank" style="color:var(--accent);text-decoration:none">看 eval 脚本 →</a>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="try-match">
   <div class="sec-h">在线试跑 · chapter-match 引擎</div>
   <div class="sec-s">输入任意章节/考点/学科，秒级返回 manifest 内最匹配的教材章节。</div>
@@ -318,10 +340,46 @@ async function loadStats(){
         const pct = (rep.match_rate * 100).toFixed(1);
         rateEl.innerHTML = '<b>' + pct + '%</b> 反链命中率 · N=' + rep.total_questions + ' 题 · ' + rep.elapsed_seconds + 's 全量跑完';
       }
+      renderScorecard(rep);
     }
   }catch(e){ /* silent */ }
 }
 loadStats();
+
+function renderScorecard(rep){
+  const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
+  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const rateEl = document.getElementById('sc-rate');
+  const metaEl = document.getElementById('sc-meta');
+  const engEl = document.getElementById('sc-eng');
+  const runEl = document.getElementById('sc-run');
+  const grid = document.getElementById('sc-grid');
+  if (!rateEl || !grid) return;
+  const pct = (rep.match_rate * 100).toFixed(1);
+  rateEl.innerHTML = pct + '<span style="font-size:14px;color:var(--ink3);font-weight:600"> %</span> <span style="font-size:13px;color:var(--ink3);font-weight:600">总命中</span>';
+  metaEl.textContent = rep.matched + '/' + rep.total_questions + ' 道题 · ' + rep.total_books + ' 本教材 · ' + rep.total_chapters + ' 章 · 算出耗时 ' + rep.elapsed_seconds + 's';
+  if (rep.engine_version) engEl.textContent = rep.engine_version;
+  if (rep.generated_at) runEl.textContent = '跑于 ' + rep.generated_at;
+  const entries = Object.entries(rep.by_subject || {});
+  entries.sort((a,b) => b[1].rate - a[1].rate);
+  grid.innerHTML = entries.map(([k, v]) => {
+    const pc = (v.rate * 100).toFixed(1);
+    const perfect = v.rate >= 0.999;
+    const good = v.rate >= 0.95;
+    const bg = perfect ? '#14532D' : (good ? '#166534' : (v.rate >= 0.85 ? '#854D0E' : '#991B1B'));
+    const tag = perfect ? '满分' : (good ? '达标' : (v.rate >= 0.85 ? '需打磨' : '补数据'));
+    const emo = SUBJ_EMOJI[k] || '•';
+    const zh = SUBJ_ZH[k] || k;
+    return '<div style="background:#FAFAF9;border:1px solid var(--bdr);border-radius:10px;padding:12px 14px">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+        '<div style="font:700 13px var(--font);color:var(--ink)">' + emo + ' ' + zh + '</div>' +
+        '<div style="font:700 10px var(--font);color:#fff;background:' + bg + ';padding:2px 7px;border-radius:4px">' + tag + '</div>' +
+      '</div>' +
+      '<div style="font:800 20px var(--font);color:var(--ink);line-height:1">' + pc + '<span style="font-size:12px;font-weight:600;color:var(--ink3)">%</span></div>' +
+      '<div style="font:500 11px var(--font);color:var(--ink3);margin-top:4px">' + v.matched + '/' + v.total + ' · 均分 ' + v.avg_score + '</div>' +
+    '</div>';
+  }).join('');
+}
 
 async function runMatch(){
   const out = document.getElementById('q-out');
