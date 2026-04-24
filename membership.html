@@ -98,6 +98,38 @@ h1 em{font-style:normal;color:var(--cta)}
     <p class="hero-sub">你不用翻墙、不用懂英文、不用有外卡。付钱给一个能信任的中文教练，比冒险信20个陌生网站省心多了。</p>
 </header>
 
+<div style="max-width:860px;margin:-8px auto 0;padding:0 20px">
+<a href="/platform.html" id="mb-moat" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(110deg,#0F172A,#1E293B);border-radius:12px;color:#fff;text-decoration:none;border:1px solid #0F172A">
+    <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:#FCD34D">SELF-BUILT</div>
+    <div style="flex:1;min-width:0;font-size:13px;line-height:1.6;color:#E5E7EB">
+        我们不只是转介全球工具 — 还自研 <b style="color:#fff">章节匹配引擎 v1.2</b>，
+        覆盖 <b style="color:#fff" id="mb-books">—</b> 本教材 <b style="color:#fff" id="mb-ch">—</b> 章，
+        <b style="color:#fff" id="mb-q">—</b> 道题反链命中率 <b style="color:#FCD34D" id="mb-rate">—</b>
+    </div>
+    <div style="font-size:12px;color:#FCD34D;font-weight:700;white-space:nowrap">看引擎 →</div>
+</a>
+</div>
+<script>
+(async function(){
+    try {
+        var [mf, qc, qg, rep] = await Promise.all([
+            fetch('/data/extracted/manifest.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions-generated.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/reverse-link-report.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+        ]);
+        var books = (mf&&mf.books)||[];
+        var ch = books.reduce(function(a,b){return a+((b.chapters||[]).length);},0);
+        var qs = ((qc&&qc.questions)||[]).length + ((qg&&qg.questions)||[]).length;
+        var e = document.getElementById.bind(document);
+        e('mb-books').textContent = books.length;
+        e('mb-ch').textContent = ch;
+        e('mb-q').textContent = qs;
+        e('mb-rate').textContent = rep ? (rep.match_rate*100).toFixed(1) + '%' : '—';
+    } catch(e){}
+})();
+</script>
+
 <section class="why"><div class="why-in">
     <h2>为什么家长需要一个"AI学习教练"</h2>
     <div class="pains">
