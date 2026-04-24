@@ -2,8 +2,8 @@
   "meta": {
     "generated_by": "deepseek-chat",
     "version": 1,
-    "total": 798,
-    "updated": "2026-04-24 01:14:07"
+    "total": 843,
+    "updated": "2026-04-24 11:50:42"
   },
   "questions": [
     {
@@ -17721,6 +17721,995 @@
         "ch": 4
       },
       "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-94758316-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章 人体的营养",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "人体生命活动所需要的能量，主要是由哪类营养物质提供的？",
+      "answer": "糖类",
+      "solution_steps": "根据教材，糖类是主要的供能物质，葡萄糖、蔗糖、淀粉都属于糖类，人体生命活动所需能量主要由糖类提供。",
+      "knowledge_points": [
+        "糖类的作用"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-94758316-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章 人体的营养",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "某同学用花生种子进行“测定某种食物中的能量”实验，测得燃烧前水温20℃，燃烧后水温40℃，水量30毫升，花生种子质量0.5克。计算该花生种子释放的能量（焦耳）。已知1毫升水每升高1℃需吸收4.2焦热量。",
+      "answer": "2520焦",
+      "solution_steps": "水吸收的热量Q=水量×温度升高值×4.2=30×(40-20)×4.2=30×20×4.2=2520焦。该热量来自花生种子燃烧释放的能量。",
+      "knowledge_points": [
+        "测定食物中的能量",
+        "热量计算"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-94758316-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第二章 人体的营养",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "分析下表（100克食物中主要成分含量）：\n| 食物 | 糖类(克) | 脂肪(克) | 蛋白质(克) | 维生素A(毫克) | 维生素C(毫克) | 维生素D(毫克) |\n|------|----------|----------|------------|----------------|----------------|----------------|\n| A    | 0.4      | 90       | 6          | 4              | 7              | 40             |\n| B    | 48.2     | 7        | 38         | 40             | 12             | 0              |\n| C    | 8.8      | 9.5      | 65         | 7              | 10             | 14             |\n| D    | 52       | 0.1      | 2.5        | 0              | 1              | 0              |\n| E    | 18       | 2        | 6          | 3              | 220            | 0              |\n(1) 哪种食物有助于防治夜盲症？哪种食物适合坏血病患者食用？\n(2) 长期以食物D为主食可能患哪些疾病？请说明理由。",
+      "answer": "(1) B；E (2) 可能患夜盲症、坏血病、佝偻病或骨质疏松症",
+      "solution_steps": "(1) 夜盲症缺维生素A，B含40毫克维生素A最多；坏血病缺维生素C，E含220毫克维生素C最多。\n(2) 食物D缺乏维生素A（0毫克），易患夜盲症；维生素C仅1毫克，易患坏血病；维生素D为0，且钙磷比例可能不当，易患佝偻病或骨质疏松症。",
+      "knowledge_points": [
+        "维生素缺乏症",
+        "营养与健康",
+        "数据分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-400cad50-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章 人体的呼吸",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "呼吸系统由呼吸道和肺组成。呼吸道包括鼻、咽、喉、气管和支气管。请问呼吸道中哪个器官是食物和空气的共同通道？",
+      "answer": "咽",
+      "solution_steps": "根据教材，咽是食物和空气的共同通道。吞咽时会厌软骨盖住喉口，防止食物进入气管。",
+      "knowledge_points": [
+        "呼吸系统的组成",
+        "咽的功能"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-400cad50-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章 人体的呼吸",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "根据肺泡与血液的气体交换示意图，氧气从肺泡进入血液需要穿过几层细胞？请说明具体结构。",
+      "answer": "2层",
+      "solution_steps": "氧气从肺泡进入血液需要穿过肺泡壁（一层扁平上皮细胞）和毛细血管壁（一层扁平上皮细胞），共2层细胞。",
+      "knowledge_points": [
+        "肺泡的结构",
+        "气体交换过程"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-400cad50-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第三章 人体的呼吸",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "分析资料：某同学在长跑时用嘴呼吸，早上醒来感到喉咙干燥。请结合呼吸道的作用解释原因，并说明为什么长跑时建议用鼻子吸气？",
+      "answer": "用嘴呼吸时，空气未经鼻腔处理直接进入咽部，失去温暖、湿润和清洁作用，导致喉咙干燥。鼻子吸气可使空气温暖、湿润、清洁，减少对呼吸道的刺激。",
+      "solution_steps": "呼吸道能对吸入气体进行处理：鼻毛阻挡灰尘，鼻黏膜分泌黏液湿润空气，毛细血管温暖空气。用嘴呼吸时这些功能缺失，因此干燥。长跑时用鼻子吸气有利于保护呼吸道。",
+      "knowledge_points": [
+        "呼吸道的作用",
+        "鼻腔的功能",
+        "呼吸卫生"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 3
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-454de138-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章 人体内物质的运输",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "血液由哪两部分组成？请写出各部分的主要功能。",
+      "answer": "血浆和血细胞；血浆运载血细胞、运输物质，血细胞包括红细胞、白细胞、血小板，分别有运输氧、防御、止血等功能。",
+      "solution_steps": "根据教材，血液分层后上层是血浆，下层是血细胞。血浆运输物质，红细胞运输氧，白细胞吞噬病菌，血小板止血。",
+      "knowledge_points": [
+        "血液的组成",
+        "血液的功能"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-454de138-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章 人体内物质的运输",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "小明血常规化验单显示：RBC 3.0×10^12/L，Hb 90g/L，WBC 15×10^9/L。请分析小明可能患有哪些疾病？并说明理由。",
+      "answer": "贫血（红细胞和血红蛋白低于正常值）和炎症（白细胞高于正常值）。",
+      "solution_steps": "正常红细胞数4.0-5.5×10^12/L，血红蛋白120-160g/L，白细胞4-10×10^9/L。小明RBC和Hb偏低，可能贫血；WBC偏高，可能有炎症。",
+      "knowledge_points": [
+        "血常规化验单解读",
+        "贫血",
+        "炎症"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-454de138-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第四章 人体内物质的运输",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "在观察小鱼尾鳍血液流动的实验中，你如何根据血流速度和方向区分动脉、静脉和毛细血管？请结合实验现象说明。",
+      "answer": "动脉血流速度快，从主干流向分支；静脉血流速度慢，从分支流向主干；毛细血管红细胞单行通过，血流最慢。",
+      "solution_steps": "显微镜下观察：动脉内血流快，方向由大血管到小血管；静脉血流慢，方向由小血管到大血管；毛细血管内红细胞呈单行排列，血流极慢。",
+      "knowledge_points": [
+        "血管类型",
+        "血流特点",
+        "实验观察"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 4
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-1a68a239-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第五章 人体内废物的排出",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "人体形成尿液的器官是（ ）\nA. 肾脏  B. 输尿管  C. 膀胱  D. 尿道",
+      "answer": "A",
+      "solution_steps": "肾脏是形成尿液的器官，输尿管输送尿液，膀胱暂时储存尿液，尿道排出尿液。",
+      "knowledge_points": [
+        "泌尿系统的组成"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-1a68a239-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第五章 人体内废物的排出",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "血液流经肾小球时，不能过滤到肾小囊中的是（ ）\nA. 水  B. 无机盐  C. 葡萄糖  D. 大分子蛋白质",
+      "answer": "D",
+      "solution_steps": "肾小球过滤时，除血细胞和大分子蛋白质外，血浆中的水、无机盐、葡萄糖等可过滤到肾小囊中。大分子蛋白质不能通过过滤。",
+      "knowledge_points": [
+        "肾小球的过滤作用"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-1a68a239-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第五章 人体内废物的排出",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某健康人血浆、原尿和尿液中的主要成分含量（克/100毫升）如下表。请分析并回答问题：\n| 成分 | 血浆 | 原尿 | 尿液 |\n|------|------|------|------|\n| 水   | 90   | 98   | 96   |\n| 蛋白质 | 8    | 0.03 | 0    |\n| 葡萄糖 | 0.1  | 0.1  | 0    |\n| 无机盐 | 0.72 | 0.72 | 1.1  |\n| 尿素 | 0.03 | 0.03 | 1.8  |\n（1）原尿中葡萄糖含量为0.1，而尿液为0，说明肾小管具有什么作用？\n（2）尿液中的尿素含量远高于原尿，原因是什么？",
+      "answer": "（1）肾小管的重吸收作用（2）肾小管重吸收了大部分水，导致尿素浓度升高",
+      "solution_steps": "（1）原尿流经肾小管时，全部葡萄糖被重吸收回血液，所以尿液中无葡萄糖。（2）原尿中大部分水被肾小管重吸收，而尿素不被重吸收，因此尿液中的尿素浓度升高。",
+      "knowledge_points": [
+        "肾小管的重吸收作用",
+        "尿液成分分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 5
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-bcb82d39-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章 人体生命活动的调节",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "人体从外界获取信息中，大多来自哪种感觉？",
+      "answer": "视觉",
+      "solution_steps": "根据教材，从外界获得的信息中，大多是来自视觉。",
+      "knowledge_points": [
+        "视觉的重要性"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-bcb82d39-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章 人体生命活动的调节",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "请简述听觉的形成过程。",
+      "answer": "外界的声波经过外耳道传到鼓膜，鼓膜的振动通过听小骨传到内耳，刺激耳蜗内对声波敏感的感觉细胞，这些细胞将声音信息通过听觉神经传给大脑的一定区域，人就产生了听觉。",
+      "solution_steps": "声波→外耳道→鼓膜（振动）→听小骨→内耳（耳蜗）→听觉神经→大脑皮层听觉中枢。",
+      "knowledge_points": [
+        "听觉的形成",
+        "耳的结构"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-bcb82d39-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章 人体生命活动的调节",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某同学长期看手机导致近视，请分析近视形成的原因，并说明矫正方法。",
+      "answer": "原因：眼球前后径过长或晶状体曲度过大，物像落在视网膜前方。矫正：配戴凹透镜。",
+      "solution_steps": "近视是由于眼球前后径过长或晶状体曲度过大，远处物体反射的光线通过晶状体折射后形成的物像落在视网膜前方，导致看不清远处物体。矫正方法是配戴凹透镜，使光线发散后进入眼睛，物像后移至视网膜上。",
+      "knowledge_points": [
+        "近视的成因",
+        "近视的矫正",
+        "凹透镜的作用"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-3a84734d-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 人类活动对生物圈的影响",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "酸雨是指pH小于多少的雨水？",
+      "answer": "5.6",
+      "solution_steps": "根据教材，正常雨水的pH不小于5.6，pH小于5.6的雨水是酸雨。",
+      "knowledge_points": [
+        "酸雨的定义",
+        "pH与酸性的关系"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-3a84734d-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 人类活动对生物圈的影响",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "分析人类活动对生态环境的影响，请举例说明人类活动既可能破坏环境，也可以改善环境。",
+      "answer": "破坏环境：滥伐森林导致水土流失；改善环境：植树造林增加绿化。",
+      "solution_steps": "教材指出人类活动既可能破坏环境，也可以改善环境。破坏环境的例子有滥伐森林、排放烟雾、污染湖泊等；改善环境的例子有植树造林、救治野鸟放归、建立自然保护区等。",
+      "knowledge_points": [
+        "人类活动对生态环境的双重影响",
+        "具体事例分析"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-3a84734d-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 人类活动对生物圈的影响",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某地区酸雨污染严重，经调查发现当地工厂排放大量二氧化硫。请设计一个模拟探究实验，验证模拟酸雨对小麦种子发芽率的影响，并说明如何设置对照实验。",
+      "answer": "用食醋和清水配制pH为4的模拟酸雨，以清水为对照，每组100粒小麦种子，重复3次，统计发芽率。",
+      "solution_steps": "1. 配制模拟酸雨：用食醋和清水调至pH=4。2. 设置对照：清水组（pH=7）。3. 每组100粒小麦种子，分别用模拟酸雨和清水浸泡相同时间后置于相同条件下培养。4. 重复3次取平均值。5. 统计发芽率，比较差异。",
+      "knowledge_points": [
+        "酸雨对生物的影响",
+        "模拟探究实验设计",
+        "对照实验与重复实验"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0124d00e-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章生物的生殖和发育",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "家蚕的发育过程要经过卵、幼虫、蛹、成虫四个时期，这种发育方式称为（  ）发育。",
+      "answer": "完全变态",
+      "solution_steps": "家蚕的发育经过卵、幼虫、蛹、成虫四个时期，幼虫与成虫在形态结构和生活习性上差异很大，这样的发育过程称为完全变态发育。",
+      "knowledge_points": [
+        "完全变态发育"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0124d00e-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章生物的生殖和发育",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "在扦插薄荷时，茎段下方的切口是斜向的，而上方的切口是水平的。请说明这样处理的原因。",
+      "answer": "下方斜切口增加吸收水分和生根面积，上方水平切口减少水分蒸发。",
+      "solution_steps": "下方斜向切口可以增大与土壤的接触面积，有利于吸收水分和生根；上方水平切口可以减少伤口面积，防止水分过度蒸发，提高成活率。",
+      "knowledge_points": [
+        "扦插技术",
+        "无性生殖"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0124d00e-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第一章生物的生殖和发育",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "某同学在饲养家蚕时发现，家蚕幼虫在生长过程中会蜕皮。请结合家蚕的发育过程，分析家蚕蜕皮的原因，并说明若虫（如蝗虫）蜕皮与家蚕蜕皮有何异同。",
+      "answer": "家蚕蜕皮是因为外骨骼限制生长；若虫蜕皮与家蚕蜕皮原因相同，但家蚕在幼虫期蜕皮，若虫在发育为成虫前蜕皮多次，且家蚕有蛹期，若虫无蛹期。",
+      "solution_steps": "家蚕和蝗虫都属于昆虫，体表有外骨骼，外骨骼不能随身体长大而生长，因此需要蜕皮。家蚕幼虫期蜕皮4次后化蛹，蛹羽化为成虫；蝗虫若虫期蜕皮5次后直接发育为成虫，无蛹期。两者蜕皮的根本原因相同，但发育过程不同。",
+      "knowledge_points": [
+        "昆虫的蜕皮",
+        "完全变态与不完全变态"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 1
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-84d679a5-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章生物的遗传与变异：47",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "判断下列说法是否正确：一对正常毛色的孟加拉虎生下了一只白色的幼虎，这肯定是基因发生突变的结果。",
+      "answer": "错误",
+      "solution_steps": "白色幼虎的出现可能是基因突变，也可能是隐性基因遗传的结果。若双亲都是杂合子，则可能生出隐性纯合的白虎，不一定是突变。",
+      "knowledge_points": [
+        "基因突变",
+        "显隐性遗传"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-84d679a5-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章生物的遗传与变异：47",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "育种工作者使用射线处理农作物的种子，再从中选出优质高产的新品种。这种育种方法能够成功，从根本上是因为改变了农作物的：A. 性状；B. 遗传物质；C. 生活环境；D. 生活习性。",
+      "answer": "B",
+      "solution_steps": "射线处理属于诱变育种，原理是诱导基因突变，改变遗传物质（DNA），从而产生新性状，经选择获得新品种。",
+      "knowledge_points": [
+        "诱变育种",
+        "遗传物质"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-84d679a5-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第二章生物的遗传与变异：47",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "用一种化学药剂处理甜菜的幼苗，使细胞内的染色体数目加倍，甜菜含糖量提高。你认为这种变异能遗传吗？请说明理由。",
+      "answer": "能遗传",
+      "solution_steps": "染色体数目加倍属于染色体变异，遗传物质发生了改变，且发生在体细胞中，可通过无性繁殖（如组织培养）传递给后代，因此可遗传。",
+      "knowledge_points": [
+        "染色体变异",
+        "可遗传变异"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 2
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0b9aca91-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "30第七单元生物圈中生命的延续和发展",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "下列关于染色体、DNA和基因关系的叙述，正确的是（ ）\nA. 每条染色体上有一个DNA分子，每个DNA分子上有许多基因\nB. 每条染色体上有多个DNA分子，每个DNA分子上有一个基因\nC. 染色体由DNA和蛋白质组成，基因是DNA上的片段\nD. 基因在染色体上呈线性排列，一条染色体上只有一个基因",
+      "answer": "A",
+      "solution_steps": "染色体主要由DNA和蛋白质组成，每条染色体上一般含一个DNA分子，每个DNA分子上有许多基因。因此A正确，B、D错误。C表述正确，但问题问的是“关系”，A更全面。",
+      "knowledge_points": [
+        "染色体、DNA和基因的关系",
+        "基因的概念"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0b9aca91-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "30第七单元生物圈中生命的延续和发展",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "人的体细胞中有23对染色体，请回答：\n（1）人的精子或卵细胞中的染色体数目是______条，这些染色体在形态和大小上______（填“相同”或“不同”）。\n（2）在形成精子或卵细胞的细胞分裂过程中，染色体数目减半的意义是______。",
+      "answer": "（1）23；不同\n（2）维持子代和亲代染色体数目的恒定（或保证遗传的稳定性）",
+      "solution_steps": "（1）生殖细胞中染色体是体细胞的一半，即23条；且每对染色体中一条进入生殖细胞，所以形态大小不同。\n（2）减半后受精时恢复原数，使后代染色体数目稳定。",
+      "knowledge_points": [
+        "生殖细胞中染色体数目",
+        "减数分裂的意义"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-0b9aca91-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "30第七单元生物圈中生命的延续和发展",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "人的能卷舌（A）对不能卷舌（a）为显性。一对夫妇都能卷舌，他们生了一个不能卷舌的孩子。请分析：\n（1）这对夫妇的基因型分别是______和______。\n（2）如果这对夫妇再生一个孩子，这个孩子能卷舌的概率是______。\n（3）如果这个不能卷舌的孩子与一个能卷舌（基因型为Aa）的人结婚，他们生一个不能卷舌的孩子的概率是______。",
+      "answer": "（1）Aa；Aa\n（2）3/4\n（3）1/2",
+      "solution_steps": "（1）父母都能卷舌但生不能卷舌（aa），说明父母都携带a，基因型均为Aa。\n（2）Aa×Aa→后代AA:Aa:aa=1:2:1，能卷舌（AA+Aa）概率=3/4。\n（3）不能卷舌孩子基因型aa，与Aa婚配：aa×Aa→Aa:aa=1:1，不能卷舌概率=1/2。",
+      "knowledge_points": [
+        "基因的显性和隐性",
+        "遗传概率计算",
+        "近亲结婚危害的遗传原理"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-6aa0bf7f-1",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第八单元 健康地生活",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "下列疾病中，属于传染病的是（ ）\nA. 近视  B. 贫血  C. 龋齿  D. 病毒性结膜炎",
+      "answer": "D",
+      "solution_steps": "传染病是由病原体引起的，能在人与人之间或人与动物之间传播的疾病。近视、贫血、龋齿都不是由病原体引起的，不具有传染性；病毒性结膜炎由病毒引起，具有传染性，属于传染病。",
+      "knowledge_points": [
+        "传染病的概念"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-6aa0bf7f-2",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第八单元 健康地生活",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "流行性感冒的传播途径主要是（ ）\nA. 水传播和饮食传播  B. 饮食传播和接触传播  C. 空气传播和飞沫传播  D. 虫媒传播和接触传播",
+      "answer": "C",
+      "solution_steps": "流感患者讲话、咳嗽、打喷嚏时喷出含有流感病毒的飞沫，悬浮于空气中，周围的人吸入后可能患流感，因此主要传播途径是空气传播和飞沫传播。",
+      "knowledge_points": [
+        "传染病流行的基本环节",
+        "传播途径"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-biology-6aa0bf7f-3",
+      "subject": "biology",
+      "stage": "初中",
+      "grade": "八年级",
+      "chapter": "第八单元 健康地生活",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "请分析：对患有人禽流感或怀疑携带人禽流感病毒的家禽进行焚毁处理，这一预防措施属于控制传染源还是切断传播途径？为什么？",
+      "answer": "控制传染源",
+      "solution_steps": "传染源是指能够散播病原体的人或动物。患有人禽流感或携带病毒的家禽是传染源，焚毁处理直接消灭了传染源，从而阻止病原体散播，因此属于控制传染源。",
+      "knowledge_points": [
+        "传染源的概念",
+        "预防传染病的措施"
+      ],
+      "textbook_ref": {
+        "path": "初中/生物学/人教版/八年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-23034d19-1",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章我们生活的大洲—亚洲",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "亚洲地势的主要特征是（  ）\nA. 中部高，四周低\nB. 东西高，中部低\nC. 南北高，中部低\nD. 地势平坦",
+      "answer": "A",
+      "solution_steps": "根据教材，亚洲地势起伏很大，中部高，四周低。中部以青藏高原和帕米尔高原地势最为高峻，四周分布着较低的地形单元。",
+      "knowledge_points": [
+        "亚洲地势特征"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-23034d19-2",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章我们生活的大洲—亚洲",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "读图6.8，说出亚洲大河多发源于哪里？并说明其流向特点及原因。",
+      "answer": "多发源于中部山地、高原；呈放射状流向周边的海洋；原因是地势中部高、四周低。",
+      "solution_steps": "亚洲地势中部高、四周低，受地形影响，大河多发源于中部山地、高原，顺势向四周分流，形成放射状水系，注入太平洋、印度洋、北冰洋等。",
+      "knowledge_points": [
+        "地形对河流的影响",
+        "亚洲河流分布"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-23034d19-3",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第六章我们生活的大洲—亚洲",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "结合材料，分析亚洲气候复杂多样的原因，并说明季风气候对农业的有利和不利影响。",
+      "answer": "原因：纬度跨度大，地跨寒、温、热三带；东、北、南三面濒临大洋，中西部深居内陆；地形复杂，地势起伏大。有利影响：雨热同期，有利于农作物生长。不利影响：降水不稳定，易发生旱涝灾害。",
+      "solution_steps": "亚洲跨纬度广，获得热量差异大；海陆位置导致降水差异；地形增加了气候的垂直变化。季风气候夏季高温多雨，雨热同期，但降水年际变化大，易引发旱涝，影响农业稳产。",
+      "knowledge_points": [
+        "亚洲气候特点",
+        "季风气候的影响"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 6
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-59a91b2c-1",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 我们邻近的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "日本位于哪个火山地震带上？请列举日本应对地震的两种措施。",
+      "answer": "环太平洋火山地震带；使用质地较轻的建筑材料、举行防震演习。",
+      "solution_steps": "1. 读图7.7可知日本位于环太平洋火山地震带。2. 从图7.8和图7.9中可提取措施：传统民居使用轻质材料，每年9月1日举行大规模防震演习。",
+      "knowledge_points": [
+        "日本多火山地震的原因",
+        "日本的防震减灾措施"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-59a91b2c-2",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 我们邻近的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "简述日本工业高度依赖海外市场的原因，并说明其工业分布的主要特点。",
+      "answer": "原因：日本地域狭小，资源贫乏，国内供给不足，需大量进口原料和燃料，出口工业制成品。特点：工业集中分布在太平洋沿岸和濑户内海沿岸。",
+      "solution_steps": "1. 根据教材，日本资源贫乏，工业原料依赖进口，产品依赖出口，因此瞄准海外市场。2. 读图7.14，日本工业区主要分布在太平洋沿岸和濑户内海沿岸，便于原料进口和产品出口。",
+      "knowledge_points": [
+        "日本工业的对外依赖性",
+        "日本工业分布特点及原因"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-59a91b2c-3",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第七章 我们邻近的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "结合材料，分析日本在20世纪80年代后加速海外投资的原因，并说明其投资的主要对象地区。",
+      "answer": "原因：劳动力价格上涨、人口老龄化导致劳动力短缺、环境污染、土地紧张、国内需求减少。主要对象：欧洲、美国、东亚和东南亚。",
+      "solution_steps": "1. 从教材第18页可知，20世纪80年代日本面临劳动力价格提高、人口老龄化、环境污染、土地紧张、国内需求减少等问题。2. 为降低成本、开拓市场，日本企业加速海外投资。3. 读图7.13，投资主要流向欧洲、美国、东亚和东南亚。",
+      "knowledge_points": [
+        "日本海外投资的原因",
+        "日本海外投资的主要对象"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 7
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-a05b3498-1",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 东半球其他的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "中东地区被称为“三洲五海之地”，其中“五海”不包括下列哪一个？",
+      "answer": "里海",
+      "solution_steps": "中东周围的五海是阿拉伯海、红海、地中海、黑海和里海，但里海实际上是湖泊，不是海。题目问“不包括”，所以选里海。",
+      "knowledge_points": [
+        "中东地理位置"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-a05b3498-2",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 东半球其他的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "中东石油主要分布在哪个地区？石油输出主要通过什么方式？",
+      "answer": "波斯湾及其沿岸地区；海洋运输（油轮）",
+      "solution_steps": "中东石油资源主要分布在波斯湾及其沿岸地区。由于自身消费少，绝大部分石油通过海洋运往东亚、欧洲西部和北美洲，主要运输方式是油轮。",
+      "knowledge_points": [
+        "中东石油分布",
+        "石油输出方式"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-a05b3498-3",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第八章 东半球其他的地区和国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "中东地区水资源匮乏，而石油资源丰富。请从气候和河流角度分析水资源匮乏的原因，并说明水资源分配矛盾对地区局势的影响。",
+      "answer": "原因：中东以热带沙漠气候为主，降水稀少；河流稀少，多无流区。影响：水资源分配不均导致国家间冲突，加剧紧张局势。",
+      "solution_steps": "中东大部分地区属于热带沙漠气候，全年高温少雨，蒸发旺盛；河流稀少，且多国际河流，如幼发拉底河、约旦河等，水资源分配矛盾突出，成为地区冲突的诱因之一。",
+      "knowledge_points": [
+        "中东水资源匮乏原因",
+        "水资源与地区冲突"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 8
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-265b0d0b-1",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 西半球的国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "美国人口增长较快的主要原因是（ ）\nA. 出生率高\nB. 死亡率低\nC. 移民\nD. 自然增长率高",
+      "answer": "C",
+      "solution_steps": "根据教材，美国人口增长较快的主要原因是移民，移民是美国人口增长较快的主要原因。",
+      "knowledge_points": [
+        "美国人口特点",
+        "移民对人口增长的影响"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-265b0d0b-2",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 西半球的国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "读美国本土农业带分布图，分析乳畜带形成的主要自然和社会经济条件。",
+      "answer": "自然条件：位置偏北，气候冷湿，适宜牧草生长。社会经济条件：这里是美国的制造业带，城市和人口分布密集，乳畜产品市场需求大。",
+      "solution_steps": "从图中可知乳畜带位于美国东北部，气候冷湿，利于牧草生长；同时该地区城市密集，人口众多，对乳畜产品需求大，因此乳畜业发达。",
+      "knowledge_points": [
+        "美国农业带的分布",
+        "影响农业区位因素"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-265b0d0b-3",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第九章 西半球的国家",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "美国信息技术产业对经济发展有哪些主要促进作用？请结合材料分析。",
+      "answer": "支柱产业，发展迅速；新增就业机会最大的产业部门；广泛应用于生产、生活各方面，形成许多新的部门；其他产业应用信息技术及其产品，明显提高生产效率、产品质量和价值。",
+      "solution_steps": "根据图9.14，信息技术产业是支柱产业且发展迅速，提供大量就业；其应用渗透到各领域，催生新部门；提升其他产业的生产效率、产品质量和价值。",
+      "knowledge_points": [
+        "高新技术产业的作用",
+        "信息技术产业对经济的影响"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 9
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-e447e833-1",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 极地地区",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "easy",
+      "question_text": "南极地区被称为“冰雪高原”，其主要原因是什么？",
+      "answer": "大部分地方覆盖着很厚的冰层，平均厚度2000多米。",
+      "solution_steps": "根据教材描述，南极大陆大部分地方覆盖着很厚的冰层，平均厚度超过2000米，因此被称为“冰雪高原”。",
+      "knowledge_points": [
+        "南极地区的自然环境",
+        "冰雪高原"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-e447e833-2",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 极地地区",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "medium",
+      "question_text": "为什么我国南极科学考察站的建站时间都选择在2月？",
+      "answer": "2月是南极地区的暖季，气温相对较高，白昼时间长，便于考察和建设。",
+      "solution_steps": "南极位于南半球，2月正值夏季（暖季），此时气温较高，有极昼现象，利于科学考察和建站工作。",
+      "knowledge_points": [
+        "南极地区的气候特点",
+        "科学考察时间选择"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
+    },
+    {
+      "id": "gen-geography-e447e833-3",
+      "subject": "geography",
+      "stage": "初中",
+      "grade": "七年级",
+      "chapter": "第十章 极地地区",
+      "edition": "人教版",
+      "volume": "下册",
+      "difficulty": "hard",
+      "question_text": "比较南极地区和北极地区的自然环境特点，并说明为什么南极地区比北极地区更寒冷。",
+      "answer": "南极地区比北极地区更寒冷，因为南极是大陆，海拔高，冰层厚，反射阳光强；北极是海洋，海水比热容大，降温慢。",
+      "solution_steps": "南极地区为大陆，海拔高（平均2350米），冰层厚，反射太阳辐射强，且受西风带影响小；北极地区为海洋，海水比热容大，降温慢，且受暖流影响，因此南极更冷。",
+      "knowledge_points": [
+        "南极与北极自然环境比较",
+        "影响气温的因素"
+      ],
+      "textbook_ref": {
+        "path": "初中/地理/人教版/七年级/下册",
+        "ch": 10
+      },
+      "source": "deepseek"
     }
   ],
   "done": {
@@ -17991,6 +18980,22 @@
     "高中/思想政治/统编版/选择性必修3/逻辑与思维|ch1": "ok",
     "高中/思想政治/统编版/选择性必修3/逻辑与思维|ch2": "ok",
     "高中/思想政治/统编版/选择性必修3/逻辑与思维|ch3": "ok",
-    "高中/思想政治/统编版/选择性必修3/逻辑与思维|ch4": "ok"
+    "高中/思想政治/统编版/选择性必修3/逻辑与思维|ch4": "ok",
+    "初中/生物学/人教版/七年级/下册|ch2": "ok",
+    "初中/生物学/人教版/七年级/下册|ch3": "ok",
+    "初中/生物学/人教版/七年级/下册|ch4": "ok",
+    "初中/生物学/人教版/七年级/下册|ch5": "ok",
+    "初中/生物学/人教版/七年级/下册|ch6": "ok",
+    "初中/生物学/人教版/七年级/下册|ch7": "ok",
+    "初中/生物学/人教版/八年级/下册|ch1": "ok",
+    "初中/生物学/人教版/八年级/下册|ch2": "ok",
+    "初中/生物学/人教版/八年级/下册|ch3": "too_short",
+    "初中/生物学/人教版/八年级/下册|ch7": "ok",
+    "初中/生物学/人教版/八年级/下册|ch8": "ok",
+    "初中/地理/人教版/七年级/下册|ch6": "ok",
+    "初中/地理/人教版/七年级/下册|ch7": "ok",
+    "初中/地理/人教版/七年级/下册|ch8": "ok",
+    "初中/地理/人教版/七年级/下册|ch9": "ok",
+    "初中/地理/人教版/七年级/下册|ch10": "ok"
   }
 }
