@@ -155,29 +155,40 @@
     .reset-btn{background:none;border:none;color:var(--ink4);font-size:11px;cursor:pointer;font-family:var(--font);text-decoration:underline}
     .reset-btn:hover{color:var(--red)}
 
-    /* 学科进度矩阵 */
+    /* 学科进度矩阵（全科版） */
     .subj-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px 22px}
     .subj-sub-h{font-size:13px;font-weight:700;color:var(--ink2);margin:4px 0 12px;letter-spacing:.2px}
     .subj-sub-h .muted{color:var(--ink4);font-weight:500;margin-left:6px;font-size:11px}
-    .subj-grid{display:grid;grid-template-columns:80px repeat(3,1fr);gap:8px}
-    .subj-head{font-size:12px;color:var(--ink3);font-weight:700;padding:8px 4px;text-align:center}
-    .subj-head.row{text-align:left;padding:12px 10px;display:flex;align-items:center}
+    .subj-stage{margin-top:12px}
+    .subj-stage:first-of-type{margin-top:0}
+    .subj-stage-h{font-size:12px;font-weight:700;color:var(--ink3);padding:4px 2px 8px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+    .subj-stage-h b{color:var(--ink);font-weight:800}
+    .subj-stage-h .mini{color:var(--ink4);font-weight:500;font-size:11px}
+    .subj-flex{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
     .subj-cell{background:var(--bg);border:1px solid var(--bdr);border-radius:10px;padding:12px 14px;min-height:82px;display:flex;flex-direction:column;justify-content:space-between}
-    .subj-cell.empty{opacity:.55}
-    .subj-cell .sc-top{display:flex;align-items:baseline;gap:6px}
-    .subj-cell .sc-n{font-size:22px;font-weight:900;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
-    .subj-cell .sc-d{font-size:11px;color:var(--ink3);font-weight:500}
+    .subj-cell.empty{opacity:.5}
+    .subj-cell .sc-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+    .subj-cell .sc-label{font-size:12px;color:var(--ink2);font-weight:700;display:flex;align-items:center;gap:5px}
+    .subj-cell .sc-n{font-size:20px;font-weight:900;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
+    .subj-cell .sc-d{font-size:11px;color:var(--ink3);font-weight:500;margin-top:4px}
     .subj-cell .sc-bar{height:5px;background:#F4F4F5;border-radius:999px;overflow:hidden;margin-top:8px}
     .subj-cell .sc-fill{height:100%;background:linear-gradient(90deg,#F5A623,#D97706);border-radius:999px;transition:width .5s ease}
     .subj-cell.math .sc-fill{background:linear-gradient(90deg,#2563EB,#1D4ED8)}
     .subj-cell.physics .sc-fill{background:linear-gradient(90deg,#7C3AED,#6D28D9)}
     .subj-cell.chemistry .sc-fill{background:linear-gradient(90deg,#059669,#047857)}
+    .subj-cell.biology .sc-fill{background:linear-gradient(90deg,#16A34A,#15803D)}
+    .subj-cell.chinese .sc-fill{background:linear-gradient(90deg,#DC2626,#B91C1C)}
+    .subj-cell.english .sc-fill{background:linear-gradient(90deg,#0891B2,#0E7490)}
+    .subj-cell.history .sc-fill{background:linear-gradient(90deg,#92400E,#78350F)}
+    .subj-cell.geography .sc-fill{background:linear-gradient(90deg,#0D9488,#0F766E)}
+    .subj-cell.politics .sc-fill{background:linear-gradient(90deg,#EA580C,#C2410C)}
+    .subj-cell.moral .sc-fill{background:linear-gradient(90deg,#6B21A8,#581C87)}
     .subj-cell .sc-cta{font-size:11px;color:var(--ink4);margin-top:6px}
     .subj-cell.has .sc-cta a{color:var(--amber);text-decoration:none;font-weight:600}
     .subj-cell.has .sc-cta a:hover{text-decoration:underline}
 
     .subj-act{margin-top:16px;background:var(--bg);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
-    .subj-act-row{display:grid;grid-template-columns:90px repeat(3,1fr);align-items:center;border-top:1px solid var(--bdr);padding:12px 14px;gap:8px}
+    .subj-act-row{display:grid;grid-template-columns:110px repeat(3,1fr);align-items:center;border-top:1px solid var(--bdr);padding:12px 14px;gap:8px}
     .subj-act-row:first-child{border-top:none;background:#FAFAF9;font-size:11px;color:var(--ink3);font-weight:700}
     .subj-act-row .ar-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
     .subj-act-row .ar-n{font-size:16px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums}
@@ -187,13 +198,19 @@
     .subj-chip.math{background:#2563EB}
     .subj-chip.physics{background:#7C3AED}
     .subj-chip.chemistry{background:#059669}
+    .subj-chip.biology{background:#16A34A}
+    .subj-chip.chinese{background:#DC2626}
+    .subj-chip.english{background:#0891B2}
+    .subj-chip.history{background:#92400E}
+    .subj-chip.geography{background:#0D9488}
+    .subj-chip.politics{background:#EA580C}
+    .subj-chip.moral{background:#6B21A8}
 
     @media(max-width:640px){
-        .subj-grid{grid-template-columns:60px repeat(3,1fr);gap:6px}
-        .subj-head{font-size:11px;padding:6px 2px}
+        .subj-flex{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
         .subj-cell{padding:10px 10px;min-height:74px}
         .subj-cell .sc-n{font-size:18px}
-        .subj-act-row{grid-template-columns:70px repeat(3,1fr);padding:10px;gap:6px}
+        .subj-act-row{grid-template-columns:88px repeat(3,1fr);padding:10px;gap:6px}
         .subj-act-row .ar-n{font-size:14px}
     }
     </style>
@@ -300,8 +317,8 @@
         <div class="sec-sub">读 → 练 → 悟 · 按学段拆开看</div>
     </div>
     <div class="subj-wrap">
-        <div class="subj-sub-h">📖 教材阅读<span class="muted">数据来源 · 教材原文工具</span></div>
-        <div class="subj-grid" id="subj-read-grid"></div>
+        <div class="subj-sub-h">📖 教材阅读<span class="muted">数据来源 · 教材原文工具 · 全 <b id="subj-book-ct">—</b> 本 <b id="subj-ch-ct">—</b> 章</span></div>
+        <div id="subj-read-stages"></div>
         <div class="subj-sub-h" style="margin-top:20px">🧠 答题 · 攻克 · 讲清<span class="muted">数据来源 · 题库速练 / 错题举一反三 / 费曼验证</span></div>
         <div class="subj-act" id="subj-act-wrap"></div>
     </div>
@@ -769,23 +786,31 @@ function renderFsrs() {
 }
 
 // ===== 学科进度矩阵 =====
-var SUBJ_KEYS = ['math', 'physics', 'chemistry'];
-var SUBJ_ZH = { math: '数学', physics: '物理', chemistry: '化学' };
+var SUBJ_KEYS = ['math', 'physics', 'chemistry', 'biology', 'chinese', 'english', 'history', 'geography', 'politics', 'moral'];
+var SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
+var SUBJ_ZH_FULL = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物学', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思想政治', moral:'道德与法治' };
 
 function parseSubjActivity() {
     // 从 gamification log 的 reason 字段提取 题库/错题/费曼 per 学科
     var log = [];
     try { log = GAME.getLog() || []; } catch(e){}
-    var acc = { math: {arcade:0, error:0, feynman:0}, physics: {arcade:0, error:0, feynman:0}, chemistry: {arcade:0, error:0, feynman:0} };
+    var acc = {};
+    SUBJ_KEYS.forEach(function(sk){ acc[sk] = {arcade:0, error:0, feynman:0}; });
+    // 中文 → key 映射（优先长词，避免"物理"误命中"化学"）
+    var ZH_TO_KEY = [
+        ['思想政治','politics'], ['道德与法治','moral'], ['生物学','biology'],
+        ['数学','math'], ['物理','physics'], ['化学','chemistry'],
+        ['语文','chinese'], ['英语','english'], ['历史','history'],
+        ['地理','geography'], ['政治','politics'], ['道法','moral'], ['生物','biology']
+    ];
     log.forEach(function(e){
         if (e.type !== 'xp' || !e.reason) return;
         var r = e.reason;
         var subj = null;
-        // reason 里学科串是中文
-        if (r.indexOf('数学') >= 0) subj = 'math';
-        else if (r.indexOf('物理') >= 0) subj = 'physics';
-        else if (r.indexOf('化学') >= 0) subj = 'chemistry';
-        if (!subj) return;
+        for (var i = 0; i < ZH_TO_KEY.length; i++) {
+            if (r.indexOf(ZH_TO_KEY[i][0]) >= 0) { subj = ZH_TO_KEY[i][1]; break; }
+        }
+        if (!subj || !acc[subj]) return;
         if (r.indexOf('题库速练') >= 0) acc[subj].arcade++;
         else if (r.indexOf('错题分析') >= 0 || r.indexOf('错题攻克') >= 0) acc[subj].error++;
         else if (r.indexOf('费曼验证') >= 0) acc[subj].feynman++;
@@ -796,14 +821,17 @@ function parseSubjActivity() {
 function parseTextbookRead(manifest) {
     var read = new Set();
     try { read = new Set(JSON.parse(localStorage.getItem('ydzx_textbook_read') || '[]')); } catch(e){}
-    // { 初中: { math: {done, total}, ... }, 高中: { ... } }
-    var out = { '初中': { math:{done:0,total:0,books:0}, physics:{done:0,total:0,books:0}, chemistry:{done:0,total:0,books:0} },
-                '高中': { math:{done:0,total:0,books:0}, physics:{done:0,total:0,books:0}, chemistry:{done:0,total:0,books:0} } };
-    var subjMap = { '数学': 'math', '物理': 'physics', '化学': 'chemistry' };
+    // 数据驱动：扫 manifest 构建 stage→subject→{done,total,books}
+    var out = {};
+    var subjMap = { '数学':'math', '物理':'physics', '化学':'chemistry', '生物学':'biology', '生物':'biology',
+                    '语文':'chinese', '英语':'english', '历史':'history', '地理':'geography',
+                    '思想政治':'politics', '政治':'politics', '道德与法治':'moral' };
     (manifest.books || []).forEach(function(b){
-        var stg = b.stage;
+        var stg = b.stage || '未知';
         var subj = subjMap[b.subject];
-        if (!out[stg] || !subj) return;
+        if (!subj) return;
+        if (!out[stg]) out[stg] = {};
+        if (!out[stg][subj]) out[stg][subj] = { done:0, total:0, books:0 };
         out[stg][subj].books++;
         (b.chapters || []).forEach(function(c){
             out[stg][subj].total++;
@@ -814,33 +842,57 @@ function parseTextbookRead(manifest) {
 }
 
 function renderReadGrid(matrix, manifest) {
-    var grid = document.getElementById('subj-read-grid');
-    if (!grid) return;
+    var wrap = document.getElementById('subj-read-stages');
+    if (!wrap) return;
+    // 汇总顶部 counter
+    var totalBooks = 0, totalCh = 0, totalDone = 0;
+    Object.keys(matrix).forEach(function(stg){
+        Object.keys(matrix[stg]).forEach(function(sk){
+            totalBooks += matrix[stg][sk].books;
+            totalCh += matrix[stg][sk].total;
+            totalDone += matrix[stg][sk].done;
+        });
+    });
+    var bookCt = document.getElementById('subj-book-ct');
+    var chCt = document.getElementById('subj-ch-ct');
+    if (bookCt) bookCt.textContent = totalBooks;
+    if (chCt) chCt.textContent = totalCh;
+
+    // 学段顺序：小学/初中/高中 + 未归类
+    var stageOrder = ['小学','初中','高中'];
+    var stages = stageOrder.filter(function(s){ return matrix[s]; })
+        .concat(Object.keys(matrix).filter(function(s){ return stageOrder.indexOf(s) < 0; }));
+
     var h = '';
-    h += '<div class="subj-head"></div>';
-    h += '<div class="subj-head"><span class="subj-chip math"></span>数学</div>';
-    h += '<div class="subj-head"><span class="subj-chip physics"></span>物理</div>';
-    h += '<div class="subj-head"><span class="subj-chip chemistry"></span>化学</div>';
-    ['初中','高中'].forEach(function(stg){
-        h += '<div class="subj-head row">' + stg + '</div>';
+    stages.forEach(function(stg){
+        var subjsInStage = matrix[stg] || {};
+        var stageBooks = 0, stageCh = 0, stageDone = 0;
+        Object.keys(subjsInStage).forEach(function(sk){
+            stageBooks += subjsInStage[sk].books;
+            stageCh += subjsInStage[sk].total;
+            stageDone += subjsInStage[sk].done;
+        });
+        var stagePct = stageCh ? Math.round(stageDone / stageCh * 100) : 0;
+        h += '<div class="subj-stage">';
+        h += '<div class="subj-stage-h"><b>' + stg + '</b>'
+           + '<span class="mini">' + stageBooks + ' 本 · ' + stageCh + ' 章 · 已读 ' + stageDone + ' 章（' + stagePct + '%）</span>'
+           + '</div>';
+        h += '<div class="subj-flex">';
         SUBJ_KEYS.forEach(function(sk){
-            var d = matrix[stg][sk];
-            if (!d.total) {
-                h += '<div class="subj-cell empty ' + sk + '">'
-                    + '<div class="sc-top"><span class="sc-n" style="color:var(--ink4)">—</span></div>'
-                    + '<div class="sc-cta">教材缺货</div>'
-                    + '</div>';
-                return;
-            }
+            var d = subjsInStage[sk];
+            if (!d || !d.total) return;  // 只渲染实际有教材的学科，减少空卡
             var pct = Math.round(d.done / d.total * 100);
             var hasRead = d.done > 0;
-            var hint = hasRead ? (d.done + ' / ' + d.total + ' 章') : ('共 ' + d.total + ' 章 · ' + d.books + ' 本');
+            var hint = hasRead ? (d.done + ' / ' + d.total + ' 章 · ' + pct + '%') : ('共 ' + d.total + ' 章 · ' + d.books + ' 本');
             var cta = hasRead
-                ? '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH[sk]) + '">继续读 →</a>'
-                : '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH[sk]) + '">开始 →</a>';
+                ? '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH_FULL[sk]) + '">继续读 →</a>'
+                : '<a href="/tools/textbook-browser?stage=' + encodeURIComponent(stg) + '&subject=' + encodeURIComponent(SUBJ_ZH_FULL[sk]) + '">开始 →</a>';
             h += '<div class="subj-cell ' + sk + (hasRead ? ' has' : '') + '">'
                 + '<div>'
-                  + '<div class="sc-top"><span class="sc-n">' + pct + '<span style="font-size:13px;font-weight:700;color:var(--ink3)">%</span></span></div>'
+                  + '<div class="sc-top">'
+                    + '<span class="sc-label"><span class="subj-chip ' + sk + '"></span>' + SUBJ_ZH[sk] + '</span>'
+                    + '<span class="sc-n">' + pct + '<span style="font-size:12px;font-weight:700;color:var(--ink3)">%</span></span>'
+                  + '</div>'
                   + '<div class="sc-d">' + hint + '</div>'
                 + '</div>'
                 + '<div>'
@@ -849,8 +901,9 @@ function renderReadGrid(matrix, manifest) {
                 + '</div>'
                 + '</div>';
         });
+        h += '</div></div>';  // close subj-flex + subj-stage
     });
-    grid.innerHTML = h;
+    wrap.innerHTML = h || '<div style="padding:20px;text-align:center;color:var(--ink4);font-size:12px">manifest 未加载</div>';
 }
 
 function renderActivityTable(act) {
@@ -863,7 +916,12 @@ function renderActivityTable(act) {
        + '<div>错题攻克</div>'
        + '<div>费曼讲清</div>'
        + '</div>';
-    SUBJ_KEYS.forEach(function(sk){
+    // 只显示有数据的学科；若全为 0，保底显示 math/physics/chemistry 三条占位
+    var active = SUBJ_KEYS.filter(function(sk){
+        var d = act[sk]; return d && (d.arcade + d.error + d.feynman) > 0;
+    });
+    if (!active.length) active = ['math','physics','chemistry'];
+    active.forEach(function(sk){
         var d = act[sk];
         var cell = function(n, unit){
             return '<div><span class="ar-n ' + (n===0?'zero':'') + '">' + n + '</span><span class="ar-t">' + unit + '</span></div>';
@@ -921,20 +979,20 @@ function renderSmartNext() {
             try {
                 var mx = parseTextbookRead(m);
                 var worst = null;
-                ['初中','高中'].forEach(function(st){
-                    ['math','physics','chemistry'].forEach(function(sj){
-                        var v = mx[st] && mx[st][sj];
+                Object.keys(mx).forEach(function(st){
+                    Object.keys(mx[st]).forEach(function(sj){
+                        var v = mx[st][sj];
                         if (!v || v.total === 0) return;
-                        var pct = v.read / v.total;
-                        if (!worst || pct < worst.pct) worst = { stage: st, subj: sj, pct: pct, read: v.read, total: v.total };
+                        var pct = v.done / v.total;
+                        if (!worst || pct < worst.pct) worst = { stage: st, subj: sj, pct: pct, done: v.done, total: v.total };
                     });
                 });
                 if (worst && worst.pct < 0.5) {
-                    var zhSubj = ({math:'数学',physics:'物理',chemistry:'化学'})[worst.subj];
+                    var zhSubj = SUBJ_ZH_FULL[worst.subj] || SUBJ_ZH[worst.subj] || worst.subj;
                     cards.push({
                         cls: 'read', emo: '📖', tag: '读',
                         title: worst.stage + zhSubj + '进度 ' + Math.round(worst.pct*100) + '%',
-                        reason: '只读了 ' + worst.read + '/' + worst.total + ' 章 · 去读下一章',
+                        reason: '只读了 ' + worst.done + '/' + worst.total + ' 章 · 去读下一章',
                         cta: '去读', href: 'tools/textbook-browser.html?stage=' + encodeURIComponent(worst.stage) + '&subject=' + encodeURIComponent(zhSubj)
                     });
                 }
@@ -943,21 +1001,34 @@ function renderSmartNext() {
             // 3. 冷科练习 —— 从 game log 看哪个学科最久没练
             try {
                 var log = (window.GAME && window.GAME.getLog && window.GAME.getLog()) || [];
-                var lastByS = { math: 0, physics: 0, chemistry: 0 };
+                var lastByS = {};
+                SUBJ_KEYS.forEach(function(sk){ lastByS[sk] = 0; });
+                var ZH_TO_KEY2 = [
+                    ['思想政治','politics'], ['道德与法治','moral'], ['生物学','biology'],
+                    ['数学','math'], ['物理','physics'], ['化学','chemistry'],
+                    ['语文','chinese'], ['英语','english'], ['历史','history'],
+                    ['地理','geography'], ['政治','politics'], ['道法','moral'], ['生物','biology']
+                ];
                 log.forEach(function(e){
                     if (e.type !== 'xp' || !e.reason) return;
                     var r = e.reason;
                     if (r.indexOf('题库速练') < 0) return;
-                    var s = r.indexOf('数学') >= 0 ? 'math' : r.indexOf('物理') >= 0 ? 'physics' : r.indexOf('化学') >= 0 ? 'chemistry' : null;
+                    var s = null;
+                    for (var i = 0; i < ZH_TO_KEY2.length; i++) {
+                        if (r.indexOf(ZH_TO_KEY2[i][0]) >= 0) { s = ZH_TO_KEY2[i][1]; break; }
+                    }
                     if (s && e.ts > lastByS[s]) lastByS[s] = e.ts;
                 });
+                // 冷科候选：只考虑 manifest 里实际有教材的学科（从 mx 里推）
+                var availSubj = {};
+                Object.keys(mx || {}).forEach(function(st){ Object.keys(mx[st]||{}).forEach(function(sj){ availSubj[sj] = true; }); });
                 var coldest = null;
-                ['math','physics','chemistry'].forEach(function(s){
+                Object.keys(availSubj).forEach(function(s){
                     var daysAgo = lastByS[s] ? Math.floor((Date.now() - lastByS[s]) / 86400000) : 999;
                     if (!coldest || daysAgo > coldest.days) coldest = { s: s, days: daysAgo };
                 });
                 if (coldest && coldest.days >= 3) {
-                    var zh = ({math:'数学',physics:'物理',chemistry:'化学'})[coldest.s];
+                    var zh = SUBJ_ZH[coldest.s] || coldest.s;
                     cards.push({
                         cls: 'practice', emo: '🧠', tag: '练',
                         title: zh + (coldest.days >= 999 ? ' 还没练过' : ' 冷了 ' + coldest.days + ' 天'),
