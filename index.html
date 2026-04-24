@@ -222,6 +222,39 @@
     <div class="stat"><div class="stat-n" id="s-str">0</div><div class="stat-l">连续天数</div></div>
 </div></div>
 
+<!-- MOAT ROW · 自研平台成绩单 -->
+<div style="max-width:1120px;margin:14px auto 0;padding:0 20px">
+<a href="platform.html" id="moat-row" style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:linear-gradient(110deg,#0F172A 0%,#1E293B 100%);border-radius:10px;text-decoration:none;color:#fff;position:relative;overflow:hidden">
+    <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:#FCD34D;text-transform:uppercase">自研平台</div>
+    <div style="flex:1;min-width:0;font-size:12.5px;color:#E5E7EB;line-height:1.5" id="moat-row-text">
+        <b style="color:#fff" id="moat-books">—</b> 本教材 ·
+        <b style="color:#fff" id="moat-ch">—</b> 章 OCR ·
+        <b style="color:#fff" id="moat-q">—</b> 道题 ·
+        <b style="color:#FCD34D" id="moat-rate">—</b> 反链命中率
+    </div>
+    <div style="font-size:12px;color:#FCD34D;font-weight:700;white-space:nowrap">看引擎 →</div>
+</a>
+</div>
+<script>
+(async function(){
+    try {
+        var [mf, qc, qg, rep] = await Promise.all([
+            fetch('/data/extracted/manifest.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions-generated.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/reverse-link-report.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+        ]);
+        var books = (mf&&mf.books)||[];
+        var ch = books.reduce(function(a,b){return a+((b.chapters||[]).length);},0);
+        var qs = ((qc&&qc.questions)||[]).length + ((qg&&qg.questions)||[]).length;
+        document.getElementById('moat-books').textContent = books.length;
+        document.getElementById('moat-ch').textContent = ch;
+        document.getElementById('moat-q').textContent = qs;
+        document.getElementById('moat-rate').textContent = rep ? (rep.match_rate*100).toFixed(1) + '%' : '—';
+    } catch(e){}
+})();
+</script>
+
 <!-- DIMENSION SWITCHER -->
 <div class="switcher"><div class="sw-row">
     <button class="sw-btn on" data-d="fast" style="--c:var(--fast);--cbg:var(--fast-bg)" onclick="switchDim('fast')">
