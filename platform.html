@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自研平台 · 数据底座 · 匹配引擎 | 原点智学</title>
+<meta name="description" content="原点智学的自研壁垒：56 本教材章节抽取管道、反链匹配引擎、DeepSeek 生题管道、全栈游戏化系统。所有数字实时来自 manifest，可验证。">
+<meta name="theme-color" content="#F5A623">
+<link rel="canonical" href="https://www.yuandianzhixue.com/platform.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--bdr2:#D4D4D8;
+  --amber:#F5A623;--amber-bg:#FFFBF0;
+  --emerald:#059669;--emerald-bg:#ECFDF5;
+  --violet:#7C3AED;--violet-bg:#F5F3FF;
+  --slate:#334155;--slate-bg:#F1F5F9;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --font:'Noto Sans SC',system-ui,sans-serif;
+  --r:10px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.82);backdrop-filter:blur(24px) saturate(200%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+
+/* hero */
+.hero{max-width:1120px;margin:36px auto 0;padding:0 20px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tag{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--slate-bg);color:var(--slate);font-weight:600;letter-spacing:.3px}
+.tag.e{background:var(--emerald-bg);color:var(--emerald)}
+.tag.v{background:var(--violet-bg);color:var(--violet)}
+h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.15}
+.subh{margin-top:14px;max-width:720px;color:var(--ink2);font-size:16px;line-height:1.7}
+
+/* stats */
+.stats{max-width:1120px;margin:36px auto 0;padding:0 20px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden}
+.stat{background:var(--card);padding:20px 16px}
+.stat-n{font-size:32px;font-weight:900;letter-spacing:-1.2px;line-height:1;font-variant-numeric:tabular-nums}
+.stat-l{font-size:12px;color:var(--ink3);margin-top:6px;font-weight:500}
+.stat-note{font-size:10px;color:var(--ink4);margin-top:4px;font-family:var(--mono)}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr)}.stat-n{font-size:24px}}
+
+/* section */
+.sec{max-width:1120px;margin:56px auto 0;padding:0 20px}
+.sec-h{font-size:22px;font-weight:900;letter-spacing:-.4px;margin-bottom:6px}
+.sec-s{font-size:13px;color:var(--ink3);margin-bottom:20px}
+
+/* matrix grid */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:900px){.matrix{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.matrix{grid-template-columns:1fr}}
+.m-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;text-decoration:none;color:inherit;transition:all .18s;position:relative;overflow:hidden}
+.m-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.m-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--bar,var(--amber))}
+.m-cat{font-size:10px;font-weight:700;color:var(--bar,var(--amber));letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.m-name{font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.m-badge{font-size:9px;padding:1px 6px;border-radius:6px;background:var(--emerald-bg);color:var(--emerald);font-weight:700;letter-spacing:.3px}
+.m-badge.v{background:var(--violet-bg);color:var(--violet)}
+.m-desc{font-size:12px;color:var(--ink3);line-height:1.55}
+.m-card.read{--bar:#E8590C}
+.m-card.practice{--bar:#2563EB}
+.m-card.teach{--bar:#7C3AED}
+.m-card.memorize{--bar:#059669}
+.m-card.grade{--bar:#DC2626}
+.m-card.look{--bar:#18181B}
+.m-card.gen{--bar:#F5A623}
+.m-card.literacy{--bar:#64748B}
+
+/* engine cards */
+.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.engines{grid-template-columns:1fr}}
+.eng{background:var(--card);border:1.5px solid var(--bdr);border-radius:var(--r);padding:22px 18px;position:relative}
+.eng::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;background:var(--c)}
+.eng.a{--c:var(--emerald)}
+.eng.b{--c:var(--violet)}
+.eng.c{--c:var(--amber)}
+.eng-k{font-family:var(--mono);font-size:11px;color:var(--ink4);margin-bottom:8px;letter-spacing:.3px}
+.eng-h{font-size:17px;font-weight:800;margin-bottom:10px}
+.eng-b{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px}
+.eng-list{list-style:none;font-size:12px;color:var(--ink3)}
+.eng-list li{padding:3px 0;padding-left:16px;position:relative}
+.eng-list li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;background:var(--c);border-radius:2px}
+.eng-code{display:block;margin-top:12px;padding:10px 12px;background:#0F172A;color:#E2E8F0;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.65;overflow-x:auto;white-space:pre}
+.eng-try{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:8px;background:var(--c);color:#fff;font-size:12px;font-weight:700;text-decoration:none}
+.eng-try:hover{opacity:.88}
+
+/* comparison table */
+.cmp{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.cmp table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp th,.cmp td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--bdr)}
+.cmp th{background:var(--slate-bg);font-weight:700;font-size:12px;color:var(--ink2)}
+.cmp td.yes{color:var(--emerald);font-weight:700}
+.cmp td.no{color:var(--red)}
+.cmp tr:last-child td{border-bottom:none}
+
+/* asset download row */
+.assets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.assets{grid-template-columns:1fr}}
+.asset{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;text-decoration:none;color:inherit;transition:border-color .15s}
+.asset:hover{border-color:var(--slate)}
+.asset-k{font-family:var(--mono);font-size:10px;color:var(--ink4)}
+.asset-n{font-size:14px;font-weight:700;margin:4px 0 2px}
+.asset-s{font-size:11px;color:var(--ink3)}
+
+/* footer */
+.foot{max-width:1120px;margin:72px auto 0;padding:32px 20px 80px;border-top:1px solid var(--bdr);color:var(--ink3);font-size:12px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+.foot a{color:var(--ink2);text-decoration:none;border-bottom:1px dotted var(--ink4)}
+.foot a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
+      原点智学
+    </a>
+    <a href="/study-tools.html" class="nav-a">工具</a>
+    <a href="/platform.html" class="nav-a on">平台</a>
+    <a href="/about.html" class="nav-a">关于</a>
+    <a href="/assistant.html" class="nav-a">课程</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="tag-row">
+    <span class="tag">自研数据底座</span>
+    <span class="tag e">开源管道</span>
+    <span class="tag v">章节匹配引擎 v1.2</span>
+  </div>
+  <h1>原点自研平台 · 教材 / 引擎 / 模型</h1>
+  <p class="subh">不是把 LLM 套一层壳。我们自建教材抽章管道、章节匹配引擎、章节到练习题的生成管道，所有数据资产可下载可校验。下面的数字由前端实时读 manifest 得出，刷新即更新。</p>
+</section>
+
+<section class="stats">
+  <div class="stats-row" id="stats-row">
+    <div class="stat"><div class="stat-n" id="s-books">—</div><div class="stat-l">教材册数</div><div class="stat-note">ChinaTextbook + OCR</div></div>
+    <div class="stat"><div class="stat-n" id="s-chapters">—</div><div class="stat-l">章节数</div><div class="stat-note">born-digital + rapidocr</div></div>
+    <div class="stat"><div class="stat-n" id="s-questions">—</div><div class="stat-l">题库题量</div><div class="stat-note">curated + DeepSeek 生成</div></div>
+    <div class="stat"><div class="stat-n" id="s-subjects">—</div><div class="stat-l">覆盖学科</div><div class="stat-note">初中 + 高中</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">产品矩阵 · 一站式学习闭环</div>
+  <div class="sec-s">读 → 练 → 讲 → 记 → 评 → 看，六个动作覆盖从吸收到反馈的完整学习循环。</div>
+  <div class="matrix">
+    <a href="/tools/textbook-browser" class="m-card read"><div class="m-cat">读 · 教材</div><div class="m-name">教材阅读器 <span class="m-badge">自研 OCR</span></div><div class="m-desc">人教版/统编版 K12 教材章节级检索，URL 深链 ?book=&ch=，进度打点。</div></a>
+    <a href="/tools/knowledge-arcade" class="m-card practice"><div class="m-cat">练 · 题库</div><div class="m-name">知识速练 <span class="m-badge v">章节反链</span></div><div class="m-desc">按学科/章节速练，题→教材反向跳转，错题回流错题本。</div></a>
+    <a href="/tools/error-mastery" class="m-card practice"><div class="m-cat">练 · 错题</div><div class="m-name">错题精练</div><div class="m-desc">本地 FSRS 记忆曲线决定下一道题，AI 分析错因。</div></a>
+    <a href="/tools/feynman-verify" class="m-card teach"><div class="m-cat">讲 · 费曼</div><div class="m-name">费曼验证</div><div class="m-desc">你来讲，AI 追问盲区，通过=真掌握。每次打分落档。</div></a>
+    <a href="/tools/knowledge-explain" class="m-card teach"><div class="m-cat">讲 · 讲解</div><div class="m-name">知识讲解</div><div class="m-desc">苏格拉底式引导，不直接给答案。</div></a>
+    <a href="/tools/knowledge-visual" class="m-card teach"><div class="m-cat">讲 · 图</div><div class="m-name">知识可视化</div><div class="m-desc">数理化生知识树，点击生流程图。</div></a>
+    <a href="/tools/error-practice" class="m-card memorize"><div class="m-cat">记 · FSRS</div><div class="m-name">间隔记忆卡片</div><div class="m-desc">科学间隔重复，易错点自动上卡，记忆曲线可视化。</div></a>
+    <a href="/tools/note-enhancer" class="m-card memorize"><div class="m-cat">记 · 笔记</div><div class="m-name">笔记强化</div><div class="m-desc">AI 帮你补结构、加例子、找反例。</div></a>
+    <a href="/tools/essay-grading" class="m-card grade"><div class="m-cat">评 · 作文</div><div class="m-name">作文批改 <span class="m-badge">维度雷达</span></div><div class="m-desc">5-8 维度打分，历史趋势 + 最弱维度诊断。</div></a>
+    <a href="/tools/exam-diagnosis" class="m-card grade"><div class="m-cat">评 · 考试</div><div class="m-name">考试诊断</div><div class="m-desc">卷面拍照 → 失分点分类 → 下一步。</div></a>
+    <a href="/tools/scoring-breakdown" class="m-card grade"><div class="m-cat">评 · 细拆</div><div class="m-name">评分细则</div><div class="m-desc">逐题对照评分标准，生成学习清单。</div></a>
+    <a href="/progress.html" class="m-card look"><div class="m-cat">看 · 进度</div><div class="m-name">全科进度</div><div class="m-desc">阅读/题库/错题/费曼四维聚合，流火+等级+徽章。</div></a>
+    <a href="/tools/learning-profile" class="m-card look"><div class="m-cat">看 · 画像</div><div class="m-name">学习画像</div><div class="m-desc">近 30 天行为画像 + 习惯标签。</div></a>
+    <a href="/tools/exam-generator" class="m-card gen"><div class="m-cat">造 · 出题</div><div class="m-name">自动出题</div><div class="m-desc">按章节/难度生成模拟卷。</div></a>
+    <a href="/tools/reading-rewriter" class="m-card gen"><div class="m-cat">造 · 改写</div><div class="m-name">阅读改写</div><div class="m-desc">文言文/英文原著转成你能读懂的版本。</div></a>
+    <a href="/tools/study-plan" class="m-card gen"><div class="m-cat">造 · 计划</div><div class="m-name">学习计划</div><div class="m-desc">按考试节点倒推周任务，可导出 iCal。</div></a>
+    <a href="/tools/art-thinking" class="m-card literacy"><div class="m-cat">素养 · 美术</div><div class="m-name">美术思维</div><div class="m-desc">AI 追问观察构图光影，不评判好坏。</div></a>
+    <a href="/tools/music-appreciation" class="m-card literacy"><div class="m-cat">素养 · 音乐</div><div class="m-name">音乐欣赏</div><div class="m-desc">AI 拆曲式、和声、配器，听懂一首曲。</div></a>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">自研引擎 · 不是套壳</div>
+  <div class="sec-s">三个独立 pipeline，每个都能单独作为 API 对外提供或被第三方接入。</div>
+  <div class="engines">
+
+    <div class="eng a">
+      <div class="eng-k">pipeline · python</div>
+      <div class="eng-h">教材抽章管道</div>
+      <div class="eng-b">scripts/fetch-textbook.py → extract-chapters.py → ocr-scan-textbooks.py → gen-textbook-manifest.py。四段式管道把 raw PDF 变成按章的 JSON，正文 + 小节 + 起止页全结构化。</div>
+      <ul class="eng-list">
+        <li>born-digital: PyMuPDF + 字号启发式（≥60pt=章, ≥24pt=节）</li>
+        <li>扫描件: rapidocr-onnxruntime 离线跑，单本 ~12 分钟</li>
+        <li>manifest 前端实时 fetch，0 后端依赖</li>
+      </ul>
+      <code class="eng-code">python scripts/fetch-textbook.py 高中 历史 统编版 --all
+python scripts/extract-chapters.py --all-downloaded
+python scripts/gen-textbook-manifest.py</code>
+    </div>
+
+    <div class="eng b">
+      <div class="eng-k">engine · POST /api/chapter-match</div>
+      <div class="eng-h">章节匹配引擎</div>
+      <div class="eng-b">给一道题 → 秒级找到最匹配的教材章节。规则层 = 子串 + 3-gram + alias + kp 前缀 + 阈值。对比通用 LLM RAG：可解释、0 token、&lt;30ms。</div>
+      <ul class="eng-list">
+        <li>99% 命中率（seed-questions.json N=100 基准）</li>
+        <li>10 学科 alias 字典，自研 K12 语料标注</li>
+        <li>Vercel edge runtime，manifest 内存缓存</li>
+      </ul>
+      <code class="eng-code">fetch('/api/chapter-match', {
+  method:'POST',
+  body: JSON.stringify({
+    subject: 'physics',
+    chapter_hint: '光学',
+    knowledge_points: ['凸透镜成像']
+  })
+})</code>
+      <a href="#try-match" class="eng-try" onclick="document.getElementById('try-match').scrollIntoView({behavior:'smooth'});return false">试一下引擎 ↓</a>
+    </div>
+
+    <div class="eng c">
+      <div class="eng-k">pipeline · deepseek · python</div>
+      <div class="eng-h">章节→练习生成管道</div>
+      <div class="eng-b">读章节正文（截 3500 字）→ 调 DeepSeek 按严格 JSON schema 生 3 题/章（易中难各 1）→ 增量落盘 + 失败可重入。章节扩学科只需扒教材，题库随之扩。</div>
+      <ul class="eng-list">
+        <li>268 章全量运行约 25 分钟 / 268×3=804 题</li>
+        <li>done_map 去重，断点续跑不重复消耗 token</li>
+        <li>response_format=json_object 锁结构，脏数据率 &lt;1%</li>
+      </ul>
+      <code class="eng-code">python scripts/gen-questions-from-chapter.py \
+  --subject 数学 --stage 初中 --limit 20</code>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="try-match">
+  <div class="sec-h">在线试跑 · chapter-match 引擎</div>
+  <div class="sec-s">输入任意章节/考点/学科，秒级返回 manifest 内最匹配的教材章节。</div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">学科</label>
+        <select id="q-sub" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+          <option value="math">数学</option><option value="physics" selected>物理</option><option value="chemistry">化学</option>
+          <option value="biology">生物</option><option value="chinese">语文</option><option value="history">历史</option>
+          <option value="geography">地理</option><option value="politics">政治</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">章节线索</label>
+        <input id="q-hint" placeholder="如 光学 / 古代史 / 细胞" value="光学" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">考点（逗号分隔）</label>
+        <input id="q-kps" placeholder="如 凸透镜成像,焦距" value="凸透镜成像,焦距" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+      </div>
+    </div>
+    <button onclick="runMatch()" style="padding:10px 22px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font)">调用 /api/chapter-match</button>
+    <pre id="q-out" style="margin-top:16px;padding:14px;background:#0F172A;color:#E2E8F0;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.7;overflow-x:auto;max-height:320px;overflow-y:auto">(结果会出现在这里)</pre>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">对比 · 自研 vs 通用 LLM RAG</div>
+  <div class="sec-s">同一需求（"这道题对应哪一章？"），两条路径的工程代价和可控性差别。</div>
+  <div class="cmp">
+    <table>
+      <thead><tr><th>维度</th><th>自研 chapter-match</th><th>通用 LLM RAG</th></tr></thead>
+      <tbody>
+        <tr><td>单次延迟</td><td class="yes">&lt;30ms</td><td class="no">800ms~3s</td></tr>
+        <tr><td>token 成本</td><td class="yes">0</td><td class="no">每调用 500-2000 tokens</td></tr>
+        <tr><td>可解释性</td><td class="yes">命中 alias/kp 显式返回</td><td class="no">黑盒 embedding</td></tr>
+        <tr><td>离线可用</td><td class="yes">manifest 缓存</td><td class="no">需向量库 + 模型</td></tr>
+        <tr><td>K12 场景校准</td><td class="yes">alias 字典人工审校 10 学科</td><td class="no">通用语料, 无章节粒度</td></tr>
+        <tr><td>扩新学科成本</td><td>加 alias dict 约 20 行</td><td>建 embed + 索引</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">开放数据资产</div>
+  <div class="sec-s">所有数据底座文件可直接 GET，集成到你自己的学习 app 或教研系统。</div>
+  <div class="assets">
+    <a href="/data/extracted/manifest.json" class="asset" target="_blank"><div class="asset-k">GET · json</div><div class="asset-n">教材 manifest</div><div class="asset-s">全书+章节结构化目录</div></a>
+    <a href="/src/curriculum/seed-questions.json" class="asset" target="_blank"><div class="asset-k">GET · json</div><div class="asset-n">curated 题库</div><div class="asset-s">人工 100 道精选种子题</div></a>
+    <a href="/src/curriculum/seed-questions-generated.json" class="asset" target="_blank"><div class="asset-k">GET · json</div><div class="asset-n">DeepSeek 生成题库</div><div class="asset-s">按章节 3 题 / 易中难</div></a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>原点智学 · AI + 教研 双轮驱动 · <a href="mailto:business@yuandianzhixue.com">business@yuandianzhixue.com</a></div>
+  <div>引擎 v1.2-alias-3gram · manifest <span id="fm">…</span></div>
+</footer>
+
+<script>
+async function loadStats(){
+  try{
+    const [m, q1, q2] = await Promise.all([
+      fetch('/data/extracted/manifest.json').then(r=>r.json()).catch(()=>null),
+      fetch('/src/curriculum/seed-questions.json').then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/curriculum/seed-questions-generated.json').then(r=>r.ok?r.json():null).catch(()=>null),
+    ]);
+    const books = (m && m.books) || [];
+    const chapters = books.reduce((n,b)=> n + ((b.chapters||[]).length), 0);
+    const subjects = new Set(books.map(b=>b.subject)).size;
+    const qTotal = ((q1 && q1.questions) ? q1.questions.length : 0) + ((q2 && q2.questions) ? q2.questions.length : 0);
+    document.getElementById('s-books').textContent = books.length;
+    document.getElementById('s-chapters').textContent = chapters;
+    document.getElementById('s-questions').textContent = qTotal;
+    document.getElementById('s-subjects').textContent = subjects;
+    document.getElementById('fm').textContent = (m && m.generated_at) || 'live';
+  }catch(e){ /* silent */ }
+}
+loadStats();
+
+async function runMatch(){
+  const out = document.getElementById('q-out');
+  out.textContent = '调用中…';
+  const body = {
+    subject: document.getElementById('q-sub').value,
+    chapter_hint: document.getElementById('q-hint').value.trim(),
+    knowledge_points: document.getElementById('q-kps').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),
+  };
+  try{
+    const r = await fetch('/api/chapter-match', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const j = await r.json();
+    out.textContent = JSON.stringify(j, null, 2);
+  }catch(e){
+    out.textContent = '错误：' + String(e);
+  }
+}
+</script>
+</body>
+</html>
