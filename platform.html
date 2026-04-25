@@ -80,13 +80,14 @@ h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-heigh
 .m-card.literacy{--bar:#64748B}
 
 /* engine cards */
-.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.engines{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media(max-width:900px){.engines{grid-template-columns:1fr}}
 .eng{background:var(--card);border:1.5px solid var(--bdr);border-radius:var(--r);padding:22px 18px;position:relative}
 .eng::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;background:var(--c)}
 .eng.a{--c:var(--emerald)}
 .eng.b{--c:var(--violet)}
 .eng.c{--c:var(--amber)}
+.eng.d{--c:#0EA5E9}
 .eng-k{font-family:var(--mono);font-size:11px;color:var(--ink4);margin-bottom:8px;letter-spacing:.3px}
 .eng-h{font-size:17px;font-weight:800;margin-bottom:10px}
 .eng-b{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px}
@@ -231,6 +232,22 @@ python scripts/gen-textbook-manifest.py</code>
       <code class="eng-code">python scripts/gen-questions-from-chapter.py \
   --subject 数学 --stage 初中 --limit 20</code>
     </div>
+
+    <div class="eng d">
+      <div class="eng-k">model · BM25-jieba · 1.8 MB · 浏览器内</div>
+      <div class="eng-h">章节检索模型 v1</div>
+      <div class="eng-b">jieba 分词 + Robertson BM25 在 284 章语料上构索引。索引产物 1.8 MB JSON 一次性 fetch 进浏览器，每次查询 0 token、&lt;30 ms、离线可用。给"用文字描述找最相关章节"开自研入口。</div>
+      <ul class="eng-list">
+        <li id="bm25-stat-vocab">词表 9893 项 · IDF 全量缓存</li>
+        <li>查询端 char 2/3-gram 反查 vocab，无需带 jieba 进客户端</li>
+        <li>对比 OpenAI embedding：0 月费 + 全离线 + 可解释</li>
+      </ul>
+      <code class="eng-code">import { loadBM25, queryBM25 }
+  from '/src/models/bm25-runtime.js';
+const idx = await loadBM25();
+queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
+      <a href="#try-bm25" class="eng-try" onclick="document.getElementById('try-bm25').scrollIntoView({behavior:'smooth'});return false">试一下模型 ↓</a>
+    </div>
   </div>
 </section>
 
@@ -285,6 +302,36 @@ python scripts/gen-textbook-manifest.py</code>
       <summary style="cursor:pointer;font-size:11px;color:var(--ink3);font-weight:600">展开 raw JSON 响应</summary>
       <pre id="q-out" style="margin-top:8px;padding:14px;background:#0F172A;color:#E2E8F0;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.7;overflow-x:auto;max-height:320px;overflow-y:auto">(结果会出现在这里)</pre>
     </details>
+  </div>
+</section>
+
+<section class="sec" id="try-bm25">
+  <div class="sec-h">在线试跑 · chapter-bm25 检索模型</div>
+  <div class="sec-s">用一句话描述你要找的内容，模型在 284 章语料上 BM25 打分回 top-5 章节。1.8 MB 索引一次性进浏览器后续 0 网络。</div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px">
+    <div style="display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:10px;margin-bottom:14px;align-items:end">
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">自然语言查询</label>
+        <input id="bm-q" placeholder="如「凸透镜成像的规律和应用」" value="凸透镜成像的规律和应用" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">学科（可选）</label>
+        <select id="bm-subject" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+          <option value="">全部</option><option>数学</option><option>物理</option><option>化学</option><option>生物学</option>
+          <option>语文</option><option>英语</option><option>历史</option><option>地理</option>
+          <option>思想政治</option><option>道德与法治</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">学段</label>
+        <select id="bm-stage" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+          <option value="">全部</option><option>小学</option><option>初中</option><option>高中</option>
+        </select>
+      </div>
+      <button id="bm-run" onclick="runBM25()" style="padding:9px 22px;background:#0EA5E9;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);height:38px">查询</button>
+    </div>
+    <div id="bm-status" style="font-size:11px;color:var(--ink3);margin-bottom:8px">索引未加载</div>
+    <div id="bm-out"></div>
   </div>
 </section>
 
@@ -440,6 +487,74 @@ function renderMatchPretty(j){
     (altHtml ? '<div style="margin-top:10px;padding:10px 14px;background:#FAFAF9;border:1px solid var(--bdr);border-radius:8px">' +
       '<div style="font-size:11px;color:var(--ink3);font-weight:700;margin-bottom:4px">备选 alternatives</div>' + altHtml + '</div>' : '');
 }
+</script>
+
+<script type="module">
+import { loadBM25, queryBM25 } from '/src/models/bm25-runtime.js';
+
+const status = document.getElementById('bm-status');
+let _bmIdx = null;
+
+async function ensureIndex() {
+    if (_bmIdx) return _bmIdx;
+    if (status) status.textContent = '加载 1.8 MB 索引中…';
+    const t0 = performance.now();
+    _bmIdx = await loadBM25();
+    const dt = (performance.now() - t0).toFixed(0);
+    if (status) {
+        const s = _bmIdx.stats || {};
+        status.innerHTML = '✓ 索引就绪 · 模型 <b>' + (_bmIdx.engine_version || _bmIdx.model) + '</b> · 词表 ' +
+            (s.vocab_size || '?') + ' 项 · ' + (s.docs || '?') + ' 章 · 加载 ' + dt + ' ms · 后续查询 0 网络';
+        const v = document.getElementById('bm25-stat-vocab');
+        if (v && s.vocab_size) v.textContent = '词表 ' + s.vocab_size + ' 项 · 索引 ' + (s.docs||'?') + ' 章 · IDF 全量缓存';
+    }
+    return _bmIdx;
+}
+
+window.runBM25 = async function() {
+    const out = document.getElementById('bm-out');
+    out.innerHTML = '<div style="color:var(--ink3);font-size:13px;padding:10px">查询中…</div>';
+    try {
+        const idx = await ensureIndex();
+        const q = document.getElementById('bm-q').value.trim();
+        const subject = document.getElementById('bm-subject').value || undefined;
+        const stage = document.getElementById('bm-stage').value || undefined;
+        if (!q) { out.innerHTML = '<div style="color:var(--ink3)">输入查询</div>'; return; }
+        const t0 = performance.now();
+        const res = queryBM25(idx, q, { k: 5, subject, stage });
+        const dt = (performance.now() - t0).toFixed(1);
+        if (!res.length) {
+            out.innerHTML = '<div style="padding:14px;background:#FEE2E2;color:#991B1B;border-radius:8px;font-size:13px">未命中（' + dt + ' ms）。换个描述试试。</div>';
+            return;
+        }
+        out.innerHTML = '<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">命中 ' + res.length + ' 章 · 打分耗时 <b>' + dt + ' ms</b> · 0 token · 全在你的浏览器里跑</div>' +
+            res.map((r, i) => {
+                const d = r.doc;
+                const tagsHtml = (r.matched || []).map(m =>
+                    '<span style="display:inline-block;background:#0C4A6E;color:#fff;font:600 11px var(--mono);padding:2px 8px;border-radius:4px;margin:2px 3px 2px 0">' +
+                    m.t + ' <span style="opacity:.7">w=' + m.w + '</span></span>').join('');
+                const url = '/tools/textbook-browser.html?book=' + encodeURIComponent(d.path) + '&ch=' + d.ch;
+                return '<div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:8px;padding:12px 14px;margin-bottom:8px">' +
+                    '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px">' +
+                        '<div style="font:800 14px var(--font);color:var(--ink)">#' + (i+1) + ' ' + (d.title || '第'+d.ch+'章') + '</div>' +
+                        '<div style="font:700 12px var(--mono);color:#0EA5E9">score ' + r.score + '</div>' +
+                    '</div>' +
+                    '<div style="font:500 11px var(--mono);color:var(--ink3);margin-bottom:6px">' + d.path + ' · ch' + d.ch + '</div>' +
+                    '<div style="margin-bottom:6px">' + tagsHtml + '</div>' +
+                    '<a href="' + url + '" target="_blank" style="display:inline-block;font-size:11px;color:#0C4A6E;font-weight:700;text-decoration:none">→ 打开教材</a>' +
+                '</div>';
+            }).join('');
+    } catch (e) {
+        out.innerHTML = '<div style="color:#991B1B;font-size:13px">错误：' + (e.message || e) + '</div>';
+    }
+};
+
+// 页面进入 try-bm25 范围时预加载索引
+const obs = new IntersectionObserver(entries => {
+    if (entries.some(e => e.isIntersecting)) { ensureIndex(); obs.disconnect(); }
+}, { rootMargin: '200px' });
+const target = document.getElementById('try-bm25');
+if (target) obs.observe(target);
 </script>
 </body>
 </html>
