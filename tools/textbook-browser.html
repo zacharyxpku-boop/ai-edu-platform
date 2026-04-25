@@ -120,6 +120,25 @@ h1 em{font-style:normal;color:var(--cta)}
 
 .notice{background:#FFFBF0;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin:16px 0 0;line-height:1.7}
 
+/* 本章题目 panel */
+.rel-box{margin:8px 32px 24px;padding:16px 18px;background:#F0F9FF;border:1px solid #7DD3FC;border-radius:10px}
+.rel-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.rel-hd b{font-size:13px;font-weight:800;color:#0C4A6E}
+.rel-hd .rel-badge{font-size:10px;padding:2px 8px;background:#0EA5E9;color:#fff;border-radius:100px;font-weight:700;letter-spacing:.3px}
+.rel-hd .rel-engine{margin-left:auto;font-size:10px;color:#0369A1;font-family:var(--mono);font-weight:600}
+.rel-list{display:flex;flex-direction:column;gap:8px}
+.rel-q{background:#fff;border:1px solid #BAE6FD;border-radius:8px;padding:12px 14px;text-decoration:none;color:inherit;display:block;transition:all .12s}
+.rel-q:hover{border-color:#0EA5E9;box-shadow:0 2px 8px rgba(14,165,233,.15)}
+.rel-q-meta{display:flex;gap:8px;font-size:10px;color:#64748B;font-weight:600;letter-spacing:.3px;margin-bottom:5px;text-transform:uppercase}
+.rel-q-meta .src{padding:1px 6px;background:#E0F2FE;color:#0C4A6E;border-radius:4px}
+.rel-q-meta .src.manual{background:#FEF3C7;color:#92400E}
+.rel-q-text{font-size:13px;color:var(--ink);line-height:1.55;font-weight:500}
+.rel-q-kps{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}
+.rel-q-kp{font-size:10px;padding:1px 7px;background:#F1F5F9;color:#475569;border-radius:100px;font-weight:600}
+.rel-empty{font-size:12px;color:#0369A1;padding:8px 4px;line-height:1.6}
+.rel-more{margin-top:10px;display:inline-block;font-size:12px;color:#0EA5E9;font-weight:700;text-decoration:none}
+.rel-more:hover{text-decoration:underline}
+
 /* AI 出题弹出 */
 .aiq-box{margin:0 32px 24px;padding:18px 20px;background:linear-gradient(135deg,#FFF7ED 0%,#FEF3C7 100%);border:1px solid #F59E0B;border-radius:12px}
 .aiq-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
@@ -221,6 +240,7 @@ h1 em{font-style:normal;color:var(--cta)}
         </div>
         <div class="reader-jump" id="reader-jump"></div>
         <div class="reader-body" id="reader-body"><div class="empty">加载中...</div></div>
+        <div id="reader-related"></div>
         <div id="reader-aiq"></div>
         <div class="reader-foot" id="reader-foot"></div>
     </div>
@@ -561,6 +581,7 @@ function openChapter(ch){
     $('reader-body').innerHTML = '<div class="empty">加载正文中...</div>';
     $('reader-jump').innerHTML = '';
     $('reader-foot').innerHTML = '';
+    var rel = $('reader-related'); if (rel) rel.innerHTML = '';
     $('reader-modal').classList.add('on');
     document.body.style.overflow = 'hidden';
     var url = '/data/extracted/' + ACTIVE_BOOK.path.split('/').map(encodeURIComponent).join('/') + '/ch' + ch + '.json';
@@ -576,6 +597,75 @@ function closeReader(){
     $('reader-modal').classList.remove('on');
     document.body.style.overflow = '';
     ACTIVE_CHAPTER = null;
+}
+
+// ===== 本章已有题目（双向反链） =====
+var _QPOOL = null, _QPOOL_PROMISE = null;
+function ensureQuestionPool(){
+    if (_QPOOL) return Promise.resolve(_QPOOL);
+    if (_QPOOL_PROMISE) return _QPOOL_PROMISE;
+    _QPOOL_PROMISE = Promise.all([
+        fetch('/src/curriculum/seed-questions-generated.json', { cache: 'force-cache' }).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+        fetch('/src/curriculum/seed-questions.json', { cache: 'force-cache' }).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+    ]).then(function(arr){
+        var pool = [];
+        (arr[0] && arr[0].questions || []).forEach(function(q){ q._src = 'gen'; pool.push(q); });
+        (arr[1] && arr[1].questions || []).forEach(function(q){ q._src = (q.textbook_ref && q.textbook_ref.auto_tagged) ? 'auto' : 'manual'; pool.push(q); });
+        _QPOOL = pool;
+        return pool;
+    });
+    return _QPOOL_PROMISE;
+}
+
+var SUBJ_KEY_MAP = {
+    '数学':'math','物理':'physics','化学':'chemistry','生物学':'biology',
+    '语文':'chinese','历史':'history','地理':'geography','思想政治':'politics','道德与法治':'moral'
+};
+function renderRelatedQuestions(path, ch){
+    var slot = $('reader-related');
+    if (!slot) return;
+    slot.innerHTML = '<div class="rel-box"><div class="rel-hd"><b>本章已有题目</b><span class="rel-badge">章节反链</span><span class="rel-engine">查询中...</span></div><div class="rel-empty">从题库索引中检索...</div></div>';
+    ensureQuestionPool().then(function(pool){
+        var hits = pool.filter(function(q){
+            var ref = q.textbook_ref;
+            return ref && ref.path === path && ref.ch === ch;
+        });
+        // sort: manual first, then auto, then gen
+        hits.sort(function(a, b){
+            var ord = { manual: 0, auto: 1, gen: 2 };
+            return (ord[a._src] || 9) - (ord[b._src] || 9);
+        });
+        var top = hits.slice(0, 5);
+        var more = hits.length - top.length;
+        var subjKey = SUBJ_KEY_MAP[ACTIVE_BOOK && ACTIVE_BOOK.subject] || '';
+        var arcadeURL = '/tools/knowledge-arcade?subject=' + encodeURIComponent(subjKey) + '&book=' + encodeURIComponent(path) + '&ch=' + ch;
+
+        if (!hits.length) {
+            slot.innerHTML = '<div class="rel-box"><div class="rel-hd"><b>本章已有题目</b><span class="rel-badge">章节反链</span><span class="rel-engine">ensemble-rules+bm25-v1</span></div><div class="rel-empty">这一章题库还没收题。<a class="rel-more" href="javascript:aiGenQuestions()">让 AI 现场出 3 道 →</a></div></div>';
+            return;
+        }
+        var lis = top.map(function(q){
+            var srcCls = q._src === 'manual' ? 'manual' : '';
+            var srcLbl = q._src === 'manual' ? '人工精选' : (q._src === 'auto' ? '引擎打标' : '生成题');
+            var qtext = (q.question_text || q.q || '').slice(0, 130);
+            var kps = (q.knowledge_points || []).slice(0, 4);
+            var qURL = arcadeURL + '#q=' + encodeURIComponent(q.id || '');
+            return '<a class="rel-q" href="' + qURL + '">' +
+                '<div class="rel-q-meta"><span class="src ' + srcCls + '">' + srcLbl + '</span><span>' + (q.difficulty || '中等') + '</span><span>id ' + esc(q.id || '—') + '</span></div>' +
+                '<div class="rel-q-text">' + esc(qtext) + (qtext.length >= 130 ? '…' : '') + '</div>' +
+                (kps.length ? '<div class="rel-q-kps">' + kps.map(function(k){ return '<span class="rel-q-kp">' + esc(k) + '</span>'; }).join('') + '</div>' : '') +
+            '</a>';
+        }).join('');
+        var moreLink = more > 0 ? '<a class="rel-more" href="' + arcadeURL + '">查看本章全部 ' + hits.length + ' 道题 →</a>' : '<a class="rel-more" href="' + arcadeURL + '">在题库练习这' + hits.length + '道 →</a>';
+        slot.innerHTML = '<div class="rel-box">' +
+            '<div class="rel-hd"><b>本章已有题目 · ' + hits.length + ' 道</b><span class="rel-badge">章节反链</span><span class="rel-engine">ensemble-rules+bm25-v1</span></div>' +
+            '<div class="rel-list">' + lis + '</div>' +
+            moreLink +
+        '</div>';
+    }).catch(function(e){
+        console.warn('related questions load failed', e);
+        slot.innerHTML = '';
+    });
 }
 
 function renderChapter(data){
@@ -619,6 +709,8 @@ function renderChapter(data){
         '</div>';
     }).join('');
     $('reader-body').innerHTML = body || '<div class="empty">这一章没有抽出正文文本</div>';
+    // 本章已有题目（双向反链）—— 在 footer 之前渲染
+    if (ACTIVE_BOOK) renderRelatedQuestions(ACTIVE_BOOK.path, data.ch);
     // footer CTAs
     var kaQS = '?subject=' + encodeURIComponent(ACTIVE_BOOK.subject === '数学' ? 'math' : ACTIVE_BOOK.subject === '物理' ? 'physics' : 'chemistry');
     var topic = data.title + ' ' + (data.sections && data.sections[0] ? data.sections[0].title : '');

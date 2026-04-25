@@ -1175,7 +1175,8 @@ if (document.readyState === 'loading') {
     rebuildSubjectTabs();
 }
 
-async function loadSubjectBank(subject) {
+async function loadSubjectBank(subject, opts) {
+    opts = opts || {};
     document.querySelectorAll('.subtab').forEach(b => b.classList.toggle('on', b.dataset.sub === subject));
     const host = document.getElementById('sb-host');
     host.innerHTML = '<div style="text-align:center;color:#A1A1AA;padding:24px 0;font-size:13px">加载题库中…</div>';
@@ -1184,10 +1185,23 @@ async function loadSubjectBank(subject) {
         host.innerHTML = '<div style="text-align:center;color:#C74040;padding:16px 0;font-size:13px">题库加载失败，请刷新重试</div>';
         return;
     }
-    const items = bank.questions.filter(q => q.subject === subject);
-    // 打乱并取前 10
-    const shuffled = items.slice().sort(() => Math.random() - 0.5).slice(0, 10);
-    _sbCurrent = { subject: subject, items: shuffled, answered: new Set() };
+    let items = bank.questions.filter(q => q.subject === subject);
+    let chapterFilter = null;
+    if (opts.path && opts.ch != null) {
+        const filtered = items.filter(q => {
+            const ref = q.textbook_ref;
+            return ref && ref.path === opts.path && ref.ch === opts.ch;
+        });
+        if (filtered.length) {
+            items = filtered;
+            chapterFilter = { path: opts.path, ch: opts.ch, count: filtered.length };
+        }
+    }
+    // 打乱并取前 10（章节过滤模式下取全部）
+    const shuffled = chapterFilter
+        ? items.slice().sort(() => Math.random() - 0.5)
+        : items.slice().sort(() => Math.random() - 0.5).slice(0, 10);
+    _sbCurrent = { subject: subject, items: shuffled, answered: new Set(), chapterFilter: chapterFilter };
     renderSubjectBank();
 }
 
@@ -1198,7 +1212,12 @@ function renderSubjectBank() {
         return;
     }
     const subjectName = SUBJECT_LABELS[_sbCurrent.subject] || _sbCurrent.subject;
-    const html = '<div style="font-size:12px;color:#71717A;margin-bottom:10px">本轮 <b style="color:#18181B">' + subjectName + '</b> 速练 · 共 ' + _sbCurrent.items.length + ' 道 · 已解 <b id="sb-done">0</b> 道</div>'
+    const cf = _sbCurrent.chapterFilter;
+    const banner = cf
+        ? '<div style="margin-bottom:10px;padding:10px 12px;background:#F0F9FF;border:1px solid #7DD3FC;border-radius:8px;font-size:12px;color:#0C4A6E"><b>章节过滤</b> · 仅显示「' + cf.path.split(/[/\\]/).slice(-3).join(' / ') + ' · 第 ' + cf.ch + ' 章」的 ' + cf.count + ' 道题 · <a href="?subject=' + _sbCurrent.subject + '" style="color:#0EA5E9;font-weight:700;text-decoration:none">显示该学科全部 →</a></div>'
+        : '';
+    const html = banner
+        + '<div style="font-size:12px;color:#71717A;margin-bottom:10px">本轮 <b style="color:#18181B">' + subjectName + '</b> 速练 · 共 ' + _sbCurrent.items.length + ' 道 · 已解 <b id="sb-done">0</b> 道</div>'
         + _sbCurrent.items.map((q, i) => renderBankCard(q, i)).join('')
         + '<div style="text-align:center;margin-top:12px"><button class="sb-btn primary" onclick="loadSubjectBank(\'' + _sbCurrent.subject + '\')">换一批 10 题</button></div>';
     host.innerHTML = html;
@@ -1292,16 +1311,20 @@ function sbReveal(idx, confidentlyCorrect) {
     }
 }
 
-// 深链：?subject=<10科任一> 预激活学科模式并滚到题库区
+// 深链：?subject=<10科任一>[&book=<path>&ch=<N>] 预激活学科+章节过滤
 (function(){
     try {
         var q = new URLSearchParams(location.search);
         var s = q.get('subject');
         if (!s) return;
         if (SUBJECT_TAB_ORDER.indexOf(s) === -1) return;
+        var book = q.get('book');
+        var ch = parseInt(q.get('ch') || '0', 10);
+        var opts = {};
+        if (book && ch) { opts.path = book; opts.ch = ch; }
         // 等 DOM 和题库脚本都就绪后再激活
         setTimeout(function(){
-            if (typeof loadSubjectBank === 'function') loadSubjectBank(s);
+            if (typeof loadSubjectBank === 'function') loadSubjectBank(s, opts);
             var host = document.getElementById('subject-mode');
             if (host) host.scrollIntoView({ behavior:'smooth', block:'start' });
         }, 150);
