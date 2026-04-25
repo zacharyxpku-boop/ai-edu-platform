@@ -1025,6 +1025,36 @@ const CHAPTER_ALIASES = {
     }
 };
 
+// BM25 检索模型 lazy loader · 命中第一道题时再去拉 1.8 MB 索引，平时不耗带宽
+let _bm25Idx = null, _bm25LoadPromise = null;
+function ensureBM25() {
+    if (_bm25Idx) return Promise.resolve(_bm25Idx);
+    if (_bm25LoadPromise) return _bm25LoadPromise;
+    _bm25LoadPromise = import('/src/models/bm25-runtime.js').then(function(mod){
+        return mod.loadBM25().then(function(idx){
+            _bm25Idx = idx;
+            window.__bm25runtime = mod;
+            return idx;
+        });
+    }).catch(function(e){ console.warn('bm25 index 加载失败', e); return null; });
+    return _bm25LoadPromise;
+}
+
+// 用 BM25 找 K 个相似章节（排除当前题已知的源章），只返回与当前学科一致的
+async function bm25SuggestChapters(q, subject, excludePathCh, k) {
+    const idx = await ensureBM25();
+    if (!idx || !window.__bm25runtime) return [];
+    const zhSubj = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物学', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思想政治', moral:'道德与法治' }[subject];
+    const qtxt = (q.question_text || q.stem || '').slice(0, 80) + ' ' + (q.knowledge_points || []).join(' ');
+    if (!qtxt.trim()) return [];
+    const top = window.__bm25runtime.queryBM25(idx, qtxt, { k: (k || 3) + 1, subject: zhSubj });
+    return top.filter(function(r){
+        const d = r.doc;
+        if (!excludePathCh) return true;
+        return !(d.path === excludePathCh.path && d.ch === excludePathCh.ch);
+    }).slice(0, k || 3);
+}
+
 // 反链：给一道题匹配最贴近的教材章节
 function matchTextbookChapter(subject, q) {
     if (!_sbTxtManifest || !_sbTxtManifest.books) return null;
@@ -1240,8 +1270,24 @@ function sbReveal(idx, confidentlyCorrect) {
             const bd = isWeak ? '#D6D3D1' : '#F59E0B';
             slot.innerHTML =
                 '<div style="font-size:12px;color:#71717A;margin-bottom:6px">' + hint + '</div>' +
-                '<a class="sb-btn" style="display:inline-block;text-decoration:none;background:' + bg + ';color:' + fg + ';border-color:' + bd + '" href="' + href + '">' + label + '</a>';
+                '<a class="sb-btn" style="display:inline-block;text-decoration:none;background:' + bg + ';color:' + fg + ';border-color:' + bd + '" href="' + href + '">' + label + '</a>' +
+                '<div id="sb-sim-' + idx + '" style="margin-top:10px"></div>';
             slot.dataset.filled = '1';
+
+            // BM25 自研模型补 2 章相似推荐 · 异步不阻塞主链
+            const simSlot = document.getElementById('sb-sim-' + idx);
+            const exclude = match.direct ? { path: b.path, ch: c.ch } : null;
+            bm25SuggestChapters(q, _sbCurrent.subject, exclude, 2).then(function(sims){
+                if (!sims.length || !simSlot) return;
+                const html = sims.map(function(r){
+                    const d = r.doc;
+                    const url = '/tools/textbook-browser?book=' + encodeURIComponent(d.path) + '&ch=' + d.ch;
+                    return '<a href="' + url + '" style="display:inline-block;text-decoration:none;font-size:11px;background:#F0F9FF;color:#0C4A6E;border:1px solid #BAE6FD;border-radius:6px;padding:4px 9px;margin:2px 4px 2px 0">📡 ' + (d.title || ('第' + d.ch + '章')) + ' · BM25 ' + r.score.toFixed(1) + '</a>';
+                }).join('');
+                simSlot.innerHTML =
+                    '<div style="font-size:11px;color:#71717A;margin-bottom:5px">↘ 相似章节 · 自研 BM25 模型推荐</div>' +
+                    html;
+            }).catch(function(){});
         }
     }
 }
