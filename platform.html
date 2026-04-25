@@ -252,6 +252,28 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
   </div>
 </section>
 
+<section class="sec" id="coverage-map">
+  <div class="sec-h">教材 × 题库 覆盖矩阵</div>
+  <div class="sec-s">每本教材一行，每个方块是一章，颜色=本章已有题目数（0/1-2/3+）。绿越多说明数据底座越饱满；灰格是下一步生题的目标。点方块直接跳进 textbook 阅读对应章。这页才是引擎跑得动的前提——没数据，模型再好也是空气。</div>
+  <div id="cov-wrap" style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div>
+        <div id="cov-rate" style="font:800 28px/1 var(--font);color:var(--ink)">—</div>
+        <div id="cov-meta" style="font:500 12px/1.5 var(--font);color:var(--ink3);margin-top:4px">加载中…</div>
+      </div>
+      <div style="display:flex;gap:14px;font:600 11px var(--font);align-items:center">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#E4E4E7;display:inline-block"></span>0 题</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#A7F3D0;display:inline-block"></span>1-2 题</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:3px;background:#10B981;display:inline-block"></span>3+ 题</span>
+      </div>
+    </div>
+    <div id="cov-grid" style="display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto;padding-right:6px"></div>
+    <div style="margin-top:14px;font:500 11px/1.5 var(--font);color:var(--ink3);border-top:1px dashed var(--bdr);padding-top:10px">
+      数据 · manifest.json + seed-questions{,-generated}.json 实时聚合 &nbsp;·&nbsp; 点方块跳 <a href="/tools/textbook-browser" style="color:var(--amber);text-decoration:none">textbook-browser</a> &nbsp;·&nbsp; 章颜色编码：灰=未生题、浅绿=1-2 题、深绿=3+ 题
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="scorecard">
   <div class="sec-h">moat 成绩单 · 分科反链命中率</div>
   <div class="sec-s">每学科现有题库全量跑进章节匹配引擎，算出"有几道题能落到源章"。下面数字由 scripts/eval-reverse-link.py 0.1 秒内算出，写入 reverse-link-report.json，前端实时读。</div>
@@ -505,9 +527,75 @@ async function loadStats(){
     if (ensrep) {
       renderEnsembleHero(ensrep);
     }
+    // 教材 × 题库 覆盖矩阵
+    renderCoverageMap(books, q1, q2);
   }catch(e){ /* silent */ }
 }
 loadStats();
+
+function renderCoverageMap(books, q1, q2){
+  const grid = document.getElementById('cov-grid');
+  if (!grid || !books.length) return;
+  const counts = new Map();
+  function add(qs){
+    (qs||[]).forEach(q=>{
+      const ref = q.textbook_ref;
+      if (ref && ref.path && ref.ch != null) {
+        const k = ref.path + '::' + ref.ch;
+        counts.set(k, (counts.get(k)||0) + 1);
+      }
+    });
+  }
+  add(q1 && q1.questions);
+  add(q2 && q2.questions);
+
+  const totalCh = books.reduce((n,b)=> n + ((b.chapters||[]).length), 0);
+  let coveredCh = 0, totalQ = 0;
+  books.forEach(b=>{
+    (b.chapters||[]).forEach(c=>{
+      const k = b.path + '::' + c.ch;
+      const n = counts.get(k) || 0;
+      totalQ += n;
+      if (n > 0) coveredCh++;
+    });
+  });
+  const rate = totalCh ? (coveredCh / totalCh * 100).toFixed(1) : '0';
+  document.getElementById('cov-rate').innerHTML = rate + '% <span style="font:600 13px var(--font);color:var(--ink3)">章节有题</span>';
+  document.getElementById('cov-meta').textContent = coveredCh + '/' + totalCh + ' 章 · ' + totalQ + ' 道题已反链 · ' + books.length + ' 本教材';
+
+  // sort books: stage 初中 first, then by subject
+  const STAGE_ORDER = { '初中':0, '高中':1 };
+  const SUBJ_ORDER = { '数学':0, '物理':1, '化学':2, '生物学':3, '语文':4, '历史':5, '地理':6, '思想政治':7, '道德与法治':8, '英语':9 };
+  const sorted = books.slice().sort((a,b)=>{
+    const sa = STAGE_ORDER[a.stage]||9, sb = STAGE_ORDER[b.stage]||9;
+    if (sa !== sb) return sa - sb;
+    const ja = SUBJ_ORDER[a.subject]||9, jb = SUBJ_ORDER[b.subject]||9;
+    if (ja !== jb) return ja - jb;
+    return (a.grade||'').localeCompare(b.grade||'');
+  });
+
+  function colorFor(n){
+    if (n === 0) return '#E4E4E7';
+    if (n <= 2) return '#A7F3D0';
+    return '#10B981';
+  }
+  function bookKey(b){ return (b.subject||'') + ' · ' + (b.grade||'') + ' ' + (b.volume||''); }
+
+  grid.innerHTML = sorted.map(b=>{
+    const cells = (b.chapters||[]).map(c=>{
+      const n = counts.get(b.path + '::' + c.ch) || 0;
+      const link = '/tools/textbook-browser?book=' + encodeURIComponent(b.path) + '&ch=' + c.ch;
+      const tip = '第' + c.ch + '章 ' + (c.title||'').slice(0,20) + ' · ' + n + ' 题';
+      return '<a href="' + link + '" title="' + tip.replace(/"/g,'&quot;') + '" style="width:18px;height:18px;border-radius:3px;background:' + colorFor(n) + ';display:inline-flex;align-items:center;justify-content:center;font:700 9px var(--mono);color:' + (n===0?'#A1A1AA':(n<=2?'#065F46':'#fff')) + ';text-decoration:none;flex-shrink:0">' + (n>0?n:'') + '</a>';
+    }).join('');
+    const stageBadge = '<span style="font:700 9px var(--mono);padding:1px 5px;border-radius:3px;background:' + (b.stage==='初中'?'#FEF3C7':'#DBEAFE') + ';color:' + (b.stage==='初中'?'#92400E':'#1E40AF') + ';letter-spacing:.3px">' + (b.stage||'?') + '</span>';
+    return '<div style="display:flex;align-items:center;gap:10px">' +
+      '<div style="min-width:180px;display:flex;align-items:center;gap:6px;font:600 12px var(--font);color:var(--ink2)">' + stageBadge + '<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + bookKey(b) + '</span></div>' +
+      '<div style="display:flex;gap:3px;flex-wrap:wrap;flex:1">' + cells + '</div>' +
+      '<div style="font:600 11px var(--mono);color:var(--ink3);min-width:50px;text-align:right">' + (b.chapters||[]).length + ' ch</div>' +
+    '</div>';
+  }).join('');
+}
 
 function renderScorecard(rep){
   const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
