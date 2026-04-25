@@ -1,12 +1,12 @@
 {
   "engine_version": "v1.2-alias-3gram",
-  "generated_at": "2026-04-24 15:17:11",
+  "generated_at": "2026-04-25 15:06:09",
   "total_questions": 943,
   "total_books": 56,
   "total_chapters": 284,
   "matched": 936,
   "match_rate": 0.9926,
-  "elapsed_seconds": 0.09,
+  "elapsed_seconds": 0.12,
   "by_subject": {
     "biology": {
       "total": 60,

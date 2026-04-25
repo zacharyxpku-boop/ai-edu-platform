@@ -1,7 +1,7 @@
 {
   "model": "ensemble-rules+bm25-v1",
-  "generated_at": "2026-04-25 14:52:01",
-  "elapsed_seconds": 0.52,
+  "generated_at": "2026-04-25 15:07:25",
+  "elapsed_seconds": 0.5,
   "eval_set": 843,
   "best_w_rules": 5.0,
   "recall_at_1": {

@@ -58,14 +58,18 @@ def main():
     book_by_path = {b["path"]: b for b in books}
 
     qs = []
+    auto = 0
     for p in (GEN, SEED):
         if p.exists():
             d = json.loads(p.read_text(encoding="utf-8"))
             for q in d.get("questions", []):
                 ref = q.get("textbook_ref")
                 if ref and ref.get("path") and ref.get("ch") is not None:
+                    if ref.get("auto_tagged"):
+                        auto += 1
+                        continue  # 自动打标不当 gold
                     qs.append(q)
-    print(f"Eval set: {len(qs)} questions with textbook_ref")
+    print(f"Eval set: {len(qs)} gold questions  ·  skipped auto_tagged: {auto}")
 
     cache = []
     t0 = time.time()

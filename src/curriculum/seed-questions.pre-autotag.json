@@ -9,16 +9,7 @@
     },
     "grade_range": "初一至初三",
     "created": "2026-04-14",
-    "purpose": "AI提分教练系统提示词参考、出题范本、课程对齐校验",
-    "auto_tag_runs": [
-      {
-        "ran_at": "2026-04-25 15:06:00",
-        "engine": "ensemble-rules+bm25-v1",
-        "tagged": 100,
-        "rules_gate": 6,
-        "bm25_gate": 8.0
-      }
-    ]
+    "purpose": "AI提分教练系统提示词参考、出题范本、课程对齐校验"
   },
   "questions": [
     {
@@ -30,19 +21,7 @@
       "question_text": "计算：$(-3)^2 - 2 \\times (-3) + 1$",
       "answer": "16",
       "solution_steps": "原式 $= 9 - (-6) + 1 = 9 + 6 + 1 = 16$",
-      "knowledge_points": [
-        "有理数的乘方",
-        "有理数的四则运算",
-        "运算顺序"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 32.18
-      }
+      "knowledge_points": ["有理数的乘方", "有理数的四则运算", "运算顺序"]
     },
     {
       "id": "seed-math-002",
@@ -53,18 +32,7 @@
       "question_text": "若 $|a - 3| + |b + 2| = 0$，求 $a + b$ 的值。",
       "answer": "1",
       "solution_steps": "因为绝对值非负，两个非负数之和为0，则各自为0。所以 $a - 3 = 0$ 即 $a = 3$，$b + 2 = 0$ 即 $b = -2$，故 $a + b = 1$。",
-      "knowledge_points": [
-        "绝对值的性质",
-        "非负数的性质"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 29.3
-      }
+      "knowledge_points": ["绝对值的性质", "非负数的性质"]
     },
     {
       "id": "seed-math-003",
@@ -75,19 +43,7 @@
       "question_text": "化简：$3(2x^2 - x + 1) - 2(x^2 + 3x - 2)$",
       "answer": "$4x^2 - 9x + 7$",
       "solution_steps": "原式 $= 6x^2 - 3x + 3 - 2x^2 - 6x + 4 = 4x^2 - 9x + 7$",
-      "knowledge_points": [
-        "整式的加减",
-        "合并同类项",
-        "去括号"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 40.35
-      }
+      "knowledge_points": ["整式的加减", "合并同类项", "去括号"]
     },
     {
       "id": "seed-math-004",
@@ -98,19 +54,7 @@
       "question_text": "解方程：$3x - 2(x - 1) = 5$",
       "answer": "$x = 3$",
       "solution_steps": "去括号：$3x - 2x + 2 = 5$，合并同类项：$x = 3$。",
-      "knowledge_points": [
-        "一元一次方程的解法",
-        "去括号",
-        "移项"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 45.48
-      }
+      "knowledge_points": ["一元一次方程的解法", "去括号", "移项"]
     },
     {
       "id": "seed-math-005",
@@ -121,18 +65,7 @@
       "question_text": "某班有学生45人，男生比女生多3人，则女生有多少人？",
       "answer": "21人",
       "solution_steps": "设女生 $x$ 人，则男生 $(x+3)$ 人。方程：$x + (x+3) = 45$，解得 $x = 21$。",
-      "knowledge_points": [
-        "一元一次方程应用",
-        "列方程解应用题"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 50.87
-      }
+      "knowledge_points": ["一元一次方程应用", "列方程解应用题"]
     },
     {
       "id": "seed-math-006",
@@ -143,18 +76,7 @@
       "question_text": "已知 $\\angle AOB = 70°$，$OC$ 是 $\\angle AOB$ 的角平分线，求 $\\angle AOC$ 的度数。",
       "answer": "35°",
       "solution_steps": "$\\angle AOC = \\frac{1}{2} \\angle AOB = \\frac{1}{2} \\times 70° = 35°$",
-      "knowledge_points": [
-        "角平分线",
-        "角的度数计算"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 46.66
-      }
+      "knowledge_points": ["角平分线", "角的度数计算"]
     },
     {
       "id": "seed-math-007",
@@ -165,19 +87,7 @@
       "question_text": "因式分解：$x^2 - 4x + 4$",
       "answer": "$(x-2)^2$",
       "solution_steps": "识别完全平方公式：$a^2 - 2ab + b^2 = (a-b)^2$，这里 $a=x, b=2$，所以原式 $= (x-2)^2$。",
-      "knowledge_points": [
-        "因式分解",
-        "完全平方公式",
-        "整式的乘法"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/上册",
-        "ch": 14,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 22,
-        "bm25_score": 61.19
-      }
+      "knowledge_points": ["因式分解", "完全平方公式", "整式的乘法"]
     },
     {
       "id": "seed-math-008",
@@ -188,18 +98,7 @@
       "question_text": "计算：$(a+b)(a-b)$",
       "answer": "$a^2 - b^2$",
       "solution_steps": "利用平方差公式：$(a+b)(a-b) = a^2 - b^2$",
-      "knowledge_points": [
-        "平方差公式",
-        "整式乘法"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/上册",
-        "ch": 14,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 44.01
-      }
+      "knowledge_points": ["平方差公式", "整式乘法"]
     },
     {
       "id": "seed-math-009",
@@ -210,19 +109,7 @@
       "question_text": "化简：$\\dfrac{x^2 - 1}{x^2 - x}$",
       "answer": "$\\dfrac{x+1}{x}$（$x \\neq 0$ 且 $x \\neq 1$）",
       "solution_steps": "分子因式分解：$x^2-1=(x+1)(x-1)$；分母因式分解：$x^2-x=x(x-1)$；约分得 $\\dfrac{(x+1)(x-1)}{x(x-1)} = \\dfrac{x+1}{x}$（$x \\neq 0, x \\neq 1$）",
-      "knowledge_points": [
-        "分式化简",
-        "因式分解",
-        "分式的定义域"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/上册",
-        "ch": 15,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 0.0
-      }
+      "knowledge_points": ["分式化简", "因式分解", "分式的定义域"]
     },
     {
       "id": "seed-math-010",
@@ -233,18 +120,7 @@
       "question_text": "直角三角形两直角边分别为 3 和 4，求斜边长。",
       "answer": "5",
       "solution_steps": "由勾股定理：$c^2 = 3^2 + 4^2 = 9 + 16 = 25$，所以 $c = 5$。",
-      "knowledge_points": [
-        "勾股定理",
-        "直角三角形"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 17,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 53.46
-      }
+      "knowledge_points": ["勾股定理", "直角三角形"]
     },
     {
       "id": "seed-math-011",
@@ -255,18 +131,7 @@
       "question_text": "等腰三角形的顶角为 40°，求底角的度数。",
       "answer": "70°",
       "solution_steps": "等腰三角形两底角相等。设底角为 $x$，则 $40° + 2x = 180°$，解得 $x = 70°$。",
-      "knowledge_points": [
-        "等腰三角形的性质",
-        "三角形内角和定理"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/上册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 53.12
-      }
+      "knowledge_points": ["等腰三角形的性质", "三角形内角和定理"]
     },
     {
       "id": "seed-math-012",
@@ -277,18 +142,7 @@
       "question_text": "平行四边形的一个角为 60°，求其他三个角的度数。",
       "answer": "60°, 120°, 120°",
       "solution_steps": "平行四边形对角相等，邻角互补。所以对角也是 60°，两个邻角都是 $180° - 60° = 120°$。",
-      "knowledge_points": [
-        "平行四边形的性质",
-        "角的关系"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 18,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 47.2
-      }
+      "knowledge_points": ["平行四边形的性质", "角的关系"]
     },
     {
       "id": "seed-math-013",
@@ -299,18 +153,7 @@
       "question_text": "写出过点 $(0, 3)$ 且斜率为 2 的一次函数解析式。",
       "answer": "$y = 2x + 3$",
       "solution_steps": "一次函数 $y = kx + b$，斜率 $k=2$，过 $(0,3)$ 故截距 $b=3$，所以 $y = 2x + 3$。",
-      "knowledge_points": [
-        "一次函数",
-        "斜率与截距"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 19,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 33.47
-      }
+      "knowledge_points": ["一次函数", "斜率与截距"]
     },
     {
       "id": "seed-math-014",
@@ -321,17 +164,7 @@
       "question_text": "已知一次函数 $y = 3x + b$ 的图像过点 $(2, 7)$，求 $b$ 的值。",
       "answer": "$b = 1$",
       "solution_steps": "将点 $(2,7)$ 代入：$7 = 3 \\times 2 + b = 6 + b$，解得 $b = 1$。",
-      "knowledge_points": [
-        "一次函数待定系数法"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 19,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 41.86
-      }
+      "knowledge_points": ["一次函数待定系数法"]
     },
     {
       "id": "seed-math-015",
@@ -342,19 +175,7 @@
       "question_text": "数据 3, 7, 5, 9, 6 的平均数、中位数各是多少？",
       "answer": "平均数 6，中位数 6",
       "solution_steps": "平均数：$(3+7+5+9+6) \\div 5 = 30 \\div 5 = 6$；排序后：3, 5, 6, 7, 9，中位数为第3个数 $= 6$。",
-      "knowledge_points": [
-        "平均数",
-        "中位数",
-        "数据的统计描述"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 70.93
-      }
+      "knowledge_points": ["平均数", "中位数", "数据的统计描述"]
     },
     {
       "id": "seed-math-016",
@@ -365,19 +186,7 @@
       "question_text": "用公式法解方程：$2x^2 - 5x + 3 = 0$",
       "answer": "$x_1 = \\frac{3}{2}, x_2 = 1$",
       "solution_steps": "$a=2, b=-5, c=3$，判别式 $\\Delta = 25 - 24 = 1 > 0$，$x = \\dfrac{5 \\pm 1}{4}$，故 $x_1 = \\dfrac{3}{2}, x_2 = 1$。",
-      "knowledge_points": [
-        "一元二次方程",
-        "求根公式",
-        "判别式"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 21,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 85.07
-      }
+      "knowledge_points": ["一元二次方程", "求根公式", "判别式"]
     },
     {
       "id": "seed-math-017",
@@ -388,18 +197,7 @@
       "question_text": "关于 $x$ 的方程 $x^2 - (k+1)x + k = 0$ 有两个相等的实数根，求 $k$ 的值。",
       "answer": "$k = 1$",
       "solution_steps": "两根相等即 $\\Delta = 0$，$(k+1)^2 - 4k = 0$，$k^2 + 2k + 1 - 4k = 0$，$k^2 - 2k + 1 = 0$，$(k-1)^2 = 0$，故 $k = 1$。",
-      "knowledge_points": [
-        "判别式",
-        "一元二次方程根的条件"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 21,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 71.15
-      }
+      "knowledge_points": ["判别式", "一元二次方程根的条件"]
     },
     {
       "id": "seed-math-018",
@@ -410,19 +208,7 @@
       "question_text": "二次函数 $y = x^2 - 4x + 3$，求顶点坐标和对称轴。",
       "answer": "顶点 $(2, -1)$，对称轴 $x = 2$",
       "solution_steps": "配方：$y = (x-2)^2 - 4 + 3 = (x-2)^2 - 1$，顶点为 $(2, -1)$，对称轴 $x = 2$。",
-      "knowledge_points": [
-        "二次函数配方",
-        "顶点式",
-        "对称轴"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 22,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 68.25
-      }
+      "knowledge_points": ["二次函数配方", "顶点式", "对称轴"]
     },
     {
       "id": "seed-math-019",
@@ -433,18 +219,7 @@
       "question_text": "抛物线 $y = ax^2 + bx + c$（$a > 0$）的顶点为 $(1, -4)$，且过点 $(3, 0)$，求 $a, b, c$ 的值。",
       "answer": "$a=1, b=-2, c=-3$",
       "solution_steps": "顶点式：$y = a(x-1)^2 - 4$；代入 $(3,0)$：$0 = a(3-1)^2 - 4 = 4a - 4$，得 $a=1$；展开：$y = x^2 - 2x + 1 - 4 = x^2 - 2x - 3$，故 $b=-2, c=-3$。",
-      "knowledge_points": [
-        "二次函数顶点式",
-        "待定系数法"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 22,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 56.19
-      }
+      "knowledge_points": ["二次函数顶点式", "待定系数法"]
     },
     {
       "id": "seed-math-020",
@@ -455,19 +230,7 @@
       "question_text": "圆的半径为 5，弦长为 8，求弦心距。",
       "answer": "3",
       "solution_steps": "弦的一半为 4，由勾股定理：弦心距 $d = \\sqrt{5^2 - 4^2} = \\sqrt{25 - 16} = \\sqrt{9} = 3$。",
-      "knowledge_points": [
-        "圆的弦心距",
-        "勾股定理",
-        "垂径定理"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 24,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 0.0
-      }
+      "knowledge_points": ["圆的弦心距", "勾股定理", "垂径定理"]
     },
     {
       "id": "seed-math-021",
@@ -478,18 +241,7 @@
       "question_text": "圆 $O$ 中，圆周角 $\\angle BAC = 35°$，求对应的圆心角 $\\angle BOC$。",
       "answer": "70°",
       "solution_steps": "圆周角定理：圆心角是同弧所对圆周角的 2 倍，故 $\\angle BOC = 2 \\times 35° = 70°$。",
-      "knowledge_points": [
-        "圆周角定理",
-        "圆心角与圆周角的关系"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 24,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 39.02
-      }
+      "knowledge_points": ["圆周角定理", "圆心角与圆周角的关系"]
     },
     {
       "id": "seed-math-022",
@@ -500,19 +252,7 @@
       "question_text": "$\\triangle ABC \\sim \\triangle DEF$，$AB = 4, DE = 6, BC = 3$，求 $EF$。",
       "answer": "$EF = 4.5$",
       "solution_steps": "相似比 $= \\dfrac{DE}{AB} = \\dfrac{6}{4} = \\dfrac{3}{2}$，故 $EF = BC \\times \\dfrac{3}{2} = 3 \\times \\dfrac{3}{2} = 4.5$。",
-      "knowledge_points": [
-        "相似三角形",
-        "相似比",
-        "对应边成比例"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 27,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 115.27
-      }
+      "knowledge_points": ["相似三角形", "相似比", "对应边成比例"]
     },
     {
       "id": "seed-math-023",
@@ -523,19 +263,7 @@
       "question_text": "在直角三角形中，已知 $\\sin A = \\dfrac{3}{5}$，求 $\\cos A$ 和 $\\tan A$。",
       "answer": "$\\cos A = \\dfrac{4}{5}$，$\\tan A = \\dfrac{3}{4}$",
       "solution_steps": "由 $\\sin^2 A + \\cos^2 A = 1$，得 $\\cos A = \\dfrac{4}{5}$；$\\tan A = \\dfrac{\\sin A}{\\cos A} = \\dfrac{3/5}{4/5} = \\dfrac{3}{4}$。",
-      "knowledge_points": [
-        "锐角三角函数",
-        "sin/cos/tan的关系",
-        "勾股定理"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 28,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 116.05
-      }
+      "knowledge_points": ["锐角三角函数", "sin/cos/tan的关系", "勾股定理"]
     },
     {
       "id": "seed-math-024",
@@ -546,18 +274,7 @@
       "question_text": "从 1 到 10 的整数中随机取一个，取到偶数的概率是多少？",
       "answer": "$\\dfrac{1}{2}$",
       "solution_steps": "1到10中偶数有：2,4,6,8,10，共5个；总共10个数；概率 $= \\dfrac{5}{10} = \\dfrac{1}{2}$。",
-      "knowledge_points": [
-        "古典概型",
-        "概率计算"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 10,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 61.8
-      }
+      "knowledge_points": ["古典概型", "概率计算"]
     },
     {
       "id": "seed-math-025",
@@ -568,19 +285,7 @@
       "question_text": "数据：5, 8, 6, 9, 7, 8, 6, 8，求众数和平均数。",
       "answer": "众数 8，平均数 7.125",
       "solution_steps": "8出现3次最多，众数为8；平均数 $= (5+8+6+9+7+8+6+8) \\div 8 = 57 \\div 8 = 7.125$。",
-      "knowledge_points": [
-        "众数",
-        "平均数",
-        "统计量"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 55.91
-      }
+      "knowledge_points": ["众数", "平均数", "统计量"]
     },
     {
       "id": "seed-math-026",
@@ -591,18 +296,7 @@
       "question_text": "解方程组：$\\begin{cases} 2x + y = 7 \\\\ x - y = 2 \\end{cases}$",
       "answer": "$x = 3, y = 1$",
       "solution_steps": "两式相加：$3x = 9$，故 $x = 3$；代入第一式：$6 + y = 7$，故 $y = 1$。",
-      "knowledge_points": [
-        "二元一次方程组",
-        "加减消元法"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 57.92
-      }
+      "knowledge_points": ["二元一次方程组", "加减消元法"]
     },
     {
       "id": "seed-math-027",
@@ -613,18 +307,7 @@
       "question_text": "某商店卖苹果和梨，买2个苹果和3个梨共14元，买3个苹果和2个梨共11元，求苹果和梨各自单价。",
       "answer": "苹果1元，梨4元",
       "solution_steps": "设苹果 $x$ 元，梨 $y$ 元。$\\begin{cases} 2x+3y=14 \\\\ 3x+2y=11 \\end{cases}$，解得 $x=1, y=4$。",
-      "knowledge_points": [
-        "二元一次方程组应用题",
-        "列方程"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 43.53
-      }
+      "knowledge_points": ["二元一次方程组应用题", "列方程"]
     },
     {
       "id": "seed-math-028",
@@ -635,19 +318,7 @@
       "question_text": "计算：$(a^2)^3 \\cdot a$",
       "answer": "$a^7$",
       "solution_steps": "$(a^2)^3 = a^{2 \\times 3} = a^6$，再乘以 $a^1$ 得 $a^{6+1} = a^7$。",
-      "knowledge_points": [
-        "幂的乘法",
-        "幂的乘方",
-        "同底数幂相乘"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/上册",
-        "ch": 14,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 50.28
-      }
+      "knowledge_points": ["幂的乘法", "幂的乘方", "同底数幂相乘"]
     },
     {
       "id": "seed-math-029",
@@ -658,19 +329,7 @@
       "question_text": "函数 $y = -x^2 + 4x - 3$ 的最大值是多少？此时 $x$ 的值是？",
       "answer": "最大值为 1，此时 $x = 2$",
       "solution_steps": "配方：$y = -(x^2-4x) - 3 = -(x-2)^2 + 4 - 3 = -(x-2)^2 + 1$；因 $a < 0$，顶点处取最大值 1，此时 $x = 2$。",
-      "knowledge_points": [
-        "二次函数最值",
-        "开口方向",
-        "顶点"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 22,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 51.12
-      }
+      "knowledge_points": ["二次函数最值", "开口方向", "顶点"]
     },
     {
       "id": "seed-math-030",
@@ -681,19 +340,7 @@
       "question_text": "已知反比例函数 $y = \\dfrac{k}{x}$ 过点 $(2, -3)$，求 $k$ 值，并判断图像在哪个象限。",
       "answer": "$k = -6$，图像在二、四象限",
       "solution_steps": "代入点：$-3 = \\dfrac{k}{2}$，得 $k = -6$；因 $k < 0$，反比例函数图像在二、四象限。",
-      "knowledge_points": [
-        "反比例函数",
-        "待定系数法",
-        "图像象限"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 26,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 44.42
-      }
+      "knowledge_points": ["反比例函数", "待定系数法", "图像象限"]
     },
     {
       "id": "seed-math-031",
@@ -704,19 +351,7 @@
       "question_text": "在数轴上，点 $A$ 表示 $-3$，点 $B$ 表示 $5$，求 $A$、$B$ 两点之间的距离。",
       "answer": "8",
       "solution_steps": "$|5 - (-3)| = |5 + 3| = 8$",
-      "knowledge_points": [
-        "数轴",
-        "两点距离",
-        "绝对值"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 32.1
-      }
+      "knowledge_points": ["数轴", "两点距离", "绝对值"]
     },
     {
       "id": "seed-math-032",
@@ -727,20 +362,7 @@
       "question_text": "两平行线被一条直线截，若同位角为 $70°$，求内错角和同旁内角各是多少度。",
       "answer": "内错角 70°，同旁内角 110°",
       "solution_steps": "同位角相等，故两平行线的同位角都为 70°。内错角等于同位角（都是 70°）；同旁内角互补（$180° - 70° = 110°$）。",
-      "knowledge_points": [
-        "平行线性质",
-        "同位角",
-        "内错角",
-        "同旁内角"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 37.54
-      }
+      "knowledge_points": ["平行线性质", "同位角", "内错角", "同旁内角"]
     },
     {
       "id": "seed-math-033",
@@ -751,19 +373,7 @@
       "question_text": "如图，$PA$ 是圆 $O$ 的切线，$A$ 为切点，$PO$ 连线交圆于点 $B$，已知 $PA = 4, PO = 5$，求 $BO$（即半径）和 $PB$。",
       "answer": "$r = 3, PB = 2$",
       "solution_steps": "切线⊥半径：$OA \\perp PA$，故 $\\triangle POA$ 是直角三角形。$OA^2 = PO^2 - PA^2 = 25 - 16 = 9$，故 $r = OA = 3$；$PB = PO - BO = 5 - 3 = 2$。",
-      "knowledge_points": [
-        "切线与半径垂直",
-        "勾股定理",
-        "圆的切线性质"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/选择性必修/第一册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 65.76
-      }
+      "knowledge_points": ["切线与半径垂直", "勾股定理", "圆的切线性质"]
     },
     {
       "id": "seed-math-034",
@@ -774,17 +384,7 @@
       "question_text": "用因式分解法解方程：$x^2 - 5x + 6 = 0$",
       "answer": "$x_1 = 2, x_2 = 3$",
       "solution_steps": "$(x-2)(x-3) = 0$，故 $x_1 = 2, x_2 = 3$。",
-      "knowledge_points": [
-        "因式分解法解一元二次方程"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 21,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 88.86
-      }
+      "knowledge_points": ["因式分解法解一元二次方程"]
     },
     {
       "id": "seed-math-035",
@@ -795,18 +395,7 @@
       "question_text": "判断三边为 $5, 12, 13$ 的三角形是否为直角三角形。",
       "answer": "是直角三角形",
       "solution_steps": "$5^2 + 12^2 = 25 + 144 = 169 = 13^2$，满足勾股定理，故是直角三角形。",
-      "knowledge_points": [
-        "勾股定理逆定理",
-        "直角三角形判断"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 17,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 50.39
-      }
+      "knowledge_points": ["勾股定理逆定理", "直角三角形判断"]
     },
     {
       "id": "seed-math-036",
@@ -817,17 +406,7 @@
       "question_text": "圆柱的底面半径为 3，高为 5，求体积（$\\pi$ 取 3.14）。",
       "answer": "141.3",
       "solution_steps": "$V = \\pi r^2 h = 3.14 \\times 3^2 \\times 5 = 3.14 \\times 9 \\times 5 = 141.3$",
-      "knowledge_points": [
-        "圆柱体积公式"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 34.73
-      }
+      "knowledge_points": ["圆柱体积公式"]
     },
     {
       "id": "seed-math-037",
@@ -838,19 +417,7 @@
       "question_text": "甲、乙两地相距 360 km，一辆客车从甲地出发，以 60 km/h 行驶；3 小时后，一辆货车从乙地出发向甲地，以 40 km/h 行驶，两车何时相遇？",
       "answer": "货车出发后 3 小时相遇",
       "solution_steps": "设货车出发 $t$ 小时后相遇。此时客车已行驶 $3+t$ 小时，路程 $60(3+t)$；货车行驶 $t$ 小时，路程 $40t$。方程：$60(3+t) + 40t = 360$，$180 + 60t + 40t = 360$，$100t = 180$，$t = 1.8$ 小时（即 1 小时 48 分）。",
-      "knowledge_points": [
-        "行程问题",
-        "相遇问题",
-        "列方程"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 69.16
-      }
+      "knowledge_points": ["行程问题", "相遇问题", "列方程"]
     },
     {
       "id": "seed-math-038",
@@ -861,19 +428,7 @@
       "question_text": "某次考试成绩方差为 25，标准差是多少？这说明了什么？",
       "answer": "标准差为 5，说明成绩波动适中",
       "solution_steps": "标准差 $= \\sqrt{方差} = \\sqrt{25} = 5$；标准差反映数据的离散程度，标准差越小表示数据越集中。",
-      "knowledge_points": [
-        "方差",
-        "标准差",
-        "数据的离散程度"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 73.17
-      }
+      "knowledge_points": ["方差", "标准差", "数据的离散程度"]
     },
     {
       "id": "seed-math-039",
@@ -884,19 +439,7 @@
       "question_text": "如图，在 $\\triangle ABC$ 中，$D$ 是 $BC$ 上的点，$AD \\perp BC$，若 $AB = 5, BD = 3, DC = 4$，求 $AD$。",
       "answer": "$AD = 4$",
       "solution_steps": "在 $\\triangle ABD$ 中：$AD^2 = AB^2 - BD^2 = 25 - 9 = 16$，故 $AD = 4$。验证：$AC^2 = AD^2 + DC^2 = 16 + 16 = 32$，$AC = 4\\sqrt{2}$。",
-      "knowledge_points": [
-        "勾股定理",
-        "直角三角形",
-        "高线"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 27,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 108.61
-      }
+      "knowledge_points": ["勾股定理", "直角三角形", "高线"]
     },
     {
       "id": "seed-math-040",
@@ -907,19 +450,7 @@
       "question_text": "在 $-4, -\\dfrac{1}{3}, 0, \\dfrac{5}{2}, 3$ 中，负整数有几个？非负数有几个？",
       "answer": "负整数 1 个（-4），非负数 3 个（0, 5/2, 3）",
       "solution_steps": "负整数：-4（1个）；非负数包括 0 和正数：0, 5/2, 3（3个）；-1/3 是负分数，不计入。",
-      "knowledge_points": [
-        "有理数分类",
-        "负整数",
-        "非负数"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 14,
-        "bm25_score": 32.96
-      }
+      "knowledge_points": ["有理数分类", "负整数", "非负数"]
     },
     {
       "id": "seed-math-041",
@@ -930,18 +461,7 @@
       "question_text": "某同学语文成绩：80, 85, 90, 78, 92。求平均分和中位数。",
       "answer": "平均分 85，中位数 85",
       "solution_steps": "平均分 $= (80+85+90+78+92) \\div 5 = 425 \\div 5 = 85$；排序：78, 80, 85, 90, 92，中位数为第3个数：85。",
-      "knowledge_points": [
-        "平均数",
-        "中位数"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 54.89
-      }
+      "knowledge_points": ["平均数", "中位数"]
     },
     {
       "id": "seed-math-042",
@@ -952,18 +472,7 @@
       "question_text": "已知直角三角形中，一个锐角为 30°，斜边长为 10，求两直角边的长度。",
       "answer": "5 和 $5\\sqrt{3}$",
       "solution_steps": "30° 对边 $= 10 \\times \\sin 30° = 10 \\times 0.5 = 5$；60° 对边 $= 10 \\times \\sin 60° = 10 \\times \\dfrac{\\sqrt{3}}{2} = 5\\sqrt{3}$。",
-      "knowledge_points": [
-        "特殊角三角函数值",
-        "30-60-90三角形"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 28,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 88.9
-      }
+      "knowledge_points": ["特殊角三角函数值", "30-60-90三角形"]
     },
     {
       "id": "seed-math-043",
@@ -974,19 +483,7 @@
       "question_text": "估算 $\\sqrt{30}$ 的值（精确到 0.1）。",
       "answer": "约 5.5",
       "solution_steps": "$5^2=25, 6^2=36$，所以 $5 < \\sqrt{30} < 6$。$5.5^2 = 30.25 > 30$，$5.4^2 = 29.16 < 30$，更接近 5.5，故约为 5.5。",
-      "knowledge_points": [
-        "实数",
-        "无理数估算",
-        "平方根"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 6,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 56.2
-      }
+      "knowledge_points": ["实数", "无理数估算", "平方根"]
     },
     {
       "id": "seed-math-044",
@@ -997,18 +494,7 @@
       "question_text": "两数之比为 3:5，其和为 40，求这两个数。",
       "answer": "15 和 25",
       "solution_steps": "设两数为 $3k$ 和 $5k$，则 $3k + 5k = 40$，$k = 5$，两数为 15 和 25。",
-      "knowledge_points": [
-        "比和比例",
-        "按比分配"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/下册",
-        "ch": 26,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 17.31
-      }
+      "knowledge_points": ["比和比例", "按比分配"]
     },
     {
       "id": "seed-math-045",
@@ -1019,18 +505,7 @@
       "question_text": "某产品降价 20% 后，再提价 20%，问最终价格是原价的百分之几？",
       "answer": "96%",
       "solution_steps": "降价后：$1 \\times (1-20\\%) = 0.8$；再提价 20%：$0.8 \\times (1+20\\%) = 0.8 \\times 1.2 = 0.96$，即原价的 96%。",
-      "knowledge_points": [
-        "百分比计算",
-        "增长率问题"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 18.59
-      }
+      "knowledge_points": ["百分比计算", "增长率问题"]
     },
     {
       "id": "seed-math-046",
@@ -1041,18 +516,7 @@
       "question_text": "三角形三个内角的比为 1:2:3，求各角的度数。",
       "answer": "30°, 60°, 90°",
       "solution_steps": "设三角为 $k, 2k, 3k$，由内角和：$k + 2k + 3k = 180°$，$6k = 180°$，$k = 30°$，故三角为 30°, 60°, 90°。",
-      "knowledge_points": [
-        "三角形内角和",
-        "按比分配"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 47.61
-      }
+      "knowledge_points": ["三角形内角和", "按比分配"]
     },
     {
       "id": "seed-math-047",
@@ -1063,19 +527,7 @@
       "question_text": "菱形的两条对角线长分别为 6 和 8，求菱形的面积和边长。",
       "answer": "面积 24，边长 5",
       "solution_steps": "菱形面积 $= \\dfrac{d_1 \\times d_2}{2} = \\dfrac{6 \\times 8}{2} = 24$；对角线各半为 3 和 4，边长 $= \\sqrt{3^2 + 4^2} = 5$。",
-      "knowledge_points": [
-        "菱形面积",
-        "菱形对角线性质",
-        "勾股定理"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/八年级/下册",
-        "ch": 17,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 6,
-        "bm25_score": 41.51
-      }
+      "knowledge_points": ["菱形面积", "菱形对角线性质", "勾股定理"]
     },
     {
       "id": "seed-math-048",
@@ -1086,18 +538,7 @@
       "question_text": "掷两枚骰子，求两个点数之和为 7 的概率。",
       "answer": "$\\dfrac{1}{6}$",
       "solution_steps": "总样本空间：$6 \\times 6 = 36$；和为7的情况：(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)，共6种；概率 $= \\dfrac{6}{36} = \\dfrac{1}{6}$。",
-      "knowledge_points": [
-        "古典概型",
-        "两步试验"
-      ],
-      "textbook_ref": {
-        "path": "高中/数学/人教A版/必修/第二册",
-        "ch": 10,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 49.17
-      }
+      "knowledge_points": ["古典概型", "两步试验"]
     },
     {
       "id": "seed-math-049",
@@ -1108,18 +549,7 @@
       "question_text": "圆 $O$ 的半径为 5，弦 $AB = 8$，点 $P$ 在弧 $AB$ 上（不含 $AB$ 的劣弧），求 $\\angle APB$。",
       "answer": "取决于P的位置，若P在劣弧对面，$\\angle APB$为圆周角对应的值；题中P在优弧上，$\\angle APB = 53°$（近似）",
       "solution_steps": "弦心距 $d = \\sqrt{5^2-4^2} = 3$；对应圆心角 $\\cos(\\angle AOB/2) = 3/5$，$\\angle AOB/2 = 53.13°$，$\\angle AOB \\approx 106.26°$；P在优弧上，$\\angle APB = \\dfrac{1}{2}(360°-106.26°) = 126.87°$（约 127°）。",
-      "knowledge_points": [
-        "圆周角定理",
-        "圆心角与弦长"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/九年级/上册",
-        "ch": 24,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 42.24
-      }
+      "knowledge_points": ["圆周角定理", "圆心角与弦长"]
     },
     {
       "id": "seed-math-050",
@@ -1130,19 +560,7 @@
       "question_text": "一个正方形的面积为 $a$，以其对角线为边长的正方形面积是多少？",
       "answer": "$2a$",
       "solution_steps": "正方形边长为 $\\sqrt{a}$，对角线长 $= \\sqrt{a} \\times \\sqrt{2} = \\sqrt{2a}$；以对角线为边长的正方形面积 $= (\\sqrt{2a})^2 = 2a$。",
-      "knowledge_points": [
-        "正方形对角线",
-        "面积计算",
-        "综合应用"
-      ],
-      "textbook_ref": {
-        "path": "初中/数学/人教版/七年级/下册",
-        "ch": 6,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 61.02
-      }
+      "knowledge_points": ["正方形对角线", "面积计算", "综合应用"]
     },
     {
       "id": "seed-phys-001",
@@ -1153,19 +571,7 @@
       "question_text": "一个物体受到 20 N 的水平拉力，以匀速直线运动，求摩擦力大小和方向。",
       "answer": "摩擦力 20 N，方向向左（与运动方向相反）",
       "solution_steps": "匀速直线运动，合力为零（二力平衡）。水平方向：拉力 20 N 向右，则摩擦力 20 N 向左。",
-      "knowledge_points": [
-        "二力平衡",
-        "摩擦力",
-        "匀速直线运动"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 86.1
-      }
+      "knowledge_points": ["二力平衡", "摩擦力", "匀速直线运动"]
     },
     {
       "id": "seed-phys-002",
@@ -1176,19 +582,7 @@
       "question_text": "质量为 2 kg 的物体在地球表面，重力加速度 $g = 10 \\text{ m/s}^2$，求其重力和在月球上的重力（月球 $g_{月} = 1.6 \\text{ m/s}^2$）。",
       "answer": "地球重力 20 N，月球重力 3.2 N",
       "solution_steps": "地球：$G = mg = 2 \\times 10 = 20 \\text{ N}$；月球：$G = mg_{月} = 2 \\times 1.6 = 3.2 \\text{ N}$；质量不变仍为 2 kg。",
-      "knowledge_points": [
-        "重力公式",
-        "质量与重力的区别",
-        "重力加速度"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/必修/第一册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 43.89
-      }
+      "knowledge_points": ["重力公式", "质量与重力的区别", "重力加速度"]
     },
     {
       "id": "seed-phys-003",
@@ -1199,19 +593,7 @@
       "question_text": "某物体质量为 400 g，体积为 200 cm³，求其密度，并判断是什么材料（铁的密度为 7.8 g/cm³，铝的密度为 2.7 g/cm³）。",
       "answer": "密度 2 g/cm³，可能是铝合金或轻金属",
       "solution_steps": "$\\rho = \\dfrac{m}{V} = \\dfrac{400 \\text{ g}}{200 \\text{ cm}^3} = 2 \\text{ g/cm}^3$；比铝（2.7）小，可能是铝合金或某种轻材料。",
-      "knowledge_points": [
-        "密度公式",
-        "密度单位换算",
-        "密度查表"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 6,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 27.6
-      }
+      "knowledge_points": ["密度公式", "密度单位换算", "密度查表"]
     },
     {
       "id": "seed-phys-004",
@@ -1222,19 +604,7 @@
       "question_text": "声音在空气中的速度约为 340 m/s，在水中约为 1500 m/s，在钢铁中约为 5200 m/s。这说明了什么？",
       "answer": "声音在固体中传播最快，液体次之，气体最慢",
       "solution_steps": "声速随介质的不同而变化：固体（钢铁 5200 m/s）> 液体（水 1500 m/s）> 气体（空气 340 m/s），说明介质的弹性和密度影响声速。",
-      "knowledge_points": [
-        "声音的传播速度",
-        "声音的传播介质",
-        "声音在不同介质中的速度比较"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 0.0
-      }
+      "knowledge_points": ["声音的传播速度", "声音的传播介质", "声音在不同介质中的速度比较"]
     },
     {
       "id": "seed-phys-005",
@@ -1245,18 +615,7 @@
       "question_text": "光在真空中的速度为 $3 \\times 10^8$ m/s，光从月球到地球需要约多少秒（月地距离约 $3.84 \\times 10^8$ m）？",
       "answer": "约 1.28 秒",
       "solution_steps": "$t = \\dfrac{s}{v} = \\dfrac{3.84 \\times 10^8}{3 \\times 10^8} = 1.28 \\text{ s}$",
-      "knowledge_points": [
-        "光速",
-        "速度公式 s=vt"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 35.96
-      }
+      "knowledge_points": ["光速", "速度公式 s=vt"]
     },
     {
       "id": "seed-phys-006",
@@ -1267,19 +626,7 @@
       "question_text": "凸透镜的焦距为 10 cm，物体放在距镜 30 cm 处，求像的位置（利用公式 $\\dfrac{1}{f} = \\dfrac{1}{u} + \\dfrac{1}{v}$）。",
       "answer": "像在透镜另一侧 15 cm 处",
       "solution_steps": "$\\dfrac{1}{10} = \\dfrac{1}{30} + \\dfrac{1}{v}$，$\\dfrac{1}{v} = \\dfrac{1}{10} - \\dfrac{1}{30} = \\dfrac{3-1}{30} = \\dfrac{2}{30}$，$v = 15 \\text{ cm}$（正值表示实像在透镜另一侧）。",
-      "knowledge_points": [
-        "凸透镜成像公式",
-        "实像与虚像",
-        "焦距"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 68.25
-      }
+      "knowledge_points": ["凸透镜成像公式", "实像与虚像", "焦距"]
     },
     {
       "id": "seed-phys-007",
@@ -1290,18 +637,7 @@
       "question_text": "电路中电流为 2 A，电阻为 5 Ω，求电压（欧姆定律）。",
       "answer": "10 V",
       "solution_steps": "由欧姆定律：$U = IR = 2 \\times 5 = 10 \\text{ V}$",
-      "knowledge_points": [
-        "欧姆定律",
-        "电压、电流、电阻的关系"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/必修/第三册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 82.23
-      }
+      "knowledge_points": ["欧姆定律", "电压、电流、电阻的关系"]
     },
     {
       "id": "seed-phys-008",
@@ -1312,18 +648,7 @@
       "question_text": "两个电阻 $R_1 = 3 \\Omega$ 和 $R_2 = 6 \\Omega$ 并联，求等效电阻。",
       "answer": "2 Ω",
       "solution_steps": "$\\dfrac{1}{R} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2} = \\dfrac{1}{3} + \\dfrac{1}{6} = \\dfrac{2+1}{6} = \\dfrac{3}{6} = \\dfrac{1}{2}$，故 $R = 2 \\Omega$。",
-      "knowledge_points": [
-        "并联电阻",
-        "等效电阻"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/必修/第三册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 41.65
-      }
+      "knowledge_points": ["并联电阻", "等效电阻"]
     },
     {
       "id": "seed-phys-009",
@@ -1334,19 +659,7 @@
       "question_text": "一个电热器功率为 1000 W，使用 2 小时，消耗多少电能（kWh）？",
       "answer": "2 度（kWh）",
       "solution_steps": "$W = Pt = 1 \\text{ kW} \\times 2 \\text{ h} = 2 \\text{ kWh}$（即 2 度电）",
-      "knowledge_points": [
-        "电功率",
-        "电能计算",
-        "度（kWh）"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 18,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 22,
-        "bm25_score": 80.2
-      }
+      "knowledge_points": ["电功率", "电能计算", "度（kWh）"]
     },
     {
       "id": "seed-phys-010",
@@ -1357,19 +670,7 @@
       "question_text": "$R_1 = 10 \\Omega$，$R_2 = 20 \\Omega$ 串联后接在 30 V 电源上，求各电阻的电流、电压和功率。",
       "answer": "$I=1$ A；$U_1=10$ V, $P_1=10$ W；$U_2=20$ V, $P_2=20$ W",
       "solution_steps": "串联总电阻 $R = 10 + 20 = 30 \\Omega$；$I = U/R = 30/30 = 1 \\text{ A}$；$U_1 = IR_1 = 1 \\times 10 = 10 \\text{ V}$，$U_2 = 20 \\text{ V}$；$P_1 = I^2R_1 = 10 \\text{ W}$，$P_2 = 20 \\text{ W}$。",
-      "knowledge_points": [
-        "串联电路",
-        "欧姆定律",
-        "电功率"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 18,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 22,
-        "bm25_score": 100.0
-      }
+      "knowledge_points": ["串联电路", "欧姆定律", "电功率"]
     },
     {
       "id": "seed-phys-011",
@@ -1380,18 +681,7 @@
       "question_text": "质量为 60 kg 的人站在水平地面上，鞋底与地面的接触面积为 0.04 m²，求人对地面的压强（$g=10$ m/s²）。",
       "answer": "15000 Pa",
       "solution_steps": "压力 $F = mg = 60 \\times 10 = 600 \\text{ N}$；压强 $p = \\dfrac{F}{S} = \\dfrac{600}{0.04} = 15000 \\text{ Pa}$。",
-      "knowledge_points": [
-        "压强公式",
-        "重力与压力"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 58.56
-      }
+      "knowledge_points": ["压强公式", "重力与压力"]
     },
     {
       "id": "seed-phys-012",
@@ -1402,19 +692,7 @@
       "question_text": "一个物体在空气中称量为 100 N，放入水中称量为 60 N，求浮力大小。",
       "answer": "40 N",
       "solution_steps": "浮力 $= 空气中重力 - 水中表观重力 = 100 - 60 = 40 \\text{ N}$（阿基米德原理体现）",
-      "knowledge_points": [
-        "浮力",
-        "阿基米德原理",
-        "称重法测浮力"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 10,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 48.92
-      }
+      "knowledge_points": ["浮力", "阿基米德原理", "称重法测浮力"]
     },
     {
       "id": "seed-phys-013",
@@ -1425,19 +703,7 @@
       "question_text": "描述地磁场的特点：地磁南北极与地理南北极的关系是什么？",
       "answer": "地磁南极在地理北极附近，地磁北极在地理南极附近，两者不完全重合",
       "solution_steps": "指南针的N极指向地磁北极（即地理南方的地磁N极方向），而地磁北极靠近地理南极。地磁偏角是地理北与磁北的夹角。",
-      "knowledge_points": [
-        "地磁场",
-        "磁偏角",
-        "地磁南北极"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 20,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 22.36
-      }
+      "knowledge_points": ["地磁场", "磁偏角", "地磁南北极"]
     },
     {
       "id": "seed-phys-014",
@@ -1448,20 +714,7 @@
       "question_text": "发电机和电动机的工作原理分别是什么？能量转化是什么？",
       "answer": "发电机：机械能→电能（电磁感应）；电动机：电能→机械能（通电导体在磁场中受力）",
       "solution_steps": "发电机利用电磁感应原理，导体在磁场中运动产生电流，将机械能转化为电能；电动机利用通电导线在磁场中受安培力，将电能转化为机械能。",
-      "knowledge_points": [
-        "电磁感应",
-        "发电机",
-        "电动机",
-        "能量转化"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/选择性必修/第二册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 77.9
-      }
+      "knowledge_points": ["电磁感应", "发电机", "电动机", "能量转化"]
     },
     {
       "id": "seed-phys-015",
@@ -1472,19 +725,7 @@
       "question_text": "一辆汽车以 20 m/s 的速度行驶，急刹车后 5 s 停下，求加速度大小和刹车距离。",
       "answer": "加速度 4 m/s²，刹车距离 50 m",
       "solution_steps": "加速度 $a = \\dfrac{v - v_0}{t} = \\dfrac{0-20}{5} = -4 \\text{ m/s}^2$（大小 4 m/s²）；刹车距离 $s = \\dfrac{v_0 + v}{2} \\times t = \\dfrac{20+0}{2} \\times 5 = 50 \\text{ m}$。",
-      "knowledge_points": [
-        "匀减速运动",
-        "加速度计算",
-        "平均速度"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/必修/第一册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 72.63
-      }
+      "knowledge_points": ["匀减速运动", "加速度计算", "平均速度"]
     },
     {
       "id": "seed-phys-016",
@@ -1495,19 +736,7 @@
       "question_text": "用 50 N 的力将物体沿水平方向推动 4 m，力与位移方向成 30° 角，求做的功。",
       "answer": "$100\\sqrt{3} \\approx 173 \\text{ J}$",
       "solution_steps": "$W = Fs\\cos\\theta = 50 \\times 4 \\times \\cos 30° = 200 \\times \\dfrac{\\sqrt{3}}{2} = 100\\sqrt{3} \\approx 173 \\text{ J}$",
-      "knowledge_points": [
-        "功的定义",
-        "力的分解",
-        "cos30°"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 20.51
-      }
+      "knowledge_points": ["功的定义", "力的分解", "cos30°"]
     },
     {
       "id": "seed-phys-017",
@@ -1518,18 +747,7 @@
       "question_text": "1 kg 水温度从 20°C 升高到 70°C，需要吸收多少热量？（水的比热容 $c = 4.2 \\times 10^3$ J/(kg·°C)）",
       "answer": "$2.1 \\times 10^5$ J",
       "solution_steps": "$Q = cm\\Delta T = 4.2 \\times 10^3 \\times 1 \\times (70-20) = 4.2 \\times 10^3 \\times 50 = 2.1 \\times 10^5 \\text{ J}$",
-      "knowledge_points": [
-        "比热容",
-        "热量计算公式"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 13,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 52.23
-      }
+      "knowledge_points": ["比热容", "热量计算公式"]
     },
     {
       "id": "seed-phys-018",
@@ -1540,18 +758,7 @@
       "question_text": "一根杠杆，动力臂为 60 cm，阻力臂为 20 cm，阻力为 30 N，求动力大小。",
       "answer": "10 N",
       "solution_steps": "杠杆平衡条件：$F_1 \\times l_1 = F_2 \\times l_2$，$F_1 \\times 60 = 30 \\times 20$，$F_1 = \\dfrac{600}{60} = 10 \\text{ N}$。",
-      "knowledge_points": [
-        "杠杆平衡条件",
-        "力臂"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 12,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 66.73
-      }
+      "knowledge_points": ["杠杆平衡条件", "力臂"]
     },
     {
       "id": "seed-phys-019",
@@ -1562,19 +769,7 @@
       "question_text": "某家庭一个月用电 150 度，电费为每度 0.5 元，同时家里有一台 100 W 的电视、一台 1000 W 的空调，若空调每天开 4 小时，电视每天开 6 小时，30 天的电费是多少元？",
       "answer": "66 元",
       "solution_steps": "空调：$1 \\text{ kW} \\times 4 \\text{ h} \\times 30 = 120 \\text{ kWh}$；电视：$0.1 \\text{ kW} \\times 6 \\text{ h} \\times 30 = 18 \\text{ kWh}$；合计 138 度，电费 $= 138 \\times 0.5 = 69 \\text{ 元}$（注：若按题目150度计则为 75 元，以实际计算为准 69 元）",
-      "knowledge_points": [
-        "电能计算",
-        "电费计算",
-        "度（kWh）"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 18,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 58.84
-      }
+      "knowledge_points": ["电能计算", "电费计算", "度（kWh）"]
     },
     {
       "id": "seed-phys-020",
@@ -1585,19 +780,7 @@
       "question_text": "光从空气射入玻璃时，折射角与入射角的大小关系是什么？",
       "answer": "折射角小于入射角（光从光疏介质进入光密介质，折射角减小）",
       "solution_steps": "光从光疏介质（空气，折射率小）进入光密介质（玻璃，折射率大），折射光线偏向法线，折射角 < 入射角。",
-      "knowledge_points": [
-        "光的折射定律",
-        "光疏介质与光密介质",
-        "折射角与入射角"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/选择性必修/第一册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 92.17
-      }
+      "knowledge_points": ["光的折射定律", "光疏介质与光密介质", "折射角与入射角"]
     },
     {
       "id": "seed-phys-021",
@@ -1608,19 +791,7 @@
       "question_text": "固体变成液体叫做什么？液体变成气体叫做什么？各需要吸热还是放热？",
       "answer": "熔化（吸热），汽化（吸热）",
       "solution_steps": "熔化是固体→液体，需要吸收热量（熔点）；汽化是液体→气体，需要吸收热量（沸点/蒸发），两者都是吸热过程。",
-      "knowledge_points": [
-        "物态变化",
-        "熔化与凝固",
-        "汽化与液化"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 6,
-        "bm25_score": 72.43
-      }
+      "knowledge_points": ["物态变化", "熔化与凝固", "汽化与液化"]
     },
     {
       "id": "seed-phys-022",
@@ -1631,19 +802,7 @@
       "question_text": "家庭电路的电压为 220 V，某灯泡额定功率 40 W，求其正常工作时的电阻和电流。",
       "answer": "电阻 1210 Ω，电流约 0.18 A",
       "solution_steps": "$R = \\dfrac{U^2}{P} = \\dfrac{220^2}{40} = \\dfrac{48400}{40} = 1210 \\Omega$；$I = \\dfrac{P}{U} = \\dfrac{40}{220} \\approx 0.18 \\text{ A}$",
-      "knowledge_points": [
-        "额定功率",
-        "电功率公式变形",
-        "家庭电路"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 18,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 18,
-        "bm25_score": 104.1
-      }
+      "knowledge_points": ["额定功率", "电功率公式变形", "家庭电路"]
     },
     {
       "id": "seed-phys-023",
@@ -1654,19 +813,7 @@
       "question_text": "回声是如何产生的？要听到回声，发声点到反射面的最小距离是多少（声速取 340 m/s）？",
       "answer": "至少 17 m（人耳分辨时间 0.1 s）",
       "solution_steps": "回声是声波遇到障碍物反射回来的声音。人耳需要至少 0.1 s 才能区分原声和回声。$s = \\dfrac{vt}{2} = \\dfrac{340 \\times 0.1}{2} = 17 \\text{ m}$。",
-      "knowledge_points": [
-        "回声",
-        "声波反射",
-        "回声的最小距离"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 44.35
-      }
+      "knowledge_points": ["回声", "声波反射", "回声的最小距离"]
     },
     {
       "id": "seed-phys-024",
@@ -1677,20 +824,7 @@
       "question_text": "原子核由什么组成？质子数和中子数各代表什么？",
       "answer": "质子和中子；质子数=元素原子序数，中子数=质量数-质子数",
       "solution_steps": "原子核由质子（带正电）和中子（不带电）组成。质子数决定元素种类（即原子序数/电荷数）；质量数 = 质子数 + 中子数，故中子数 = 质量数 - 质子数。",
-      "knowledge_points": [
-        "原子结构",
-        "质子",
-        "中子",
-        "核外电子"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/选择性必修/第三册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 6,
-        "bm25_score": 70.61
-      }
+      "knowledge_points": ["原子结构", "质子", "中子", "核外电子"]
     },
     {
       "id": "seed-phys-025",
@@ -1701,19 +835,7 @@
       "question_text": "通电螺线管的磁场与条形磁铁的磁场有哪些相似之处？如何判断通电螺线管的N、S极？",
       "answer": "用安培定则（右手定则）：右手握螺线管，四指指向电流方向，大拇指所指为N极",
       "solution_steps": "通电螺线管外部磁场与条形磁铁相同，有N极和S极；用安培定则判断：右手握螺线管，四指弯曲方向与电流方向一致，大拇指指向为N极。",
-      "knowledge_points": [
-        "安培定则",
-        "通电螺线管磁场",
-        "N极S极判断"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 20,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 70.67
-      }
+      "knowledge_points": ["安培定则", "通电螺线管磁场", "N极S极判断"]
     },
     {
       "id": "seed-phys-026",
@@ -1724,19 +846,7 @@
       "question_text": "坐在行驶的车上，当车突然刹车时，人会向哪个方向倾斜？为什么？",
       "answer": "向前倾斜；因为惯性，人的上身保持原来的运动状态继续向前运动",
       "solution_steps": "车突然停止，但人由于惯性仍保持原来的运动状态向前运动，所以人相对于车向前倾斜。这是牛顿第一定律（惯性定律）的体现。",
-      "knowledge_points": [
-        "惯性",
-        "牛顿第一定律",
-        "参照物"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 42.25
-      }
+      "knowledge_points": ["惯性", "牛顿第一定律", "参照物"]
     },
     {
       "id": "seed-phys-027",
@@ -1747,18 +857,7 @@
       "question_text": "一个 5 kg 的物体，受到 20 N 的水平合力，求加速度（$g=10$ m/s²）。",
       "answer": "$a = 4 \\text{ m/s}^2$",
       "solution_steps": "由牛顿第二定律：$F = ma$，$a = \\dfrac{F}{m} = \\dfrac{20}{5} = 4 \\text{ m/s}^2$。",
-      "knowledge_points": [
-        "牛顿第二定律",
-        "合力与加速度"
-      ],
-      "textbook_ref": {
-        "path": "高中/物理/人教版/必修/第一册",
-        "ch": 4,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 63.54
-      }
+      "knowledge_points": ["牛顿第二定律", "合力与加速度"]
     },
     {
       "id": "seed-phys-028",
@@ -1769,19 +868,7 @@
       "question_text": "滑轮组由 3 段绳子承重，提起 600 N 的物体，忽略摩擦和绳的重力，求需要施加的拉力和绳子端移动的距离（物体上升 1 m）。",
       "answer": "拉力 200 N，绳端移动 3 m",
       "solution_steps": "3 段绳子承重，故每段承担 $600 \\div 3 = 200 \\text{ N}$；绳端移动距离 $= 3 \\times 1 = 3 \\text{ m}$（理想滑轮组：省力不省功）。",
-      "knowledge_points": [
-        "滑轮组",
-        "机械利益",
-        "功的原理"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/下册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 71.79
-      }
+      "knowledge_points": ["滑轮组", "机械利益", "功的原理"]
     },
     {
       "id": "seed-phys-029",
@@ -1792,19 +879,7 @@
       "question_text": "家中保险丝的作用是什么？为什么不能用铜丝代替保险丝？",
       "answer": "保险丝熔点低，电流过大时先熔断保护电路；铜丝熔点高不能起保护作用",
       "solution_steps": "保险丝由低熔点合金制成，电流超过安全值时会因过热而熔断，切断电路，保护电器和用电安全。铜丝熔点远高于保险丝，在危险电流下不会熔断，无法保护电路，还可能引发火灾。",
-      "knowledge_points": [
-        "保险丝",
-        "安全用电",
-        "电流热效应"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/九年级/全一册",
-        "ch": 15,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 24,
-        "bm25_score": 0.0
-      }
+      "knowledge_points": ["保险丝", "安全用电", "电流热效应"]
     },
     {
       "id": "seed-phys-030",
@@ -1815,19 +890,7 @@
       "question_text": "判断运动与静止时，参照物的选取有什么要求？举例说明同一物体在不同参照物下的运动状态。",
       "answer": "参照物可以任意选取（除被研究物体本身）；如坐火车中的人，相对于座椅是静止的，相对于地面是运动的",
       "solution_steps": "运动和静止是相对的，取决于所选参照物。坐在行驶火车上的人：以车厢为参照物→静止；以铁路旁的树木为参照物→运动（与火车同速）。参照物的选取影响对运动状态的描述。",
-      "knowledge_points": [
-        "运动的相对性",
-        "参照物",
-        "机械运动"
-      ],
-      "textbook_ref": {
-        "path": "初中/物理/人教版/八年级/上册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 6,
-        "bm25_score": 58.11
-      }
+      "knowledge_points": ["运动的相对性", "参照物", "机械运动"]
     },
     {
       "id": "seed-chem-001",
@@ -1838,19 +901,7 @@
       "question_text": "水的化学式为 H₂O，说明水由哪些元素组成？一个水分子中有几个原子？",
       "answer": "水由氢元素和氧元素组成；一个水分子含 3 个原子（2H + 1O）",
       "solution_steps": "H₂O 表示一个水分子，含 2 个氢原子（H）和 1 个氧原子（O），共 3 个原子。水是纯净物中的化合物，由氢、氧两种元素组成。",
-      "knowledge_points": [
-        "化学式的意义",
-        "分子构成",
-        "元素与原子的区别"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 110.18
-      }
+      "knowledge_points": ["化学式的意义", "分子构成", "元素与原子的区别"]
     },
     {
       "id": "seed-chem-002",
@@ -1861,19 +912,7 @@
       "question_text": "写出铁在氧气中燃烧的化学方程式，并指出反应类型。",
       "answer": "$3\\text{Fe} + 2\\text{O}_2 \\xrightarrow{点燃} \\text{Fe}_3\\text{O}_4$；化合反应",
       "solution_steps": "铁在纯氧中剧烈燃烧生成四氧化三铁，方程式：$3\\text{Fe} + 2\\text{O}_2 \\overset{点燃}{=} \\text{Fe}_3\\text{O}_4$（需配平）；这是化合反应（多种物质生成一种物质）。",
-      "knowledge_points": [
-        "化学方程式",
-        "化合反应",
-        "铁的燃烧"
-      ],
-      "textbook_ref": {
-        "path": "高中/化学/人教版/必修/第一册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 82.4
-      }
+      "knowledge_points": ["化学方程式", "化合反应", "铁的燃烧"]
     },
     {
       "id": "seed-chem-003",
@@ -1884,19 +923,7 @@
       "question_text": "元素周期表第二周期有哪些元素？为什么第二周期只有 8 种元素？",
       "answer": "Li、Be、B、C、N、O、F、Ne，共 8 种；因为第二电子层最多容纳 8 个电子",
       "solution_steps": "第二周期：3(Li)到10(Ne)，共 8 个元素。因为第二电子层（L层）最多排 8 个电子，所以第二周期正好有 8 种元素。元素周期与电子层数对应。",
-      "knowledge_points": [
-        "元素周期表",
-        "周期规律",
-        "电子层排布"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 61.95
-      }
+      "knowledge_points": ["元素周期表", "周期规律", "电子层排布"]
     },
     {
       "id": "seed-chem-004",
@@ -1907,19 +934,7 @@
       "question_text": "分解 36 g 水（H₂O），能得到多少克氢气和多少克氧气？（H=1, O=16）",
       "answer": "氢气 4 g，氧气 32 g",
       "solution_steps": "化学方程式：$2\\text{H}_2\\text{O} \\overset{通电}{=} 2\\text{H}_2\\uparrow + \\text{O}_2\\uparrow$；摩尔质量：$2\\text{H}_2\\text{O} = 36$，$2\\text{H}_2 = 4$，$\\text{O}_2 = 32$；36 g 水→4 g 氢气 + 32 g 氧气（符合质量守恒）。",
-      "knowledge_points": [
-        "化学方程式计算",
-        "质量守恒定律",
-        "水的分解"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 10,
-        "bm25_score": 66.11
-      }
+      "knowledge_points": ["化学方程式计算", "质量守恒定律", "水的分解"]
     },
     {
       "id": "seed-chem-005",
@@ -1930,20 +945,7 @@
       "question_text": "盐酸与氢氧化钠溶液发生中和反应，写出化学方程式并说明中和反应的特点。",
       "answer": "$\\text{HCl} + \\text{NaOH} = \\text{NaCl} + \\text{H}_2\\text{O}$；酸+碱→盐+水，放热",
       "solution_steps": "$\\text{HCl} + \\text{NaOH} = \\text{NaCl} + \\text{H}_2\\text{O}$；中和反应是酸与碱作用生成盐和水的反应，是复分解反应，通常放热，反应后溶液 pH 接近 7（中性）。",
-      "knowledge_points": [
-        "中和反应",
-        "酸碱反应",
-        "复分解反应",
-        "pH值"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 10,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 81.06
-      }
+      "knowledge_points": ["中和反应", "酸碱反应", "复分解反应", "pH值"]
     },
     {
       "id": "seed-chem-006",
@@ -1954,19 +956,7 @@
       "question_text": "CO₂有哪些物理性质和化学性质？它能使澄清石灰水变浑浊，方程式是什么？",
       "answer": "物理性质：无色无味气体，密度比空气大，能溶于水；化学性质：$\\text{CO}_2 + \\text{Ca(OH)}_2 = \\text{CaCO}_3 \\downarrow + \\text{H}_2\\text{O}$",
       "solution_steps": "CO₂物理性质：无色无味，密度约1.98 g/L（空气1.29 g/L），能溶于水（汽水）；化学性质：与水反应生成碳酸（$\\text{CO}_2 + \\text{H}_2\\text{O} = \\text{H}_2\\text{CO}_3$），与石灰水反应生成白色CaCO₃沉淀。",
-      "knowledge_points": [
-        "CO₂的性质",
-        "检验CO₂的方法",
-        "石灰水反应"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 6,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 86.16
-      }
+      "knowledge_points": ["CO₂的性质", "检验CO₂的方法", "石灰水反应"]
     },
     {
       "id": "seed-chem-007",
@@ -1977,19 +967,7 @@
       "question_text": "木炭还原氧化铜的反应中，谁被氧化，谁被还原？写出化学方程式。",
       "answer": "C被氧化，CuO被还原；$2\\text{CuO} + \\text{C} \\overset{高温}{=} 2\\text{Cu} + \\text{CO}_2\\uparrow$",
       "solution_steps": "$2\\text{CuO} + \\text{C} \\overset{高温}{=} 2\\text{Cu} + \\text{CO}_2\\uparrow$；碳（C）得到氧被氧化（碳是还原剂）；氧化铜（CuO）失去氧被还原（CuO是氧化剂）。",
-      "knowledge_points": [
-        "氧化与还原",
-        "氧化剂与还原剂",
-        "冶炼金属"
-      ],
-      "textbook_ref": {
-        "path": "高中/化学/人教版/必修/第二册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 100.04
-      }
+      "knowledge_points": ["氧化与还原", "氧化剂与还原剂", "冶炼金属"]
     },
     {
       "id": "seed-chem-008",
@@ -2000,18 +978,7 @@
       "question_text": "将 20 g 食盐溶于 80 g 水中，求溶质质量分数。若要配制 500 g 5% 的食盐水，需食盐多少克？",
       "answer": "溶质分数 20%；需食盐 25 g",
       "solution_steps": "溶质分数 $= \\dfrac{20}{20+80} \\times 100\\% = 20\\%$；配制 500 g 5% 溶液：食盐 $= 500 \\times 5\\% = 25 \\text{ g}$，水 $= 500 - 25 = 475 \\text{ g}$。",
-      "knowledge_points": [
-        "溶质质量分数",
-        "溶液配制计算"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 50.27
-      }
+      "knowledge_points": ["溶质质量分数", "溶液配制计算"]
     },
     {
       "id": "seed-chem-009",
@@ -2022,19 +989,7 @@
       "question_text": "写出活动性顺序（从强到弱）中前 5 位金属，并说明如何用实验验证铁的活动性强于铜。",
       "answer": "K, Ca, Na, Mg, Al, Zn, Fe, Ni, Sn, Pb, H, Cu, Hg, Ag, Pt, Au（前五：K>Ca>Na>Mg>Al）；铁放入硫酸铜溶液中能置换出铜",
       "solution_steps": "金属活动性顺序（常见）：K、Ca、Na、Mg、Al、Zn、Fe、Ni、Sn、Pb、H、Cu、Hg、Ag、Pt、Au；验证Fe>Cu：将铁片放入硫酸铜（CuSO₄）溶液中，铁片表面会出现红色铜，溶液颜色变浅，方程式：$\\text{Fe} + \\text{CuSO}_4 = \\text{FeSO}_4 + \\text{Cu}$。",
-      "knowledge_points": [
-        "金属活动性顺序",
-        "置换反应",
-        "实验验证方法"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 8,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 53.51
-      }
+      "knowledge_points": ["金属活动性顺序", "置换反应", "实验验证方法"]
     },
     {
       "id": "seed-chem-010",
@@ -2045,19 +1000,7 @@
       "question_text": "质量守恒定律的内容是什么？为什么化学反应前后质量守恒？",
       "answer": "化学反应前后各物质的质量总和不变；因为反应中原子种类、数量和质量均不变，只是重新组合",
       "solution_steps": "质量守恒定律：参与化学反应的各物质质量之和等于反应后生成各物质质量之和。微观原因：化学反应是原子的重新组合，反应前后原子的种类、数目、质量均不改变，所以总质量守恒。",
-      "knowledge_points": [
-        "质量守恒定律",
-        "原子守恒",
-        "化学反应本质"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 60.84
-      }
+      "knowledge_points": ["质量守恒定律", "原子守恒", "化学反应本质"]
     },
     {
       "id": "seed-chem-011",
@@ -2068,19 +1011,7 @@
       "question_text": "金刚石和石墨都是碳的单质，为什么性质差异很大？",
       "answer": "碳原子排列方式（结构）不同：金刚石是正四面体网状结构，石墨是层状结构",
       "solution_steps": "金刚石：每个碳原子与4个相邻碳原子形成正四面体网状共价结构，质地坚硬，不导电；石墨：碳原子以六边形层状排列，层间作用力弱，质软，层内可自由移动电子故导电。相同元素因结构不同导致性质截然不同（同素异形体）。",
-      "knowledge_points": [
-        "同素异形体",
-        "碳的结构与性质",
-        "结构决定性质"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 6,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 65.29
-      }
+      "knowledge_points": ["同素异形体", "碳的结构与性质", "结构决定性质"]
     },
     {
       "id": "seed-chem-012",
@@ -2091,18 +1022,7 @@
       "question_text": "下列反应各属于哪种基本反应类型？\n(1) $\\text{CaCO}_3 \\overset{高温}{=} \\text{CaO} + \\text{CO}_2\\uparrow$\n(2) $\\text{H}_2 + \\text{CuO} \\overset{加热}{=} \\text{Cu} + \\text{H}_2\\text{O}$\n(3) $\\text{NaCl} + \\text{AgNO}_3 = \\text{AgCl}\\downarrow + \\text{NaNO}_3$",
       "answer": "(1) 分解反应 (2) 置换反应（也是氧化还原）(3) 复分解反应",
       "solution_steps": "(1) 一种物质→多种物质：分解反应；(2) 单质+化合物→新单质+新化合物：置换反应；(3) 两种化合物相互交换成分：复分解反应（生成沉淀AgCl满足复分解条件）。",
-      "knowledge_points": [
-        "四种基本反应类型",
-        "化合/分解/置换/复分解反应"
-      ],
-      "textbook_ref": {
-        "path": "高中/化学/人教版/必修/第一册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 149.03
-      }
+      "knowledge_points": ["四种基本反应类型", "化合/分解/置换/复分解反应"]
     },
     {
       "id": "seed-chem-013",
@@ -2113,19 +1033,7 @@
       "question_text": "在 20°C 时，食盐的溶解度为 36 g，现有 160 g 该温度下的饱和食盐水，求其中含溶质和溶剂各多少克？",
       "answer": "溶质（NaCl）约 42.4 g，溶剂（水）约 117.6 g",
       "solution_steps": "饱和溶液中，溶质:溶剂 = 36:100。设溶质为 $x$，溶剂为 $y$，则 $x+y = 160$ 且 $\\dfrac{x}{y} = \\dfrac{36}{100}$；解得 $x = \\dfrac{36 \\times 160}{136} \\approx 42.4 \\text{ g}$，$y \\approx 117.6 \\text{ g}$。",
-      "knowledge_points": [
-        "溶解度",
-        "饱和溶液",
-        "溶质溶剂比例计算"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 9,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 8,
-        "bm25_score": 59.96
-      }
+      "knowledge_points": ["溶解度", "饱和溶液", "溶质溶剂比例计算"]
     },
     {
       "id": "seed-chem-014",
@@ -2136,19 +1044,7 @@
       "question_text": "日常生活中有哪些常见的酸性物质和碱性物质？如何用石蕊试液检验酸碱？",
       "answer": "酸性：醋酸（食醋）、柠檬汁、胃酸（盐酸）；碱性：肥皂水、小苏打水、石灰水；酸使石蕊变红，碱使石蕊变蓝",
       "solution_steps": "酸性物质：pH<7，如食醋（醋酸）、柠檬汁（柠檬酸）、碳酸饮料（碳酸）；碱性物质：pH>7，如肥皂（脂肪酸钠）、纯碱（Na₂CO₃）水溶液、氨水；石蕊检验：遇酸变红，遇碱变蓝，中性不变色。",
-      "knowledge_points": [
-        "酸碱盐在生活中的应用",
-        "pH值",
-        "石蕊指示剂"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 12,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 12,
-        "bm25_score": 0.0
-      }
+      "knowledge_points": ["酸碱盐在生活中的应用", "pH值", "石蕊指示剂"]
     },
     {
       "id": "seed-chem-015",
@@ -2159,19 +1055,7 @@
       "question_text": "工业合成氨反应：$\\text{N}_2 + 3\\text{H}_2 \\rightleftharpoons 2\\text{NH}_3$。若有 28 g N₂（摩尔质量 28 g/mol）完全反应，需要多少克 H₂，能生成多少克 NH₃？（N=14, H=1）",
       "answer": "需要 H₂ 6 g，生成 NH₃ 34 g",
       "solution_steps": "28 g N₂ = 1 mol N₂；由方程式：1 mol N₂ 需要 3 mol H₂ = 3×2 = 6 g；生成 2 mol NH₃ = 2×17 = 34 g；验证：28+6=34 ✓（质量守恒）",
-      "knowledge_points": [
-        "化学方程式计算",
-        "摩尔概念",
-        "质量守恒验证"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 5,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 10,
-        "bm25_score": 50.43
-      }
+      "knowledge_points": ["化学方程式计算", "摩尔概念", "质量守恒验证"]
     },
     {
       "id": "seed-chem-016",
@@ -2182,19 +1066,7 @@
       "question_text": "钠原子（Na）的原子序数为 11，画出其电子排布示意图，说明其化学性质。",
       "answer": "电子排布：2-8-1（第一层2，第二层8，第三层1个电子）；最外层1个电子，易失去，化学性质活泼",
       "solution_steps": "Na 原子序数 11，有 11 个质子和 11 个电子。按规则排布：第一层最多 2，第二层最多 8，剩余 1 个在第三层：2-8-1。最外层 1 个电子，失去后变 Na⁺，活泼金属，与水、氧气等剧烈反应。",
-      "knowledge_points": [
-        "电子排布",
-        "最外层电子与化学性质",
-        "金属活泼性"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 3,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 125.83
-      }
+      "knowledge_points": ["电子排布", "最外层电子与化学性质", "金属活泼性"]
     },
     {
       "id": "seed-chem-017",
@@ -2205,19 +1077,7 @@
       "question_text": "实验室制备氧气有哪两种常用方法？写出化学方程式，并说明如何检验收集到的气体是氧气。",
       "answer": "（1）加热高锰酸钾：$2\\text{KMnO}_4 \\overset{\\Delta}{=} \\text{K}_2\\text{MnO}_4 + \\text{MnO}_2 + \\text{O}_2\\uparrow$；（2）催化分解双氧水：$2\\text{H}_2\\text{O}_2 \\overset{\\text{MnO}_2}{=} 2\\text{H}_2\\text{O} + \\text{O}_2\\uparrow$；检验：带火星的木条复燃",
       "solution_steps": "实验室常用两法制氧：①加热高锰酸钾（固体），需棉花防高锰酸钾粉末进入导管；②MnO₂催化分解H₂O₂，不需加热，速度可控。检验O₂：将带火星的木条伸入集气瓶，若复燃则证明是O₂。",
-      "knowledge_points": [
-        "氧气的实验室制法",
-        "催化剂",
-        "O₂的检验方法"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/上册",
-        "ch": 2,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 60.01
-      }
+      "knowledge_points": ["氧气的实验室制法", "催化剂", "O₂的检验方法"]
     },
     {
       "id": "seed-chem-018",
@@ -2228,19 +1088,7 @@
       "question_text": "盐酸（HCl）有哪些化学性质？各举一个方程式说明。",
       "answer": "与活泼金属反应；与金属氧化物反应；与碱（中和）；与盐反应",
       "solution_steps": "①与活泼金属：$\\text{Fe} + 2\\text{HCl} = \\text{FeCl}_2 + \\text{H}_2\\uparrow$；②与金属氧化物：$\\text{Fe}_2\\text{O}_3 + 6\\text{HCl} = 2\\text{FeCl}_3 + 3\\text{H}_2\\text{O}$；③中和碱：$\\text{HCl} + \\text{NaOH} = \\text{NaCl} + \\text{H}_2\\text{O}$；④与盐：$\\text{HCl} + \\text{AgNO}_3 = \\text{AgCl}\\downarrow + \\text{HNO}_3$（检验Cl⁻）。",
-      "knowledge_points": [
-        "盐酸的化学性质",
-        "酸的通性",
-        "化学方程式"
-      ],
-      "textbook_ref": {
-        "path": "高中/化学/人教版/必修/第一册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 101.79
-      }
+      "knowledge_points": ["盐酸的化学性质", "酸的通性", "化学方程式"]
     },
     {
       "id": "seed-chem-019",
@@ -2251,19 +1099,7 @@
       "question_text": "纯碱（Na₂CO₃）和小苏打（NaHCO₃）有什么区别？如何用加热的方法区分它们？",
       "answer": "NaHCO₃加热分解产生CO₂，Na₂CO₃加热不分解；$2\\text{NaHCO}_3 \\overset{\\Delta}{=} \\text{Na}_2\\text{CO}_3 + \\text{H}_2\\text{O} + \\text{CO}_2\\uparrow$",
       "solution_steps": "Na₂CO₃（纯碱/苏打）：强碱弱酸盐，水溶液显碱性，加热不分解；NaHCO₃（小苏打）：弱酸强碱盐，水溶液微显碱性，加热分解：$2\\text{NaHCO}_3 \\overset{\\Delta}{=} \\text{Na}_2\\text{CO}_3 + \\text{H}_2\\text{O} + \\text{CO}_2\\uparrow$；可用加热后通过澄清石灰水检验CO₂来区分。",
-      "knowledge_points": [
-        "Na₂CO₃与NaHCO₃的区别",
-        "热稳定性",
-        "区分方法"
-      ],
-      "textbook_ref": {
-        "path": "初中/化学/人教版/九年级/下册",
-        "ch": 11,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 16,
-        "bm25_score": 83.26
-      }
+      "knowledge_points": ["Na₂CO₃与NaHCO₃的区别", "热稳定性", "区分方法"]
     },
     {
       "id": "seed-chem-020",
@@ -2274,19 +1110,7 @@
       "question_text": "已知某铁锈（主要成分 Fe₂O₃）样品 32 g，与足量盐酸（HCl）反应，若 Fe₂O₃ 的摩尔质量为 160 g/mol，求生成 FeCl₃ 的质量（FeCl₃ 摩尔质量为 162.5 g/mol）。",
       "answer": "65 g",
       "solution_steps": "方程式：$\\text{Fe}_2\\text{O}_3 + 6\\text{HCl} = 2\\text{FeCl}_3 + 3\\text{H}_2\\text{O}$；32 g Fe₂O₃ = 0.2 mol；生成 FeCl₃ = 0.4 mol = $0.4 \\times 162.5 = 65 \\text{ g}$。",
-      "knowledge_points": [
-        "化学方程式计算",
-        "摩尔计算",
-        "铁锈的化学反应"
-      ],
-      "textbook_ref": {
-        "path": "高中/化学/人教版/必修/第一册",
-        "ch": 1,
-        "auto_tagged": true,
-        "engine": "ensemble-rules+bm25-v1",
-        "rules_score": 0,
-        "bm25_score": 147.84
-      }
+      "knowledge_points": ["化学方程式计算", "摩尔计算", "铁锈的化学反应"]
     }
   ]
 }

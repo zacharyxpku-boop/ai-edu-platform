@@ -78,14 +78,18 @@ def main():
     print(f"  {idx['stats']['docs']} docs · {idx['stats']['vocab_size']} vocab")
 
     qs = []
+    auto = 0
     for p in (GEN, SEED):
         if p.exists():
             d = json.loads(p.read_text(encoding="utf-8"))
             for q in d.get("questions", []):
                 ref = q.get("textbook_ref")
                 if ref and ref.get("path") and ref.get("ch") is not None:
+                    if ref.get("auto_tagged"):
+                        auto += 1
+                        continue  # 自动打标的不当 gold，避免循环验证
                     qs.append(q)
-    print(f"Eval set (with textbook_ref): {len(qs)}")
+    print(f"Eval set (gold textbook_ref): {len(qs)}  ·  skipped auto_tagged: {auto}")
 
     counters = {1: 0, 3: 0, 5: 0}
     by_subject = defaultdict(lambda: {"total": 0, **{f"r{k}": 0 for k in (1, 3, 5)}})

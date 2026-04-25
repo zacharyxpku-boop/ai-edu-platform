@@ -1,8 +1,8 @@
 {
   "model": "chapter-bm25-v1",
   "engine_version": "bm25-jieba-v1.0",
-  "generated_at": "2026-04-25 14:39:59",
-  "elapsed_seconds": 0.52,
+  "generated_at": "2026-04-25 15:07:24",
+  "elapsed_seconds": 0.35,
   "eval_set": 843,
   "recall": {
     "at_1": 0.6299,
