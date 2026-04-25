@@ -1,0 +1,131 @@
+{
+  "model": "ensemble-rules+bm25-v1",
+  "generated_at": "2026-04-25 14:52:01",
+  "elapsed_seconds": 0.52,
+  "eval_set": 843,
+  "best_w_rules": 5.0,
+  "recall_at_1": {
+    "rules_only": 0.4448,
+    "bm25_only": 0.6299,
+    "ensemble": 0.8897
+  },
+  "recall_at_5_bm25": 0.9348,
+  "lift_over_bm25_r1": 0.2598,
+  "lift_over_rules_r1": 0.4448,
+  "weight_sweep": [
+    {
+      "w_rules": 0.0,
+      "ensemble_r1": 0.6299
+    },
+    {
+      "w_rules": 0.2,
+      "ensemble_r1": 0.6892
+    },
+    {
+      "w_rules": 0.4,
+      "ensemble_r1": 0.726
+    },
+    {
+      "w_rules": 0.6,
+      "ensemble_r1": 0.7568
+    },
+    {
+      "w_rules": 0.8,
+      "ensemble_r1": 0.7877
+    },
+    {
+      "w_rules": 1.0,
+      "ensemble_r1": 0.809
+    },
+    {
+      "w_rules": 1.4,
+      "ensemble_r1": 0.8316
+    },
+    {
+      "w_rules": 2.0,
+      "ensemble_r1": 0.8553
+    },
+    {
+      "w_rules": 3.0,
+      "ensemble_r1": 0.8778
+    },
+    {
+      "w_rules": 5.0,
+      "ensemble_r1": 0.8897
+    }
+  ],
+  "by_subject": {
+    "biology": {
+      "total": 60,
+      "rules_r1": 48,
+      "bm25_r1": 39,
+      "ens_r1": 56,
+      "rules_rate": 0.8,
+      "bm25_rate": 0.65,
+      "ens_rate": 0.9333
+    },
+    "chemistry": {
+      "total": 60,
+      "rules_r1": 57,
+      "bm25_r1": 31,
+      "ens_r1": 52,
+      "rules_rate": 0.95,
+      "bm25_rate": 0.5167,
+      "ens_rate": 0.8667
+    },
+    "chinese": {
+      "total": 108,
+      "rules_r1": 21,
+      "bm25_r1": 55,
+      "ens_r1": 84,
+      "rules_rate": 0.1944,
+      "bm25_rate": 0.5093,
+      "ens_rate": 0.7778
+    },
+    "geography": {
+      "total": 114,
+      "rules_r1": 27,
+      "bm25_r1": 85,
+      "ens_r1": 107,
+      "rules_rate": 0.2368,
+      "bm25_rate": 0.7456,
+      "ens_rate": 0.9386
+    },
+    "history": {
+      "total": 156,
+      "rules_r1": 30,
+      "bm25_r1": 95,
+      "ens_r1": 136,
+      "rules_rate": 0.1923,
+      "bm25_rate": 0.609,
+      "ens_rate": 0.8718
+    },
+    "math": {
+      "total": 138,
+      "rules_r1": 102,
+      "bm25_r1": 76,
+      "ens_r1": 121,
+      "rules_rate": 0.7391,
+      "bm25_rate": 0.5507,
+      "ens_rate": 0.8768
+    },
+    "physics": {
+      "total": 147,
+      "rules_r1": 78,
+      "bm25_r1": 110,
+      "ens_r1": 142,
+      "rules_rate": 0.5306,
+      "bm25_rate": 0.7483,
+      "ens_rate": 0.966
+    },
+    "politics": {
+      "total": 60,
+      "rules_r1": 12,
+      "bm25_r1": 40,
+      "ens_r1": 52,
+      "rules_rate": 0.2,
+      "bm25_rate": 0.6667,
+      "ens_rate": 0.8667
+    }
+  }
+}

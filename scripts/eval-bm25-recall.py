@@ -13,7 +13,7 @@ import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
-if hasattr(sys.stdout, "buffer"):
+if __name__ == "__main__" and hasattr(sys.stdout, "buffer") and sys.stdout.encoding != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 ROOT = Path(__file__).resolve().parent.parent

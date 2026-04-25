@@ -273,6 +273,64 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
   </div>
 </section>
 
+<section class="sec" id="ensemble-hero">
+  <div class="sec-h">ensemble · 1+1 = 89%</div>
+  <div class="sec-s">规则引擎和 BM25 模型各有偏科：rules 偏向理科 alias/kp 命中、BM25 偏向语义相似。线性加权融合（final = bm25 + w·rules，w 扫到 5.0）让两边互补，843 题盲跑 recall@1 从 63% 提到 89%。这是"两条独立路径"的真正复利。</div>
+  <div style="background:linear-gradient(110deg,#0F172A 0%,#1E293B 70%,#0C4A6E 100%);border-radius:var(--r);padding:24px 26px;color:#E2E8F0">
+    <div style="display:flex;align-items:center;gap:30px;flex-wrap:wrap;margin-bottom:18px">
+      <div>
+        <div id="ens-headline" style="font:900 44px/1 var(--font);color:#fff">—</div>
+        <div style="font:600 12px var(--font);color:#94A3B8;margin-top:6px">ensemble recall@1 · scripts/eval-ensemble.py</div>
+      </div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div>
+          <div style="font:700 11px var(--font);color:#94A3B8;letter-spacing:.5px">RULES ONLY</div>
+          <div id="ens-rules" style="font:800 22px var(--font);color:#FCA5A5">—</div>
+        </div>
+        <div>
+          <div style="font:700 11px var(--font);color:#94A3B8;letter-spacing:.5px">BM25 ONLY</div>
+          <div id="ens-bm25" style="font:800 22px var(--font);color:#7DD3FC">—</div>
+        </div>
+        <div>
+          <div style="font:700 11px var(--font);color:#94A3B8;letter-spacing:.5px">ENSEMBLE</div>
+          <div id="ens-ensemble" style="font:800 22px var(--font);color:#86EFAC">—</div>
+        </div>
+        <div>
+          <div style="font:700 11px var(--font);color:#94A3B8;letter-spacing:.5px">LIFT vs BM25</div>
+          <div id="ens-lift" style="font:800 22px var(--font);color:#FBBF24">—</div>
+        </div>
+      </div>
+    </div>
+    <div id="ens-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:8px"></div>
+    <div style="margin-top:14px;font:500 11px/1.5 var(--font);color:#64748B;border-top:1px solid #1E293B;padding-top:10px">
+      策略：BM25 给 top-5 候选，rules engine 对每个候选独立打分，final = bm25 + w·rules，w 在 [0,5] 扫优。报告自 src/models/ensemble-recall-report.json &nbsp;·&nbsp;
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-ensemble.py" target="_blank" style="color:#7DD3FC;text-decoration:none">看 eval 脚本 →</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="bm25-scorecard">
+  <div class="sec-h">moat 成绩单 · BM25 模型分科 recall</div>
+  <div class="sec-s">同一份 843 题盲跑数据按学科切片：每科算 recall@1（首位命中）和 recall@5（top-5 内命中）。数字由 scripts/eval-bm25-recall.py 离线跑出，写入 bm25-recall-report.json，前端实时读。</div>
+  <div id="bm25-scorecard-wrap" style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div>
+        <div id="bsc-rate" style="font:800 28px/1 var(--font);color:#0EA5E9">—</div>
+        <div id="bsc-meta" style="font:500 12px/1.5 var(--font);color:var(--ink3);margin-top:4px">加载中…</div>
+      </div>
+      <div style="text-align:right;font:600 11px/1.4 var(--font);color:var(--ink3)">
+        <div>model · <span id="bsc-eng">bm25-jieba-v1.0</span></div>
+        <div id="bsc-run">bm25-recall-report.json</div>
+      </div>
+    </div>
+    <div id="bsc-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px"></div>
+    <div style="margin-top:14px;font:500 11px/1.5 var(--font);color:var(--ink3);border-top:1px dashed var(--bdr);padding-top:10px">
+      索引 9893 词 · k1=1.5 b=0.75 · IDF=Robertson · query 端 char 2/3-gram 反查 vocab &nbsp;·&nbsp;
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-bm25-recall.py" target="_blank" style="color:#0EA5E9;text-decoration:none">看 eval 脚本 →</a>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="try-match">
   <div class="sec-h">在线试跑 · chapter-match 引擎</div>
   <div class="sec-s">输入任意章节/考点/学科，秒级返回 manifest 内最匹配的教材章节。</div>
@@ -371,12 +429,13 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 <script>
 async function loadStats(){
   try{
-    const [m, q1, q2, rep, bm25rep] = await Promise.all([
+    const [m, q1, q2, rep, bm25rep, ensrep] = await Promise.all([
       fetch('/data/extracted/manifest.json').then(r=>r.json()).catch(()=>null),
       fetch('/src/curriculum/seed-questions.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/curriculum/seed-questions-generated.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/curriculum/reverse-link-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/models/bm25-recall-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/models/ensemble-recall-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
     ]);
     const books = (m && m.books) || [];
     const chapters = books.reduce((n,b)=> n + ((b.chapters||[]).length), 0);
@@ -402,6 +461,10 @@ async function loadStats(){
         const r5 = (bm25rep.recall.at_5 * 100).toFixed(1);
         recEl.innerHTML = '盲跑 N=<b>' + bm25rep.eval_set + '</b> 题 · recall@1 <b>' + r1 + '%</b> · recall@5 <b>' + r5 + '%</b>';
       }
+      renderBM25Scorecard(bm25rep);
+    }
+    if (ensrep) {
+      renderEnsembleHero(ensrep);
     }
   }catch(e){ /* silent */ }
 }
@@ -438,6 +501,81 @@ function renderScorecard(rep){
       '</div>' +
       '<div style="font:800 20px var(--font);color:var(--ink);line-height:1">' + pc + '<span style="font-size:12px;font-weight:600;color:var(--ink3)">%</span></div>' +
       '<div style="font:500 11px var(--font);color:var(--ink3);margin-top:4px">' + v.matched + '/' + v.total + ' · 均分 ' + v.avg_score + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderEnsembleHero(rep){
+  const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
+  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const r1 = rep.recall_at_1 || {};
+  const head = document.getElementById('ens-headline');
+  if (head) head.innerHTML = (r1.ensemble * 100).toFixed(1) + '<span style="font-size:18px;color:#94A3B8;font-weight:600;margin-left:6px">% recall@1</span>';
+  const setEl = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = (v * 100).toFixed(1) + '%'; };
+  setEl('ens-rules', r1.rules_only);
+  setEl('ens-bm25', r1.bm25_only);
+  setEl('ens-ensemble', r1.ensemble);
+  const liftEl = document.getElementById('ens-lift');
+  if (liftEl) liftEl.textContent = '+' + ((rep.lift_over_bm25_r1 || 0) * 100).toFixed(1) + 'pp';
+  const grid = document.getElementById('ens-grid');
+  if (!grid) return;
+  const entries = Object.entries(rep.by_subject || {});
+  entries.sort((a,b) => b[1].ens_rate - a[1].ens_rate);
+  grid.innerHTML = entries.map(([k, v]) => {
+    const er = (v.ens_rate * 100).toFixed(1);
+    const rr = (v.rules_rate * 100).toFixed(0);
+    const br = (v.bm25_rate * 100).toFixed(0);
+    const lift = (v.ens_rate - Math.max(v.rules_rate, v.bm25_rate)) * 100;
+    const liftStr = lift > 0 ? ('+' + lift.toFixed(0)) : lift.toFixed(0);
+    const emo = SUBJ_EMOJI[k] || '•';
+    const zh = SUBJ_ZH[k] || k;
+    return '<div style="background:rgba(15,23,42,0.6);border:1px solid #1E293B;border-radius:8px;padding:10px 12px">' +
+      '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">' +
+        '<div style="font:700 13px var(--font);color:#F1F5F9">' + emo + ' ' + zh + '</div>' +
+        '<div style="font:800 18px var(--font);color:#86EFAC">' + er + '%</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;font:600 10px var(--font);color:#94A3B8">' +
+        '<span>r ' + rr + '</span><span>b ' + br + '</span>' +
+        '<span style="margin-left:auto;color:#FBBF24">' + liftStr + 'pp</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderBM25Scorecard(rep){
+  const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
+  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const rateEl = document.getElementById('bsc-rate');
+  const metaEl = document.getElementById('bsc-meta');
+  const engEl = document.getElementById('bsc-eng');
+  const runEl = document.getElementById('bsc-run');
+  const grid = document.getElementById('bsc-grid');
+  if (!rateEl || !grid) return;
+  const r1 = (rep.recall.at_1 * 100).toFixed(1);
+  const r5 = (rep.recall.at_5 * 100).toFixed(1);
+  rateEl.innerHTML = r5 + '<span style="font-size:14px;color:var(--ink3);font-weight:600"> %</span> <span style="font-size:13px;color:var(--ink3);font-weight:600">recall@5</span> <span style="font-size:13px;color:var(--ink3);margin-left:10px">· r@1 ' + r1 + '%</span>';
+  metaEl.textContent = '盲跑 ' + rep.eval_set + ' 题 · 八学科分布 · 算出耗时 ' + rep.elapsed_seconds + 's';
+  if (rep.engine_version) engEl.textContent = rep.engine_version;
+  if (rep.generated_at) runEl.textContent = '跑于 ' + rep.generated_at;
+  const entries = Object.entries(rep.by_subject || {});
+  entries.sort((a,b) => b[1].rate_at_5 - a[1].rate_at_5);
+  grid.innerHTML = entries.map(([k, v]) => {
+    const r1p = (v.rate_at_1 * 100).toFixed(1);
+    const r5p = (v.rate_at_5 * 100).toFixed(1);
+    const perfect = v.rate_at_5 >= 0.98;
+    const good = v.rate_at_5 >= 0.93;
+    const ok = v.rate_at_5 >= 0.85;
+    const bg = perfect ? '#0C4A6E' : (good ? '#075985' : (ok ? '#854D0E' : '#991B1B'));
+    const tag = perfect ? '强势' : (good ? '稳' : (ok ? '及格' : '弱'));
+    const emo = SUBJ_EMOJI[k] || '•';
+    const zh = SUBJ_ZH[k] || k;
+    return '<div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:12px 14px">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+        '<div style="font:700 13px var(--font);color:var(--ink)">' + emo + ' ' + zh + '</div>' +
+        '<div style="font:700 10px var(--font);color:#fff;background:' + bg + ';padding:2px 7px;border-radius:4px">' + tag + '</div>' +
+      '</div>' +
+      '<div style="font:800 20px var(--font);color:#0C4A6E;line-height:1">' + r5p + '<span style="font-size:12px;font-weight:600;color:var(--ink3)">% @5</span></div>' +
+      '<div style="font:500 11px var(--font);color:var(--ink3);margin-top:4px">' + v.r5 + '/' + v.total + ' · r@1 ' + r1p + '%</div>' +
     '</div>';
   }).join('');
 }

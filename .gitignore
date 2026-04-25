@@ -1,4 +1,8 @@
 node_modules/
+__pycache__/
+**/__pycache__/
+*.pyc
+gen-*.log
 
 .vercel
 scripts/ct-files.txt
