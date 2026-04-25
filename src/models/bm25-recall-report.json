@@ -1,0 +1,380 @@
+{
+  "model": "chapter-bm25-v1",
+  "engine_version": "bm25-jieba-v1.0",
+  "generated_at": "2026-04-25 14:39:59",
+  "elapsed_seconds": 0.52,
+  "eval_set": 843,
+  "recall": {
+    "at_1": 0.6299,
+    "at_3": 0.8731,
+    "at_5": 0.9348
+  },
+  "by_subject": {
+    "math": {
+      "total": 138,
+      "r1": 76,
+      "r3": 110,
+      "r5": 124,
+      "rate_at_1": 0.5507,
+      "rate_at_5": 0.8986
+    },
+    "physics": {
+      "total": 147,
+      "r1": 110,
+      "r3": 140,
+      "r5": 143,
+      "rate_at_1": 0.7483,
+      "rate_at_5": 0.9728
+    },
+    "chemistry": {
+      "total": 60,
+      "r1": 31,
+      "r3": 49,
+      "r5": 56,
+      "rate_at_1": 0.5167,
+      "rate_at_5": 0.9333
+    },
+    "biology": {
+      "total": 60,
+      "r1": 39,
+      "r3": 56,
+      "r5": 59,
+      "rate_at_1": 0.65,
+      "rate_at_5": 0.9833
+    },
+    "chinese": {
+      "total": 108,
+      "r1": 55,
+      "r3": 84,
+      "r5": 90,
+      "rate_at_1": 0.5093,
+      "rate_at_5": 0.8333
+    },
+    "history": {
+      "total": 156,
+      "r1": 95,
+      "r3": 133,
+      "r5": 146,
+      "rate_at_1": 0.609,
+      "rate_at_5": 0.9359
+    },
+    "geography": {
+      "total": 114,
+      "r1": 85,
+      "r3": 108,
+      "r5": 112,
+      "rate_at_1": 0.7456,
+      "rate_at_5": 0.9825
+    },
+    "politics": {
+      "total": 60,
+      "r1": 40,
+      "r3": 56,
+      "r5": 58,
+      "rate_at_1": 0.6667,
+      "rate_at_5": 0.9667
+    }
+  },
+  "sample_misses": [
+    {
+      "id": "gen-math-772c088f-1",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/上册",
+      "gold_ch": 22,
+      "top1": [
+        "高中/数学/人教A版/必修/第一册",
+        4
+      ]
+    },
+    {
+      "id": "gen-math-0215ade7-3",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/上册",
+      "gold_ch": 23,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        28
+      ]
+    },
+    {
+      "id": "gen-math-88831dcd-1",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/上册",
+      "gold_ch": 24,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-math-88831dcd-2",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/上册",
+      "gold_ch": 24,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-math-97909c3b-1",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/上册",
+      "gold_ch": 25,
+      "top1": [
+        "高中/数学/人教A版/必修/第二册",
+        10
+      ]
+    },
+    {
+      "id": "gen-math-3622f768-2",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/九年级/下册",
+      "gold_ch": 29,
+      "top1": [
+        "高中/数学/人教A版/必修/第二册",
+        8
+      ]
+    },
+    {
+      "id": "gen-math-c5c7927c-1",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/八年级/上册",
+      "gold_ch": 12,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-math-c5c7927c-2",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/八年级/上册",
+      "gold_ch": 12,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-math-b6268334-2",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/八年级/上册",
+      "gold_ch": 13,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        28
+      ]
+    },
+    {
+      "id": "gen-math-b6268334-3",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/八年级/上册",
+      "gold_ch": 13,
+      "top1": [
+        "初中/数学/人教版/八年级/下册",
+        18
+      ]
+    },
+    {
+      "id": "gen-math-b7849ebf-1",
+      "subject": "math",
+      "gold_path": "初中/数学/人教版/八年级/上册",
+      "gold_ch": 15,
+      "top1": [
+        "高中/数学/人教A版/必修/第一册",
+        5
+      ]
+    },
+    {
+      "id": "gen-math-ebff5ccf-3",
+      "subject": "math",
+      "gold_path": "高中/数学/人教A版/必修/第一册",
+      "gold_ch": 1,
+      "top1": [
+        "初中/数学/人教版/九年级/上册",
+        21
+      ]
+    },
+    {
+      "id": "gen-math-a54fa488-2",
+      "subject": "math",
+      "gold_path": "高中/数学/人教A版/必修/第一册",
+      "gold_ch": 2,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-math-0ac58f2d-2",
+      "subject": "math",
+      "gold_path": "高中/数学/人教A版/必修/第二册",
+      "gold_ch": 6,
+      "top1": [
+        "初中/数学/人教版/九年级/下册",
+        27
+      ]
+    },
+    {
+      "id": "gen-physics-83932236-3",
+      "subject": "physics",
+      "gold_path": "初中/物理/人教版/九年级/全一册",
+      "gold_ch": 19,
+      "top1": [
+        "高中/物理/人教版/必修/第三册",
+        11
+      ]
+    },
+    {
+      "id": "gen-physics-1643a4e8-3",
+      "subject": "physics",
+      "gold_path": "初中/物理/人教版/八年级/下册",
+      "gold_ch": 11,
+      "top1": [
+        "高中/物理/人教版/必修/第二册",
+        8
+      ]
+    },
+    {
+      "id": "gen-physics-b64dddc4-2",
+      "subject": "physics",
+      "gold_path": "高中/物理/人教版/选择性必修/第三册",
+      "gold_ch": 2,
+      "top1": [
+        "高中/物理/人教版/必修/第三册",
+        11
+      ]
+    },
+    {
+      "id": "gen-physics-1dbd76a0-2",
+      "subject": "physics",
+      "gold_path": "高中/物理/人教版/选择性必修/第三册",
+      "gold_ch": 3,
+      "top1": [
+        "高中/物理/人教版/选择性必修/第三册",
+        5
+      ]
+    },
+    {
+      "id": "gen-chemistry-89a8c475-3",
+      "subject": "chemistry",
+      "gold_path": "初中/化学/人教版/九年级/上册",
+      "gold_ch": 6,
+      "top1": [
+        "初中/化学/人教版/九年级/上册",
+        3
+      ]
+    },
+    {
+      "id": "gen-chemistry-3f79c841-3",
+      "subject": "chemistry",
+      "gold_path": "初中/化学/人教版/九年级/下册",
+      "gold_ch": 8,
+      "top1": [
+        "初中/化学/人教版/九年级/上册",
+        2
+      ]
+    },
+    {
+      "id": "gen-chemistry-63c6cdb4-2",
+      "subject": "chemistry",
+      "gold_path": "高中/化学/人教版/必修/第一册",
+      "gold_ch": 2,
+      "top1": [
+        "初中/化学/人教版/九年级/上册",
+        2
+      ]
+    },
+    {
+      "id": "gen-chemistry-2b3ca2cb-1",
+      "subject": "chemistry",
+      "gold_path": "高中/化学/人教版/必修/第二册",
+      "gold_ch": 6,
+      "top1": [
+        "高中/化学/人教版/必修/第一册",
+        1
+      ]
+    },
+    {
+      "id": "gen-chinese-6fcb39cd-2",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/七年级/上册",
+      "gold_ch": 3,
+      "top1": [
+        "初中/语文/统编版/九年级/上册",
+        6
+      ]
+    },
+    {
+      "id": "gen-chinese-f8e2e3cc-3",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/七年级/上册",
+      "gold_ch": 5,
+      "top1": [
+        "初中/语文/统编版/七年级/下册",
+        2
+      ]
+    },
+    {
+      "id": "gen-chinese-a9f75bee-3",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/七年级/下册",
+      "gold_ch": 3,
+      "top1": [
+        "初中/语文/统编版/九年级/下册",
+        3
+      ]
+    },
+    {
+      "id": "gen-chinese-e8a2a170-2",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/九年级/上册",
+      "gold_ch": 4,
+      "top1": [
+        "初中/语文/统编版/九年级/上册",
+        6
+      ]
+    },
+    {
+      "id": "gen-chinese-e8a2a170-3",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/九年级/上册",
+      "gold_ch": 4,
+      "top1": [
+        "初中/语文/统编版/九年级/下册",
+        3
+      ]
+    },
+    {
+      "id": "gen-chinese-dff41d9a-1",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/九年级/上册",
+      "gold_ch": 6,
+      "top1": [
+        "初中/语文/统编版/九年级/下册",
+        3
+      ]
+    },
+    {
+      "id": "gen-chinese-1edc84bb-2",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/九年级/下册",
+      "gold_ch": 3,
+      "top1": [
+        "初中/语文/统编版/九年级/上册",
+        5
+      ]
+    },
+    {
+      "id": "gen-chinese-8fe832c2-1",
+      "subject": "chinese",
+      "gold_path": "初中/语文/统编版/九年级/下册",
+      "gold_ch": 4,
+      "top1": [
+        "初中/语文/统编版/七年级/上册",
+        3
+      ]
+    }
+  ]
+}

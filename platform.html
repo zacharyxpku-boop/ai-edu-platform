@@ -239,8 +239,8 @@ python scripts/gen-textbook-manifest.py</code>
       <div class="eng-b">jieba 分词 + Robertson BM25 在 284 章语料上构索引。索引产物 1.8 MB JSON 一次性 fetch 进浏览器，每次查询 0 token、&lt;30 ms、离线可用。给"用文字描述找最相关章节"开自研入口。</div>
       <ul class="eng-list">
         <li id="bm25-stat-vocab">词表 9893 项 · IDF 全量缓存</li>
+        <li id="bm25-stat-recall">在 843 题盲跑：recall@1 63.0% · recall@5 93.5%</li>
         <li>查询端 char 2/3-gram 反查 vocab，无需带 jieba 进客户端</li>
-        <li>对比 OpenAI embedding：0 月费 + 全离线 + 可解释</li>
       </ul>
       <code class="eng-code">import { loadBM25, queryBM25 }
   from '/src/models/bm25-runtime.js';
@@ -371,11 +371,12 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 <script>
 async function loadStats(){
   try{
-    const [m, q1, q2, rep] = await Promise.all([
+    const [m, q1, q2, rep, bm25rep] = await Promise.all([
       fetch('/data/extracted/manifest.json').then(r=>r.json()).catch(()=>null),
       fetch('/src/curriculum/seed-questions.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/curriculum/seed-questions-generated.json').then(r=>r.ok?r.json():null).catch(()=>null),
       fetch('/src/curriculum/reverse-link-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('/src/models/bm25-recall-report.json').then(r=>r.ok?r.json():null).catch(()=>null),
     ]);
     const books = (m && m.books) || [];
     const chapters = books.reduce((n,b)=> n + ((b.chapters||[]).length), 0);
@@ -393,6 +394,14 @@ async function loadStats(){
         rateEl.innerHTML = '<b>' + pct + '%</b> 反链命中率 · N=' + rep.total_questions + ' 题 · ' + rep.elapsed_seconds + 's 全量跑完';
       }
       renderScorecard(rep);
+    }
+    if (bm25rep) {
+      const recEl = document.getElementById('bm25-stat-recall');
+      if (recEl) {
+        const r1 = (bm25rep.recall.at_1 * 100).toFixed(1);
+        const r5 = (bm25rep.recall.at_5 * 100).toFixed(1);
+        recEl.innerHTML = '盲跑 N=<b>' + bm25rep.eval_set + '</b> 题 · recall@1 <b>' + r1 + '%</b> · recall@5 <b>' + r5 + '%</b>';
+      }
     }
   }catch(e){ /* silent */ }
 }
