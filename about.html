@@ -160,8 +160,70 @@
         <div class="v-card"><h4>原点社区数千位AI创业者</h4><p>中国最顶尖AI社群，孩子接触的不是理论，是正在发生的真实AI世界。</p></div>
         <div class="v-card"><h4>清北哈佛数十人团队</h4><p>不是挂名顾问，是每周参与课程设计和答疑的真实导师。</p></div>
         <div class="v-card"><h4>世界顶级商学院创始人</h4><p>北大经院 + LBS + NYU + 哈佛商学院的视野和资源网络。</p></div>
+        <div class="v-card"><h4>自研章节匹配模型</h4><p>56 本教材 OCR + BM25+规则融合引擎，843 题盲跑 r@1 89%。0 LLM 调用、毫秒级、全开源。<a href="/eval.html" style="color:#F5A623;font-weight:700;text-decoration:none">看评测页 →</a></p></div>
     </div>
 </div></section>
+
+<section><div class="w">
+    <div class="label">技术护城河</div>
+    <div class="stitle">自研平台 + 自研模型 · 数据全栈开源</div>
+    <div style="background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0C4A6E 100%);border-radius:12px;padding:32px 28px;color:#fff;margin-top:18px">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end;margin-bottom:24px">
+            <div>
+                <div id="ab-r1" style="font:900 64px/1 var(--font);color:#86EFAC;letter-spacing:-2px;font-variant-numeric:tabular-nums">89.0%</div>
+                <div style="font-size:12px;color:#94A3B8;margin-top:6px;letter-spacing:.5px">ENSEMBLE RECALL@1 · 843 题公开盲跑</div>
+            </div>
+            <div style="flex:1;min-width:240px;font-size:14px;color:#CBD5E1;line-height:1.7">竞品做"AI 套壳"——把 GPT 包一层 UI 就叫智能教育。我们做"自研全栈"——教材 OCR 管道、BM25 检索模型、规则匹配引擎、融合算法，每一层代码、数据、评测脚本都在 GitHub 公开可复现。</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
+                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">教材数据底座</div>
+                <div style="font-size:20px;font-weight:900;margin-top:4px"><span id="ab-books">56</span> 本 · <span id="ab-ch">284</span> 章</div>
+                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">人教版/统编版 K12 全 OCR</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
+                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">题库×章节反链</div>
+                <div style="font-size:20px;font-weight:900;margin-top:4px"><span id="ab-q">943</span> 题</div>
+                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">每道题精准链回源章</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
+                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">浏览器端模型</div>
+                <div style="font-size:20px;font-weight:900;margin-top:4px">1.8 MB</div>
+                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">BM25 倒排索引 0 后端</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
+                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">融合互补 lift</div>
+                <div style="font-size:20px;font-weight:900;margin-top:4px;color:#86EFAC">+44pp</div>
+                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">vs 单纯规则引擎</div>
+            </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+            <a href="/eval.html" style="background:#86EFAC;color:#064E3B;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:800;text-decoration:none">→ 看完整评测报告</a>
+            <a href="/platform.html" style="background:rgba(255,255,255,.1);color:#fff;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,.2)">→ 看平台技术架构</a>
+            <a href="https://github.com/zacharyxpku-boop/ai-edu-platform" target="_blank" style="background:transparent;color:#7DD3FC;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid #1E40AF">→ GitHub 开源仓库</a>
+        </div>
+    </div>
+</div></section>
+
+<script>
+(async function(){
+    try {
+        var [m, q1, q2, ens] = await Promise.all([
+            fetch('/data/extracted/manifest.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/curriculum/seed-questions-generated.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+            fetch('/src/models/ensemble-recall-report.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+        ]);
+        var books = (m && m.books) || [];
+        var ch = books.reduce(function(a,b){return a+((b.chapters||[]).length);},0);
+        var qs = ((q1&&q1.questions)||[]).length + ((q2&&q2.questions)||[]).length;
+        if (document.getElementById('ab-books')) document.getElementById('ab-books').textContent = books.length;
+        if (document.getElementById('ab-ch')) document.getElementById('ab-ch').textContent = ch;
+        if (document.getElementById('ab-q')) document.getElementById('ab-q').textContent = qs;
+        if (ens && document.getElementById('ab-r1')) document.getElementById('ab-r1').textContent = (ens.recall_at_1.ensemble*100).toFixed(1)+'%';
+    } catch(e){}
+})();
+</script>
 
 <section><div class="w">
     <div class="label">市场背景</div>
