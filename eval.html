@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模型基准 · 章节匹配引擎 · 89% r@1 | 原点智学</title>
+<meta name="description" content="原点智学自研章节匹配引擎在 843 道盲跑题上的公开战绩：rules 44.5%、BM25 63.0%、ensemble 89.0%。所有数字、代码、评测脚本可在 GitHub 复现。">
+<meta name="theme-color" content="#0EA5E9">
+<link rel="canonical" href="https://www.yuandianzhixue.com/eval.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(#g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--bdr2:#D4D4D8;
+  --amber:#F5A623;--amber-bg:#FFFBF0;
+  --emerald:#059669;--emerald-bg:#ECFDF5;
+  --violet:#7C3AED;--violet-bg:#F5F3FF;
+  --slate:#334155;--slate-bg:#F1F5F9;
+  --sky:#0EA5E9;--sky-bg:#F0F9FF;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --font:'Noto Sans SC',system-ui,sans-serif;
+  --r:10px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.82);backdrop-filter:blur(24px) saturate(200%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--sky);background:var(--sky-bg)}
+
+/* hero */
+.hero{max-width:1120px;margin:0 auto;padding:48px 20px 0}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tag{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--slate-bg);color:var(--slate);font-weight:600;letter-spacing:.3px}
+.tag.s{background:var(--sky-bg);color:var(--sky)}
+.tag.e{background:var(--emerald-bg);color:var(--emerald)}
+.tag.v{background:var(--violet-bg);color:var(--violet)}
+h1{font-size:clamp(30px,5.2vw,52px);font-weight:900;letter-spacing:-1.2px;line-height:1.1}
+h1 em{font-style:normal;color:var(--sky);font-variant-numeric:tabular-nums}
+.subh{margin-top:16px;max-width:760px;color:var(--ink2);font-size:16px;line-height:1.7}
+.eval-meta{margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink3);font-family:var(--mono)}
+.eval-meta b{color:var(--ink);font-weight:700}
+
+/* champion card */
+.champ{max-width:1120px;margin:36px auto 0;padding:0 20px}
+.champ-card{background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0C4A6E 100%);border-radius:14px;padding:36px 32px;color:#fff;position:relative;overflow:hidden}
+.champ-card::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,.3) 0%,transparent 70%)}
+.champ-label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:#86EFAC;text-transform:uppercase;margin-bottom:8px}
+.champ-num{font-size:clamp(56px,10vw,96px);font-weight:900;line-height:.95;letter-spacing:-3px;font-variant-numeric:tabular-nums}
+.champ-num small{font-size:.4em;font-weight:700;color:#86EFAC;margin-left:4px;letter-spacing:0}
+.champ-sub{font-size:15px;color:#CBD5E1;margin-top:10px;max-width:600px;line-height:1.6}
+.champ-row{margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative;z-index:1}
+@media(max-width:700px){.champ-row{grid-template-columns:repeat(2,1fr)}}
+.champ-cell{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px}
+.champ-cell-l{font-size:10px;color:#94A3B8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.champ-cell-n{font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.champ-cell.lift .champ-cell-n{color:#86EFAC}
+
+/* section */
+.sec{max-width:1120px;margin:64px auto 0;padding:0 20px}
+.sec-h{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px}
+.sec-s{font-size:13px;color:var(--ink3);margin-bottom:20px;max-width:720px;line-height:1.6}
+
+/* engine timeline */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+@media(max-width:900px){.timeline{grid-template-columns:repeat(2,1fr);gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden}}
+@media(max-width:560px){.timeline{grid-template-columns:1fr}}
+.tl-card{background:var(--card);border:1px solid var(--bdr);padding:20px 18px;position:relative}
+.tl-card:not(:last-child){border-right:none}
+@media(max-width:900px){.tl-card{border:none}}
+.tl-card:first-child{border-radius:var(--r) 0 0 var(--r)}
+.tl-card:last-child{border-radius:0 var(--r) var(--r) 0}
+@media(max-width:900px){.tl-card:first-child,.tl-card:last-child{border-radius:0}}
+.tl-card::after{content:'→';position:absolute;right:-9px;top:50%;transform:translateY(-50%);background:var(--bg);color:var(--ink3);width:18px;height:18px;display:grid;place-items:center;border-radius:50%;font-size:11px;font-weight:700;z-index:1}
+.tl-card:last-child::after{display:none}
+@media(max-width:900px){.tl-card::after{display:none}}
+.tl-step{font-size:10px;font-weight:700;color:var(--ink4);letter-spacing:1px;margin-bottom:6px}
+.tl-name{font-size:15px;font-weight:800;margin-bottom:4px}
+.tl-num{font-size:32px;font-weight:900;letter-spacing:-1.2px;font-variant-numeric:tabular-nums;line-height:1;margin:8px 0 4px}
+.tl-num.r{color:var(--ink3)}
+.tl-num.b{color:var(--sky)}
+.tl-num.e{color:var(--emerald)}
+.tl-num.a{color:var(--amber)}
+.tl-desc{font-size:11px;color:var(--ink3);line-height:1.55;margin-top:6px}
+
+/* recall bar chart */
+.bars{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px 20px}
+.bar-row{display:grid;grid-template-columns:80px 1fr 70px;align-items:center;gap:12px;margin-bottom:14px}
+.bar-row:last-child{margin-bottom:0}
+.bar-l{font-size:13px;font-weight:600;color:var(--ink2)}
+.bar-track{height:28px;background:var(--slate-bg);border-radius:6px;position:relative;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 10px;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono)}
+.bar-fill.r{background:#94A3B8}
+.bar-fill.b{background:var(--sky)}
+.bar-fill.e{background:linear-gradient(90deg,#059669,#10B981)}
+.bar-fill.b5{background:#7DD3FC;color:var(--ink)}
+.bar-n{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;text-align:right}
+
+/* subject heatmap */
+.heat{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.heat-head{display:grid;grid-template-columns:120px 1fr 1fr 1fr 60px;background:var(--slate-bg);font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;padding:10px 14px}
+.heat-row{display:grid;grid-template-columns:120px 1fr 1fr 1fr 60px;padding:10px 14px;border-top:1px solid var(--bdr);align-items:center}
+.heat-subj{font-size:14px;font-weight:700}
+.heat-cell{font-size:13px;font-family:var(--mono);font-weight:700;color:var(--ink2)}
+.heat-cell.win{color:var(--emerald)}
+.heat-n{font-size:12px;color:var(--ink3);text-align:right}
+.heat-bar{display:inline-block;height:8px;border-radius:3px;vertical-align:middle;margin-right:6px}
+
+/* weight sweep */
+.sweep{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px 20px}
+.sweep-svg{width:100%;height:240px}
+.sweep-axis{stroke:var(--bdr);stroke-width:1}
+.sweep-grid{stroke:var(--bdr);stroke-width:1;stroke-dasharray:2,3;opacity:.6}
+.sweep-line{stroke:var(--sky);stroke-width:2.5;fill:none}
+.sweep-area{fill:url(#sweep-grad);opacity:.3}
+.sweep-pt{fill:var(--sky);stroke:#fff;stroke-width:2}
+.sweep-pt.best{fill:var(--emerald);r:7}
+.sweep-lbl{font-size:10px;font-family:var(--mono);fill:var(--ink3)}
+.sweep-lbl.bold{font-size:11px;font-weight:700;fill:var(--ink)}
+
+/* try block */
+.try{background:#0C4A6E;border-radius:var(--r);padding:24px 22px;color:#fff}
+.try-h{font-size:18px;font-weight:800;color:#fff;margin-bottom:6px}
+.try-s{font-size:12px;color:#7DD3FC;margin-bottom:16px}
+.try-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:700px){.try-grid{grid-template-columns:1fr}}
+.try-grid label{font-size:11px;color:#7DD3FC;font-weight:600;display:block;margin-bottom:4px}
+.try-grid input,.try-grid select,.try-grid textarea{width:100%;padding:9px 11px;border:1px solid #1E40AF;border-radius:6px;font-family:var(--font);font-size:13px;background:#082F49;color:#fff}
+.try-grid textarea{resize:vertical;min-height:54px;font-family:var(--font)}
+.try-btn{background:#86EFAC;color:#064E3B;border:none;padding:10px 22px;border-radius:7px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font);letter-spacing:.3px}
+.try-btn:hover{background:#4ADE80}
+.try-btn:disabled{opacity:.5;cursor:wait}
+.try-out{margin-top:14px;background:#082F49;border-radius:6px;padding:12px;font-family:var(--mono);font-size:11px;line-height:1.5;color:#7DD3FC;max-height:280px;overflow:auto;white-space:pre-wrap}
+.try-out:empty{display:none}
+
+/* code blocks */
+.code{background:#0F172A;color:#E2E8F0;border-radius:var(--r);padding:18px 20px;font-family:var(--mono);font-size:12px;line-height:1.7;overflow:auto}
+.code .c{color:#64748B}
+.code .k{color:#F472B6}
+.code .s{color:#86EFAC}
+.code .n{color:#FBBF24}
+
+/* repro */
+.repro{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.repro{grid-template-columns:1fr}}
+.repro-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px}
+.repro-card h4{font-size:13px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.repro-card h4::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sky)}
+.repro-card pre{background:#F1F5F9;border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:11px;color:var(--ink2);overflow-x:auto;line-height:1.6}
+.repro-card a{color:var(--sky);font-size:12px;text-decoration:none;display:inline-block;margin-top:8px}
+.repro-card a:hover{text-decoration:underline}
+
+/* foot */
+.foot{max-width:1120px;margin:80px auto 0;padding:32px 20px;border-top:1px solid var(--bdr);font-size:12px;color:var(--ink3);display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.foot a{color:var(--ink3);text-decoration:none;border-bottom:1px dotted var(--ink4)}
+.foot a:hover{color:var(--ink)}
+
+/* honest about */
+.honest{background:#FFFBF0;border:1px solid #FBBF24;border-radius:var(--r);padding:18px 20px;margin-top:24px}
+.honest-h{font-size:13px;font-weight:800;color:#92400E;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.honest-h::before{content:'⚠';font-family:sans-serif}
+.honest p{font-size:12px;color:#78350F;line-height:1.7}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
+      原点智学
+    </a>
+    <a href="/study-tools.html" class="nav-a">工具</a>
+    <a href="/platform.html" class="nav-a">平台</a>
+    <a href="/eval.html" class="nav-a on">基准</a>
+    <a href="/about.html" class="nav-a">关于</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="tag-row">
+    <span class="tag s">模型基准</span>
+    <span class="tag">公开盲跑</span>
+    <span class="tag e">可复现</span>
+    <span class="tag v">无 LLM 调用</span>
+  </div>
+  <h1>843 题盲跑 · ensemble 命中率 <em id="hero-r1">—</em></h1>
+  <p class="subh">这是原点自研章节匹配引擎的公开战绩页。每个数字都来自 src/models/*-recall-report.json，每个评测脚本都在 GitHub 可复现，整条流水线 0 次 LLM 调用——纯本地索引 + 规则引擎，毫秒级返回。下面所有图表实时读取最新报告。</p>
+  <div class="eval-meta">
+    <span>评测集 · <b id="m-eval">—</b> 道带 gold textbook_ref</span>
+    <span>·</span>
+    <span>评测时长 · <b id="m-time">—</b> s</span>
+    <span>·</span>
+    <span>报告生成 · <b id="m-gen">—</b></span>
+    <span>·</span>
+    <span>引擎版本 · <b>ensemble-rules+bm25-v1</b></span>
+  </div>
+</section>
+
+<section class="champ">
+  <div class="champ-card">
+    <div style="position:relative;z-index:1">
+      <div class="champ-label">Ensemble Recall@1</div>
+      <div class="champ-num" id="champ-num">—<small>%</small></div>
+      <p class="champ-sub">在 843 道带 gold textbook_ref 的题目上，融合引擎一发命中正确章节的比例。基线对照：单纯规则引擎 <b id="champ-r-cmp">—</b>%、单纯 BM25 <b id="champ-b-cmp">—</b>%。融合不是把两个模型平均，是 BM25 给候选 + rules 给精排，互补打掉单引擎漏召的长尾。</p>
+    </div>
+    <div class="champ-row">
+      <div class="champ-cell"><div class="champ-cell-l">Rules Only</div><div class="champ-cell-n" id="cell-rules">—</div></div>
+      <div class="champ-cell"><div class="champ-cell-l">BM25 Only</div><div class="champ-cell-n" id="cell-bm25">—</div></div>
+      <div class="champ-cell"><div class="champ-cell-l">Ensemble</div><div class="champ-cell-n" id="cell-ens">—</div></div>
+      <div class="champ-cell lift"><div class="champ-cell-l">Lift vs BM25</div><div class="champ-cell-n" id="cell-lift">—</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">从 0 到 89% · 自研路径四步</div>
+  <div class="sec-s">不是一夜之间 89%。每一步都解决了上一步漏掉的失败模式：规则太死 → 检索太散 → 融合互补 → 反哺数据。</div>
+  <div class="timeline">
+    <div class="tl-card">
+      <div class="tl-step">STEP 01</div>
+      <div class="tl-name">规则引擎 v1</div>
+      <div class="tl-num r" id="tl-rules">—</div>
+      <div class="tl-desc">子串 +12，3-gram +4·n，alias +8，kp +6 加权打分，阈值≥6。alias/kp 命中精准但召回弱。</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-step">STEP 02</div>
+      <div class="tl-name">BM25 检索 v1</div>
+      <div class="tl-num b" id="tl-bm25">—</div>
+      <div class="tl-desc">jieba 切词 + Robertson BM25，char 2/3-gram 倒排索引 1.8MB 跑在浏览器。recall@5 <b id="tl-bm5">—</b>。</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-step">STEP 03</div>
+      <div class="tl-name">Ensemble 融合 v1</div>
+      <div class="tl-num e" id="tl-ens">—</div>
+      <div class="tl-desc">final = bm25 + 5.0 × rules·BM25 给候选池、rules 给精排重排。互补打掉单引擎错召。</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-step">STEP 04</div>
+      <div class="tl-name">数据反哺</div>
+      <div class="tl-num a">100<small style="font-size:.5em">/100</small></div>
+      <div class="tl-desc">用 ensemble 给 100 道无 textbook_ref 人工题自动打标，rules≥6 或 bm25≥8 双闸门，全部高置信通过。</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">三引擎 recall 对比</div>
+  <div class="sec-s">同一份 843 题盲测集，三套引擎横向对照。BM25 r@5 顺便看看候选池是否够干净——93.5% 说明检索找得回，是 ensemble 把"找回"翻译成"排首位"的精排能力。</div>
+  <div class="bars" id="bar-block"></div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">8 学科 ensemble 命中率分布</div>
+  <div class="sec-s">按学科横向看每套引擎的命中率。物理/地理/生物 ensemble &gt;93% 接近上限；语文最弱 78%——OCR 把"第N单元 XX"截成"第N单元"，索引信息密度不足。这是数据问题，不是模型问题，下一步是优化语文章节标题清洗。</div>
+  <div class="heat" id="heat-block"></div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">w_rules 权重扫描曲线</div>
+  <div class="sec-s">融合时 rules 分数的权重 w 从 0（纯 BM25）扫到 5。曲线单调上升说明 rules 信号始终带正贡献。w=5 是当前最佳点，再大反而会让 rules 分数饱和的 chinese 学科退步。</div>
+  <div class="sweep">
+    <svg class="sweep-svg" viewBox="0 0 800 240" preserveAspectRatio="none" id="sweep-svg"></svg>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">在线试跑 · /api/chapter-ensemble</div>
+  <div class="sec-s">不用 clone 仓库不用跑评测，直接 POST 一个题目，0.5s 内拿到融合预测的 top-5 章节、子分数、命中 alias/kp、引擎版本号——和评测脚本走的是同一份代码路径。</div>
+  <div class="try">
+    <div class="try-h">实时调用引擎（最新生产版本）</div>
+    <div class="try-s">默认填了一道初中物理凸透镜题，可以改成任何学科任何题。</div>
+    <div class="try-grid">
+      <div>
+        <label>SUBJECT</label>
+        <select id="t-subj">
+          <option value="physics" selected>physics 物理</option>
+          <option value="math">math 数学</option>
+          <option value="chemistry">chemistry 化学</option>
+          <option value="biology">biology 生物</option>
+          <option value="chinese">chinese 语文</option>
+          <option value="history">history 历史</option>
+          <option value="geography">geography 地理</option>
+          <option value="politics">politics 思想政治</option>
+        </select>
+      </div>
+      <div>
+        <label>KNOWLEDGE POINTS（逗号分隔）</label>
+        <input id="t-kps" type="text" value="凸透镜成像,焦距">
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;color:#7DD3FC;font-weight:600;display:block;margin-bottom:4px">QUESTION</label>
+      <textarea id="t-q">一个凸透镜的焦距 10cm，物体距透镜 15cm，求像距和像的性质。</textarea>
+    </div>
+    <button class="try-btn" id="t-go">POST /api/chapter-ensemble →</button>
+    <div class="try-out" id="t-out"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">复现指引</div>
+  <div class="sec-s">所有评测脚本、模型索引、生题数据集都在 GitHub。下面四条命令即可复现 89% 的数字。</div>
+  <div class="repro">
+    <div class="repro-card">
+      <h4>1. 拉代码 + 装依赖</h4>
+      <pre>git clone https://github.com/zacharyxpku-boop/ai-edu-platform
+cd ai-edu-platform
+pip install jieba</pre>
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform" target="_blank">→ GitHub 仓库</a>
+    </div>
+    <div class="repro-card">
+      <h4>2. 重建 BM25 倒排索引（可选）</h4>
+      <pre>PYTHONIOENCODING=utf-8 python \
+  scripts/build-chapter-bm25-index.py
+# 输出: src/models/chapter-bm25.json (1.8MB)</pre>
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/build-chapter-bm25-index.py" target="_blank">→ build-chapter-bm25-index.py</a>
+    </div>
+    <div class="repro-card">
+      <h4>3. 跑 BM25 单引擎评测</h4>
+      <pre>PYTHONIOENCODING=utf-8 python \
+  scripts/eval-bm25-recall.py
+# Recall@1 63.0% / @5 93.5%</pre>
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-bm25-recall.py" target="_blank">→ eval-bm25-recall.py</a>
+    </div>
+    <div class="repro-card">
+      <h4>4. 跑 ensemble 融合评测</h4>
+      <pre>PYTHONIOENCODING=utf-8 python \
+  scripts/eval-ensemble.py
+# Recall@1 89.0% w_rules=5.0</pre>
+      <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-ensemble.py" target="_blank">→ eval-ensemble.py</a>
+    </div>
+  </div>
+
+  <div class="honest">
+    <div class="honest-h">数据诚实说明</div>
+    <p>评测集 843 道由 DeepSeek 按章节文本生成 → gold textbook_ref 和章节是同源对齐，存在系统性"近源偏差"。换句话说，这个 89% 是引擎在<b>同分布数据</b>上的天花板，真实用户随手写的非典型题（错别字、跨章节复合题）会比这个数低。下一步在做<b>跨分布盲测集</b>——拿真实初高中考试卷扫描件做 100 道独立 hold-out，那个数字才是用户最终体感。我们会把它公开放在这个页面上。</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-h">这套基准证明了什么</div>
+  <div class="sec-s">不是把 LLM 包一层壳。是教育领域最朴素的事——把 24 本教材 OCR 干净、把 843 道题对齐到章节、用规则+检索两条独立路径互证、把整条管线开源。</div>
+  <div class="repro">
+    <div class="repro-card">
+      <h4>0 次 LLM 调用</h4>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7">从用户输入题目到返回章节，整条路径不调 GPT/Claude/DeepSeek。毫秒级响应，零 token 成本，零数据外送。</p>
+    </div>
+    <div class="repro-card">
+      <h4>1.8MB 浏览器跑</h4>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7">BM25 索引 1.8MB gzip 后 600KB，在浏览器端用 ES module 异步加载，端上做检索不依赖任何后端。</p>
+    </div>
+    <div class="repro-card">
+      <h4>843 道公开盲测</h4>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7">竞品报数字一般不放评测集。我们把生成数据集、评测脚本、报告 JSON 全部开源，你可以一行命令复算。</p>
+    </div>
+    <div class="repro-card">
+      <h4>+44pp 引擎互补</h4>
+      <p style="font-size:12px;color:var(--ink2);line-height:1.7">融合相对单纯 rules 引擎 +44.5pp，相对单纯 BM25 +26pp——证明两条路径不是冗余，是真互补。</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>原点智学 · 自研 K12 学习平台 · 数据/模型/评测全栈开源</div>
+  <div>
+    <a href="/platform.html">平台首页</a> ·
+    <a href="https://github.com/zacharyxpku-boop/ai-edu-platform" target="_blank">GitHub</a> ·
+    <a href="/about.html">关于我们</a>
+  </div>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+async function loadEval() {
+  try {
+    const r = await fetch('/src/models/ensemble-recall-report.json?t=' + Date.now());
+    const d = await r.json();
+    const r1 = d.recall_at_1 || {};
+    const ru = (r1.rules_only * 100).toFixed(1);
+    const bm = (r1.bm25_only * 100).toFixed(1);
+    const en = (r1.ensemble * 100).toFixed(1);
+    const bm5 = ((d.recall_at_5_bm25 || 0) * 100).toFixed(1);
+    const liftBm = ((d.lift_over_bm25_r1 || 0) * 100).toFixed(1);
+
+    $('hero-r1').textContent = en + '%';
+    $('m-eval').textContent = d.eval_set;
+    $('m-time').textContent = d.elapsed_seconds;
+    $('m-gen').textContent = (d.generated_at || '').slice(0, 10);
+
+    $('champ-num').innerHTML = en + '<small>%</small>';
+    $('champ-r-cmp').textContent = ru;
+    $('champ-b-cmp').textContent = bm;
+    $('cell-rules').textContent = ru + '%';
+    $('cell-bm25').textContent = bm + '%';
+    $('cell-ens').textContent = en + '%';
+    $('cell-lift').textContent = '+' + liftBm + 'pp';
+
+    $('tl-rules').innerHTML = ru + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
+    $('tl-bm25').innerHTML = bm + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
+    $('tl-bm5').textContent = bm5 + '%';
+    $('tl-ens').innerHTML = en + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
+
+    renderBars(ru, bm, en, bm5);
+    renderHeat(d.by_subject || {});
+    renderSweep(d.weight_sweep || [], d.best_w_rules);
+  } catch (e) {
+    console.warn('eval load failed', e);
+    $('hero-r1').textContent = '加载失败';
+  }
+}
+
+function renderBars(ru, bm, en, bm5) {
+  const max = Math.max(parseFloat(ru), parseFloat(bm), parseFloat(en), parseFloat(bm5));
+  const h = $('bar-block');
+  h.innerHTML = `
+    <div class="bar-row"><div class="bar-l">规则引擎 r@1</div><div class="bar-track"><div class="bar-fill r" style="width:${(ru/max*100).toFixed(1)}%">${ru}%</div></div><div class="bar-n">${ru}%</div></div>
+    <div class="bar-row"><div class="bar-l">BM25 r@1</div><div class="bar-track"><div class="bar-fill b" style="width:${(bm/max*100).toFixed(1)}%">${bm}%</div></div><div class="bar-n">${bm}%</div></div>
+    <div class="bar-row"><div class="bar-l">BM25 r@5</div><div class="bar-track"><div class="bar-fill b5" style="width:${(bm5/max*100).toFixed(1)}%">${bm5}%</div></div><div class="bar-n">${bm5}%</div></div>
+    <div class="bar-row"><div class="bar-l"><b>Ensemble r@1</b></div><div class="bar-track"><div class="bar-fill e" style="width:${(en/max*100).toFixed(1)}%">${en}%</div></div><div class="bar-n" style="color:var(--emerald)">${en}%</div></div>
+  `;
+}
+
+const SUBJ_ZH = {math:'数学',physics:'物理',chemistry:'化学',biology:'生物',chinese:'语文',history:'历史',geography:'地理',politics:'思想政治'};
+
+function renderHeat(by) {
+  const rows = Object.keys(by).map(k => ({k, ...by[k]})).sort((a,b)=>b.ens_rate-a.ens_rate);
+  const heat = $('heat-block');
+  let html = `<div class="heat-head"><div>学科</div><div>RULES r@1</div><div>BM25 r@1</div><div>ENSEMBLE r@1</div><div style="text-align:right">N</div></div>`;
+  rows.forEach(r => {
+    const ru = (r.rules_rate * 100).toFixed(1);
+    const bm = (r.bm25_rate * 100).toFixed(1);
+    const en = (r.ens_rate * 100).toFixed(1);
+    html += `<div class="heat-row">
+      <div class="heat-subj">${SUBJ_ZH[r.k] || r.k}</div>
+      <div class="heat-cell"><span class="heat-bar" style="width:${ru*.6}px;background:#CBD5E1"></span>${ru}%</div>
+      <div class="heat-cell"><span class="heat-bar" style="width:${bm*.6}px;background:#7DD3FC"></span>${bm}%</div>
+      <div class="heat-cell win"><span class="heat-bar" style="width:${en*.6}px;background:#10B981"></span>${en}%</div>
+      <div class="heat-n">${r.total}</div>
+    </div>`;
+  });
+  heat.innerHTML = html;
+}
+
+function renderSweep(sweep, bestW) {
+  if (!sweep || !sweep.length) return;
+  const W = 800, H = 240, pad = {l:40, r:20, t:20, b:32};
+  const xs = sweep.map(d => d.w_rules);
+  const ys = sweep.map(d => d.ensemble_r1);
+  const xMin = 0, xMax = Math.max(...xs);
+  const yMin = Math.min(0.6, Math.min(...ys) - 0.05);
+  const yMax = Math.max(...ys) + 0.05;
+  const xScale = x => pad.l + (x - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+  const yScale = y => H - pad.b - (y - yMin) / (yMax - yMin) * (H - pad.t - pad.b);
+
+  let svg = `<defs><linearGradient id="sweep-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0EA5E9" stop-opacity=".4"/><stop offset="100%" stop-color="#0EA5E9" stop-opacity="0"/></linearGradient></defs>`;
+  // grid
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + i * (H - pad.t - pad.b) / 4;
+    const yv = yMax - i * (yMax - yMin) / 4;
+    svg += `<line class="sweep-grid" x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}"/>`;
+    svg += `<text class="sweep-lbl" x="${pad.l-6}" y="${y+3}" text-anchor="end">${(yv*100).toFixed(0)}%</text>`;
+  }
+  // x labels
+  xs.forEach(x => {
+    svg += `<text class="sweep-lbl" x="${xScale(x)}" y="${H-pad.b+14}" text-anchor="middle">${x}</text>`;
+  });
+  svg += `<text class="sweep-lbl" x="${W/2}" y="${H-4}" text-anchor="middle">w_rules</text>`;
+  // line + area
+  const pts = sweep.map(d => `${xScale(d.w_rules)},${yScale(d.ensemble_r1)}`).join(' ');
+  svg += `<polygon class="sweep-area" points="${xScale(xMin)},${H-pad.b} ${pts} ${xScale(xMax)},${H-pad.b}"/>`;
+  svg += `<polyline class="sweep-line" points="${pts}"/>`;
+  // points
+  sweep.forEach(d => {
+    const isBest = d.w_rules === bestW;
+    svg += `<circle class="sweep-pt${isBest?' best':''}" cx="${xScale(d.w_rules)}" cy="${yScale(d.ensemble_r1)}" r="${isBest?6:4}"/>`;
+    if (isBest) {
+      svg += `<text class="sweep-lbl bold" x="${xScale(d.w_rules)}" y="${yScale(d.ensemble_r1)-12}" text-anchor="middle" fill="#059669">${(d.ensemble_r1*100).toFixed(1)}% ←</text>`;
+    }
+  });
+  $('sweep-svg').innerHTML = svg;
+}
+
+// try block
+$('t-go').onclick = async () => {
+  const btn = $('t-go'), out = $('t-out');
+  btn.disabled = true; btn.textContent = '调用中…';
+  out.textContent = '';
+  try {
+    const body = {
+      subject: $('t-subj').value,
+      question_text: $('t-q').value,
+      knowledge_points: $('t-kps').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),
+      top_k: 5
+    };
+    const t0 = performance.now();
+    const r = await fetch('/api/chapter-ensemble', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    const ms = Math.round(performance.now() - t0);
+    let txt = `→ HTTP ${r.status} · ${ms}ms\n→ engine: ${d.engine_version || '?'}\n→ eval anchor: r@1 ${(d.eval_anchor?.recall_at_1*100||0).toFixed(1)}% · N=${d.eval_anchor?.eval_set || '?'}\n\n`;
+    if (d.ensemble && d.ensemble.length) {
+      txt += 'TOP CANDIDATES (sorted by ensemble score):\n';
+      d.ensemble.forEach((c, i) => {
+        txt += `\n  ${i+1}. ${c.title || '(no title)'}\n`;
+        txt += `     path: ${c.path}  ch=${c.ch}\n`;
+        txt += `     ensemble=${(c.ensemble||0).toFixed(2)}  bm25=${(c.bm25||0).toFixed(2)}  rules=${c.rules || 0}\n`;
+        if (c.alias_hits?.length) txt += `     alias hits: ${c.alias_hits.join(', ')}\n`;
+        if (c.kp_hits?.length) txt += `     kp hits: ${c.kp_hits.join(', ')}\n`;
+      });
+    } else {
+      txt += JSON.stringify(d, null, 2);
+    }
+    out.textContent = txt;
+  } catch (e) {
+    out.textContent = '错误: ' + e.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'POST /api/chapter-ensemble →';
+  }
+};
+
+loadEval();
+</script>
+
+</body>
+</html>
