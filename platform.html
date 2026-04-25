@@ -393,6 +393,44 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
   </div>
 </section>
 
+<section class="sec" id="try-ensemble">
+  <div class="sec-h">在线试跑 · chapter-ensemble 融合引擎 API</div>
+  <div class="sec-s">把题目甩进来，BM25 + rules engine 串行融合后给章节预测。这是 platform 对外 ship 的 ensemble 终极接口。POST /api/chapter-ensemble 返回 ensemble[3] + 子分 + 解释。</div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px">
+    <div style="display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:10px;margin-bottom:14px;align-items:end">
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">题目正文</label>
+        <input id="en-q" placeholder="如「一个凸透镜的焦距 10cm，物体放在 15cm 处…」" value="一个凸透镜的焦距 10cm，物体距透镜 15cm，求像距和像的性质" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">学科</label>
+        <select id="en-subject" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+          <option value="math">数学</option><option value="physics" selected>物理</option><option value="chemistry">化学</option>
+          <option value="biology">生物</option><option value="chinese">语文</option>
+          <option value="history">历史</option><option value="geography">地理</option>
+          <option value="politics">思想政治</option><option value="moral">道德与法治</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--ink3);font-weight:600;display:block;margin-bottom:4px">考点（可选）</label>
+        <input id="en-kps" placeholder="逗号分隔" value="凸透镜成像,焦距" style="width:100%;padding:9px;border:1px solid var(--bdr);border-radius:8px;font-family:var(--font);font-size:13px">
+      </div>
+      <button onclick="runEnsemble()" style="padding:9px 22px;background:#86EFAC;color:#0F172A;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);height:38px">融合预测</button>
+    </div>
+    <div id="en-out"></div>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:11px;color:var(--ink3);font-weight:600">cURL 复制·随便接</summary>
+      <pre style="margin-top:8px;padding:14px;background:#0F172A;color:#E2E8F0;border-radius:8px;font-family:var(--mono);font-size:11px;line-height:1.7;overflow-x:auto">curl -X POST https://&lt;your-domain&gt;/api/chapter-ensemble \
+  -H "Content-Type: application/json" \
+  -d '{
+    "subject": "physics",
+    "question_text": "一个凸透镜的焦距 10cm，物体距透镜 15cm，求像距和像的性质",
+    "knowledge_points": ["凸透镜成像", "焦距"]
+  }'</pre>
+    </details>
+  </div>
+</section>
+
 <section class="sec">
   <div class="sec-h">对比 · 自研 vs 通用 LLM RAG</div>
   <div class="sec-s">同一需求（"这道题对应哪一章？"），两条路径的工程代价和可控性差别。</div>
@@ -702,6 +740,54 @@ const obs = new IntersectionObserver(entries => {
 }, { rootMargin: '200px' });
 const target = document.getElementById('try-bm25');
 if (target) obs.observe(target);
+
+// chapter-ensemble API 试跑
+window.runEnsemble = async function() {
+    const out = document.getElementById('en-out');
+    out.innerHTML = '<div style="color:var(--ink3);font-size:13px;padding:10px">调用 /api/chapter-ensemble …</div>';
+    const subject = document.getElementById('en-subject').value;
+    const question_text = document.getElementById('en-q').value.trim();
+    const knowledge_points = document.getElementById('en-kps').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean);
+    try {
+        const t0 = performance.now();
+        const r = await fetch('/api/chapter-ensemble', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subject, question_text, knowledge_points }),
+        });
+        const dt = (performance.now() - t0).toFixed(0);
+        const data = await r.json();
+        if (!r.ok) {
+            out.innerHTML = '<div style="padding:14px;background:#FEE2E2;color:#991B1B;border-radius:8px;font-size:13px">' + (data.error || ('HTTP ' + r.status)) + '</div>';
+            return;
+        }
+        const items = (data.ensemble || []);
+        if (!items.length) {
+            out.innerHTML = '<div style="padding:14px;background:#FEE2E2;color:#991B1B;border-radius:8px;font-size:13px">未命中</div>';
+            return;
+        }
+        out.innerHTML =
+            '<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">融合 ' + items.length + ' 章 · 服务端 <b>' + (data.latency_ms || '?') + ' ms</b> · 网络往返 ' + dt + ' ms · w_rules=' + data.components.w_rules + '</div>' +
+            items.map((it, i) => {
+                const tagsHtml = (it.rules_hits || []).slice(0, 4).map(h =>
+                    '<span style="display:inline-block;background:#FCD34D;color:#78350F;font:600 11px var(--mono);padding:2px 7px;border-radius:4px;margin:2px 3px 2px 0">' + h + '</span>').join('');
+                const matchedHtml = (it.matched_terms || []).slice(0, 3).map(m =>
+                    '<span style="display:inline-block;background:#0C4A6E;color:#fff;font:600 11px var(--mono);padding:2px 7px;border-radius:4px;margin:2px 3px 2px 0">' + m.t + '</span>').join('');
+                return '<div style="background:linear-gradient(110deg,#ECFDF5 0%,#F0F9FF 100%);border:1px solid #86EFAC;border-radius:8px;padding:12px 14px;margin-bottom:8px">' +
+                    '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px">' +
+                        '<div style="font:800 14px var(--font);color:var(--ink)">#' + (i+1) + ' ' + (it.title || '第'+it.ch+'章') + '</div>' +
+                        '<div style="font:700 12px var(--mono);color:#16A34A">ens ' + it.ensemble_score + '</div>' +
+                    '</div>' +
+                    '<div style="font:500 11px var(--mono);color:var(--ink3);margin-bottom:6px">' + it.path + ' · ch' + it.ch + ' · bm25=' + it.bm25_score + ' · rules=' + it.rules_score + '</div>' +
+                    '<div style="margin-bottom:4px">' + matchedHtml + tagsHtml + '</div>' +
+                    '<a href="' + it.url + '" target="_blank" style="display:inline-block;font-size:11px;color:#0C4A6E;font-weight:700;text-decoration:none">→ 打开教材</a>' +
+                '</div>';
+            }).join('') +
+            '<div style="font-size:11px;color:var(--ink3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--bdr)">📊 ' + (data.eval_anchor && data.eval_anchor.note || '') + '</div>';
+    } catch (e) {
+        out.innerHTML = '<div style="color:#991B1B;font-size:13px">错误：' + (e.message || e) + '</div>';
+    }
+};
 </script>
 </body>
 </html>
