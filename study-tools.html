@@ -217,7 +217,7 @@
 })();
 </script>
 
-<!-- 今日推荐 3 件事 -->
+<!-- 今日推荐 3 件事（数据驱动 · 共享模块 today-recos.js） -->
 <section id="recos-sec" style="max-width:1040px;margin:8px auto 18px;padding:0 8px">
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;padding:0 4px">
         <h3 style="font-size:15px;font-weight:800;letter-spacing:.3px;color:#18181B">今日推荐 · <span style="color:#71717A;font-weight:500;font-size:12px">从你的学习数据反推 3 件最值得做的</span></h3>
@@ -225,141 +225,10 @@
     </div>
     <div id="recos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px"></div>
 </section>
-
-<style>
-.reco-card{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;transition:all .15s;border-left-width:4px}
-.reco-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.06);border-color:#A1A1AA}
-.reco-card.urgent{border-left-color:#DC2626}
-.reco-card.warm{border-left-color:#F5A623}
-.reco-card.cool{border-left-color:#0EA5E9}
-.reco-card.green{border-left-color:#059669}
-.reco-card.violet{border-left-color:#7C3AED}
-.reco-em{font-size:24px;line-height:1;flex:0 0 auto}
-.reco-bd{flex:1;min-width:0}
-.reco-h{font-size:13px;font-weight:800;color:#18181B;margin-bottom:3px;line-height:1.4}
-.reco-d{font-size:11.5px;color:#52525B;line-height:1.5;margin-bottom:6px}
-.reco-d b{color:#18181B;font-weight:800}
-.reco-cta{font-size:11px;font-weight:700;color:#F5A623}
-.reco-cta::after{content:' →'}
-</style>
+<script src="/src/today-recos.js"></script>
 <script>
-window.addEventListener('DOMContentLoaded', function recommend(){
-  function $r(id){ return document.getElementById(id); }
-  function safeGet(k, dflt){ try { return JSON.parse(localStorage.getItem(k) || (dflt!=null?JSON.stringify(dflt):'null')); } catch(e){ return dflt; } }
-  var grid = $r('recos-grid'); if (!grid) return;
-  var cards = [];
-
-  // 1) 数据源：错题池 / 教材已读 / gamification 日志
-  var errs = (window.LearningStore && window.LearningStore.getErrors) ? (window.LearningStore.getErrors() || []) : [];
-  var dueErrs = errs.filter(function(e){ return (e.nextReviewAt||0) <= Date.now() && (e.reviewCount||0) < 3; });
-  var read = safeGet('ydzx_textbook_read', []) || [];
-  if (!Array.isArray(read)) read = [];
-  var log = (window.GAME && window.GAME.getLog) ? (window.GAME.getLog() || []) : [];
-  var arcadeN = 0, feynmanN = 0, errorActN = 0;
-  log.forEach(function(e){
-    if (e.type !== 'xp' || !e.reason) return;
-    var r = e.reason;
-    if (r.indexOf('题库速练') >= 0) arcadeN++;
-    else if (r.indexOf('费曼') >= 0) feynmanN++;
-    else if (r.indexOf('错题攻克') >= 0) errorActN++;
-  });
-
-  // 2) 基于数据生成候选（最多 5 张，挑前 3）
-  // 紧急：今日到期 ≥ 1 → 复习
-  if (dueErrs.length){
-    cards.push({
-      cls: 'urgent', em: '🔥', priority: 100,
-      h: '先复习 ' + dueErrs.length + ' 道到期错题',
-      d: '错过的题不复盘，下次还会错。<b>FSRS 间隔到期</b>，正是窗口。',
-      cta: '进入复习模式',
-      href: '/errors.html'
-    });
-  }
-
-  // 紧急：读得不少（≥3 章）但 arcade=0 → 该练
-  if (read.length >= 3 && arcadeN === 0){
-    cards.push({
-      cls: 'warm', em: '✏️', priority: 90,
-      h: '读了 ' + read.length + ' 章，没练过一道题',
-      d: '输入和输出之间需要桥梁。<b>挑一章先刷 3 道</b>验证理解。',
-      cta: '随机来一道',
-      href: '/quiz.html'
-    });
-  }
-
-  // 中等：错题攻克 ≥ 5 但 feynman = 0 → 试试讲一遍
-  if ((errorActN >= 3 || arcadeN >= 5) && feynmanN === 0){
-    cards.push({
-      cls: 'cool', em: '🗣️', priority: 70,
-      h: '从来没讲一遍课',
-      d: '费曼一次胜十题。把刚学的章节<b>用人话讲给一个不懂的人</b>。',
-      cta: '去讲一段',
-      href: '/tools/feynman-verify'
-    });
-  }
-
-  // 中等：所有维度都 0 / 全空白 → 看演示
-  if (read.length === 0 && arcadeN === 0 && errs.length === 0 && feynmanN === 0){
-    cards.push({
-      cls: 'violet', em: '⚡', priority: 80,
-      h: '空白账号 · 30 秒看产品满载',
-      d: '一键注入示例数据，看 progress / errors / quiz 长什么样。<b>不用真的学一遍</b>。',
-      cta: '进入演示',
-      href: '/demo.html'
-    });
-  }
-
-  // 中等：教材读 0 → 翻第一章
-  if (read.length === 0 && arcadeN > 0){
-    cards.push({
-      cls: 'green', em: '📖', priority: 60,
-      h: '光做题没读教材',
-      d: '题是知识的引子，<b>一章原文比 5 道题更扎实</b>。',
-      cta: '挑一本翻翻',
-      href: '/tools/textbook-browser'
-    });
-  }
-
-  // 兜底：没有任何匹配规则 → 推荐 quiz
-  if (!cards.length){
-    cards.push({
-      cls: 'warm', em: '📝', priority: 50,
-      h: '今日打卡',
-      d: '随机一道挂教材的题，做完点对错 <b>就有数据画 progress</b>。',
-      cta: '抽一道',
-      href: '/quiz.html'
-    });
-    cards.push({
-      cls: 'cool', em: '📊', priority: 40,
-      h: '看四维体检',
-      d: '读 / 练 / 错 / 讲，哪一维最弱一目了然。',
-      cta: '打开档案',
-      href: '/progress.html'
-    });
-    cards.push({
-      cls: 'green', em: '📖', priority: 30,
-      h: '翻一章教材',
-      d: '56 本人教/统编 OCR 全章正文，自带反链题。',
-      cta: '挑一本',
-      href: '/tools/textbook-browser'
-    });
-  }
-
-  // 按优先级排序，取前 3
-  cards.sort(function(a,b){ return b.priority - a.priority; });
-  cards = cards.slice(0, 3);
-
-  var html = cards.map(function(c){
-    return '<a class="reco-card ' + c.cls + '" href="' + c.href + '">'
-      + '<div class="reco-em">' + c.em + '</div>'
-      + '<div class="reco-bd">'
-      + '<div class="reco-h">' + c.h + '</div>'
-      + '<div class="reco-d">' + c.d + '</div>'
-      + '<div class="reco-cta">' + c.cta + '</div>'
-      + '</div>'
-      + '</a>';
-  }).join('');
-  grid.innerHTML = html;
+window.addEventListener('DOMContentLoaded', function(){
+    if (window.TodayRecos) window.TodayRecos.render(document.getElementById('recos-grid'));
 });
 </script>
 

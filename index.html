@@ -238,6 +238,16 @@
     <div style="font-size:12px;color:#FCD34D;font-weight:700;white-space:nowrap">看战绩 →</div>
 </a>
 </div>
+
+<!-- 今日推荐 3 件事（共享 today-recos.js） -->
+<section id="recos-sec" style="max-width:1120px;margin:14px auto 0;padding:0 20px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;padding:0 4px">
+        <h3 style="font-size:15px;font-weight:800;letter-spacing:.3px;color:var(--ink)">今日推荐 · <span style="color:#71717A;font-weight:500;font-size:12px">从你的学习数据反推 3 件最值得做的</span></h3>
+        <a href="progress.html" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整诊断 →</a>
+    </div>
+    <div id="recos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px"></div>
+</section>
+
 <script>
 (async function(){
     try {
@@ -751,7 +761,14 @@ function switchDim(d){
 </script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
+<script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/gamification-hud.js"></script>
+<script src="/src/today-recos.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function(){
+    if (window.TodayRecos) window.TodayRecos.render(document.getElementById('recos-grid'));
+});
+</script>
 </body>
 </html>
