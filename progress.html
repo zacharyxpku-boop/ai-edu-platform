@@ -206,6 +206,40 @@
     .subj-chip.politics{background:#EA580C}
     .subj-chip.moral{background:#6B21A8}
 
+    /* 四维雷达 (read / practice / wrong / feynman) */
+    .fd-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+    .fd-insight{padding:14px 16px;background:linear-gradient(90deg,#FFFBF0,#FEF3C7);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .fd-insight .fd-i-em{font-size:22px;line-height:1}
+    .fd-insight .fd-i-tx{flex:1;min-width:200px;font-size:13px;color:var(--ink2);font-weight:500;line-height:1.5}
+    .fd-insight .fd-i-tx b{color:var(--ink);font-weight:800}
+    .fd-insight .fd-i-cta{font-size:12px;font-weight:700;color:#fff;background:var(--amber);padding:7px 14px;border-radius:7px;text-decoration:none;white-space:nowrap}
+    .fd-insight .fd-i-cta:hover{background:var(--gold)}
+    .fd-insight.calm{background:linear-gradient(90deg,#ECFDF5,#D1FAE5)}
+    .fd-insight.calm .fd-i-cta{background:var(--green)}
+    .fd-table{display:block;overflow-x:auto}
+    .fd-grid{min-width:560px;display:grid;grid-template-columns:64px 90px repeat(4, minmax(78px, 1fr)) 84px}
+    .fd-h{background:#FAFAF9;font-size:11px;color:var(--ink3);font-weight:700;padding:11px 10px;border-bottom:1px solid var(--bdr);letter-spacing:.3px;text-align:center}
+    .fd-h:nth-child(-n+2){text-align:left}
+    .fd-c{padding:11px 10px;border-bottom:1px solid var(--bdr);font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+    .fd-c.fd-stg{font-weight:700;color:var(--ink3)}
+    .fd-c.fd-sub{font-weight:700;color:var(--ink)}
+    .fd-c.fd-met{justify-content:center;font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;position:relative}
+    .fd-c.fd-met .fd-bar{position:absolute;left:6px;right:6px;bottom:4px;height:3px;border-radius:2px;background:#E4E4E7;overflow:hidden}
+    .fd-c.fd-met .fd-bar i{display:block;height:100%;background:var(--ink4);border-radius:2px}
+    .fd-c.fd-met.s1{color:#A1A1AA}
+    .fd-c.fd-met.s2 .fd-bar i{background:#FBBF24}
+    .fd-c.fd-met.s3 .fd-bar i{background:#10B981}
+    .fd-c.fd-met.s4 .fd-bar i{background:#059669}
+    .fd-c.fd-met.s2{color:#92400E}
+    .fd-c.fd-met.s3{color:#065F46}
+    .fd-c.fd-met.s4{color:#064E3B}
+    .fd-c.fd-comp{justify-content:center;font-weight:900;font-size:14px;font-variant-numeric:tabular-nums}
+    .fd-c.fd-comp .fd-pill{display:inline-flex;align-items:center;justify-content:center;min-width:46px;padding:3px 8px;border-radius:999px;background:#F4F4F5;color:var(--ink3);font-size:12px}
+    .fd-c.fd-comp.s2 .fd-pill{background:#FEF3C7;color:#92400E}
+    .fd-c.fd-comp.s3 .fd-pill{background:#D1FAE5;color:#065F46}
+    .fd-c.fd-comp.s4 .fd-pill{background:#A7F3D0;color:#064E3B}
+    .fd-empty{padding:32px 16px;text-align:center;color:var(--ink4);font-size:12px}
+
     @media(max-width:640px){
         .subj-flex{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
         .subj-cell{padding:10px 10px;min-height:74px}
@@ -321,6 +355,20 @@
         <div id="subj-read-stages"></div>
         <div class="subj-sub-h" style="margin-top:20px">🧠 答题 · 攻克 · 讲清<span class="muted">数据来源 · 题库速练 / 错题举一反三 / 费曼验证</span></div>
         <div class="subj-act" id="subj-act-wrap"></div>
+    </div>
+</section>
+
+<!-- FOUR-DIM RADAR -->
+<section class="sec" id="four-dim-sec">
+    <div class="sec-h">
+        <div class="sec-t">四维体检</div>
+        <div class="sec-sub">读 · 练 · 错 · 讲 · 一张表看你哪一维偏科</div>
+    </div>
+    <div class="fd-wrap">
+        <div id="fd-insight"></div>
+        <div class="fd-table">
+            <div class="fd-grid" id="fd-grid"></div>
+        </div>
     </div>
 </section>
 
@@ -946,7 +994,138 @@ function renderSubjects() {
         .then(function(m){
             var mx = parseTextbookRead(m);
             renderReadGrid(mx, m);
+            renderFourDim(mx, act);
         });
+}
+
+// ============== 四维体检 ==============
+// 把 read 矩阵 + activity 表合并，按 (stage,subject) 输出 4 维 + 综合分
+// 每维归一到 0-100：
+//   read    = done/total*100 (如果有教材)
+//   arcade  = 100*(1-exp(-n/5))   5 轮 = 63
+//   error   = 100*(1-exp(-n/3))   3 题 = 63
+//   feynman = 100*(1-exp(-n/2))   2 轮 = 63
+// 综合 = 有数据的维度加权均值（read 40 / arcade 25 / error 20 / feynman 15）
+function _normCount(n, halflife){
+    if (!n) return 0;
+    return Math.round(100 * (1 - Math.exp(-n / halflife)));
+}
+function _scoreBucket(s){
+    if (s <= 0) return 1;
+    if (s < 35) return 2;
+    if (s < 70) return 3;
+    return 4;
+}
+function buildFourDim(matrix, act){
+    var rows = [];
+    var stageOrder = ['小学','初中','高中'];
+    var stages = stageOrder.filter(function(s){ return matrix[s]; })
+        .concat(Object.keys(matrix).filter(function(s){ return stageOrder.indexOf(s) < 0; }));
+    stages.forEach(function(stg){
+        var byS = matrix[stg] || {};
+        SUBJ_KEYS.forEach(function(sk){
+            var d = byS[sk];
+            if (!d || !d.total) return; // 该学段无此学科教材，跳过
+            var a = act[sk] || { arcade:0, error:0, feynman:0 };
+            var sRead = Math.round(d.done / d.total * 100);
+            var sArc = _normCount(a.arcade, 5);
+            var sErr = _normCount(a.error, 3);
+            var sFey = _normCount(a.feynman, 2);
+            // 综合分（不可拿 0 算分母）
+            var w = {read:40, arcade:25, error:20, feynman:15};
+            var comp = Math.round((sRead*w.read + sArc*w.arcade + sErr*w.error + sFey*w.feynman) / (w.read+w.arcade+w.error+w.feynman));
+            rows.push({
+                stage: stg, subj: sk, subjZh: SUBJ_ZH[sk],
+                read:{score:sRead, raw:d.done+'/'+d.total+' 章'},
+                arcade:{score:sArc, raw:a.arcade+' 次'},
+                error:{score:sErr, raw:a.error+' 题'},
+                feynman:{score:sFey, raw:a.feynman+' 轮'},
+                comp: comp,
+            });
+        });
+    });
+    return rows;
+}
+function renderFourDim(matrix, act){
+    var grid = document.getElementById('fd-grid');
+    var ins = document.getElementById('fd-insight');
+    if (!grid) return;
+    var rows = buildFourDim(matrix, act);
+    if (!rows.length){
+        grid.innerHTML = '';
+        grid.parentNode.innerHTML = '<div class="fd-empty">还没建立学习档案 · 去 <a href="/tools/textbook-browser" style="color:var(--amber);font-weight:700">教材原文</a> 翻一章开启</div>';
+        if (ins) ins.innerHTML = '';
+        return;
+    }
+    // 表头
+    var h = '';
+    h += '<div class="fd-h">学段</div>';
+    h += '<div class="fd-h">学科</div>';
+    h += '<div class="fd-h">📖 读</div>';
+    h += '<div class="fd-h">✏️ 练</div>';
+    h += '<div class="fd-h">⚠️ 错</div>';
+    h += '<div class="fd-h">🗣️ 讲</div>';
+    h += '<div class="fd-h">综合</div>';
+    rows.forEach(function(r){
+        function metCell(dim, raw){
+            var b = _scoreBucket(dim);
+            var w = Math.max(2, dim);
+            return '<div class="fd-c fd-met s'+b+'" title="'+raw+'">'+dim
+                + '<div class="fd-bar"><i style="width:'+w+'%"></i></div></div>';
+        }
+        var cb = _scoreBucket(r.comp);
+        h += '<div class="fd-c fd-stg">'+r.stage+'</div>';
+        h += '<div class="fd-c fd-sub"><span class="subj-chip '+r.subj+'"></span>'+r.subjZh+'</div>';
+        h += metCell(r.read.score, r.read.raw);
+        h += metCell(r.arcade.score, r.arcade.raw);
+        h += metCell(r.error.score, r.error.raw);
+        h += metCell(r.feynman.score, r.feynman.raw);
+        h += '<div class="fd-c fd-comp s'+cb+'"><span class="fd-pill">'+r.comp+'</span></div>';
+    });
+    grid.innerHTML = h;
+
+    // 洞察：找综合分最高那行的最弱维度，给一条"补差"建议
+    if (ins){
+        var best = rows.reduce(function(a,b){ return b.comp > a.comp ? b : a; }, rows[0]);
+        if (best.comp === 0){
+            ins.className = 'fd-insight';
+            ins.innerHTML = '<span class="fd-i-em">🌱</span>'
+              + '<span class="fd-i-tx">还没开学 · 选一本教材翻一章，4 维就开始亮起来</span>'
+              + '<a class="fd-i-cta" href="/tools/textbook-browser">从教材开始 →</a>';
+            return;
+        }
+        var dims = [
+            {key:'read', score:best.read.score, name:'读', cta:'去翻教材', href:'/tools/textbook-browser?subject='+encodeURIComponent(SUBJ_ZH_FULL[best.subj])},
+            {key:'arcade', score:best.arcade.score, name:'练', cta:'去练 5 题', href:'/tools/knowledge-arcade?subject='+best.subj},
+            {key:'error', score:best.error.score, name:'错', cta:'去攻克错题', href:'/tools/error-mastery'},
+            {key:'feynman', score:best.feynman.score, name:'讲', cta:'去讲一遍', href:'/tools/feynman-verify'},
+        ];
+        // 只在 read>0 的强项里挑最弱维度（避免推一个完全没碰过的学科）
+        var weakest = dims.reduce(function(a,b){ return b.score < a.score ? b : a; });
+        // 全维>=70：换文案
+        var allStrong = dims.every(function(d){ return d.score >= 70; });
+        if (allStrong){
+            ins.className = 'fd-insight calm';
+            ins.innerHTML = '<span class="fd-i-em">🌳</span>'
+              + '<span class="fd-i-tx">你最强的 <b>'+best.stage+best.subjZh+'</b> 四维都过 70 · 综合 <b>'+best.comp+'</b>。建议去带一个新学科。</span>'
+              + '<a class="fd-i-cta" href="#subj-sec">看其他学科 →</a>';
+        } else {
+            var msg;
+            if (weakest.key === 'read'){
+                msg = '<b>'+best.stage+best.subjZh+'</b> 已练到综合 '+best.comp+'，但<b>读得最少</b> · 该回头补教材原文了';
+            } else if (weakest.key === 'arcade'){
+                msg = '<b>'+best.stage+best.subjZh+'</b> 读得最多但<b>练得最少</b> · 输入有了，该输出验证';
+            } else if (weakest.key === 'error'){
+                msg = '<b>'+best.stage+best.subjZh+'</b> 题做了不少，但<b>错题没复盘</b> · 错题才是提分点';
+            } else {
+                msg = '<b>'+best.stage+best.subjZh+'</b> 三维都在动，但<b>没讲过一遍</b> · 费曼一次胜十题';
+            }
+            ins.className = 'fd-insight';
+            ins.innerHTML = '<span class="fd-i-em">🎯</span>'
+              + '<span class="fd-i-tx">'+msg+'</span>'
+              + '<a class="fd-i-cta" href="'+weakest.href+'">'+weakest.cta+' →</a>';
+        }
+    }
 }
 
 // ============== SMART NEXT STEPS ==============
