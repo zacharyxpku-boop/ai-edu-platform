@@ -227,6 +227,25 @@
         },
 
         /**
+         * 按 ID 局部更新错题字段（patch 合并；不能改 id/timestamp）
+         * 用于回写 AI 诊断、补充 mistakeTags 等。
+         */
+        updateError: function (id, patch) {
+            if (!id || !patch || typeof patch !== 'object') return false;
+            var pool = safeGet(KEYS.ERRORS);
+            for (var i = 0; i < pool.length; i++) {
+                if (pool[i].id === id) {
+                    Object.keys(patch).forEach(function (k) {
+                        if (k === 'id' || k === 'timestamp') return; // 锁字段
+                        pool[i][k] = patch[k];
+                    });
+                    return safeSet(KEYS.ERRORS, pool);
+                }
+            }
+            return false;
+        },
+
+        /**
          * 标记错题已复习（下次复习按 FSRS 简化版递增）
          */
         markErrorReviewed: function (id, remembered) {

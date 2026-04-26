@@ -81,6 +81,12 @@ a{color:inherit}
 .item-ans{font-size:13px;color:var(--ink2);background:var(--emerald-bg);padding:8px 12px;border-radius:6px;font-family:var(--mono);margin-bottom:8px;border:1px solid #A7F3D0}
 .item-ans b{color:var(--emerald);font-weight:700}
 .item-exp{font-size:12px;color:var(--ink3);line-height:1.65;margin-bottom:10px;white-space:pre-wrap}
+.item-exp.ai{background:#F5F3FF;border-left:3px solid #7C3AED;padding:10px 12px;border-radius:0 8px 8px 0;color:var(--ink2);margin-top:8px}
+.item-exp.ai .ai-tag{display:inline-block;font-size:10px;font-weight:700;color:#7C3AED;background:#fff;padding:2px 7px;border-radius:4px;margin-bottom:6px;letter-spacing:.5px}
+.btn-violet{background:#7C3AED;color:#fff;border-color:transparent}
+.btn-violet:hover{background:#6D28D9;color:#fff}
+.btn-loading{opacity:.6;pointer-events:none;position:relative}
+.btn-loading::after{content:' ⏳'}
 .item-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .btn{padding:7px 12px;border-radius:6px;font-size:12px;font-weight:700;border:1px solid var(--bdr2);cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:5px;line-height:1;background:#fff;color:var(--ink2)}
 .btn:hover{border-color:var(--ink3);color:var(--ink)}
@@ -255,6 +261,7 @@ function renderList(){
     if (longQ) h += '<div class="item-expand" onclick="this.previousElementSibling.classList.toggle(\'expanded\');this.previousElementSibling.classList.remove(\'fade\');this.style.display=\'none\'">展开全文</div>';
     if (e.correctAnswer) h += '<div class="item-ans"><b>正确答案：</b>' + escHtml(e.correctAnswer) + '</div>';
     if (e.explanation) h += '<div class="item-exp">' + escHtml(e.explanation.slice(0, 400)) + (e.explanation.length > 400 ? '...' : '') + '</div>';
+    if (e.aiExplanation) h += '<div class="item-exp ai"><span class="ai-tag">🤖 AI 诊断</span>' + escHtml(e.aiExplanation) + '</div>';
     h += '<div class="item-actions">';
     if (isDue && !isMas){
       h += '<button class="btn btn-ok" data-act="ok" data-id="' + e.id + '">✓ 记得了</button>';
@@ -264,7 +271,9 @@ function renderList(){
     if (e.textbookPath && e.textbookCh != null){
       h += '<a class="btn" href="/tools/textbook-browser?book=' + encodeURIComponent(e.textbookPath) + '&ch=' + e.textbookCh + '" target="_blank">📖 看课本</a>';
     }
-    h += '<a class="btn btn-amber" href="/tools/error-mastery?prefill=' + encodeURIComponent((e.question || '').slice(0,400)) + '" target="_blank">🤖 AI 深度分析</a>';
+    var hasAI = e.aiExplanation && e.aiExplanation.length;
+    h += '<button class="btn btn-violet" data-act="ai" data-id="' + e.id + '">' + (hasAI ? '🤖 重新讲透' : '🤖 让 AI 讲透') + '</button>';
+    h += '<a class="btn btn-amber" href="/tools/error-mastery?prefill=' + encodeURIComponent((e.question || '').slice(0,400)) + '" target="_blank">深度分析 →</a>';
     h += '<span class="spacer"></span>';
     h += '<button class="del" data-act="del" data-id="' + e.id + '">删除</button>';
     h += '</div>';
@@ -282,10 +291,53 @@ function renderList(){
         window.LearningStore.markErrorReviewed(id, true);
       } else if (act === 'no'){
         window.LearningStore.markErrorReviewed(id, false);
+      } else if (act === 'ai'){
+        return aiExplain(id, b);
       }
       loadStats();
       renderList();
     });
+  });
+}
+
+// 让 DeepSeek 给这道错题做诊断；写回 LearningStore；重渲染 list
+function aiExplain(id, btn){
+  const all = window.LearningStore.getErrors();
+  const e = all.find(function(x){ return x.id === id; });
+  if (!e){ alert('找不到这道题'); return; }
+  btn.classList.add('btn-loading');
+  btn.textContent = '🤖 思考中';
+  const subjZh = SUBJ_ZH[e.subject] || e.subjectZh || e.subject || '';
+  const sys = '你是耐心的中学'+(subjZh||'')+'老师。学生答错了一道题，你要用最短的话讲清楚三件事：(1) 这题在考什么知识点；(2) 学生最可能踩的坑；(3) 下次怎么避免。' +
+              '语言：清晰、口语化、不要 markdown 标题，直接出三段或三条短句即可。150-220 字最佳。';
+  const userMsg = '题目：\n' + (e.question || '').slice(0, 1200) + '\n\n标准答案：' + (e.correctAnswer || '（无）') + '\n\n学生答案：' + (e.studentAnswer || '（自评做错）') + '\n\n知识点：' + (e.keyword || '（无）');
+  fetch('/api/ai-proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      provider: 'deepseek',
+      temperature: 0.3,
+      max_tokens: 600,
+      stream: false,
+      messages: [
+        { role: 'system', content: sys },
+        { role: 'user', content: userMsg }
+      ]
+    })
+  }).then(function(r){
+    if (!r.ok) return r.json().then(function(j){ throw new Error(j.message || ('HTTP ' + r.status)); });
+    return r.json();
+  }).then(function(j){
+    var raw = ((j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || '').trim();
+    if (!raw) throw new Error('AI 没说话，再试一次');
+    window.LearningStore.updateError(id, { aiExplanation: raw, aiExplainedAt: Date.now() });
+    btn.classList.remove('btn-loading');
+    loadStats();
+    renderList();
+  }).catch(function(err){
+    btn.classList.remove('btn-loading');
+    btn.textContent = '🤖 重试';
+    alert('AI 诊断失败：' + (err.message || err));
   });
 }
 (function init(){
