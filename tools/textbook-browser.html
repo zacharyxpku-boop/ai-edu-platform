@@ -85,6 +85,10 @@ h1 em{font-style:normal;color:var(--cta)}
 .ch-title{font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ch-meta{font-size:11px;color:var(--ink4);white-space:nowrap;flex-shrink:0}
 .ch-done{font-size:11px;color:var(--green);font-weight:700;white-space:nowrap}
+.ch-err{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#fff;background:#DC2626;padding:2px 7px;border-radius:100px;font-weight:800;margin-left:6px;font-variant-numeric:tabular-nums;line-height:1}
+.ch-err.due{background:#DC2626}
+.ch-err.calm{background:#A1A1AA}
+.ch-err::before{content:'⚠'}
 
 /* ===== READER MODAL ===== */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
@@ -553,12 +557,35 @@ function openBook(path){
         ' <small style="display:inline;color:var(--ink4);font-weight:500">' + esc(book.edition) + ' · ' + book.page_count + ' 页</small>';
     $('panel-notice').style.display = 'block';
     var read = getRead();
+    // 聚合本书每章的错题数（活跃 + 到期）— 一次扫描全池
+    var chErrAll = {}, chErrDue = {};
+    if (window.LearningStore && window.LearningStore.getErrors){
+        try {
+            var pool = window.LearningStore.getErrors() || [];
+            var now = Date.now();
+            pool.forEach(function(e){
+                if (e.textbookPath !== path || e.textbookCh == null) return;
+                if ((e.reviewCount || 0) >= 3) return; // 已掌握不算积压
+                var k = e.textbookCh;
+                chErrAll[k] = (chErrAll[k] || 0) + 1;
+                if ((e.nextReviewAt || 0) <= now) chErrDue[k] = (chErrDue[k] || 0) + 1;
+            });
+        } catch(_){}
+    }
     var html = (book.chapters || []).map(function(c){
         var sig = book.path + '::ch' + c.ch;
         var isRead = read.has(sig);
+        var errN = chErrAll[c.ch] || 0;
+        var dueN = chErrDue[c.ch] || 0;
+        var errBadge = '';
+        if (errN > 0){
+            var cls = dueN > 0 ? 'due' : 'calm';
+            var title = dueN > 0 ? (dueN + ' 道今日到期') : (errN + ' 道在间隔期');
+            errBadge = '<span class="ch-err ' + cls + '" title="' + title + '">' + errN + '</span>';
+        }
         return '<div class="ch-row" data-ch="' + c.ch + '">' +
             '<div class="ch-row-left">' +
-                '<div class="ch-num">第 ' + c.ch + ' 章</div>' +
+                '<div class="ch-num">第 ' + c.ch + ' 章' + errBadge + '</div>' +
                 '<div class="ch-title">' + esc(c.title) + '</div>' +
             '</div>' +
             '<div>' +
