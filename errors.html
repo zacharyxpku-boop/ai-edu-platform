@@ -514,6 +514,13 @@ function aiExplain(id, btn){
     $('list').innerHTML = '<div class="empty"><b>错题池模块未加载</b>请刷新页面</div>';
     return;
   }
+  // 接受 ?subject=&view=&keyword= 深链
+  try {
+    const p = new URLSearchParams(location.search);
+    if (p.get('subject')) FILTER.subject = p.get('subject');
+    if (p.get('view') && ['due','all','mastered'].indexOf(p.get('view')) >= 0) FILTER.view = p.get('view');
+    if (p.get('keyword')) FILTER.keyword = p.get('keyword');
+  } catch(e){}
   loadStats();
   renderWeak();
   renderTrend();

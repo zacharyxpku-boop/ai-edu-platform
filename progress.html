@@ -188,12 +188,15 @@
     .subj-cell.has .sc-cta a:hover{text-decoration:underline}
 
     .subj-act{margin-top:16px;background:var(--bg);border:1px solid var(--bdr);border-radius:10px;overflow:hidden}
-    .subj-act-row{display:grid;grid-template-columns:110px repeat(3,1fr);align-items:center;border-top:1px solid var(--bdr);padding:12px 14px;gap:8px}
+    .subj-act-row{display:grid;grid-template-columns:104px repeat(4,1fr);align-items:center;border-top:1px solid var(--bdr);padding:12px 14px;gap:8px}
     .subj-act-row:first-child{border-top:none;background:#FAFAF9;font-size:11px;color:var(--ink3);font-weight:700}
     .subj-act-row .ar-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
     .subj-act-row .ar-n{font-size:16px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums}
     .subj-act-row .ar-n.zero{color:var(--ink4);font-weight:500}
     .subj-act-row .ar-t{font-size:11px;color:var(--ink3);margin-left:4px;font-weight:500}
+    .subj-act-row a.ar-link{display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:inherit;border-radius:5px;padding:2px 4px;margin:-2px -4px;transition:background .12s}
+    .subj-act-row a.ar-link:hover{background:#FEF2F2}
+    .subj-act-row .ar-n.due{color:var(--red);font-weight:900}
     .subj-chip{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:5px}
     .subj-chip.math{background:#2563EB}
     .subj-chip.physics{background:#7C3AED}
@@ -244,8 +247,9 @@
         .subj-flex{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
         .subj-cell{padding:10px 10px;min-height:74px}
         .subj-cell .sc-n{font-size:18px}
-        .subj-act-row{grid-template-columns:88px repeat(3,1fr);padding:10px;gap:6px}
-        .subj-act-row .ar-n{font-size:14px}
+        .subj-act-row{grid-template-columns:74px repeat(4,1fr);padding:10px;gap:5px}
+        .subj-act-row .ar-n{font-size:13px}
+        .subj-act-row .ar-t{font-size:10px;margin-left:2px}
     }
     </style>
 </head>
@@ -354,7 +358,7 @@
     <div class="subj-wrap">
         <div class="subj-sub-h">📖 教材阅读<span class="muted">数据来源 · 教材原文工具 · 全 <b id="subj-book-ct">—</b> 本 <b id="subj-ch-ct">—</b> 章</span></div>
         <div id="subj-read-stages"></div>
-        <div class="subj-sub-h" style="margin-top:20px">🧠 答题 · 攻克 · 讲清<span class="muted">数据来源 · 题库速练 / 错题举一反三 / 费曼验证</span></div>
+        <div class="subj-sub-h" style="margin-top:20px">🧠 答题 · 攻克 · 讲清 · 积压<span class="muted">数据来源 · 题库速练 / 错题举一反三 / 费曼验证 / 错题本未掌握数</span></div>
         <div class="subj-act" id="subj-act-wrap"></div>
     </div>
 </section>
@@ -955,31 +959,56 @@ function renderReadGrid(matrix, manifest) {
     wrap.innerHTML = h || '<div style="padding:20px;text-align:center;color:var(--ink4);font-size:12px">manifest 未加载</div>';
 }
 
-function renderActivityTable(act) {
+// 从 LearningStore 错题池统计每学科未掌握(reviewCount<3)的错题数
+function parseSubjBacklog() {
+    var out = {};
+    SUBJ_KEYS.forEach(function(sk){ out[sk] = 0; });
+    if (!window.LearningStore || !window.LearningStore.getErrors) return out;
+    try {
+        var pool = window.LearningStore.getErrors() || [];
+        pool.forEach(function(e){
+            if ((e.reviewCount || 0) >= 3) return;
+            if (e.subject && out[e.subject] != null) out[e.subject] += 1;
+        });
+    } catch(_){}
+    return out;
+}
+
+function renderActivityTable(act, backlog) {
     var wrap = document.getElementById('subj-act-wrap');
     if (!wrap) return;
+    backlog = backlog || {};
     var h = '';
     h += '<div class="subj-act-row">'
        + '<div>学科</div>'
        + '<div>题库速练</div>'
        + '<div>错题攻克</div>'
        + '<div>费曼讲清</div>'
+       + '<div>错题积压</div>'
        + '</div>';
     // 只显示有数据的学科；若全为 0，保底显示 math/physics/chemistry 三条占位
     var active = SUBJ_KEYS.filter(function(sk){
-        var d = act[sk]; return d && (d.arcade + d.error + d.feynman) > 0;
+        var d = act[sk] || {arcade:0,error:0,feynman:0};
+        return (d.arcade + d.error + d.feynman + (backlog[sk]||0)) > 0;
     });
     if (!active.length) active = ['math','physics','chemistry'];
     active.forEach(function(sk){
-        var d = act[sk];
+        var d = act[sk] || {arcade:0,error:0,feynman:0};
+        var bl = backlog[sk] || 0;
         var cell = function(n, unit){
             return '<div><span class="ar-n ' + (n===0?'zero':'') + '">' + n + '</span><span class="ar-t">' + unit + '</span></div>';
         };
+        // 积压列：>0 时染红 + 链到 /errors?subject=
+        var blCell = bl > 0
+            ? '<div><a class="ar-link" href="/errors.html?subject=' + sk + '" title="去复习这' + bl + '道">'
+                + '<span class="ar-n due">' + bl + '</span><span class="ar-t">道待复</span></a></div>'
+            : '<div><span class="ar-n zero">0</span><span class="ar-t"> 道</span></div>';
         h += '<div class="subj-act-row">'
            + '<div class="ar-name"><span class="subj-chip ' + sk + '"></span>' + SUBJ_ZH[sk] + '</div>'
            + cell(d.arcade, ' 次')
            + cell(d.error, ' 题')
            + cell(d.feynman, ' 轮')
+           + blCell
            + '</div>';
     });
     wrap.innerHTML = h;
@@ -987,7 +1016,8 @@ function renderActivityTable(act) {
 
 function renderSubjects() {
     var act = parseSubjActivity();
-    renderActivityTable(act);
+    var backlog = parseSubjBacklog();
+    renderActivityTable(act, backlog);
     // manifest 需异步拉
     fetch('/data/extracted/manifest.json', { cache: 'force-cache' })
         .then(function(r){ return r.ok ? r.json() : { books: [] }; })
