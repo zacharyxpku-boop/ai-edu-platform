@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>演示模式 · 30 秒看到产品满载状态 | 原点智学</title>
+<meta name="description" content="一键注入示例数据：8 道错题、12 章已读、20 次答题、6 段费曼录音。然后去 progress / errors / quiz 看产品长什么样。本地数据，不上传。看完一键清空。">
+<meta name="theme-color" content="#7C3AED">
+<link rel="canonical" href="https://www.yuandianzhixue.com/demo.html">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%237C3AED'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23fff' font-weight='900'>D</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--bdr2:#D4D4D8;
+  --amber:#F5A623;--amber-bg:#FFFBF0;
+  --emerald:#059669;--emerald-bg:#ECFDF5;
+  --violet:#7C3AED;--violet-bg:#F5F3FF;--violet-deep:#5B21B6;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --font:'Noto Sans SC',system-ui,sans-serif;
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:920px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--violet);background:var(--violet-bg)}
+
+.wrap{max-width:780px;margin:0 auto;padding:40px 20px 80px}
+
+.hero{text-align:center;margin-bottom:30px}
+h1{font-size:clamp(28px,5vw,42px);font-weight:900;letter-spacing:-1px;line-height:1.15}
+h1 em{font-style:normal;color:var(--violet);font-variant-numeric:tabular-nums}
+.subh{margin-top:14px;color:var(--ink2);font-size:15px;line-height:1.7;max-width:640px;margin-left:auto;margin-right:auto}
+
+.alert{margin:24px auto;padding:14px 18px;background:var(--violet-bg);border:1px solid #C4B5FD;border-radius:10px;font-size:13px;color:var(--violet-deep);line-height:1.6;max-width:640px}
+.alert b{color:var(--violet);font-weight:800}
+
+.card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:28px 28px;margin-bottom:18px}
+.card h2{font-size:18px;font-weight:900;margin-bottom:8px;letter-spacing:-.3px}
+.card p{font-size:13px;color:var(--ink3);margin-bottom:14px;line-height:1.6}
+
+.btn{padding:12px 22px;border-radius:8px;font-size:14px;font-weight:800;border:1px solid transparent;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn-primary{background:var(--violet);color:#fff}
+.btn-primary:hover{background:var(--violet-deep)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--bdr2)}
+.btn-ghost:hover{background:#FAFAFA;border-color:var(--ink3)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-loading{opacity:.6;pointer-events:none}
+
+.preview{margin-top:18px;padding:14px 16px;background:#FAFAFA;border:1px solid var(--bdr);border-radius:10px;font-size:12px;color:var(--ink3);line-height:1.7}
+.preview b{color:var(--ink);font-weight:700}
+.preview ul{padding-left:20px;margin-top:6px}
+
+.routes{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.routes a{display:block;background:var(--violet-bg);border:1px solid #DDD6FE;border-radius:8px;padding:12px 14px;text-decoration:none;color:var(--violet-deep)}
+.routes a:hover{background:#fff;border-color:var(--violet)}
+.routes a b{display:block;font-size:13px;font-weight:800}
+.routes a small{font-size:11px;color:var(--violet)}
+
+.status-mark{font-size:13px;color:var(--ink3);margin-top:14px;padding:10px 14px;background:#FAFAFA;border-radius:8px;border-left:3px solid var(--ink4);display:none}
+.status-mark.on{display:block}
+.status-mark.ok{border-left-color:var(--emerald);color:var(--emerald);background:var(--emerald-bg)}
+.status-mark.danger{border-left-color:var(--red);color:var(--red);background:var(--red-bg)}
+
+.mode-banner{position:fixed;top:0;left:0;right:0;z-index:200;background:linear-gradient(90deg,var(--violet),#8B5CF6);color:#fff;padding:6px 16px;text-align:center;font-size:12px;font-weight:600;letter-spacing:.3px;display:none}
+.mode-banner.on{display:block}
+.mode-banner a{color:#fff;text-decoration:underline;font-weight:800}
+body.demo-on{padding-top:32px}
+body.demo-on .nav{top:32px}
+</style>
+</head>
+<body>
+
+<div class="mode-banner" id="mode-banner">
+  ⚡ 演示模式已开启 · 显示的全部是示例数据 · <a href="javascript:void(0)" onclick="clearDemo()">退出并清空</a>
+</div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
+      原点智学
+    </a>
+    <a href="/demo.html" class="nav-a on">演示</a>
+    <a href="/quiz.html" class="nav-a">每日一题</a>
+    <a href="/progress.html" class="nav-a">成长档案</a>
+    <a href="/about.html" class="nav-a">关于</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>30 秒看到 <em>满载状态</em><br>不用真的学一遍</h1>
+    <div class="subh">progress / errors / quiz 这些工具页第一次打开是空的——你还没产生任何数据。<br>这里一键注入一组示例：12 章已读、20 道答题、8 道错题、6 段费曼录音、AI 出题 3 道。然后去那些页面，看产品长出来是什么样。</div>
+  </div>
+
+  <div class="alert">
+    <b>关于隐私：</b>注入的"演示数据"全部存在你的浏览器 localStorage（你这台设备本地），不会上传到服务器。退出演示时一键清空，不留痕迹。如果你已经有真实学习数据，演示模式不会覆盖；先在下方点「清空所有」再注入。
+  </div>
+
+  <div class="card">
+    <h2>① 注入示例数据</h2>
+    <p>包括：12 章教材已读（数学/物理/化学/语文/历史/地理）+ 20 次 quiz 答题（对 14 错 6）+ 8 道错题（自带正确答案/解析）+ 3 道 AI 章内题 + 7 天 XP 折线 + 6 段费曼记录。</p>
+    <button class="btn btn-primary" id="btn-inject">⚡ 一键注入演示数据</button>
+    <div class="status-mark" id="mark-inject"></div>
+
+    <div class="preview" id="preview-existing">
+      <b>当前 localStorage 状态扫描中...</b>
+    </div>
+
+    <div class="routes" id="routes-mount" style="display:none">
+      <a href="/progress.html" target="_blank"><b>📊 成长档案</b><small>四维体检 + XP 曲线</small></a>
+      <a href="/errors.html" target="_blank"><b>⚠️ 错题本</b><small>FSRS 间隔复习</small></a>
+      <a href="/quiz.html" target="_blank"><b>📝 每日一题</b><small>3 道题已浏览</small></a>
+      <a href="/tools/textbook-browser" target="_blank"><b>📖 教材原文</b><small>12 章已读 + 错题提示</small></a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>② 退出 / 清空</h2>
+    <p>看完了想恢复成空白页面（或者本来就是真用户、想清掉自己的真数据），点这里。<b>会清掉所有 ydzx_* 开头的 localStorage</b>，包括真实数据，请慎用。</p>
+    <button class="btn btn-danger" id="btn-clear">🗑 清空所有 ydzx_* 数据</button>
+    <div class="status-mark" id="mark-clear"></div>
+  </div>
+
+</div>
+
+<script src="/src/learning-store.js"></script>
+<script src="/src/gamification.js"></script>
+<script>
+const DEMO_FLAG_KEY = 'ydzx_demo_mode_v1';
+
+// 真实 manifest 路径，确保 demo 数据能在 textbook-browser 里被打开
+const REF_MATH7 = '初中/数学/人教版/七年级/上册';
+const REF_PHY8 = '初中/物理/人教版/八年级/上册';
+const REF_CHEM9 = '初中/化学/人教版/九年级/上册';
+const REF_BIO7 = '初中/生物学/人教版/七年级/上册';
+const REF_CHN7 = '初中/语文/统编版/七年级/上册';
+const REF_HIS7 = '初中/历史/统编版/七年级/下册';
+const REF_GEO7 = '初中/地理/人教版/七年级/上册';
+const REF_PHY9 = '初中/物理/人教版/九年级/全一册';
+const REF_POL_HS = '高中/思想政治/统编版/必修2/经济与社会';
+
+// 8 道演示错题（从 seed-questions-generated.json 真题挑的，真实 textbook_ref）
+const DEMO_ERRORS = [
+  { source: 'quiz', quizId: 'gen-math-de1eb900-1', subject: 'math', subjectZh: '数学', stage: '初中',
+    keyword: '正负数', question: '如果水位升高 3m 记作 +3m，那么水位下降 3m 记作 ______ m，水位不升不降时记作 ______ m。',
+    studentAnswer: '（自评：做错了）', correctAnswer: '-3 m；0 m', explanation: '正负数表示一对相反意义的量，0 表示基准。',
+    textbookPath: REF_MATH7, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评', '基础概念'] },
+  { source: 'quiz', quizId: 'gen-physics-3485b317-1', subject: 'physics', subjectZh: '物理', stage: '初中',
+    keyword: '分子间作用力', question: '将两个铅柱的底面削平削干净紧紧压在一起，两个铅柱就会结合起来。这个实验说明什么？',
+    studentAnswer: '（自评：做错了）', correctAnswer: '说明分子间存在引力。', explanation: '铅柱表面分子接近时分子间引力起作用，宏观表现为两块铅黏合。',
+    textbookPath: REF_PHY9, textbookCh: 13, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评'] },
+  { source: 'quiz', quizId: 'gen-chemistry-7b502f8e-1', subject: 'chemistry', subjectZh: '化学', stage: '初中',
+    keyword: '物理变化', question: '下列变化中，属于物理变化的是（ ）\nA. 铁生锈\nB. 水沸腾\nC. 蜡烛燃烧\nD. 石灰石与盐酸反应',
+    studentAnswer: '（自评：做错了）', correctAnswer: 'B. 水沸腾', explanation: '物理变化没有新物质生成；A/C/D 都生成了新物质属化学变化。',
+    textbookPath: REF_CHEM9, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评', '常考'] },
+  { source: 'quiz', quizId: 'gen-biology-75207012-1', subject: 'biology', subjectZh: '生物', stage: '初中',
+    keyword: '生物特征', question: '下列哪种现象属于生物能对外界刺激作出反应？\nA. 向日葵的花盘朝向太阳\nB. 植物光合作用\nC. 人体排汗\nD. 母猫生小猫',
+    studentAnswer: '（自评：做错了）', correctAnswer: 'A. 向日葵的花盘朝向太阳', explanation: '应激性的体现：光为外界刺激，向日葵花盘朝向太阳为反应。',
+    textbookPath: REF_BIO7, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评'] },
+  { source: 'quiz', quizId: 'gen-history-f9e825a9-1', subject: 'history', subjectZh: '历史', stage: '初中',
+    keyword: '大运河', question: '隋朝大运河以哪座城市为中心？它连接了哪五大水系？',
+    studentAnswer: '（自评：做错了）', correctAnswer: '以洛阳为中心；连接海河、黄河、淮河、长江、钱塘江五大水系。', explanation: '隋炀帝时开凿，南起余杭、北至涿郡，全长 2700 余公里。',
+    textbookPath: REF_HIS7, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评', '记忆型'] },
+  { source: 'quiz', quizId: 'gen-geography-76a4a8eb-1', subject: 'geography', subjectZh: '地理', stage: '初中',
+    keyword: '地球形状', question: '地球的真实形状最准确的描述是（ ）\nA. 完美正球体\nB. 两极稍扁、赤道略鼓的不规则球体\nC. 像橘子一样上下扁平\nD. 像鸡蛋一样一头大',
+    studentAnswer: '（自评：做错了）', correctAnswer: 'B. 两极稍扁、赤道略鼓的不规则球体', explanation: '由于自转产生离心力，赤道半径比极半径大约 21 km。',
+    textbookPath: REF_GEO7, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评'] },
+  { source: 'quiz', quizId: 'gen-chinese-64fb9acb-1', subject: 'chinese', subjectZh: '语文', stage: '初中',
+    keyword: '比喻', question: '《春》中作者把春天比作"刚落地的娃娃""小姑娘""健壮的青年"，分别突出春天什么特点？',
+    studentAnswer: '（自评：做错了）', correctAnswer: '新生（娃娃）/ 美丽（小姑娘）/ 充满力量（青年）。', explanation: '三组比喻按时间顺序展示春天从初生到旺盛的过程。',
+    textbookPath: REF_CHN7, textbookCh: 1, verdict: 'wrong', score: 0, mistakeTags: ['quiz 自评', '修辞'] },
+  { source: 'error-practice', subject: 'math', subjectZh: '数学', stage: '初中', keyword: '负号化简',
+    question: '化简：-(-3) + (-5) - |-2| = ？', studentAnswer: '8', correctAnswer: '-4',
+    explanation: '-(-3)=3，3+(-5)=-2，-2-|-2|=-2-2=-4。学生忽略了|-2|=2 这一步。',
+    verdict: 'wrong', score: 0, mistakeTags: ['符号', '绝对值'] }
+];
+
+// 教材已读章节
+const DEMO_READ = [
+  REF_MATH7+'::ch1', REF_MATH7+'::ch2',
+  REF_PHY8+'::ch1', REF_PHY8+'::ch2', REF_PHY8+'::ch3',
+  REF_CHEM9+'::ch1',
+  REF_BIO7+'::ch1',
+  REF_CHN7+'::ch1', REF_CHN7+'::ch2',
+  REF_HIS7+'::ch1',
+  REF_GEO7+'::ch1', REF_GEO7+'::ch2',
+];
+
+// quiz outcome：14 对 6 错（错的对应上面 6 道 quizId，对的随机分布）
+const DEMO_QUIZ_OUTCOMES = (function(){
+  const today = new Date().toISOString().slice(0,10);
+  const o = {};
+  // 6 道错题对应的 quizId 标 bad
+  ['gen-math-de1eb900-1','gen-physics-3485b317-1','gen-chemistry-7b502f8e-1',
+   'gen-biology-75207012-1','gen-history-f9e825a9-1','gen-geography-76a4a8eb-1']
+    .forEach(function(id){ o[id] = { r: 'bad', d: today }; });
+  // 14 道 good
+  const goodIds = ['gen-math-x1','gen-math-x2','gen-physics-y1','gen-physics-y2','gen-chemistry-z1',
+    'gen-chinese-y1','gen-chinese-y2','gen-history-z1','gen-history-z2','gen-geography-z1',
+    'gen-biology-y1','gen-biology-y2','gen-politics-z1','gen-math-x3'];
+  goodIds.forEach(function(id){ o[id] = { r: 'good', d: today }; });
+  return o;
+})();
+const DEMO_QUIZ_SEEN = Object.keys(DEMO_QUIZ_OUTCOMES);
+
+// AI 章内出题（textbook-browser 持久化的 GEN_KEY 格式）
+const DEMO_GEN = (function(){
+  const ts = Date.now() - 24*3600*1000;
+  return {
+    [REF_MATH7+'::ch1']: [
+      { id: 'ai-math-demo01-0', subject: 'math', stage: '初中', grade: '七年级', chapter: '第一章 有理数',
+        question_text: '若 a 是负数，则 -a 是______数（填正/负）。',
+        answer: '正', solution_steps: '负数的相反数是正数。',
+        knowledge_points: [], textbook_ref: { path: REF_MATH7, ch: 1, source: 'ai-textbook' },
+        difficulty: 'easy', source: 'ai-textbook', created_at: ts }
+    ],
+    [REF_PHY8+'::ch1']: [
+      { id: 'ai-physics-demo01-0', subject: 'physics', stage: '初中', grade: '八年级', chapter: '第一章 机械运动',
+        question_text: '小明 8 分钟走了 480 米，他的平均速度是多少？',
+        answer: '1 m/s（或 60 m/min）', solution_steps: 'v = s/t = 480/(8×60) = 1 m/s。',
+        knowledge_points: [], textbook_ref: { path: REF_PHY8, ch: 1, source: 'ai-textbook' },
+        difficulty: 'medium', source: 'ai-textbook', created_at: ts },
+      { id: 'ai-physics-demo01-1', subject: 'physics', stage: '初中', grade: '八年级', chapter: '第一章 机械运动',
+        question_text: '使用刻度尺前应观察哪三个要素？',
+        answer: '量程、分度值、零刻度线是否磨损。', solution_steps: '常考的测量基本功。',
+        knowledge_points: [], textbook_ref: { path: REF_PHY8, ch: 1, source: 'ai-textbook' },
+        difficulty: 'easy', source: 'ai-textbook', created_at: ts }
+    ]
+  };
+})();
+
+// XP 日志（gamification log）—— 7 天每日累计
+function buildDemoXPLog(){
+  const log = [];
+  const now = Date.now();
+  const day = 24 * 3600 * 1000;
+  // 7 天，每天 5-15 个事件
+  for (let d = 6; d >= 0; d--){
+    const base = now - d * day - (Math.random() * 3 * 3600 * 1000);
+    const events = [
+      { reason: '教材精读 · 数学 第'+(d+1)+'章', amount: 5 },
+      { reason: '题库速练 · 数学 · quiz', amount: 2 },
+      { reason: '题库速练 · 物理 · quiz', amount: 2 },
+      { reason: '题库速练 · 化学 · quiz', amount: 2 },
+      { reason: '错题攻克 · 数学 · quiz', amount: 3 },
+      { reason: '费曼验证 · 数学 · 银级', amount: 20 },
+    ];
+    events.forEach(function(e, i){
+      log.push({
+        type: 'xp',
+        ts: base + i * 60000,
+        amount: e.amount,
+        reason: e.reason,
+        total: 0  // 累计在 LearningStore/gamification 内部不参与，只用 reason 给 progress 解析
+      });
+    });
+  }
+  return log;
+}
+
+function $(id){ return document.getElementById(id); }
+function safeGet(k, dflt){ try { return JSON.parse(localStorage.getItem(k) || (dflt!=null?JSON.stringify(dflt):'null')); } catch(e){ return dflt; } }
+function safeSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ return false; } }
+
+function scanExisting(){
+  const keys = Object.keys(localStorage).filter(function(k){ return k.indexOf('ydzx_') === 0 || k.indexOf('yuandian') === 0; });
+  const wrap = $('preview-existing');
+  if (!keys.length){
+    wrap.innerHTML = '<b>当前为空白账号</b>·没有任何 ydzx_* 数据 · 注入演示后会全部填上';
+  } else {
+    wrap.innerHTML = '<b>已有 ' + keys.length + ' 条 localStorage 记录</b>（包括真实学习数据，比如 textbook 已读、quiz 评分、错题）：'
+      + '<ul>' + keys.slice(0, 10).map(function(k){ return '<li>' + k + '</li>'; }).join('') + (keys.length > 10 ? '<li>... 共 ' + keys.length + ' 条</li>' : '') + '</ul>'
+      + '想看演示效果，建议先点下方「清空所有」再注入。';
+  }
+}
+
+function injectDemo(){
+  const btn = $('btn-inject');
+  btn.classList.add('btn-loading');
+  btn.textContent = '⏳ 注入中...';
+  try {
+    // 1) 标演示模式
+    safeSet(DEMO_FLAG_KEY, { on: true, at: Date.now() });
+    // 2) 教材已读
+    safeSet('ydzx_textbook_read', DEMO_READ);
+    // 3) 错题池（用 LearningStore.saveError，这样会自动塞 id/timestamp/nextReviewAt）
+    DEMO_ERRORS.forEach(function(e, i){
+      // 让前面 4 道立刻到期、后面 4 道处于不同间隔阶段
+      const stale = i < 4;
+      window.LearningStore.saveError(e);
+      if (stale){
+        // 把 nextReviewAt 改成已经过期
+        const pool = JSON.parse(localStorage.getItem('ydzx_errors_pool') || '[]');
+        if (pool.length){
+          pool[pool.length - 1].nextReviewAt = Date.now() - 3600 * 1000;
+          localStorage.setItem('ydzx_errors_pool', JSON.stringify(pool));
+        }
+      }
+    });
+    // 4) Quiz outcome + seen
+    safeSet('ydzx_quiz_outcome_v1', DEMO_QUIZ_OUTCOMES);
+    safeSet('ydzx_quiz_seen_v1', DEMO_QUIZ_SEEN);
+    // 5) AI 章内出题
+    safeSet('ydzx_gen_questions_v1', DEMO_GEN);
+    // 6) Gamification XP log（progress.html 7 天曲线 + 4-dim 来源）
+    const profile = safeGet('ydzx_profile', null) || { xp: 0, totalXpEver: 0, daily: {} };
+    const xpLog = buildDemoXPLog();
+    const totalXP = xpLog.reduce(function(a, e){ return a + e.amount; }, 0);
+    profile.xp = totalXP;
+    profile.totalXpEver = totalXP;
+    // 按天聚合
+    profile.daily = {};
+    xpLog.forEach(function(e){
+      const day = new Date(e.ts).toISOString().slice(0,10);
+      if (!profile.daily[day]) profile.daily[day] = { xp: 0, actions: 0, tools: [] };
+      profile.daily[day].xp += e.amount;
+      profile.daily[day].actions += 1;
+    });
+    profile.streakBest = 7; profile.streakCurrent = 7;
+    safeSet('ydzx_profile', profile);
+    safeSet('ydzx_log', xpLog);
+
+    // 7) 设演示模式 banner
+    document.body.classList.add('demo-on');
+    $('mode-banner').classList.add('on');
+
+    btn.classList.remove('btn-loading');
+    btn.textContent = '✓ 已注入 · 点这里再来一次会刷新';
+    const m = $('mark-inject');
+    m.className = 'status-mark on ok';
+    m.innerHTML = '✓ 演示数据已就绪 · 现在打开下面任一页面看产品长什么样：';
+    $('routes-mount').style.display = 'grid';
+    scanExisting();
+  } catch(e){
+    btn.classList.remove('btn-loading');
+    btn.textContent = '⚡ 注入失败 · 重试';
+    const m = $('mark-inject');
+    m.className = 'status-mark on danger';
+    m.textContent = '出错了：' + e.message;
+  }
+}
+
+function clearDemo(){
+  if (!confirm('将清空所有 ydzx_* 和 yuandian* 开头的 localStorage 数据，包括你真实的学习记录。确认？')) return;
+  const keys = Object.keys(localStorage).filter(function(k){ return k.indexOf('ydzx_') === 0 || k.indexOf('yuandian') === 0; });
+  keys.forEach(function(k){ localStorage.removeItem(k); });
+  document.body.classList.remove('demo-on');
+  $('mode-banner').classList.remove('on');
+  const m = $('mark-clear');
+  m.className = 'status-mark on ok';
+  m.textContent = '✓ 已清空 ' + keys.length + ' 条记录 · 所有页面回到空白起点';
+  $('routes-mount').style.display = 'none';
+  $('btn-inject').textContent = '⚡ 一键注入演示数据';
+  scanExisting();
+}
+
+// 启动
+$('btn-inject').addEventListener('click', injectDemo);
+$('btn-clear').addEventListener('click', clearDemo);
+scanExisting();
+
+// 如果之前已注入过，恢复 banner
+const flag = safeGet(DEMO_FLAG_KEY, null);
+if (flag && flag.on){
+  document.body.classList.add('demo-on');
+  $('mode-banner').classList.add('on');
+  $('routes-mount').style.display = 'grid';
+}
+</script>
+
+</body>
+</html>
