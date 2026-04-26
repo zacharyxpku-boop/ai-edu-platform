@@ -55,6 +55,15 @@ a{color:inherit}
 .scope b{color:var(--ink);font-weight:800}
 .scope .sc-clr{margin-left:auto;background:transparent;border:1px solid #7DD3FC;color:var(--sky);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 .scope .sc-clr:hover{background:#fff;color:var(--ink)}
+.due-bar{margin-bottom:14px;padding:12px 16px;background:linear-gradient(90deg,#FEF3C7,#FFFBF0);border:1px solid #FCD34D;border-radius:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.due-bar .db-em{font-size:20px;line-height:1}
+.due-bar .db-tx{flex:1;min-width:200px;font-size:13px;color:#7C2D12;line-height:1.55;font-weight:500}
+.due-bar .db-tx b{color:#92400E;font-weight:800;font-variant-numeric:tabular-nums}
+.due-bar .db-tx small{color:#A16207;font-weight:500;font-size:11px;display:block;margin-top:2px}
+.due-bar a.db-cta{font-size:12px;font-weight:700;color:#fff;background:var(--gold);padding:7px 14px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.due-bar a.db-cta:hover{background:#B45309}
+.due-bar button.db-skip{background:transparent;border:1px solid #FCD34D;color:#92400E;font-size:11px;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600}
+.due-bar button.db-skip:hover{background:#FEF3C7}
 
 /* CARD */
 .card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:28px 28px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
@@ -160,6 +169,8 @@ a{color:inherit}
     可以按学段/学科筛选；当前题的链接（含 <code style="font-family:var(--mono);font-size:12px">#q=ID</code>）直接复制就能转给孩子。<a href="/eval.html">关于这 943 道题怎么挂上教材的 →</a>
   </div>
 
+  <div id="due-mount"></div>
+
   <div id="scope-mount"></div>
 
   <div class="filter" id="filter"></div>
@@ -249,6 +260,39 @@ function syncURL(){
   history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + hash);
 }
 
+// 复习先于刷新题：错题本里有今日到期 → 顶部柔和提醒
+const DUE_SKIP_KEY = 'ydzx_quiz_due_skip_today';
+function _todayStr(){ return new Date().toISOString().slice(0,10); }
+function renderDueBar(){
+  const slot = $('due-mount'); if (!slot) return;
+  if (!window.LearningStore){ slot.innerHTML = ''; return; }
+  // 本日已 skip
+  let skip = null;
+  try { skip = JSON.parse(sessionStorage.getItem(DUE_SKIP_KEY) || 'null'); } catch(e){}
+  if (skip && skip.d === _todayStr()){ slot.innerHTML = ''; return; }
+  let pool;
+  try { pool = window.LearningStore.getErrors({ dueOnly: true, subject: FILTER.subject || undefined }) || []; }
+  catch(e){ slot.innerHTML = ''; return; }
+  // 排除已掌握
+  pool = pool.filter(function(e){ return (e.reviewCount || 0) < 3; });
+  if (!pool.length){ slot.innerHTML = ''; return; }
+  const subjLbl = FILTER.subject ? (SUBJ_ZH[FILTER.subject] || FILTER.subject) : '';
+  const scopeTxt = FILTER.subject ? ('在 <b>' + subjLbl + '</b> 这一科里') : '';
+  const href = '/errors.html?view=due' + (FILTER.subject ? '&subject=' + FILTER.subject : '');
+  slot.innerHTML = '<div class="due-bar">'
+    + '<span class="db-em">📌</span>'
+    + '<span class="db-tx">' + scopeTxt + (scopeTxt ? '，' : '') + '错题本里有 <b>' + pool.length + '</b> 道今日到期'
+    + '<small>学习的优先级：先复盘已经错过的 → 再做新题。这条提醒每天只出一次。</small></span>'
+    + '<a class="db-cta" href="' + href + '">先去复习 →</a>'
+    + '<button class="db-skip" id="db-skip">今天先做新题</button>'
+    + '</div>';
+  const btn = document.getElementById('db-skip');
+  if (btn) btn.addEventListener('click', function(){
+    try { sessionStorage.setItem(DUE_SKIP_KEY, JSON.stringify({ d: _todayStr() })); } catch(e){}
+    slot.innerHTML = '';
+  });
+}
+
 function renderScope(){
   const slot = $('scope-mount'); if (!slot) return;
   if (!FILTER.book){ slot.innerHTML = ''; return; }
@@ -263,6 +307,7 @@ function renderScope(){
 }
 function renderFilter(){
   renderScope();
+  renderDueBar();
   const stages = ['', '初中', '高中'];
   const subjs = ['', 'math','physics','chemistry','biology','chinese','history','geography','politics'];
   let h = '<div class="fl-grp">';
