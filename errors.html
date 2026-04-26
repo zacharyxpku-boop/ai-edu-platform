@@ -128,6 +128,53 @@ a{color:inherit}
 .trend-foot .verdict.down{color:var(--emerald);font-weight:800}
 .trend-foot .verdict.flat{color:var(--ink2);font-weight:700}
 
+/* 复习模式 CTA + 全屏 modal */
+.cta-bar{margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cta-bar .btn-review{background:var(--red);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.3px;display:inline-flex;align-items:center;gap:7px}
+.cta-bar .btn-review:hover{background:#B91C1C}
+.cta-bar .btn-review[disabled]{background:#FCA5A5;cursor:not-allowed}
+.cta-bar .cta-meta{font-size:11px;color:var(--ink3);margin-left:auto}
+
+.rev-mod{display:none;position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+.rev-mod.on{display:flex}
+.rev-shell{width:100%;max-width:680px;background:#fff;border-radius:14px;display:flex;flex-direction:column;max-height:96vh;overflow:hidden}
+.rev-hd{padding:14px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rev-hd .rh-t{font-size:14px;font-weight:800;color:var(--ink)}
+.rev-hd .rh-prog{flex:1;height:6px;background:#F4F4F5;border-radius:3px;overflow:hidden;min-width:120px}
+.rev-hd .rh-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber));transition:width .3s ease}
+.rev-hd .rh-num{font-size:13px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.rev-hd .rh-x{background:transparent;border:1px solid var(--bdr2);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:16px;color:var(--ink3);font-family:inherit}
+.rev-hd .rh-x:hover{background:#F4F4F5;color:var(--ink)}
+.rev-body{padding:24px 24px 16px;overflow-y:auto;flex:1}
+.rev-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.rev-meta span{font-size:11px;padding:3px 9px;border-radius:100px;font-weight:600}
+.rev-q{font-size:17px;font-weight:500;color:var(--ink);line-height:1.75;white-space:pre-wrap;margin-bottom:14px;min-height:80px}
+.rev-flip{display:block;width:100%;padding:14px;background:linear-gradient(180deg,#FAFAF7,#fff);border:1px dashed var(--bdr2);border-radius:10px;text-align:center;font-size:13px;color:var(--ink3);font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:.5px}
+.rev-flip:hover{background:#fff;color:var(--ink);border-style:solid;border-color:var(--ink3)}
+.rev-flip kbd{font-family:var(--mono);font-size:10px;background:#F4F4F5;color:var(--ink3);padding:1px 5px;border-radius:3px;border:1px solid var(--bdr);margin:0 2px}
+.rev-back{margin-top:14px;display:none}
+.rev-back.on{display:block}
+.rev-back .a-lbl{font-size:11px;color:var(--ink3);font-weight:700;letter-spacing:.5px;margin-bottom:5px;text-transform:uppercase}
+.rev-back .a-txt{font-size:15px;font-weight:700;color:var(--ink);background:var(--emerald-bg);padding:10px 14px;border-radius:8px;border:1px solid #A7F3D0;font-family:var(--mono);margin-bottom:10px;word-break:break-word}
+.rev-back .a-txt b{color:var(--emerald)}
+.rev-back .a-exp{font-size:13px;color:var(--ink2);line-height:1.65;background:#F8FAFC;padding:10px 12px;border-radius:8px;border:1px solid var(--bdr);white-space:pre-wrap}
+.rev-foot{padding:14px 20px;border-top:1px solid var(--bdr);display:flex;gap:8px;flex-wrap:wrap;background:#FAFAF7}
+.rev-foot button{flex:1;min-width:130px;padding:14px 16px;border-radius:10px;font-size:13px;font-weight:800;border:none;cursor:pointer;font-family:inherit;letter-spacing:.3px}
+.rev-foot .btn-no{background:var(--red);color:#fff}
+.rev-foot .btn-no:hover{background:#B91C1C}
+.rev-foot .btn-mid{background:var(--amber);color:#fff}
+.rev-foot .btn-mid:hover{background:var(--gold)}
+.rev-foot .btn-yes{background:var(--emerald);color:#fff}
+.rev-foot .btn-yes:hover{background:#047857}
+.rev-foot button kbd{display:inline-block;background:rgba(0,0,0,.18);color:#fff;font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:3px;margin-left:5px}
+.rev-foot button[disabled]{opacity:.4;cursor:not-allowed}
+.rev-done{padding:32px 24px;text-align:center}
+.rev-done .rd-em{font-size:36px;line-height:1;margin-bottom:8px}
+.rev-done .rd-t{font-size:18px;font-weight:900;margin-bottom:4px}
+.rev-done .rd-stats{font-size:13px;color:var(--ink2);margin:14px 0;line-height:1.7}
+.rev-done .rd-stats b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+.rev-done .btn-close{margin-top:6px;background:var(--ink);color:#fff;padding:11px 22px;border-radius:8px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit}
+
 .empty{padding:48px 20px;text-align:center;color:var(--ink4);font-size:13px;background:var(--card);border:1px dashed var(--bdr2);border-radius:var(--r)}
 .empty b{color:var(--ink2);font-weight:700;display:block;margin-bottom:6px;font-size:15px}
 .empty a{color:var(--amber);font-weight:700;text-decoration:none}
@@ -174,6 +221,8 @@ a{color:inherit}
     <div class="stat-card mas"><div class="sn" id="st-mas">0</div><div class="sl">已掌握(≥3 阶)</div></div>
   </div>
 
+  <div class="cta-bar" id="cta-bar"></div>
+
   <div id="weak-mount"></div>
 
   <div id="trend-mount"></div>
@@ -182,6 +231,19 @@ a{color:inherit}
 
   <div class="list" id="list"></div>
 
+</div>
+
+<div class="rev-mod" id="rev-mod" role="dialog" aria-modal="true" aria-label="错题复习模式">
+  <div class="rev-shell">
+    <div class="rev-hd">
+      <div class="rh-t">📚 复习模式</div>
+      <div class="rh-prog"><i id="rh-prog-fill" style="width:0%"></i></div>
+      <div class="rh-num" id="rh-num">0 / 0</div>
+      <button class="rh-x" id="rh-x" title="退出 (Esc)">×</button>
+    </div>
+    <div class="rev-body" id="rev-body"></div>
+    <div class="rev-foot" id="rev-foot"></div>
+  </div>
 </div>
 
 <script src="/src/learning-store.js"></script>
@@ -252,6 +314,144 @@ function renderWeak(){
     });
   });
 }
+
+// 复习模式 CTA：根据到期数显示「开始复习」按钮
+function renderCTA(){
+  const slot = $('cta-bar'); if (!slot) return;
+  if (!window.LearningStore){ slot.innerHTML = ''; return; }
+  let due;
+  try { due = window.LearningStore.getErrors({ dueOnly: true, subject: FILTER.subject || undefined }) || []; }
+  catch(e){ slot.innerHTML = ''; return; }
+  due = due.filter(function(e){ return (e.reviewCount || 0) < 3; });
+  if (!due.length){
+    slot.innerHTML = '<button class="btn-review" disabled>📚 没有到期错题</button>'
+      + '<span class="cta-meta">所有题都在间隔期 · 复习模式仅在有到期题时启用</span>';
+    return;
+  }
+  const subjLbl = FILTER.subject ? (' · ' + (SUBJ_ZH[FILTER.subject] || FILTER.subject)) : '';
+  slot.innerHTML = '<button class="btn-review" id="btn-start-review">📚 开始复习模式 · ' + due.length + ' 道' + subjLbl + '</button>'
+    + '<span class="cta-meta">键盘：<b>空格</b> 翻面 · <b>1/2/3</b> 评分 · <b>Esc</b> 退出</span>';
+  const b = document.getElementById('btn-start-review');
+  if (b) b.addEventListener('click', function(){ startReview(due); });
+}
+
+// 复习模式状态机
+let REVIEW = null; // { queue:[], idx:0, flipped:false, stats:{ok:0,mid:0,no:0,xp:0} }
+function startReview(queue){
+  // 拷贝并随机化顺序，避免每次都从同一道开始
+  const q = queue.slice().sort(function(){ return Math.random() - 0.5; });
+  REVIEW = { queue: q, idx: 0, flipped: false, stats: { ok: 0, mid: 0, no: 0, xp: 0 } };
+  $('rev-mod').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  drawReview();
+}
+function drawReview(){
+  const r = REVIEW; if (!r) return;
+  if (r.idx >= r.queue.length){ drawReviewDone(); return; }
+  const e = r.queue[r.idx];
+  const subjZh = SUBJ_ZH[e.subject] || e.subjectZh || e.subject || '';
+  const ref = (e.textbookPath && e.textbookCh != null) ? (e.textbookPath + ' · 第 ' + e.textbookCh + ' 章') : '';
+  $('rh-num').textContent = (r.idx + 1) + ' / ' + r.queue.length;
+  $('rh-prog-fill').style.width = ((r.idx) / r.queue.length * 100).toFixed(1) + '%';
+  let body = '<div class="rev-meta">';
+  if (subjZh) body += '<span style="background:var(--amber-bg);color:var(--gold)">' + escHtml(subjZh) + '</span>';
+  if (e.keyword) body += '<span style="background:var(--red-bg);color:var(--red-deep)">' + escHtml(e.keyword) + '</span>';
+  if (ref) body += '<span style="background:var(--sky-bg);color:#0C4A6E;font-family:var(--mono);font-size:10px">' + escHtml(ref) + '</span>';
+  body += '<span style="background:#F4F4F5;color:var(--ink3)">复习 ' + (e.reviewCount || 0) + ' 次</span>';
+  body += '</div>';
+  body += '<div class="rev-q">' + escHtml((e.question || '').slice(0, 1500)) + '</div>';
+  if (!r.flipped){
+    body += '<div class="rev-flip" id="rev-flip">点这里看答案 · <kbd>空格</kbd></div>';
+  } else {
+    body += '<div class="rev-back on">';
+    if (e.correctAnswer) body += '<div class="a-lbl">正确答案</div><div class="a-txt">' + escHtml(e.correctAnswer) + '</div>';
+    if (e.aiExplanation) body += '<div class="a-lbl">🤖 AI 诊断</div><div class="a-exp">' + escHtml(e.aiExplanation) + '</div>';
+    else if (e.explanation) body += '<div class="a-lbl">解析</div><div class="a-exp">' + escHtml(e.explanation.slice(0, 600)) + '</div>';
+    body += '</div>';
+  }
+  $('rev-body').innerHTML = body;
+  // 按钮组
+  const disabled = r.flipped ? '' : ' disabled';
+  $('rev-foot').innerHTML = ''
+    + '<button class="btn-no"' + disabled + ' data-rate="no">✗ 不会<kbd>1</kbd></button>'
+    + '<button class="btn-mid"' + disabled + ' data-rate="mid">~ 模糊<kbd>2</kbd></button>'
+    + '<button class="btn-yes"' + disabled + ' data-rate="yes">✓ 会了<kbd>3</kbd></button>';
+  // 绑定
+  if (!r.flipped){
+    const flip = document.getElementById('rev-flip');
+    if (flip) flip.addEventListener('click', flipCard);
+  } else {
+    document.querySelectorAll('[data-rate]').forEach(function(b){
+      b.addEventListener('click', function(){ rate(b.dataset.rate); });
+    });
+  }
+}
+function flipCard(){
+  if (!REVIEW || REVIEW.flipped) return;
+  REVIEW.flipped = true;
+  drawReview();
+}
+function rate(r){
+  if (!REVIEW || !REVIEW.flipped) return;
+  const e = REVIEW.queue[REVIEW.idx];
+  const subjZh = SUBJ_ZH[e.subject] || e.subjectZh || e.subject || '';
+  if (r === 'yes'){
+    window.LearningStore.markErrorReviewed(e.id, true);
+    if (window.GAME) window.GAME.addXP(2, '错题攻克 · ' + subjZh + ' · 复习对了');
+    REVIEW.stats.ok += 1; REVIEW.stats.xp += 2;
+  } else if (r === 'mid'){
+    // 模糊：保留 reviewCount 不动，但把 nextReviewAt 推到 4h 后再问一次
+    const pool = JSON.parse(localStorage.getItem('ydzx_errors_pool') || '[]');
+    for (let i = 0; i < pool.length; i++){
+      if (pool[i].id === e.id){
+        pool[i].lastReviewAt = Date.now();
+        pool[i].nextReviewAt = Date.now() + 4 * 3600 * 1000;
+        break;
+      }
+    }
+    try { localStorage.setItem('ydzx_errors_pool', JSON.stringify(pool)); } catch(_){}
+    if (window.GAME) window.GAME.addXP(1, '错题攻克 · ' + subjZh + ' · 模糊 · 4h 后再来');
+    REVIEW.stats.mid += 1; REVIEW.stats.xp += 1;
+  } else { // no
+    window.LearningStore.markErrorReviewed(e.id, false);
+    if (window.GAME) window.GAME.addXP(1, '错题攻克 · ' + subjZh + ' · 又答错·重新计时');
+    REVIEW.stats.no += 1; REVIEW.stats.xp += 1;
+  }
+  REVIEW.idx += 1;
+  REVIEW.flipped = false;
+  drawReview();
+}
+function drawReviewDone(){
+  const s = REVIEW.stats; const total = s.ok + s.mid + s.no;
+  $('rh-prog-fill').style.width = '100%';
+  $('rh-num').textContent = total + ' / ' + total;
+  $('rev-body').innerHTML = '<div class="rev-done">'
+    + '<div class="rd-em">🎉</div>'
+    + '<div class="rd-t">本轮复习完成</div>'
+    + '<div class="rd-stats">共 <b>' + total + '</b> 道 · 会了 <b style="color:var(--emerald)">' + s.ok + '</b> · 模糊 <b style="color:var(--amber)">' + s.mid + '</b> · 不会 <b style="color:var(--red)">' + s.no + '</b><br>本轮累计 <b>+' + s.xp + ' XP</b></div>'
+    + '<button class="btn-close" id="rev-close">关闭并刷新错题本</button>'
+    + '</div>';
+  $('rev-foot').innerHTML = '';
+  document.getElementById('rev-close').addEventListener('click', closeReview);
+}
+function closeReview(){
+  $('rev-mod').classList.remove('on');
+  document.body.style.overflow = '';
+  REVIEW = null;
+  loadStats(); renderCTA(); renderWeak(); renderTrend(); renderList();
+}
+
+// 键盘快捷键
+document.addEventListener('keydown', function(ev){
+  if (!REVIEW) return;
+  if (ev.key === 'Escape'){ closeReview(); ev.preventDefault(); return; }
+  if (ev.key === ' ' && !REVIEW.flipped){ flipCard(); ev.preventDefault(); return; }
+  if (REVIEW.flipped){
+    if (ev.key === '1'){ rate('no'); ev.preventDefault(); }
+    else if (ev.key === '2'){ rate('mid'); ev.preventDefault(); }
+    else if (ev.key === '3'){ rate('yes'); ev.preventDefault(); }
+  }
+});
 
 // 14 天日历，从 13 天前到今天
 function _last14DayKeys(){
@@ -364,7 +564,7 @@ function renderFilter(){
     b.addEventListener('click', function(){ FILTER.view = b.dataset.view; renderFilter(); renderList(); });
   });
   document.querySelectorAll('[data-subject]').forEach(function(b){
-    b.addEventListener('click', function(){ FILTER.subject = b.dataset.subject; renderFilter(); renderList(); });
+    b.addEventListener('click', function(){ FILTER.subject = b.dataset.subject; renderCTA(); renderFilter(); renderList(); });
   });
 }
 
@@ -460,6 +660,7 @@ function renderList(){
         return aiExplain(id, b);
       }
       loadStats();
+      renderCTA();
       renderWeak();
       renderTrend();
       renderList();
@@ -500,6 +701,7 @@ function aiExplain(id, btn){
     window.LearningStore.updateError(id, { aiExplanation: raw, aiExplainedAt: Date.now() });
     btn.classList.remove('btn-loading');
     loadStats();
+    renderCTA();
     renderWeak();
     renderTrend();
     renderList();
@@ -522,6 +724,7 @@ function aiExplain(id, btn){
     if (p.get('keyword')) FILTER.keyword = p.get('keyword');
   } catch(e){}
   loadStats();
+  renderCTA();
   renderWeak();
   renderTrend();
   renderFilter();
