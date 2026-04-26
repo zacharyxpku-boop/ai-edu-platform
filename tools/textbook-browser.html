@@ -724,11 +724,13 @@ function renderChapter(data){
     var prevBtn = hasPrev
       ? '<button class="rf-btn" onclick="openChapter(' + chs[idx-1].ch + ')">← 上一章</button>'
       : '';
+    var quizQS = '?book=' + encodeURIComponent(ACTIVE_BOOK.path) + '&ch=' + data.ch;
     $('reader-foot').innerHTML =
         prevBtn +
         nextBtn +
+        '<a class="rf-btn" href="/quiz.html' + quizQS + '">📝 练这章</a>' +
         '<button class="rf-btn" onclick="aiGenQuestions()">🎯 AI 出 3 道题</button>' +
-        '<a class="rf-btn" href="/tools/knowledge-arcade' + kaQS + '">刷题库</a>' +
+        '<a class="rf-btn" href="/tools/knowledge-arcade' + kaQS + '">刷整科</a>' +
         '<a class="rf-btn" href="/tools/knowledge-explain?topic=' + encodeURIComponent(topic.slice(0,40)) + '">AI 讲解</a>' +
         '<a class="rf-btn" href="/tools/feynman-verify">费曼复述</a>' +
         '<button class="rf-btn" onclick="closeReader()">关闭</button>';

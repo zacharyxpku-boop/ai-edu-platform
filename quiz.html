@@ -51,6 +51,10 @@ a{color:inherit}
 .fl-grp button:last-child{border-right:none}
 .fl-grp button:hover{background:var(--amber-bg);color:var(--gold)}
 .fl-grp button.on{background:var(--amber);color:#fff}
+.scope{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:10px 14px;background:var(--sky-bg);border:1px solid #7DD3FC;border-radius:8px;font-size:13px;color:var(--ink2);flex-wrap:wrap}
+.scope b{color:var(--ink);font-weight:800}
+.scope .sc-clr{margin-left:auto;background:transparent;border:1px solid #7DD3FC;color:var(--sky);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.scope .sc-clr:hover{background:#fff;color:var(--ink)}
 
 /* CARD */
 .card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:28px 28px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
@@ -154,6 +158,8 @@ a{color:inherit}
     可以按学段/学科筛选；当前题的链接（含 <code style="font-family:var(--mono);font-size:12px">#q=ID</code>）直接复制就能转给孩子。<a href="/eval.html">关于这 943 道题怎么挂上教材的 →</a>
   </div>
 
+  <div id="scope-mount"></div>
+
   <div class="filter" id="filter"></div>
 
   <div id="card-mount"></div>
@@ -173,7 +179,7 @@ const XP_BAD = 3;  // 自评错略高，奖励直面错题
 
 let POOL = [];
 let CUR = null;
-let FILTER = { stage: '', subject: '' };
+let FILTER = { stage: '', subject: '', book: '', ch: null };
 
 function $(id){ return document.getElementById(id); }
 function getSeen(){
@@ -209,6 +215,11 @@ function readQuery(){
   const p = new URLSearchParams(location.search);
   if (p.get('stage')) FILTER.stage = p.get('stage');
   if (p.get('subject')) FILTER.subject = p.get('subject');
+  if (p.get('book')) FILTER.book = p.get('book');
+  if (p.get('ch')) {
+    const n = parseInt(p.get('ch'), 10);
+    if (!isNaN(n)) FILTER.ch = n;
+  }
 }
 function readHashId(){
   const m = (location.hash || '').match(/q=([\w-]+)/);
@@ -218,12 +229,27 @@ function syncURL(){
   const p = new URLSearchParams();
   if (FILTER.stage) p.set('stage', FILTER.stage);
   if (FILTER.subject) p.set('subject', FILTER.subject);
+  if (FILTER.book) p.set('book', FILTER.book);
+  if (FILTER.ch != null) p.set('ch', FILTER.ch);
   const qs = p.toString();
   const hash = CUR ? '#q=' + CUR.id : '';
   history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + hash);
 }
 
+function renderScope(){
+  const slot = $('scope-mount'); if (!slot) return;
+  if (!FILTER.book){ slot.innerHTML = ''; return; }
+  const cnt = filtered().length;
+  const chTxt = FILTER.ch != null ? ('第 ' + FILTER.ch + ' 章') : '全书';
+  slot.innerHTML = '<div class="scope">'
+    + '<span>📖 本章模式 · <b>' + escapeHtml(FILTER.book) + '</b> · ' + chTxt + ' · 命中 <b>' + cnt + '</b> 道</span>'
+    + '<button class="sc-clr" id="sc-clr">回到全题库 ×</button>'
+    + '</div>';
+  const btn = document.getElementById('sc-clr');
+  if (btn) btn.addEventListener('click', function(){ FILTER.book = ''; FILTER.ch = null; renderScope(); reroll(); });
+}
 function renderFilter(){
+  renderScope();
   const stages = ['', '初中', '高中'];
   const subjs = ['', 'math','physics','chemistry','biology','chinese','history','geography','politics'];
   let h = '<div class="fl-grp">';
@@ -248,6 +274,11 @@ function filtered(){
   return POOL.filter(function(q){
     if (FILTER.stage && q.stage !== FILTER.stage) return false;
     if (FILTER.subject && q.subject !== FILTER.subject) return false;
+    if (FILTER.book){
+      const ref = q.textbook_ref || {};
+      if (ref.path !== FILTER.book) return false;
+      if (FILTER.ch != null && ref.ch !== FILTER.ch) return false;
+    }
     return true;
   });
 }
@@ -277,7 +308,14 @@ function loadById(id){
 function renderCard(){
   const mount = $('card-mount');
   if (!CUR){
-    mount.innerHTML = '<div class="empty">这个筛选下没有题 · 换一个学段或学科</div>';
+    if (FILTER.book){
+      mount.innerHTML = '<div class="empty">本章题库还没收题。<br><br>'
+        + '<a href="/tools/textbook-browser?book=' + encodeURIComponent(FILTER.book) + (FILTER.ch != null ? '&ch=' + FILTER.ch : '') + '" style="color:var(--amber);font-weight:700;text-decoration:none">回到本章阅读 →</a>'
+        + ' 或 '
+        + '<a href="javascript:void(0)" onclick="document.getElementById(\'sc-clr\').click()" style="color:var(--ink2);font-weight:700;text-decoration:none">清除章节筛选</a></div>';
+    } else {
+      mount.innerHTML = '<div class="empty">这个筛选下没有题 · 换一个学段或学科</div>';
+    }
     return;
   }
   const q = CUR;
