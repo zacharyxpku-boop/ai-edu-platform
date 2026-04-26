@@ -140,6 +140,7 @@ a{color:inherit}
       原点智学
     </a>
     <a href="/quiz.html" class="nav-a on">每日一题</a>
+    <a href="/errors.html" class="nav-a">错题本</a>
     <a href="/search.html" class="nav-a">查询</a>
     <a href="/study-tools.html" class="nav-a">工具</a>
     <a href="/platform.html" class="nav-a">平台</a>
@@ -169,6 +170,7 @@ a{color:inherit}
 
 </div>
 
+<script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
@@ -399,6 +401,29 @@ function grade(result){
   if (window.GAME && typeof window.GAME.addXP === 'function'){
     if (result === 'good') window.GAME.addXP(XP_GOOD, '题库速练 · ' + subjZh + ' · quiz');
     else window.GAME.addXP(XP_BAD, '错题攻克 · ' + subjZh + ' · quiz');
+  }
+  // 评错时写入跨工具错题池（LearningStore），让 /errors.html 能复习这一题
+  if (result === 'bad' && window.LearningStore){
+    var ref = CUR.textbook_ref || {};
+    try {
+      window.LearningStore.saveError({
+        source: 'quiz',
+        quizId: CUR.id, // 反向链回 quiz#q=id
+        subject: CUR.subject,
+        subjectZh: subjZh,
+        stage: CUR.stage || '',
+        keyword: (CUR.knowledge_points && CUR.knowledge_points[0]) || '',
+        question: CUR.question_text || '',
+        studentAnswer: '（自评：做错了）',
+        correctAnswer: CUR.answer || '',
+        explanation: CUR.solution_steps || '',
+        textbookPath: ref.path || '',
+        textbookCh: ref.ch != null ? ref.ch : null,
+        verdict: 'wrong',
+        score: 0,
+        mistakeTags: ['quiz 自评']
+      });
+    } catch(e){ console.warn('saveError failed', e); }
   }
   // 更新 UI
   var row = $('grade-row');

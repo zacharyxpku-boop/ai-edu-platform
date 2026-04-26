@@ -258,6 +258,7 @@
     </a>
     <div class="nav-links-wrap">
         <a href="/" class="nav-a">首页</a>
+        <a href="errors.html" class="nav-a">错题本</a>
         <a href="study-tools.html" class="nav-a">工具箱</a>
         <a href="membership.html" class="nav-a">会员</a>
         <a href="assistant.html" class="nav-a">成长课</a>
@@ -1097,7 +1098,7 @@ function renderFourDim(matrix, act){
         var dims = [
             {key:'read', score:best.read.score, name:'读', cta:'去翻教材', href:'/tools/textbook-browser?subject='+encodeURIComponent(SUBJ_ZH_FULL[best.subj])},
             {key:'arcade', score:best.arcade.score, name:'练', cta:'去练 5 题', href:'/tools/knowledge-arcade?subject='+best.subj},
-            {key:'error', score:best.error.score, name:'错', cta:'去攻克错题', href:'/tools/error-mastery'},
+            {key:'error', score:best.error.score, name:'错', cta:'打开错题本', href:'/errors.html'},
             {key:'feynman', score:best.feynman.score, name:'讲', cta:'去讲一遍', href:'/tools/feynman-verify'},
         ];
         // 只在 read>0 的强项里挑最弱维度（避免推一个完全没碰过的学科）
