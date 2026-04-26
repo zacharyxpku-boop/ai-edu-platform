@@ -742,6 +742,66 @@ function renderChapter(data){
 // ===== AI 出题（调 /api/ai-proxy · 每 IP 每日 20 次额度） =====
 var CURRENT_AIQ = null; // { questions: [{q, options:[...], answer, explanation, picked}] }
 
+// 把 AI 出的题适配成 seed-questions schema 写入 localStorage
+// 让 /quiz?book=&ch= 锁定模式下也能抽到这些题
+var GEN_KEY = 'ydzx_gen_questions_v1';
+var SUBJ_TO_KEY = {'数学':'math','物理':'physics','化学':'chemistry','生物学':'biology','生物':'biology','语文':'chinese','英语':'english','历史':'history','地理':'geography','思想政治':'politics','政治':'politics','道德与法治':'moral'};
+function persistGenQuestions(aiQs){
+    if (!ACTIVE_BOOK || !ACTIVE_CHAPTER) return;
+    var path = ACTIVE_BOOK.path, ch = ACTIVE_CHAPTER.ch;
+    var subjKey = SUBJ_TO_KEY[ACTIVE_BOOK.subject] || ACTIVE_BOOK.subject;
+    var stage = ACTIVE_BOOK.stage || (path.startsWith('初中') ? '初中' : path.startsWith('高中') ? '高中' : '');
+    var ts = Date.now();
+    var stamp = String(ts).slice(-8);
+    // 适配：AI 出选择题 {q, options[], answer:'A', explanation}
+    // → seed schema {question_text, answer (full text), solution_steps, knowledge_points, textbook_ref, subject, stage, difficulty, source, id}
+    var adapted = aiQs.map(function(q, i){
+        var optTxt = '';
+        if (Array.isArray(q.options) && q.options.length){
+            optTxt = '\n' + q.options.map(function(opt, j){
+                var letter = String.fromCharCode(65 + j);
+                var clean = String(opt).replace(/^[A-D][.、\s]*/, '');
+                return letter + '. ' + clean;
+            }).join('\n');
+        }
+        var ansLetter = (q.answer || '').toUpperCase().charAt(0);
+        var ansFull = ansLetter;
+        if (Array.isArray(q.options)){
+            var idx = ansLetter.charCodeAt(0) - 65;
+            if (idx >= 0 && idx < q.options.length){
+                var clean = String(q.options[idx]).replace(/^[A-D][.、\s]*/, '');
+                ansFull = ansLetter + '. ' + clean;
+            }
+        }
+        return {
+            id: 'ai-' + subjKey + '-' + stamp + '-' + i,
+            subject: subjKey,
+            stage: stage,
+            grade: ACTIVE_BOOK.grade || '',
+            chapter: ACTIVE_CHAPTER.title || '',
+            question_text: (q.q || '') + optTxt,
+            answer: ansFull,
+            solution_steps: q.explanation || '',
+            knowledge_points: [],
+            textbook_ref: { path: path, ch: ch, source: 'ai-textbook' },
+            difficulty: ['easy','medium','hard'][i] || 'medium',
+            source: 'ai-textbook',
+            created_at: ts,
+        };
+    });
+    var store = {};
+    try { store = JSON.parse(localStorage.getItem(GEN_KEY) || '{}'); } catch(e){}
+    var key = path + '::ch' + ch;
+    var prev = store[key] || [];
+    // 限制每章累计 ≤ 30 道，超过删最旧
+    var merged = prev.concat(adapted);
+    if (merged.length > 30) merged = merged.slice(merged.length - 30);
+    store[key] = merged;
+    try { localStorage.setItem(GEN_KEY, JSON.stringify(store)); } catch(e){
+        console.warn('localStorage 写入失败（可能已满）', e);
+    }
+}
+
 function aiGenQuestions(){
     if (!ACTIVE_CHAPTER || !ACTIVE_BOOK) return;
     var slot = $('reader-aiq');
@@ -786,10 +846,12 @@ function aiGenQuestions(){
         if (!Array.isArray(qs) || qs.length === 0) throw new Error('AI 没出出题');
         CURRENT_AIQ = { questions: qs.map(function(q){ q.picked = null; return q; }) };
         renderAiQuestions();
+        // 持久化到 localStorage，让 /quiz?book=&ch= 也能抽到这些题
+        try { persistGenQuestions(qs); } catch(e){ console.warn('persist gen failed', e); }
         if (window.GAME) {
             window.GAME.addXP(8, '章内 AI 出题 · ' + subject + ' 第' + ACTIVE_CHAPTER.ch + '章');
             window.GAME.pingToday();
-            showXP('+8 XP · AI 出了 3 道题');
+            showXP('+8 XP · AI 出了 3 道题 · 已存入题库可去 quiz 练');
         }
     }).catch(function(err){
         slot.innerHTML = '<div class="aiq-box"><div class="aiq-hd"><div class="aiq-t">🎯 AI 出题</div><button class="aiq-close" onclick="closeAiq()">×</button></div><div class="aiq-err">' + esc(err.message) + '</div></div>';
