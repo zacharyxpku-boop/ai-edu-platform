@@ -121,6 +121,16 @@ h1 em{font-style:normal;color:var(--cta)}
 .notice{background:#FFFBF0;border-left:3px solid var(--amber);padding:12px 14px;border-radius:6px;font-size:12px;color:var(--ink2);margin:16px 0 0;line-height:1.7}
 
 /* 本章题目 panel */
+.err-box{margin:10px 32px 0;padding:14px 16px;background:linear-gradient(90deg,#FEF2F2,#FFFBF0);border:1px solid #FCA5A5;border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.err-box .eb-em{font-size:22px;line-height:1}
+.err-box .eb-tx{flex:1;min-width:200px;font-size:13px;color:#7F1D1D;line-height:1.5;font-weight:500}
+.err-box .eb-tx b{color:#991B1B;font-weight:800}
+.err-box .eb-tx .eb-due{color:#92400E;background:#FEF3C7;padding:1px 7px;border-radius:4px;font-weight:700;font-size:11px;margin-left:6px}
+.err-box a.eb-cta{font-size:12px;font-weight:700;color:#fff;background:#DC2626;padding:7px 14px;border-radius:7px;text-decoration:none;white-space:nowrap}
+.err-box a.eb-cta:hover{background:#B91C1C}
+.err-box button.eb-skip{background:transparent;border:1px solid #FCA5A5;color:#991B1B;font-size:11px;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap}
+.err-box button.eb-skip:hover{background:#FEE2E2}
+@media(max-width:640px){.err-box{margin:8px 16px 0}}
 .rel-box{margin:8px 32px 24px;padding:16px 18px;background:#F0F9FF;border:1px solid #7DD3FC;border-radius:10px}
 .rel-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .rel-hd b{font-size:13px;font-weight:800;color:#0C4A6E}
@@ -239,6 +249,7 @@ h1 em{font-style:normal;color:var(--cta)}
             <button class="reader-close" onclick="closeReader()">关闭</button>
         </div>
         <div class="reader-jump" id="reader-jump"></div>
+        <div id="reader-errors"></div>
         <div class="reader-body" id="reader-body"><div class="empty">加载中...</div></div>
         <div id="reader-related"></div>
         <div id="reader-aiq"></div>
@@ -252,6 +263,7 @@ h1 em{font-style:normal;color:var(--cta)}
 
 </main>
 
+<script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/gamification-hud.js"></script>
 <script>
@@ -582,6 +594,7 @@ function openChapter(ch){
     $('reader-jump').innerHTML = '';
     $('reader-foot').innerHTML = '';
     var rel = $('reader-related'); if (rel) rel.innerHTML = '';
+    var errSlot = $('reader-errors'); if (errSlot) errSlot.innerHTML = '';
     $('reader-modal').classList.add('on');
     document.body.style.overflow = 'hidden';
     var url = '/data/extracted/' + ACTIVE_BOOK.path.split('/').map(encodeURIComponent).join('/') + '/ch' + ch + '.json';
@@ -668,6 +681,42 @@ function renderRelatedQuestions(path, ch){
     });
 }
 
+// 该章如果有错题（LearningStore 池里命中 textbookPath==path && textbookCh==ch）
+// 顶部插一条提醒条，sessionStorage 跳过本次后不再提示
+function renderChapterErrors(path, ch){
+    var slot = $('reader-errors'); if (!slot) return;
+    if (!window.LearningStore) return;
+    var skipKey = 'ydzx_eb_skip_' + path + '::' + ch;
+    if (sessionStorage.getItem(skipKey)) return; // 本次会话已点跳过
+    var pool;
+    try { pool = window.LearningStore.getErrors(); } catch(e){ return; }
+    if (!Array.isArray(pool) || !pool.length) return;
+    var hits = pool.filter(function(e){
+        return e.textbookPath === path && e.textbookCh === ch;
+    });
+    if (!hits.length) return;
+    var now = Date.now();
+    var dueN = hits.filter(function(e){ return (e.nextReviewAt || 0) <= now && (e.reviewCount || 0) < 3; }).length;
+    var masN = hits.filter(function(e){ return (e.reviewCount || 0) >= 3; }).length;
+    var activeN = hits.length - masN;
+    var emoji = dueN > 0 ? '🔥' : (activeN > 0 ? '⚠️' : '🌳');
+    var msg = '你在<b>本章</b>错过 <b>' + hits.length + '</b> 道';
+    if (dueN > 0) msg += '<span class="eb-due">' + dueN + ' 道今日到期</span>';
+    else if (activeN > 0) msg += '（都还在间隔期）';
+    else msg += '（已掌握 ' + masN + '）';
+    slot.innerHTML = '<div class="err-box">' +
+        '<span class="eb-em">' + emoji + '</span>' +
+        '<span class="eb-tx">' + msg + '</span>' +
+        '<a class="eb-cta" href="/errors.html">去复习 →</a>' +
+        '<button class="eb-skip" id="eb-skip">跳过本次</button>' +
+        '</div>';
+    var btn = document.getElementById('eb-skip');
+    if (btn) btn.addEventListener('click', function(){
+        try { sessionStorage.setItem(skipKey, '1'); } catch(e){}
+        slot.innerHTML = '';
+    });
+}
+
 function renderChapter(data){
     var sig = ACTIVE_BOOK.path + '::ch' + data.ch;
     var firstRead = markRead(sig);
@@ -711,6 +760,7 @@ function renderChapter(data){
     $('reader-body').innerHTML = body || '<div class="empty">这一章没有抽出正文文本</div>';
     // 本章已有题目（双向反链）—— 在 footer 之前渲染
     if (ACTIVE_BOOK) renderRelatedQuestions(ACTIVE_BOOK.path, data.ch);
+    if (ACTIVE_BOOK) renderChapterErrors(ACTIVE_BOOK.path, data.ch);
     // footer CTAs
     var kaQS = '?subject=' + encodeURIComponent(ACTIVE_BOOK.subject === '数学' ? 'math' : ACTIVE_BOOK.subject === '物理' ? 'physics' : 'chemistry');
     var topic = data.title + ' ' + (data.sections && data.sections[0] ? data.sections[0].title : '');
