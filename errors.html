@@ -101,6 +101,17 @@ a{color:inherit}
 .item-actions .del:hover{color:var(--red)}
 
 /* empty state */
+/* 薄弱 KP 汇总 */
+.weak{margin-bottom:14px;background:linear-gradient(90deg,#FEF2F2,#FFFBF0);border:1px solid #FCA5A5;border-radius:10px;padding:12px 14px}
+.weak-hd{font-size:12px;font-weight:800;color:#991B1B;margin-bottom:8px;letter-spacing:.3px}
+.weak-hd small{font-weight:500;color:#7F1D1D;margin-left:6px}
+.weak-list{display:flex;gap:6px;flex-wrap:wrap}
+.weak-chip{background:#fff;border:1px solid #FCA5A5;border-radius:7px;padding:5px 10px;font-size:12px;font-weight:600;color:#7F1D1D;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
+.weak-chip:hover{background:#FEE2E2;border-color:var(--red)}
+.weak-chip b{color:var(--red);font-weight:800;font-variant-numeric:tabular-nums}
+.weak-chip.on{background:var(--red);color:#fff;border-color:var(--red)}
+.weak-chip.on b{color:#fff}
+
 /* 14 天趋势 mini chart */
 .trend{margin-bottom:18px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px}
 .trend-hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
@@ -163,6 +174,8 @@ a{color:inherit}
     <div class="stat-card mas"><div class="sn" id="st-mas">0</div><div class="sl">已掌握(≥3 阶)</div></div>
   </div>
 
+  <div id="weak-mount"></div>
+
   <div id="trend-mount"></div>
 
   <div class="filter" id="filter"></div>
@@ -172,11 +185,12 @@ a{color:inherit}
 </div>
 
 <script src="/src/learning-store.js"></script>
+<script src="/src/gamification.js"></script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
 const SOURCE_ZH = { 'quiz':'每日一题', 'error-practice':'举一反三', 'error-mastery':'错题攻克', 'exam-diagnosis':'考试诊断', 'essay-grading':'作文批改' };
 
-let FILTER = { subject: '', view: 'due' }; // view: due | all | mastered
+let FILTER = { subject: '', view: 'due', keyword: '' }; // view: due | all | mastered
 
 function $(id){ return document.getElementById(id); }
 function escHtml(s){
@@ -206,6 +220,37 @@ function loadStats(){
   $('st-due').textContent = due.length;
   $('st-today').textContent = todayNew.length;
   $('st-mas').textContent = mastered.length;
+}
+
+// 薄弱知识点：聚合活跃错题（reviewCount<3）的 keyword 计数，取 Top-N
+function renderWeak(){
+  const slot = $('weak-mount'); if (!slot) return;
+  if (!window.LearningStore){ slot.innerHTML = ''; return; }
+  const pool = (window.LearningStore.getErrors() || []).filter(function(e){ return (e.reviewCount || 0) < 3 && e.keyword; });
+  if (!pool.length){ slot.innerHTML = ''; return; }
+  const cnt = {};
+  pool.forEach(function(e){ const k = e.keyword.trim(); if (!k) return; cnt[k] = (cnt[k] || 0) + 1; });
+  const top = Object.keys(cnt).map(function(k){ return { k: k, n: cnt[k] }; })
+    .sort(function(a, b){ return b.n - a.n; }).slice(0, 6);
+  if (top.length < 2){ slot.innerHTML = ''; return; } // 一个知识点不算"弱项"，至少要有对比
+  let h = '<div class="weak"><div class="weak-hd">薄弱知识点 · Top ' + top.length
+    + '<small>· 点一下只看这个知识点的错题</small></div><div class="weak-list">';
+  top.forEach(function(t){
+    const onCls = (FILTER.keyword === t.k) ? ' on' : '';
+    h += '<button class="weak-chip' + onCls + '" data-kp="' + escHtml(t.k).replace(/"/g, '&quot;') + '">'
+       + escHtml(t.k) + ' <b>' + t.n + '</b></button>';
+  });
+  if (FILTER.keyword){
+    h += '<button class="weak-chip" data-kp="" style="background:#F4F4F5;color:var(--ink2);border-color:var(--bdr2)">清除筛选 ×</button>';
+  }
+  h += '</div></div>';
+  slot.innerHTML = h;
+  document.querySelectorAll('[data-kp]').forEach(function(b){
+    b.addEventListener('click', function(){
+      FILTER.keyword = b.dataset.kp || '';
+      renderWeak(); renderList();
+    });
+  });
 }
 
 // 14 天日历，从 13 天前到今天
@@ -329,7 +374,7 @@ function renderList(){
     list.innerHTML = '<div class="empty"><b>错题池模块未加载</b>请刷新页面 · 如果仍然失败请清缓存</div>';
     return;
   }
-  let pool = window.LearningStore.getErrors({ subject: FILTER.subject || undefined });
+  let pool = window.LearningStore.getErrors({ subject: FILTER.subject || undefined, keyword: FILTER.keyword || undefined });
   const now = Date.now();
   if (FILTER.view === 'due') pool = pool.filter(function(e){ return (e.nextReviewAt || 0) <= now && (e.reviewCount || 0) < 3; });
   else if (FILTER.view === 'mastered') pool = pool.filter(function(e){ return (e.reviewCount || 0) >= 3; });
@@ -401,12 +446,21 @@ function renderList(){
         window.LearningStore.deleteError(id);
       } else if (act === 'ok'){
         window.LearningStore.markErrorReviewed(id, true);
+        // 复习对了 → 错题攻克 XP（小，避免刷分）
+        var e = (window.LearningStore.getErrors() || []).find(function(x){ return x.id === id; });
+        var subjZh = e ? (SUBJ_ZH[e.subject] || e.subjectZh || e.subject || '') : '';
+        if (window.GAME) window.GAME.addXP(2, '错题攻克 · ' + subjZh + ' · 复习对了');
       } else if (act === 'no'){
         window.LearningStore.markErrorReviewed(id, false);
+        // 复习答错也给少量 XP，鼓励正面对错题
+        var e2 = (window.LearningStore.getErrors() || []).find(function(x){ return x.id === id; });
+        var subjZh2 = e2 ? (SUBJ_ZH[e2.subject] || e2.subjectZh || e2.subject || '') : '';
+        if (window.GAME) window.GAME.addXP(1, '错题攻克 · ' + subjZh2 + ' · 又答错·重新计时');
       } else if (act === 'ai'){
         return aiExplain(id, b);
       }
       loadStats();
+      renderWeak();
       renderTrend();
       renderList();
     });
@@ -446,6 +500,7 @@ function aiExplain(id, btn){
     window.LearningStore.updateError(id, { aiExplanation: raw, aiExplainedAt: Date.now() });
     btn.classList.remove('btn-loading');
     loadStats();
+    renderWeak();
     renderTrend();
     renderList();
   }).catch(function(err){
@@ -460,6 +515,7 @@ function aiExplain(id, btn){
     return;
   }
   loadStats();
+  renderWeak();
   renderTrend();
   renderFilter();
   renderList();
