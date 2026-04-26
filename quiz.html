@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>每日一题 · 想完点开看课本 | 原点智学</title>
+<meta name="description" content="943 道挂教材的题，按学段+学科随机抽一道。先想，再展开看答案、解析、出处章节，一键跳读原文。可以把任意一道题分享给孩子（URL 直链）。">
+<meta name="theme-color" content="#F5A623">
+<link rel="canonical" href="https://www.yuandianzhixue.com/quiz.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%2318181B'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--bdr2:#D4D4D8;
+  --amber:#F5A623;--amber-bg:#FFFBF0;--gold:#D97706;
+  --emerald:#059669;--emerald-bg:#ECFDF5;
+  --sky:#0EA5E9;--sky-bg:#F0F9FF;
+  --slate:#334155;--slate-bg:#F1F5F9;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --font:'Noto Sans SC',system-ui,sans-serif;
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:920px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+
+/* HERO */
+.wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.h-title{font-size:22px;font-weight:900;letter-spacing:-.5px}
+.h-title small{font-weight:500;color:var(--ink3);font-size:13px;margin-left:8px}
+.h-stats{font-size:11px;color:var(--ink4);font-family:var(--mono)}
+.h-stats b{color:var(--ink2);font-weight:700}
+
+/* FILTER */
+.filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.fl-grp{display:inline-flex;background:#fff;border:1px solid var(--bdr);border-radius:8px;overflow:hidden;font-size:12px}
+.fl-grp button{background:transparent;border:none;padding:7px 12px;font-size:12px;color:var(--ink2);cursor:pointer;font-family:inherit;font-weight:600;border-right:1px solid var(--bdr)}
+.fl-grp button:last-child{border-right:none}
+.fl-grp button:hover{background:var(--amber-bg);color:var(--gold)}
+.fl-grp button.on{background:var(--amber);color:#fff}
+
+/* CARD */
+.card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:28px 28px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.card .meta span{font-size:11px;padding:3px 9px;border-radius:100px;font-weight:600}
+.m-stage{background:var(--slate-bg);color:var(--slate)}
+.m-subj{background:var(--amber-bg);color:var(--gold)}
+.m-diff.easy{background:var(--emerald-bg);color:var(--emerald)}
+.m-diff.medium{background:var(--amber-bg);color:var(--gold)}
+.m-diff.hard{background:var(--red-bg);color:var(--red)}
+.m-id{background:#F4F4F5;color:var(--ink4);font-family:var(--mono)}
+
+.q-text{font-size:18px;font-weight:500;color:var(--ink);line-height:1.75;margin:6px 0 18px;white-space:pre-wrap;word-break:break-word}
+.q-kp{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.q-kp span{font-size:11px;padding:3px 8px;border-radius:5px;background:#F4F4F5;color:var(--ink2);font-weight:500}
+
+/* REVEAL */
+.reveal-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid transparent;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn-primary{background:var(--amber);color:#fff}
+.btn-primary:hover{background:var(--gold)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--bdr2)}
+.btn-ghost:hover{background:#FAFAFA;border-color:var(--ink3)}
+.btn-emerald{background:var(--emerald);color:#fff}
+.btn-emerald:hover{background:#047857}
+
+.answer{margin-top:18px;padding:16px 18px;background:#F8FAFC;border:1px solid var(--bdr);border-radius:10px;display:none}
+.answer.shown{display:block;animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.a-label{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.5px;margin-bottom:5px;text-transform:uppercase}
+.a-text{font-size:16px;font-weight:700;color:var(--ink);line-height:1.6;font-family:var(--mono);background:#fff;padding:8px 12px;border-radius:6px;border:1px solid var(--bdr);margin-bottom:14px;word-break:break-word}
+.a-steps{font-size:13px;color:var(--ink2);line-height:1.7;white-space:pre-wrap}
+
+/* SOURCE PANEL */
+.src{margin-top:14px;padding:14px 16px;background:linear-gradient(90deg,var(--sky-bg),#fff);border-left:3px solid var(--sky);border-radius:0 8px 8px 0;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.src-l{font-size:13px;color:var(--ink2);line-height:1.5}
+.src-l b{color:var(--ink);font-weight:700}
+.src-l .src-c{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* ACTIONS */
+.actions{margin-top:24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.actions .spacer{flex:1}
+.actions .copy-hint{font-size:11px;color:var(--ink4)}
+.actions .copy-hint.ok{color:var(--emerald);font-weight:700}
+
+/* INTRO */
+.intro{margin-bottom:18px;padding:14px 16px;background:#fff;border:1px solid var(--bdr);border-radius:10px;font-size:13px;color:var(--ink2);line-height:1.6}
+.intro b{color:var(--ink);font-weight:700}
+.intro a{color:var(--amber);text-decoration:none;font-weight:600}
+
+.empty{padding:40px 20px;text-align:center;color:var(--ink4);font-size:13px;background:#fff;border:1px dashed var(--bdr2);border-radius:var(--r)}
+
+@media(max-width:600px){
+  .card{padding:20px 18px}
+  .q-text{font-size:16px}
+  .a-text{font-size:14px}
+  .h-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
+      原点智学
+    </a>
+    <a href="/quiz.html" class="nav-a on">每日一题</a>
+    <a href="/search.html" class="nav-a">查询</a>
+    <a href="/study-tools.html" class="nav-a">工具</a>
+    <a href="/platform.html" class="nav-a">平台</a>
+    <a href="/about.html" class="nav-a">关于</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="head">
+    <div class="h-title">每日一题<small>挂上教材的题，先想，再看课本</small></div>
+    <div class="h-stats">题库 · <b id="pool-n">—</b> 道 · 你已浏览 <b id="seen-n">0</b></div>
+  </div>
+
+  <div class="intro">
+    <b>规则：</b>每打开一次抽 1 道，先在心里写答案；点「展开答案」对照解析；如果想知道这道题考的是哪一段课本，点「跳到原文」直接进 textbook 阅读器对位章节。
+    可以按学段/学科筛选；当前题的链接（含 <code style="font-family:var(--mono);font-size:12px">#q=ID</code>）直接复制就能转给孩子。<a href="/eval.html">关于这 943 道题怎么挂上教材的 →</a>
+  </div>
+
+  <div class="filter" id="filter"></div>
+
+  <div id="card-mount"></div>
+
+</div>
+
+<script>
+const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
+const DIFF_ZH = { easy:'易', medium:'中', hard:'难' };
+const SEEN_KEY = 'ydzx_quiz_seen_v1';
+
+let POOL = [];
+let CUR = null;
+let FILTER = { stage: '', subject: '' };
+
+function $(id){ return document.getElementById(id); }
+function getSeen(){
+  try { return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); }
+  catch(e){ return new Set(); }
+}
+function addSeen(id){
+  const s = getSeen(); s.add(id);
+  // cap at 500 to avoid bloat
+  const arr = Array.from(s); if (arr.length > 500) arr.splice(0, arr.length - 500);
+  try { localStorage.setItem(SEEN_KEY, JSON.stringify(arr)); } catch(e){}
+}
+function readQuery(){
+  const p = new URLSearchParams(location.search);
+  if (p.get('stage')) FILTER.stage = p.get('stage');
+  if (p.get('subject')) FILTER.subject = p.get('subject');
+}
+function readHashId(){
+  const m = (location.hash || '').match(/q=([\w-]+)/);
+  return m ? m[1] : null;
+}
+function syncURL(){
+  const p = new URLSearchParams();
+  if (FILTER.stage) p.set('stage', FILTER.stage);
+  if (FILTER.subject) p.set('subject', FILTER.subject);
+  const qs = p.toString();
+  const hash = CUR ? '#q=' + CUR.id : '';
+  history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + hash);
+}
+
+function renderFilter(){
+  const stages = ['', '初中', '高中'];
+  const subjs = ['', 'math','physics','chemistry','biology','chinese','history','geography','politics'];
+  let h = '<div class="fl-grp">';
+  stages.forEach(function(s){
+    h += '<button data-stage="' + s + '" class="' + (FILTER.stage === s ? 'on' : '') + '">' + (s || '全学段') + '</button>';
+  });
+  h += '</div><div class="fl-grp">';
+  subjs.forEach(function(sk){
+    h += '<button data-subject="' + sk + '" class="' + (FILTER.subject === sk ? 'on' : '') + '">' + (sk ? SUBJ_ZH[sk] : '全学科') + '</button>';
+  });
+  h += '</div>';
+  $('filter').innerHTML = h;
+  document.querySelectorAll('[data-stage]').forEach(function(b){
+    b.addEventListener('click', function(){ FILTER.stage = b.dataset.stage; renderFilter(); reroll(); });
+  });
+  document.querySelectorAll('[data-subject]').forEach(function(b){
+    b.addEventListener('click', function(){ FILTER.subject = b.dataset.subject; renderFilter(); reroll(); });
+  });
+}
+
+function filtered(){
+  return POOL.filter(function(q){
+    if (FILTER.stage && q.stage !== FILTER.stage) return false;
+    if (FILTER.subject && q.subject !== FILTER.subject) return false;
+    return true;
+  });
+}
+
+function pickRandom(){
+  const list = filtered();
+  if (!list.length) return null;
+  const seen = getSeen();
+  const fresh = list.filter(function(q){ return !seen.has(q.id); });
+  const pool = fresh.length ? fresh : list;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function reroll(){
+  CUR = pickRandom();
+  if (CUR) addSeen(CUR.id);
+  syncURL();
+  renderCard();
+}
+
+function loadById(id){
+  const found = POOL.find(function(q){ return q.id === id; });
+  if (found){ CUR = found; addSeen(CUR.id); syncURL(); renderCard(); return true; }
+  return false;
+}
+
+function renderCard(){
+  const mount = $('card-mount');
+  if (!CUR){
+    mount.innerHTML = '<div class="empty">这个筛选下没有题 · 换一个学段或学科</div>';
+    return;
+  }
+  const q = CUR;
+  const ref = q.textbook_ref || {};
+  const refTxt = ref.path ? (ref.path + ' · 第 ' + ref.ch + ' 章') : '未挂载';
+  const tbHref = ref.path ? '/tools/textbook-browser?book=' + encodeURIComponent(ref.path) + '&ch=' + ref.ch : '#';
+  let kpHtml = '';
+  if (q.knowledge_points && q.knowledge_points.length){
+    kpHtml = '<div class="q-kp">' + q.knowledge_points.map(function(k){ return '<span>' + k + '</span>'; }).join('') + '</div>';
+  }
+  let h = '<article class="card">';
+  h += '<div class="meta">';
+  h += '<span class="m-stage">' + q.stage + '</span>';
+  h += '<span class="m-subj">' + (SUBJ_ZH[q.subject] || q.subject) + '</span>';
+  if (q.difficulty) h += '<span class="m-diff ' + q.difficulty + '">难度 · ' + (DIFF_ZH[q.difficulty] || q.difficulty) + '</span>';
+  h += '<span class="m-id">' + q.id + '</span>';
+  h += '</div>';
+  h += '<div class="q-text">' + escapeHtml(q.question_text || '') + '</div>';
+  h += kpHtml;
+  h += '<div class="reveal-row">';
+  h += '<button class="btn btn-primary" id="reveal-btn">展开答案</button>';
+  if (ref.path) h += '<a class="btn btn-ghost" href="' + tbHref + '" target="_blank" rel="noopener">看原文章节 →</a>';
+  h += '</div>';
+  h += '<div class="answer" id="answer">';
+  h += '<div class="a-label">参考答案</div>';
+  h += '<div class="a-text">' + escapeHtml(q.answer || '（无）') + '</div>';
+  if (q.solution_steps){
+    h += '<div class="a-label">解析</div>';
+    h += '<div class="a-steps">' + escapeHtml(q.solution_steps) + '</div>';
+  }
+  h += '<div class="src">';
+  h += '<div class="src-l"><b>出处</b> · ' + refTxt + '<div class="src-c">挂载方式 · ensemble 引擎自动匹配 · 你可以去基准页查证</div></div>';
+  if (ref.path) h += '<a class="btn btn-emerald" href="' + tbHref + '" target="_blank" rel="noopener">跳到原文</a>';
+  h += '</div>';
+  h += '</div>';
+  h += '<div class="actions">';
+  h += '<button class="btn btn-ghost" id="reroll-btn">再来一题 ↻</button>';
+  h += '<button class="btn btn-ghost" id="copy-btn">复制本题链接</button>';
+  h += '<span class="copy-hint" id="copy-hint"></span>';
+  h += '<span class="spacer"></span>';
+  h += '<a class="btn btn-ghost" href="/progress.html">看四维体检 →</a>';
+  h += '</div>';
+  h += '</article>';
+  mount.innerHTML = h;
+  $('reveal-btn').addEventListener('click', function(){
+    $('answer').classList.add('shown');
+    this.style.display = 'none';
+  });
+  $('reroll-btn').addEventListener('click', reroll);
+  $('copy-btn').addEventListener('click', copyLink);
+}
+
+function copyLink(){
+  const url = location.origin + location.pathname + (location.search || '') + '#q=' + CUR.id;
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){
+      const hint = $('copy-hint'); hint.textContent = '✓ 已复制 · 直接发给孩子'; hint.className = 'copy-hint ok';
+      setTimeout(function(){ hint.textContent = ''; hint.className = 'copy-hint'; }, 2400);
+    });
+  } else {
+    const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); $('copy-hint').textContent = '✓ 已复制'; $('copy-hint').className='copy-hint ok'; }
+    catch(e){ prompt('复制这条链接：', url); }
+    document.body.removeChild(ta);
+  }
+}
+
+function escapeHtml(s){
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; });
+}
+
+(async function init(){
+  readQuery();
+  renderFilter();
+  try {
+    const r = await fetch('/src/curriculum/seed-questions-generated.json', { cache: 'force-cache' });
+    const data = await r.json();
+    POOL = data.questions || [];
+  } catch(e){
+    POOL = [];
+    $('card-mount').innerHTML = '<div class="empty">题库加载失败 · 检查网络 · ' + (e.message || '') + '</div>';
+    return;
+  }
+  $('pool-n').textContent = POOL.length;
+  $('seen-n').textContent = getSeen().size;
+  // 优先 URL hash 直链
+  const hashId = readHashId();
+  if (hashId && loadById(hashId)) return;
+  reroll();
+})();
+</script>
+
+</body>
+</html>
