@@ -77,6 +77,21 @@ a{color:inherit}
 .btn-emerald{background:var(--emerald);color:#fff}
 .btn-emerald:hover{background:#047857}
 
+/* SELF-GRADE */
+.grade-row{margin-top:14px;padding:12px 14px;background:#FAFBFC;border:1px solid var(--bdr);border-radius:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.grade-row .gr-q{font-size:13px;color:var(--ink2);font-weight:600;margin-right:auto}
+.grade-row .gr-q b{color:var(--ink)}
+.btn-good{background:var(--emerald);color:#fff;border-color:transparent}
+.btn-good:hover{background:#047857}
+.btn-bad{background:var(--red);color:#fff;border-color:transparent}
+.btn-bad:hover{background:#B91C1C}
+.grade-row.done .btn-good,.grade-row.done .btn-bad{opacity:.4;pointer-events:none}
+.grade-row.done .gr-q::after{content:' · 已记录';color:var(--ink4);font-weight:500}
+.session-bar{margin-top:14px;font-size:11px;color:var(--ink3);font-family:var(--mono);display:flex;gap:14px;flex-wrap:wrap}
+.session-bar b{color:var(--ink);font-weight:700}
+.session-bar .ok{color:var(--emerald)}
+.session-bar .bad{color:var(--red)}
+
 .answer{margin-top:18px;padding:16px 18px;background:#F8FAFC;border:1px solid var(--bdr);border-radius:10px;display:none}
 .answer.shown{display:block;animation:fadein .3s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
@@ -143,12 +158,18 @@ a{color:inherit}
 
   <div id="card-mount"></div>
 
+  <div class="session-bar" id="session-bar"></div>
+
 </div>
 
+<script src="/src/gamification.js"></script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
 const DIFF_ZH = { easy:'易', medium:'中', hard:'难' };
 const SEEN_KEY = 'ydzx_quiz_seen_v1';
+const OUTCOME_KEY = 'ydzx_quiz_outcome_v1'; // {id: {r:'good'|'bad', d:'YYYY-MM-DD'}}
+const XP_GOOD = 2; // 自评对，比 arcade 主线低，避免刷分
+const XP_BAD = 3;  // 自评错略高，奖励直面错题
 
 let POOL = [];
 let CUR = null;
@@ -158,6 +179,25 @@ function $(id){ return document.getElementById(id); }
 function getSeen(){
   try { return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); }
   catch(e){ return new Set(); }
+}
+function getOutcomes(){
+  try { return JSON.parse(localStorage.getItem(OUTCOME_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function setOutcome(id, result){
+  const o = getOutcomes();
+  o[id] = { r: result, d: new Date().toISOString().slice(0,10) };
+  try { localStorage.setItem(OUTCOME_KEY, JSON.stringify(o)); } catch(e){}
+}
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+function todayStats(){
+  const o = getOutcomes();
+  const today = todayKey();
+  let n = 0, good = 0, bad = 0;
+  Object.keys(o).forEach(function(id){
+    if (o[id].d === today){ n++; if (o[id].r === 'good') good++; else bad++; }
+  });
+  return { n: n, good: good, bad: bad };
 }
 function addSeen(id){
   const s = getSeen(); s.add(id);
@@ -272,6 +312,14 @@ function renderCard(){
   h += '<div class="src-l"><b>出处</b> · ' + refTxt + '<div class="src-c">挂载方式 · ensemble 引擎自动匹配 · 你可以去基准页查证</div></div>';
   if (ref.path) h += '<a class="btn btn-emerald" href="' + tbHref + '" target="_blank" rel="noopener">跳到原文</a>';
   h += '</div>';
+  // 自评：对 / 错
+  var outc = getOutcomes()[q.id];
+  var graded = outc ? ' done' : '';
+  h += '<div class="grade-row' + graded + '" id="grade-row">';
+  h += '<div class="gr-q">这道题<b>' + (outc ? (outc.r === 'good' ? '做对了 ✓' : '做错了 ✗') : '你做对了吗') + '</b></div>';
+  h += '<button class="btn btn-good" id="gr-good">✓ 做对了 · +' + XP_GOOD + ' XP</button>';
+  h += '<button class="btn btn-bad" id="gr-bad">✗ 做错了 · 加入错题</button>';
+  h += '</div>';
   h += '</div>';
   h += '<div class="actions">';
   h += '<button class="btn btn-ghost" id="reroll-btn">再来一题 ↻</button>';
@@ -288,6 +336,43 @@ function renderCard(){
   });
   $('reroll-btn').addEventListener('click', reroll);
   $('copy-btn').addEventListener('click', copyLink);
+  $('gr-good').addEventListener('click', function(){ grade('good'); });
+  $('gr-bad').addEventListener('click', function(){ grade('bad'); });
+  renderSessionBar();
+}
+
+function grade(result){
+  if (!CUR) return;
+  if (getOutcomes()[CUR.id]) return; // 已评过，幂等
+  setOutcome(CUR.id, result);
+  var subjZh = SUBJ_ZH[CUR.subject] || CUR.subject;
+  if (window.GAME && typeof window.GAME.addXP === 'function'){
+    if (result === 'good') window.GAME.addXP(XP_GOOD, '题库速练 · ' + subjZh + ' · quiz');
+    else window.GAME.addXP(XP_BAD, '错题攻克 · ' + subjZh + ' · quiz');
+  }
+  // 更新 UI
+  var row = $('grade-row');
+  if (row){
+    row.classList.add('done');
+    var label = row.querySelector('.gr-q b');
+    if (label) label.textContent = (result === 'good' ? '做对了 ✓' : '做错了 ✗');
+  }
+  renderSessionBar();
+}
+
+function renderSessionBar(){
+  var bar = $('session-bar'); if (!bar) return;
+  var s = todayStats();
+  if (!s.n){
+    bar.innerHTML = '<span>每完成一题点击 ✓ 或 ✗，<a href="/progress.html" style="color:var(--amber);text-decoration:none;font-weight:700">progress 四维体检</a> 的「练」「错」维度就会同步亮起来</span>';
+    return;
+  }
+  var rate = s.n ? Math.round(s.good / s.n * 100) : 0;
+  bar.innerHTML = '今日 · 刷了 <b>' + s.n + '</b> 道'
+    + ' · <span class="ok">对 ' + s.good + '</span>'
+    + ' · <span class="bad">错 ' + s.bad + '</span>'
+    + ' · 正确率 <b>' + rate + '%</b>'
+    + ' · <a href="/progress.html" style="color:var(--ink2);text-decoration:none">看四维体检 →</a>';
 }
 
 function copyLink(){
@@ -324,6 +409,7 @@ function escapeHtml(s){
   }
   $('pool-n').textContent = POOL.length;
   $('seen-n').textContent = getSeen().size;
+  renderSessionBar();
   // 优先 URL hash 直链
   const hashId = readHashId();
   if (hashId && loadById(hashId)) return;
