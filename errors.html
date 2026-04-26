@@ -101,6 +101,22 @@ a{color:inherit}
 .item-actions .del:hover{color:var(--red)}
 
 /* empty state */
+/* 14 天趋势 mini chart */
+.trend{margin-bottom:18px;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px}
+.trend-hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.trend-t{font-size:13px;font-weight:800;color:var(--ink)}
+.trend-t small{font-weight:500;color:var(--ink4);font-size:11px;margin-left:6px}
+.trend-legend{font-size:11px;color:var(--ink3);display:flex;gap:12px}
+.trend-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.trend-legend .lg-new i{background:var(--red)}
+.trend-legend .lg-rev i{background:var(--emerald)}
+.trend-svg{display:block;width:100%;height:80px}
+.trend-foot{margin-top:8px;font-size:11px;color:var(--ink3);line-height:1.5}
+.trend-foot b{color:var(--ink);font-weight:800}
+.trend-foot .verdict.up{color:var(--red);font-weight:800}
+.trend-foot .verdict.down{color:var(--emerald);font-weight:800}
+.trend-foot .verdict.flat{color:var(--ink2);font-weight:700}
+
 .empty{padding:48px 20px;text-align:center;color:var(--ink4);font-size:13px;background:var(--card);border:1px dashed var(--bdr2);border-radius:var(--r)}
 .empty b{color:var(--ink2);font-weight:700;display:block;margin-bottom:6px;font-size:15px}
 .empty a{color:var(--amber);font-weight:700;text-decoration:none}
@@ -147,6 +163,8 @@ a{color:inherit}
     <div class="stat-card mas"><div class="sn" id="st-mas">0</div><div class="sl">已掌握(≥3 阶)</div></div>
   </div>
 
+  <div id="trend-mount"></div>
+
   <div class="filter" id="filter"></div>
 
   <div class="list" id="list"></div>
@@ -188,6 +206,100 @@ function loadStats(){
   $('st-due').textContent = due.length;
   $('st-today').textContent = todayNew.length;
   $('st-mas').textContent = mastered.length;
+}
+
+// 14 天日历，从 13 天前到今天
+function _last14DayKeys(){
+  const out = [];
+  const today = new Date(); today.setHours(0,0,0,0);
+  for (let i = 13; i >= 0; i--){
+    const d = new Date(today.getTime() - i * 86400000);
+    out.push(d.toISOString().slice(0,10));
+  }
+  return out;
+}
+function _dayKey(ts){ if (!ts) return ''; return new Date(ts).toISOString().slice(0,10); }
+function renderTrend(){
+  const slot = $('trend-mount'); if (!slot) return;
+  if (!window.LearningStore){ slot.innerHTML = ''; return; }
+  const all = window.LearningStore.getErrors();
+  const days = _last14DayKeys();
+  const dayIdx = {}; days.forEach(function(d,i){ dayIdx[d] = i; });
+  const newCnt = new Array(14).fill(0);
+  const revCnt = new Array(14).fill(0);
+  all.forEach(function(e){
+    const dk = _dayKey(e.timestamp);
+    if (dayIdx[dk] != null) newCnt[dayIdx[dk]] += 1;
+    const lk = _dayKey(e.lastReviewAt);
+    if (dayIdx[lk] != null) revCnt[dayIdx[lk]] += 1;
+  });
+  const totalNew = newCnt.reduce(function(a,b){ return a+b; }, 0);
+  const totalRev = revCnt.reduce(function(a,b){ return a+b; }, 0);
+  if (totalNew === 0 && totalRev === 0){
+    slot.innerHTML = ''; // 完全没数据，不渲染骚扰
+    return;
+  }
+  const max = Math.max(1, Math.max.apply(null, newCnt.concat(revCnt)));
+  const W = 600, H = 80, padL = 24, padR = 8, padT = 6, padB = 16;
+  const innerW = W - padL - padR, innerH = H - padT - padB;
+  const stepX = innerW / 13;
+  function pt(i, v){
+    return [padL + i * stepX, padT + innerH - (v / max) * innerH];
+  }
+  function path(arr){
+    return arr.map(function(v, i){ const p = pt(i, v); return (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join('');
+  }
+  // 轴线 + 网格
+  let svg = '<svg class="trend-svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet">';
+  // y 轴顶/中/底虚线
+  for (let g = 0; g <= 2; g++){
+    const y = padT + (innerH / 2) * g;
+    svg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="#E4E4E7" stroke-dasharray="2 3"/>';
+  }
+  // 红线（新增）
+  svg += '<path d="' + path(newCnt) + '" fill="none" stroke="#DC2626" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+  // 绿线（复习）
+  svg += '<path d="' + path(revCnt) + '" fill="none" stroke="#059669" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+  // 点 + 数值
+  for (let i = 0; i < 14; i++){
+    if (newCnt[i] > 0){
+      const p = pt(i, newCnt[i]);
+      svg += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" fill="#DC2626"/>';
+    }
+    if (revCnt[i] > 0){
+      const p = pt(i, revCnt[i]);
+      svg += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="2.4" fill="#059669"/>';
+    }
+  }
+  // x 轴：显示首尾 + 中间
+  const ticks = [0, 6, 13];
+  ticks.forEach(function(i){
+    const x = padL + i * stepX;
+    const lbl = days[i].slice(5).replace('-', '/');
+    svg += '<text x="' + x.toFixed(1) + '" y="' + (H - 2) + '" font-size="9" fill="#A1A1AA" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,monospace">' + lbl + '</text>';
+  });
+  // y 轴最大值
+  svg += '<text x="' + (padL - 4) + '" y="' + (padT + 4) + '" font-size="9" fill="#A1A1AA" text-anchor="end" font-family="JetBrains Mono,ui-monospace,monospace">' + max + '</text>';
+  svg += '</svg>';
+
+  // 趋势判断：近 7 天 新增 vs 复习
+  const recent7New = newCnt.slice(7).reduce(function(a,b){ return a+b; }, 0);
+  const recent7Rev = revCnt.slice(7).reduce(function(a,b){ return a+b; }, 0);
+  let verdict, vClass;
+  if (recent7Rev >= recent7New * 1.2 && recent7Rev > 0){
+    verdict = '✓ 复习速度跟得上'; vClass = 'down';
+  } else if (recent7New > recent7Rev && recent7New > 0){
+    verdict = '⚠ 积压在涨 · 该多复习了'; vClass = 'up';
+  } else {
+    verdict = '— 平稳'; vClass = 'flat';
+  }
+  const html = '<div class="trend">'
+    + '<div class="trend-hd"><div class="trend-t">14 天趋势<small>· 新增 ' + totalNew + ' · 复习 ' + totalRev + '</small></div>'
+    + '<div class="trend-legend"><span class="lg-new"><i></i>新增错题</span><span class="lg-rev"><i></i>复习次数</span></div></div>'
+    + svg
+    + '<div class="trend-foot">最近 7 天 · 新增 <b>' + recent7New + '</b> · 复习 <b>' + recent7Rev + '</b> · <span class="verdict ' + vClass + '">' + verdict + '</span></div>'
+    + '</div>';
+  slot.innerHTML = html;
 }
 
 function renderFilter(){
@@ -295,6 +407,7 @@ function renderList(){
         return aiExplain(id, b);
       }
       loadStats();
+      renderTrend();
       renderList();
     });
   });
@@ -333,6 +446,7 @@ function aiExplain(id, btn){
     window.LearningStore.updateError(id, { aiExplanation: raw, aiExplainedAt: Date.now() });
     btn.classList.remove('btn-loading');
     loadStats();
+    renderTrend();
     renderList();
   }).catch(function(err){
     btn.classList.remove('btn-loading');
@@ -346,6 +460,7 @@ function aiExplain(id, btn){
     return;
   }
   loadStats();
+  renderTrend();
   renderFilter();
   renderList();
 })();
