@@ -1,8 +1,21 @@
 # 实验品周 v1.1 · 6 个候选改进的 A/B-able 拆解
 
-> 起笔日：2026-04-28
+> 起笔日：2026-04-28 · 末次更新：2026-04-28（同日）
 > 适用周期：v1.0-ka-wave 之后 7-14 天
 > 用法：每个实验都按 hypothesis → metric → stop-loss 三段写。如果某项 stop-loss 触发，立即砍掉该方向，不要纠缠。
+
+---
+
+## 速览状态板
+
+| EXP | 名称 | 状态 | Ship 哈希 | 数据窗口 |
+|---|---|---|---|---|
+| 1 | 英语 manifest 补全 | ❌ sunset / blocked | 86f83fd | OCR 就位再启 |
+| 2 | mastery 月度 delta | ✅ shipped | ab92658 | 5/5 检查 7 日二访 |
+| 3 | 跨周冲关 streak 徽章 | ✅ shipped | 038254b | 5/12 检查 streak_4 触发量 |
+| 4 | 家长简报图卡 | ✅ shipped | 673a065 | 5/5 检查点击率 + utm |
+| 5 | 章节考点细分三档 | ⏸️ 排队 W3 | — | 等 EXP-2/3 数据 |
+| 6 | 移动端 tab bar | ⏸️ 排队 W3+ | — | 看 mobile UA |
 
 ---
 
@@ -13,7 +26,9 @@
 
 ---
 
-## EXP-1 · 英语 manifest 补全（P0）
+## EXP-1 · 英语 manifest 补全（P0） · ❌ sunset
+
+**Status**: 调研发现 manifest 里 2 本英语在 `scans` 数组（image-only PDF），需 OCR 才能切片正文；不能 fake 章节进 books 否则 textbook-browser 404。已 sunset，详见 `docs/sunset/EXP-1-english-blocker.md`。Placeholder 文案降级为「PDF 已收 · 正文 OCR 中」（commit 86f83fd）。
 
 **Hypothesis**: 9 学科 grid 的英语 placeholder 是高频"为啥不能用"反馈来源；补 4 本人教版英语教材进 manifest，可拉高 home → 学科页转化率。
 
@@ -34,7 +49,9 @@
 
 ---
 
-## EXP-2 · 学科 hub mastery 圆环加月度对比（P0）
+## EXP-2 · 学科 hub mastery 圆环加月度对比（P0） · ✅ shipped
+
+**Status**: 上线 commit ab92658。`ydzx_mastery_snapshots_v1` 月-科二级嵌套，stage='全部' 时同月只写一次 snapshot。delta 4 档文案：正↑ 绿 / 平 灰 / 负 隐藏 / 空 "本月起步"。**5/5（一周后）查 7 日二访率**，stop-loss 触发即撤。
 
 **Hypothesis**: 单一静态百分比不能让学生感知"在进步"，加上「比上月 +X%」对比可创造正向 momentum 错觉，提升 7 日留存。
 
@@ -55,7 +72,9 @@
 
 ---
 
-## EXP-3 · 跨学科冲关 streak 徽章（P1）
+## EXP-3 · 跨学科冲关 streak 徽章（P1） · ✅ shipped
+
+**Status**: 上线 commit 038254b。`gamification.BADGES` 注册 `challenge_streak_4 / 8 / 12` 三档；`progress.html` `_isoWeekKey + _challengeWeekStreak` 计算跨周连续；trophy 墙 sec-sub 替换为 chip + 自动 idempotent unlockBadge。**5/12（半月后）查 streak_4 触发用户数**，<10 即下调阈值。
 
 **Hypothesis**: 单关 +20 XP 一次性激励太短；连续 4 周通关 ≥1 关解锁"4 周不间断"金徽章可提升 28 日留存。
 
@@ -76,7 +95,9 @@
 
 ---
 
-## EXP-4 · 家长简报每周自动图卡（P1）
+## EXP-4 · 家长简报每周自动图卡（P1） · ✅ shipped
+
+**Status**: 上线 commit 673a065。学科页家长卡多一个金色 "📤 生成图卡" 按钮，懒加载 html2canvas + share-kit；图卡 metrics = 本周读章 / 错题在线(+通关) / 答题准确；URL 带 `utm_source=parent-card&utm_campaign=<subject>`。**5/5 查点击率与 utm 注册数**，前者 <5% 或后者 <3/周即撤。
 
 **Hypothesis**: 文本简报粘贴微信效果不直观，自动生成一张 4:3 图卡可拉高家长群转发率，进而带新用户注册。
 
@@ -147,6 +168,22 @@
 | W2 | 看 EXP-1/2 结果决定砍留 | EXP-3 起步 | EXP-2 已观察一轮 |
 | W3 | — | EXP-4 起步 | 周日要图卡所以必须周三前 ship |
 | W4 | — | EXP-3/4 收尾 | 决定 EXP-5/6 是否启动 |
+
+---
+
+## W1 数据观察 checklist（5/5 拍版会用）
+
+EXP-2/3/4 上线即跑表，5/5 周一收集结果决定砍留：
+
+- [ ] **EXP-2 二访率**：拉 5/5 当周 unique student_id 7 日内回访同学科页比例 vs 上周对照（取 5/1 之前的 baseline）
+- [ ] **EXP-2 stage='全部' 重渲染失败率**：浏览器开发者工具看 `m-delta` slot 为空但 `localStorage.ydzx_mastery_snapshots_v1[2026-04]` 已写的样本数
+- [ ] **EXP-3 streak 触发量**：抽样 30 个用户查 `localStorage.ydzx_challenge_clears_v1` 周分布，看本周首批 streak_4 候选数
+- [ ] **EXP-3 chip 渲染正确性**：人肉抽 5 个 trophy 截图核对 `_challengeWeekStreak` 与肉眼数一致
+- [ ] **EXP-4 图卡按钮 PV**：埋点 `parent-card-share` 点击 / 学科页 PV 比值
+- [ ] **EXP-4 utm 漏斗**：welcome 页 `utm_source=parent-card` 来源注册数；`utm_campaign` 看哪科最有转发力
+- [ ] **回退备份**：所有 EXP 都回退 git revert 单 commit 即可，提前演练一次
+
+人工访谈名单：抽 3 个家长 + 3 个学生在 5/4 之前问"图卡和月度对比有没有用"，**人工 > 数据 > 直觉**。
 
 ---
 
