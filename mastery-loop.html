@@ -187,6 +187,75 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     font-weight: 700;
     color: var(--c-origin-soft);
 }
+.feedback .ask-tutor-btn {
+    display: inline-flex;align-items:center;gap:6px;
+    margin-top: 10px;padding: 8px 14px;
+    background: linear-gradient(135deg,#E94D35,#FF8A6E);
+    color: #fff;border: none;border-radius: 100px;
+    font-size: 0.84rem;font-weight: 600;cursor: pointer;
+    font-family: inherit;transition: transform 0.12s;
+    box-shadow: 0 2px 8px rgba(233,77,53,0.30);
+}
+.feedback .ask-tutor-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(233,77,53,0.40); }
+.feedback .ask-tutor-btn::before { content: "墨"; display:inline-flex;align-items:center;justify-content:center;
+    width: 18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.25);
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:11px; }
+
+/* ─── mini-tutor 浮窗（答错弹出，不离开当前题）─── */
+.mini-tutor {
+    position: fixed; right: 20px; bottom: 20px;
+    width: 360px; height: 520px; max-height: 70vh;
+    background: #FAFAF7; color: #18181B;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08);
+    display: none; flex-direction: column;
+    z-index: 1000;
+    animation: mtIn 0.22s ease-out;
+    font-family: "Noto Sans SC", sans-serif;
+}
+@keyframes mtIn { from { opacity:0; transform: translateY(20px) scale(0.96);} to { opacity:1; transform: translateY(0) scale(1);} }
+.mini-tutor.open { display: flex; }
+.mt-head { display:flex;align-items:center;gap:10px;padding:14px 16px;
+    background: linear-gradient(135deg,#FFF5F1,#FFFBF0);border-bottom:1px solid #E7E5DF; }
+.mt-av { width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,#E94D35,#FF8A6E);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:0.9rem;
+    box-shadow: 0 2px 6px rgba(233,77,53,0.25); }
+.mt-title { flex:1; min-width:0; }
+.mt-title .nm { font-size:0.92rem;font-weight:700;color:#18181B;line-height:1.2; }
+.mt-title .ctx { font-size:0.72rem;color:#71717A;margin-top:2px;line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.mt-close { background:none;border:none;color:#71717A;font-size:1.4rem;cursor:pointer;
+    width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    transition:all 0.12s; }
+.mt-close:hover { background:rgba(0,0,0,0.06);color:#18181B; }
+.mt-body { flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;
+    background: #FBFAF6; }
+.mt-bub { animation: mtBub 0.18s ease-out; max-width:85%; }
+@keyframes mtBub { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.mt-bub.tutor { align-self:flex-start;background:#fff;border:1px solid #E7E5DF;
+    padding:10px 13px;border-radius:4px 14px 14px 14px;font-size:0.88rem;line-height:1.65;
+    color:#18181B;white-space:pre-wrap;word-break:break-word; }
+.mt-bub.student { align-self:flex-end;background:#E94D35;color:#fff;
+    padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:0.88rem;line-height:1.55; }
+.mt-input-row { display:flex;gap:6px;padding:10px 12px;border-top:1px solid #E7E5DF;background:#fff; }
+.mt-input { flex:1;border:1px solid #D4D2CC;border-radius:18px;padding:8px 14px;
+    font-size:0.88rem;outline:none;font-family:inherit;color:#18181B;background:#FBFAF6; }
+.mt-input:focus { border-color:#E94D35;background:#fff; }
+.mt-send { background:#E94D35;color:#fff;border:none;width:34px;height:34px;border-radius:50%;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;
+    transition:transform 0.12s; }
+.mt-send:hover { transform:scale(1.06); }
+.mt-send:disabled { background:#D4D2CC;cursor:not-allowed;transform:none; }
+.mt-dots span { display:inline-block;width:5px;height:5px;border-radius:50%;background:#A1A1AA;
+    margin-right:3px;animation:mtDot 1.2s infinite; }
+.mt-dots span:nth-child(2){animation-delay:0.15s}
+.mt-dots span:nth-child(3){animation-delay:0.30s}
+@keyframes mtDot { 0%,60%,100%{opacity:0.3} 30%{opacity:1} }
+@media (max-width: 480px) {
+    .mini-tutor { right: 8px; left: 8px; bottom: 8px; width: auto; height: 80vh; }
+}
 
 /* 控制按钮组 */
 .actions {
@@ -885,9 +954,137 @@ function showFeedback(q, isCorrect, submitted, prev, now, diagnose) {
             <h4>这一步还差一点 <span class="delta" style="color:#C94040">${deltaText}</span></h4>
             <div>你写的：<code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;">${escapeHtml(submitted)}</code>，正确答案是 ${q.answer}。</div>
             <div class="socratic">${socraticBlock}</div>
+            <button class="ask-tutor-btn" onclick="openMiniTutor(${q.id ? `'${q.id}'` : 'null'})">让老师讲讲这题</button>
         `;
     }
     el.style.display = 'block';
+}
+
+// ─── mini-tutor 浮窗（P0-A 答错弹老师）─────────────
+window.MT = { history: [], currentQ: null };
+
+function openMiniTutor(qid) {
+    const q = state.questions[state.idx];
+    window.MT.currentQ = q;
+    window.MT.history = [];
+
+    let panel = document.getElementById('mini-tutor');
+    if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'mini-tutor';
+        panel.className = 'mini-tutor';
+        panel.innerHTML = `
+            <div class="mt-head">
+                <div class="mt-av">墨</div>
+                <div class="mt-title">
+                    <div class="nm">莫小语 · 老师</div>
+                    <div class="ctx" id="mt-ctx">这题：${escapeHtml((q.stem || '').slice(0, 40))}...</div>
+                </div>
+                <button class="mt-close" onclick="closeMiniTutor()" aria-label="关闭">×</button>
+            </div>
+            <div class="mt-body" id="mt-body"></div>
+            <div class="mt-input-row">
+                <input class="mt-input" id="mt-input" placeholder="说说你卡在哪一步…" autocomplete="off">
+                <button class="mt-send" id="mt-send" aria-label="发送">→</button>
+            </div>
+        `;
+        document.body.appendChild(panel);
+        document.getElementById('mt-input').addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); sendMiniTutor(); }
+        });
+        document.getElementById('mt-send').addEventListener('click', sendMiniTutor);
+    } else {
+        document.getElementById('mt-ctx').textContent = `这题：${(q.stem || '').slice(0, 40)}...`;
+        document.getElementById('mt-body').innerHTML = '';
+    }
+    panel.classList.add('open');
+
+    // 老师开场：直接基于当前错题进入引导
+    const opener = `嗯，看到了。这题你写的「${q.userAnswer || state.attempts[state.attempts.length - 1]?.response || '...'}」差在哪——你做这题时第一步是怎么想的？`;
+    appendMtBubble('tutor', opener);
+    window.MT.history.push({ role: 'assistant', content: opener });
+    setTimeout(() => document.getElementById('mt-input')?.focus(), 100);
+}
+
+function closeMiniTutor() {
+    const panel = document.getElementById('mini-tutor');
+    if (panel) panel.classList.remove('open');
+}
+
+function appendMtBubble(role, text) {
+    const body = document.getElementById('mt-body');
+    if (!body) return null;
+    const b = document.createElement('div');
+    b.className = 'mt-bub ' + role;
+    b.textContent = text;
+    body.appendChild(b);
+    body.scrollTop = body.scrollHeight;
+    return b;
+}
+
+async function sendMiniTutor() {
+    const input = document.getElementById('mt-input');
+    const send = document.getElementById('mt-send');
+    const msg = input.value.trim();
+    if (!msg) return;
+    appendMtBubble('student', msg);
+    window.MT.history.push({ role: 'user', content: msg });
+    input.value = '';
+    send.disabled = true;
+
+    const tBub = appendMtBubble('tutor', '');
+    tBub.innerHTML = '<span class="mt-dots"><span></span><span></span><span></span></span>';
+
+    const q = window.MT.currentQ;
+    const ctxPrefix = q ? `[当前题目：${q.stem}；正确答案 ${q.answer}；学生此前错答 ${q.userAnswer || '...'}] ` : '';
+
+    let acc = '';
+    try {
+        const resp = await fetch('/api/tutor-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id: STUDENT_ID,
+                message: ctxPrefix + msg,
+                topic_code: TOPIC_CODE,
+                history: window.MT.history.slice(0, -1),
+            }),
+        });
+        if (!resp.ok) {
+            tBub.textContent = resp.status === 429 ? '稍等一下再问' : `[出错 ${resp.status}]`;
+            return;
+        }
+        const reader = resp.body.getReader();
+        const dec = new TextDecoder();
+        let buf = '';
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buf += dec.decode(value, { stream: true });
+            const lines = buf.split('\n');
+            buf = lines.pop();
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                const data = line.slice(6).trim();
+                if (!data || data === '[DONE]') continue;
+                try {
+                    const j = JSON.parse(data);
+                    const delta = j.choices?.[0]?.delta?.content;
+                    if (delta) {
+                        acc += delta;
+                        tBub.textContent = acc;
+                        document.getElementById('mt-body').scrollTop = 9e9;
+                    }
+                } catch (e) {}
+            }
+        }
+        if (acc) window.MT.history.push({ role: 'assistant', content: acc });
+    } catch (e) {
+        tBub.textContent = '[网络异常] ' + e.message;
+    } finally {
+        send.disabled = false;
+        input.focus();
+    }
 }
 
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
