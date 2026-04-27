@@ -439,7 +439,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div class="actions-final">
             <button class="btn-submit" id="brag-trigger">炫耀给爸妈看 →</button>
             <button class="btn-flex" onclick="location.reload()">再来一道</button>
-            <button class="btn-flex" onclick="location.href='/parent-radar?student_id=demo-student-001'">看雷达</button>
+            <button class="btn-flex" id="view-radar-btn">看雷达</button>
         </div>
     </section>
 
@@ -988,6 +988,13 @@ function setupBrag() {
     trigger.addEventListener('click', () => {
         document.getElementById('brag-modal').classList.add('show');
     });
+    // 「看雷达」按钮把当前 STUDENT_ID + NAME 传过去（之前硬编码 demo-student-001 字符串）
+    const radarBtn = document.getElementById('view-radar-btn');
+    if (radarBtn) {
+        radarBtn.addEventListener('click', () => {
+            location.href = `/parent-radar.html?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+        });
+    }
     const copyBtn = document.getElementById('copy-mom-btn');
     if (copyBtn) {
         copyBtn.addEventListener('click', async () => {
