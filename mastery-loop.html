@@ -480,7 +480,8 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 const SUBJECT = 'math';
 const TOPIC = '一元一次方程';
 const GRADE = '初一';
-const TOPIC_CODE = 'math.7.ch3.kp3';   // cn-k12-knowledge-ontology kp_id
+// URL ?topic_code=xxx 优先；否则默认 math.7.ch3.kp3（移项 · 必须在 knowledge_points 表，跑 seed-demo-dialogues.sql 自动建）
+const TOPIC_CODE = (new URLSearchParams(location.search).get('topic_code')) || 'math.7.ch3.kp3';
 
 // 兜底硬编码题（API 失败/不够数时使用）
 const FALLBACK_QUESTIONS = [

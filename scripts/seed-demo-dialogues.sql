@@ -26,6 +26,15 @@ BEGIN
     VALUES (demo_id, '小米', 'middle_1'::grade_enum, 'middle'::stage_enum, now())
     ON CONFLICT (id) DO NOTHING;
 
+    -- 兜底插 4 个 demo 流程会用到的 knowledge_points（mastery-loop 默认 TOPIC_CODE = math.7.ch3.kp3）
+    -- 没这几行，fsrs-update 会 404 kp_code_not_found，FSRS 复习推送整个跑不起来
+    INSERT INTO knowledge_points (code, name, level, subject, stage, grade, source, source_id) VALUES
+        ('math.7.ch3.kp3', '解方程·移项',     4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp3'),
+        ('math.7.ch3.kp4', '解方程·去分母',   4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp4'),
+        ('math.7.ch3.kp1', '一元一次方程概念', 4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp1'),
+        ('math.7.ch3.kp2', '等式性质',        4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp2')
+    ON CONFLICT (source, source_id) DO NOTHING;
+
     -- ========== 轮 1：移项卡点 + 视觉提示奏效 ==========
     INSERT INTO dialogues (student_id, session_id, role, kind, content, meta, turn_index, created_at) VALUES
     (demo_id, sess_id, 'student', 'chat',
