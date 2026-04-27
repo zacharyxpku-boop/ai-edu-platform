@@ -7,7 +7,7 @@
 -- 设计：
 --   · 16 条对话（4 轮学生+老师交替 + 4 条额外学生独白）
 --   · cognitive_style 分布：visual ×5 / verbal ×2 / abstract ×1 / unknown ×8 → 主导 visual (5/5 → 置信 1.0)
---   · interest_keywords：篮球 ×3 / 游戏 ×1 / 抖音 ×1 → top 3 = 篮球·游戏·抖音
+--   · interest_keywords：篮球 ×3 / 游戏 ×1 → top 2 = 篮球·游戏（每条 keyword 必须真在该条 dialogue 文本里出现）
 --   · emotion_state：焦虑 ×6 / 平和 ×4 / 投入 ×4 / 自信 ×1 / 沮丧 ×1 → 主导 焦虑
 --   · analogy_effective: true ×4 / false ×2 / null ×10 → 奏效率 4/6 = 67%
 --   · stuck_point：移项忘记变号 ×2 / 分式去分母漏乘 ×1 / 应用题翻译 ×1 / 去分母原理 ×1
@@ -247,7 +247,7 @@ BEGIN
          'analogy_effective', true,
          'emotion_state', '投入',
          'cognitive_style', 'visual',
-         'interest_keywords', jsonb_build_array('篮球', '抖音')
+         'interest_keywords', jsonb_build_array('篮球')
        )
      ),
      0, base_t + interval '48 minutes'),
