@@ -593,13 +593,105 @@
       }
     }
 
+    // ----- 3 套打法预设 (Playbooks) -----
+    function ensurePlaybookStyle() {
+      if (document.getElementById('subj-hub-playbook-style')) return;
+      const css = ''
+        + '.pb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 16px}'
+        + '@media(max-width:680px){.pb-grid{grid-template-columns:1fr}}'
+        + '.pb-card{display:flex;flex-direction:column;background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s;position:relative;overflow:hidden;min-height:120px}'
+        + '.pb-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px -8px rgba(0,0,0,.12)}'
+        + '.pb-card .pb-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}'
+        + '.pb-card .pb-em{font-size:18px;line-height:1}'
+        + '.pb-card .pb-time{font-size:10px;font-weight:800;letter-spacing:.6px;color:#fff;padding:2px 7px;border-radius:100px;text-transform:uppercase}'
+        + '.pb-card.pb-quick .pb-time{background:#16A34A}'
+        + '.pb-card.pb-tonight .pb-time{background:#DC2626}'
+        + '.pb-card.pb-weekend .pb-time{background:#7C3AED}'
+        + '.pb-card .pb-t{font-size:14px;font-weight:800;color:#18181B;letter-spacing:-.005em;margin-bottom:3px;line-height:1.4}'
+        + '.pb-card .pb-s{font-size:11.5px;color:#52525B;line-height:1.5;flex:1}'
+        + '.pb-card .pb-go{font-size:11px;font-weight:700;margin-top:8px;align-self:flex-start;color:#A1A1AA;letter-spacing:.4px}'
+        + '.pb-card.pb-quick:hover{border-color:#16A34A}.pb-card.pb-quick:hover .pb-go{color:#16A34A}'
+        + '.pb-card.pb-tonight:hover{border-color:#DC2626}.pb-card.pb-tonight:hover .pb-go{color:#DC2626}'
+        + '.pb-card.pb-weekend:hover{border-color:#7C3AED}.pb-card.pb-weekend:hover .pb-go{color:#7C3AED}'
+        + '.pb-card .pb-disabled{position:absolute;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:11px;color:#A1A1AA;font-weight:700;backdrop-filter:blur(2px)}';
+      const s = document.createElement('style'); s.id = 'subj-hub-playbook-style'; s.textContent = css;
+      document.head.appendChild(s);
+    }
+
+    function renderPlaybooks() {
+      const mount = $('playbook-mount');
+      if (!mount) return;
+      ensurePlaybookStyle();
+
+      // ----- 今天 15 分钟: 找当前 stage 范围内的"下一章" -----
+      let quickHref = '/tools/textbook-browser.html', quickLabel = '挑一本教材开始';
+      const stageBooks = activeStage === '全部' ? allBooks : allBooks.filter(b => b.stage === activeStage);
+      const wantedGrades = bookGradesForStudent(studentGrade);
+      const myBook = wantedGrades.length ? stageBooks.find(b => wantedGrades.indexOf(b.grade) >= 0) : null;
+      const target = myBook || stageBooks.find(b => {
+        const chs = b.chapters || [];
+        return chs.some(c => !readSig.has(b.path + '::ch' + c.ch));
+      });
+      if (target) {
+        const chs = target.chapters || [];
+        const nextCh = chs.find(c => !readSig.has(target.path + '::ch' + c.ch));
+        if (nextCh) {
+          quickHref = '/tools/textbook-browser.html?path=' + encodeURIComponent(target.path) + '&ch=' + nextCh.ch;
+          const t = nextCh.title || '第 ' + nextCh.ch + ' 章';
+          quickLabel = (target.grade || '') + ' · ' + (t.length > 14 ? t.slice(0, 13) + '…' : t);
+        }
+      }
+
+      // ----- 今晚冲一关: 用错题数和学科 quiz 决策 -----
+      const dueCount = subjErrs.filter(e => (e.reviewCount || 0) < 3 && (e.nextReviewAt || 0) <= Date.now()).length;
+      const activeCount = subjErrs.filter(e => (e.reviewCount || 0) < 3).length;
+      let tonightHref, tonightLabel, tonightAvail = true;
+      if (dueCount >= 5) {
+        tonightHref = '/errors.html?subject=' + encodeURIComponent(TOOL_QUERY) + '&due=1';
+        tonightLabel = '今日 ' + dueCount + ' 道到期 · 攒成一关闯掉';
+      } else if (activeCount >= 5) {
+        tonightHref = '/errors.html?subject=' + encodeURIComponent(TOOL_QUERY);
+        tonightLabel = '在线 ' + activeCount + ' 道错题 · 5 题冲关解锁徽章';
+      } else {
+        tonightHref = '/quiz.html?subject=' + encodeURIComponent(TOOL_QUERY);
+        tonightLabel = '错题不够攒一关 · 先刷一组 5 道每日一题';
+        tonightAvail = activeCount < 3;   // 攒题中 → 用粉笔色但仍可用
+      }
+
+      // ----- 周末复盘: 用诊断或周报 -----
+      const weekendHref = '/weekly.html?subject=' + encodeURIComponent(TOOL_QUERY);
+      const weekendLabel = '7 天进度 + 错题趋势 + 下周 3 件事';
+
+      mount.innerHTML = '<div class="pb-grid">'
+        + '<a class="pb-card pb-quick" href="' + quickHref + '">'
+          + '<div class="pb-h"><span class="pb-em">⏱️</span><span class="pb-time">今天 15 分钟</span></div>'
+          + '<div class="pb-t">读一章 ≈ 12 分钟</div>'
+          + '<div class="pb-s">' + escHtml(quickLabel) + '<br>适合通勤 / 课间 / 睡前</div>'
+          + '<div class="pb-go">读起来 →</div>'
+        + '</a>'
+        + '<a class="pb-card pb-tonight" href="' + tonightHref + '">'
+          + '<div class="pb-h"><span class="pb-em">🌙</span><span class="pb-time">今晚冲一关</span></div>'
+          + '<div class="pb-t">' + (dueCount >= 5 || activeCount >= 5 ? '5 题挑战 30 分钟' : '攒题模式') + '</div>'
+          + '<div class="pb-s">' + escHtml(tonightLabel) + '<br>适合晚自习 / 睡前 30 分钟</div>'
+          + '<div class="pb-go">' + (dueCount >= 5 || activeCount >= 5 ? '冲关 →' : '去做题 →') + '</div>'
+        + '</a>'
+        + '<a class="pb-card pb-weekend" href="' + weekendHref + '">'
+          + '<div class="pb-h"><span class="pb-em">📈</span><span class="pb-time">周末复盘</span></div>'
+          + '<div class="pb-t">回头看 + 排下周</div>'
+          + '<div class="pb-s">' + escHtml(weekendLabel) + '<br>适合周日晚 / 月考前</div>'
+          + '<div class="pb-go">复盘 →</div>'
+        + '</a>'
+        + '</div>';
+    }
+
     // 可选: stage tabs
     if (cfg.stageTabsMountId) {
-      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); renderUpNext(); renderParentSummary(); });
+      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); renderUpNext(); renderParentSummary(); renderPlaybooks(); });
     }
 
     const r = paint(activeStage);
     renderUpNext();
+    renderPlaybooks();
     renderParentSummary();
     return r;
   }
