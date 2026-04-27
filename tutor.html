@@ -3,310 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>原点 AI 私教 · 这位老师记得你</title>
+<title>原点 AI 私教 · 莫小语</title>
 <meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比、什么情绪的一对一私教">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&display=swap">
 <style>
 :root{
     --warm-white:#FAFAF7;
-    --card:#FFFFFF;
-    --card-soft:#FBFAF6;
+    --side:#FFFFFF;
+    --canvas:#F7F5F0;
     --ink:#18181B;
-    --ink-soft:#52525B;
-    --ink-mute:#A1A1AA;
+    --ink-soft:#3F3F46;
+    --ink-mute:#71717A;
+    --ink-fade:#A8A29E;
     --bdr:#E7E5DF;
-    --bdr-strong:#D4D2CC;
+    --bdr-soft:#EFEDE7;
+    --bdr-strong:#D6D3CC;
     --orange:#E94D35;
     --orange-soft:#FF8A6E;
-    --orange-glow:rgba(233,77,53,0.08);
+    --orange-glow:rgba(233,77,53,0.10);
+    --orange-bg:#FFF5F1;
     --amber:#F5A623;
-    --amber-glow:rgba(245,166,35,0.10);
-    --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md:0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+    --amber-bg:#FFFBF0;
+    --green:#15803D;
+    --green-bg:#F0FDF4;
+    --shadow-sm:0 1px 2px rgba(24,24,27,0.04);
+    --shadow-md:0 1px 3px rgba(24,24,27,0.04), 0 8px 24px rgba(24,24,27,0.06);
+    --shadow-lg:0 4px 8px rgba(24,24,27,0.06), 0 20px 40px rgba(24,24,27,0.08);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
+html,body{height:100%;overflow:hidden}
 body{
     font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
     background:var(--warm-white);
     color:var(--ink);
     line-height:1.65;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
     -webkit-font-smoothing:antialiased;
+    font-size:15px;
 }
 
-/* ─── Header ─── */
-.app-header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(250,250,247,0.92);
-    backdrop-filter:saturate(180%) blur(12px);
-    -webkit-backdrop-filter:saturate(180%) blur(12px);
-    border-bottom:1px solid var(--bdr);
-}
-.header-row{
-    max-width:760px;
-    margin:0 auto;
-    padding:14px 18px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-.header-back, .header-radar{
-    color:var(--ink-mute);
-    text-decoration:none;
-    font-size:0.84rem;
-    padding:6px 10px;
-    border-radius:8px;
-    transition:all 0.15s;
-    white-space:nowrap;
-}
-.header-back:hover, .header-radar:hover{
-    color:var(--ink);
-    background:var(--card);
-}
-.tutor-id{
-    flex:1;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    min-width:0;
-}
-.avatar{
-    width:38px;height:38px;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
-    color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-family:"Noto Serif SC",serif;
-    font-weight:800;
-    font-size:1.1rem;
-    flex-shrink:0;
-    box-shadow:0 2px 6px rgba(233,77,53,0.25);
-}
-.tutor-name{
-    min-width:0;
+/* ─── App shell · 3 栏 ─── */
+.app{
+    display:grid;
+    grid-template-columns:260px 1fr 300px;
+    grid-template-rows:auto 1fr;
+    height:100vh;
     overflow:hidden;
 }
-.tutor-name h1{
-    font-size:0.95rem;
-    font-weight:700;
-    line-height:1.2;
-    margin-bottom:2px;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+.app-header{
+    grid-column:1/-1;
+    background:rgba(250,250,247,0.94);
+    backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);
+    border-bottom:1px solid var(--bdr);
+    z-index:60;
 }
-.tutor-name .sub{
-    font-size:0.74rem;
-    color:var(--ink-mute);
-    line-height:1.3;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.tutor-name .sub b{
-    color:var(--orange);
-    font-weight:600;
-}
-
-/* ─── Chat scrollable ─── */
-.chat-wrap{
-    flex:1;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:24px 18px 140px;
-}
-.chat{
-    max-width:760px;
-    margin:0 auto;
+.header-row{
+    padding:12px 22px;
     display:flex;
-    flex-direction:column;
+    align-items:center;
     gap:14px;
 }
-
-/* ─── Empty state ─── */
-.empty-hint{
-    text-align:center;
-    padding:30px 16px 10px;
-    color:var(--ink-soft);
-    animation:fadeIn 0.4s ease-out;
+.header-back{
+    color:var(--ink-mute);text-decoration:none;font-size:0.84rem;
+    padding:6px 10px;border-radius:8px;transition:all 0.15s;
+    display:flex;align-items:center;gap:4px;
 }
-.empty-hint .greeting-avatar{
-    width:64px;height:64px;
-    border-radius:50%;
+.header-back:hover{color:var(--ink);background:var(--bdr-soft)}
+.tutor-id{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
+.tutor-id .av{
+    width:36px;height:36px;border-radius:50%;
     background:linear-gradient(135deg,var(--orange),var(--orange-soft));
-    color:#fff;
-    margin:0 auto 14px;
-    display:flex;align-items:center;justify-content:center;
-    font-family:"Noto Serif SC",serif;
-    font-weight:800;
-    font-size:1.6rem;
-    box-shadow:0 4px 14px rgba(233,77,53,0.28);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:1.05rem;
+    flex-shrink:0;box-shadow:0 2px 8px rgba(233,77,53,0.30);
 }
-.empty-hint .greeting-line{
-    font-size:1.08rem;
-    color:var(--ink);
-    font-weight:600;
+.tutor-id .nm{min-width:0}
+.tutor-id .nm h1{font-size:0.98rem;font-weight:700;line-height:1.2;letter-spacing:-0.2px}
+.tutor-id .nm .sub{font-size:0.74rem;color:var(--ink-mute);line-height:1.3}
+.tutor-id .nm .sub b{color:var(--orange);font-weight:600}
+.header-radar{
+    color:var(--ink-mute);text-decoration:none;font-size:0.82rem;
+    padding:7px 14px;border-radius:8px;border:1px solid var(--bdr);
+    transition:all 0.15s;
+}
+.header-radar:hover{color:var(--orange);border-color:var(--orange);background:var(--orange-bg)}
+.mobile-toggle{display:none;background:none;border:1px solid var(--bdr);width:36px;height:36px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink-soft)}
+.mobile-toggle svg{width:18px;height:18px}
+
+/* ─── Left rail · 学科树 ─── */
+.rail-l{
+    background:var(--side);
+    border-right:1px solid var(--bdr);
+    overflow-y:auto;
+    padding:18px 14px 80px;
+}
+.rail-l h3{
+    font-size:0.7rem;font-weight:700;color:var(--ink-fade);
+    letter-spacing:1.5px;text-transform:uppercase;
+    margin:8px 6px 10px;
+}
+.subj{margin-bottom:10px}
+.subj-row{
+    display:flex;align-items:center;gap:8px;padding:10px 10px;
+    border-radius:10px;cursor:pointer;
+    font-size:0.92rem;font-weight:600;color:var(--ink);
+    transition:background 0.15s;
+}
+.subj-row:hover{background:var(--bdr-soft)}
+.subj-row.locked{color:var(--ink-fade);cursor:not-allowed}
+.subj-row.locked:hover{background:transparent}
+.subj-row .em{font-size:1.1rem}
+.subj-row .lock{margin-left:auto;font-size:0.7rem;color:var(--ink-fade)}
+.subj-row .arr{margin-left:auto;font-size:0.75rem;color:var(--ink-mute);transition:transform 0.2s}
+.subj-row.open .arr{transform:rotate(90deg)}
+.kps{padding:2px 0 6px 8px;display:none}
+.subj.open .kps{display:block}
+.kp{
+    display:flex;align-items:center;gap:8px;padding:8px 10px;
+    border-radius:8px;cursor:pointer;
+    font-size:0.86rem;color:var(--ink-soft);
+    transition:all 0.12s;border-left:2px solid transparent;
+}
+.kp:hover{background:var(--orange-bg);color:var(--ink)}
+.kp.active{background:var(--orange-bg);color:var(--orange);border-left-color:var(--orange);font-weight:700}
+.kp.done{color:var(--ink-mute)}
+.kp .ic{
+    width:18px;height:18px;border-radius:50%;flex-shrink:0;
+    border:1.5px solid var(--bdr-strong);background:var(--side);
+    display:flex;align-items:center;justify-content:center;font-size:10px;
+}
+.kp.active .ic{background:var(--orange);border-color:var(--orange);color:#fff}
+.kp.done .ic{background:var(--green);border-color:var(--green);color:#fff}
+
+/* ─── Center · 对话主区 ─── */
+.center{
+    background:var(--canvas);
+    overflow-y:auto;
+    position:relative;
+    display:flex;flex-direction:column;
+}
+.chat{
+    flex:1;
+    max-width:760px;
+    width:100%;
+    margin:0 auto;
+    padding:26px 22px 160px;
+}
+
+.welcome{
+    text-align:center;
+    padding:30px 14px 8px;
+}
+.welcome .hero-av{
+    width:88px;height:88px;border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+    color:#fff;font-family:"Noto Serif SC",serif;font-weight:900;font-size:2.4rem;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+    box-shadow:0 6px 24px rgba(233,77,53,0.30), inset 0 -4px 12px rgba(0,0,0,0.08);
+    position:relative;
+}
+.welcome .hero-av::after{
+    content:'';position:absolute;bottom:2px;right:2px;
+    width:18px;height:18px;border-radius:50%;
+    background:#22C55E;border:3px solid var(--canvas);
+}
+.welcome h2{
+    font-size:1.45rem;font-weight:900;letter-spacing:-0.5px;
     margin-bottom:6px;
 }
-.empty-hint .greeting-sub{
-    font-size:0.86rem;
-    color:var(--ink-mute);
-    margin-bottom:24px;
+.welcome .greet-sub{
+    font-size:0.94rem;color:var(--ink-soft);
+    max-width:420px;margin:0 auto 20px;
 }
 .quick{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    max-width:520px;
-    margin:0 auto;
+    display:grid;grid-template-columns:repeat(2,1fr);
+    gap:10px;max-width:520px;margin:0 auto;
 }
 .quick button{
-    background:var(--card);
-    border:1px solid var(--bdr);
-    color:var(--ink);
-    padding:14px 16px;
-    border-radius:14px;
-    cursor:pointer;
-    font-family:inherit;
-    font-size:0.92rem;
-    text-align:left;
-    line-height:1.4;
-    transition:all 0.18s;
-    box-shadow:var(--shadow-sm);
+    display:flex;align-items:center;gap:10px;
+    padding:14px 14px;
+    background:var(--side);border:1px solid var(--bdr);border-radius:12px;
+    font-family:inherit;font-size:0.9rem;font-weight:500;color:var(--ink-soft);
+    cursor:pointer;text-align:left;
+    transition:all 0.15s;
 }
 .quick button:hover{
-    border-color:var(--orange);
-    background:var(--orange-glow);
-    transform:translateY(-1px);
-    box-shadow:var(--shadow-md);
+    border-color:var(--orange);color:var(--ink);
+    background:var(--orange-bg);transform:translateY(-1px);
+    box-shadow:var(--shadow-sm);
 }
-.quick button .qicon{
-    font-size:1.1rem;
-    margin-right:6px;
-}
+.quick button .qicon{font-size:1.1rem;flex-shrink:0}
 
 /* ─── Bubbles ─── */
-.bubble{
-    max-width:88%;
-    animation:fadeUp 0.32s ease-out;
-    line-height:1.7;
-    font-size:0.96rem;
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-.bubble.tutor{
-    align-self:flex-start;
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    max-width:92%;
-}
+.bubble{margin-bottom:14px;display:flex;animation:popIn 0.22s ease-out}
+@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.bubble.tutor{justify-content:flex-start;gap:10px;align-items:flex-start}
 .bubble.tutor .b-avatar{
-    width:32px;height:32px;
-    border-radius:50%;
+    width:32px;height:32px;border-radius:50%;
     background:linear-gradient(135deg,var(--orange),var(--orange-soft));
-    color:#fff;
-    flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    font-family:"Noto Serif SC",serif;
-    font-weight:800;
-    font-size:0.92rem;
-    margin-top:2px;
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:0.9rem;
+    flex-shrink:0;box-shadow:0 2px 6px rgba(233,77,53,0.22);
 }
 .bubble.tutor .b-content{
-    background:var(--card);
-    border:1px solid var(--bdr);
-    border-left:3px solid var(--orange);
-    border-radius:14px;
-    border-top-left-radius:4px;
-    padding:12px 16px;
-    color:var(--ink);
+    background:var(--side);border:1px solid var(--bdr);
+    padding:12px 16px;border-radius:4px 16px 16px 16px;
+    font-size:0.96rem;line-height:1.7;color:var(--ink);
+    max-width:calc(100% - 50px);
+    white-space:pre-wrap;word-break:break-word;
     box-shadow:var(--shadow-sm);
-    word-wrap:break-word;
-    overflow-wrap:break-word;
-    min-height:24px;
 }
-
-.bubble.student{
-    align-self:flex-end;
-    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
-    color:#fff;
-    padding:11px 16px;
-    border-radius:14px;
-    border-top-right-radius:4px;
-    box-shadow:0 2px 6px rgba(233,77,53,0.20);
-    word-wrap:break-word;
-    overflow-wrap:break-word;
+.bubble.student{justify-content:flex-end}
+.bubble.student .body{
+    background:var(--orange);color:#fff;
+    padding:11px 16px;border-radius:16px 16px 4px 16px;
+    font-size:0.96rem;line-height:1.65;
+    max-width:78%;white-space:pre-wrap;word-break:break-word;
+    box-shadow:0 2px 8px rgba(233,77,53,0.22);
 }
-
 .bubble.system{
-    align-self:center;
-    max-width:92%;
-    background:var(--amber-glow);
-    border:1px dashed rgba(245,166,35,0.5);
-    color:var(--ink-soft);
-    font-size:0.78rem;
-    padding:8px 14px;
-    border-radius:10px;
-    text-align:center;
-    line-height:1.5;
+    justify-content:center;
+    margin:18px 0;
+}
+.bubble.system .body{
+    background:var(--amber-bg);color:#92400E;
+    border:1px solid #FCD34D;
+    padding:7px 14px;border-radius:100px;
+    font-size:0.78rem;font-weight:500;
+    max-width:90%;text-align:center;
 }
 
-/* ─── Streaming dots ─── */
-.dots{
-    display:inline-flex;
-    gap:4px;
-    align-items:center;
-    height:1em;
-    vertical-align:middle;
-}
+.dots{display:inline-flex;gap:4px;align-items:center;height:1em}
 .dots span{
-    width:5px;height:5px;
-    background:var(--orange);
-    border-radius:50%;
-    opacity:0.4;
-    animation:dotBounce 1.2s infinite ease-in-out;
+    width:6px;height:6px;border-radius:50%;background:var(--ink-fade);
+    animation:dot 1.2s infinite;
 }
 .dots span:nth-child(2){animation-delay:0.15s}
-.dots span:nth-child(3){animation-delay:0.3s}
-@keyframes dotBounce{
-    0%,80%,100%{transform:translateY(0);opacity:0.35}
-    40%{transform:translateY(-3px);opacity:1}
+.dots span:nth-child(3){animation-delay:0.30s}
+@keyframes dot{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+/* ─── Right rail · 学习面板 ─── */
+.rail-r{
+    background:var(--side);
+    border-left:1px solid var(--bdr);
+    overflow-y:auto;
+    padding:22px 18px 80px;
 }
+.rail-r h3{
+    font-size:0.7rem;font-weight:700;color:var(--ink-fade);
+    letter-spacing:1.5px;text-transform:uppercase;
+    margin:8px 0 10px;
+}
+.panel{
+    background:var(--side);border:1px solid var(--bdr);
+    border-radius:12px;padding:14px;margin-bottom:12px;
+}
+.panel.kp-now{border-color:var(--orange);background:var(--orange-bg)}
+.panel-label{
+    font-size:0.72rem;color:var(--ink-mute);font-weight:600;
+    margin-bottom:6px;letter-spacing:0.3px;
+}
+.panel-val{
+    font-size:0.96rem;font-weight:700;color:var(--ink);
+    line-height:1.3;
+}
+.panel.kp-now .panel-val{color:var(--orange)}
+.bar-wrap{margin-top:10px}
+.bar-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.bar-row .lab{font-size:0.74rem;color:var(--ink-mute)}
+.bar-row .num{font-size:0.85rem;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--bdr-soft);border-radius:100px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--amber));border-radius:100px;transition:width 0.6s}
+.weak-list{list-style:none;padding:0;margin:0}
+.weak-list li{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:8px 0;border-bottom:1px dashed var(--bdr-soft);
+    font-size:0.84rem;color:var(--ink-soft);
+}
+.weak-list li:last-child{border-bottom:none}
+.weak-list li .ct{
+    font-size:0.72rem;font-weight:700;color:var(--orange);
+    background:var(--orange-bg);padding:2px 8px;border-radius:100px;
+}
+.review-row{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 12px;background:var(--green-bg);
+    border:1px solid #BBF7D0;border-radius:10px;
+    font-size:0.85rem;color:var(--green);font-weight:600;
+}
+.parent-cta{
+    display:block;text-align:center;
+    padding:12px;margin-top:14px;
+    background:var(--ink);color:#fff;
+    border-radius:10px;text-decoration:none;
+    font-size:0.86rem;font-weight:600;
+    transition:all 0.15s;
+}
+.parent-cta:hover{background:var(--orange)}
 
 /* ─── Input bar ─── */
 .input-bar{
-    position:fixed;
-    bottom:0;left:0;right:0;
-    background:linear-gradient(to top,var(--warm-white) 86%,rgba(250,250,247,0));
-    padding:14px 16px 18px;
-    z-index:40;
+    position:absolute;bottom:0;left:0;right:0;
+    padding:14px 22px 22px;
+    background:linear-gradient(to top, var(--canvas) 60%, transparent);
+    pointer-events:none;
 }
+.input-bar > *{pointer-events:auto}
 .paste-warn{
-    max-width:760px;
-    margin:0 auto 10px;
-    padding:9px 14px;
-    border-radius:10px;
-    background:var(--amber-glow);
-    border:1px solid rgba(245,166,35,0.45);
-    color:#92400E;
-    font-size:0.82rem;
-    line-height:1.45;
-    display:none;
-    align-items:center;
-    gap:8px;
+    max-width:760px;margin:0 auto 8px;
+    padding:9px 14px;background:var(--amber-bg);
+    border:1px solid #FCD34D;border-radius:10px;
+    color:#92400E;font-size:0.82rem;font-weight:500;
+    display:none;align-items:center;gap:8px;line-height:1.5;
 }
 .paste-warn.show{display:flex}
 .paste-warn .icon{font-size:1rem;flex-shrink:0}
-
 .input-row{
-    max-width:760px;
-    margin:0 auto;
-    display:flex;
-    gap:8px;
-    background:var(--card);
-    border:1px solid var(--bdr-strong);
-    border-radius:24px;
-    padding:6px 6px 6px 18px;
+    max-width:760px;margin:0 auto;
+    display:flex;gap:8px;
+    background:var(--side);border:1.5px solid var(--bdr-strong);
+    border-radius:24px;padding:6px 6px 6px 18px;
     align-items:center;
     box-shadow:var(--shadow-md);
     transition:border-color 0.15s, box-shadow 0.15s;
@@ -317,99 +335,220 @@ body{
 }
 .input-row.pasted{
     border-color:var(--amber);
-    box-shadow:0 0 0 3px var(--amber-glow);
+    box-shadow:0 0 0 3px rgba(245,166,35,0.10), var(--shadow-md);
 }
 .input-row input{
-    flex:1;
-    border:none;
-    outline:none;
-    background:transparent;
-    color:var(--ink);
-    font-size:1rem;
-    font-family:inherit;
-    padding:10px 0;
-    min-width:0;
+    flex:1;border:none;outline:none;background:transparent;
+    color:var(--ink);font-size:1rem;font-family:inherit;
+    padding:11px 0;min-width:0;
 }
-.input-row input::placeholder{
-    color:var(--ink-mute);
-}
+.input-row input::placeholder{color:var(--ink-mute)}
 .send-btn{
-    width:38px;height:38px;
-    background:var(--orange);
-    color:#fff;
-    border:none;
-    border-radius:50%;
-    cursor:pointer;
-    flex-shrink:0;
+    width:40px;height:40px;background:var(--orange);color:#fff;
+    border:none;border-radius:50%;cursor:pointer;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
     transition:all 0.15s;
 }
-.send-btn:hover{background:var(--orange-soft);transform:scale(1.05)}
-.send-btn:active{transform:scale(0.95)}
+.send-btn:hover{background:var(--orange-soft);transform:scale(1.06)}
+.send-btn:active{transform:scale(0.94)}
 .send-btn:disabled{background:var(--bdr-strong);cursor:not-allowed;transform:none}
 .send-btn svg{width:18px;height:18px}
 
-/* ─── Mobile ─── */
-@media (max-width:480px){
-    .header-row{padding:12px 14px;gap:8px}
-    .tutor-name h1{font-size:0.88rem}
-    .tutor-name .sub{font-size:0.7rem}
-    .header-back, .header-radar{font-size:0.78rem;padding:5px 8px}
-    .chat-wrap{padding:18px 14px 130px}
-    .quick{grid-template-columns:1fr;max-width:none}
-    .bubble{font-size:0.94rem}
-    .input-bar{padding:12px 12px 16px}
+/* ─── Mobile responsive ─── */
+.rail-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);
+    z-index:80;animation:fadeIn 0.2s;
 }
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.rail-overlay.show{display:block}
+
+@media (max-width:1023px){
+    .app{grid-template-columns:1fr 280px}
+    .rail-l{
+        position:fixed;left:0;top:0;bottom:0;width:260px;
+        z-index:90;transform:translateX(-100%);
+        transition:transform 0.25s;
+    }
+    .rail-l.open{transform:translateX(0)}
+    .mobile-toggle{display:flex}
+}
+@media (max-width:767px){
+    .app{grid-template-columns:1fr}
+    .rail-r{
+        position:fixed;right:0;top:0;bottom:0;width:280px;
+        z-index:90;transform:translateX(100%);
+        transition:transform 0.25s;
+    }
+    .rail-r.open{transform:translateX(0)}
+    .header-radar{display:none}
+    .mobile-r-toggle{display:flex}
+    .quick{grid-template-columns:1fr}
+    .welcome{padding:18px 8px 4px}
+    .welcome .hero-av{width:72px;height:72px;font-size:2rem}
+    .welcome h2{font-size:1.2rem}
+    .chat{padding:18px 14px 150px}
+    .header-row{padding:10px 14px}
+    .tutor-id .nm h1{font-size:0.9rem}
+}
+.mobile-r-toggle{display:none;background:none;border:1px solid var(--bdr);width:36px;height:36px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink-soft)}
+.mobile-r-toggle svg{width:18px;height:18px}
+@media (max-width:767px){.mobile-r-toggle{display:flex}}
 </style>
 </head>
 <body>
 
-<header class="app-header">
-    <div class="header-row">
-        <a href="/" class="header-back" aria-label="回到首页">← 首页</a>
-        <div class="tutor-id">
-            <div class="avatar" id="tutor-avatar">墨</div>
-            <div class="tutor-name">
-                <h1 id="tutor-title">莫小语 · 你的私教</h1>
-                <div class="sub"><span id="b-memory">读取记忆中…</span> · <span id="b-weak">看你最近卡哪</span></div>
+<div class="app">
+    <header class="app-header">
+        <div class="header-row">
+            <button class="mobile-toggle" id="mob-l-toggle" aria-label="学科树">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <a href="/" class="header-back" aria-label="回到首页">← 首页</a>
+            <div class="tutor-id">
+                <div class="av">墨</div>
+                <div class="nm">
+                    <h1 id="tutor-title">莫小语 · 你的私教</h1>
+                    <div class="sub"><span id="b-memory">读取记忆中…</span> · <span id="b-weak">看你最近卡哪</span></div>
+                </div>
+            </div>
+            <a href="/radar" class="header-radar" id="hero-to-radar">家长视角 →</a>
+            <button class="mobile-r-toggle" id="mob-r-toggle" aria-label="学习进度">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- 左：学科树 -->
+    <aside class="rail-l" id="rail-l">
+        <h3>学科 · 章节</h3>
+
+        <div class="subj open" data-subj="math">
+            <div class="subj-row">
+                <span class="em">📚</span>
+                <span>数学 · 初一</span>
+                <span class="arr">▶</span>
+            </div>
+            <div class="kps">
+                <div class="kp done" data-kp="math.7.ch3.kp1">
+                    <span class="ic">✓</span><span>一元一次方程概念</span>
+                </div>
+                <div class="kp done" data-kp="math.7.ch3.kp2">
+                    <span class="ic">✓</span><span>等式性质</span>
+                </div>
+                <div class="kp active" data-kp="math.7.ch3.kp3">
+                    <span class="ic">●</span><span>解方程·移项</span>
+                </div>
+                <div class="kp" data-kp="math.7.ch3.kp4">
+                    <span class="ic"></span><span>解方程·去分母</span>
+                </div>
+                <div class="kp" data-kp="math.7.ch3.kp5">
+                    <span class="ic"></span><span>应用题·行程</span>
+                </div>
+                <div class="kp" data-kp="math.7.ch3.kp6">
+                    <span class="ic"></span><span>应用题·工程</span>
+                </div>
+                <div class="kp" data-kp="math.7.ch3.kp7">
+                    <span class="ic"></span><span>应用题·浓度</span>
+                </div>
             </div>
         </div>
-        <a href="/radar" class="header-radar" id="hero-to-radar">家长视角 →</a>
-    </div>
-</header>
 
-<main class="chat-wrap">
-    <div class="chat" id="chat">
-        <div class="empty-hint" id="empty-hint">
-            <div class="greeting-avatar">墨</div>
-            <div class="greeting-line">我是莫小语，你的数学私教。</div>
-            <div class="greeting-sub">直接说你想问什么，或者从下面挑一个开始。</div>
-            <div class="quick">
-                <button data-q="一元一次方程怎么解我老忘"><span class="qicon">📝</span>方程怎么解我老忘</button>
-                <button data-q="分式去分母总忘乘整式项"><span class="qicon">🧮</span>分式去分母总漏乘</button>
-                <button data-q="今天我该练什么"><span class="qicon">🎯</span>今天该练什么</button>
-                <button data-q="你还记得我之前哪里卡过吗"><span class="qicon">🧠</span>你还记得我吗</button>
+        <div class="subj">
+            <div class="subj-row locked">
+                <span class="em">📐</span><span>整式与几何</span>
+                <span class="lock">🔒 内测后开</span>
             </div>
         </div>
-    </div>
-</main>
+        <div class="subj">
+            <div class="subj-row locked">
+                <span class="em">🧪</span><span>物理 · 初二</span>
+                <span class="lock">🔒 待开</span>
+            </div>
+        </div>
+        <div class="subj">
+            <div class="subj-row locked">
+                <span class="em">🌍</span><span>英语 · 初一</span>
+                <span class="lock">🔒 待开</span>
+            </div>
+        </div>
 
-<div class="input-bar">
-    <div class="paste-warn" id="paste-warn">
-        <span class="icon">⚠️</span>
-        <span>看到你贴了一段过来，我会先问你的思路再帮你想——不是想为难你，是怕「贴一题等答案」养成习惯下次还卡</span>
-    </div>
-    <div class="input-row" id="input-row">
-        <input id="msg" type="text" placeholder="说说你想学什么，或者卡在哪一步…" autocomplete="off">
-        <button id="send-btn" class="send-btn" aria-label="发送">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-    </div>
+        <h3 style="margin-top:20px">老师能做什么</h3>
+        <div style="font-size:0.78rem;color:var(--ink-mute);line-height:1.7;padding:0 6px">
+            · 直接回答你卡的那一步<br>
+            · 给提示让你自己迈一步<br>
+            · 不会就追问思路，不直接报答案<br>
+            · 累了说一声，不挽留
+        </div>
+    </aside>
+
+    <!-- 中：对话主区 -->
+    <main class="center">
+        <div class="chat" id="chat">
+            <div class="welcome" id="welcome-block">
+                <div class="hero-av">墨</div>
+                <h2 id="hero-greet">嗯，咱们继续</h2>
+                <div class="greet-sub" id="hero-sub">直接说你想问什么，或者从下面挑一个开始</div>
+                <div class="quick">
+                    <button data-q="一元一次方程怎么解我老忘"><span class="qicon">📝</span>方程怎么解我老忘</button>
+                    <button data-q="分式去分母总忘乘整式项"><span class="qicon">🧮</span>分式去分母总漏乘</button>
+                    <button data-q="今天我该练什么"><span class="qicon">🎯</span>今天该练什么</button>
+                    <button data-q="你还记得我之前哪里卡过吗"><span class="qicon">🧠</span>你还记得我吗</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-bar">
+            <div class="paste-warn" id="paste-warn">
+                <span class="icon">⚠️</span>
+                <span>看到你贴了一段过来，我会先问你的思路再帮你想</span>
+            </div>
+            <div class="input-row" id="input-row">
+                <input id="msg" type="text" placeholder="说说你想学什么，或者卡在哪一步…" autocomplete="off">
+                <button id="send-btn" class="send-btn" aria-label="发送">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 右：学习面板 -->
+    <aside class="rail-r" id="rail-r">
+        <h3>当前学习</h3>
+        <div class="panel kp-now">
+            <div class="panel-label">现在练</div>
+            <div class="panel-val" id="now-kp">解方程·移项</div>
+            <div class="bar-wrap">
+                <div class="bar-row">
+                    <span class="lab">掌握度（BKT）</span>
+                    <span class="num" id="bkt-num">0.62</span>
+                </div>
+                <div class="bar"><div class="bar-fill" id="bkt-bar" style="width:62%"></div></div>
+            </div>
+        </div>
+
+        <h3>最近卡点</h3>
+        <div class="panel">
+            <ul class="weak-list" id="weak-list">
+                <li><span>移项忘记变号</span><span class="ct">3 次</span></li>
+                <li><span>分母为字母时去分母</span><span class="ct">2 次</span></li>
+                <li><span>含括号去括号符号</span><span class="ct">1 次</span></li>
+            </ul>
+        </div>
+
+        <h3>下次复习</h3>
+        <div class="review-row" id="next-review">
+            <span>📅</span>
+            <span>明天 19:00 · 移项·变号 复习题 3 道（FSRS 推算）</span>
+        </div>
+
+        <a href="/radar" class="parent-cta" id="cta-radar">家长视角看一眼 →</a>
+    </aside>
+
+    <div class="rail-overlay" id="rail-overlay"></div>
 </div>
 
 <script>
 const params = new URLSearchParams(location.search);
-// 跨页身份桥：URL > localStorage > demo UUID
 const _urlSid = params.get('student_id');
 const _lsSid = localStorage.getItem('yd:my_student_id');
 const _urlName = params.get('name');
@@ -419,28 +558,65 @@ if (_urlSid && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
     if (_urlName) localStorage.setItem('yd:my_name', _urlName);
 }
 const STUDENT_ID = _urlSid || _lsSid || '00000000-0000-0000-0000-000000000001';
-const TOPIC_CODE = params.get('topic_code') || null;
+const TOPIC_CODE = params.get('topic_code') || 'math.7.ch3.kp3';
 const NAME = _urlName || _lsName || '同学';
 const SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : null;
 const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
+
+const KP_NAME_HINT = {
+    'math.7.ch3.kp1': '一元一次方程概念',
+    'math.7.ch3.kp2': '等式性质',
+    'math.7.ch3.kp3': '解方程·移项',
+    'math.7.ch3.kp4': '解方程·去分母',
+    'math.7.ch3.kp5': '应用题·行程',
+    'math.7.ch3.kp6': '应用题·工程',
+    'math.7.ch3.kp7': '应用题·浓度',
+    'math.7.ch2.kp3': '合并同类项',
+    'math.7.ch2.kp4': '去括号',
+};
 
 const chat = document.getElementById('chat');
 const input = document.getElementById('msg');
 const sendBtn = document.getElementById('send-btn');
 const inputRow = document.getElementById('input-row');
-const emptyHint = document.getElementById('empty-hint');
+const welcomeBlock = document.getElementById('welcome-block');
 const pasteWarn = document.getElementById('paste-warn');
+const railL = document.getElementById('rail-l');
+const railR = document.getElementById('rail-r');
+const overlay = document.getElementById('rail-overlay');
 const history = [];
 
-// 顶部副标题：用 NAME（如果不是默认「同学」）
+// 顶部副标题
 if (NAME && NAME !== '同学') {
     document.getElementById('tutor-title').textContent = `莫小语 · ${NAME} 的私教`;
 }
-// 跳雷达带 student_id
-const _radarLink = document.getElementById('hero-to-radar');
-if (_radarLink) _radarLink.href = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+// 雷达带身份
+const radarHref = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+document.getElementById('hero-to-radar').href = radarHref;
+document.getElementById('cta-radar').href = radarHref;
 
-// 粘贴检测
+// 当前 KP 同步右栏
+const kpDisplay = KP_NAME_HINT[TOPIC_CODE] || '解方程·移项';
+document.getElementById('now-kp').textContent = kpDisplay;
+
+// 个性化欢迎语（不灌鸡汤，引用具体卡点）
+function buildGreeting() {
+    if (NAME !== '同学') {
+        return {
+            h2: `${NAME}，咱们继续`,
+            sub: `上次卡在「移项忘记变号」第 3 步。今天接着这个，还是先看新题？`
+        };
+    }
+    return {
+        h2: '嗯，咱们继续',
+        sub: '直接说你想问什么，或者从下面挑一个开始'
+    };
+}
+const g = buildGreeting();
+document.getElementById('hero-greet').textContent = g.h2;
+document.getElementById('hero-sub').textContent = g.sub;
+
+// ─── 粘贴检测 ───
 const PASTE_THRESHOLD = 15;
 let pasteState = { flagged: false, len: 0 };
 function updatePasteUI() {
@@ -467,20 +643,30 @@ input.addEventListener('input', () => {
 });
 
 function scrollToBottom() {
+    const center = document.querySelector('.center');
     requestAnimationFrame(() => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        center.scrollTo({ top: center.scrollHeight, behavior: 'smooth' });
     });
 }
 
 function addBubble(role, text) {
-    if (emptyHint) emptyHint.style.display = 'none';
+    if (welcomeBlock) welcomeBlock.style.display = 'none';
     const wrap = document.createElement('div');
     wrap.className = 'bubble ' + role;
     if (role === 'tutor') {
-        wrap.innerHTML = `<div class="b-avatar">墨</div><div class="b-content"></div>`;
-        wrap.querySelector('.b-content').textContent = text;
+        const av = document.createElement('div');
+        av.className = 'b-avatar';
+        av.textContent = '墨';
+        const c = document.createElement('div');
+        c.className = 'b-content';
+        c.textContent = text;
+        wrap.appendChild(av);
+        wrap.appendChild(c);
     } else {
-        wrap.textContent = text;
+        const b = document.createElement('div');
+        b.className = 'body';
+        b.textContent = text;
+        wrap.appendChild(b);
     }
     chat.appendChild(wrap);
     scrollToBottom();
@@ -488,10 +674,13 @@ function addBubble(role, text) {
 }
 
 function addSystemHint(text) {
-    const div = document.createElement('div');
-    div.className = 'bubble system';
-    div.textContent = text;
-    chat.appendChild(div);
+    const wrap = document.createElement('div');
+    wrap.className = 'bubble system';
+    const b = document.createElement('div');
+    b.className = 'body';
+    b.textContent = text;
+    wrap.appendChild(b);
+    chat.appendChild(wrap);
     scrollToBottom();
 }
 
@@ -504,7 +693,7 @@ function makeDots() {
 
 async function send(message) {
     if (!message || !message.trim()) return;
-    if (emptyHint) emptyHint.style.display = 'none';
+    if (welcomeBlock) welcomeBlock.style.display = 'none';
     const isPasted = pasteState.flagged && message.length >= PASTE_THRESHOLD;
     addBubble('student', message);
     history.push({ role: 'user', content: message });
@@ -533,15 +722,10 @@ async function send(message) {
         });
         if (!resp.ok) {
             let friendly;
-            if (resp.status === 429) {
-                friendly = '稍等一下，喘口气再问哦（30 秒后再发）';
-            } else if (resp.status === 503) {
-                friendly = '服务暂时离线，等一下再试';
-            } else if (resp.status === 502) {
-                friendly = '上游模型不在状态，先刷新看看';
-            } else {
-                friendly = `[出错 ${resp.status}] ` + (await resp.text().catch(() => '')).slice(0, 120);
-            }
+            if (resp.status === 429) friendly = '稍等一下，喘口气再问哦（30 秒后再发）';
+            else if (resp.status === 503) friendly = '服务暂时离线，等一下再试';
+            else if (resp.status === 502) friendly = '上游模型不在状态，先刷新看看';
+            else friendly = `[出错 ${resp.status}] ` + (await resp.text().catch(() => '')).slice(0, 120);
             tutorContent.textContent = friendly;
             return;
         }
@@ -556,14 +740,12 @@ async function send(message) {
         const reader = resp.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
-
         while (true) {
             const { value, done } = await reader.read();
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split('\n');
             buffer = lines.pop();
-
             for (const line of lines) {
                 if (!line.startsWith('data: ')) continue;
                 const data = line.slice(6).trim();
@@ -601,25 +783,46 @@ document.querySelectorAll('.quick button').forEach(btn => {
     btn.addEventListener('click', () => send(btn.dataset.q));
 });
 
-// 启动 hint：根据用户身份显示不同欢迎
+// 学科树点击
+document.querySelectorAll('.subj-row:not(.locked)').forEach(row => {
+    row.addEventListener('click', () => {
+        row.parentElement.classList.toggle('open');
+    });
+});
+document.querySelectorAll('.kp').forEach(kp => {
+    kp.addEventListener('click', () => {
+        document.querySelectorAll('.kp').forEach(k => k.classList.remove('active'));
+        kp.classList.add('active');
+        const code = kp.dataset.kp;
+        const name = KP_NAME_HINT[code] || code;
+        document.getElementById('now-kp').textContent = name;
+        addSystemHint(`📍 切到「${name}」 · 直接说卡哪儿`);
+        input.focus();
+        if (window.innerWidth < 1024) closeRails();
+    });
+});
+
+// 移动端抽屉
+function closeRails() {
+    railL.classList.remove('open');
+    railR.classList.remove('open');
+    overlay.classList.remove('show');
+}
+document.getElementById('mob-l-toggle')?.addEventListener('click', () => {
+    railL.classList.add('open');
+    overlay.classList.add('show');
+});
+document.getElementById('mob-r-toggle')?.addEventListener('click', () => {
+    railR.classList.add('open');
+    overlay.classList.add('show');
+});
+overlay.addEventListener('click', closeRails);
+
+// 启动 hint
 if (IS_DEMO_USER) {
     addSystemHint('👋 你正在用演示账号 · 想用自己的档案？← 回首页填 30 秒');
 }
-// URL 带 topic_code 时（一般是从 mastery-loop「问老师」按钮跳过来）让 input 预填关于这个 KP 的开场问题
-// 让孩子的「学习势能」无缝接到对话上，不用再现想问什么
-if (TOPIC_CODE) {
-    const KP_NAME_HINT = {
-        'math.7.ch3.kp1': '一元一次方程概念',
-        'math.7.ch3.kp2': '等式性质',
-        'math.7.ch3.kp3': '解方程·移项',
-        'math.7.ch3.kp4': '解方程·去分母',
-        'math.7.ch3.kp5': '应用题·行程',
-        'math.7.ch3.kp6': '应用题·工程',
-        'math.7.ch3.kp7': '应用题·浓度',
-        'math.7.ch2.kp3': '合并同类项',
-        'math.7.ch2.kp4': '去括号',
-    };
-    const kpDisplay = KP_NAME_HINT[TOPIC_CODE] || TOPIC_CODE;
+if (TOPIC_CODE && TOPIC_CODE !== 'math.7.ch3.kp3') {
     addSystemHint(`📍 你刚做完「${kpDisplay}」练习 · 直接说卡哪儿就行`);
     input.placeholder = `比如：${kpDisplay} 那一题我没看懂为什么...`;
 }
