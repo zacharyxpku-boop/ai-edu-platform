@@ -62,6 +62,14 @@ a{color:inherit}
 .subj-name{font-size:13px;font-weight:800;color:var(--ink);padding:6px 0;display:flex;align-items:center;gap:6px;line-height:1.4;flex-direction:column;align-items:flex-start}
 .subj-name .dot{display:inline-block;width:8px;height:8px;border-radius:50%}
 .subj-name small{font-size:10px;color:var(--ink4);font-weight:500;font-family:var(--mono)}
+.mastery-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:100px;font-size:10px;font-weight:800;font-family:var(--mono);font-variant-numeric:tabular-nums;margin-top:2px}
+.mastery-chip.t0{background:#F4F4F5;color:#A1A1AA}
+.mastery-chip.t1{background:#A7F3D0;color:#065F46}
+.mastery-chip.t2{background:#34D399;color:#fff}
+.mastery-chip.t3{background:#047857;color:#fff}
+.mastery-chip.err{background:var(--red-bg,#FEF2F2);color:#991B1B;border:1px solid #FCA5A5}
+.mastery-bar{display:inline-block;width:36px;height:4px;background:#E4E4E7;border-radius:2px;overflow:hidden}
+.mastery-bar i{display:block;height:100%;background:currentColor;border-radius:2px}
 .grade-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
 .grade-card{background:#fff;border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--ink2);line-height:1.5}
 .grade-card .gc-title{font-weight:700;color:var(--ink);font-size:12px;margin-bottom:4px}
@@ -202,41 +210,66 @@ function renderStage(){
   });
   const SUBJ_ZH_TO_KEY = {'数学':'math','物理':'physics','化学':'chemistry','生物学':'biology','语文':'chinese','英语':'english','历史':'history','地理':'geography','思想政治':'politics'};
 
+  // 抽出每章 mastery class 计算逻辑，让预扫与渲染共用
+  function clsForCh(b, c){
+    const sig = b.path + '::ch' + c.ch;
+    const isRead = readSet.has(sig);
+    const eA = errActive[sig] || 0;
+    const eM = errMastered[sig] || 0;
+    const chPx = chPracticed[sig];
+    const chPracticedHere = !!chPx && (chPx.good + chPx.bad) > 0;
+    const chMasteredHere = !!chPx && chPx.good >= 2 && chPx.good >= chPx.bad * 2;
+    const subjKey = SUBJ_ZH_TO_KEY[b.subject] || '';
+    const subjPracticed = quizPracticedSubjects.has(subjKey);
+    if (eA > 0) return 'err';
+    if (isRead && (eM > 0 || chMasteredHere)) return 'lvl-3';
+    if (isRead && (chPracticedHere || subjPracticed)) return 'lvl-2';
+    if (isRead) return 'lvl-1';
+    return '';
+  }
+
   let html = '';
   subjects.forEach(subj => {
     const bs = bySubject[subj].slice().sort((a,b) => gradeOrder(a.grade) - gradeOrder(b.grade));
     const dotColor = SUBJ_COLOR[subj] || '#71717A';
     const totalCh = bs.reduce((a,b) => a + ((b.chapters||[]).length), 0);
-    const readCh = bs.reduce((a,b) => a + ((b.chapters||[]).filter(c => readSet.has(b.path + '::ch' + c.ch)).length), 0);
+    // 预扫：算各级章节数，得出 mastery 百分比
+    const stat = { read:0, lvl1:0, lvl2:0, lvl3:0, err:0 };
+    bs.forEach(b => (b.chapters||[]).forEach(c => {
+      if (readSet.has(b.path+'::ch'+c.ch)) stat.read++;
+      const cls = clsForCh(b, c);
+      if (cls === 'lvl-1') stat.lvl1++;
+      else if (cls === 'lvl-2') stat.lvl2++;
+      else if (cls === 'lvl-3') stat.lvl3++;
+      else if (cls === 'err') stat.err++;
+    }));
+    const masteredPct = totalCh ? Math.round(stat.lvl3 / totalCh * 100) : 0;
+    const masteredTier = masteredPct >= 70 ? 't3' : masteredPct >= 40 ? 't2' : masteredPct >= 10 ? 't1' : 't0';
     html += '<div class="subj-row">';
     html += `<div class="subj-name"><span><span class="dot" style="background:${dotColor}"></span>${subj}</span>`;
-    html += `<small>${bs.length} 本 · ${totalCh} 章 · 已读 ${readCh}</small></div>`;
+    html += `<small>${bs.length} 本 · ${totalCh} 章 · 已读 ${stat.read}</small>`;
+    html += `<span class="mastery-chip ${masteredTier}" title="lvl-3 章节 ${stat.lvl3} / 总 ${totalCh}"><span class="mastery-bar"><i style="width:${masteredPct}%"></i></span>${masteredPct}% 掌握</span>`;
+    if (stat.err > 0){
+      html += `<span class="mastery-chip err" title="待复习的活跃错题章节数">${stat.err} 章有错题</span>`;
+    }
+    html += '</div>';
     html += '<div class="grade-grid">';
     bs.forEach(b => {
       const gradeLabel = (b.grade || '') + (b.volume ? ' · ' + b.volume : '');
       const chs = (b.chapters || []).sort((x,y) => x.ch - y.ch);
       let chsHtml = '';
-      const subjKey = SUBJ_ZH_TO_KEY[b.subject] || '';
-      const subjPracticed = quizPracticedSubjects.has(subjKey);
       chs.forEach(c => {
         const sig = b.path + '::ch' + c.ch;
         const isRead = readSet.has(sig);
         const eA = errActive[sig] || 0;
         const eM = errMastered[sig] || 0;
-        const chPx = chPracticed[sig];        // {good, bad} | undefined
-        const chPracticedHere = !!chPx && (chPx.good + chPx.bad) > 0;
-        const chMasteredHere = !!chPx && chPx.good >= 2 && chPx.good >= chPx.bad * 2;  // 该章答过≥2题且对错比≥2:1
-        // KA 4 阶 mastery（红色优先级最高，新增章节级信号）
-        let cls = '';
-        if (eA > 0) cls = 'err';                                                      // 还有活跃错题
-        else if (isRead && (eM > 0 || chMasteredHere)) cls = 'lvl-3';                 // 真掌握：读 + (错题攻克 OR 章内多题答对)
-        else if (isRead && (chPracticedHere || subjPracticed)) cls = 'lvl-2';         // 读 + 练过（章节级优先，学科兜底）
-        else if (isRead) cls = 'lvl-1';                                               // 仅读过
+        const chPx = chPracticed[sig];
+        const cls = clsForCh(b, c);  // 共用预扫的同一逻辑
         const tipParts = [`${b.path} · 第 ${c.ch} 章`, c.title || ''];
         if (eA > 0) tipParts.push(`活跃错题 ${eA}`);
         if (eM > 0) tipParts.push(`已掌握错题 ${eM}`);
-        if (chPracticedHere) tipParts.push(`本章答过 ${chPx.good + chPx.bad} 题（对 ${chPx.good}）`);
-        if (isRead && !eA && !eM && !chPracticedHere) tipParts.push('已读');
+        if (chPx && (chPx.good + chPx.bad) > 0) tipParts.push(`本章答过 ${chPx.good + chPx.bad} 题（对 ${chPx.good}）`);
+        if (isRead && !eA && !eM && !chPx) tipParts.push('已读');
         chsHtml += `<a href="/tools/textbook-browser?book=${encodeURIComponent(b.path)}&ch=${c.ch}" class="${cls}" title="${tipParts.filter(Boolean).join(' · ').replace(/"/g,'&quot;')}">${c.ch}</a>`;
       });
       html += '<div class="grade-card">';
