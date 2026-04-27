@@ -156,6 +156,7 @@ a{color:inherit}
   </div>
 
   <h2 class="h2"><span id="h-books-t">教材列表</span><small id="h-books-s">已读章节占比</small></h2>
+  <div id="stage-tabs"></div>
   <div id="book-list"><div style="color:var(--ink3);font-size:13px;padding:12px">manifest 加载中...</div></div>
 
   <h2 class="h2"><span id="h-err-t">最近错题</span><a href="#" id="h-err-link">全部 →</a></h2>
@@ -286,7 +287,7 @@ if (!cfg){
 
   // streak + hub init
   try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){}
-  SUBJECT_HUB.init({ subjectZh: cfg.zh, subjectKey: KEY, toolQuery: KEY });
+  SUBJECT_HUB.init({ subjectZh: cfg.zh, subjectKey: KEY, toolQuery: KEY, stageTabsMountId:'stage-tabs' });
 }
 </script>
 </body>

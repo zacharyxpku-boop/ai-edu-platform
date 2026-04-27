@@ -99,6 +99,8 @@ a{color:inherit}
 
   <div id="streak-mount"></div>
 
+  <div id="subj-switcher"></div>
+
   <section class="subj-hero">
     <div class="sigil">⚛</div>
     <div>
@@ -136,6 +138,7 @@ a{color:inherit}
   </div>
 
   <h2 class="h2">9 本物理教材 · 按年级排<small>紫色条 = 已读章节占比</small></h2>
+  <div id="stage-tabs"></div>
   <div id="book-list"><div style="color:var(--ink3);font-size:13px;padding:12px">manifest 加载中...</div></div>
 
   <h2 class="h2">最近的物理错题 · 受力分析别再栽<a href="/errors.html?subject=physics">全部 →</a></h2>
@@ -158,7 +161,7 @@ a{color:inherit}
 <script src="/src/subject-hub.js"></script>
 <script>
 try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
-SUBJECT_HUB.init({ subjectZh:'物理', subjectKey:'physics', toolQuery:'physics' });
+SUBJECT_HUB.init({ subjectZh:'物理', subjectKey:'physics', toolQuery:'physics', switcherMountId:'subj-switcher', stageTabsMountId:'stage-tabs' });
 </script>
 </body>
 </html>
