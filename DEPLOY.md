@@ -127,7 +127,7 @@ curl -X POST https://0dianxue.com/api/bkt \
 
 ### Demo 演示链路
 
-孩子上台 → 浏览器 `/start` → 做题 → BKT 调用 → 化神奖章弹 → 「炫耀给爸妈看」按钮按下 → 朋友圈卡片弹出。**全程无后端依赖，bkt/diagnose API 失败也能跑（前端兜底已写）**。
+孩子上台 → 浏览器 `/start` → 做题 → BKT 调用 → 出师奖章弹（mastery ≥ 0.9）→ 「炫耀给爸妈看」按钮按下 → 朋友圈卡片弹出。**全程无后端依赖，bkt/diagnose API 失败也能跑（前端兜底已写）**。
 
 ### 翻车应急
 

@@ -176,7 +176,7 @@ function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     L.push('**反着做（Khanmigo 死穴）**：');
     L.push('  · Khanmigo 3 周打开率掉到 40%——孩子嫌啰嗦。**你回应 ≤ 80 字**，注意力 8 秒');
     L.push('  · Khanmigo 算术错——**数学计算二次校验**，不放过算错');
-    L.push('  · Khanmigo 没作品产出——**每次到化神时都让他生成一句"晒图金句"**给妈妈看');
+    L.push('  · Khanmigo 没作品产出——**每次到「出师」(掌握度 ≥ 90%) 时让他生成一句晒图金句**给妈妈看');
     L.push('  · Khanmigo 报告太干——**给妈妈的话要具体到「他今天在 X 处自己想出来了」**');
 
     // ============ 5. 动机心理（让他愿意学）============
