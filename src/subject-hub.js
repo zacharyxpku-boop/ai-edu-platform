@@ -42,6 +42,36 @@
   }
   function gradeRank(g) { const i = GRADE_ORDER.indexOf(g); return i < 0 ? 99 : i; }
 
+  // welcome.html 里写入的 yd:my_grade 形如 'primary_4' / 'middle_2' / 'high_1'
+  // 映射成本仓 manifest 用的学段词('初中' / '高中'), 进学科页时自动锁到对应 tab
+  function detectStudentStage() {
+    let g = '';
+    try { g = localStorage.getItem('yd:my_grade') || ''; } catch (e) {}
+    if (g.indexOf('high') === 0) return '高中';
+    if (g.indexOf('middle') === 0) return '初中';
+    if (g.indexOf('primary') === 0) return '全部'; // 小学暂无 manifest, 退到全部以免空列表
+    return '全部';
+  }
+  // 把 'middle_2' 翻译成中文 '初二' 之类, 用在 "Up next for you" 卡片
+  const GRADE_CN = {
+    primary_1:'小一',primary_2:'小二',primary_3:'小三',primary_4:'小四',primary_5:'小五',primary_6:'小六',
+    middle_1:'初一',middle_2:'初二',middle_3:'初三',
+    high_1:'高一',high_2:'高二',high_3:'高三'
+  };
+  function gradeCn(g){ return GRADE_CN[g] || ''; }
+  // 试着把学生年级跟 manifest book.grade 对齐: middle_2 → '八年级'
+  const GRADE_TO_BOOK_GRADE = {
+    middle_1:'七年级', middle_2:'八年级', middle_3:'九年级',
+    high_1:['必修','必修1','必修第一册','第一册'],
+    high_2:['必修2','必修第二册','第二册','选择性必修1','选择性必修'],
+    high_3:['选择性必修2','选择性必修3']
+  };
+  function bookGradesForStudent(g){
+    const v = GRADE_TO_BOOK_GRADE[g];
+    if (!v) return [];
+    return Array.isArray(v) ? v : [v];
+  }
+
   async function fetchManifest() {
     const r = await fetch('/data/extracted/manifest.json', { cache: 'force-cache' });
     return r.json();
@@ -109,7 +139,19 @@
     const SUBJECT_ZH  = cfg.subjectZh  || '数学';
     const SUBJECT_KEY = cfg.subjectKey || 'math';
     const TOOL_QUERY  = cfg.toolQuery  || SUBJECT_KEY;
-    let activeStage   = cfg.initialStage || '全部';
+    // 优先级: URL ?stage=... > cfg.initialStage > yd:my_grade 推断 > 全部
+    let urlStage = '';
+    try {
+      const m = location.search.match(/[?&]stage=([^&]+)/);
+      if (m) urlStage = decodeURIComponent(m[1]);
+    } catch (e) {}
+    let activeStage = urlStage || cfg.initialStage || detectStudentStage();
+    const studentGrade = (function () {
+      try { return localStorage.getItem('yd:my_grade') || ''; } catch (e) { return ''; }
+    })();
+    const studentName = (function () {
+      try { return localStorage.getItem('yd:my_name') || ''; } catch (e) { return ''; }
+    })();
 
     // 可选: 渲染学科切换 chip 条
     if (cfg.switcherMountId) renderSwitcher(cfg.switcherMountId, SUBJECT_KEY);
@@ -290,12 +332,103 @@
       return { books, totalCh, readCh, masteredCh, pct };
     }
 
-    // 可选: stage tabs
-    if (cfg.stageTabsMountId) {
-      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); });
+    // ----- "Up next for you" KA-style 个性化推荐卡 -----
+    function renderUpNext() {
+      const mount = $('upnext-mount');
+      if (!mount) return;
+      ensureUpNextStyle();
+
+      // 优先级:
+      //   A. 错题到期 → 一道复习
+      //   B. 学生年级匹配的本科教材 → 第一个未读章节
+      //   C. activeStage 范围内首本未读完教材 → 下一章
+      //   D. 推每日一题
+      const dueErrs = subjErrs
+        .filter(e => (e.reviewCount || 0) < 3 && (e.nextReviewAt || 0) <= Date.now())
+        .sort((a, b) => (a.nextReviewAt || 0) - (b.nextReviewAt || 0));
+
+      let kind = 'D', title = '今天先来一道' + SUBJECT_ZH + '每日一题', sub = '3 分钟一道, 含解析', href = '/quiz.html?subject=' + encodeURIComponent(TOOL_QUERY), icon = '🎯';
+      let pep = (studentName ? studentName + '，' : '') + '别让节奏断了';
+
+      if (dueErrs.length > 0) {
+        kind = 'A';
+        const e = dueErrs[0];
+        const tag = e.keyword || (e.mistakeTags && e.mistakeTags[0]) || '错题';
+        title = '先把这道' + SUBJECT_ZH + '错题攻克: ' + tag;
+        sub = '今日到期 · 阶段 ' + (e.reviewCount || 0) + '/3 · 不补就给同学送分';
+        href = '/errors.html?id=' + encodeURIComponent(e.id || '') + '#review';
+        icon = '📕';
+      } else {
+        // 找年级匹配的教材
+        const wanted = bookGradesForStudent(studentGrade);
+        const myGradeBook = wanted.length
+          ? allBooks.find(b => wanted.indexOf(b.grade) >= 0)
+          : null;
+        const target = myGradeBook || allBooks.find(b => {
+          if (activeStage !== '全部' && b.stage !== activeStage) return false;
+          const chs = b.chapters || [];
+          return chs.some(c => !readSig.has(b.path + '::ch' + c.ch));
+        });
+        if (target) {
+          const chs = target.chapters || [];
+          const nextCh = chs.find(c => !readSig.has(target.path + '::ch' + c.ch));
+          if (nextCh) {
+            kind = myGradeBook ? 'B' : 'C';
+            const stub = myGradeBook
+              ? '为' + (gradeCn(studentGrade) || '你') + '准备的'
+              : '继续' + (target.grade || '') + ' · ';
+            title = stub + (target.grade ? '' : '') + '第 ' + nextCh.ch + ' 章: ' + (nextCh.title || '下一章');
+            sub = (target.stage || '') + ' · ' + (target.edition || '') + ' · 大约 ' + Math.max(1, Math.round(((nextCh.end_page||0) - (nextCh.start_page||0)) / 5)) + ' 分钟可读完';
+            href = '/tools/textbook-browser.html?path=' + encodeURIComponent(target.path) + '&ch=' + nextCh.ch;
+            icon = '📖';
+          }
+        }
+      }
+
+      mount.innerHTML = ''
+        + '<div class="upnext-card kind-' + kind + '">'
+        +   '<div class="upnext-em">' + icon + '</div>'
+        +   '<div class="upnext-bd">'
+        +     '<div class="upnext-tag">为你准备的下一步' + (studentName ? ' · 你好 ' + escHtml(studentName) : '') + '</div>'
+        +     '<div class="upnext-t">' + escHtml(title) + '</div>'
+        +     '<div class="upnext-s">' + escHtml(sub) + '</div>'
+        +   '</div>'
+        +   '<a class="upnext-go" href="' + href + '">开始 →</a>'
+        + '</div>'
+        + '<div class="upnext-pep">' + escHtml(pep) + '</div>';
     }
 
-    return paint(activeStage);
+    function ensureUpNextStyle() {
+      if (document.getElementById('subj-hub-upnext-style')) return;
+      const css = ''
+        + '.upnext-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border-radius:14px;background:#FFFBEB;border:1px solid #FCD34D;margin:12px 0 4px}'
+        + '.upnext-card.kind-A{background:#FEF2F2;border-color:#FCA5A5}'
+        + '.upnext-card.kind-B{background:#EFF6FF;border-color:#93C5FD}'
+        + '.upnext-card.kind-C{background:#F0FDF4;border-color:#86EFAC}'
+        + '.upnext-em{font-size:32px;line-height:1;flex-shrink:0}'
+        + '.upnext-bd{min-width:0}'
+        + '.upnext-tag{font-size:10px;letter-spacing:.6px;color:#92400E;font-weight:700;text-transform:uppercase;margin-bottom:4px}'
+        + '.upnext-card.kind-A .upnext-tag{color:#991B1B}'
+        + '.upnext-card.kind-B .upnext-tag{color:#1D4ED8}'
+        + '.upnext-card.kind-C .upnext-tag{color:#15803D}'
+        + '.upnext-t{font-size:15px;font-weight:800;color:#18181B;letter-spacing:-.005em;margin-bottom:3px}'
+        + '.upnext-s{font-size:12px;color:#52525B}'
+        + '.upnext-go{padding:9px 18px;background:#18181B;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0;transition:.15s}'
+        + '.upnext-go:hover{background:#000;transform:translateY(-1px)}'
+        + '.upnext-pep{font-size:11px;color:#A1A1AA;text-align:center;margin:6px 0 14px}'
+        + '@media(max-width:560px){.upnext-card{grid-template-columns:auto 1fr;gap:10px;padding:14px}.upnext-go{grid-column:1/-1;text-align:center}}';
+      const s = document.createElement('style'); s.id='subj-hub-upnext-style'; s.textContent=css;
+      document.head.appendChild(s);
+    }
+
+    // 可选: stage tabs
+    if (cfg.stageTabsMountId) {
+      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); renderUpNext(); });
+    }
+
+    const r = paint(activeStage);
+    renderUpNext();
+    return r;
   }
 
   global.SUBJECT_HUB = { init: init };
