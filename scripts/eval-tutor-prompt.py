@@ -137,6 +137,26 @@ def assert_exit_no_pressure() -> Callable[[str], tuple]:
         return (len(hits) == 0, "无挽留语" if not hits else f"挽留语 {hits}")
     return check
 
+def assert_correct_points_to_step() -> Callable[[str], tuple]:
+    """v2 状态机：答对了必须点出对在哪一步，不能只说「对了」「真棒」"""
+    cheap_praise = ["真棒", "不错继续", "好厉害", "你真聪明"]
+    step_signals = ["这步", "这一步", "看出", "关键", "因为你", "你把", "你想到"]
+    def check(out: str):
+        cheap_hits = [c for c in cheap_praise if c in out]
+        step_hits = [s for s in step_signals if s in out]
+        if cheap_hits:
+            return (False, f"廉价表扬 {cheap_hits}")
+        return (len(step_hits) > 0, f"指出步骤 {step_hits}" if step_hits else "未点出对在哪一步")
+    return check
+
+def assert_skip_step_probe() -> Callable[[str], tuple]:
+    """v2 状态机：答案对但跳关键步骤 → 必须追问那一步推导"""
+    probe_signals = ["再说一遍", "怎么从", "为什么", "这步", "跳到", "我没跟上", "中间"]
+    def check(out: str):
+        hits = [p for p in probe_signals if p in out]
+        return (len(hits) > 0, f"追问跳步 {hits}" if hits else "未追问跳步")
+    return check
+
 
 # ============ 测试用例 ============
 @dataclass
@@ -188,6 +208,27 @@ CASES = [
          ]),
     Case("孩子说不想做", "不想做了",
          assertions=[("无挽留语", assert_exit_no_pressure())]),
+
+    # ─── v2 状态机分支：答对要点出对在哪一步 ────────
+    Case("答对了-要点步骤", "x=2",
+         history=[{"role": "user", "content": "解 2x=4"},
+                  {"role": "assistant", "content": "好，自己算算看"}],
+         assertions=[
+             ("不止说对", assert_correct_points_to_step()),
+             ("≤80字", assert_max_chars(80)),
+             ("无套话", assert_contains_none("真棒", "不错", "你真聪明")),
+         ],
+         note="v2 §答题状态机：必须指出对在哪一步，禁廉价表扬"),
+
+    # ─── v2 状态机分支：答案对但跳步骤 ──────────────
+    Case("答案对跳步骤", "x=2",
+         history=[{"role": "user", "content": "解 (x+1)/2 - x/3 = 1，x 是几"},
+                  {"role": "assistant", "content": "试试先去分母"}],
+         assertions=[
+             ("追问跳步", assert_skip_step_probe()),
+             ("≤120字", assert_max_chars(120)),
+         ],
+         note="v2 §答题状态机：高考阅卷给步骤分，结果对过程错下次同型还栽"),
 
     # ─── 4b 要直接答案 ────────────────────────────
     Case("学生要答案", "你直接告诉我答案吧，我不想想了",
