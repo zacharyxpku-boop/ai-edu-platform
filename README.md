@@ -1,6 +1,6 @@
 # 原点 AI 学堂 · K12 高考 AI 提分平台
 
-[![Release](https://img.shields.io/badge/release-v1.1--experiment--wave-7C3AED?style=flat-square)](https://github.com/zacharyxpku-boop/ai-edu-platform/releases/tag/v1.1-experiment-wave)
+[![Release](https://img.shields.io/badge/release-v1.1.1--observability--hardened-15803D?style=flat-square)](https://github.com/zacharyxpku-boop/ai-edu-platform/releases/tag/v1.1.1-observability-hardened)
 [![Subjects](https://img.shields.io/badge/subjects-8%2F9%20live-2563EB?style=flat-square)](./subjects/)
 [![Textbooks](https://img.shields.io/badge/textbooks-56%20%C2%B7%20%E4%BA%BA%E6%95%99%2F%E7%BB%9F%E7%BC%96-059669?style=flat-square)](./paths.html)
 [![Stack](https://img.shields.io/badge/stack-pure%20HTML%20%2B%20Vercel-18181B?style=flat-square)](#-stack)
