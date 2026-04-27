@@ -108,6 +108,54 @@ get  "FSRS 今日复习" "/api/fsrs-due?student_id=$STUDENT&limit=10"
 post "学生跨会话记忆" "/api/student-memory" \
     "{\"student_id\":\"$STUDENT\",\"query\":\"一元一次方程怎么解\",\"top_k\":3}"
 
+# v1.2 新端点 · 学生 KP 状态（tutor.html 右栏 fetch）
+get "学生 KP 状态" "/api/student-kp-states?student_id=$STUDENT&subject=math"
+
+# 校验 KP 状态 JSON shape + demo 种子完整性（必须先跑 SEED-DEMO-GUIDE）
+echo ""
+echo "── 三·五、Demo 种子完整性（前置：SEED-DEMO-GUIDE 第 1-3 步跑完）──"
+
+KP_RESP=$(curl -sS "$HOST/api/student-kp-states?student_id=$STUDENT&subject=math" 2>/dev/null || echo '{}')
+
+if echo "$KP_RESP" | grep -q '"ok":true'; then
+    # 数 states 行数：用最朴素的 [{ 计数（避免 jq 依赖）
+    STATES_COUNT=$(echo "$KP_RESP" | grep -o '"code":"math\.' | wc -l | tr -d ' ')
+    if [[ "$STATES_COUNT" -ge 4 ]]; then
+        echo -e "${GREEN}[PASS]${RESET} demo 学生有 $STATES_COUNT 个 KP states（期望 ≥4）"
+        PASS=$((PASS+1))
+    else
+        echo -e "${RED}[FAIL]${RESET} demo states 仅 $STATES_COUNT 行（期望 4）· 跑 seed-demo-states.sql"
+        FAIL=$((FAIL+1))
+    fi
+
+    # 校验 next_focus + summary 字段都在
+    if echo "$KP_RESP" | grep -q '"next_focus"' && echo "$KP_RESP" | grep -q '"summary"'; then
+        echo -e "${GREEN}[PASS]${RESET} JSON shape 含 summary.next_focus（前端右栏依赖）"
+        PASS=$((PASS+1))
+    else
+        echo -e "${RED}[FAIL]${RESET} JSON 缺 summary/next_focus 字段"
+        FAIL=$((FAIL+1))
+    fi
+else
+    echo -e "${YELLOW}[SKIP]${RESET} kp-states 端点未返回 ok=true · 部署或 RLS 问题"
+    SKIP=$((SKIP+1))
+fi
+
+# 检查 dialogues 种子（通过 student-memory 间接）
+MEM_RESP=$(curl -sS -X POST "$HOST/api/student-memory" \
+    -H "Content-Type: application/json" \
+    -d "{\"student_id\":\"$STUDENT\",\"query\":\"移项\",\"top_k\":3}" 2>/dev/null || echo '{}')
+if echo "$MEM_RESP" | grep -q '"memories"'; then
+    MEM_COUNT=$(echo "$MEM_RESP" | grep -o '"role":"student"' | wc -l | tr -d ' ')
+    if [[ "$MEM_COUNT" -ge 1 ]]; then
+        echo -e "${GREEN}[PASS]${RESET} demo dialogues 检索到 $MEM_COUNT 条（embedding 已回填）"
+        PASS=$((PASS+1))
+    else
+        echo -e "${YELLOW}[SKIP]${RESET} dialogues 检索 0 条 · 跑 seed-demo-dialogues.sql + curl /api/embed-dialogue"
+        SKIP=$((SKIP+1))
+    fi
+fi
+
 echo ""
 echo "── 四、知识 / 课标查询（无 DB 依赖）──"
 
