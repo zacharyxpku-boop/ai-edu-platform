@@ -201,10 +201,15 @@ export default async function handler(req) {
     try { body = await req.json(); }
     catch (e) { return jsonErr(400, 'bad_json', '请求体不是合法 JSON'); }
 
-    const { problem, correct_answer, student_response, student_steps, subject } = body || {};
-    if (!problem || correct_answer == null || student_response == null) {
+    const { problem: rawProblem, correct_answer: rawAnswer, student_response: rawResp, student_steps: rawSteps, subject } = body || {};
+    if (!rawProblem || rawAnswer == null || rawResp == null) {
         return jsonErr(400, 'missing_fields', 'problem / correct_answer / student_response 三者必填');
     }
+    // 输入字段硬截断 · 防意外大 payload 烧 token + 防初级 prompt injection 灌长指令
+    const problem = String(rawProblem).slice(0, 2000);
+    const correct_answer = String(rawAnswer).slice(0, 500);
+    const student_response = String(rawResp).slice(0, 2000);
+    const student_steps = rawSteps ? String(rawSteps).slice(0, 2000) : null;
 
     // === 关键门控 ===
     // 答案对了直接放行，不调 LLM 不归因（避免 Agent 6 实测的「干扰题 100% 假阳性」灾难）

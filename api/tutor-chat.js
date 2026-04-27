@@ -338,16 +338,24 @@ export default async function handler(req) {
     const systemPrompt = buildSystemPrompt(student, memoryData, weakKps, is_pasted === true);
 
     // 历史对话 + 当前消息
+    // 截断防大 payload 烧 token：单条 message 上限 5000 字符；history 每条上限 3000，最近 10 轮
+    const safeMessage = String(message).slice(0, 5000);
+    const safeHistory = Array.isArray(history)
+        ? history.slice(-10).map(h => ({
+            role: h?.role || 'user',
+            content: typeof h?.content === 'string' ? h.content.slice(0, 3000) : '',
+          }))
+        : [];
     const messages = [
         { role: 'system', content: systemPrompt },
-        ...(Array.isArray(history) ? history.slice(-10) : []),    // 只保留最近 10 轮
-        { role: 'user', content: message },
+        ...safeHistory,
+        { role: 'user', content: safeMessage },
     ];
 
     // fire-and-forget 写学生那一句进 dialogues
     logDialogue({
         student_id, session_id: sid, role: 'student', kind: 'chat',
-        content: message.slice(0, 5000),
+        content: safeMessage,
         meta: { topic_code: topic_code || null, is_pasted: is_pasted === true },
         turn_index: history.length,
     });
