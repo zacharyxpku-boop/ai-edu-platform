@@ -115,6 +115,8 @@ a{color:inherit}
     </div>
   </div>
 
+  <div id="streak-mount"></div>
+
   <div class="stage-tabs" id="stage-tabs"></div>
 
   <div class="legend">
@@ -130,7 +132,9 @@ a{color:inherit}
 </div>
 
 <script src="/src/learning-store.js"></script>
+<script src="/src/streak-bar.js"></script>
 <script>
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
 const SUBJ_COLOR = { '数学':'#2563EB','物理':'#7C3AED','化学':'#059669','生物学':'#16A34A','语文':'#DC2626','英语':'#0891B2','历史':'#92400E','地理':'#0D9488','思想政治':'#EA580C','道德与法治':'#6B21A8' };
 const GRADE_ORDER = ['七年级','八年级','九年级','必修','必修1','必修2','必修3','必修4','必修第一册','第一册','第二册','选择性必修','选择性必修1','选择性必修2','选择性必修3'];
 

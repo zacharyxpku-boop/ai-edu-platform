@@ -276,6 +276,8 @@
 
 <div class="wrap">
 
+<div id="streak-mount"></div>
+
 <!-- HERO -->
 <section class="hero">
     <div class="hero-main">
@@ -439,6 +441,8 @@
 <script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/share-kit.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script>try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }</script>
 <script>
 // ========= 战绩分享 =========
 function shareProgress() {

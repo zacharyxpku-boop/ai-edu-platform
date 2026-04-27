@@ -212,6 +212,8 @@ a{color:inherit}
     <div class="h-title">错题本<small>错的不是失败，是下次能多得的分</small></div>
   </div>
 
+  <div id="streak-mount"></div>
+
   <div class="intro">
     <b>规则：</b>quiz 评「做错了」、error-practice 手动标记、exam-diagnosis 推送，都进同一个池。每条按 FSRS 简化版排期：首次 24h 后到期，「记得了」+1 阶 (1d→3d→7d→15d→30d)，「还不会」回 0 阶。同一道题不再白错。
   </div>
@@ -250,6 +252,8 @@ a{color:inherit}
 
 <script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script>try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }</script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
 const SOURCE_ZH = { 'quiz':'每日一题', 'error-practice':'举一反三', 'error-mastery':'错题攻克', 'exam-diagnosis':'考试诊断', 'essay-grading':'作文批改' };
