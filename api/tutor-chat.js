@@ -92,7 +92,7 @@ function logDialogue(payload) {
 }
 
 // 拼 system prompt（一对一私教的灵魂 · 教育学+心理学+Khanmigo 借鉴+阁主判断 集成版）
-function buildSystemPrompt(student, memoryData, weakKps) {
+function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     const profile = memoryData?.signal_profile || {};
     const stuckPts = (profile.top_stuck_points || []).filter(Boolean).slice(0, 3);
     const analogyRate = profile.analogy_success_rate;
@@ -221,6 +221,21 @@ function buildSystemPrompt(student, memoryData, weakKps) {
     L.push('· 中文 K12 数学符号铁律：`乘以` 不是 `times`，`除以` 不是 `÷` 单独写要解释');
     L.push('· 分数写法：用 `1/2` 或 `½`，禁用 `1分之2` 这种倒序中文');
 
+    // ============ 9.5 粘贴检测 · Think Before Speaking 反作弊 ============
+    if (isPasted) {
+        L.push('');
+        L.push('═══ ⚠️ 粘贴检测命中（最高优先级）═══');
+        L.push('学生这一条消息是从外部**粘贴**的（≥15 字），不是自己打的。');
+        L.push('**绝对不要直接讲题、不要给答案、不要分步骤**。');
+        L.push('你必须先做 3 件事，按顺序：');
+        L.push('  1. 第一句温和点破：「这题看起来是直接复制过来的——咱们先不急着算」');
+        L.push('  2. 第二句**只追问思路**：「你看到这题第一反应是什么？哪一步开始你不确定？」');
+        L.push('  3. 不要继续展开任何解法步骤。**等他用自己的话说思路了，下一轮才进入引导**');
+        L.push('原因：直接答会让他养成「贴题等答案」的依赖（Khanmigo 失败案例 #1）。');
+        L.push('语气：不审讯、不羞辱，平视——「咱们一起把它拆开看」');
+        L.push('═══════════════════════════════════');
+    }
+
     // ============ 10. 第一句铁律（决定 8 秒留存）============
     L.push('');
     L.push('═══ 第一句话铁律（决定他还看不看下去）═══');
@@ -261,7 +276,7 @@ export default async function handler(req) {
     try { body = await req.json(); }
     catch (e) { return jsonErr(400, 'bad_json', '请求体不是合法 JSON'); }
 
-    const { student_id, message, session_id, topic_code, history = [] } = body || {};
+    const { student_id, message, session_id, topic_code, history = [], is_pasted = false } = body || {};
     if (!student_id || !message) return jsonErr(400, 'missing_fields', 'student_id + message 必填');
 
     const origin = new URL(req.url).origin;
@@ -274,7 +289,7 @@ export default async function handler(req) {
         fetchStudent(student_id),
     ]);
 
-    const systemPrompt = buildSystemPrompt(student, memoryData, weakKps);
+    const systemPrompt = buildSystemPrompt(student, memoryData, weakKps, is_pasted === true);
 
     // 历史对话 + 当前消息
     const messages = [
@@ -287,7 +302,7 @@ export default async function handler(req) {
     logDialogue({
         student_id, session_id: sid, role: 'student', kind: 'chat',
         content: message.slice(0, 5000),
-        meta: { topic_code: topic_code || null },
+        meta: { topic_code: topic_code || null, is_pasted: is_pasted === true },
         turn_index: history.length,
     });
 
@@ -366,6 +381,7 @@ export default async function handler(req) {
             'X-Engine-Version': ENGINE_VERSION,
             'X-Memory-Used': String(memoryData?.memory_count || 0),
             'X-Weak-Kps': String(weakKps.length),
+            'X-Paste-Detected': is_pasted === true ? '1' : '0',
         },
     });
 }

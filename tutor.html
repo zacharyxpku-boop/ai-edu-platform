@@ -153,6 +153,21 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 }
 .input-row button:disabled { opacity: 0.4; cursor: not-allowed; }
 
+.paste-warn {
+    max-width: 720px; margin: 0 auto 8px;
+    padding: 8px 14px; border-radius: 10px;
+    background: rgba(233,77,53,0.08);
+    border: 1px solid rgba(233,77,53,0.35);
+    color: var(--c-origin-soft);
+    font-size: 0.82rem;
+    display: none;
+}
+.paste-warn.show { display: block; }
+.input-row input.pasted {
+    border-color: var(--c-origin);
+    box-shadow: 0 0 0 2px var(--c-origin-glow);
+}
+
 .empty-hint {
     text-align: center;
     color: var(--c-warm-dim);
@@ -203,6 +218,7 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 </div>
 
 <div class="input-bar">
+    <div class="paste-warn" id="paste-warn">⚠️ 检测到长段粘贴 · 这是你自己想的吗？发送后老师会先问你的思路</div>
     <div class="input-row">
         <input id="msg" type="text" placeholder="说说你想学什么 / 卡在哪..." autocomplete="off">
         <button id="send-btn">发送</button>
@@ -220,7 +236,35 @@ const chat = document.getElementById('chat');
 const input = document.getElementById('msg');
 const sendBtn = document.getElementById('send-btn');
 const emptyHint = document.getElementById('empty-hint');
+const pasteWarn = document.getElementById('paste-warn');
 const history = [];
+
+// 粘贴检测 · 反 Khanmigo 算错+反作弊（Think Before Speaking）
+const PASTE_THRESHOLD = 15;     // 超过 15 字判定为长段粘贴
+let pasteState = { flagged: false, len: 0 };
+function updatePasteUI() {
+    if (pasteState.flagged) {
+        pasteWarn.classList.add('show');
+        input.classList.add('pasted');
+    } else {
+        pasteWarn.classList.remove('show');
+        input.classList.remove('pasted');
+    }
+}
+input.addEventListener('paste', e => {
+    const data = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+    if (data.length >= PASTE_THRESHOLD) {
+        pasteState = { flagged: true, len: data.length };
+        updatePasteUI();
+    }
+});
+input.addEventListener('input', () => {
+    // 若用户大幅删减（剩余长度小于粘贴长度的一半），认为已重新组织语言
+    if (pasteState.flagged && input.value.length < Math.floor(pasteState.len / 2)) {
+        pasteState = { flagged: false, len: 0 };
+        updatePasteUI();
+    }
+});
 
 document.getElementById('tutor-title').textContent = `原点 AI 私教 · ${NAME}`;
 
@@ -247,9 +291,12 @@ function addSystemHint(text) {
 async function send(message) {
     if (!message || !message.trim()) return;
     if (emptyHint) emptyHint.style.display = 'none';
+    const isPasted = pasteState.flagged && message.length >= PASTE_THRESHOLD;
     addBubble('student', message);
     history.push({ role: 'user', content: message });
     input.value = '';
+    pasteState = { flagged: false, len: 0 };
+    updatePasteUI();
     sendBtn.disabled = true;
 
     const tutorBubble = addBubble('tutor', '');
@@ -268,6 +315,7 @@ async function send(message) {
                 session_id: SESSION_ID,
                 topic_code: TOPIC_CODE,
                 history: history.slice(0, -1),     // 不含刚加进去那条
+                is_pasted: isPasted,                // 反作弊信号 → 后端切换引导模式
             }),
         });
         if (!resp.ok) {
@@ -278,8 +326,10 @@ async function send(message) {
         // 顶部 badge 更新
         const memUsed = resp.headers.get('X-Memory-Used');
         const weakN = resp.headers.get('X-Weak-Kps');
+        const pasteHit = resp.headers.get('X-Paste-Detected');
         if (memUsed) document.getElementById('b-memory').textContent = `记忆 ${memUsed} 条`;
         if (weakN) document.getElementById('b-weak').textContent = `最弱 ${weakN} KP`;
+        if (pasteHit === '1') addSystemHint('🔍 老师识别到你这条是粘贴的 · 它会先问你的思路（Think Before Speaking）');
 
         // SSE 流式累积
         const reader = resp.body.getReader();
