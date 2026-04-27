@@ -827,6 +827,92 @@ if (TOPIC_CODE && TOPIC_CODE !== 'math.7.ch3.kp3') {
     input.placeholder = `比如：${kpDisplay} 那一题我没看懂为什么...`;
 }
 input.focus();
+
+// ─── 右栏接真数据 · loadKpStates ───
+// 替换 hardcode 0.62 / 明天 19:00 / 移项忘记变号 3 次 这些字面量
+// fetch 失败保留占位文案不让页面残废（network/cold-start 兜底）
+async function loadKpStates() {
+    try {
+        const r = await fetch(`/api/student-kp-states?student_id=${encodeURIComponent(STUDENT_ID)}&subject=math`);
+        if (!r.ok) {
+            console.warn('[kp-states] fetch failed', r.status);
+            return;
+        }
+        const data = await r.json();
+        if (!data || !data.ok || !Array.isArray(data.states)) return;
+
+        // 1. 「现在练」+ BKT 进度
+        // 优先 URL 指定的 TOPIC_CODE；其次 summary.next_focus；fallback 第一个非已掌握
+        let focus = data.states.find(s => s.code === TOPIC_CODE)
+                 || data.summary?.next_focus
+                 || data.states.find(s => s.stage !== '已掌握')
+                 || data.states[0];
+        if (focus) {
+            document.getElementById('now-kp').textContent = focus.name || focus.code;
+            const score = Number(focus.mastery_score) || 0;
+            document.getElementById('bkt-num').textContent = score.toFixed(2);
+            document.getElementById('bkt-bar').style.width = Math.round(score * 100) + '%';
+        }
+
+        // 2. 最近卡点：取 stage 不是「已掌握」的，按 mastery 升序前 4 个
+        const weak = data.states
+            .filter(s => s.stage !== '已掌握')
+            .sort((a, b) => a.mastery_score - b.mastery_score)
+            .slice(0, 4);
+        const ul = document.getElementById('weak-list');
+        if (weak.length) {
+            ul.innerHTML = weak.map(s => {
+                const wrong = (s.attempts_count || 0) - (s.correct_count || 0);
+                const tag = wrong > 0 ? `${wrong} 次错` : `掌握 ${(s.mastery_score * 100).toFixed(0)}%`;
+                return `<li><span>${s.name || s.code}</span><span class="ct">${tag}</span></li>`;
+            }).join('');
+        } else if (data.states.length === 0) {
+            ul.innerHTML = `<li><span style="color:var(--ink-mute)">还没练过题，先做几道老师就摸到底了</span></li>`;
+        }
+
+        // 3. 下次复习：取最快到期的 KP（不论是否已过期）
+        const withReview = data.states.filter(s => s.next_review_at);
+        if (withReview.length) {
+            const soonest = withReview.sort((a, b) =>
+                new Date(a.next_review_at) - new Date(b.next_review_at))[0];
+            const isDue = new Date(soonest.next_review_at).getTime() <= Date.now();
+            const review = document.getElementById('next-review');
+            review.innerHTML = `<span>${isDue ? '🔥' : '📅'}</span>` +
+                `<span>${soonest.next_review_rel} · ${soonest.name} 复习题（FSRS 推算）</span>`;
+            if (isDue) review.style.background = 'var(--orange-bg)';
+        }
+
+        // 4. 左栏学科树：根据真 stage 给 .kp 加 .done/.active class
+        // demo 默认右栏选中 TOPIC_CODE → active；其余按 mastery 重新着色
+        document.querySelectorAll('.kp').forEach(el => {
+            const code = el.dataset.kp;
+            const state = data.states.find(s => s.code === code);
+            if (!state) return;
+            // 不动 active（用户点击切换的，不重写），只刷 done
+            if (state.stage === '已掌握') {
+                el.classList.add('done');
+                el.classList.remove('active');
+                el.querySelector('.ic').textContent = '✓';
+            } else if (state.stage === '攻克中' && code === (focus?.code || TOPIC_CODE)) {
+                el.classList.add('active');
+                el.classList.remove('done');
+                el.querySelector('.ic').textContent = '●';
+            }
+        });
+
+        // 5. 顶部副标题更新
+        const summary = data.summary || {};
+        const memEl = document.getElementById('b-memory');
+        const weakEl = document.getElementById('b-weak');
+        if (memEl && summary.total) memEl.textContent = `跟过 ${summary.total} 个知识点`;
+        if (weakEl && (summary.weak + summary.active)) {
+            weakEl.textContent = `还有 ${summary.weak + summary.active} 处要练`;
+        }
+    } catch (e) {
+        console.warn('[kp-states] error', e);
+    }
+}
+loadKpStates();
 </script>
 </body>
 </html>
