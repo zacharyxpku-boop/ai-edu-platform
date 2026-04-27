@@ -129,6 +129,8 @@ a{color:inherit}
       原点智学
     </a>
     <a href="/weekly.html" class="nav-a on">本周回顾</a>
+    <a href="/#ka-subjects" class="nav-a">9 学科</a>
+    <a href="/paths.html" class="nav-a">学习路径</a>
     <a href="/progress.html" class="nav-a">成长档案</a>
     <a href="/errors.html" class="nav-a">错题本</a>
     <a href="/quiz.html" class="nav-a">每日一题</a>
@@ -136,6 +138,10 @@ a{color:inherit}
 </nav>
 
 <div class="wrap">
+
+  <div id="streak-mount"></div>
+
+  <div id="upnext-banner-mount"></div>
 
   <div class="print-bar">
     <button onclick="window.print()">🖨 打印 / 存 PDF</button>
@@ -212,6 +218,11 @@ a{color:inherit}
 <script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/today-recos.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script>
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
+try { if (window.TodayRecos && TodayRecos.renderUpNextBanner) TodayRecos.renderUpNextBanner('#upnext-banner-mount'); } catch(e){ console.warn('upnext banner', e); }
+</script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
 const SUBJ_COLOR = { math:'#2563EB', physics:'#7C3AED', chemistry:'#059669', biology:'#16A34A', chinese:'#DC2626', english:'#0891B2', history:'#92400E', geography:'#0D9488', politics:'#EA580C', moral:'#6B21A8' };
