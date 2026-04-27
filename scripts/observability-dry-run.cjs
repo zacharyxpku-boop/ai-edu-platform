@@ -160,6 +160,33 @@ try {
   pass('event groupby returns expected counts');
 } catch (e) { fail('event groupby', e); }
 
+// ─── CASE 8: three-step funnel calculation ───
+console.log('case 8: three-step funnel');
+try {
+  const log = [
+    // home → subject click ×10 for math
+    ...Array.from({ length: 10 }, () => ({ e: 'home_subject_click', p: { subject: 'math' } })),
+    // page_view ×7 for math hub (3 dropped during load)
+    ...Array.from({ length: 7 }, () => ({ e: 'page_view', p: { page: 'math' } })),
+    // hub actions ×4 (some did multiple, but we count uniques per subject = 4 actions for math)
+    ...Array.from({ length: 4 }, () => ({ e: 'upnext_go_click', p: { subject: 'math' } }))
+  ];
+  const subjs = ['math'];
+  const step1 = {}, step2 = {}, step3 = {};
+  log.filter(e => e.e === 'home_subject_click').forEach(e => { const s = e.p.subject; step1[s] = (step1[s] || 0) + 1; });
+  log.filter(e => e.e === 'page_view').forEach(e => { const p = e.p.page; if (subjs.indexOf(p) >= 0) step2[p] = (step2[p] || 0) + 1; });
+  const hubActions = ['upnext_go_click', 'playbook_click', 'err_explain_click', 'err_review_click', 'parent_brief_copy_click', 'parent_card_share_click'];
+  log.filter(e => hubActions.indexOf(e.e) >= 0).forEach(e => { const s = e.p.subject; if (s) step3[s] = (step3[s] || 0) + 1; });
+  assert.equal(step1.math, 10);
+  assert.equal(step2.math, 7);
+  assert.equal(step3.math, 4);
+  const r12 = Math.round(step2.math / step1.math * 100);
+  const r23 = Math.round(step3.math / step2.math * 100);
+  assert.equal(r12, 70);
+  assert.equal(r23, 57);
+  pass('funnel · 10 → 7 → 4 = 70% / 57%');
+} catch (e) { fail('funnel', e); }
+
 // ─── exit ───
 if (failed) {
   console.error('\nFAIL: ' + failed + ' assertion(s)');

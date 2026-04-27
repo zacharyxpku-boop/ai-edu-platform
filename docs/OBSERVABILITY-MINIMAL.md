@@ -126,6 +126,47 @@
 
 ---
 
+## 三跳漏斗 · home → 学科 hub → hub 内首动作（新增）
+
+```js
+// 简化版 funnel: 算 home_subject_click → page_view(subject hub) → 任意 hub 动作 三档留存
+(() => {
+  const log = JSON.parse(localStorage.getItem('ydzx_event_log_v1') || '[]');
+  const subjs = ['math','physics','chemistry','biology','chinese','history','geography','politics'];
+  // step 1: 9 学科 grid 点击数(分学科)
+  const step1 = {};
+  log.filter(e => e.e === 'home_subject_click').forEach(e => {
+    const s = e.p && e.p.subject; if (s) step1[s] = (step1[s]||0)+1;
+  });
+  // step 2: 该学科 hub 的 page_view
+  const step2 = {};
+  log.filter(e => e.e === 'page_view').forEach(e => {
+    const p = e.p && e.p.page; if (subjs.indexOf(p) >= 0) step2[p] = (step2[p]||0)+1;
+  });
+  // step 3: 在 hub 上做了任何 click 行动
+  const step3 = {};
+  const hubActions = ['upnext_go_click','playbook_click','err_explain_click','err_review_click','parent_brief_copy_click','parent_card_share_click'];
+  log.filter(e => hubActions.indexOf(e.e) >= 0).forEach(e => {
+    const s = e.p && e.p.subject; if (s) step3[s] = (step3[s]||0)+1;
+  });
+
+  const rows = subjs.map(s => ({
+    subject: s,
+    'step1·home_click': step1[s]||0,
+    'step2·hub_pv':     step2[s]||0,
+    'step3·hub_action': step3[s]||0,
+    's1→s2 %': step1[s] ? Math.round((step2[s]||0)/step1[s]*100)+'%' : '—',
+    's2→s3 %': step2[s] ? Math.round((step3[s]||0)/step2[s]*100)+'%' : '—'
+  }));
+  console.table(rows);
+})();
+```
+
+期望：每个学科一行，s1→s2 在 60-90% 是健康（点完学科卡然后没等加载好就关页面会丢一部分），s2→s3 在 30-50% 健康（学生看完 hub 不一定立刻动作）。
+红旗：s1→s2 < 30% → 学科 hub 加载太慢或 nav 有断链；s2→s3 < 10% → hub 没有引导，学生进来就懵。
+
+---
+
 ## EXP-4 · 家长卡按钮真点击事件流（新增）
 
 ```js
