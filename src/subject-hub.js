@@ -72,6 +72,25 @@
     return Array.isArray(v) ? v : [v];
   }
 
+  // ─── 极简事件埋点 (无外部 SaaS, localStorage append-only) ───
+  // 写 ydzx_event_log_v1: 环形数组, 上限 500 条, 满了挤老的
+  // 同时如果页面有 window.gtag (GA4) / window.fbq (Meta) 也镜像一份, 但不依赖
+  function trackEvent(name, props) {
+    const entry = {
+      ts: Date.now(),
+      e: name,
+      p: props || {}
+    };
+    try {
+      const log = JSON.parse(localStorage.getItem('ydzx_event_log_v1') || '[]');
+      log.push(entry);
+      if (log.length > 500) log.splice(0, log.length - 500);
+      localStorage.setItem('ydzx_event_log_v1', JSON.stringify(log));
+    } catch (_) {}
+    try { if (typeof global.gtag === 'function') global.gtag('event', name, props || {}); } catch (_) {}
+    try { if (typeof global.fbq === 'function') global.fbq('trackCustom', name, props || {}); } catch (_) {}
+  }
+
   // ─── EXP-4 · 懒加载 share-kit + html2canvas ───
   let _shareKitLoading = null;
   function ensureShareKit() {
@@ -658,6 +677,7 @@
       const btn = $('parent-copy');
       if (btn) {
         btn.addEventListener('click', function () {
+          trackEvent('parent_brief_copy_click', { subject: SUBJECT_KEY, state: state });
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(copyText).then(function () {
               btn.textContent = '✓ 已复制 · 发给爸妈吧';
@@ -680,6 +700,7 @@
       const cardBtn = $('parent-card-share');
       if (cardBtn) {
         cardBtn.addEventListener('click', async function () {
+          trackEvent('parent_card_share_click', { subject: SUBJECT_KEY, state: state, weekRead: weekRead, weekClears: weekClears });
           const orig = cardBtn.textContent;
           cardBtn.textContent = '⏳ 加载分享模块…';
           try {

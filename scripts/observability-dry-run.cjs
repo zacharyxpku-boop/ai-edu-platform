@@ -130,6 +130,36 @@ try {
   pass('200-entry stress · finished in ' + dt + 'ms · streak=' + s);
 } catch (e) { fail('200-entry stress', e); }
 
+// ─── CASE 6: trackEvent ring-buffer cap at 500 ───
+console.log('case 6: event log ring buffer');
+try {
+  // emulate the same logic as src/subject-hub.js trackEvent
+  let log = [];
+  for (let i = 0; i < 600; i++) {
+    log.push({ ts: i, e: 'click', p: { i } });
+    if (log.length > 500) log.splice(0, log.length - 500);
+  }
+  assert.equal(log.length, 500, 'log capped at 500');
+  assert.equal(log[0].p.i, 100, 'oldest 100 entries trimmed');
+  assert.equal(log[log.length - 1].p.i, 599, 'last entry preserved');
+  pass('event log ring buffer caps at 500');
+} catch (e) { fail('event log ring buffer', e); }
+
+// ─── CASE 7: event log group-by event name ───
+console.log('case 7: group-by event name');
+try {
+  const events = [
+    { e: 'parent_brief_copy_click', p: { subject: 'math' } },
+    { e: 'parent_card_share_click', p: { subject: 'math' } },
+    { e: 'parent_card_share_click', p: { subject: 'physics' } }
+  ];
+  const byName = {};
+  events.forEach(e => { byName[e.e] = (byName[e.e] || 0) + 1; });
+  assert.equal(byName.parent_card_share_click, 2);
+  assert.equal(byName.parent_brief_copy_click, 1);
+  pass('event groupby returns expected counts');
+} catch (e) { fail('event groupby', e); }
+
 // ─── exit ───
 if (failed) {
   console.error('\nFAIL: ' + failed + ' assertion(s)');

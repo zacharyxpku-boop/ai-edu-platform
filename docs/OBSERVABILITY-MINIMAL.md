@@ -126,6 +126,32 @@
 
 ---
 
+## EXP-4 · 家长卡按钮真点击事件流（新增）
+
+```js
+// 看 ydzx_event_log_v1 里的真点击, 按事件名分桶
+(() => {
+  const log = JSON.parse(localStorage.getItem('ydzx_event_log_v1') || '[]');
+  console.log('total events:', log.length);
+  const byName = {};
+  log.forEach(e => { byName[e.e] = (byName[e.e] || 0) + 1; });
+  console.table(byName);
+  // 家长卡按钮分学科
+  const shareBySubj = {};
+  log.filter(e => e.e === 'parent_card_share_click').forEach(e => {
+    const k = (e.p && e.p.subject) || 'unknown';
+    shareBySubj[k] = (shareBySubj[k] || 0) + 1;
+  });
+  console.log('parent_card_share by subject:', shareBySubj);
+  console.log('latest 5:', log.slice(-5));
+})();
+```
+
+期望：每点一次「📤 生成图卡」按钮，`parent_card_share_click` 计数 +1，event log 顶部出现一条带 subject/state/weekRead/weekClears 的 prop。
+红旗：log 全为空 → trackEvent 没绑或被 popup blocker 拦了；只有 copy 没有 share → 学生只复制不点图卡，重新设计按钮文案。
+
+---
+
 ## 一键全跑
 
 ```js
