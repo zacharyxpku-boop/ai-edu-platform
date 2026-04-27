@@ -131,7 +131,7 @@ h1 em{font-style:normal;color:var(--sky);font-variant-numeric:tabular-nums}
   <div class="tag-row">
     <span class="tag s">章节匹配</span>
     <span class="tag e">毫秒级 · 0 LLM</span>
-    <span class="tag v">56 本教材 · 284 章</span>
+    <span class="tag v"><b id="hint-books">56</b> 本教材 · <b id="hint-chapters">284</b> 章</span>
   </div>
   <h1>把题目丢进来，<em>直达</em>课本章节</h1>
   <p class="subh">原点自研章节匹配引擎实时返回最相关的 1-3 章教材，并把章节正文里最贴题的一段话原文摘出来给你看。843 题盲跑 r@1 = 89%，纯本地索引，单次查询毫秒级。</p>
@@ -402,16 +402,30 @@ $('q-text').addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runQuery();
 });
 
-// ---------- pull live r@1 from eval report so the hint stays in sync ----------
+// ---------- pull live r@1 + 教材数 from manifest/report so hero chips stay in sync ----------
 (async function(){
   try {
     const r = await fetch('/src/models/ensemble-recall-report.json?t=' + Date.now());
-    if (!r.ok) return;
-    const d = await r.json();
-    const r1 = d.recall_at_1 || d.r_at_1 || d.recall_1;
-    if (r1){
-      const pct = Math.round(r1 * 1000) / 10;
-      $('hint-r1').textContent = pct + '%';
+    if (r.ok){
+      const d = await r.json();
+      const r1 = d.recall_at_1 || d.r_at_1 || d.recall_1;
+      if (r1 && typeof r1 === 'object'){
+        const en = r1.ensemble || r1.ens;
+        if (en) $('hint-r1').textContent = (en * 100).toFixed(1) + '%';
+      } else if (r1){
+        const pct = Math.round(r1 * 1000) / 10;
+        $('hint-r1').textContent = pct + '%';
+      }
+    }
+  } catch(_){}
+  try {
+    const r = await fetch('/data/extracted/manifest.json', { cache: 'force-cache' });
+    if (r.ok){
+      const m = await r.json();
+      const books = (m.books || []);
+      const chapters = books.reduce(function(a, b){ return a + ((b.chapters || []).length); }, 0);
+      if ($('hint-books')) $('hint-books').textContent = books.length;
+      if ($('hint-chapters')) $('hint-chapters').textContent = chapters;
     }
   } catch(_){}
 })();

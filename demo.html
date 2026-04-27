@@ -379,9 +379,17 @@ function injectDemo(){
     btn.textContent = '✓ 已注入 · 点这里再来一次会刷新';
     const m = $('mark-inject');
     m.className = 'status-mark on ok';
-    m.innerHTML = '✓ 演示数据已就绪 · 现在打开下面任一页面看产品长什么样：';
+    m.innerHTML = '✓ 演示数据已就绪 · 3 秒后自动带你去看 progress 四维体检（点路由卡可立即跳）';
     $('routes-mount').style.display = 'grid';
     scanExisting();
+    // 3 秒延迟自动跳到 progress 让首次访客直接看到产品满载状态
+    setTimeout(function(){
+      // 用户在这 3 秒里点了任意路由卡或退出按钮，则不强制跳
+      if (!document.body.classList.contains('demo-on')) return;
+      // 已经离开 demo.html（用户主动点击了某张路由）就不跳
+      if (location.pathname !== '/demo.html' && location.pathname !== '/demo') return;
+      location.href = '/progress.html';
+    }, 3000);
   } catch(e){
     btn.classList.remove('btn-loading');
     btn.textContent = '⚡ 注入失败 · 重试';
