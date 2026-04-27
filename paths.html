@@ -182,14 +182,23 @@ function renderStage(){
       });
     } catch(_){}
   }
-  // quiz 答题数据 → 该章是否练过
+  // quiz outcome → 章节级 mastery 信号
+  // v2 schema: { id: { r, d, book, ch, subj } } — book/ch 是 quiz.html 评分时新写入的字段
+  // v1 fallback: { id: { r, d } } — 用 id 前缀 gen-{subject}- 提取学科作为粗粒度
   const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
-  // outcome 是按 quiz id 不直接知道章节，但只要"用户至少练过这一科任意题"就升一级（粗粒度）
+  const chPracticed = {}; // 'path::ch' → {good, bad}
   const quizPracticedSubjects = new Set();
   Object.keys(outcomes).forEach(id => {
-    // gen-{subject}-{...} 提取学科
+    const o = outcomes[id] || {};
+    if (o.book && o.ch != null){
+      const k = o.book + '::ch' + o.ch;
+      if (!chPracticed[k]) chPracticed[k] = { good: 0, bad: 0 };
+      if (o.r === 'good') chPracticed[k].good++; else chPracticed[k].bad++;
+    }
+    // 学科粒度兜底（老数据 + 防 book 字段缺失）
     const m = (id || '').match(/^(?:gen|ai)-([a-z]+)-/);
     if (m) quizPracticedSubjects.add(m[1]);
+    if (o.subj) quizPracticedSubjects.add(o.subj);
   });
   const SUBJ_ZH_TO_KEY = {'数学':'math','物理':'physics','化学':'chemistry','生物学':'biology','语文':'chinese','英语':'english','历史':'history','地理':'geography','思想政治':'politics'};
 
@@ -214,17 +223,20 @@ function renderStage(){
         const isRead = readSet.has(sig);
         const eA = errActive[sig] || 0;
         const eM = errMastered[sig] || 0;
-        // KA 4 阶 mastery（红色优先级最高）
+        const chPx = chPracticed[sig];        // {good, bad} | undefined
+        const chPracticedHere = !!chPx && (chPx.good + chPx.bad) > 0;
+        const chMasteredHere = !!chPx && chPx.good >= 2 && chPx.good >= chPx.bad * 2;  // 该章答过≥2题且对错比≥2:1
+        // KA 4 阶 mastery（红色优先级最高，新增章节级信号）
         let cls = '';
-        if (eA > 0) cls = 'err';                                   // 还有活跃错题
-        else if (isRead && eM > 0) cls = 'lvl-3';                  // 错题全攻克 + 已读 = 真掌握
-        else if (isRead && subjPracticed) cls = 'lvl-2';           // 读 + 该学科练过题
-        else if (isRead) cls = 'lvl-1';                            // 仅读过
-        // else: lvl-0 = 灰底（默认 class 空）
+        if (eA > 0) cls = 'err';                                                      // 还有活跃错题
+        else if (isRead && (eM > 0 || chMasteredHere)) cls = 'lvl-3';                 // 真掌握：读 + (错题攻克 OR 章内多题答对)
+        else if (isRead && (chPracticedHere || subjPracticed)) cls = 'lvl-2';         // 读 + 练过（章节级优先，学科兜底）
+        else if (isRead) cls = 'lvl-1';                                               // 仅读过
         const tipParts = [`${b.path} · 第 ${c.ch} 章`, c.title || ''];
         if (eA > 0) tipParts.push(`活跃错题 ${eA}`);
         if (eM > 0) tipParts.push(`已掌握错题 ${eM}`);
-        if (isRead && !eA && !eM) tipParts.push('已读');
+        if (chPracticedHere) tipParts.push(`本章答过 ${chPx.good + chPx.bad} 题（对 ${chPx.good}）`);
+        if (isRead && !eA && !eM && !chPracticedHere) tipParts.push('已读');
         chsHtml += `<a href="/tools/textbook-browser?book=${encodeURIComponent(b.path)}&ch=${c.ch}" class="${cls}" title="${tipParts.filter(Boolean).join(' · ').replace(/"/g,'&quot;')}">${c.ch}</a>`;
       });
       html += '<div class="grade-card">';

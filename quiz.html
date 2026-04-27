@@ -207,9 +207,16 @@ function getOutcomes(){
   try { return JSON.parse(localStorage.getItem(OUTCOME_KEY) || '{}'); }
   catch(e){ return {}; }
 }
-function setOutcome(id, result){
+function setOutcome(id, result, q){
   const o = getOutcomes();
-  o[id] = { r: result, d: new Date().toISOString().slice(0,10) };
+  const entry = { r: result, d: new Date().toISOString().slice(0,10) };
+  // v2 schema: 把题目对应的教材章节存进 outcome value，让 paths.html 能做章节级 mastery
+  if (q && q.textbook_ref){
+    if (q.textbook_ref.path) entry.book = q.textbook_ref.path;
+    if (q.textbook_ref.ch != null) entry.ch = q.textbook_ref.ch;
+  }
+  if (q && q.subject) entry.subj = q.subject;
+  o[id] = entry;
   try { localStorage.setItem(OUTCOME_KEY, JSON.stringify(o)); } catch(e){}
 }
 function todayKey(){ return new Date().toISOString().slice(0,10); }
@@ -443,7 +450,7 @@ function renderCard(){
 function grade(result){
   if (!CUR) return;
   if (getOutcomes()[CUR.id]) return; // 已评过，幂等
-  setOutcome(CUR.id, result);
+  setOutcome(CUR.id, result, CUR);
   var subjZh = SUBJ_ZH[CUR.subject] || CUR.subject;
   if (window.GAME && typeof window.GAME.addXP === 'function'){
     if (result === 'good') window.GAME.addXP(XP_GOOD, '题库速练 · ' + subjZh + ' · quiz');
