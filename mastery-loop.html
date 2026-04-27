@@ -953,6 +953,7 @@ async function fetchAchievementQuote(minutes) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 student_id: STUDENT_ID,
+                student_name: NAME && NAME !== '同学' ? NAME : '',  // 给金句生成用真名而不是泛称
                 topic: TOPIC,
                 minutes,
                 attempts_count: state.attempts.length,
