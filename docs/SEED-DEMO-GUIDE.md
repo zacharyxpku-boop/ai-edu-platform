@@ -42,6 +42,33 @@ total | visual_count | anxious_count | analogy_true | analogy_false
 
 ---
 
+## 第 1.5 步 · 灌初一数学全册 KP 树（1 分钟，新增于 P0-C）
+
+5.4 demo 现场家长会问「除了一元一次方程还有啥」——左栏需要看到第 1 章有理数 / 第 4 章几何 / 第 8 章二元一次方程组 等都在。这一步就是把这些 KP 落库（前端 hardcode 已经有名字，但 BKT/状态查询要库里真有这些行）。
+
+回到 SQL Editor → New query → 粘贴 `scripts/seed-kp-grade7-math.sql` → Run。
+
+**期望输出**：
+```
+INSERT 0 36   (前置 ch3 七条 + ch2 两条已 demo seed 过 → ON CONFLICT 跳过；新增 36 条)
+
+chapter      | kp_count
+-------------+----------
+math.7.ch1   | 5
+math.7.ch2   | 4
+math.7.ch3   | 7
+math.7.ch4   | 5
+math.7.ch5   | 5
+math.7.ch6   | 3
+math.7.ch7   | 3
+math.7.ch8   | 4
+math.7.ch9   | 4
+math.7.ch10  | 3
+                合计 43
+```
+
+跳过 ON CONFLICT 是预期行为，不是 bug——重跑这份 SQL 永远安全。
+
 ## 第 2 步 · 跑 BKT 状态种子（1 分钟）
 
 回到 SQL Editor → New query → 粘贴 `scripts/seed-demo-states.sql` → Run。
@@ -138,13 +165,33 @@ WHERE student_id = '00000000-0000-0000-0000-000000000001'
 DELETE FROM student_states
 WHERE student_id = '00000000-0000-0000-0000-000000000001';
 
--- knowledge_points 不删（别的端点也用）
+-- knowledge_points 一般不删（其他模块依赖），需要时只清 grade7 ontology seed：
+-- DELETE FROM knowledge_points WHERE source = 'ontology-grade7-v1';
+-- 警告：跑这条会让前端左栏切到非第 3 章 KP 时 BKT 查询拿空，仅在 KP 表彻底重灌时用
 ```
 
 撤销后从第 1 步重来即可。
 
 ---
 
+## 一键全跑（可选，给运维）
+
+如果你信任自己一次跑全部不出问题：
+
+```sql
+-- 把这 3 份合并粘贴到一个 SQL Editor query 跑
+-- 顺序固定：先 KP 树 → 再 dialogues → 再 states
+-- (因为 dialogues seed 内部也 INSERT 了 ch3 KPs，states seed 依赖 KP)
+
+\i scripts/seed-kp-grade7-math.sql
+\i scripts/seed-demo-dialogues.sql
+\i scripts/seed-demo-states.sql
+```
+
+Supabase Web SQL Editor 不支持 `\i`，需要把 3 个 .sql 内容拼起来 paste。本地 psql 才能用 `\i`。
+
+---
+
 **版本**：v1.0 · 2026-04-28
-**配套文件**：scripts/seed-demo-dialogues.sql · scripts/seed-demo-states.sql · api/embed-dialogue.js
+**配套文件**：scripts/seed-demo-dialogues.sql · scripts/seed-kp-grade7-math.sql · scripts/seed-demo-states.sql · api/embed-dialogue.js · api/student-kp-states.js · api/student-recent-dialogues.js
 **下一步配套**：把 tutor.html 右栏 hardcode 改成调 student_signal_profile RPC 读真数据（HONEST-GAP-AUDIT 第 3 件，2h 工作量，下个 commit）
