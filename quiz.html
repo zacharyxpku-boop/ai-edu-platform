@@ -423,10 +423,15 @@ function renderCard(){
   // 自评：对 / 错
   var outc = getOutcomes()[q.id];
   var graded = outc ? ' done' : '';
+  // 当前连对数量提示（不打开页面顶部计数器也能看到下一步会得到什么）
+  var stkRead = (function(){ try { return JSON.parse(sessionStorage.getItem('ydzx_quiz_streak_v1') || '{}') || {}; } catch(_){ return {}; } })();
+  var stkN = stkRead.n || 0;
+  var goodHint = stkN >= 9 ? '满了 · 收工 ✋' : (stkN >= 1 ? ('再 +1 = ' + (stkN + 1) + ' 连对') : '开启第 1 连对');
+  var badHint = stkN >= 1 ? ('当前 ' + stkN + ' 连对 · 答错归 0') : '答错进错题本, 攒满 5 道开冲关';
   h += '<div class="grade-row' + graded + '" id="grade-row">';
   h += '<div class="gr-q">这道题<b>' + (outc ? (outc.r === 'good' ? '做对了 ✓' : '做错了 ✗') : '你做对了吗') + '</b></div>';
-  h += '<button class="btn btn-good" id="gr-good">✓ 做对了 · +' + XP_GOOD + ' XP</button>';
-  h += '<button class="btn btn-bad" id="gr-bad">✗ 做错了 · 加入错题</button>';
+  h += '<button class="btn btn-good" id="gr-good" title="' + goodHint + '">✓ 做对了 · +' + XP_GOOD + ' XP</button>';
+  h += '<button class="btn btn-bad" id="gr-bad" title="' + badHint + '">✗ 做错了 · 加入错题</button>';
   h += '</div>';
   h += '</div>';
   h += '<div class="actions">';
