@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>语文 · 6 本教材按年级铺开 | 原点 AI 学堂</title>
+<meta name="description" content="可汗学院 Chinese course 中文化 · 统编版语文初一→高三 6 本教材 + 错题切片 + 阅读理解 + 作文私教。">
+<style>
+:root{
+  --ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bg:#FAFAF7;--card:#FFFFFF;--bdr:#E4E4E7;--soft:#F4F4F5;
+  --tone:#DC2626;--tone-bg:#FEF2F2;--tone-dk:#B91C1C;
+  --amber:#F5A623;--amber-bg:#FEF3C7;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --green:#059669;--green-bg:#ECFDF5;
+  --font:system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:ui-monospace,'JetBrains Mono','Menlo',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--tone);background:var(--tone-bg)}
+.wrap{max-width:1120px;margin:0 auto;padding:24px 20px 80px}
+.subj-hero{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;background:linear-gradient(135deg,#FEF2F2 0%,#FFF 60%);border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;margin:14px 0 18px}
+.subj-hero .sigil{width:64px;height:64px;border-radius:14px;background:var(--tone);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;line-height:1;box-shadow:0 4px 14px -4px rgba(220,38,38,.4);font-family:'Songti SC','SimSun',serif}
+.subj-hero h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
+.subj-hero h1 small{font-size:12px;color:var(--ink3);font-weight:500;margin-left:8px}
+.subj-hero .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.subj-hero .meta b{color:var(--ink);font-weight:800}
+.subj-ring{width:84px;height:84px;position:relative;flex:0 0 auto}
+.subj-ring svg{transform:rotate(-90deg)}
+.subj-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.subj-ring .pct .n{font-size:20px;font-weight:800;color:var(--tone)}
+.subj-ring .pct .l{font-size:9px;color:var(--ink3);letter-spacing:.5px;margin-top:1px}
+.cta-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.cta-strip a{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border:1px solid var(--bdr);border-radius:11px;text-decoration:none;color:var(--ink);font-weight:700;font-size:13px;transition:.15s}
+.cta-strip a:hover{border-color:var(--tone);box-shadow:0 2px 10px -2px rgba(220,38,38,.18);transform:translateY(-1px)}
+.cta-strip a .em{font-size:20px;line-height:1}
+.cta-strip a .s{font-size:11px;color:var(--ink3);font-weight:500;display:block;margin-top:2px}
+.cta-strip a.primary{background:var(--tone);color:#fff;border-color:var(--tone)}
+.cta-strip a.primary:hover{background:var(--tone-dk)}
+.cta-strip a.primary .s{color:rgba(255,255,255,.8)}
+.h2{font-size:16px;font-weight:800;letter-spacing:-.005em;margin:24px 0 10px;display:flex;align-items:baseline;gap:10px}
+.h2 small{font-size:11px;color:var(--ink3);font-weight:500;margin-left:auto}
+.h2 a{font-size:11px;color:var(--tone);text-decoration:none;font-weight:600}
+.book-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.book-card{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid var(--tone)}
+.book-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px -2px rgba(0,0,0,.06);border-left-width:5px}
+.book-card .bk-em{font-size:24px;line-height:1;flex:0 0 auto}
+.book-card .bk-bd{flex:1;min-width:0}
+.book-card .bk-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.book-card .bk-s{font-size:11px;color:var(--ink3);margin-bottom:8px}
+.book-card .bk-bar{height:5px;background:var(--soft);border-radius:100px;overflow:hidden;margin-bottom:5px}
+.book-card .bk-bar i{display:block;height:100%;background:var(--tone);transition:width .4s}
+.book-card .bk-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.book-card .bk-meta b{color:var(--ink);font-weight:700}
+.book-card .bk-meta .err{color:var(--red);font-weight:700}
+.book-card.zero{opacity:.78;border-left-color:#D4D4D8}
+.book-card.zero:hover{opacity:1}
+.book-card.zero .bk-bar i{background:#D4D4D8}
+.err-row{display:flex;gap:12px;background:var(--red-bg);border:1px solid #FCA5A5;border-radius:10px;padding:11px 13px;margin-bottom:8px;align-items:flex-start}
+.err-row .em{font-size:18px;flex:0 0 auto;line-height:1.2}
+.err-row .bd{flex:1;min-width:0;font-size:12.5px;color:#7F1D1D}
+.err-row .bd b{color:#991B1B;font-weight:700}
+.err-row .qx{font-size:11px;color:#B91C1C;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.err-row .ax{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;text-decoration:none;flex-shrink:0;align-self:center}
+.err-empty{padding:14px 16px;background:var(--green-bg);border:1px dashed #6EE7B7;color:#065F46;font-size:13px;border-radius:10px}
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.qa-card{background:#fff;border:1px solid var(--bdr);border-radius:11px;padding:13px 14px;text-decoration:none;color:inherit;transition:.15s;display:flex;gap:10px;align-items:center}
+.qa-card:hover{border-color:var(--tone);transform:translateY(-1px)}
+.qa-card .em{font-size:20px;line-height:1}
+.qa-card .t{font-size:12.5px;font-weight:700;color:var(--ink)}
+.qa-card .s{font-size:10.5px;color:var(--ink3);margin-top:2px;display:block}
+@media(max-width:680px){.subj-hero{grid-template-columns:auto 1fr;gap:14px;padding:18px}.subj-ring{display:none}.subj-hero h1{font-size:18px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+      <span>原点 AI 学堂</span>
+    </a>
+    <a href="/paths.html" class="nav-a">学习路径</a>
+    <a href="/quiz.html?subject=chinese" class="nav-a on">语文</a>
+    <a href="/errors.html" class="nav-a">错题本</a>
+    <a href="/progress.html" class="nav-a">成长档案</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div id="streak-mount"></div>
+
+  <section class="subj-hero">
+    <div class="sigil">文</div>
+    <div>
+      <h1>语文 <small>Chinese · 高考必考主科</small></h1>
+      <div class="meta">
+        <span>📚 <b id="m-books">--</b> 本教材</span>
+        <span>📑 <b id="m-ch">--</b> 章节</span>
+        <span>📖 已读 <b id="m-read">0</b> 章</span>
+        <span>❌ 错题 <b id="m-err">0</b> 道</span>
+        <span>🔥 已掌握 <b id="m-mas">0</b> 章</span>
+      </div>
+    </div>
+    <div class="subj-ring">
+      <svg width="84" height="84" viewBox="0 0 84 84">
+        <circle cx="42" cy="42" r="36" fill="none" stroke="#E4E4E7" stroke-width="8"/>
+        <circle id="ring-fg" cx="42" cy="42" r="36" fill="none" stroke="#DC2626" stroke-width="8" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+      </svg>
+      <div class="pct"><span class="n" id="ring-n">0%</span><span class="l">MASTERY</span></div>
+    </div>
+  </section>
+
+  <div class="cta-strip">
+    <a href="#" id="cta-continue" class="primary">
+      <span class="em">▶</span>
+      <span><span id="cta-cont-t">先开始第一本教材</span><span class="s" id="cta-cont-s">从初一上册起步</span></span>
+    </a>
+    <a href="/quiz.html?subject=chinese">
+      <span class="em">🎯</span>
+      <span>语文每日一题<span class="s">古诗文 / 阅读理解 / 字词</span></span>
+    </a>
+    <a href="/errors.html?subject=chinese">
+      <span class="em">📕</span>
+      <span>语文错题攻克<span class="s" id="cta-err-s">0 道待复习</span></span>
+    </a>
+  </div>
+
+  <h2 class="h2">6 本语文教材 · 按年级排<small>红色条 = 已读章节占比</small></h2>
+  <div id="book-list"><div style="color:var(--ink3);font-size:13px;padding:12px">manifest 加载中...</div></div>
+
+  <h2 class="h2">最近的语文错题 · 字词 / 病句 / 古文翻译<a href="/errors.html?subject=chinese">全部 →</a></h2>
+  <div id="err-mount"></div>
+
+  <h2 class="h2">语文专属工具<small>AI 私教 · 作文批改 · 古诗文背诵</small></h2>
+  <div class="qa-grid">
+    <a class="qa-card" href="/tutor.html?subject=chinese"><span class="em">🧑‍🏫</span><span><span class="t">AI 语文私教</span><span class="s">阅读理解陪练 + 古文翻译</span></span></a>
+    <a class="qa-card" href="/tools/feynman.html?subject=chinese"><span class="em">🗣️</span><span><span class="t">费曼讲题</span><span class="s">把作者意图讲清楚</span></span></a>
+    <a class="qa-card" href="/tools/exam-diagnosis.html?subject=chinese"><span class="em">📊</span><span><span class="t">月考诊断</span><span class="s">作文 / 古文 / 阅读分模块失分</span></span></a>
+    <a class="qa-card" href="/tools/knowledge-arcade.html?subject=chinese"><span class="em">🎮</span><span><span class="t">题库速练</span><span class="s">字音 / 字形 / 成语 4 模式</span></span></a>
+    <a class="qa-card" href="/tools/textbook-browser.html"><span class="em">📖</span><span><span class="t">教材原文阅读器</span><span class="s">课文 + 注释 + 朗读</span></span></a>
+    <a class="qa-card" href="/tools/learning-profile.html"><span class="em">🧭</span><span><span class="t">3 分钟语文画像</span><span class="s">优势文体 / 弱项 / 提分路径</span></span></a>
+  </div>
+
+</div>
+
+<script src="/src/learning-store.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script src="/src/subject-hub.js"></script>
+<script>
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
+SUBJECT_HUB.init({ subjectZh:'语文', subjectKey:'chinese', toolQuery:'chinese' });
+</script>
+</body>
+</html>
