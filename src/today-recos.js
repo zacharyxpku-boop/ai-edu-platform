@@ -185,5 +185,106 @@
         return cards.length;
     }
 
-    window.TodayRecos = { render: render, gather: gather, buildCards: buildCards };
+    // ------- KA "Up next" banner: 跨学科版的最高优一张大卡 -------
+    // 用与 subject-hub 同口径的 4 档优先级, 但跨全学科, 适合首页 / paths / errors 顶部使用
+    function injectBannerStyle(){
+        if (document.getElementById('today-recos-banner-style')) return;
+        var css = ''
+            + '.tr-banner{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px 18px;border-radius:14px;margin:8px 0 14px;font-family:inherit}'
+            + '.tr-banner.lvl-A{background:#FEF2F2;border:1px solid #FCA5A5}'
+            + '.tr-banner.lvl-B{background:#EFF6FF;border:1px solid #93C5FD}'
+            + '.tr-banner.lvl-C{background:#FFFBEB;border:1px solid #FCD34D}'
+            + '.tr-banner.lvl-D{background:#F0FDF4;border:1px solid #86EFAC}'
+            + '.tr-banner .em{font-size:30px;line-height:1;flex-shrink:0}'
+            + '.tr-banner .bd{min-width:0}'
+            + '.tr-banner .tag{font-size:10px;letter-spacing:.6px;font-weight:800;text-transform:uppercase;margin-bottom:4px;opacity:.7}'
+            + '.tr-banner.lvl-A .tag{color:#991B1B}.tr-banner.lvl-B .tag{color:#1D4ED8}.tr-banner.lvl-C .tag{color:#92400E}.tr-banner.lvl-D .tag{color:#15803D}'
+            + '.tr-banner .t{font-size:15px;font-weight:800;color:#18181B;letter-spacing:-.005em;margin-bottom:3px}'
+            + '.tr-banner .s{font-size:12px;color:#52525B}'
+            + '.tr-banner .go{padding:9px 18px;background:#18181B;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap;transition:.15s}'
+            + '.tr-banner .go:hover{background:#000;transform:translateY(-1px)}'
+            + '@media(max-width:560px){.tr-banner{grid-template-columns:auto 1fr}.tr-banner .go{grid-column:1/-1;text-align:center}}';
+        var s = document.createElement('style'); s.id='today-recos-banner-style'; s.textContent=css;
+        document.head.appendChild(s);
+    }
+
+    function pickUpNext(){
+        var stats = gather();
+        var name = '';
+        try { name = localStorage.getItem('yd:my_name') || ''; } catch(e){}
+
+        // A: 错题到期 优先
+        var errs = (window.LearningStore && window.LearningStore.getErrors) ? (window.LearningStore.getErrors() || []) : [];
+        var dueErrs = errs.filter(function(e){
+            return (e.nextReviewAt||0) <= Date.now() && (e.reviewCount||0) < 3;
+        });
+        if (dueErrs.length > 0) {
+            var subj = dueErrs[0].subject || '';
+            return {
+                lvl: 'A', em: '📕', tag: '错题到期',
+                t: (subj ? '先把这道' + subj + '错题攻克' : '先把今日到期错题攻克'),
+                s: dueErrs.length + ' 道到期 · 不补就给同学送分',
+                href: '/errors.html'
+            };
+        }
+
+        // B: 学生年级 → 学科首页里挑一个推 (走 subject 主页, hub 内自己再挑章节)
+        var grade = '';
+        try { grade = localStorage.getItem('yd:my_grade') || ''; } catch(e){}
+        var subjects = ['math','physics','chemistry','chinese','biology','history','geography','politics'];
+        if (grade) {
+            // 简单轮转: 用日期挑一个学科, 避免天天看到一样
+            var idx = (new Date().getDate()) % subjects.length;
+            var subj = subjects[idx];
+            return {
+                lvl: 'B', em: '📖', tag: '为你定制',
+                t: (name ? name + '，' : '') + '该回学科页看下一章了',
+                s: '基于你的年级与读书记录智能挑下一步',
+                href: '/subjects/' + subj + '.html'
+            };
+        }
+
+        // C: 教材广度 — 还没读够 5 章, 推 path
+        if (stats.readN < 5) {
+            return {
+                lvl: 'C', em: '📚', tag: '建立基线',
+                t: '还没读够 5 章 · 先挑一本教材打地基',
+                s: '已读 ' + stats.readN + ' 章 · 5 章是 mastery 起步线',
+                href: '/paths.html'
+            };
+        }
+
+        // D: 兜底 - 来道每日一题
+        return {
+            lvl: 'D', em: '🎯', tag: '今日一道',
+            t: '保持手感 · 来一道每日一题',
+            s: '3 分钟一道, 含解析, 错了进错题本',
+            href: '/quiz.html'
+        };
+    }
+
+    function renderUpNextBanner(target){
+        var node = typeof target === 'string' ? document.querySelector(target) : target;
+        if (!node) return null;
+        injectBannerStyle();
+        var p = pickUpNext();
+        node.className = 'tr-banner lvl-' + p.lvl;
+        node.innerHTML = ''
+            + '<div class="em">' + p.em + '</div>'
+            + '<div class="bd">'
+            +   '<div class="tag">' + p.tag + '</div>'
+            +   '<div class="t">' + p.t + '</div>'
+            +   '<div class="s">' + p.s + '</div>'
+            + '</div>'
+            + '<a class="go" href="' + p.href + '">开始 →</a>';
+        return p;
+    }
+
+    window.TodayRecos = {
+        render: render,
+        gather: gather,
+        buildCards: buildCards,
+        pickUpNext: pickUpNext,
+        renderUpNextBanner: renderUpNextBanner
+    };
 })();
