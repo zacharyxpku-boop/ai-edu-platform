@@ -605,6 +605,24 @@ document.querySelectorAll('.quick button').forEach(btn => {
 if (IS_DEMO_USER) {
     addSystemHint('👋 你正在用演示账号 · 想用自己的档案？← 回首页填 30 秒');
 }
+// URL 带 topic_code 时（一般是从 mastery-loop「问老师」按钮跳过来）让 input 预填关于这个 KP 的开场问题
+// 让孩子的「学习势能」无缝接到对话上，不用再现想问什么
+if (TOPIC_CODE) {
+    const KP_NAME_HINT = {
+        'math.7.ch3.kp1': '一元一次方程概念',
+        'math.7.ch3.kp2': '等式性质',
+        'math.7.ch3.kp3': '解方程·移项',
+        'math.7.ch3.kp4': '解方程·去分母',
+        'math.7.ch3.kp5': '应用题·行程',
+        'math.7.ch3.kp6': '应用题·工程',
+        'math.7.ch3.kp7': '应用题·浓度',
+        'math.7.ch2.kp3': '合并同类项',
+        'math.7.ch2.kp4': '去括号',
+    };
+    const kpDisplay = KP_NAME_HINT[TOPIC_CODE] || TOPIC_CODE;
+    addSystemHint(`📍 你刚做完「${kpDisplay}」练习 · 直接说卡哪儿就行`);
+    input.placeholder = `比如：${kpDisplay} 那一题我没看懂为什么...`;
+}
 input.focus();
 </script>
 </body>
