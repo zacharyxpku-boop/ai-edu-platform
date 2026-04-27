@@ -439,6 +439,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div class="actions-final">
             <button class="btn-submit" id="brag-trigger">炫耀给爸妈看 →</button>
             <button class="btn-flex" onclick="location.reload()">再来一道</button>
+            <button class="btn-flex" id="ask-tutor-btn">问老师</button>
             <button class="btn-flex" id="view-radar-btn">看雷达</button>
         </div>
     </section>
@@ -1013,6 +1014,14 @@ function setupBrag() {
     if (radarBtn) {
         radarBtn.addEventListener('click', () => {
             location.href = `/parent-radar.html?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+        });
+    }
+    // 「问老师」按钮：练完题孩子想 follow-up 时直接进 tutor，不用回首页
+    // 跨页 localStorage 桥已经把 STUDENT_ID 同步过去了，tutor 自动认人
+    const askTutorBtn = document.getElementById('ask-tutor-btn');
+    if (askTutorBtn) {
+        askTutorBtn.addEventListener('click', () => {
+            location.href = `/tutor.html?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}&topic_code=${encodeURIComponent(TOPIC_CODE)}`;
         });
     }
     const copyBtn = document.getElementById('copy-mom-btn');
