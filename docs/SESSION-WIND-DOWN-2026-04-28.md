@@ -20,7 +20,8 @@
 - 7 文档（KA-LOCALIZE-MILESTONE / EXPERIMENT-WEEK / OBSERVABILITY / V1.0-TO-V1.1-DIFF / 3 SESSION-LOG）
 - 1 sunset doc（EXP-1 英语 OCR blocker）
 - 9 个事件埋点 name + 11 页 PV 自动登记
-- 8 case observability 回归 + 499 静态 link 检查
+- 5 段 npm test = 524 assertion (8 observability + 499 link + 7 track + 5 streak + 5 recos)
+- 1 真 bug 修(today-recos schema drift, readN 永远 0 → 改兼容 Array+Object)
 - 1 GitHub Action workflow · push/PR 触发
 - 4 实验落地（2/3/4 shipped + 1 sunset）
 
@@ -53,6 +54,9 @@ docs/
 scripts/
   observability-dry-run.cjs       · 8 case · streak/event/funnel 回归
   check-static-links.cjs          · 499 内部 link 检查
+  test-track.cjs                  · 7 case · src/track.js 沙箱单测
+  test-streak-bar.cjs             · 5 case · STREAK_BAR.computeStats 沙箱
+  test-today-recos.cjs            · 5 case · pickUpNext 4 档 + readN bug 守门
 
 src/
   track.js                        · 公共埋点 (window.YDZX_TRACK)
@@ -72,7 +76,7 @@ src/
 
 不要新加功能。当天动作：
 1. `git pull origin main` → `git log --oneline -1` 看到 main 最新 commit
-2. `npm test` 全绿（observability 8 + 静态链接 499）
+2. `npm test` 全绿（5 段 524 assertion）
 3. 走演示动线：注册 → 数学 hub → quiz 答错 → 错题攒 5 道冲关 → progress 看战利品 → 复制家长简报 → 生成图卡
 4. 演示后 DevTools Console 跑 OBSERVABILITY 第 5 段 snippet 当场看真实事件分布
 5. 拿到的访谈 / 数据回头记 docs/sunset/ 或 EXPERIMENT-WEEK 状态板

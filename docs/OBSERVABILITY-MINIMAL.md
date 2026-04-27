@@ -256,9 +256,15 @@ npm run test:obs    # 只跑 observability 相关 snippet 回归
 npm run test:links  # 只跑 HTML 静态链接 404 检查
 ```
 
-`npm test` 串行跑两件事：
-1. [`scripts/observability-dry-run.cjs`](../scripts/observability-dry-run.cjs) · 8 case · 50ms · 验 streak 算法 / event ring buffer / 三跳漏斗
-2. [`scripts/check-static-links.cjs`](../scripts/check-static-links.cjs) · 扫 34 个 HTML 文件 499 内部 link · 任何 href/src 指向不存在文件即 fail
+`npm test` 串行跑五段（524 assertion · 整体 < 100ms）：
+
+1. [`scripts/observability-dry-run.cjs`](../scripts/observability-dry-run.cjs) · 8 case · 验 streak 算法 / event ring buffer / 三跳漏斗
+2. [`scripts/check-static-links.cjs`](../scripts/check-static-links.cjs) · 499 内部 link · 任何 href/src 指向不存在文件即 fail
+3. [`scripts/test-track.cjs`](../scripts/test-track.cjs) · 7 case · 沙箱 src/track.js (event/recent/countByName/auto-pv/ring buffer)
+4. [`scripts/test-streak-bar.cjs`](../scripts/test-streak-bar.cjs) · 5 case · 沙箱 STREAK_BAR.computeStats (空态/streak 持久化/断签/chWeek/qAcc)
+5. [`scripts/test-today-recos.cjs`](../scripts/test-today-recos.cjs) · 5 case · 沙箱 pickUpNext 4 档优先级 (A 错题 / B 年级 / C 广度 / D 兜底)
+
+子命令：`npm run test:obs / test:links / test:track / test:streak / test:recos` 单跑某段。
 
 第一段（observability）的 5 个 case：
 
