@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/observability-dry-run.cjs'
+      - 'package.json'
+      - '.github/workflows/test.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/observability-dry-run.cjs'
+      - 'package.json'
+
+jobs:
+  observability:
+    name: Observability dry-run · 8 case
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node 20 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run npm test
+        run: npm test
+      - name: Surface log on failure
+        if: failure()
+        run: |
+          echo '::error title=Observability dry-run failed::scripts/observability-dry-run.cjs returned non-zero. See log above.'
