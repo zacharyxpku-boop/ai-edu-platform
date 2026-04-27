@@ -418,57 +418,28 @@ body{
         </div>
     </header>
 
-    <!-- 左：学科树 -->
+    <!-- 左：学科树（P0-C 初一全册 10 章铺满）-->
     <aside class="rail-l" id="rail-l">
-        <h3>学科 · 章节</h3>
+        <h3>初一数学 · 全册</h3>
+        <div id="subj-math-tree"></div>
 
-        <div class="subj open" data-subj="math">
-            <div class="subj-row">
-                <span class="em">📚</span>
-                <span>数学 · 初一</span>
-                <span class="arr">▶</span>
-            </div>
-            <div class="kps">
-                <div class="kp done" data-kp="math.7.ch3.kp1">
-                    <span class="ic">✓</span><span>一元一次方程概念</span>
-                </div>
-                <div class="kp done" data-kp="math.7.ch3.kp2">
-                    <span class="ic">✓</span><span>等式性质</span>
-                </div>
-                <div class="kp active" data-kp="math.7.ch3.kp3">
-                    <span class="ic">●</span><span>解方程·移项</span>
-                </div>
-                <div class="kp" data-kp="math.7.ch3.kp4">
-                    <span class="ic"></span><span>解方程·去分母</span>
-                </div>
-                <div class="kp" data-kp="math.7.ch3.kp5">
-                    <span class="ic"></span><span>应用题·行程</span>
-                </div>
-                <div class="kp" data-kp="math.7.ch3.kp6">
-                    <span class="ic"></span><span>应用题·工程</span>
-                </div>
-                <div class="kp" data-kp="math.7.ch3.kp7">
-                    <span class="ic"></span><span>应用题·浓度</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="subj">
-            <div class="subj-row locked">
-                <span class="em">📐</span><span>整式与几何</span>
-                <span class="lock">🔒 内测后开</span>
-            </div>
-        </div>
+        <h3 style="margin-top:18px">其他学科</h3>
         <div class="subj">
             <div class="subj-row locked">
                 <span class="em">🧪</span><span>物理 · 初二</span>
-                <span class="lock">🔒 待开</span>
+                <span class="lock">🔒 内测开</span>
             </div>
         </div>
         <div class="subj">
             <div class="subj-row locked">
                 <span class="em">🌍</span><span>英语 · 初一</span>
-                <span class="lock">🔒 待开</span>
+                <span class="lock">🔒 内测开</span>
+            </div>
+        </div>
+        <div class="subj">
+            <div class="subj-row locked">
+                <span class="em">📖</span><span>语文 · 初一</span>
+                <span class="lock">🔒 内测开</span>
             </div>
         </div>
 
@@ -826,7 +797,135 @@ if (TOPIC_CODE && TOPIC_CODE !== 'math.7.ch3.kp3') {
     addSystemHint(`📍 你刚做完「${kpDisplay}」练习 · 直接说卡哪儿就行`);
     input.placeholder = `比如：${kpDisplay} 那一题我没看懂为什么...`;
 }
+
+// ─── 学科 hub 错题切片 "🤖 讲讲" 入口: ?q=err_id&topic=keyword 自动 prefill ───
+(function () {
+    const qid = params.get('q');
+    const topicKw = params.get('topic');
+    if (!qid && !topicKw) return;
+    let errPool = [];
+    try { errPool = JSON.parse(localStorage.getItem('ydzx_errors_pool') || '[]') || []; } catch(_){}
+    const e = qid ? errPool.find(x => x.id === qid) : null;
+    if (e) {
+        const tag = e.keyword || (e.mistakeTags && e.mistakeTags[0]) || topicKw || '错题';
+        addSystemHint(`📕 带着这道错题来的 · 「${tag}」 · 阶段 ${e.reviewCount || 0}/3`);
+        input.placeholder = `就这道题:「${(e.question || '').slice(0, 40).replace(/[\n\r]/g,' ')}…」 我做的时候卡在...`;
+        input.value = `老师，这道${tag}的题我没做对，你能讲讲吗？\n\n题目：${(e.question || '').slice(0, 200)}\n我答的：${e.studentAnswer || '(未记录)'}\n正解：${e.correctAnswer || '(未记录)'}`;
+    } else if (topicKw) {
+        addSystemHint(`📍 你想问「${topicKw}」 · 直接说卡在哪一步`);
+        input.placeholder = `比如：${topicKw} 那一题我没看懂为什么...`;
+    }
+})();
 input.focus();
+
+// ─── 左栏初一数学全册 10 章树（P0-C 铺满）───
+// 数据 hardcode（避免冷启动 fetch 卡 UX）；后续可改 fetch /api/knowledge-tree
+const GRADE7_MATH_TREE = [
+    { ch: 1, name: '有理数', kps: [
+        ['math.7.ch1.kp1', '正数与负数'],
+        ['math.7.ch1.kp2', '数轴'],
+        ['math.7.ch1.kp3', '绝对值与相反数'],
+        ['math.7.ch1.kp4', '有理数加减法'],
+        ['math.7.ch1.kp5', '有理数乘除与乘方'],
+    ]},
+    { ch: 2, name: '整式的加减', kps: [
+        ['math.7.ch2.kp1', '单项式与多项式'],
+        ['math.7.ch2.kp2', '整式概念与次数'],
+        ['math.7.ch2.kp3', '合并同类项'],
+        ['math.7.ch2.kp4', '去括号与添括号'],
+    ]},
+    { ch: 3, name: '一元一次方程', open: true, kps: [
+        ['math.7.ch3.kp1', '一元一次方程概念'],
+        ['math.7.ch3.kp2', '等式性质'],
+        ['math.7.ch3.kp3', '解方程·移项'],
+        ['math.7.ch3.kp4', '解方程·去分母'],
+        ['math.7.ch3.kp5', '应用题·行程'],
+        ['math.7.ch3.kp6', '应用题·工程'],
+        ['math.7.ch3.kp7', '应用题·浓度'],
+    ]},
+    { ch: 4, name: '几何图形初步', kps: [
+        ['math.7.ch4.kp1', '立体图形与平面图形'],
+        ['math.7.ch4.kp2', '直线·射线·线段'],
+        ['math.7.ch4.kp3', '角的概念与表示'],
+        ['math.7.ch4.kp4', '角度的度量与计算'],
+        ['math.7.ch4.kp5', '余角·补角·对顶角'],
+    ]},
+    { ch: 5, name: '相交线与平行线', kps: [
+        ['math.7.ch5.kp1', '相交线与邻补角'],
+        ['math.7.ch5.kp2', '同位角·内错角·同旁内角'],
+        ['math.7.ch5.kp3', '平行线的判定'],
+        ['math.7.ch5.kp4', '平行线的性质'],
+        ['math.7.ch5.kp5', '平移'],
+    ]},
+    { ch: 6, name: '实数', kps: [
+        ['math.7.ch6.kp1', '平方根·算术平方根'],
+        ['math.7.ch6.kp2', '立方根'],
+        ['math.7.ch6.kp3', '实数概念与分类'],
+    ]},
+    { ch: 7, name: '平面直角坐标系', kps: [
+        ['math.7.ch7.kp1', '有序数对·坐标系建立'],
+        ['math.7.ch7.kp2', '点的坐标·象限'],
+        ['math.7.ch7.kp3', '坐标变换·平移'],
+    ]},
+    { ch: 8, name: '二元一次方程组', kps: [
+        ['math.7.ch8.kp1', '二元一次方程组概念'],
+        ['math.7.ch8.kp2', '代入消元法'],
+        ['math.7.ch8.kp3', '加减消元法'],
+        ['math.7.ch8.kp4', '方程组应用题'],
+    ]},
+    { ch: 9, name: '不等式与不等式组', kps: [
+        ['math.7.ch9.kp1', '不等式概念与性质'],
+        ['math.7.ch9.kp2', '一元一次不等式'],
+        ['math.7.ch9.kp3', '不等式解集·数轴表示'],
+        ['math.7.ch9.kp4', '一元一次不等式组'],
+    ]},
+    { ch: 10, name: '数据的收集整理', kps: [
+        ['math.7.ch10.kp1', '统计调查'],
+        ['math.7.ch10.kp2', '直方图'],
+        ['math.7.ch10.kp3', '从数据谈起'],
+    ]},
+];
+
+function renderMathTree() {
+    const wrap = document.getElementById('subj-math-tree');
+    if (!wrap) return;
+    const html = GRADE7_MATH_TREE.map(c => {
+        const kpsHtml = c.kps.map(([code, name]) => {
+            const isCurrent = code === TOPIC_CODE;
+            return `<div class="kp${isCurrent ? ' active' : ''}" data-kp="${code}">
+                <span class="ic">${isCurrent ? '●' : ''}</span><span>${name}</span>
+            </div>`;
+        }).join('');
+        return `<div class="subj${c.open || c.ch === parseInt((TOPIC_CODE.match(/ch(\d+)/) || [])[1]) ? ' open' : ''}" data-subj="math-ch${c.ch}">
+            <div class="subj-row">
+                <span class="em">${c.ch <= 5 ? '📚' : '📖'}</span>
+                <span>第 ${c.ch} 章 · ${c.name}</span>
+                <span class="arr">▶</span>
+            </div>
+            <div class="kps">${kpsHtml}</div>
+        </div>`;
+    }).join('');
+    wrap.innerHTML = html;
+
+    // 重新绑定章节折叠 + KP 点击事件（被 innerHTML 替换覆盖）
+    wrap.querySelectorAll('.subj-row').forEach(row => {
+        row.addEventListener('click', () => row.parentElement.classList.toggle('open'));
+    });
+    wrap.querySelectorAll('.kp').forEach(kp => {
+        kp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            wrap.querySelectorAll('.kp').forEach(k => k.classList.remove('active'));
+            kp.classList.add('active');
+            const code = kp.dataset.kp;
+            const name = kp.querySelector('span:last-child').textContent;
+            document.getElementById('now-kp').textContent = name;
+            addSystemHint(`📍 切到「${name}」 · 直接说卡哪儿`);
+            input.focus();
+            if (window.innerWidth < 1024) closeRails();
+        });
+    });
+}
+renderMathTree();
 
 // ─── 右栏接真数据 · loadKpStates ───
 // 替换 hardcode 0.62 / 明天 19:00 / 移项忘记变号 3 次 这些字面量
