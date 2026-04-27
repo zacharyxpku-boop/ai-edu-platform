@@ -1,0 +1,110 @@
+{
+  "version": "1.0",
+  "generated": "2026-04-26",
+  "source": "E-EVAL (AI-EDU-LAB)",
+  "license": "MIT",
+  "attribution": "Hou et al., E-EVAL: A Comprehensive Chinese K-12 Education Evaluation Benchmark, ACL 2024 Findings",
+  "url": "https://github.com/AI-EDU-LAB/E-EVAL",
+  "totals": {
+    "questions": 236,
+    "topics_with_questions": 13,
+    "topics_empty": 1
+  },
+  "per_target": {
+    "E-EVAL Middle School Math": {
+      "files": 3,
+      "questions_kept": 77
+    },
+    "E-EVAL High School Math": {
+      "files": 3,
+      "questions_kept": 144
+    },
+    "E-EVAL Primary School Math": {
+      "files": 3,
+      "questions_kept": 15
+    }
+  },
+  "per_topic": {
+    "math.7.expr.integer": {
+      "name": "整式·定义与运算",
+      "stage": "middle",
+      "grade": 7,
+      "count": 6
+    },
+    "math.7.frac.expr": {
+      "name": "分式",
+      "stage": "middle",
+      "grade": 7,
+      "count": 4
+    },
+    "math.7.geom.basics": {
+      "name": "几何图形·基础",
+      "stage": "middle",
+      "grade": 7,
+      "count": 86
+    },
+    "math.8.geom.triangle": {
+      "name": "三角形",
+      "stage": "middle",
+      "grade": 8,
+      "count": 16
+    },
+    "math.9.func.quadratic": {
+      "name": "二次函数",
+      "stage": "middle",
+      "grade": 9,
+      "count": 17
+    },
+    "math.9.eq.quadratic": {
+      "name": "一元二次方程",
+      "stage": "middle",
+      "grade": 9,
+      "count": 11
+    },
+    "math.9.geom.circle": {
+      "name": "圆",
+      "stage": "middle",
+      "grade": 9,
+      "count": 35
+    },
+    "math.9.stat": {
+      "name": "统计与概率",
+      "stage": "middle",
+      "grade": 9,
+      "count": 17
+    },
+    "math.7.eq.linear": {
+      "name": "一元一次方程",
+      "stage": "middle",
+      "grade": 7,
+      "count": 3
+    },
+    "math.h.func": {
+      "name": "函数·概念与性质",
+      "stage": "high",
+      "grade": 10,
+      "count": 62
+    },
+    "math.8.ineq": {
+      "name": "一元一次不等式",
+      "stage": "middle",
+      "grade": 8,
+      "count": 16
+    },
+    "math.8.func.linear": {
+      "name": "一次函数",
+      "stage": "middle",
+      "grade": 8,
+      "count": 5
+    },
+    "math.h.set": {
+      "name": "集合与逻辑",
+      "stage": "high",
+      "grade": 10,
+      "count": 18
+    }
+  },
+  "empty_topics": [
+    "math.8.eq.system"
+  ]
+}

@@ -1,0 +1,30 @@
+# 每天 04:00 北京时间（20:00 UTC）批量抽取前一天的对话隐性信号
+# Free plan Vercel 没 cron，用 GitHub Actions 替代
+
+name: Extract Dialogue Signals (Daily)
+
+on:
+  schedule:
+    - cron: '0 20 * * *'        # 每天 04:00 北京 = 20:00 UTC
+  workflow_dispatch:             # 也支持手动触发
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call extract endpoint
+        run: |
+          for i in 1 2 3 4 5; do
+            echo "Batch $i ..."
+            response=$(curl -sS -X POST \
+              "${{ secrets.PROD_HOST }}/api/extract-dialogue-signals?limit=200" \
+              -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}" \
+              -H "Content-Type: application/json")
+            echo "$response"
+            processed=$(echo "$response" | grep -o '"processed":[0-9]*' | head -1 | grep -o '[0-9]*')
+            if [ "$processed" = "0" ] || [ -z "$processed" ]; then
+              echo "Done, no more pending."
+              break
+            fi
+            sleep 5
+          done

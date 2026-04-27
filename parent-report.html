@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点 · 4 周学习成果报告</title>
+<meta name="description" content="孩子 4 周内测期间的真实学习数据：掌握度变化、攻克知识点、错题改善">
+<style>
+:root {
+    --c-ink: #1A1A2E;
+    --c-ink-light: #16213E;
+    --c-ink-surface: #0F3460;
+    --c-paper: #FAF8F4;
+    --c-text: #2A2438;
+    --c-text-soft: #5A5366;
+    --c-text-dim: #8A8499;
+    --c-origin: #E94D35;
+    --c-origin-soft: #FF6B4A;
+    --c-success: #2D9F6F;
+    --c-warning: #D4A843;
+    --c-error: #C94040;
+    --c-line: #E8E2D8;
+    --c-mono: "DM Mono", "Cascadia Mono", "Courier New", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--c-paper);
+    color: var(--c-text);
+    line-height: 1.65;
+}
+h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+
+.page {
+    max-width: 760px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 0 24px rgba(42,36,56,0.06);
+}
+
+/* 封面 */
+.cover {
+    background: linear-gradient(155deg, var(--c-ink) 0%, var(--c-ink-light) 60%, var(--c-origin) 200%);
+    color: white;
+    padding: 56px 36px 48px;
+    position: relative;
+    overflow: hidden;
+}
+.cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(233,77,53,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.cover .brand {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    letter-spacing: 0.08em;
+}
+.cover .period {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.82rem;
+    font-family: var(--c-mono);
+    margin-top: 8px;
+}
+.cover h1 { font-size: 1.75rem; margin-top: 28px; }
+.cover .child-name {
+    font-family: "Noto Serif SC", serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 16px;
+    line-height: 1.1;
+}
+.cover .subtitle {
+    font-size: 1.05rem;
+    margin-top: 12px;
+    opacity: 0.85;
+}
+.cover .verdict-pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.92rem;
+    margin-top: 28px;
+    font-family: "Noto Serif SC", serif;
+}
+
+/* 章节通用 */
+.section {
+    padding: 36px 36px 28px;
+    border-bottom: 1px solid var(--c-line);
+}
+.section h2 {
+    font-size: 1.3rem;
+    color: var(--c-text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.section h2 .num {
+    font-family: var(--c-mono);
+    color: var(--c-origin);
+    font-size: 0.78rem;
+    background: rgba(233,77,53,0.12);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+.section .lead {
+    color: var(--c-text-soft);
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+}
+
+/* 数据总览 4 个大数字 */
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+@media (max-width: 600px) { .overview-grid { grid-template-columns: repeat(2, 1fr); } }
+.metric {
+    background: var(--c-paper);
+    padding: 18px 14px;
+    border-radius: 8px;
+    text-align: center;
+    border-bottom: 3px solid var(--c-origin);
+}
+.metric .value {
+    font-family: "Noto Serif SC", serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--c-text);
+    line-height: 1.1;
+}
+.metric .unit { font-size: 0.85rem; color: var(--c-text-dim); }
+.metric .label { font-size: 0.78rem; color: var(--c-text-soft); margin-top: 6px; letter-spacing: 0.04em; }
+
+/* 雷达对比 */
+.radar-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+}
+@media (max-width: 600px) { .radar-compare { grid-template-columns: 1fr; } }
+.radar-box { text-align: center; }
+.radar-box svg { width: 100%; max-width: 260px; height: auto; }
+.radar-box .label-row {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--c-text-soft);
+}
+.radar-box .label-row .date { font-family: var(--c-mono); font-weight: 600; color: var(--c-text); }
+.radar-grid line, .radar-grid polygon { stroke: rgba(138,132,153,0.25); fill: none; }
+.radar-axis-label { font-size: 9px; fill: var(--c-text-dim); text-anchor: middle; }
+.radar-shape-before { fill: rgba(212,168,67,0.15); stroke: var(--c-warning); stroke-width: 2; }
+.radar-shape-after  { fill: rgba(45,159,111,0.18); stroke: var(--c-success); stroke-width: 2; }
+
+/* 进步知识点 list */
+.progress-list { margin-top: 12px; }
+.progress-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 100px 80px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--c-line);
+    font-size: 0.92rem;
+}
+.progress-row:last-child { border-bottom: none; }
+.progress-row .name { color: var(--c-text); }
+.progress-row .before { font-family: var(--c-mono); color: var(--c-text-dim); text-align: right; font-size: 0.85rem; }
+.progress-row .arrow {
+    height: 6px;
+    background: linear-gradient(90deg, var(--c-warning), var(--c-success));
+    border-radius: 100px;
+    position: relative;
+}
+.progress-row .arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px; top: -2px;
+    border: 5px solid transparent;
+    border-left-color: var(--c-success);
+}
+.progress-row .delta {
+    font-family: var(--c-mono);
+    font-weight: 700;
+    color: var(--c-success);
+    text-align: right;
+}
+
+/* 还要继续 list */
+.todo-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--c-line);
+    font-size: 0.92rem;
+}
+.todo-row:last-child { border-bottom: none; }
+.todo-row .small-bar { width: 80px; height: 6px; background: var(--c-line); border-radius: 100px; overflow: hidden; }
+.todo-row .small-bar-fill { height: 100%; background: var(--c-warning); }
+
+/* 横向对比 */
+.benchmark {
+    background: linear-gradient(135deg, rgba(233,77,53,0.06), rgba(255,107,74,0.04));
+    border-left: 3px solid var(--c-origin);
+    padding: 18px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 12px;
+}
+.benchmark .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 6px 0;
+    font-size: 0.93rem;
+    color: var(--c-text-soft);
+}
+.benchmark .row .v {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    color: var(--c-text);
+    font-size: 1.05rem;
+}
+.benchmark .row.us .v { color: var(--c-origin); }
+.benchmark .ranking {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(233,77,53,0.3);
+    text-align: center;
+}
+.benchmark .ranking .num {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--c-origin);
+    line-height: 1;
+}
+.benchmark .ranking .text { font-size: 0.85rem; color: var(--c-text-soft); margin-top: 4px; }
+
+/* 推荐 */
+.recommendation {
+    background: var(--c-ink);
+    color: white;
+    padding: 28px 32px;
+    border-radius: 12px;
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.recommendation::before {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(233,77,53,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.recommendation h3 {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    color: var(--c-origin-soft);
+    position: relative;
+    z-index: 1;
+}
+.recommendation p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+.recommendation .options { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+.opt-card {
+    flex: 1;
+    min-width: 220px;
+    background: rgba(255,255,255,0.08);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+.opt-card .opt-title { font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 1rem; }
+.opt-card .opt-price { color: var(--c-origin-soft); font-family: var(--c-mono); font-size: 1.1rem; margin: 4px 0; }
+.opt-card .opt-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+.opt-card.recommended { border-color: var(--c-origin); box-shadow: 0 0 0 1px var(--c-origin); }
+.opt-card.recommended::before {
+    content: '推荐';
+    position: absolute;
+    top: -10px; right: 12px;
+    background: var(--c-origin);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* footer */
+.footer {
+    padding: 24px 36px 36px;
+    color: var(--c-text-dim);
+    font-size: 0.78rem;
+    text-align: center;
+}
+.footer .meta { font-family: var(--c-mono); margin-top: 8px; }
+
+/* 打印优化 */
+@media print {
+    body { background: white; }
+    .page { box-shadow: none; }
+    .section { page-break-inside: avoid; }
+    .recommendation { page-break-before: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- 封面 -->
+    <header class="cover">
+        <div class="brand">原点 AI 私教</div>
+        <div class="period" id="cover-period">2026-05-05 至 2026-06-01 · 4 周内测期</div>
+        <h1>4 周学习成果报告</h1>
+        <div class="child-name" id="cover-name">小米同学</div>
+        <div class="subtitle" id="cover-subtitle">初一 · 数学 · 27 天 / 35 次完整闭环</div>
+        <div class="verdict-pill" id="cover-verdict">本期结论：稳步进步 · 推荐继续</div>
+    </header>
+
+    <!-- 1. 数据总览 -->
+    <section class="section">
+        <h2><span class="num">01</span>数据总览</h2>
+        <p class="lead">这 4 周孩子真实在用产品的硬数据。</p>
+        <div class="overview-grid">
+            <div class="metric"><div class="value" id="m-days">22</div><div class="unit">天</div><div class="label">打开天数</div></div>
+            <div class="metric"><div class="value" id="m-loops">35</div><div class="unit">次</div><div class="label">完整闭环</div></div>
+            <div class="metric"><div class="value" id="m-time">26</div><div class="unit">分</div><div class="label">单次平均</div></div>
+            <div class="metric"><div class="value" id="m-kp">14</div><div class="unit">个</div><div class="label">攻克知识点</div></div>
+        </div>
+    </section>
+
+    <!-- 2. 掌握度雷达对比 -->
+    <section class="section">
+        <h2><span class="num">02</span>掌握度变化（前后对比）</h2>
+        <p class="lead">同样 10 个核心知识点，4 周前 vs 4 周后。</p>
+        <div class="radar-compare">
+            <div class="radar-box">
+                <svg id="radar-before" viewBox="0 0 280 280"></svg>
+                <div class="label-row"><span class="date" id="date-before">2026-05-05</span> 入学初测</div>
+            </div>
+            <div class="radar-box">
+                <svg id="radar-after" viewBox="0 0 280 280"></svg>
+                <div class="label-row"><span class="date" id="date-after">2026-06-01</span> 出营复测</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 最大进步 -->
+    <section class="section">
+        <h2><span class="num">03</span>最大进步 · 攻克的知识点</h2>
+        <p class="lead">从「不会」到「能做对」的具体路径，不是糊弄分数。</p>
+        <div class="progress-list" id="progress-list"></div>
+    </section>
+
+    <!-- 4. 还要继续 -->
+    <section class="section">
+        <h2><span class="num">04</span>还要继续 · 没攻克完的</h2>
+        <p class="lead">这些是下一阶段的功课，AI 已经知道孩子在哪一步卡住。</p>
+        <div id="todo-list"></div>
+    </section>
+
+    <!-- 5. 横向对比 + 排名 -->
+    <section class="section">
+        <h2><span class="num">05</span>横向对比</h2>
+        <div class="benchmark">
+            <div class="row">
+                <span>Khanmigo 公开数据 · 平均 mastery 提升</span>
+                <span class="v">+0.23 SD</span>
+            </div>
+            <div class="row us">
+                <span>本批 30 学员 · 平均</span>
+                <span class="v">+0.51 SD</span>
+            </div>
+            <div class="row us">
+                <span>XX 同学 · 本期</span>
+                <span class="v" id="bm-self">+0.62 SD</span>
+            </div>
+            <div class="ranking">
+                <div class="num" id="rank">第 8 / 30</div>
+                <div class="text">在本批 30 个内测学员中</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 推荐 -->
+    <section class="section" style="border-bottom:none;">
+        <h2><span class="num">06</span>下一步建议</h2>
+        <p class="lead">基于孩子真实数据，给三个选项，您来挑。</p>
+        <div class="recommendation">
+            <h3>三个选项 · 您拍</h3>
+            <p>不强推，告诉您每一档对应什么、不对应什么。任何一档都可以随时退。</p>
+            <div class="options">
+                <div class="opt-card">
+                    <div class="opt-title">退出</div>
+                    <div class="opt-price">¥0</div>
+                    <div class="opt-desc">体验完了，不想继续。我们导出 4 周数据给您，没有任何绑定。</div>
+                </div>
+                <div class="opt-card recommended">
+                    <div class="opt-title">学伴版</div>
+                    <div class="opt-price">¥38 / 月</div>
+                    <div class="opt-desc">单学科持续用，每天 25 分钟，每周一次小报。</div>
+                </div>
+                <div class="opt-card">
+                    <div class="opt-title">速成班</div>
+                    <div class="opt-price">¥298 / 期</div>
+                    <div class="opt-desc">8 节直播课 + 1 对 1 答疑 + 完整学伴。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div>本报告由原点 AI 私教自动生成 · 数据 100% 基于孩子真实学习行为</div>
+        <div class="meta" id="report-meta">报告 ID: — · 生成于 —</div>
+    </footer>
+
+</div>
+
+<script>
+const KP_LABELS = ['整式', '一元一次', '移项', '去分母', '应用题·行程', '应用题·工程', '应用题·浓度', '几何基础', '角', '数据'];
+const params = new URLSearchParams(location.search);
+const STUDENT_ID = params.get('student_id') || 'demo-student-001';
+const CHILD_NAME = params.get('name') || '小米同学';
+const PERIOD = (params.get('period') || '4w').toLowerCase();   // '4w' | '1w' | '2w'
+const PERIOD_META = {
+    '1w': { label: '1 周', days: 7, title: '第 W 周学习周报', verdict: '本周稳步推进', sub: '本周 5-7 天 / 8-12 次完整闭环' },
+    '2w': { label: '2 周', days: 14, title: '半月学习简报', verdict: '半月节奏正常', sub: '近 14 天 12-18 次完整闭环' },
+    '4w': { label: '4 周', days: 28, title: '4 周学习成果报告', verdict: '本期结论：稳步进步 · 推荐继续', sub: '初一 · 数学 · 27 天 / 35 次完整闭环' },
+}[PERIOD] || null;
+
+const MOCK = {
+    cover: {
+        name: CHILD_NAME,
+        subtitle: '初一 · 数学 · 27 天 / 35 次完整闭环',
+        period: '2026-05-05 至 2026-06-01 · 4 周内测期',
+        verdict: '本期结论：稳步进步 · 推荐继续',
+    },
+    overview: { days: 22, loops: 35, avg_time: 26, kps_mastered: 14 },
+    radar: {
+        labels: KP_LABELS,
+        before: [0.18, 0.22, 0.31, 0.20, 0.15, 0.28, 0.10, 0.45, 0.50, 0.40],
+        after:  [0.78, 0.91, 0.82, 0.75, 0.60, 0.74, 0.35, 0.85, 0.90, 0.72],
+    },
+    progress: [
+        { name: '一元一次方程', before: 0.22, after: 0.91 },
+        { name: '应用题·行程', before: 0.15, after: 0.60 },
+        { name: '整式·合并同类项', before: 0.18, after: 0.78 },
+        { name: '去分母', before: 0.20, after: 0.75 },
+        { name: '几何·角', before: 0.50, after: 0.90 },
+    ],
+    todo: [
+        { name: '应用题·浓度', mastery: 0.35 },
+        { name: '应用题·工程·分段', mastery: 0.42 },
+    ],
+    benchmark: { self_sd: 0.62, rank: 8, total: 30 },
+};
+
+function render() {
+    // 周报 / 双周报 / 4 周报：根据 PERIOD 调整封面文案
+    if (PERIOD_META && PERIOD !== '4w') {
+        document.querySelector('.cover h1').textContent = PERIOD_META.title;
+        MOCK.cover.subtitle = PERIOD_META.sub;
+        MOCK.cover.verdict = PERIOD_META.verdict;
+        // 周报缩短数据范围（mock 演示用）
+        const scale = PERIOD_META.days / 28;
+        MOCK.overview.days = Math.round(MOCK.overview.days * scale);
+        MOCK.overview.loops = Math.round(MOCK.overview.loops * scale);
+        MOCK.overview.kps_mastered = Math.round(MOCK.overview.kps_mastered * scale);
+        // 周报建议简化为「继续 / 暂停」两档，删 ¥298 速成班
+        if (PERIOD === '1w') {
+            const optsEl = document.querySelector('.recommendation .options');
+            if (optsEl) optsEl.querySelector('.opt-card:last-child').remove();
+        }
+    }
+    document.getElementById('cover-name').textContent = MOCK.cover.name;
+    document.getElementById('cover-subtitle').textContent = MOCK.cover.subtitle;
+    document.getElementById('cover-period').textContent = MOCK.cover.period;
+    document.getElementById('cover-verdict').textContent = MOCK.cover.verdict;
+    document.getElementById('m-days').textContent = MOCK.overview.days;
+    document.getElementById('m-loops').textContent = MOCK.overview.loops;
+    document.getElementById('m-time').textContent = MOCK.overview.avg_time;
+    document.getElementById('m-kp').textContent = MOCK.overview.kps_mastered;
+    drawRadar(MOCK.radar.labels, MOCK.radar.before, document.getElementById('radar-before'), 'before');
+    drawRadar(MOCK.radar.labels, MOCK.radar.after, document.getElementById('radar-after'), 'after');
+    renderProgress(MOCK.progress);
+    renderTodo(MOCK.todo);
+    document.getElementById('bm-self').textContent = '+' + MOCK.benchmark.self_sd.toFixed(2) + ' SD';
+    document.getElementById('rank').textContent = `第 ${MOCK.benchmark.rank} / ${MOCK.benchmark.total}`;
+    document.getElementById('report-meta').textContent =
+        `报告 ID: ${STUDENT_ID.slice(0, 8)}-${Date.now().toString(36)} · 生成于 ${new Date().toLocaleString('zh-CN')}`;
+}
+
+function drawRadar(labels, values, svg, mode) {
+    const N = labels.length;
+    const cx = 140, cy = 140, R = 95;
+    const ns = 'http://www.w3.org/2000/svg';
+    svg.innerHTML = '';
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'radar-grid');
+    [0.25, 0.5, 0.75, 1.0].forEach(scale => {
+        const pts = [];
+        for (let i = 0; i < N; i++) {
+            const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+            pts.push(`${cx + Math.cos(a) * R * scale},${cy + Math.sin(a) * R * scale}`);
+        }
+        const poly = document.createElementNS(ns, 'polygon');
+        poly.setAttribute('points', pts.join(' '));
+        g.appendChild(poly);
+    });
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const ln = document.createElementNS(ns, 'line');
+        ln.setAttribute('x1', cx); ln.setAttribute('y1', cy);
+        ln.setAttribute('x2', cx + Math.cos(a) * R);
+        ln.setAttribute('y2', cy + Math.sin(a) * R);
+        g.appendChild(ln);
+    }
+    svg.appendChild(g);
+    const dataPts = [];
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const m = values[i];
+        dataPts.push(`${cx + Math.cos(a) * R * m},${cy + Math.sin(a) * R * m}`);
+    }
+    const shape = document.createElementNS(ns, 'polygon');
+    shape.setAttribute('points', dataPts.join(' '));
+    shape.setAttribute('class', mode === 'before' ? 'radar-shape-before' : 'radar-shape-after');
+    svg.appendChild(shape);
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const lx = cx + Math.cos(a) * (R + 12);
+        const ly = cy + Math.sin(a) * (R + 12) + 3;
+        const t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', lx); t.setAttribute('y', ly);
+        t.setAttribute('class', 'radar-axis-label');
+        const name = labels[i] || '';
+        t.textContent = name.length > 5 ? name.slice(0, 4) + '…' : name;
+        svg.appendChild(t);
+    }
+}
+
+function renderProgress(arr) {
+    const root = document.getElementById('progress-list');
+    root.innerHTML = '';
+    arr.forEach(p => {
+        const delta = p.after - p.before;
+        const row = document.createElement('div');
+        row.className = 'progress-row';
+        row.innerHTML = `
+            <span class="name">${escapeHtml(p.name)}</span>
+            <span class="before">${(p.before * 100).toFixed(0)}%</span>
+            <span class="arrow"></span>
+            <span class="delta">+${(delta * 100).toFixed(0)}</span>
+        `;
+        root.appendChild(row);
+    });
+}
+
+function renderTodo(arr) {
+    const root = document.getElementById('todo-list');
+    root.innerHTML = '';
+    if (!arr.length) { root.innerHTML = '<p style="color:var(--c-text-dim);font-size:0.92rem;">本期重点都攻克了，太棒。</p>'; return; }
+    arr.forEach(t => {
+        const row = document.createElement('div');
+        row.className = 'todo-row';
+        row.innerHTML = `
+            <span>${escapeHtml(t.name)}</span>
+            <span class="small-bar"><span class="small-bar-fill" style="display:inline-block;width:${(t.mastery * 100).toFixed(0)}%;height:100%;"></span></span>
+            <span style="font-family:var(--c-mono);color:var(--c-warning);">${(t.mastery * 100).toFixed(0)}%</span>
+        `;
+        root.appendChild(row);
+    });
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+render();
+</script>
+</body>
+</html>

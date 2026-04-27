@@ -1,0 +1,6205 @@
+{
+  "version": "1.0",
+  "generated": "2026-04-26",
+  "source": "E-EVAL",
+  "license": "MIT",
+  "topic_rules_count": 14,
+  "questions": [
+    {
+      "id": "eeval-Middle_School_Mathematics_dev-0",
+      "type": "mcq",
+      "stem": "1．下列说法：①a为任意有理数, 总是正数；②如果，则a是负数；③单项式的系数与次数分别为—4和4；④代数式、 、都是整式．其中正确的有（  ）",
+      "options": {
+        "A": "4个",
+        "B": "3个",
+        "C": "2个",
+        "D": "1个"
+      },
+      "answer": "D",
+      "explanation": "①因为{a}^{2}≥0，所以{a}^{2} 总是非负数，①不正确；②当a=0时，此式仍成立，但0不是负数，故②错误；③单项式中前面的数字因数是单项式的系数，单项式中所有字母的指数和是单项式的次数，故③正确；④\\frac2b是分式，不是整式，故④错误，正确的有1个，故选D．",
+      "topic_ids": [
+        "math.7.expr.integer",
+        "math.7.frac.expr"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_dev.csv",
+        "row": 0
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_dev-2",
+      "type": "mcq",
+      "stem": "等腰三角形一底角为50°，则顶角的度数是（  ）",
+      "options": {
+        "A": "65°",
+        "B": "70°",
+        "C": "80°",
+        "D": "40°"
+      },
+      "answer": "C",
+      "explanation": "试题分析：根据等腰三角形的性质及三角形的内角和定理即可求得结果.由题意得顶角的度数是180°-50°×2=80°，故选C.考点：等腰三角形的性质，三角形的内角和定理点评：本题属于基础应用题，只需学生熟练掌握等腰三角形的性质及三角形的内角和定理，即可完成.",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_dev.csv",
+        "row": 2
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-2",
+      "type": "mcq",
+      "stem": "抛物线 y=x^{2}+2x-3的顶点坐标是（        ）",
+      "options": {
+        "A": "(-1,4)",
+        "B": "(1,4)",
+        "C": "(-1,-4)",
+        "D": "(1,4)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 2
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-3",
+      "type": "mcq",
+      "stem": "今年是祖国母亲60岁生日，小明、小敏、小新商量要在国庆前夕给祖国母亲献礼，决定画5幅国画表达大伙的爱国之情．小明说：“我来出一道数学题：把剪5幅国画的任务分配给3个人，每人至少1幅，有多少种分配方法？”小敏想了想说：“设各人的任务为x、y、z，可以列出方程x+y+z=5．”小新接着说：“那么问题就成了问这个方程有几个正整数解．”现在请你说说看：这个方程正整数解的个数是（    ）",
+      "options": {
+        "A": "7个",
+        "B": "6个",
+        "C": "5个",
+        "D": "4个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.45,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-5",
+      "type": "mcq",
+      "stem": "已知直角坐标系中，点P（x，y）满足\\sqrt{x^{2}-4} ＋（y+3）^{2}＝0，则点P坐标为（   ）",
+      "options": {
+        "A": "（2，-3）",
+        "B": "（-2，3）",
+        "C": "（2，3）",
+        "D": "（2，-3）或（-2，-3）"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 5
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-6",
+      "type": "mcq",
+      "stem": "用•表示实心圆，用〇表示空心圆，现有若干实心圆和空心圆按下列规律排列，•〇••〇•••〇•〇••〇•••〇•〇••〇•••〇⋯，则前2008个圆中的实心圆有（　　）",
+      "options": {
+        "A": "1337 个",
+        "B": "1338 个",
+        "C": "1339 个",
+        "D": "1340 个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 6
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-10",
+      "type": "mcq",
+      "stem": "抛掷一枚硬币，若抛掷3次都是正面朝上，则抛掷第4次正面朝上的概率为(   )",
+      "options": {
+        "A": "小于\\frac12",
+        "B": "等于\\frac12",
+        "C": "大于\\frac12",
+        "D": "无法确定"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 10
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-13",
+      "type": "mcq",
+      "stem": "解方程\\frac{2x+1}{3}-\\frac{10x-1}{6}=1去分母,正确的是（   ）",
+      "options": {
+        "A": "2x+1{-}10x{-}1{=}1",
+        "B": "4x+2-10x-1=6",
+        "C": "4x+2-10x+1=1",
+        "D": "4x+2-10x+1=6"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.eq.linear"
+      ],
+      "primary_topic": "math.7.eq.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 13
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-15",
+      "type": "mcq",
+      "stem": "在平面直角坐标系中，设二次函数y_{1}=x^{2}+bx+a，y_{2}=ax^{2}+bx+1（a，b是实数，a\\neq0）的最小值分别为m和n，则（　　）",
+      "options": {
+        "A": "若m-n=0，则m=n=0",
+        "B": "若m+n=0，则m=n=0",
+        "C": "若m+n=1，则m=n=0.5",
+        "D": "若m-n=1，则m=1，n=0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic",
+        "math.h.func"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 15
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-19",
+      "type": "mcq",
+      "stem": "若一次函数的图像经过第一、二、四象限，则下列不等式中总是成立的是（ ）",
+      "options": {
+        "A": "a^{2}+b>0",
+        "B": "a-b>0",
+        "C": "b＜0",
+        "D": "a+b>0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq",
+        "math.8.func.linear",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 19
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-20",
+      "type": "mcq",
+      "stem": "y=x2+（1﹣a）x+1是关于x的二次函数，当x的取值范围是1≤x≤3时，y在x=1时取得最大值，则实数a的取值范围是（　　）",
+      "options": {
+        "A": "a≤﹣5",
+        "B": "a≥5",
+        "C": "a=7",
+        "D": "a≥7"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic",
+        "math.h.func"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 20
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-22",
+      "type": "mcq",
+      "stem": "以下列各组数为边长，能构成直角三角形的是（　　）",
+      "options": {
+        "A": "5，12，13",
+        "B": "9，16，25",
+        "C": "1,1,1",
+        "D": "2,3,5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 22
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-23",
+      "type": "mcq",
+      "stem": "一元二次方程x2+4x=3配方后化为（     ）",
+      "options": {
+        "A": "(x+2)2=3",
+        "B": "(x+2)2=7",
+        "C": "(x-2)2=7",
+        "D": "(x+2)2=-1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 23
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-27",
+      "type": "mcq",
+      "stem": "锐角三角形中，任意两个内角之和必大于（    ）",
+      "options": {
+        "A": "120°",
+        "B": "100°",
+        "C": "90°",
+        "D": "60°"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 27
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-30",
+      "type": "mcq",
+      "stem": "已知单项式2x^{4}y^{2}与的和-3xy^{b}仍是一个单项式，则a-b=（    ）",
+      "options": {
+        "A": "-8",
+        "B": "8",
+        "C": "-1",
+        "D": "1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.expr.integer"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 30
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-38",
+      "type": "mcq",
+      "stem": "在平面直角坐标系中，若点A(1,m)到原点的距离小于或等于5，则m的取值范围是（  ）",
+      "options": {
+        "A": "0\\leq m\\leq2\\sqrt{6}",
+        "B": "0\\leq m\\leq\\sqrt{26}",
+        "C": "-\\sqrt{26}\\leq m\\leq\\sqrt{26}",
+        "D": "-2\\sqrt{6}\\leq m\\leq2\\sqrt{6}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 38
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-41",
+      "type": "mcq",
+      "stem": "如果顺次连接四边形的各边中点得到的四边形是矩形，那么原来四边形的对角线一定满足的条件是（    ）",
+      "options": {
+        "A": "互相平分",
+        "B": "相等",
+        "C": "互相垂直",
+        "D": "互相垂直平分"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 41
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-45",
+      "type": "mcq",
+      "stem": "下列命题中，真命题为()1任意三点确定一个圆；2平分弦的直径垂直于弦；3，90度的圆周角所对的弦是直径；4同弧或等弧所对的圆周角相等．",
+      "options": {
+        "A": "2,3",
+        "B": "3,4",
+        "C": "2,3,4",
+        "D": "1,2,3,4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 45
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-47",
+      "type": "mcq",
+      "stem": "直角三角形的三边长分别是6，8，x,则x2的值是（   ）",
+      "options": {
+        "A": "10",
+        "B": "100",
+        "C": "28",
+        "D": "28或100"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 47
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-49",
+      "type": "mcq",
+      "stem": "已知(x_{1},y_{1}),(x_{1}-1,y_{2})是直线y=ax+2（a为常数）上的两点，若y_{1}<y_{2}，则a的值可以是（　　）",
+      "options": {
+        "A": "-1",
+        "B": "0",
+        "C": "1",
+        "D": "2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 49
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-53",
+      "type": "mcq",
+      "stem": "已知甲、乙两种商品质量的方差分别是s2甲=11.25，s2乙=17.35，表明（  ）",
+      "options": {
+        "A": "甲商品质量比乙商品质量稳定",
+        "B": "乙商品质量比甲商品质量稳定",
+        "C": "甲商品质量与乙商品质量相同",
+        "D": "无法比较"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 53
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-55",
+      "type": "mcq",
+      "stem": "若一元二次方程x2−4x+4m=0有两个相等的实数根，则正比例函数y=（m+2）x的图象所在的象限是（　　）",
+      "options": {
+        "A": "第一、二象限",
+        "B": "第一、三象限",
+        "C": "第二、四象限",
+        "D": "第三、四象限"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.func.linear",
+        "math.9.eq.quadratic",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.func.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 55
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-58",
+      "type": "mcq",
+      "stem": "若平行四边形的一边长为7，则它的两条对角线长可以是（　　）",
+      "options": {
+        "A": "12和2",
+        "B": "3和4",
+        "C": "14和16",
+        "D": "4和8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 58
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-59",
+      "type": "mcq",
+      "stem": "某校将举行一场“汉字电脑录入大赛”，要求各班推选一名同学参加比赛．为此，初三（1）班组织了五轮班级选拔赛，在这五轮选拔赛中，甲、乙两位同学的平均分都是95分，甲的成绩的方差是0.3，乙的成绩的方差是0.7，根据以上数据，下列说法正确的是（ ）",
+      "options": {
+        "A": "甲的成绩比乙的成绩稳定",
+        "B": "乙的成绩比甲的成绩稳定",
+        "C": "甲、乙两人的成绩一样稳定",
+        "D": "无法确定甲、乙的成绩谁更稳定"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 59
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-64",
+      "type": "mcq",
+      "stem": "直线y=-5x向上平移2个单位长度，得到的直线的解析式为（    ）",
+      "options": {
+        "A": "y=5x+2",
+        "B": "y=-5x+2",
+        "C": "y=5x-2",
+        "D": "y=-5x-2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 64
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-69",
+      "type": "mcq",
+      "stem": "已知\\begin{array}{c}\\angle A\\\\\\end{array}是锐角，\\tan A=\\sqrt{3}，那么\\begin{array}{c}\\angle A\\\\\\end{array}的度数是（　　）",
+      "options": {
+        "A": "15^{\\circ}",
+        "B": "30^{\\circ}",
+        "C": "45^{\\circ}",
+        "D": "60^{\\circ}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 69
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-70",
+      "type": "mcq",
+      "stem": "已知∠A为锐角，且tan A＝\\sqrt{3}，则∠A度数为（    ）",
+      "options": {
+        "A": "30°",
+        "B": "45°",
+        "C": "60°",
+        "D": "30°或60°"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 70
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-72",
+      "type": "mcq",
+      "stem": "等腰三角形中有一个角是30°，则其底角的度数是（    ）",
+      "options": {
+        "A": "75°",
+        "B": "30°",
+        "C": "75°或30°",
+        "D": "120°或30°"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 72
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-73",
+      "type": "mcq",
+      "stem": "用配方法解方程x^{2}-3x-2=0时，该方程可变形为（    ）",
+      "options": {
+        "A": "\\left(x-\\frac32\\right)^{2}=\\frac14",
+        "B": "\\left(x-\\frac{3}{2}\\right)^{2}=\\frac{17}{4}",
+        "C": "\\left(x-3\\right)^{2}=2",
+        "D": "\\left(x-3\\right)^{2}=11"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.eq.linear",
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.7.eq.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 73
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-74",
+      "type": "mcq",
+      "stem": "若一元二次方程(k－1)x2＋2kx＋k＋3＝0有实数根，则k的取值范围是(   )",
+      "options": {
+        "A": "k≤\\frac32",
+        "B": "k＜\\frac32",
+        "C": "k≤\\frac32且k≠1",
+        "D": "k≥\\frac32"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 74
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-80",
+      "type": "mcq",
+      "stem": "在圆面积公式S=\\pi R^{2}中，变量是（ ）",
+      "options": {
+        "A": "S",
+        "B": "S与\\pi\\",
+        "C": "S与R",
+        "D": "都是"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 80
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-82",
+      "type": "mcq",
+      "stem": "单项式\\frac{-xy^{2}  }{2}的系数是（    ）",
+      "options": {
+        "A": "-1",
+        "B": "\\frac{-1}{2}",
+        "C": "\\frac{1}{2}",
+        "D": "-2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.expr.integer"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 82
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-83",
+      "type": "mcq",
+      "stem": "下列说法：①三点确定一个圆；②同弧所对的圆周角度数相等；③90°的角所对的弦是直径；④圆的切线垂直于半径；⑤三角形的外心到三角形的三个顶点的距离相等．其中正确的有（   ）",
+      "options": {
+        "A": "1个",
+        "B": "2个",
+        "C": "3个",
+        "D": "4个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle",
+        "math.9.func.quadratic",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 83
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-85",
+      "type": "mcq",
+      "stem": "7位同学中考体育测试立定跳远成绩（单位：分）分别是：8，9，7，6，10，8，9，这组数据的中位数是（    ）",
+      "options": {
+        "A": "6",
+        "B": "8",
+        "C": "9",
+        "D": "10"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 85
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-86",
+      "type": "mcq",
+      "stem": "若点A在一次函数y=5x+7的图象上，则点A一定不在（  ）",
+      "options": {
+        "A": "第一象限",
+        "B": "第二象限",
+        "C": "第三象限",
+        "D": "第四象限"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.func.linear",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.func.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 86
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-87",
+      "type": "mcq",
+      "stem": "下列关于x的方程中，一定是一元二次方程的是 （  ）",
+      "options": {
+        "A": "5x2＝0",
+        "B": "2x2＋y＋1＝0",
+        "C": "x2－6x+2",
+        "D": "\\frac1{x^2}\\quad+\\mathrm{x=2}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 87
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-92",
+      "type": "mcq",
+      "stem": "正六边形是轴对称图形，它的对称轴有（    ）",
+      "options": {
+        "A": "6条",
+        "B": "4条",
+        "C": "3条",
+        "D": "12条"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 92
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-94",
+      "type": "mcq",
+      "stem": "已知某快递公司的收费标准为：寄一件物品不超过5千克，收费10元；超过5千克的部分每千克加收2元．圆圆在该快递公司寄一件8千克的物品，需要收费（    ）",
+      "options": {
+        "A": "16元",
+        "B": "15元",
+        "C": "12元",
+        "D": "18元"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 94
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-95",
+      "type": "mcq",
+      "stem": "不透明的袋子里有50张2022年北京冬奥会宣传卡片，卡片上印有冬奥会会徽、吉祥物冰墩墩、吉祥物雪容融图案，每张卡片只有一种图案，除图案不同外其余均相同，其中印有冰墩墩的卡片共有n张．若从中随机摸出1张卡片，摸出印有冰墩墩图案的概率是1/5，则n的值是（    ）",
+      "options": {
+        "A": "25",
+        "B": "10",
+        "C": "5",
+        "D": "3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 95
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-96",
+      "type": "mcq",
+      "stem": "若关于x的不等式组\\begin{cases}x<2\\\\x\\leq a\\end{cases}的解集是x\\leq a，则a的取值范围是（    ）",
+      "options": {
+        "A": "a<2",
+        "B": "a\\leq2",
+        "C": "a>2",
+        "D": "a\\geq2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 96
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-98",
+      "type": "mcq",
+      "stem": "在反比例函数y=\\frac{-2}{x}图象上的点的坐标是（　　）",
+      "options": {
+        "A": "(-1,-2)",
+        "B": "(-1/2,4)",
+        "C": "(-2,-1)",
+        "D": "(-1/2,-4)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 98
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-101",
+      "type": "mcq",
+      "stem": "九年级某同学6次数学小测验的成绩分别为：90分，95分，96分，96分，95分，89分，则该同学这6次成绩的中位数是（　　）",
+      "options": {
+        "A": "94",
+        "B": "95分",
+        "C": "95.5分",
+        "D": "96分"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 101
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-103",
+      "type": "mcq",
+      "stem": "已知关于x的一元二次方程ax^{2}+bx+c=0，及函数y_{1}=\\frac{\\alpha}{x}，y_{2}=cx+b（a，b，c为常数，且ac\\neq0），则（    ）",
+      "options": {
+        "A": "若方程ax^{2}+bx+c=0有解，则函数y_{1},y_{2}的图象一定有交点",
+        "B": "若方程ax^{2}+bx+c=0有解，则函数y_{1},y_{2}的图象一定没有交点",
+        "C": "若方程ax^{2}+bx+c=0无解，则函数y_{1},y_{2}的图象一定有交点",
+        "D": "若方程ax^{2}+bx+c=0无解，则函数y_{1},y_{2}的图象一定没有交点"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic",
+        "math.h.func"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 103
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-104",
+      "type": "mcq",
+      "stem": "下列函数中，对于任意实数x，y随x的增大而减小的是(   ).",
+      "options": {
+        "A": "y=\\frac{1}{2x}",
+        "B": "y=\\frac{2}{x}",
+        "C": "y=-x+2",
+        "D": "y=2x^{2}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 104
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-106",
+      "type": "mcq",
+      "stem": "如果关于x的不等式（a+1）x>2的解集为x<-1，则a的值是（    ）．",
+      "options": {
+        "A": "a=3",
+        "B": "a£-3",
+        "C": "a=-3",
+        "D": "a>3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 106
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-110",
+      "type": "mcq",
+      "stem": "现有一列数：6，3，3，4，5，4，3，增加一个数x后，这列数的中位数仍不变．则x可能是（    ）",
+      "options": {
+        "A": "4",
+        "B": "3",
+        "C": "2",
+        "D": "1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 110
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-114",
+      "type": "mcq",
+      "stem": "已知三点P_1(a,b),P_2(c,d),P_3\\left(m^2+3,-1\\right)在同一个反比例函数图像上，若a<0，c>0，则下列式子正确的是（    ）．",
+      "options": {
+        "A": "b<d<0",
+        "B": "b<0<d",
+        "C": "b>d>0",
+        "D": "b>0>d"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 114
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-116",
+      "type": "mcq",
+      "stem": "若正比例函数y=kx的图象在第一、三象限，则k的取值可以是（   ）",
+      "options": {
+        "A": "1",
+        "B": "0或1",
+        "C": "±1",
+        "D": "–1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.func.linear",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.func.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 116
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-117",
+      "type": "mcq",
+      "stem": "下列各式中是最简分式的是（    ）",
+      "options": {
+        "A": "\\frac4{2x}",
+        "B": "\\frac{2x}{x^{2}y}",
+        "C": "\\frac{x-y}{x^{2}-y^{2}}",
+        "D": "\\frac{2x}{x+1}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.frac.expr"
+      ],
+      "primary_topic": "math.7.frac.expr",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 117
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-120",
+      "type": "mcq",
+      "stem": "在下列各组数据中，不能作为直角三角形三边边长的是（　 　）",
+      "options": {
+        "A": "3，3，3",
+        "B": "3，4，5",
+        "C": "5，12，13",
+        "D": "6，8，10"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 120
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-126",
+      "type": "mcq",
+      "stem": "在平面直角坐标系的第一象限内有一点M，点M到x轴的距离为3，到y轴的距离为4，则点M的坐标是（     ）",
+      "options": {
+        "A": "（3，-4）",
+        "B": "（4，-3）",
+        "C": "（3，4）",
+        "D": "（4，3）"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 126
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-128",
+      "type": "mcq",
+      "stem": "小马虎同学做一道“解一元一次不等式”的作业，解答过程如下图，在①、②、③、④四个步骤中，小马虎同学一共做错了（    ）步．\\frac{x-3}2-\\frac{1-2x}3>1解3(x-3)-2(1-2x)>1，①3x-9-2-4x>1②-x>-10③x>10，④",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 128
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-130",
+      "type": "mcq",
+      "stem": "下列分式变形从左到右一定成立的是（    ）",
+      "options": {
+        "A": "\\frac{a}{b}=\\frac{a^{2}}{b^{2}}",
+        "B": "\\frac{a}{b}=\\frac{ac}{bc}",
+        "C": "\\frac{ac}{bc}=\\frac{a}{b}",
+        "D": "\\frac{-a}{-b}=-\\frac{a}{b}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.frac.expr"
+      ],
+      "primary_topic": "math.7.frac.expr",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 130
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-131",
+      "type": "mcq",
+      "stem": "一元二次方程x^{2}-1=2x+3根的情况是（      ）．",
+      "options": {
+        "A": "有两个相等的实数根",
+        "B": "有两个不相等的实数根",
+        "C": "没有实数根",
+        "D": "只有一个实数根"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 131
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-133",
+      "type": "mcq",
+      "stem": "下列分式中是最简分式的是（    ）",
+      "options": {
+        "A": "\\frac4{2x}",
+        "B": "\\frac{2x}{x^{2}+1}",
+        "C": "\\frac{x+1}{x^{2}-1}",
+        "D": "\\frac{a^2}a"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.frac.expr"
+      ],
+      "primary_topic": "math.7.frac.expr",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 133
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-134",
+      "type": "mcq",
+      "stem": "下列关于x的方程中，一定是一元二次方程的为（        ）",
+      "options": {
+        "A": "ax^{2}+bx+c=0",
+        "B": "x^{2}-2=\\left(x+3\\right)^{2}",
+        "C": "(k-1)x^{2}=\\mathbf{0}",
+        "D": "x^{2}-1=0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 134
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-139",
+      "type": "mcq",
+      "stem": "将抛物线y＝x2沿直线y＝x向上平移\\sqrt{2}个单位，得到的抛物线的解析式为（　　）",
+      "options": {
+        "A": "y＝（x﹣1）2+1",
+        "B": "y＝（x+1）2﹣1",
+        "C": "y＝（x+1）2+1",
+        "D": "y＝（x﹣1）2﹣1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 139
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-144",
+      "type": "mcq",
+      "stem": "关于x的一元二次方程x^{2}+2mx+m^{2}-m=0的两实数根x_{1},x_{2}，满足x_{1}x_{2}=2，则(x_{1}^{2}+2)(x_{2}^{2}+2)的值是（  ）",
+      "options": {
+        "A": "8",
+        "B": "16",
+        "C": "32",
+        "D": "16或40"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 144
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-147",
+      "type": "mcq",
+      "stem": "已知线段a，b，c，d成比例线段，a= 0.8，c= 1.2，那么b，d的值分别是（　　）",
+      "options": {
+        "A": "0.4，1",
+        "B": "0.8，1.6",
+        "C": "1，2",
+        "D": "2，3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 147
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-148",
+      "type": "mcq",
+      "stem": "下列代数式中，整式共有（    ）个①-\\frac12a^{2}b  ②\\frac{2x+3y}{\\pi}  ③3a-2b+\\frac{1}{x}  ④x^{2}+y^{2}-1",
+      "options": {
+        "A": "3个",
+        "B": "2个",
+        "C": "1个",
+        "D": "4个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.expr.integer"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 148
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-156",
+      "type": "mcq",
+      "stem": "观察下列方程，属于一元一次方程的是（　　）",
+      "options": {
+        "A": "2x-（1-x）",
+        "B": "x-xy=0",
+        "C": "2y2+y-1=0",
+        "D": "x=0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.eq.linear"
+      ],
+      "primary_topic": "math.7.eq.linear",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 156
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-157",
+      "type": "mcq",
+      "stem": "下列各组数中，是勾股数的是（    ）",
+      "options": {
+        "A": "7,8,9",
+        "B": "6,8,11",
+        "C": "5,12,14",
+        "D": "3,4,5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.8.geom.triangle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 157
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-158",
+      "type": "mcq",
+      "stem": "将多项式1-4x^{2}因式分解，正确的是（    ）",
+      "options": {
+        "A": "(2x+1)(2x-1)",
+        "B": "(1-2x)(1+2x)",
+        "C": "(1+2x)(2x-1)",
+        "D": "(1+4x)(1-4x)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.expr.integer"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 158
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-159",
+      "type": "mcq",
+      "stem": "已知平行四边形两邻边长16，20，若两个长边间距离为8，则两条短边间距离(　　)",
+      "options": {
+        "A": "4",
+        "B": "5",
+        "C": "10",
+        "D": "8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 159
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-160",
+      "type": "mcq",
+      "stem": "已知点(m,y_1),(m+1,y_2),(m-1,y_3)都在直线y=-x+n^{2}-14n+45上，则y_{1}，y_{2}，y_{3}的大小关系是（    ）",
+      "options": {
+        "A": "y_{1}>y_{2}>y_{3}",
+        "B": "y_{1}<y_{2}<y_{3}",
+        "C": "y_{3}<y_{1}<y_{2}",
+        "D": "y_{3}>y_{1}>y_{2}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 160
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-161",
+      "type": "mcq",
+      "stem": "圆内接正六边形ABCDEF中，对角线AC和BD相交于点M，则∠AMB的度数是   （      ）",
+      "options": {
+        "A": "60",
+        "B": "120",
+        "C": "30",
+        "D": "120"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 161
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-162",
+      "type": "mcq",
+      "stem": "在平面直角坐标系中，点（1，2）到原点的距离是（    ）",
+      "options": {
+        "A": "1",
+        "B": "\\sqrt{2}",
+        "C": "\\sqrt{3}",
+        "D": "\\sqrt{5}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 162
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-165",
+      "type": "mcq",
+      "stem": "在Rt△ABC中，∠C＝90°，AC＝4，BC＝3，那么∠B的余弦值是（    ）",
+      "options": {
+        "A": "\\frac{3}{5}",
+        "B": "\\frac{4}{5}",
+        "C": "\\frac{3}{4}",
+        "D": "\\frac{4}{3}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 165
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-167",
+      "type": "mcq",
+      "stem": "直线y=-x+3上有两点A(x_{1},y_{1})，B(x_{2},y_{2})，且x_{1}<x_{2}，则y_{1}与y_{2}的大小关系是（    ）",
+      "options": {
+        "A": "y_{1}>y_{2}",
+        "B": "y_{1}=y_{2}",
+        "C": "y_{1}<y_{2}",
+        "D": "无法确定"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 167
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_test-170",
+      "type": "mcq",
+      "stem": "一个不透明的袋中有4个红球，2个白球，除颜色外完全相同，从中随机摸出一个球是白球的概率为（　　）",
+      "options": {
+        "A": "\\frac23",
+        "B": "\\frac13",
+        "C": "\\frac12",
+        "D": "\\frac16"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_test.csv",
+        "row": 170
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-1",
+      "type": "mcq",
+      "stem": "下列各式中，能用平方差公式分解因式的是（    ）",
+      "options": {
+        "A": "#NAME?",
+        "B": "x^{2}+9*y^{2}",
+        "C": "x^{2}-2*y^{2}+1",
+        "D": "#NAME?"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 1
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-2",
+      "type": "mcq",
+      "stem": "已知线段AB＝4cm，点C是直线AB上一点（不同于点A、B）．下列说法：①若点C为线段AB的中点，则AC＝2cm；②若AC＝1cm，则点C为线段AB的四等分点；③若AC+BC＝4cm，则点C一定在线段AB上；④若AC+BC＞4cm，则点C一定在线段AB的延长线上；⑤若AC+BC＝8cm，则AC＝2cm．其中正确的个数有（　　）",
+      "options": {
+        "A": "1个",
+        "B": "2个",
+        "C": "3个",
+        "D": "4个"
+      },
+      "answer": "C",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 2
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-3",
+      "type": "mcq",
+      "stem": "若⊙O的半径是5 cm，A为线段OB的中点，当OB=8 cm时，点A与⊙O的位置关系（　　）",
+      "options": {
+        "A": "点A在⊙O内",
+        "B": "点A在⊙O上",
+        "C": "点A在⊙O外",
+        "D": "不能确定"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-7",
+      "type": "mcq",
+      "stem": "已知反比例函数y=-\\frac{2}{x}，下列各点中，在此函数图象上的点的是（    ）",
+      "options": {
+        "A": "（-2，2）",
+        "B": "（2，2）",
+        "C": "（1，2）",
+        "D": "（2，-1）"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 7
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-10",
+      "type": "mcq",
+      "stem": "下列方程中，一定是关于x的一元二次方程的是（　　）",
+      "options": {
+        "A": "ax^{2}+bx+c=0",
+        "B": "(x-1)^{2}=0",
+        "C": "x^{2}-y-2=0",
+        "D": "x^{2}-\\frac{2}{x}=3"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.eq.quadratic"
+      ],
+      "primary_topic": "math.9.eq.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 10
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-15",
+      "type": "mcq",
+      "stem": "若关于x的不等式组\\begin{cases}x+1>4,\\\\m-x,,1\\end{cases}的解集是x>3，则m的取值范围是(    )",
+      "options": {
+        "A": "m>4",
+        "B": "m=4",
+        "C": "m\\leq4",
+        "D": "m<4"
+      },
+      "answer": "C",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 15
+      }
+    },
+    {
+      "id": "eeval-Middle_School_Mathematics_val-16",
+      "type": "mcq",
+      "stem": "有20瓶饮料，其中有2瓶已过保质期，小明从20瓶饮料中任取1瓶，那么他取到没有过保质期的饮料的概率是（　　）",
+      "options": {
+        "A": "\\frac1{20}",
+        "B": "\\frac2{20}",
+        "C": "\\frac1{18}",
+        "D": "\\frac9{10}"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Middle School Math",
+        "file": "Middle_School_Mathematics_val.csv",
+        "row": 16
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_dev-0",
+      "type": "mcq",
+      "stem": "下列命题中，是正确的全称命题的是( )|",
+      "options": {
+        "A": "对任意的a,b\\in\\mathbb{R}, 都有a^2+b^2-2a-2b+2<0 ;",
+        "B": "菱形的两条对角线相等；",
+        "C": "\\exists x,\\sqrt{x^2}=x\\:;",
+        "D": "对数函数在定义域上是单调函数."
+      },
+      "answer": "D",
+      "explanation": "因为a^{2}+b^{2}-2a-2b+2=\\left(a-1\\right)^{2}+\\left(b-1\\right)^{2}\\geq0；故A是假命题，B在叙述上没有全称量词，故B错误；C是特称命题，故C错误；对数函数，要么在定义域上为增函数，要么为减函数，故D正确.故选:D．",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_dev.csv",
+        "row": 0
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_dev-1",
+      "type": "mcq",
+      "stem": "若集合$A=\\{0,1,2\\}$, 则A有( )个真子集",
+      "options": {
+        "A": "7",
+        "B": "8",
+        "C": "9",
+        "D": "6"
+      },
+      "answer": "A",
+      "explanation": "【分析】由集合A中的元素有3个，把n＝3代入集合的真子集的公式2n﹣1中，即可计算出集合A真子集的个数．【详解】由集合A中的元素有0，1，2,共3个，代入公式得：23﹣1＝7，则集合A的真子集有：∅，{0}， {1}，{2}，{1，0}，{2，1}，{0，2 }，共7个．故选A．【点睛】本题考查集合的子集与真子集个数，解答的关键是掌握当集合中元素有n个时，真子集的个数为2n﹣1．同时注意子集与真子集的区别：子集包含本身，而真子集不包含本身．",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_dev.csv",
+        "row": 1
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_dev-3",
+      "type": "mcq",
+      "stem": "设函数$f( $x$) $的定义域为$_{R}$,有下列三个命题：(1)若存在常数$M$,使得对任意$x\\in R$, 有$f(x)\\leq M$,则$M$ 是函数$f( $x$) $的最大值；(2)若存在：$x_0\\in R$,使得对任意$x\\in R$,且$x\\neq x_0$,有$f(x)<f(x_0)$,则$f(x_0)$是函数$f(x)$的最大值；(3)若存在：$x_0\\in R$,使得对任意$x\\in R$,有$f(x)\\leq f(x_0)$,则$f(x_0)$是函数$f(x)$的最大值； 这些命题中，真命题的",
+      "options": {
+        "A": "0个",
+        "B": "1个",
+        "C": "2个",
+        "D": "3个"
+      },
+      "answer": "C",
+      "explanation": "【解析】根据函数最大值定义进行逐个判断.【详解】对于（1），M不一定是函数f(x)中的值，可能“=”不能取到，故其不正确；因为函数最大值的定义是存在一个函数值不小于其它所有的函数值，则此函数值是函数的最大值，故（2）（3）正确.综上可知正确的有2个.故选C.【点睛】本题是一道关于函数最大值的题目，解答本题的关键是熟练掌握函数最大值的定义：存在一个函数值不小于其它所有的函数值，则此函数值是函数的最大值，属于概念辨析，属于基础题.",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_dev.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-0",
+      "type": "mcq",
+      "stem": "不等式$\\cos x<0,\\quad x\\in\\left[0,2\\pi\\right]$的解集为(  )",
+      "options": {
+        "A": "(0,\\pi)",
+        "B": "(\\pi,2\\pi)",
+        "C": "\\left(\\frac{\\pi}{2},\\frac{3\\pi}{2}\\right)",
+        "D": "\\left(\\frac{3\\pi}2,2\\pi\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 0
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-1",
+      "type": "mcq",
+      "stem": "直线$2x-\\gamma+1=0$关于直线 $x=1$ 对称的直线方程是 ( )",
+      "options": {
+        "A": "\\quad x+ 2y- 1= 0",
+        "B": "2x+y-1=0",
+        "C": "2x+y-5=0",
+        "D": "x+ 2y- 5= 0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 1
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-2",
+      "type": "mcq",
+      "stem": "已知函数 $f(x)=2\\sin x\\cos x-\\sin^2x+1$, 当$x=\\theta$ 时函数 $y=f(x)$ 取得最小值，则$\\frac{\\sin2\\theta+\\cos2\\theta}{\\sin2\\theta-\\cos2\\theta}=(\\quad)$",
+      "options": {
+        "A": "-3",
+        "B": "3",
+        "C": "#NAME?",
+        "D": "\\frac13"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 2
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-3",
+      "type": "mcq",
+      "stem": "003视为小概率事件，工人随机将其中的8个交与质检员检验，则质检员认为设备需检修的概率为（    ）",
+      "options": {
+        "A": "\\frac{44}{45}",
+        "B": "\\frac4{5}",
+        "C": "\\frac35",
+        "D": "\\frac{41}{45}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-4",
+      "type": "mcq",
+      "stem": "设$\\alpha\\in\\left\\{-1,1,\\frac12,3\\right\\}$,则使函数$y=x^\\alpha$ 的定义域为$R$且为奇函数的所有α的值为( )",
+      "options": {
+        "A": "-1，1，3",
+        "B": "\\frac12，1",
+        "C": "-1，3",
+        "D": "1，3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 4
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-6",
+      "type": "mcq",
+      "stem": "三点A(2,-3)，B\\left(4,3\\right)，c{\\left(5,\\frac m2\\right)}在同一条直线上，则m的值为（    ）",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "12",
+        "D": "16"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 6
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-7",
+      "type": "mcq",
+      "stem": "已知集合A=\\left\\{x\\mathrm{d}x^{2}-2x\\leq8\\right\\}B=\\{-2,0\\},下列命题为假命题的是（    ）",
+      "options": {
+        "A": "\\exists x_{0}\\in A,x_{0}\\in B",
+        "B": "\\exists x_{0}\\in B,x_{0}\\in A",
+        "C": "\\forall x\\in A,x\\in B",
+        "D": "\\forall x\\in B,x\\in A"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 7
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-10",
+      "type": "mcq",
+      "stem": "命题“$\\forall x\\in(1,2),\\log_{2}x-a<0$”为真命题的一个充分不必要条件是（    ）",
+      "options": {
+        "A": "a\\geq0",
+        "B": "a\\geq2",
+        "C": "a\\geq1",
+        "D": "a\\leq4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 10
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-12",
+      "type": "mcq",
+      "stem": "设集合A=\\{1,2\\}，A\\bigcup B=\\{1,2,3\\}则满足的集合B的个数是",
+      "options": {
+        "A": "1",
+        "B": "3",
+        "C": "4",
+        "D": "8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 12
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-15",
+      "type": "mcq",
+      "stem": "已知椭圆$C:\\frac x{a^2}+\\frac y{b^2}=1(a>b>0)$的焦距为2$c$,且$a$,$b$,$c$ 成等差数列，则椭圆$C$ 的离心率为( )",
+      "options": {
+        "A": "\\frac35",
+        "B": "\\frac4{5}",
+        "C": "\\frac{\\sqrt{3}}3",
+        "D": "\\frac{\\sqrt{3}}{5}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 15
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-16",
+      "type": "mcq",
+      "stem": "设函数 $f(x)=\\alpha x-2\\alpha+\\mathrm{e}^x(1-x)$ 其中$a<1$,若存在唯一整数$x_0$,使得 $f(x_0)>0$ ,则a的取值范围是（    ）",
+      "options": {
+        "A": "(\\frac{2}{3\\mathrm{e}},1)",
+        "B": "[\\frac{2}{3\\mathrm{e}},\\frac{1}{2})",
+        "C": "(-\\frac{2}{3\\mathrm{e}},1)",
+        "D": "[-{\\frac{2}{3e}},{\\frac{1}{2}})"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 16
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-18",
+      "type": "mcq",
+      "stem": "已知点$F$ 是椭圆$C:\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1(a>b>0)$的右焦点，直线$y=\\frac b2$与椭圆$C$交于A，$B$ 两点，且$\\angle AFB=90^{\\circ}$, 则该椭圆的离心率为( )",
+      "options": {
+        "A": "\\frac{\\sqrt{6}}2",
+        "B": "\\frac{\\sqrt{6}}3",
+        "C": "\\frac{\\sqrt{10}}5",
+        "D": "\\frac23"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 18
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-19",
+      "type": "mcq",
+      "stem": "若不等式\\log_{2}\\frac{1+2^{x}+\\left(1-\\alpha\\right)3^{x}}{3}\\geq\\left(x-1\\right)\\log_{2}3对任意x\\in\\left(-\\infty,1\\right)恒成立，则实数a的范围是（    ）",
+      "options": {
+        "A": "\\left(-\\infty,0\\right]",
+        "B": "\\left(-\\infty,1\\right]",
+        "C": "\\left.\\left[\\begin{matrix}{0,+\\infty}\\\\\\end{matrix}\\right.\\right)",
+        "D": "\\left.\\left[\\begin{matrix}{1,+\\infty}\\\\\\end{matrix}\\right.\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 19
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-23",
+      "type": "mcq",
+      "stem": "已知函数$f( $x$) $的图像关于$x= 2$对称，且对任意$x_1, \\quad x_1\\in ( 2, + \\infty) $,都有$\\begin{bmatrix}f(x_1)-f(x_2)\\end{bmatrix}(x_1-x_2)<0$,设$a= f( - 1) , \\quad b= f( \\pi) , \\quad c= f( $e$) $,则( )",
+      "options": {
+        "A": "\\quad a<c<b",
+        "B": "a<b<c",
+        "C": "b<c<a",
+        "D": "c<a<b"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 23
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-28",
+      "type": "mcq",
+      "stem": "下列四个结论中正确的个数为( )(1)命题“若$x^2<1$,则$-1<x<1$”的逆否命题是“若$x>1$或$x<-1$,则$x^2>1”;\\textcircled{2}$已知$p:\\quad\\forall x\\in R,\\quad sinx\\leq1$, 若$a<b$,则$am^2<bm^2$,$r$为真命题；®命题“$\\exists x\\in R,x^2$一x>0”的否定“$\\forall x\\in R,x^2-x\\leq0$”($\\mathbb{A}^ix>2$”是“x^2>4的必要不充分条件",
+      "options": {
+        "A": "0个",
+        "B": "1个",
+        "C": "2个",
+        "D": "3个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 28
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-29",
+      "type": "mcq",
+      "stem": "\\text{已知两条直线}l_1:3x+y-5=0\\text{ 和}l_2:x-ay=0\\text{ 相互垂直,则}\\alpha=(\\quad)",
+      "options": {
+        "A": "\\frac13",
+        "B": "#NAME?",
+        "C": "-3",
+        "D": "3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 29
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-31",
+      "type": "mcq",
+      "stem": "已知圆$x^2+y^2+4x-2y+\\alpha=0$ 上仅有一点到直线$3x-4y-5=0$ 的距离为1，则实数$a$ 的值为( )",
+      "options": {
+        "A": "11",
+        "B": "-4",
+        "C": "1",
+        "D": "4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 31
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-33",
+      "type": "mcq",
+      "stem": "下列四个命题：①任何数列都有通项公式；②给定了一个数列的通项公式就给定了这个数列；③给出了数列的有限项就可唯一确定这个数列的通项公式；④数列的通项公式a_{n}是项数n的函数其中正确的有(   )",
+      "options": {
+        "A": "1个",
+        "B": "2个",
+        "C": "3个",
+        "D": "4个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 33
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-36",
+      "type": "mcq",
+      "stem": "从正方体的八个顶点中任取三个点为顶点作三角形，其中直角三角形的个数为（    ）",
+      "options": {
+        "A": "56",
+        "B": "52",
+        "C": "48",
+        "D": "40"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 36
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-39",
+      "type": "mcq",
+      "stem": "设$A=\\{\\alpha,b\\}$,$B=\\{a,b,c,d,e,f\\}$,集合$M$ 满足$A$ 苘$M\\quad B$(都是真包含),这样的集合有( )",
+      "options": {
+        "A": "12个",
+        "B": "14个",
+        "C": "13个",
+        "D": "以上都错"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 39
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-40",
+      "type": "mcq",
+      "stem": "已知函数$y=f(x)$在区间$[a,b]$内的图象为连续不断的一条曲线，则“$f(a)\\cdot f(b)<0$” 是“函数$y=f(x)$在区问$[a,b]$内有零点”的(   )",
+      "options": {
+        "A": "充分不必要条件",
+        "B": "必要不充分条件",
+        "C": "充分必要条件",
+        "D": "既不充分也不必要条件"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 40
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-42",
+      "type": "mcq",
+      "stem": "下列函数中，在其定义域上是增函数的是（    ）",
+      "options": {
+        "A": "f(x)=-x",
+        "B": "f(x)=x^{2}",
+        "C": "f\\left(x\\right)=3x",
+        "D": "f\\left(x\\right)=\\frac{1}{x}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 42
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-43",
+      "type": "mcq",
+      "stem": "已知集合$M=\\left\\{m\\left|m=\\alpha+b\\sqrt{2},\\alpha,b\\in{Q}\\right\\}\\right.$,则下列四个元素中属于$M$的元素的个数是（）$(1+\\sqrt{2}\\pi;\\sqrt{11+6\\sqrt{2}};3)\\frac1{2+\\sqrt{2}};4,\\sqrt{2-\\sqrt{3}}+\\sqrt{2+\\sqrt{3}}$",
+      "options": {
+        "A": "4",
+        "B": "3",
+        "C": "2",
+        "D": "1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 43
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-44",
+      "type": "mcq",
+      "stem": "已知椭圆$\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1\\left(a>b>0\\right)$的右焦点为$F$, 椭圆上的$A$, $B$ 两点关于原点对称，  $|FA|=2|FB|$,且$\\overline{FA}\\cdot\\overline{FB}\\leq\\frac49a^2$,则该椭圆离心率的取值范围是 ( )",
+      "options": {
+        "A": "\\left(0,\\frac{\\sqrt{5}}{3}\\right]",
+        "B": "\\left(0,\\frac{\\sqrt{7}}{3}\\right]",
+        "C": "\\left[\\frac{\\sqrt{5}}{3},1\\right)",
+        "D": "\\left[\\frac{\\sqrt{7}}3\\boldsymbol{1}\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 44
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-48",
+      "type": "mcq",
+      "stem": "已知双曲线$\\frac{x^2}{a^2}-\\frac{y^2}3=1(a>0)$ 的右顶点和抛物线 $y^2=8x$ 的焦点重合，则$a$ 的值为( )",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 48
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-49",
+      "type": "mcq",
+      "stem": "已知直线$a,b,c$,若$a$,$b$异面，$b/c$,则$a$,$c$ 的位置关系是 (  )",
+      "options": {
+        "A": "异面",
+        "B": "相交",
+        "C": "平行或异面",
+        "D": "相交或异面"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 49
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-52",
+      "type": "mcq",
+      "stem": "下列从集合A到集合B的对应关系f是函数的是（    ）",
+      "options": {
+        "A": "A＝{－1，0，1}，B＝{－1，0，1}，f：A中的数加1",
+        "B": "A＝{－1，0，1}，B＝{－1，0，1}，f：A中的数取绝对值",
+        "C": "A＝Z，B=Q，f：A中的数取倒数",
+        "D": "A＝{平行四边形}，B＝R，f：求A中平行四边形的面积"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set",
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 52
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-53",
+      "type": "mcq",
+      "stem": "集合 $A=\\{0,2,4,5\\},B=\\{0,3,5,9\\}$,则 $A\\bigcap B=(\\quad)$",
+      "options": {
+        "A": "\\{0,2,3,4,5,9\\}",
+        "B": "\\{0,5\\}",
+        "C": "2,5",
+        "D": "Ø"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 53
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-54",
+      "type": "mcq",
+      "stem": "\\text{  若 }ABCD\\text{为平行四边形,且}A(4,1,3)\\text{,}B(2,-5,1)\\text{,}C(-3,7,-5)\\text{,则顶点}D\\text{ 的坐标为( )}",
+      "options": {
+        "A": "(-1,13,-3)",
+        "B": "(2,3,1)",
+        "C": "(-2,2,1)",
+        "D": "\\left(\\frac72,4,-1\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 54
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-55",
+      "type": "mcq",
+      "stem": "函数$y=\\ln\\sqrt{\\alpha x^2+2x-1}$ 的值域为R，则实数$\\alpha$ 的取值范围是（ ）",
+      "options": {
+        "A": "[0,+\\infty)",
+        "B": "[-1,0)\\cup(0,+\\infty)",
+        "C": "(-\\infty,-1)",
+        "D": "[-1,1)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 55
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-56",
+      "type": "mcq",
+      "stem": "在空间直角坐标系$O$-xyz 中，已知点$A\\left(1,-2,0\\right)$和向量$\\vec{a}=\\left(-3,4,12\\right)$, 且$\\overrightarrow{AB}=2\\vec{a}$, 则点 $B$ 的坐标为( )",
+      "options": {
+        "A": "\\left(-7,10,24\\right)",
+        "B": "\\left(7,-10,-24\\right)",
+        "C": "\\left(-6,8,24\\right)",
+        "D": "(-5,6,24)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 56
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-59",
+      "type": "mcq",
+      "stem": "在平行四边形ABCD中，M是CD边上中点，则2\\overline{A}\\overline{M}=（    ）",
+      "options": {
+        "A": "\\overrightarrow{AC}-2\\overrightarrow{AB}",
+        "B": "\\overrightarrow{AC}+2\\overrightarrow{AB}",
+        "C": "2\\overrightarrow{AC}-\\overrightarrow{AB}",
+        "D": "2\\overrightarrow{AC}+\\overrightarrow{AB}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 59
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-62",
+      "type": "mcq",
+      "stem": "已知函数f(x)=\\begin{cases}x+1&(x<1)\\\\-x+3&(x\\geq1)&\\end{cases}\\text{则}f[f(0)]=(\\quad)",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "3",
+        "D": "6"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 62
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-63",
+      "type": "mcq",
+      "stem": "已知点$F_{1}$为椭圆$C:\\frac{x}{a^2}+\\frac{y}{b^2}=1(a>b>0)$的左焦点，点$A$ 为椭圆$C$ 的左顶点，过原点$O$的直线$\\iota$交椭圆$C$于$P$,$\\varrho$两点，若直线$PF_{1}$平分线段$AQ$,则椭圆$C$ 的离心率$e=( )$",
+      "options": {
+        "A": "\\frac13",
+        "B": "\\frac12",
+        "C": "\\frac23",
+        "D": "\\frac34"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 63
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-64",
+      "type": "mcq",
+      "stem": "在$_{\\Delta}ABC$中，角$A,B,C$所对的边分别是$\\alpha,b,c$,若$\\sin^2B+\\sin^2C=\\sin^2A-\\sqrt3\\sin B\\sin C$ 则角$A$的大小为( )",
+      "options": {
+        "A": "\\frac\\pi6",
+        "B": "\\frac\\pi3",
+        "C": "\\frac{2\\pi}{3}",
+        "D": "\\frac{5\\pi}6"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 64
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-65",
+      "type": "mcq",
+      "stem": "如果\\frac ac>\\frac bc，那么下列不等式中，一定成立的是（    ）",
+      "options": {
+        "A": "ac^{2}>bc^{2}",
+        "B": "a>b",
+        "C": "a-c>b-c",
+        "D": "ac>bc"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 65
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-66",
+      "type": "mcq",
+      "stem": "已知函数$f(x)=\\frac x{e^{x+1}}$,若关于x 的方程$[f(x)]^2+mf(x)-1+m=0$ 恰有 3 个不同的实数解，则实数$m$ 的取值范围是( )",
+      "options": {
+        "A": "\\left(1-\\frac{1}{\\mathbf{e}^{2}},1\\right)",
+        "B": "\\left(1-\\frac{1}{e^{2}},+\\infty\\right)",
+        "C": "(-\\infty,2)\\cup(2,+\\infty)",
+        "D": "\\left.\\left(\\begin{matrix}{1,\\mathrm{e}^{2}}\\\\\\end{matrix}\\right.\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 66
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-67",
+      "type": "mcq",
+      "stem": "\\quad\\text{已知集合 }A=\\left\\{x\\in N|-1\\leq x<3\\right\\},\\quad B=\\left\\{-1,0,2,3\\right\\},\\quad\\text{则}A\\bigcap B=\\quad(\\quad)",
+      "options": {
+        "A": "\\{0,2\\}",
+        "B": "\\left\\{-1,0,2\\right\\}",
+        "C": "\\left\\{2\\right\\}",
+        "D": "\\left\\{0,2,3\\right\\}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 67
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-68",
+      "type": "mcq",
+      "stem": "阿基米德（公元前287年公元前212年）不仅是著名的物理学家，也是著名的数学家，他利用“逼近法”得到椭圆的面积除以圆周率等于椭圆的长半轴长与短半轴长的乘积若椭圆$C$的对称轴为坐标轴，焦点在x轴上，且椭圆$C$的离心率为$\\frac{\\sqrt{3}}{2}$,面积为8$\\pi$,则椭圆$C$的方程为( )",
+      "options": {
+        "A": "\\frac{x^{2}}{4}+\\gamma^{2}=\\mathbf{1}",
+        "B": "\\frac{x^{2}}{16}+\\frac{y^{2}}{4}=1",
+        "C": "\\frac{x^2}{16}+\\frac{y^2}{12}=1",
+        "D": "\\frac{x^{2}}{4}+\\frac{y^{2}}{16}=1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 68
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-69",
+      "type": "mcq",
+      "stem": "\\text{已知向量}\\vec{a}=\\begin{pmatrix}-1,1,0\\end{pmatrix},\\quad\\vec{b}=\\begin{pmatrix}-2,m,0\\end{pmatrix}\\text{,且}\\vec{a}\\text{ 与}\\vec{b}\\text{ 互相平行,则}m=\\text{(}\\quad)",
+      "options": {
+        "A": "-2",
+        "B": "2",
+        "C": "1",
+        "D": "-1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 69
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-70",
+      "type": "mcq",
+      "stem": "若直线 $y=3x$ 上存在一点 $P$,使得$|PB|-|PA|=2$, 则$m$ 的取值范围是( )",
+      "options": {
+        "A": "\\left.\\left(\\begin{matrix}{0,9}\\\\\\end{matrix}\\right.\\right)",
+        "B": "\\left(9,+\\infty\\right)",
+        "C": "\\left(0,\\frac{1}{9}\\right)",
+        "D": "\\left(\\frac{1}{9},+\\infty\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 70
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-71",
+      "type": "mcq",
+      "stem": "\\text{曲线}f(x)=x^2-\\ln x\\text{在点}(1,f(1))\\text{处的切线方程为( )",
+      "options": {
+        "A": "y=2x-1",
+        "B": "y=3-2x",
+        "C": "y=2-x",
+        "D": "y=x"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 71
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-72",
+      "type": "mcq",
+      "stem": "椭圆\\frac{x^{2}}{9}+\\frac{y^{2}}{4}=1的长轴长是（    ）．",
+      "options": {
+        "A": "3",
+        "B": "6",
+        "C": "9",
+        "D": "4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 72
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-73",
+      "type": "mcq",
+      "stem": "已知$\\alpha$, $\\beta$ 都是锐角，且 $tan $\\alpha\\tan\\beta=1+$$\\operatorname{cos}\\beta$$则（   ）",
+      "options": {
+        "A": "2\\alpha=\\beta+\\pi",
+        "B": "2\\alpha=\\pi-\\beta",
+        "C": "3\\alpha=\\pi+\\beta",
+        "D": "3\\alpha=\\pi-\\beta"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 73
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-74",
+      "type": "mcq",
+      "stem": "在锐角$\\Delta ABC$中，角$A$,$B$,$C$的对边分别为$a$,$c$,$\\Delta ABC$ 的面积为S，若$\\sin(A+C)=\\frac{2S}{b^2-c^2}$,则$\\tan C+\\frac1{2\\tan(B-C)}$的最小值为(  )",
+      "options": {
+        "A": "\\sqrt{2}",
+        "B": "2",
+        "C": "1",
+        "D": "2\\sqrt2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 74
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-75",
+      "type": "mcq",
+      "stem": "已知曲线 $y=x+\\frac1b\\ln x$ 在点(1,1)处的切线与直线$x+2y=0$ 垂直，则( )",
+      "options": {
+        "A": "k=1",
+        "B": "k=2",
+        "C": "k=-1",
+        "D": "k=-2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 75
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-77",
+      "type": "mcq",
+      "stem": "在{}_{\\Delta ABC}中，角A，B，C所对的边分别是a，b，c，若，a=4，b=3c则{}_{\\Delta ABC}面积的最大值是（    ）",
+      "options": {
+        "A": "3",
+        "B": "6",
+        "C": "9",
+        "D": "12"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 77
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-78",
+      "type": "mcq",
+      "stem": "直线x-y-1=0的倾斜角是（    ）",
+      "options": {
+        "A": "\\frac\\pi4",
+        "B": "\\frac{2\\pi}{3}",
+        "C": "\\frac{3\\pi}4",
+        "D": "\\frac{5\\pi}{6}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 78
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-82",
+      "type": "mcq",
+      "stem": "已知函数$f\\left(x\\right)=\\sin\\left(2x+\\varphi\\right)(0<\\varphi<\\pi)$满足$f\\left(x\\right)\\leq\\left|f\\left(\\frac\\pi6\\right)\\right|$,若$\\color{red}{0<x_1<x_2<\\pi}$,且$f\\left(x_1\\right)=f\\left(x_2\\right)=-\\frac35\\text{,则}\\sin(x_2-x_1)\\text{的值为( )}$",
+      "options": {
+        "A": "#NAME?",
+        "B": "\\frac35",
+        "C": "\\frac34",
+        "D": "\\frac4{5}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 82
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-86",
+      "type": "mcq",
+      "stem": "则该游戏终止前，至少玩了六局的的概率为（    ）",
+      "options": {
+        "A": "\\frac1{1024}",
+        "B": "\\frac14",
+        "C": "\\frac12",
+        "D": "\\frac{1023}{1024}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 86
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-90",
+      "type": "mcq",
+      "stem": "\\text{己知函数 }f\\left(x\\right)=\\sin2x+\\ln2\\text{,则 }f^{\\prime}\\left(x\\right)=(\\quad)",
+      "options": {
+        "A": "\\cos2x+\\frac{1}{2}",
+        "B": "2\\cos2x+\\frac{1}{2}",
+        "C": "\\text{cos2x}",
+        "D": "\\text{2cos2x}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 90
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-91",
+      "type": "mcq",
+      "stem": "已知不等式$(x+y)\\left(\\frac1x+\\frac ay\\right)\\color{blue}{\\geqslant}9$对任意正实数x，y 恒成立，则正实数 $\\alpha$ 的最小值为$(\\quad)$",
+      "options": {
+        "A": "2",
+        "B": "4",
+        "C": "6",
+        "D": "8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 91
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-92",
+      "type": "mcq",
+      "stem": "在下列区间中，函数f\\left(x\\right)=\\mathbf{e}^{-x}+4x-3的零点所在的区间可能为（    ）",
+      "options": {
+        "A": "\\left(-{\\frac{1}{4}},0\\right)",
+        "B": "\\left(0,\\frac{1}{4}\\right)",
+        "C": "\\left(\\frac{1}{4},\\frac{1}{2}\\right)",
+        "D": "\\left(\\frac{1}{2},\\frac{3}{4}\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 92
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-93",
+      "type": "mcq",
+      "stem": "一圆锥侧面积是其底面积的3倍，则该圆锥侧面展开图圆心角的弧度数为（    ）",
+      "options": {
+        "A": "\\frac{2\\pi}{3}",
+        "B": "\\frac\\pi3",
+        "C": "\\frac\\pi6",
+        "D": "\\pi"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 93
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-96",
+      "type": "mcq",
+      "stem": "已知函数f\\left(x\\right)=\\cos^{2}x+\\sin^{2}\\left(x+\\frac{\\pi}{4}\\right)，则f\\left(x\\right)的最小值为",
+      "options": {
+        "A": "1+\\frac{\\sqrt{2}}2",
+        "B": "\\frac12",
+        "C": "1-\\frac{\\sqrt{2}}2",
+        "D": "1-\\frac{\\sqrt{2}}4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 96
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-112",
+      "type": "mcq",
+      "stem": "已知函数f\\left(x\\right)=\\begin{cases}2\\mathbf{lnx},x>1\\\\x+2,x\\leq1\\end{cases}，若m<n，且f\\left(m\\right)=f\\left(n\\right)，则n-m的取值范围是（    ）",
+      "options": {
+        "A": "\\left[4-2\\mathbf{ln}2,\\mathbf{e}^{\\frac{3}{2}}-\\mathbf{1}\\right)",
+        "B": "\\left[4-2\\mathbf{ln}2,\\mathbf{e}^{\\frac{3}{2}}-\\mathbf{1}\\right]",
+        "C": "\\left[3,\\mathrm{e}^{\\frac{3}{2}}-1\\right]",
+        "D": "\\left[3,\\mathrm{e}^{\\frac{3}{2}}-1\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 112
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-113",
+      "type": "mcq",
+      "stem": "\\text{ 函数 }f(x)=x^a,\\quad a\\in Q\\text{,若}f&apos;(1)=4\\text{,则}a\\text{的值为}",
+      "options": {
+        "A": "B．4",
+        "B": "-4",
+        "C": "5",
+        "D": "-5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 113
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-115",
+      "type": "mcq",
+      "stem": "已知函数 $f\\left(x\\right)=\\sin\\left(\\omega x+\\frac\\pi3\\right)\\left(\\omega>0\\right)$ )在$\\left[0,\\pi\\right]$上恰有 3 个零点，则整数$\\omega$的值为( )",
+      "options": {
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 115
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-119",
+      "type": "mcq",
+      "stem": "定义在R上的奇函数$f(x)$,满足$f(x+4)=-f(x)$,且当$x\\in[0,2]$时，$f(x)=-3^x+1$,$\\text{则 }f\\left(2022\\right)=(\\quad)$",
+      "options": {
+        "A": "8",
+        "B": "2",
+        "C": "-2",
+        "D": "-8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 119
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-120",
+      "type": "mcq",
+      "stem": "若函数 $f( $x$) $是定义在 R 上的偶函数，且在$[0,+\\infty)$单调递增，又 $f(3)=0$ , 则不等式$(x+1)f(x+1)>0$ 的解集是( )",
+      "options": {
+        "A": "(-3,0)\\cup(3,+\\infty)",
+        "B": "\\left(-4,-1\\right)\\cup\\left(2,+\\infty\\right)",
+        "C": "\\begin{pmatrix}-2,1\\end{pmatrix}\\cup\\begin{pmatrix}4,+\\infty\\end{pmatrix}",
+        "D": "\\left(-\\infty,-4\\right)\\cup\\left(-1,2\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 120
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-122",
+      "type": "mcq",
+      "stem": "如果正态总体的数据落在\\left[-3,-1\\right]内的概率和落在\\left[3,5\\right]内的概率相等，那么这个正态总体的数学期望是（    ）",
+      "options": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 122
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-123",
+      "type": "mcq",
+      "stem": "已知$m$,$n$为直线，$\\alpha$为平面，若$m//\\alpha$,$n\\subset\\alpha$,则$m$与$n$的位置关系是( )",
+      "options": {
+        "A": "平行",
+        "B": "相交或异面",
+        "C": "异面",
+        "D": "平行或异面"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 123
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-128",
+      "type": "mcq",
+      "stem": "直三棱柱ABC－A1B1C1中，△ABC为等边三角形， AA1＝AB，M是A1C1的中点，则AM与平面BCC_{1}B_{1}所成角的正弦值为（    ）",
+      "options": {
+        "A": "\\frac7{10}",
+        "B": "\\frac{\\sqrt{15}}{10}",
+        "C": "\\frac{\\sqrt{85}}{10}",
+        "D": "-\\frac{\\sqrt{15}}{10}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 128
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-130",
+      "type": "mcq",
+      "stem": "已知定义在R 的函数$f(x)$满足$f(x)=f(-x)$,且当$x\\in(-\\infty,0]$时，$f(x)+xf^{\\prime}(x)<0$ 成立，若$a=(2^{0.1})f\\left(2^{0.1}\\right)$,$b=(\\ln2)f\\left(\\ln2\\right)$,$c=(\\log_2\\frac18)f(\\log_2\\frac18)$,则$a$,$b$,$c$ 的大小关系是( )",
+      "options": {
+        "A": "a>b>c",
+        "B": "c>b>a",
+        "C": "c>a>b",
+        "D": "a>c>b"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 130
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-132",
+      "type": "mcq",
+      "stem": "随机变量$X$的概率分布为$P(X=n)=\\frac a{n(n+1)}(n=1,2,3)$,其中$a$ 是常数，则$E(X)=$ （    ）",
+      "options": {
+        "A": "\\frac{38}{81}",
+        "B": "\\frac{13}9",
+        "C": "\\frac{152}{243}",
+        "D": "\\frac{52}{2^{7}}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 132
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-138",
+      "type": "mcq",
+      "stem": "已知 $\\tan2\\alpha=-2\\sqrt{2}$,其中$\\alpha$ 是第三象限角，则$\\sin\\left(\\alpha+\\frac\\pi2\\right)\\cos\\left(\\alpha-\\frac\\pi2\\right)$的值为( )",
+      "options": {
+        "A": "\\frac{\\sqrt{2}}{3}",
+        "B": "-\\frac{\\sqrt{2}}{3}",
+        "C": "\\frac{2}{3}",
+        "D": "-\\frac{2}{3}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 138
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-142",
+      "type": "mcq",
+      "stem": "函数 $f(x)=\\frac1{1-x}+\\lg\\left(1+x\\right)$ 的定义域为（ ）",
+      "options": {
+        "A": "\\begin{pmatrix} - \\infty, - 1\\end{pmatrix}",
+        "B": "\\begin{pmatrix}-1,1\\end{pmatrix}\\cup(1,+\\infty)",
+        "C": "\\begin{pmatrix}1,+\\infty\\\\\\end{pmatrix}",
+        "D": "\\begin{bmatrix}-1,1\\end{bmatrix}\\cup(1,+\\infty)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 142
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-144",
+      "type": "mcq",
+      "stem": "若曲线$f\\left(x\\right)=\\frac{\\ln x}x$存在与直线$y=kx$垂直的切线，则$k$的取值范围是( )",
+      "options": {
+        "A": "(-\\infty,0)\\mathrm{U}(0,+\\infty)",
+        "B": "\\left[-\\frac{1}{2e^{3}},0\\right)\\cup(0,+\\infty)",
+        "C": "\\left[-\\sqrt{\\mathbf{e}^{3}},\\mathbf{0}\\right)\\cup(\\mathbf{0},+\\infty)",
+        "D": "\\left(-\\infty,0\\right)\\cup\\left[2\\mathrm{e}^{3},+\\infty\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 144
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-145",
+      "type": "mcq",
+      "stem": "5个车位分别停放了$A,B,C,D,E,5$ 辆不同的车，现将所有车开出后再按$A,B,C,D,E$ 的次序停入这5个车位，则在A 车停入了$B$ 车原来的位置的条件下，停放结束后恰有1辆车停在原来位置上的概率是( )|",
+      "options": {
+        "A": "\\frac38",
+        "B": "\\frac3{40}",
+        "C": "\\frac16",
+        "D": "\\frac1{12}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 145
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-147",
+      "type": "mcq",
+      "stem": "在△ABC中，已知∠A=90°，AB=2，AC=4，点P在以A为圆心且与边BC相切的圆上，则\\overrightarrow{PB}\\cdot\\overrightarrow{PC}的最大值为（    ）",
+      "options": {
+        "A": "\\frac{16}5",
+        "B": "\\frac{36}{5}",
+        "C": "\\frac{46}{5}",
+        "D": "\\frac{56}{5}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 147
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-149",
+      "type": "mcq",
+      "stem": "直线$l_1:\\alpha x-2y+3=0$ 与直线$l_2:x+(\\alpha-1)y-2=0$ 互相垂直，则$a=(-1)$(   )",
+      "options": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "-1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 149
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-150",
+      "type": "mcq",
+      "stem": "定义在R 上的函数$f(x)$,若$f(x-1)$的图像关于点(1,0)对称，且$f(2)=3$, 若函数$y=f(x)-x$ 在$\\left[0,+\\infty\\right)$上单调递增，则不等式 $f\\left(x+1\\right)<x$ 的解集为( )",
+      "options": {
+        "A": "\\begin{pmatrix} - \\infty, - 3\\end{pmatrix}",
+        "B": "\\begin{pmatrix}-\\infty,-2\\end{pmatrix}",
+        "C": "\\begin{pmatrix}2,+\\infty\\end{pmatrix}",
+        "D": "\\begin{pmatrix}3,+\\infty\\end{pmatrix}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 150
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-151",
+      "type": "mcq",
+      "stem": "已知函数$f(x)=\\frac{1}{3}x^{3}+\\frac{1}{2}(a^{2}+1)x^{2}+a^{2}x+a$,则“$\\alpha<-1$”是“函数$f(x)$在：x=-1处取得极小值”的（  ）",
+      "options": {
+        "A": "充分而不必要条件",
+        "B": "必要而不充分条件",
+        "C": "充要条件",
+        "D": "既不充分也不必要条件"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 151
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-152",
+      "type": "mcq",
+      "stem": "若直线y=kx+1与圆O:x^{2}+y^{2}=1q交于A、B两点，且\\angle AOB=60^{°}，则实数k等于（    ）",
+      "options": {
+        "A": "\\pm\\sqrt{3}",
+        "B": "\\pm\\frac{\\sqrt{3}}3",
+        "C": "\\pm\\frac13",
+        "D": "\\pm3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 152
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-153",
+      "type": "mcq",
+      "stem": "用与圆柱底面成角60^{\\circ}的平面截圆柱，得到一完整的椭圆截面，则该椭圆的离心率为",
+      "options": {
+        "A": "\\frac12",
+        "B": "\\frac{\\sqrt{2}}2",
+        "C": "\\frac{\\sqrt{3}}3",
+        "D": "\\frac{\\sqrt{3}}2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 153
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-155",
+      "type": "mcq",
+      "stem": "直线3x+\\sqrt{3}y-a=0的倾斜角为（    ）",
+      "options": {
+        "A": "30°",
+        "B": "60°",
+        "C": "120°",
+        "D": "150°"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 155
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-156",
+      "type": "mcq",
+      "stem": "函数f(x)=\\begin{cases}2^{-x}-1,x\\leq0,\\\\x^{\\frac12},x>0,&\\end{cases}\\text{满足 }f(x)=1\\text{ 的 x 值为}",
+      "options": {
+        "A": "1",
+        "B": "-1",
+        "C": "1或2",
+        "D": "1或-1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 156
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-160",
+      "type": "mcq",
+      "stem": "经过点(2,1)的直线与圆$O:x^2+y^2=25$交于A，$B$ 两点，则$_{\\Delta}OAB$ 面积的最大值为( )",
+      "options": {
+        "A": "2\\sqrt{6}",
+        "B": "2\\sqrt{21}",
+        "C": "10",
+        "D": "\\frac{25}2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 160
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-165",
+      "type": "mcq",
+      "stem": "已知函数$f(x)$的定义域为R，$f(2x+1)$为奇函数，$f(x-1)=f(-x-1)$ 则( )",
+      "options": {
+        "A": "f(0)=0",
+        "B": "f(3)=0",
+        "C": "f(7)=0",
+        "D": "f(5)=0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 165
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-166",
+      "type": "mcq",
+      "stem": "六名教师随机分配到三所学校任教，每个学校分配两名教师，则甲、乙被分配到同一所学校的概率为（    ）",
+      "options": {
+        "A": "\\frac15",
+        "B": "\\frac14",
+        "C": "\\frac13",
+        "D": "\\frac12"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 166
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-167",
+      "type": "mcq",
+      "stem": "设 $x\\in R$ ,则$\\ln x>0$ 的一个充分不必要条件是( )",
+      "options": {
+        "A": "\\quad x> \\sqrt {2}",
+        "B": "x>0",
+        "C": "x>1",
+        "D": "x< - 1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 167
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-168",
+      "type": "mcq",
+      "stem": "简单来说就是对于满足一定条件的连续函数 f\\left(x\\right)\\text{,存在一个点}x_{0}\\text{ ,使得 }f\\left(x_{0}\\right)=x_{0},，那么我们称该函数为“不动点”函数，下列为“不动点”函数的是（    ）",
+      "options": {
+        "A": "f(x)=\\mathbf{1}\\mathbf{m}",
+        "B": "f\\left(x\\right)=x^{2}-3\\sin2x+1",
+        "C": "f(x)=\\mathbf{e}^{x}",
+        "D": "f\\left(x\\right)=x+\\frac{1}{x}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 168
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-169",
+      "type": "mcq",
+      "stem": "已知$P(-3$,4)是角$\\alpha$ 的终边上的点，则$\\tan\\alpha=(\\quad)$",
+      "options": {
+        "A": "\\quad \\frac 45",
+        "B": "- \\frac{3}{5}",
+        "C": "-\\frac{4}{3}",
+        "D": "- \\frac 34"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 169
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-170",
+      "type": "mcq",
+      "stem": "函数f（x）=sin（2x+\\frac{3\\pi}2）是（　　）",
+      "options": {
+        "A": "最小正周期为\\pi的奇函数",
+        "B": "最小正周期为\\pi的偶函数",
+        "C": "最小正周期为\\pi/2的奇函数",
+        "D": "最小正周期为\\pi/2的偶函数"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 170
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-171",
+      "type": "mcq",
+      "stem": "过直线2x-y+4=0{\\text{与 }x-y+5}=0的交点，且在y轴上截距为8的直线的方程是(　　)",
+      "options": {
+        "A": "2x+y-8=0",
+        "B": "2x-y-8=0",
+        "C": "2x+y+8=0",
+        "D": "2x-y+8=0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 171
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-173",
+      "type": "mcq",
+      "stem": "设$F_1$, $F_{2}$是椭圆$E: \\quad \\left \\{ \\mathrm{x} ^{\\wedge }\\{ 2\\} \\right \\} \\left \\{ \\mathrm{a} ^{\\wedge }\\{ 2\\} \\right \\} + \\left \\{ \\mathrm{frac}\\{ \\mathrm{y} ^{\\wedge }\\{ 2\\} \\right \\} = 1( $a$> $b$> 0) $的左、右 焦点，过点$F_{1}$斜率为$\\frac{\\sqrt{3}}{2}$的直线交椭圆于点$P$,若$2\\angle PF_1F_2=\\angle PF_2F_1$,则椭圆$E$的离心率是( )",
+      "options": {
+        "A": "\\sqrt{3}+1",
+        "B": "\\sqrt{3}-1",
+        "C": "\\frac{\\sqrt{3}}3",
+        "D": "\\frac{\\sqrt{2}}2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.func.linear",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.6,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 173
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-174",
+      "type": "mcq",
+      "stem": "\\text{已知直线}l_1:2x+y+2=0\\text{,}l_2:2x+y=0\\text{,则}l_1\\text{与}l_2\\text{间的距离为(}",
+      "options": {
+        "A": "\\frac{2\\sqrt{5}}{5}",
+        "B": "\\frac{\\sqrt{5}}{5}",
+        "C": "\\sqrt{2}",
+        "D": "\\frac{\\sqrt{5}}2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 174
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-175",
+      "type": "mcq",
+      "stem": "已知直角梯形ABCD中，AB//CD，$\\angle BAD=90^{\\circ}，\\angle BCD=60^{\\circ}$，$E$ 是线段$AD$ 上靠近 A 的三等分点，$F$ 是线段$DC$ 的中点，若 $AB=2$ , $AD=\\sqrt{3}$ , 则$\\vec{EB}\\cdot\\vec{EF}=(\\quad)$",
+      "options": {
+        "A": "\\frac73",
+        "B": "\\frac{11}{3}",
+        "C": "\\frac79",
+        "D": "\\frac{11}{9}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 175
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-177",
+      "type": "mcq",
+      "stem": "设函数$f(x)=\\frac{\\sin x}{x}$,则$f(x)$是( )",
+      "options": {
+        "A": "奇函数，且存在x_{0}使得 f(x_0)>1",
+        "B": "奇函数，且对任意 x\\neq0 都有|f(x)|<1",
+        "C": "偶函数，且存在x_{0}使得f(x_0)>1",
+        "D": "偶函数，且对任意 x\\neq0 都有|f(x)|<1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 177
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-178",
+      "type": "mcq",
+      "stem": "直线$l:(2m-3)x+(2-m)y-3m+4=0$ 和圆$C:x^2-6x+y^2-4y+9=0$,则直线$l$ 与圆$C$ 的位置关系为( )",
+      "options": {
+        "A": "相切",
+        "B": "相交",
+        "C": "相离",
+        "D": "不确定"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 178
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-179",
+      "type": "mcq",
+      "stem": "已知函数 $f(x)=\\cos(x-3)+\\cos(x+3)$ , 则下列结论中正确的是( )",
+      "options": {
+        "A": "\\quad f( x) 在区间(1,2)上单调递减",
+        "B": "f(x) 到的图像可由函数 y=2\\cos3\\sin x 的图像向右平移\\frac\\pi2个单位得到",
+        "C": "\\quad x= \\frac \\pi3是f(x)图像的一条对称轴",
+        "D": "f(x) 的最大值为-2 cos 3"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 179
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-180",
+      "type": "mcq",
+      "stem": "函数 $f(x)=\\log_4x$ 的图象与函数 $g(x)=\\sin\\pi x$ 的图象的交点个数是",
+      "options": {
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 180
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-181",
+      "type": "mcq",
+      "stem": "点$P$ 是圆$x^2+y^2-6x-2y+9=0$ 上任意一点.则点$P$到双曲线 $C:\\frac{x^2}2-\\frac{y^2}{16}=1$ 渐近线距心离的最小值是( )",
+      "options": {
+        "A": "\\frac4{5}",
+        "B": "\\frac{9}{5}",
+        "C": "1",
+        "D": "\\frac{14}5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 181
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-182",
+      "type": "mcq",
+      "stem": "已知直线$l_1\\bot$平面$\\alpha$,直线$l_2\\subset$平面$\\alpha$,则$l_1$与$l_2$的位置关系一定成立的是( )",
+      "options": {
+        "A": "相交",
+        "B": "垂直",
+        "C": "异面",
+        "D": "平行"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 182
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-184",
+      "type": "mcq",
+      "stem": "设函数$y=f(x)$ 的定义域为$D$,若对任意$x_1\\in D$,存在$x_2\\in D$,使得$f\\left(x_1\\right)\\cdot f\\left(x_2\\right)=1$, 则称函数 $y=f(x)$具有性质 $M$, 给出下列四个结论： (i)函数 $y=x^3-x$ 不具有性质 $M;$$\\textcircled{2}$函数$y=\\frac{e^x+e^{-x}}2$其有性质$M;\\textcircled{3}$若函数$y=\\log_{8}(x+2),x\\in[0,t]$具有性质$M$,则$t=510$;$\\textcircled{4}$若函数$y=\\frac{3\\sin x+a}4$具有性质$M$,则$a=5$.其中正确结论的序号是(   )",
+      "options": {
+        "A": "①②",
+        "B": "①③",
+        "C": "①④",
+        "D": "②③"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 184
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-186",
+      "type": "mcq",
+      "stem": "已知函数$f\\left(x\\right)=A\\sin\\left(\\omega x+\\frac{\\pi}{6}\\right)$$A>0,\\omega>0$$x\\in\\left(-\\infty,+\\infty\\right)$的最小正周期为$\\pi$且$f(0)=\\sqrt{3}$ ,则函数$y=f(x)$ 在$\\left[-\\frac\\pi4,\\frac\\pi4\\right]$上的最小值是( )",
+      "options": {
+        "A": "\\quad - \\sqrt {6}",
+        "B": "-2\\sqrt{3}",
+        "C": "\\quad - 3",
+        "D": "2\\sqrt{3}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 186
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-188",
+      "type": "mcq",
+      "stem": "不等式 $x(x+1)\\geq0$ 的解集为 ( )",
+      "options": {
+        "A": "(-\\infty,-1]\\bigcup(0.+\\infty)",
+        "B": "(-\\infty,-1]\\cup[0,+\\infty)",
+        "C": "\\text{[-1,0]}",
+        "D": "\\text{[-1,0)}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 188
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-189",
+      "type": "mcq",
+      "stem": "已知椭圆$C:\\frac{x^2}{a^2}+\\frac{y^2}{b^2}=1(a>b>0)$ 的左、右焦点分别为$F_1,\\quad F_2$, 过点$F_1$作长轴的垂线与椭圆$C$的一个交点为$P$,若$\\tan\\angle PF_{2}F_{1}=\\frac{3}{4}$, 则椭圆$C$的离心率为( )",
+      "options": {
+        "A": "\\frac12",
+        "B": "\\frac13",
+        "C": "\\frac14",
+        "D": "\\frac15"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 189
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-190",
+      "type": "mcq",
+      "stem": "在$_{\\Delta}ABC$中，内角A、$B$、$C$所对的边分别为$a,b,c$,已知$A=\\frac{\\pi}{3},\\:b=\\sqrt{6}\\quad,\\quad\\alpha=3\\:$, 则$\\angle C=(\\quad)$",
+      "options": {
+        "A": "\\frac\\pi4",
+        "B": "\\frac{\\pi}{3}",
+        "C": "\\frac{5\\pi}{12}",
+        "D": "\\frac{\\pi}{6}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 190
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-193",
+      "type": "mcq",
+      "stem": "设函数$f\\left(\\frac{1-x}{1+x}\\right)=x$，则f(x)表达式为（    ）",
+      "options": {
+        "A": "\\frac{1-x}{1+x}(x\\neq-1)",
+        "B": "\\frac{x+1}{x-1}(x\\neq-1)",
+        "C": "\\frac{1+x}{1-x}\\left(x\\neq-1\\right)",
+        "D": "\\frac{2x}{1+x}\\left(x\\neq-1\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 193
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-195",
+      "type": "mcq",
+      "stem": "$a$、b 为实数，集合$M=\\left\\{\\frac ba,1\\right\\},N=\\left\\{a,0\\right\\},f:x\\to x$ 表示把集合 M 中的元素 x 映射到集合 N 中仍为 $x$, 则 $a+b$",
+      "options": {
+        "A": "1",
+        "B": "0",
+        "C": "-1",
+        "D": "±1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 195
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-197",
+      "type": "mcq",
+      "stem": "已知定义在 $R$ 上的偶函数 $f(x)$ 满足 $f(x+2)=-f(x)$ , 且当$x\\in(0,1]$ 时， $f(x)=-\\ln x$,则(  )",
+      "options": {
+        "A": "f\\bigg(\\log_4\\frac13\\bigg)>f\\bigg(3^4\\bigg)>f\\big(\\log_34\\big)",
+        "B": "f\\left(3^{4}\\right)>f\\left(\\log_{4}\\frac{1}{3}\\right)>f\\left(\\log_{3}4\\right)",
+        "C": "f\\left(\\log_{4}\\frac{1}{3}\\right)>f\\left(\\log_{3}4\\right)>f\\left(3^{4}\\right)",
+        "D": "f\\left(3^{4}\\right)>f\\left(\\log_{3}4\\right)>f\\left(\\log_{4}\\frac{1}{3}\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 197
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-199",
+      "type": "mcq",
+      "stem": "焦点为(-2,0),(2,0),离心率为$\\frac{\\sqrt{2}}{2}$的椭圆的标准方程为( )",
+      "options": {
+        "A": "\\frac{x^{2}}{2}+\\frac{y^{2}}{6}=1",
+        "B": "\\frac{x^{2}}{8}+\\frac{y^{2}}{4}=1",
+        "C": "\\frac{x^{2}}{6}+\\frac{y^{2}}{4}=1",
+        "D": "\\frac{x^{2}}{4}+\\frac{y^{2}}{8}=1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 199
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-200",
+      "type": "mcq",
+      "stem": "若不等式$x^2+kx+1<0$ 的解集为空集，则$k$ 的取值范围是 ( )",
+      "options": {
+        "A": "-2\\leq k\\leq2",
+        "B": "k\\leq-2\\text{,或}k\\geq2",
+        "C": "\\text{-2<k<2}",
+        "D": "k<-2\\text{,或}k>2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 200
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-201",
+      "type": "mcq",
+      "stem": "已知平行六面体$ABCD-A_1B_1C_1D_1$的所有棱长均为2，$\\angle BAD=\\angle BAA_1\\approx\\angle DAA_1=60^{\\circ}$, $M$ 为$C_1D_1$的中点，则向量$\\overline{AM}$的模长为( )",
+      "options": {
+        "A": "\\sqrt{15}",
+        "B": "4",
+        "C": "\\sqrt{17}",
+        "D": "\\sqrt{19}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 201
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-203",
+      "type": "mcq",
+      "stem": "已知A，$B$ 是圆$C:x^2+y^2-4y=0$ 上的两点，过点A，$B$ 的两条切线与直线x-4 二线共点，则直线$AB$ 必过定点( )",
+      "options": {
+        "A": "\\left(1,2\\right)",
+        "B": "\\left.\\left(\\begin{matrix}2,&1\\\\\\end{matrix}\\right.\\right)",
+        "C": "\\left({1,1}\\right)",
+        "D": "\\left(1,\\frac{1}{2}\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 203
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-204",
+      "type": "mcq",
+      "stem": "“k＝8“是“圆O1：（x+1）2+（y﹣1）2＝2与圆O2：（x﹣2）2+（y+2）2＝k“相切的（　  　）",
+      "options": {
+        "A": "充分不必要条件",
+        "B": "必要不充分条件",
+        "C": "充要条件",
+        "D": "既不充分也不必要条件"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 204
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-207",
+      "type": "mcq",
+      "stem": "\\text{若曲线 }y=\\mathrm{e}^{x-1}\\text{与曲线 }y=\\alpha\\sqrt{x}\\text{ 在公共点处有公共切线,则实数 }a=\\text{(}",
+      "options": {
+        "A": "\\frac{\\sqrt{2\\mathbf{e}}}e",
+        "B": "\\frac{\\sqrt{e}}e",
+        "C": "\\frac2e",
+        "D": "\\frac1{e}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 207
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-217",
+      "type": "mcq",
+      "stem": "设函数$f(x)=x-\\{x\\}$,二次函数 $g(x)=\\alpha x^2+bx$ , 若函数 $y=f(x)$ 与$y=g(x)$ 的图象有且只有一个公共点，则$a,b$ 的取值不可能是( )",
+      "options": {
+        "A": "a=-4,b=1",
+        "B": "a=-2,b=-1",
+        "C": "a=4,b=-1",
+        "D": "a=5,b=1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic",
+        "math.h.func"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 217
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-218",
+      "type": "mcq",
+      "stem": "\\text{ 若}a,b,c\\in\\mathbf{R}\\text{,且}a>b\\text{,则下列不等式中,一定成立的是( )",
+      "options": {
+        "A": "a+b>b-c",
+        "B": "ac\\geq bc",
+        "C": "\\frac{c^{2}}{a-b}>0",
+        "D": "(a-b)c^{2}\\geq0"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 218
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-220",
+      "type": "mcq",
+      "stem": "\\left.f\\left(\\begin{matrix}{x}\\\\\\end{matrix}\\right.\\right)=x^{3}+\\alpha x^{2}+x+\\mathbf{1}\\left(\\begin{matrix}{\\alpha\\in R}\\\\\\end{matrix}\\right)．若f\\left(x\\right)在区间\\left(-\\frac{2}{3},-\\frac{1}{3}\\right)内是减函数，则a的取值范围是",
+      "options": {
+        "A": "\\left[\\frac{7}{4},+\\infty\\right)",
+        "B": "(2,+\\infty)",
+        "C": "(1,+\\infty)",
+        "D": "(-\\infty,-1)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.8,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 220
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-221",
+      "type": "mcq",
+      "stem": "已知函数$f(x)=e^x(x^3+\\frac32x^2-6x+2)-2ae^x-x$,若不等式$f(x)\\leq0$ 在$[-2,+\\infty)$上有解，则实数a的最小值为",
+      "options": {
+        "A": "-\\frac{3}{2}-\\frac{1}{e}",
+        "B": "-\\frac{3}{2}-\\frac{2}{e}",
+        "C": "-\\frac{3}{4}-\\frac{1}{2e}",
+        "D": "#NAME?"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq",
+        "math.h.func"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 221
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-226",
+      "type": "mcq",
+      "stem": "过点$P(1,3)$的直线与x轴，$\\gamma$轴正半轴分别交于点$A$,$B$,则$|OA|+|OB|$的可能值是()",
+      "options": {
+        "A": "7",
+        "B": "7.4",
+        "C": "4+2\\sqrt{2}",
+        "D": "7.8"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 226
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-228",
+      "type": "mcq",
+      "stem": "在${}_{\\Delta ABC}$中，$A=\\frac{2\\pi}{3}$，AB=1，G为{}_{\\Delta ABC}的重心，若\\overrightarrow{AG}\\cdot\\overrightarrow{AB}=\\overrightarrow{AG}\\cdot\\overrightarrow{AC}，则{}_{\\Delta ABC}外接圆的半径为(    )",
+      "options": {
+        "A": "\\sqrt{3}",
+        "B": "1",
+        "C": "2",
+        "D": "2\\sqrt{3}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 228
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-230",
+      "type": "mcq",
+      "stem": "已知全集$U=\\mathbb{R},A=\\{x\\mid x\\leq0\\},B=\\{x\\mid x\\geq2\\}$, 则集合$\\mathfrak{d}_U(A\\cup B)=(\\quad)$",
+      "options": {
+        "A": "\\quad\\{x|_{x>0}\\}",
+        "B": "\\{x|x<2\\}",
+        "C": "\\{x|0\\leq x\\leq2\\}",
+        "D": "\\{x|0<x<2\\}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 230
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-231",
+      "type": "mcq",
+      "stem": "满足$f(f(x))=f^{\\prime}(x)$的实系数多项式$f(x)$的个数为（    ）",
+      "options": {
+        "A": "2个",
+        "B": "4个",
+        "C": "无穷多个",
+        "D": "前三个答案都不对"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.expr.integer"
+      ],
+      "primary_topic": "math.7.expr.integer",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 231
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-232",
+      "type": "mcq",
+      "stem": "已知函数$f\\left(x\\right)=ax^{3}+b\\sin x+\\cos x\\left(a,b\\in\\mathbf{R}\\right)$，若$f{\\left(\\frac{\\pi}{3}\\right)}=\\mathbf{1}$，则$f\\left(-\\frac{\\pi}{3}\\right)$=（    ）",
+      "options": {
+        "A": "-1",
+        "B": "0",
+        "C": "1",
+        "D": "2"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 232
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-234",
+      "type": "mcq",
+      "stem": "若函数 $f(x+1)=-f(x)$, 当$x\\in(0,1]$ 时，$f(x)=x$ ,若在区间[-1,1]内恰有一个零点， 则实数$m$ 的取值范围是（   ）",
+      "options": {
+        "A": "\\left(0,\\frac12\\right]",
+        "B": "\\left[\\frac{1}{2},+\\infty\\right)",
+        "C": "\\begin{bmatrix}0,+\\infty\\end{bmatrix}",
+        "D": "\\left(0,\\frac12\\right)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 234
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-236",
+      "type": "mcq",
+      "stem": "下列各组函数中，f(x)与g(x)相等的是( )",
+      "options": {
+        "A": "f\\left(x\\right)=x-1{\\huge|},\\quad g\\left(x\\right)=\\frac{x^2}{x}{\\!-}1",
+        "B": "f\\left(x\\right)=x^2,\\quad g\\left(x\\right)=\\left(\\sqrt{x}\\right)^4",
+        "C": "f\\left(x\\right)=\\left|x\\right|,\\quad g\\left(x\\right)=\\sqrt{x^2}",
+        "D": "f\\left(x\\right)=\\ln x^2,\\quad g\\left(x\\right)=2\\ln x"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 236
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-237",
+      "type": "mcq",
+      "stem": "一个不透明盒子里装有标号为1,2,3,4,5的五张标签，现从中随机无放回地抽取两次，每次抽一张，则两次抽取的标签号数均为奇数的概率为（    ）",
+      "options": {
+        "A": "\\frac15",
+        "B": "\\frac3{10}",
+        "C": "\\frac8{25}",
+        "D": "\\frac25"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.stat"
+      ],
+      "primary_topic": "math.9.stat",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 237
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-240",
+      "type": "mcq",
+      "stem": "若函数 $f(x)$ 在$\\left[-\\alpha,\\alpha\\right]$是减函数，则$\\alpha$ 的最大值是 ( )",
+      "options": {
+        "A": "\\frac\\pi{12}",
+        "B": "\\frac\\pi{6}",
+        "C": "\\frac\\pi{3}",
+        "D": "\\frac\\pi{2}"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 240
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-241",
+      "type": "mcq",
+      "stem": "若直线$3x+4y+m=0$与圆$(x+1)^2+y^2=1$相离，则实数$m$ 的取值范围是( )",
+      "options": {
+        "A": "(-\\infty,-8)\\cup(2,+\\infty)",
+        "B": "(-\\infty,-2)\\cup(8,+\\infty)",
+        "C": "(-\\infty,-2)\\cup(2,+\\infty)",
+        "D": "(-\\infty,-8)\\cup(8,+\\infty)"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 241
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-245",
+      "type": "mcq",
+      "stem": "已知椭圆与双曲线$\\frac{x}{2}-\\frac{y}{2}=1$有共同的焦点，且离心率为$\\frac1{\\sqrt{5}}$,则椭圆的标准方程( )",
+      "options": {
+        "A": "\\frac{x^{2}}{20}+\\frac{y^{2}}{25}=1",
+        "B": "\\frac{x^{2}}{25}+\\frac{y^{2}}{20}=1",
+        "C": "\\frac{x^{2}}{25}+\\frac{y^{2}}{5}=1",
+        "D": "\\frac{x^{2}}{5}+\\frac{y^{2}}{25}=1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 245
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-246",
+      "type": "mcq",
+      "stem": "给出下列说法： (1)空集没有子集； (2)任何集合至少有两个子集； (3）空集是任何集合的真子集；（4）若$\\varnothing\\subseteq A$,则$A\\neq\\varnothing$.其中正确的说法有( )",
+      "options": {
+        "A": "0个",
+        "B": "1个",
+        "C": "2个",
+        "D": "3个"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 246
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-249",
+      "type": "mcq",
+      "stem": "已知$f(x)$是定义域为R 的奇函数，且$f(x)=f\\left(4-x\\right)$,当$-2\\leq x<0$时，$f\\left(x\\right)=\\log_3\\left|x\\right|\\text{,则}f\\left(\\frac{11}{3}\\right)=( )$",
+      "options": {
+        "A": "-1+\\log_{3}11",
+        "B": "1-\\log_{3}11",
+        "C": "1",
+        "D": "-1"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 249
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_test-250",
+      "type": "mcq",
+      "stem": "\\text{己知}a>0\\text{ 且 }a\\neq1\\text{,则函数 }f\\left(x\\right)=\\left(x-a\\right)^2\\ln x\\quad(\\quad)",
+      "options": {
+        "A": "有极大值，无极小值",
+        "B": "有极小值，无极大值",
+        "C": "既有极大值，又有极小值",
+        "D": "既无极大值，又无极小值"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_test.csv",
+        "row": 250
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-0",
+      "type": "mcq",
+      "stem": "已知集合 $A=\\{x|-2<x<5\\},\\quad B=\\{x|1-2x>3\\}$, 则$A(1)B=(  )$",
+      "options": {
+        "A": "(-2,-1)",
+        "B": "\\begin{pmatrix}-2,1\\end{pmatrix}",
+        "C": "(1,5)",
+        "D": "\\begin{pmatrix}-1,5\\end{pmatrix}"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 0
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-1",
+      "type": "mcq",
+      "stem": "设$p:x^2-3x+2\\leq0$,$q:x^2-(2m+2)x+m(m+2)\\leq0$,若$\\neg p$ 是$\\neg q$ 的必要不充分条件，则实数$m$ 的取值范围是( )",
+      "options": {
+        "A": "[0,1]",
+        "B": "(0,1)",
+        "C": "\\begin{pmatrix}-\\infty,0\\end{pmatrix}\\cup[1,+\\infty)",
+        "D": "(-,0)\\cup(1,+\\infty)"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 1
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-3",
+      "type": "mcq",
+      "stem": "已知定义在$R$上的函数$f(x)$,若函数$y=f(x+2)$为偶函数，且$f(x)$对任意$x_1$,$x_2\\in\\left[2,+\\infty\\right)\\quad\\left(x_1\\neq x_2\\right)$, 都有$\\frac{f(x_2)-f(x_1)}{x_2-x_1}<0$,若 $f(a)\\leq f(3a+1)$,则实数$\\alpha$ 的取值范围是(  )",
+      "options": {
+        "A": "\\begin{bmatrix}-\\frac{1}{2},\\frac{3}{4}\\end{bmatrix}",
+        "B": "\\begin{bmatrix}-2,-1\\end{bmatrix}",
+        "C": "\\text{}\\left(-\\infty,-\\frac12\\right]",
+        "D": "\\left(\\frac{3}{4},+\\infty\\right)"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-4",
+      "type": "mcq",
+      "stem": "若集合$A=\\left\\{\\left.x\\right|x^{2}-2x-3\\leq0\\right\\}，B=\\left\\{x|2^{*}\\geq\\sqrt{2}\\right\\}$，则$A\\cap B$=（    ）",
+      "options": {
+        "A": "\\left[\\frac12,3\\right]",
+        "B": "\\left[\\frac{1}{2},1\\right]",
+        "C": "\\begin{bmatrix}-3,\\frac12\\end{bmatrix}",
+        "D": "\\left.\\left[\\begin{matrix}{2,3}\\\\\\end{matrix}\\right.\\right]"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 4
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-5",
+      "type": "mcq",
+      "stem": "\\quad\\text{设函数}f_a(x)=\\sin^ax+\\cos^ax,\\quad a\\in\\mathbf{N}^*\\text{,记}f_a(x)\\text{的最小正周期为}T_a\\text{,则(}\\quad)",
+      "options": {
+        "A": "T_{3}=\\pi",
+        "B": "T_{6}=\\pi",
+        "C": "f_4\\left(x\\right)\\in\\left[0,\\frac{1}{2}\\right]",
+        "D": "f_8\\left(x\\right)\\in\\left[\\frac{1}{8},1\\right]"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 5
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-6",
+      "type": "mcq",
+      "stem": "若a>b>0，则下列不等式正确的是（    ）",
+      "options": {
+        "A": "ac>bc",
+        "B": "a^{3}>b^{3}",
+        "C": "a<b",
+        "D": "a+b<ab"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.8.ineq"
+      ],
+      "primary_topic": "math.8.ineq",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 8,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 6
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-10",
+      "type": "mcq",
+      "stem": "过点(2,-1)且方向向量为(2,1)的直线方程为（    ）",
+      "options": {
+        "A": "2x-y+4=0",
+        "B": "2x+y-4=0",
+        "C": "x-2y+4=0",
+        "D": "x-2y-4=0"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 10
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-13",
+      "type": "mcq",
+      "stem": "直线\\sqrt{3}x+\\sqrt{3}y+1=0的倾斜角是（    ）",
+      "options": {
+        "A": "\\frac\\pi4",
+        "B": "\\frac\\pi3",
+        "C": "\\frac{2\\pi}{3}",
+        "D": "\\frac{3\\pi}4"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 13
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-16",
+      "type": "mcq",
+      "stem": "已知抛物线 $x^2=2py(p>0)$ 与双曲线$\\frac{y^2}{a^2}-\\frac{x^2}{b^2}=1(\\alpha>0,b>0)$ 有相同的焦点$F$ ,点 $B$ 是两曲线的一个交点，且$BF\\bot y$轴，若$L$为双曲线的一条渐近线，则$L$的倾斜角所在的区间可能为 ( )",
+      "options": {
+        "A": "\\left(\\frac{\\pi}{6},\\frac{\\pi}{4}\\right)",
+        "B": "\\left(\\frac{\\pi}{4},\\frac{\\pi}{3}\\right)",
+        "C": "\\left(\\frac{\\pi}{2},\\frac{2\\pi}{3}\\right)",
+        "D": "\\left(\\frac{5\\pi}{6},\\pi\\right)"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 16
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-18",
+      "type": "mcq",
+      "stem": "两条平行直线3x+4y-5=0和 3x+4y+5=0之间的距离为（    ）",
+      "options": {
+        "A": "\\frac12",
+        "B": "1",
+        "C": "2",
+        "D": "3"
+      },
+      "answer": "C",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 18
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-19",
+      "type": "mcq",
+      "stem": "设直线l,\\alpha为平面外的一条直线，则l\\perp\\alpha 的充要条件是（    ）",
+      "options": {
+        "A": "\\alpha内有无数条直线都与l垂直",
+        "B": "\\alpha内有两条相交直线都与l垂直",
+        "C": "l，\\alpha垂直于同一条直线",
+        "D": "l，\\alpha垂直于同一平面"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 19
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-22",
+      "type": "mcq",
+      "stem": "函数 $f(x)=\\sqrt{1}-x+\\frac1{x+2}+\\log_3(2x-1)$ 的定义域是 ( )",
+      "options": {
+        "A": "\\left(-2,\\frac{1}{2}\\right)",
+        "B": "\\left(\\frac12,1\\right)",
+        "C": "\\left[\\frac{1}{2},1\\right]",
+        "D": "\\left(\\frac12,1\\right]"
+      },
+      "answer": "D",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 22
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-23",
+      "type": "mcq",
+      "stem": "函数 f\\left(x\\right)=\\log_2x+m\\text{,已知 }f\\left(2\\right)=3, 则 f\\left(4\\right)=( )",
+      "options": {
+        "A": "3",
+        "B": "4",
+        "C": "5",
+        "D": "6"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 23
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-24",
+      "type": "mcq",
+      "stem": "若“$x>2a-3$”是“$-1<x<3$”的必要不充分条件，则实数$a$ 的取值范围是 ( )",
+      "options": {
+        "A": "a<1",
+        "B": "a\\leq1",
+        "C": "a>1",
+        "D": "a\\geq1"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.set"
+      ],
+      "primary_topic": "math.h.set",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 24
+      }
+    },
+    {
+      "id": "eeval-High_School_Mathematics_val-25",
+      "type": "mcq",
+      "stem": "已知函数f(x)=2^x+x\\mathrm{~,~}g(x)=\\log_2x+x\\mathrm{~,~}h(x)=x^3+x的零点分别为a，b，c，以下说法正确的是（    ）",
+      "options": {
+        "A": "a<c<b",
+        "B": "c<b<a",
+        "C": "b<c<a",
+        "D": "c<a<b"
+      },
+      "answer": "A",
+      "explanation": "",
+      "topic_ids": [
+        "math.h.func"
+      ],
+      "primary_topic": "math.h.func",
+      "subject": "math",
+      "stage": "high",
+      "grade": 10,
+      "difficulty": 0.7,
+      "source": {
+        "dataset": "E-EVAL High School Math",
+        "file": "High_School_Mathematics_val.csv",
+        "row": 25
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_dev-2",
+      "type": "mcq",
+      "stem": "下列说法正确的是（    ）。",
+      "options": {
+        "A": "两个图形相对于某条直线如果对称，那么这两个图形的形状必须一样，大小可以不相等。",
+        "B": "平移和轴对称只改变图形的形状，不能改变图形的大小。",
+        "C": "通过平移和轴对称得到的图形没有改变图形的形状和大小。",
+        "D": "长方形不一定都是轴对称图形。"
+      },
+      "answer": "C",
+      "explanation": "【分析】一个图形沿一条直线对折后，折痕两旁的部分能够完全重合，这样的图形就是轴对称图形，这条直线就是对称轴。在平面内，将一个图形沿着某个方向移动一定的距离，这样的运动叫做图形的平移。平移和轴对称的特征：图形的形状、大小都不改变，只是位置发生了变化。【详解】A．两个图形相对于某条直线如果对称，那么这两个图形的形状必须一样，大小也必须相等，原题说法错误；B．平移和轴对称不能改变图形的形状，不能改变图形的大小，原题说法错误；C．通过平移和轴对称得到的图形没有改变图形的形状和大小，原题说法正确；D．长方形有两条对称轴，是轴对称图形，原题说法错误。故答案为：C【点睛】本题考查轴对称、平移的意义以及它们的特征。",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.6,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_dev.csv",
+        "row": 2
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_dev-3",
+      "type": "mcq",
+      "stem": "公园在学校的北偏东30°方向2.6千米处，那么学校在公园的（    ）。",
+      "options": {
+        "A": "西偏南30°方向2.6千米处",
+        "B": "西偏南60°方向2.6千米处",
+        "C": "南偏西30°方向5.2千米处",
+        "D": "南偏西60°方向5.2千米处"
+      },
+      "answer": "B",
+      "explanation": "【分析】一个事物在另一个事物的某个方向一定度数的位置，那么另一个事物在这个事物相对的方向相同度数的位置，据此解答即可。【详解】公园在学校的北偏东30°方向2.6千米处，那么学校在公园的南偏西30°方向2.6千米处，根据东、西、南、北四个基本方向中，相邻的两个方向的夹角是90°，所以也可以说学校在公园的西偏南60°方向2.6千米处。故答案为：B【点睛】此题主要根据方向、角度、距离确定物体的位置，确定位置时，方向和角度一定要对应。",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_dev.csv",
+        "row": 3
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_dev-4",
+      "type": "mcq",
+      "stem": "乐乐想在方格图中画一个等腰三角形。已经确定了两个顶点的位置分别是（6，4）、（4，2），第三个顶点的位置不可以是（    ）。",
+      "options": {
+        "A": "（8，2）",
+        "B": "（6，2）",
+        "C": "（5，5）",
+        "D": "（4，6）"
+      },
+      "answer": "C",
+      "explanation": "【分析】等腰三角形的两个顶点已经确定，用数对表示顶点的位置，数对里的第一个数字表示列，第二个数字表示行，那么第三个顶点与其他两个顶点同行或同列，据此判断。【详解】A．（8，2）与（4，2）同行不同列，不符合题意；B．（6，2）与（6，4），同列不同行，与（4，2）同行不同列，不符合题意；C．（5，5）与（6，4）、（4，2）既不同行，也不同列，符合题意D．（4，6）与（4，2），同列不同行，不符合题意。故答案为：C【点睛】本题考查等腰三角形的特征以及用数对表示位置。",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_dev.csv",
+        "row": 4
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-0",
+      "type": "mcq",
+      "stem": "下面不可以用三角尺画出的角是（    ）。",
+      "options": {
+        "A": "45",
+        "B": "75",
+        "C": "90",
+        "D": "130"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 0
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-18",
+      "type": "mcq",
+      "stem": "要做一根圆柱形通风管，计算所需铁皮的大小，就是求它的（    ）。",
+      "options": {
+        "A": "侧面积",
+        "B": "表面积",
+        "C": "体积",
+        "D": "容积"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.geom.circle"
+      ],
+      "primary_topic": "math.9.geom.circle",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 18
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-20",
+      "type": "mcq",
+      "stem": "有两根小棒，一根8厘米，另一根15厘米。笑笑准备再用一根小棒与它们围一个三角形，第三根小棒的长应介于（）厘米之间（取整厘米数）。",
+      "options": {
+        "A": "7~23",
+        "B": "6~22",
+        "C": "8~15",
+        "D": "8~22"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 20
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-29",
+      "type": "mcq",
+      "stem": "现有长度为1厘米、3厘米、5厘米、7厘米和11厘米的5根小棒，每次选取其中的任意三根，可摆成()个不同的三角形.",
+      "options": {
+        "A": "10",
+        "B": "1",
+        "C": "2",
+        "D": "4"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 29
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-46",
+      "type": "mcq",
+      "stem": "两条直线互相垂直，这两条直线相交成（）的角.",
+      "options": {
+        "A": "180°",
+        "B": "90°",
+        "C": "45°",
+        "D": "135°"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 46
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-56",
+      "type": "mcq",
+      "stem": "把线段的一端延长1000米，得到的图形是（）。",
+      "options": {
+        "A": "线段",
+        "B": "直线",
+        "C": "射线",
+        "D": "角"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 56
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-75",
+      "type": "mcq",
+      "stem": "在同一幅图上有三个点，用数对分别表示为（1，5）、（1，1）、（3，1），那么围成的三角形一定是（    ）三角形。",
+      "options": {
+        "A": "锐角",
+        "B": "直角",
+        "C": "钝角",
+        "D": "等腰"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 75
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-82",
+      "type": "mcq",
+      "stem": "如果三角形的两边的长分别是5厘米和8厘米，那么第三边的长可能是（    ）厘米。",
+      "options": {
+        "A": "3",
+        "B": "12",
+        "C": "13",
+        "D": "14"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 82
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-91",
+      "type": "mcq",
+      "stem": "个平行四边形的面积是10.5cm2，底是2cm，对应的高是（  ）cm。",
+      "options": {
+        "A": "2",
+        "B": "2.625",
+        "C": "5.25",
+        "D": "10.5"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 91
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_test-93",
+      "type": "mcq",
+      "stem": "一块正方形的草地，边长4米，一对角线的两个顶点各有一棵树，树上各拴一只羊，绳长4米。两只羊都能吃到的草的面积是（）。",
+      "options": {
+        "A": "6.25平方米",
+        "B": "9.12平方米",
+        "C": "12.56平方米",
+        "D": "50.24平方米"
+      },
+      "answer": "",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_test.csv",
+        "row": 93
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_val-1",
+      "type": "mcq",
+      "stem": "如果A点用数对表示为（2，5），B点用数对表示为（2，1），C点用数对表示为（4，1），那么这三个点连线围成的三角形ABC一定是（    ）三角形。",
+      "options": {
+        "A": "锐角",
+        "B": "直角",
+        "C": "钝角",
+        "D": "等腰"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.7.geom.basics",
+        "math.8.geom.triangle"
+      ],
+      "primary_topic": "math.7.geom.basics",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 7,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_val.csv",
+        "row": 1
+      }
+    },
+    {
+      "id": "eeval-Primary_School_Mathematics_val-4",
+      "type": "mcq",
+      "stem": "一个正方形两个顶点的位置分别为和，则另外两个顶点的位置不可能是（    ）。",
+      "options": {
+        "A": "和",
+        "B": "和",
+        "C": "和",
+        "D": "和"
+      },
+      "answer": "B",
+      "explanation": "",
+      "topic_ids": [
+        "math.9.func.quadratic"
+      ],
+      "primary_topic": "math.9.func.quadratic",
+      "subject": "math",
+      "stage": "middle",
+      "grade": 9,
+      "difficulty": 0.5,
+      "source": {
+        "dataset": "E-EVAL Primary School Math",
+        "file": "Primary_School_Mathematics_val.csv",
+        "row": 4
+      }
+    }
+  ]
+}

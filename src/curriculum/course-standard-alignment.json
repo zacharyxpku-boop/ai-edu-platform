@@ -1,0 +1,266 @@
+{
+  "version": "1.0",
+  "generated": "2026-04-26",
+  "purpose": "把 math/physics/chemistry/biology 知识点 topic_id 对齐到中国教育部颁布的课程标准，使家长端能展示『这道题对应课标第 X 条要求』，作为合规背书 + 教学正当性证明",
+  "_note": "这是行业空白——目前没有公开开源把 K12 题目自动映射到课标的项目。这一份由 Claude + 阁主基于 2022 课标手工对齐，覆盖率不全，需要丙方（清北课程）人工 review 校准",
+
+  "standards": {
+    "math": {
+      "junior": {
+        "name": "义务教育数学课程标准（2022年版）",
+        "issued_by": "中华人民共和国教育部",
+        "issued_at": "2022-04-21",
+        "doc_no": "教材〔2022〕2号",
+        "url": "http://www.moe.gov.cn/srcsite/A26/s8001/202204/W020220420582343385105.pdf",
+        "stage_4_grades": "7-9 年级（第四学段）",
+        "core_competencies": [
+          "数感", "量感", "符号意识", "运算能力", "几何直观", "空间观念",
+          "推理能力", "数据观念", "模型观念", "应用意识", "创新意识"
+        ],
+        "domains": [
+          "数与代数", "图形与几何", "统计与概率", "综合与实践"
+        ]
+      },
+      "senior": {
+        "name": "普通高中数学课程标准（2017年版2020年修订）",
+        "issued_by": "中华人民共和国教育部",
+        "url": "http://www.moe.gov.cn/srcsite/A26/s8001/202006/t20200603_462199.html",
+        "core_competencies": [
+          "数学抽象", "逻辑推理", "数学建模", "直观想象", "数学运算", "数据分析"
+        ]
+      }
+    }
+  },
+
+  "mappings": {
+
+    "math.7.expr.integer": {
+      "topic_name": "整式·定义与运算",
+      "subject": "math", "grade": 7, "publisher": "人教",
+      "textbook_chapter": "第二章 整式的加减",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "代数式",
+      "content_requirements": [
+        "理解用字母表示数的意义",
+        "能分析具体问题中的简单数量关系，并用代数式表示",
+        "理解整式的概念，掌握合并同类项和去括号法则，能进行简单的整式加法和减法运算"
+      ],
+      "academic_requirements": "能用字母和代数式表示一些规律和数量关系；能根据问题情境进行整式的加减运算",
+      "key_competencies": ["符号意识", "运算能力", "模型观念"]
+    },
+
+    "math.7.eq.linear": {
+      "topic_name": "一元一次方程",
+      "subject": "math", "grade": 7, "publisher": "人教",
+      "textbook_chapter": "第三章 一元一次方程",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级)",
+      "domain": "数与代数",
+      "subdomain": "方程与不等式",
+      "content_requirements": [
+        "能根据具体问题中的数量关系列出方程，体会方程是刻画现实世界数量关系的有效模型",
+        "掌握等式的基本性质",
+        "能解一元一次方程",
+        "能利用一元一次方程解决简单的实际问题"
+      ],
+      "academic_requirements": "能够分析具体问题中的数量关系，建立方程模型并求解；能对所得的解进行检验和合理性解释",
+      "key_competencies": ["符号意识", "运算能力", "模型观念", "应用意识"],
+      "frequent_misconceptions": [
+        "移项不变号", "去分母时漏乘公分母外的项", "等式两边除以未知数（可能为0）"
+      ]
+    },
+
+    "math.7.geom.basics": {
+      "topic_name": "几何图形·基础",
+      "subject": "math", "grade": 7, "publisher": "人教",
+      "textbook_chapter": "第四章 几何图形初步",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "图形与几何",
+      "subdomain": "图形的认识与测量",
+      "content_requirements": [
+        "通过实物和具体模型，了解从物体抽象出几何图形",
+        "认识点、线、面、角，了解直线、射线、线段的概念",
+        "会比较线段的大小，能进行简单的线段计算"
+      ],
+      "academic_requirements": "能识别立体图形与平面图形并进行简单的转化；能用几何语言描述简单图形",
+      "key_competencies": ["几何直观", "空间观念"]
+    },
+
+    "math.7.frac.expr": {
+      "topic_name": "分式",
+      "subject": "math", "grade": 7, "publisher": "人教",
+      "textbook_chapter": "第八章 分式（部分版本初二）",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "代数式",
+      "content_requirements": [
+        "了解分式的概念，会求分式有意义的条件",
+        "能进行简单的分式加、减、乘、除运算",
+        "会解可化为一元一次方程的分式方程"
+      ],
+      "academic_requirements": "能进行简单的分式四则运算；能用分式方程解决简单的实际问题",
+      "key_competencies": ["符号意识", "运算能力"],
+      "frequent_misconceptions": ["分母为 0 没排除", "去分母漏乘整式项"]
+    },
+
+    "math.8.eq.system": {
+      "topic_name": "二元一次方程组",
+      "subject": "math", "grade": 8, "publisher": "人教",
+      "textbook_chapter": "第七章 二元一次方程组",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "方程与不等式",
+      "content_requirements": [
+        "能够根据具体问题列出二元一次方程组",
+        "理解代入消元法与加减消元法的原理，能用其解二元一次方程组",
+        "能解决与二元一次方程组相关的实际问题"
+      ],
+      "academic_requirements": "能用方程组思想解决与一次函数、不等式相联系的综合性问题",
+      "key_competencies": ["运算能力", "模型观念", "应用意识"]
+    },
+
+    "math.8.ineq": {
+      "topic_name": "一元一次不等式",
+      "subject": "math", "grade": 8, "publisher": "人教",
+      "textbook_chapter": "第九章 不等式与不等式组",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "方程与不等式",
+      "content_requirements": [
+        "结合具体问题，了解不等式的意义，探索不等式的基本性质",
+        "能解一元一次不等式以及由一元一次不等式构成的不等式组",
+        "能将不等式（组）的解集在数轴上表示"
+      ],
+      "academic_requirements": "能根据问题中的不等关系建立不等式（组），并求解、解释",
+      "key_competencies": ["符号意识", "运算能力", "模型观念"],
+      "frequent_misconceptions": ["乘除负数没变号", "解集端点开闭弄反"]
+    },
+
+    "math.8.func.linear": {
+      "topic_name": "一次函数",
+      "subject": "math", "grade": 8, "publisher": "人教",
+      "textbook_chapter": "第十九章 一次函数",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "函数",
+      "content_requirements": [
+        "结合具体情境理解函数的概念",
+        "理解一次函数（含正比例函数）的概念，能画出图象",
+        "理解一次函数的图象和性质，能用一次函数解决简单实际问题"
+      ],
+      "academic_requirements": "能在直角坐标系中画出一次函数的图象；能根据图象与表达式相互转化；能利用一次函数模型分析简单的变化规律",
+      "key_competencies": ["几何直观", "运算能力", "模型观念"]
+    },
+
+    "math.8.geom.triangle": {
+      "topic_name": "三角形",
+      "subject": "math", "grade": 8, "publisher": "人教",
+      "textbook_chapter": "第十一章 三角形 + 第十二章 全等三角形 + 第十七章 勾股定理",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "图形与几何",
+      "subdomain": "图形的性质",
+      "content_requirements": [
+        "理解三角形及其内角、外角、中线、高线、角平分线的概念",
+        "探索并证明三角形的内角和定理",
+        "理解全等三角形的概念，掌握 SSS / SAS / ASA / AAS / HL 判定",
+        "探索并证明勾股定理及其逆定理"
+      ],
+      "academic_requirements": "能够通过推理证明几何命题；能运用勾股定理解决简单实际问题",
+      "key_competencies": ["几何直观", "空间观念", "推理能力"]
+    },
+
+    "math.9.eq.quadratic": {
+      "topic_name": "一元二次方程",
+      "subject": "math", "grade": 9, "publisher": "人教",
+      "textbook_chapter": "第二十一章 一元二次方程",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "方程与不等式",
+      "content_requirements": [
+        "理解一元二次方程的概念",
+        "会用配方法、公式法、因式分解法解一元二次方程",
+        "会根据具体问题中的数量关系列出一元二次方程并求解",
+        "了解一元二次方程根的判别式"
+      ],
+      "academic_requirements": "能根据问题情境选择合适的解法；能解释方程根的实际意义并验证合理性",
+      "key_competencies": ["运算能力", "模型观念", "推理能力"],
+      "frequent_misconceptions": ["二次项系数 a=0 没排除", "判别式公式记错", "舍根时没考虑实际意义"]
+    },
+
+    "math.9.func.quadratic": {
+      "topic_name": "二次函数",
+      "subject": "math", "grade": 9, "publisher": "人教",
+      "textbook_chapter": "第二十二章 二次函数",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "数与代数",
+      "subdomain": "函数",
+      "content_requirements": [
+        "理解二次函数的概念，会画其图象",
+        "通过对图象的观察，了解二次函数的性质",
+        "会用二次函数解决简单的实际问题"
+      ],
+      "academic_requirements": "能识别二次函数图象的开口方向、对称轴、顶点；能根据二次函数模型解决最值类实际问题",
+      "key_competencies": ["几何直观", "运算能力", "模型观念"]
+    },
+
+    "math.9.geom.circle": {
+      "topic_name": "圆",
+      "subject": "math", "grade": 9, "publisher": "人教",
+      "textbook_chapter": "第二十四章 圆",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "图形与几何",
+      "subdomain": "图形的性质",
+      "content_requirements": [
+        "理解圆、弧、弦、圆心角、圆周角的概念",
+        "探索并了解圆心角、圆周角及其所对弧的关系",
+        "了解切线的概念，探索切线与过切点的半径的关系",
+        "了解圆与直线的位置关系"
+      ],
+      "academic_requirements": "能用圆的性质解决相关的几何问题；能进行简单的几何证明",
+      "key_competencies": ["几何直观", "空间观念", "推理能力"]
+    },
+
+    "math.9.stat": {
+      "topic_name": "统计与概率",
+      "subject": "math", "grade": 9, "publisher": "人教",
+      "textbook_chapter": "第二十章 数据的分析 + 第二十五章 概率初步",
+      "standard": "义务教育数学课程标准（2022年版）",
+      "stage": "第四学段（7-9年级）",
+      "domain": "统计与概率",
+      "subdomain": "抽样与数据分析",
+      "content_requirements": [
+        "理解平均数、中位数、众数、方差的概念",
+        "通过实例理解随机事件发生的概率，了解概率的意义",
+        "会用列举法（含树状图、列表）计算简单事件发生的概率"
+      ],
+      "academic_requirements": "能运用统计量分析数据特征；能用概率解释简单的随机现象",
+      "key_competencies": ["数据观念", "运算能力"]
+    }
+  },
+
+  "_coverage_status": {
+    "covered": 12,
+    "math_grade_7_total": 4,
+    "math_grade_7_remaining": 0,
+    "math_grade_8_total": 4,
+    "math_grade_8_remaining": 0,
+    "math_grade_9_total": 4,
+    "math_grade_9_remaining": 0,
+    "physics_remaining": "未对齐 - 需要参照《义务教育物理课程标准 2022》",
+    "chemistry_remaining": "未对齐",
+    "biology_remaining": "未对齐",
+    "chinese_history_geography_politics_english_remaining": "未对齐",
+    "high_school_remaining": "未对齐 - 涉及《普通高中数学/物理/化学等课程标准 2017 修订版》"
+  }
+}

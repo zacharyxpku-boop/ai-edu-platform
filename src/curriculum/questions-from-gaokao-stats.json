@@ -1,0 +1,85 @@
+{
+  "version": "1.0",
+  "generated": "2026-04-26",
+  "source": "OpenLMLab/GAOKAO-Bench",
+  "license": "Apache 2.0",
+  "attribution": "Zhang et al., Evaluating the Performance of Large Language Models on GAOKAO Benchmark, 2023",
+  "url": "https://github.com/OpenLMLab/GAOKAO-Bench",
+  "totals": {
+    "questions": 721,
+    "mcq": 367,
+    "subjective": 354,
+    "topics_with_questions": 13,
+    "topics_empty": 0
+  },
+  "per_topic": {
+    "math.h.set_logic": {
+      "name": "集合与常用逻辑用语",
+      "count": 57
+    },
+    "math.h.trig": {
+      "name": "三角函数",
+      "count": 202
+    },
+    "math.h.vector": {
+      "name": "平面向量",
+      "count": 43
+    },
+    "math.h.complex": {
+      "name": "复数",
+      "count": 20
+    },
+    "math.h.func_concept": {
+      "name": "函数·概念与性质",
+      "count": 193
+    },
+    "math.h.line_circle": {
+      "name": "直线与圆",
+      "count": 86
+    },
+    "math.h.deriv": {
+      "name": "导数",
+      "count": 105
+    },
+    "math.h.conic": {
+      "name": "圆锥曲线",
+      "count": 107
+    },
+    "math.h.solid_geom": {
+      "name": "立体几何",
+      "count": 26
+    },
+    "math.h.prob_stat": {
+      "name": "概率与统计",
+      "count": 64
+    },
+    "math.h.algorithm_seq": {
+      "name": "数列",
+      "count": 95
+    },
+    "math.h.func_basic": {
+      "name": "基本初等函数",
+      "count": 81
+    },
+    "math.h.ineq": {
+      "name": "不等式",
+      "count": 48
+    }
+  },
+  "per_year": {
+    "2010": 32,
+    "2011": 29,
+    "2012": 26,
+    "2013": 48,
+    "2014": 55,
+    "2015": 42,
+    "2016": 69,
+    "2017": 78,
+    "2018": 69,
+    "2019": 79,
+    "2020": 83,
+    "2021": 61,
+    "2022": 50
+  },
+  "empty_topics": []
+}

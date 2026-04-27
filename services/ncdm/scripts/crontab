@@ -1,0 +1,2 @@
+# 每天 03:00 北京时间训一次（容器若用 UTC，对应 19:00 UTC）
+0 19 * * * cd /app && /usr/local/bin/python -m src.train >> /var/log/ncdm-train.log 2>&1

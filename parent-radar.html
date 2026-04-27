@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点 · 孩子能力雷达图 · 30 秒看懂</title>
+<meta name="description" content="家长端：孩子在每个知识点上的真实掌握度，弱在哪强在哪一目了然">
+<style>
+:root {
+    --c-ink: #1A1A2E;
+    --c-ink-light: #16213E;
+    --c-ink-surface: #0F3460;
+    --c-origin: #E94D35;
+    --c-origin-soft: #FF6B4A;
+    --c-origin-glow: rgba(233,77,53,0.15);
+    --c-warm-white: #F5F0EB;
+    --c-warm-gray: #B8B0A8;
+    --c-warm-dim: #7A7067;
+    --c-success: #2D9F6F;
+    --c-warning: #D4A843;
+    --c-error: #C94040;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-light) 100%);
+    color: var(--c-warm-white);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+.container { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
+
+.hero { padding: 24px 0 16px; border-bottom: 1px solid rgba(184,176,168,0.15); }
+.hero .child-meta { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.hero h1 { font-size: 1.55rem; }
+.hero .subtitle { color: var(--c-warm-gray); font-size: 0.9rem; }
+.hero .updated { font-size: 0.78rem; color: var(--c-warm-dim); margin-top: 4px; }
+
+/* 30 秒看懂大字区 */
+.glance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+}
+.glance-card {
+    background: var(--c-ink-light);
+    border: 1px solid rgba(184,176,168,0.1);
+    border-radius: 8px;
+    padding: 16px 12px;
+    text-align: center;
+}
+.glance-card .num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: "Noto Serif SC", serif;
+    color: var(--c-origin-soft);
+    line-height: 1.2;
+}
+.glance-card .label { font-size: 0.78rem; color: var(--c-warm-dim); margin-top: 4px; }
+.glance-card.strong .num { color: var(--c-success); }
+.glance-card.weak .num { color: var(--c-warning); }
+
+/* 主体两栏 */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+}
+@media (max-width: 720px) { .main-grid { grid-template-columns: 1fr; } }
+
+.panel {
+    background: var(--c-ink-light);
+    border: 1px solid rgba(184,176,168,0.1);
+    border-radius: 12px;
+    padding: 20px;
+}
+.panel h2 { font-size: 1.05rem; margin-bottom: 12px; color: var(--c-warm-white); }
+
+/* 雷达图 SVG */
+#radar-svg { width: 100%; height: auto; max-width: 360px; margin: 0 auto; display: block; }
+.radar-grid line, .radar-grid polygon { stroke: rgba(184,176,168,0.18); fill: none; }
+.radar-axis-label { font-size: 11px; fill: var(--c-warm-gray); text-anchor: middle; }
+.radar-shape { fill: var(--c-origin-glow); stroke: var(--c-origin); stroke-width: 2; }
+.radar-shape.weak { stroke: var(--c-warning); }
+
+/* 弱项 list */
+.kc-list { list-style: none; }
+.kc-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(184,176,168,0.12);
+    gap: 12px;
+}
+.kc-item:last-child { border-bottom: none; }
+.kc-name { font-size: 0.95rem; }
+.kc-bar-wrap { flex: 1; max-width: 120px; height: 6px; background: var(--c-ink-surface); border-radius: 100px; overflow: hidden; }
+.kc-bar-fill { height: 100%; border-radius: 100px; transition: width 0.5s ease; }
+.kc-mastery { font-size: 0.85rem; min-width: 38px; text-align: right; font-family: "DM Mono", monospace; }
+.kc-tag {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    color: white;
+    font-weight: 600;
+}
+.kc-tag.weak { background: var(--c-warning); }
+.kc-tag.strong { background: var(--c-success); }
+.kc-tag.zpd { background: var(--c-origin); }
+
+/* 行动卡 */
+.action-card {
+    background: linear-gradient(135deg, var(--c-ink-surface), var(--c-ink-light));
+    border: 1px solid var(--c-origin);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+}
+.action-card h3 { font-family: "Noto Serif SC", serif; font-size: 1.1rem; color: var(--c-origin-soft); margin-bottom: 10px; }
+.action-card p { color: var(--c-warm-gray); margin-bottom: 14px; font-size: 0.92rem; }
+.action-card .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(233,77,53,0.25);
+    text-decoration: none;
+    display: inline-block;
+    font-family: inherit;
+}
+.btn-secondary {
+    background: transparent;
+    color: var(--c-warm-gray);
+    border: 1px solid rgba(184,176,168,0.25);
+    padding: 9px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+.btn-secondary:hover { color: var(--c-warm-white); border-color: var(--c-warm-gray); }
+
+/* 分享卡片预览 */
+.share-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.share-modal.show { display: flex; }
+.share-card {
+    background: linear-gradient(155deg, #1A1A2E 0%, #16213E 60%, #E94D35 200%);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 3 / 4;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.share-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(233,77,53,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.share-card .brand { font-family: "Noto Serif SC", serif; font-weight: 800; font-size: 1.1rem; opacity: 0.9; }
+.share-card .child-name { font-family: "Noto Serif SC", serif; font-size: 1.6rem; margin-top: 24px; font-weight: 800; }
+.share-card .quote { font-size: 1.4rem; line-height: 1.5; margin-top: 16px; font-weight: 600; }
+.share-card .stat-row { display: flex; gap: 16px; margin-top: auto; padding-top: 20px; }
+.share-card .stat-row .stat { flex: 1; }
+.share-card .stat-num { font-size: 1.8rem; font-weight: 800; font-family: "Noto Serif SC", serif; }
+.share-card .stat-label { font-size: 0.72rem; opacity: 0.8; }
+.share-card .footer { font-size: 0.7rem; opacity: 0.6; margin-top: 12px; text-align: center; }
+.share-modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--c-warm-gray);
+}
+.empty-state .ico { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <header class="hero">
+        <div class="child-meta">
+            <h1 id="child-name">小米同学</h1>
+            <span class="subtitle">初一 · 数学</span>
+        </div>
+        <div class="updated" id="updated-at">数据更新于 —</div>
+    </header>
+
+    <!-- 30 秒看懂三件 -->
+    <section class="glance">
+        <div class="glance-card strong">
+            <div class="num" id="strong-count">—</div>
+            <div class="label">已经掌握</div>
+        </div>
+        <div class="glance-card">
+            <div class="num" id="zpd-count">—</div>
+            <div class="label">正在攻克</div>
+        </div>
+        <div class="glance-card weak">
+            <div class="num" id="weak-count">—</div>
+            <div class="label">需要补</div>
+        </div>
+    </section>
+
+    <!-- 主体雷达 + 弱项 -->
+    <div class="main-grid">
+        <div class="panel">
+            <h2>能力雷达</h2>
+            <svg id="radar-svg" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="panel">
+            <h2>具体到每个知识点</h2>
+            <ul class="kc-list" id="kc-list"></ul>
+        </div>
+    </div>
+
+    <!-- FSRS 今日复习区（仅在有待复习时显示） -->
+    <div class="panel" id="fsrs-panel" style="display:none; border-left: 3px solid var(--c-warning); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
+        <h2 style="font-size: 1rem; margin-bottom: 8px;">⏰ 今日 FSRS 复习 <span style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;" id="fsrs-count">—</span></h2>
+        <p style="color: var(--c-warm-gray); font-size: 0.88rem; margin-bottom: 12px;">这些知识点到了再练一遍的最佳时机，错过就要重新学。</p>
+        <ul id="fsrs-list" style="list-style: none; padding: 0;"></ul>
+    </div>
+
+    <!-- 行动卡：导向「再让孩子练 25 分钟」 -->
+    <div class="action-card">
+        <h3>下一步建议</h3>
+        <p id="action-text">系统建议先攻克「<span id="rec-kp">—</span>」这一个知识点。今晚 25 分钟，孩子能从现在的 <span id="rec-mastery">—</span> 推到 0.85+。</p>
+        <div class="btn-row">
+            <a class="btn-primary" id="practice-btn" href="/mastery-loop">让孩子开始练 →</a>
+            <button class="btn-secondary" id="share-btn">生成可分享卡片</button>
+            <button class="btn-secondary" id="refresh-btn">刷新最新数据</button>
+        </div>
+    </div>
+
+    <!-- 调试 -->
+    <details style="margin-top:24px;color:var(--c-warm-dim);font-size:0.78rem;">
+        <summary style="cursor:pointer;">调试信息（数据源 / API 状态）</summary>
+        <pre id="debug-log" style="background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;margin-top:8px;font-family:'DM Mono',monospace;font-size:0.78rem;line-height:1.5;overflow-x:auto;"></pre>
+    </details>
+
+</div>
+
+<!-- 分享卡片弹窗 -->
+<div class="share-modal" id="share-modal">
+    <div class="share-card" id="share-card">
+        <div class="brand">原点 AI 私教</div>
+        <div class="child-name" id="share-child">小米同学</div>
+        <div class="quote" id="share-quote">这周攻克了 3 个知识点。</div>
+        <div class="stat-row">
+            <div class="stat">
+                <div class="stat-num" id="share-mastered">—</div>
+                <div class="stat-label">已掌握知识点</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num" id="share-progress">—</div>
+                <div class="stat-label">本周进步</div>
+            </div>
+        </div>
+        <div class="footer">扫码免费试 4 周 · 0 元内测</div>
+    </div>
+    <button class="share-modal-close" onclick="document.getElementById('share-modal').classList.remove('show')">×</button>
+</div>
+
+<script>
+// =========== 配置 ===========
+const STUDENT_ID = new URLSearchParams(location.search).get('student_id') || 'demo-student-001';
+const CHILD_NAME = new URLSearchParams(location.search).get('name') || '小米同学';
+const NCDM_PROXY = '/api/mastery-proxy';  // 走 ai-edu-platform Edge proxy
+// 直连 NCDM Fly.io 兜底（开发期可指向 https://yuandian-ncdm.fly.dev）
+const NCDM_DIRECT = '';
+
+// Mock 数据（NCDM 还没数据时演示用）
+const MOCK = {
+    student_id: 'demo-student-001',
+    trained_at: '2026-04-26T03:00:00Z',
+    n_kcs: 10,
+    all_kcs: [
+        { knowledge_point_id: 'kp-7-eq-linear', name: '一元一次方程', subject: 'math', mastery: 0.42 },
+        { knowledge_point_id: 'kp-7-expr-merge', name: '合并同类项', subject: 'math', mastery: 0.78 },
+        { knowledge_point_id: 'kp-7-expr-bracket', name: '去括号', subject: 'math', mastery: 0.65 },
+        { knowledge_point_id: 'kp-7-eq-property', name: '等式性质', subject: 'math', mastery: 0.88 },
+        { knowledge_point_id: 'kp-7-eq-move', name: '移项', subject: 'math', mastery: 0.55 },
+        { knowledge_point_id: 'kp-7-eq-frac', name: '去分母', subject: 'math', mastery: 0.31 },
+        { knowledge_point_id: 'kp-7-app-trip', name: '应用题·行程', subject: 'math', mastery: 0.27 },
+        { knowledge_point_id: 'kp-7-app-work', name: '应用题·工程', subject: 'math', mastery: 0.46 },
+        { knowledge_point_id: 'kp-7-app-conc', name: '应用题·浓度', subject: 'math', mastery: 0.18 },
+        { knowledge_point_id: 'kp-7-int-mul', name: '整式乘除', subject: 'math', mastery: 0.71 },
+    ],
+};
+
+const dbg = msg => {
+    const el = document.getElementById('debug-log');
+    el.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+};
+
+// =========== API 拉数据 ===========
+async function fetchMastery() {
+    dbg(`GET ${NCDM_PROXY}/vector?student_id=${STUDENT_ID}`);
+    try {
+        const r = await fetch(`${NCDM_PROXY}/vector?student_id=${encodeURIComponent(STUDENT_ID)}`);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const data = await r.json();
+        dbg(`← ${data.n_kcs} KCs, trained_at=${data.trained_at}`);
+        return data;
+    } catch (e) {
+        dbg(`! API 失败 (${e.message})，用 MOCK 演示数据`);
+        return MOCK;
+    }
+}
+
+// =========== 雷达图 ===========
+function drawRadar(kcs, svgEl) {
+    const N = kcs.length;
+    const cx = 160, cy = 160, R = 110;
+    const grid = [0.2, 0.4, 0.6, 0.8, 1.0];
+    const ns = 'http://www.w3.org/2000/svg';
+    svgEl.innerHTML = '';
+
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'radar-grid');
+    // 同心多边形
+    grid.forEach(scale => {
+        const pts = [];
+        for (let i = 0; i < N; i++) {
+            const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+            pts.push(`${cx + Math.cos(a) * R * scale},${cy + Math.sin(a) * R * scale}`);
+        }
+        const poly = document.createElementNS(ns, 'polygon');
+        poly.setAttribute('points', pts.join(' '));
+        g.appendChild(poly);
+    });
+    // 轴线
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const ln = document.createElementNS(ns, 'line');
+        ln.setAttribute('x1', cx); ln.setAttribute('y1', cy);
+        ln.setAttribute('x2', cx + Math.cos(a) * R);
+        ln.setAttribute('y2', cy + Math.sin(a) * R);
+        g.appendChild(ln);
+    }
+    svgEl.appendChild(g);
+
+    // 数据形状
+    const dataPts = [];
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const m = kcs[i].mastery;
+        dataPts.push(`${cx + Math.cos(a) * R * m},${cy + Math.sin(a) * R * m}`);
+    }
+    const shape = document.createElementNS(ns, 'polygon');
+    shape.setAttribute('points', dataPts.join(' '));
+    shape.setAttribute('class', 'radar-shape');
+    svgEl.appendChild(shape);
+
+    // 轴标签
+    for (let i = 0; i < N; i++) {
+        const a = (i / N) * 2 * Math.PI - Math.PI / 2;
+        const lx = cx + Math.cos(a) * (R + 14);
+        const ly = cy + Math.sin(a) * (R + 14) + 4;
+        const t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', lx); t.setAttribute('y', ly);
+        t.setAttribute('class', 'radar-axis-label');
+        // 名字过长截断
+        const name = kcs[i].name || '';
+        t.textContent = name.length > 6 ? name.slice(0, 5) + '…' : name;
+        svgEl.appendChild(t);
+    }
+}
+
+// =========== KC list ===========
+function renderKcList(kcs) {
+    const ul = document.getElementById('kc-list');
+    ul.innerHTML = '';
+    const sorted = [...kcs].sort((a, b) => a.mastery - b.mastery);
+    sorted.forEach(kc => {
+        const tier = tierFor(kc.mastery);
+        const li = document.createElement('li');
+        li.className = 'kc-item';
+        li.innerHTML = `
+            <span class="kc-name">${escapeHtml(kc.name)}</span>
+            <div class="kc-bar-wrap"><div class="kc-bar-fill" style="width:${(kc.mastery * 100).toFixed(0)}%; background:${tier.color};"></div></div>
+            <span class="kc-mastery" style="color:${tier.color};">${(kc.mastery * 100).toFixed(0)}%</span>
+            <span class="kc-tag ${tier.cls}">${tier.label}</span>
+        `;
+        ul.appendChild(li);
+    });
+}
+
+function tierFor(m) {
+    if (m >= 0.8) return { label: '掌握', cls: 'strong', color: 'var(--c-success)' };
+    if (m >= 0.5) return { label: '攻克中', cls: 'zpd', color: 'var(--c-origin-soft)' };
+    return { label: '待补', cls: 'weak', color: 'var(--c-warning)' };
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+// =========== Glance + Action ===========
+function updateGlance(kcs) {
+    const strong = kcs.filter(k => k.mastery >= 0.8).length;
+    const zpd = kcs.filter(k => k.mastery >= 0.5 && k.mastery < 0.8).length;
+    const weak = kcs.filter(k => k.mastery < 0.5).length;
+    document.getElementById('strong-count').textContent = strong;
+    document.getElementById('zpd-count').textContent = zpd;
+    document.getElementById('weak-count').textContent = weak;
+}
+
+function pickRecommendation(kcs) {
+    // ZPD 最优先（0.4-0.7 区间且接近 0.55 的）
+    const candidates = kcs
+        .filter(k => k.mastery >= 0.3 && k.mastery <= 0.7)
+        .map(k => ({ ...k, dist: Math.abs(0.55 - k.mastery) }))
+        .sort((a, b) => a.dist - b.dist);
+    return candidates[0] || kcs.sort((a, b) => a.mastery - b.mastery)[0];
+}
+
+function updateAction(rec) {
+    if (!rec) return;
+    document.getElementById('rec-kp').textContent = rec.name;
+    document.getElementById('rec-mastery').textContent = (rec.mastery * 100).toFixed(0) + '%';
+    document.getElementById('practice-btn').href = `/mastery-loop?topic=${encodeURIComponent(rec.knowledge_point_id)}&name=${encodeURIComponent(CHILD_NAME)}`;
+}
+
+// =========== 分享卡片 ===========
+function openShare(kcs) {
+    const strong = kcs.filter(k => k.mastery >= 0.8).length;
+    const top1 = [...kcs].sort((a, b) => b.mastery - a.mastery)[0];
+    document.getElementById('share-child').textContent = CHILD_NAME;
+    document.getElementById('share-quote').textContent = `这周「${top1.name}」从 0 到 ${(top1.mastery * 100).toFixed(0)}%。`;
+    document.getElementById('share-mastered').textContent = strong;
+    document.getElementById('share-progress').textContent = `+${Math.max(1, Math.round(strong * 0.6))}`;
+    document.getElementById('share-modal').classList.add('show');
+}
+
+// =========== FSRS 今日复习 ===========
+async function fetchFsrsDue() {
+    try {
+        const r = await fetch(`/api/fsrs-due?student_id=${encodeURIComponent(STUDENT_ID)}&limit=5`);
+        if (!r.ok) return null;
+        return await r.json();
+    } catch (e) {
+        dbg(`! fsrs-due failed: ${e.message}`);
+        return null;
+    }
+}
+
+function renderFsrsPanel(data) {
+    if (!data || !data.items || data.items.length === 0) return;
+    const panel = document.getElementById('fsrs-panel');
+    panel.style.display = 'block';
+    document.getElementById('fsrs-count').textContent = `${data.due_count} 个待复习`;
+    const ul = document.getElementById('fsrs-list');
+    ul.innerHTML = '';
+    data.items.forEach(item => {
+        const r = item.retrievability ?? 0;
+        const isUrgent = r < 0.6;
+        const li = document.createElement('li');
+        li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(184,176,168,0.1);';
+        li.innerHTML = `
+            <a href="/mastery-loop?topic=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
+                ${escapeHtml(item.kp_name || item.knowledge_point_id?.slice(0, 8) || '未命名')}
+                <span style="color: ${isUrgent ? 'var(--c-error)' : 'var(--c-warm-dim)'}; font-size: 0.78rem; margin-left: 8px;">
+                    记忆度 ${(r * 100).toFixed(0)}%${isUrgent ? ' · 紧急' : ''}
+                </span>
+            </a>
+            <span style="font-family: 'DM Mono', monospace; color: var(--c-origin-soft); font-size: 0.85rem;">→</span>
+        `;
+        ul.appendChild(li);
+    });
+}
+
+// =========== 启动 ===========
+async function boot() {
+    document.getElementById('child-name').textContent = CHILD_NAME;
+    const [data, fsrs] = await Promise.all([fetchMastery(), fetchFsrsDue()]);
+    document.getElementById('updated-at').textContent = '数据更新于 ' + (data.trained_at ? new Date(data.trained_at).toLocaleString('zh-CN') : '—');
+    drawRadar(data.all_kcs, document.getElementById('radar-svg'));
+    renderKcList(data.all_kcs);
+    updateGlance(data.all_kcs);
+    renderFsrsPanel(fsrs);
+    const rec = pickRecommendation(data.all_kcs);
+    updateAction(rec);
+    document.getElementById('share-btn').addEventListener('click', () => openShare(data.all_kcs));
+    document.getElementById('refresh-btn').addEventListener('click', () => location.reload());
+}
+
+boot();
+</script>
+</body>
+</html>

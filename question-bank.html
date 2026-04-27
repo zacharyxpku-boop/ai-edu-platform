@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点 · 真题题库 · 947 道高考中考真题</title>
+<meta name="description" content="OpenLMLab GAOKAO-Bench 711 + AI-EDU-LAB E-EVAL 236，按 topic / 难度 / 年份筛选">
+<style>
+:root {
+    --c-ink: #1A1A2E;
+    --c-ink-light: #16213E;
+    --c-ink-surface: #0F3460;
+    --c-origin: #E94D35;
+    --c-origin-soft: #FF6B4A;
+    --c-warm-white: #F5F0EB;
+    --c-warm-gray: #B8B0A8;
+    --c-warm-dim: #7A7067;
+    --c-success: #2D9F6F;
+    --c-warning: #D4A843;
+    --c-mono: "DM Mono", "Cascadia Mono", "Courier New", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Noto Sans SC", -apple-system, "PingFang SC", sans-serif;
+    background: var(--c-ink);
+    color: var(--c-warm-white);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+
+.hero {
+    border-bottom: 1px solid rgba(184,176,168,0.15);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+.hero h1 { font-size: 1.5rem; }
+.hero .meta {
+    color: var(--c-warm-gray);
+    font-size: 0.88rem;
+    margin-top: 4px;
+    font-family: var(--c-mono);
+}
+.hero .attribution {
+    color: var(--c-warm-dim);
+    font-size: 0.78rem;
+    margin-top: 8px;
+}
+
+/* 顶部 KPI */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.kpi-cell {
+    background: var(--c-ink-light);
+    padding: 12px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--c-origin);
+}
+.kpi-cell .v {
+    font-size: 1.6rem;
+    font-weight: 800;
+    font-family: "Noto Serif SC", serif;
+    color: var(--c-warm-white);
+}
+.kpi-cell .l {
+    color: var(--c-warm-dim);
+    font-size: 0.78rem;
+    margin-top: 2px;
+}
+
+/* 筛选区 */
+.filters {
+    background: var(--c-ink-light);
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    align-items: end;
+}
+.filter-group label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--c-warm-gray);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.filter-group select, .filter-group input {
+    width: 100%;
+    background: var(--c-ink);
+    border: 1px solid rgba(184,176,168,0.2);
+    color: var(--c-warm-white);
+    padding: 8px 10px;
+    font-size: 0.92rem;
+    border-radius: 6px;
+    font-family: inherit;
+}
+.filter-group select:focus, .filter-group input:focus {
+    outline: none;
+    border-color: var(--c-origin);
+}
+
+/* 题目卡片 */
+.results-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--c-warm-gray);
+    font-size: 0.88rem;
+}
+.results-meta .count { color: var(--c-origin-soft); font-weight: 700; }
+
+.q-list { display: flex; flex-direction: column; gap: 10px; }
+.q-card {
+    background: var(--c-ink-light);
+    padding: 14px 18px;
+    border-radius: 8px;
+    border-left: 3px solid var(--c-warm-dim);
+    transition: border-color 0.2s ease;
+}
+.q-card.high { border-left-color: var(--c-warning); }
+.q-card.veryhigh { border-left-color: var(--c-origin); }
+.q-card .head {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+}
+.q-card .head .badge {
+    background: rgba(184,176,168,0.12);
+    color: var(--c-warm-gray);
+    padding: 2px 8px;
+    border-radius: 100px;
+}
+.q-card .head .badge.year { background: rgba(45,159,111,0.18); color: var(--c-success); }
+.q-card .head .badge.diff { background: rgba(212,168,67,0.18); color: var(--c-warning); }
+.q-card .head .badge.source { font-family: var(--c-mono); }
+.q-card .stem {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--c-warm-white);
+    word-break: break-word;
+}
+.q-card .stem .cut {
+    color: var(--c-warm-dim);
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-left: 4px;
+}
+.q-card .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.q-card .actions button {
+    background: transparent;
+    color: var(--c-warm-gray);
+    border: 1px solid rgba(184,176,168,0.2);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-family: inherit;
+}
+.q-card .actions button:hover { color: var(--c-warm-white); border-color: var(--c-warm-gray); }
+.q-card details summary { cursor: pointer; color: var(--c-origin-soft); font-size: 0.85rem; margin-top: 6px; }
+.q-card details .answer { color: var(--c-success); font-weight: 600; margin: 6px 0; }
+.q-card details .analysis { color: var(--c-warm-gray); font-size: 0.88rem; line-height: 1.6; }
+
+.pager { margin: 20px 0 0; display: flex; justify-content: center; gap: 8px; }
+.pager button {
+    background: var(--c-ink-light);
+    color: var(--c-warm-white);
+    border: 1px solid rgba(184,176,168,0.2);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+}
+.pager button:disabled { opacity: 0.4; cursor: not-allowed; }
+.pager .page-num { padding: 6px 14px; color: var(--c-warm-gray); font-family: var(--c-mono); font-size: 0.85rem; }
+
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--c-warm-dim);
+}
+
+@media (max-width: 600px) {
+    .filters { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <header class="hero">
+        <h1>真题题库 · 高考 + 中考</h1>
+        <div class="meta" id="meta-line">加载中...</div>
+        <div class="attribution">
+            数据源 · OpenLMLab GAOKAO-Bench (Apache 2.0) · AI-EDU-LAB E-EVAL (MIT)
+        </div>
+    </header>
+
+    <!-- KPI -->
+    <div class="kpi-row" id="kpi-row"></div>
+
+    <!-- 筛选 -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>学段</label>
+            <select id="f-stage">
+                <option value="">全部</option>
+                <option value="primary">小学</option>
+                <option value="middle">初中</option>
+                <option value="high">高中</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>知识点</label>
+            <select id="f-topic"><option value="">全部 topic</option></select>
+        </div>
+        <div class="filter-group">
+            <label>年份（仅高考）</label>
+            <select id="f-year"><option value="">全部年份</option></select>
+        </div>
+        <div class="filter-group">
+            <label>题型</label>
+            <select id="f-type">
+                <option value="">全部</option>
+                <option value="mcq">选择题</option>
+                <option value="subjective">解答题</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>难度</label>
+            <select id="f-diff">
+                <option value="">全部</option>
+                <option value="easy">简单 (≤0.5)</option>
+                <option value="mid">中等 (0.5-0.7)</option>
+                <option value="hard">困难 (>0.7)</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>关键词</label>
+            <input id="f-keyword" type="text" placeholder="搜题干…" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="results-meta">
+        <span>命中 <span class="count" id="result-count">—</span> 道</span>
+        <span id="result-page" class="page-num"></span>
+    </div>
+
+    <div class="q-list" id="q-list"></div>
+
+    <div class="pager" id="pager"></div>
+
+</div>
+
+<script>
+const PAGE_SIZE = 20;
+
+let DATA = { questions: [], byTopic: {}, byYear: new Set(), totals: { all: 0, gaokao: 0, eeval: 0, mcq: 0, subj: 0 } };
+let filtered = [];
+let pageIdx = 0;
+
+// === 加载两个 JSON ===
+async function loadData() {
+    try {
+        const [eevalR, gaokaoR] = await Promise.all([
+            fetch('/src/curriculum/questions-from-eeval.json'),
+            fetch('/src/curriculum/questions-from-gaokao.json'),
+        ]);
+        const eeval = eevalR.ok ? await eevalR.json() : { questions: [] };
+        const gaokao = gaokaoR.ok ? await gaokaoR.json() : { questions: [] };
+        DATA.questions = [...gaokao.questions, ...eeval.questions];
+        DATA.totals.all = DATA.questions.length;
+        DATA.totals.gaokao = gaokao.questions.length;
+        DATA.totals.eeval = eeval.questions.length;
+        DATA.questions.forEach(q => {
+            (q.topic_ids || []).forEach(t => {
+                if (!DATA.byTopic[t]) DATA.byTopic[t] = 0;
+                DATA.byTopic[t]++;
+            });
+            if (q.year) DATA.byYear.add(q.year);
+            if (q.type === 'mcq') DATA.totals.mcq++;
+            else DATA.totals.subj++;
+        });
+    } catch (e) {
+        document.getElementById('meta-line').textContent = '加载失败：' + e.message;
+    }
+}
+
+function renderKpiAndMeta() {
+    document.getElementById('meta-line').textContent =
+        `共 ${DATA.totals.all} 道 · GAOKAO ${DATA.totals.gaokao} + E-EVAL ${DATA.totals.eeval} · MCQ ${DATA.totals.mcq} / 解答 ${DATA.totals.subj}`;
+    const row = document.getElementById('kpi-row');
+    row.innerHTML = `
+        <div class="kpi-cell"><div class="v">${DATA.totals.all}</div><div class="l">总题数</div></div>
+        <div class="kpi-cell"><div class="v">${DATA.totals.gaokao}</div><div class="l">高考真题</div></div>
+        <div class="kpi-cell"><div class="v">${DATA.totals.eeval}</div><div class="l">中考评测</div></div>
+        <div class="kpi-cell"><div class="v">${Object.keys(DATA.byTopic).length}</div><div class="l">覆盖知识点</div></div>
+        <div class="kpi-cell"><div class="v">${DATA.byYear.size}</div><div class="l">高考年份覆盖</div></div>
+    `;
+}
+
+function fillTopicSelect() {
+    const sel = document.getElementById('f-topic');
+    Object.entries(DATA.byTopic)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([tid, c]) => {
+            const opt = document.createElement('option');
+            opt.value = tid;
+            opt.textContent = `${tid} (${c})`;
+            sel.appendChild(opt);
+        });
+    const ysel = document.getElementById('f-year');
+    [...DATA.byYear].sort().reverse().forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        ysel.appendChild(opt);
+    });
+}
+
+function applyFilters() {
+    const stage = document.getElementById('f-stage').value;
+    const topic = document.getElementById('f-topic').value;
+    const year = document.getElementById('f-year').value;
+    const type = document.getElementById('f-type').value;
+    const diff = document.getElementById('f-diff').value;
+    const kw = document.getElementById('f-keyword').value.trim();
+
+    filtered = DATA.questions.filter(q => {
+        if (stage && q.stage !== stage) return false;
+        if (topic && !(q.topic_ids || []).includes(topic)) return false;
+        if (year && String(q.year) !== year) return false;
+        if (type && q.type !== type) return false;
+        if (diff === 'easy' && q.difficulty > 0.5) return false;
+        if (diff === 'mid' && (q.difficulty <= 0.5 || q.difficulty > 0.7)) return false;
+        if (diff === 'hard' && q.difficulty <= 0.7) return false;
+        if (kw && !(q.stem || '').includes(kw) && !(q.explanation || '').includes(kw)) return false;
+        return true;
+    });
+    pageIdx = 0;
+    renderResults();
+}
+
+function renderResults() {
+    const list = document.getElementById('q-list');
+    document.getElementById('result-count').textContent = filtered.length;
+    if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty">没有命中的题目，调一下筛选条件试试</div>';
+        document.getElementById('pager').innerHTML = '';
+        document.getElementById('result-page').textContent = '';
+        return;
+    }
+    const start = pageIdx * PAGE_SIZE;
+    const slice = filtered.slice(start, start + PAGE_SIZE);
+    list.innerHTML = '';
+    slice.forEach(q => {
+        const c = document.createElement('div');
+        c.className = 'q-card' + (q.difficulty > 0.7 ? ' veryhigh' : (q.difficulty > 0.5 ? ' high' : ''));
+        const stem = (q.stem || '').slice(0, 220);
+        const cutMark = (q.stem || '').length > 220 ? '<span class="cut">…</span>' : '';
+        c.innerHTML = `
+            <div class="head">
+                <span class="badge source">${escapeHtml(q.source?.dataset || '?')}</span>
+                ${q.year ? `<span class="badge year">${q.year}</span>` : ''}
+                ${q.type === 'mcq' ? `<span class="badge">选择</span>` : `<span class="badge">解答</span>`}
+                <span class="badge diff">难度 ${q.difficulty}</span>
+                ${(q.topic_ids || []).slice(0, 2).map(t => `<span class="badge">${escapeHtml(t)}</span>`).join('')}
+            </div>
+            <div class="stem">${escapeHtml(stem)}${cutMark}</div>
+            ${q.options && Object.keys(q.options).length ? renderOptions(q.options) : ''}
+            <details>
+                <summary>查看答案与解析</summary>
+                <div class="answer">答案：${escapeHtml(q.answer || '—')}</div>
+                <div class="analysis">${escapeHtml((q.explanation || '').slice(0, 500))}${(q.explanation || '').length > 500 ? '…' : ''}</div>
+            </details>
+            <div class="actions">
+                <button onclick="copyToClipboard('${escapeHtml(q.id)}')">复制 ID</button>
+            </div>
+        `;
+        list.appendChild(c);
+    });
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+    document.getElementById('result-page').textContent = `第 ${pageIdx + 1} / ${totalPages} 页`;
+    renderPager(totalPages);
+}
+
+function renderOptions(opts) {
+    return '<div style="margin-top:6px;font-size:0.85rem;color:var(--c-warm-gray);">' +
+        Object.entries(opts).map(([k, v]) => `<div><strong>${k}</strong> ${escapeHtml(v.slice(0, 80))}</div>`).join('') +
+        '</div>';
+}
+
+function renderPager(total) {
+    const p = document.getElementById('pager');
+    p.innerHTML = '';
+    if (total <= 1) return;
+    const prev = document.createElement('button');
+    prev.textContent = '← 上一页';
+    prev.disabled = pageIdx === 0;
+    prev.onclick = () => { pageIdx--; renderResults(); window.scrollTo(0, 0); };
+    const next = document.createElement('button');
+    next.textContent = '下一页 →';
+    next.disabled = pageIdx >= total - 1;
+    next.onclick = () => { pageIdx++; renderResults(); window.scrollTo(0, 0); };
+    p.append(prev, next);
+}
+
+function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard?.writeText(text);
+}
+
+// === 启动 ===
+(async () => {
+    await loadData();
+    renderKpiAndMeta();
+    fillTopicSelect();
+    filtered = [...DATA.questions];
+    renderResults();
+    ['f-stage', 'f-topic', 'f-year', 'f-type', 'f-diff'].forEach(id =>
+        document.getElementById(id).addEventListener('change', applyFilters)
+    );
+    document.getElementById('f-keyword').addEventListener('input', () => {
+        clearTimeout(window._kwT);
+        window._kwT = setTimeout(applyFilters, 300);
+    });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点 · 内测数据看板</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root {
+    --c-ink: #1A1A2E;
+    --c-ink-light: #16213E;
+    --c-ink-surface: #0F3460;
+    --c-origin: #E94D35;
+    --c-origin-soft: #FF6B4A;
+    --c-warm-white: #F5F0EB;
+    --c-warm-gray: #B8B0A8;
+    --c-warm-dim: #7A7067;
+    --c-success: #2D9F6F;
+    --c-warning: #D4A843;
+    --c-error: #C94040;
+    --c-mono: "DM Mono", "Cascadia Mono", "Courier New", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--c-ink);
+    color: var(--c-warm-white);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+
+/* Auth gate */
+.auth-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+.auth-box {
+    background: var(--c-ink-light);
+    padding: 32px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+.auth-box h1 { font-size: 1.4rem; margin-bottom: 8px; }
+.auth-box p { color: var(--c-warm-gray); font-size: 0.9rem; margin-bottom: 18px; }
+.auth-box input {
+    width: 100%;
+    background: var(--c-ink);
+    border: 1px solid rgba(184,176,168,0.2);
+    color: var(--c-warm-white);
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-family: var(--c-mono);
+}
+.auth-box button {
+    width: 100%;
+    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Dashboard */
+.dashboard { display: none; padding: 16px 20px 60px; max-width: 1280px; margin: 0 auto; }
+.dashboard.active { display: block; }
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(184,176,168,0.15);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.topbar h1 { font-size: 1.4rem; }
+.topbar .tools { display: flex; gap: 8px; align-items: center; font-size: 0.82rem; color: var(--c-warm-gray); }
+.topbar select, .topbar button {
+    background: var(--c-ink-light);
+    color: var(--c-warm-white);
+    border: 1px solid rgba(184,176,168,0.2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* KPI 大数字格栅 */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.kpi {
+    background: var(--c-ink-light);
+    border: 1px solid rgba(184,176,168,0.08);
+    border-left: 3px solid var(--c-origin);
+    padding: 14px 16px;
+    border-radius: 8px;
+}
+.kpi .label { font-size: 0.78rem; color: var(--c-warm-gray); text-transform: uppercase; letter-spacing: 0.05em; }
+.kpi .num {
+    font-size: 1.85rem;
+    font-weight: 800;
+    font-family: "Noto Serif SC", serif;
+    margin-top: 2px;
+    line-height: 1.1;
+}
+.kpi .delta { font-size: 0.78rem; margin-top: 2px; font-family: var(--c-mono); }
+.kpi .delta.up { color: var(--c-success); }
+.kpi .delta.down { color: var(--c-error); }
+.kpi.alert { border-left-color: var(--c-warning); }
+.kpi.alert .num { color: var(--c-warning); }
+.kpi.crit { border-left-color: var(--c-error); }
+.kpi.crit .num { color: var(--c-error); }
+
+/* 双栏 */
+.two-col {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+.panel {
+    background: var(--c-ink-light);
+    border: 1px solid rgba(184,176,168,0.08);
+    border-radius: 8px;
+    padding: 16px;
+}
+.panel h2 { font-size: 0.95rem; margin-bottom: 12px; color: var(--c-warm-white); }
+
+/* 学员表 */
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid rgba(184,176,168,0.08); }
+th { color: var(--c-warm-gray); font-weight: 500; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+td.mono { font-family: var(--c-mono); }
+.tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 100px;
+    color: white;
+    font-weight: 600;
+}
+.tag.active { background: var(--c-success); }
+.tag.idle { background: var(--c-warning); }
+.tag.lost { background: var(--c-error); }
+.bar-mini {
+    display: inline-block;
+    width: 60px;
+    height: 5px;
+    background: var(--c-ink-surface);
+    border-radius: 100px;
+    margin-right: 6px;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.bar-mini-fill { height: 100%; background: var(--c-origin); }
+
+/* 折线图 */
+.spark {
+    width: 100%;
+    height: 140px;
+}
+.spark .axis { stroke: rgba(184,176,168,0.15); stroke-width: 1; }
+.spark .axis-label { fill: var(--c-warm-dim); font-size: 10px; font-family: var(--c-mono); }
+.spark .line { fill: none; stroke: var(--c-origin); stroke-width: 2; }
+.spark .area { fill: rgba(233,77,53,0.12); }
+.spark .pt { fill: var(--c-origin); }
+
+/* alert 区 */
+.alerts { background: var(--c-ink-light); border-left: 3px solid var(--c-warning); padding: 14px 16px; border-radius: 8px; margin-bottom: 18px; }
+.alerts h3 { font-size: 0.92rem; color: var(--c-warning); margin-bottom: 8px; }
+.alerts ul { list-style: none; }
+.alerts li { font-size: 0.88rem; padding: 4px 0; color: var(--c-warm-white); }
+.alerts li::before { content: "⚠ "; color: var(--c-warning); margin-right: 4px; }
+.alerts.empty li::before { content: "✓ "; color: var(--c-success); }
+.alerts.empty { border-left-color: var(--c-success); }
+.alerts.empty h3 { color: var(--c-success); }
+
+/* 错题归因 top */
+.taxonomy-list li { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.88rem; border-bottom: 1px dashed rgba(184,176,168,0.08); }
+.taxonomy-list li:last-child { border-bottom: none; }
+.taxonomy-list .l3 { color: var(--c-warm-gray); }
+.taxonomy-list .cnt { font-family: var(--c-mono); color: var(--c-origin-soft); }
+
+footer { text-align: center; color: var(--c-warm-dim); font-size: 0.78rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<!-- Auth gate -->
+<div class="auth-gate" id="auth">
+    <div class="auth-box">
+        <h1>原点内测看板</h1>
+        <p>仅 Zack/乙方/丙方可访问</p>
+        <input id="auth-token" type="password" placeholder="访问令牌" autocomplete="off">
+        <button id="auth-btn">进入看板</button>
+        <p style="margin-top:12px;font-size:0.78rem;color:var(--c-warm-dim);">令牌存在 sessionStorage，关浏览器后失效</p>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard" id="dash">
+
+    <div class="topbar">
+        <h1>内测数据看板 <span style="color:var(--c-warm-gray);font-size:0.85rem;font-weight:400;">· <span id="cohort-name">五一营第二期</span></span></h1>
+        <div class="tools">
+            <span>看 </span>
+            <select id="time-range">
+                <option value="today">今日</option>
+                <option value="yesterday">昨日</option>
+                <option value="7d" selected>近 7 天</option>
+                <option value="all">全周期</option>
+            </select>
+            <button id="refresh-btn">刷新</button>
+            <span id="updated-at" style="margin-left:8px;font-family:var(--c-mono);font-size:0.78rem;"></span>
+        </div>
+    </div>
+
+    <!-- 告警 -->
+    <div class="alerts" id="alerts-box">
+        <h3 id="alerts-title">系统告警</h3>
+        <ul id="alerts-list"></ul>
+    </div>
+
+    <!-- KPI 5 个 -->
+    <div class="kpi-grid">
+        <div class="kpi" id="kpi-active">
+            <div class="label">今日活跃</div>
+            <div class="num">—</div>
+            <div class="delta">vs 昨日 —</div>
+        </div>
+        <div class="kpi" id="kpi-completion">
+            <div class="label">闭环完成率</div>
+            <div class="num">—</div>
+            <div class="delta">25min 完成 / 启动</div>
+        </div>
+        <div class="kpi" id="kpi-mastery-gain">
+            <div class="label">平均 Mastery 增量</div>
+            <div class="num">—</div>
+            <div class="delta">单次闭环</div>
+        </div>
+        <div class="kpi" id="kpi-error-rate">
+            <div class="label">错题率</div>
+            <div class="num">—</div>
+            <div class="delta">> 60% 触发难度调降</div>
+        </div>
+        <div class="kpi" id="kpi-w4-projection">
+            <div class="label">W4 留存预测</div>
+            <div class="num">—</div>
+            <div class="delta">基线 60% / 目标 75%</div>
+        </div>
+    </div>
+
+    <!-- 双栏 -->
+    <div class="two-col">
+        <div class="panel">
+            <h2>每日活跃曲线（近 14 天）</h2>
+            <svg class="spark" id="spark-active" viewBox="0 0 600 140"></svg>
+        </div>
+        <div class="panel">
+            <h2>错题归因 Top 5（64 类）</h2>
+            <ul class="taxonomy-list" id="taxonomy-list"></ul>
+        </div>
+    </div>
+
+    <!-- 学员明细表 -->
+    <div class="panel">
+        <h2>学员明细 <span style="color:var(--c-warm-gray);font-size:0.78rem;font-weight:400;">· 按风险降序</span></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>学员</th>
+                    <th>状态</th>
+                    <th>累计闭环</th>
+                    <th>最近活跃</th>
+                    <th>当前 Mastery</th>
+                    <th>本周变化</th>
+                    <th>风险</th>
+                </tr>
+            </thead>
+            <tbody id="student-rows"></tbody>
+        </table>
+    </div>
+
+    <footer>
+        Zack only · 数据每 5 分钟自动刷新 · API: <span id="api-status" style="font-family:var(--c-mono);"></span>
+    </footer>
+
+</div>
+
+<script>
+const ADMIN_TOKEN_KEY = 'yuandian_admin_token';
+
+// 自检：sessionStorage 里有 token 直接进
+window.addEventListener('DOMContentLoaded', () => {
+    const t = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+    if (t) enterDash(t);
+});
+document.getElementById('auth-btn').addEventListener('click', () => {
+    const t = document.getElementById('auth-token').value.trim();
+    if (!t) return;
+    sessionStorage.setItem(ADMIN_TOKEN_KEY, t);
+    enterDash(t);
+});
+document.getElementById('auth-token').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('auth-btn').click();
+});
+document.getElementById('refresh-btn').addEventListener('click', () => loadAll());
+document.getElementById('time-range').addEventListener('change', () => loadAll());
+
+let TOKEN = '';
+
+function enterDash(t) {
+    TOKEN = t;
+    document.getElementById('auth').style.display = 'none';
+    document.getElementById('dash').classList.add('active');
+    loadAll();
+    setInterval(loadAll, 5 * 60 * 1000);
+}
+
+async function fetchAdmin(path) {
+    try {
+        const r = await fetch('/api/admin' + path, {
+            headers: { 'X-Admin-Token': TOKEN }
+        });
+        if (r.status === 401) {
+            sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+            location.reload();
+            return null;
+        }
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return await r.json();
+    } catch (e) {
+        document.getElementById('api-status').textContent = '失败: ' + e.message;
+        return null;
+    }
+}
+
+// === MOCK 数据（API 上线前演示用，与 admin endpoint 同 schema）===
+const MOCK = {
+    summary: {
+        cohort_name: '五一营第二期',
+        active_today: 23, active_yesterday: 26, active_total: 30,
+        completion_rate: 0.82, completion_today_n: 19, completion_today_d: 23,
+        avg_mastery_gain: 0.18,
+        error_rate: 0.41,
+        w4_projection: 0.71,
+        updated_at: new Date().toISOString(),
+    },
+    daily_active: [
+        { d: '04-21', n: 0 }, { d: '04-22', n: 0 }, { d: '04-23', n: 0 }, { d: '04-24', n: 0 },
+        { d: '04-25', n: 0 }, { d: '04-26', n: 0 }, { d: '04-27', n: 0 }, { d: '04-28', n: 0 },
+        { d: '04-29', n: 0 }, { d: '04-30', n: 0 }, { d: '05-01', n: 0 }, { d: '05-02', n: 0 },
+        { d: '05-03', n: 0 }, { d: '05-04', n: 28 }, { d: '05-05', n: 26 }, { d: '05-06', n: 24 },
+        { d: '05-07', n: 23 },
+    ],
+    taxonomy_top: [
+        { l3_id: 'ability.calculation_error.sign', l3_name: '符号错', count: 47 },
+        { l3_id: 'knowledge.definition_vague.wrong_boundary', l3_name: '概念边界错', count: 32 },
+        { l3_id: 'ability.reading.miss_unit', l3_name: '审题漏单位', count: 28 },
+        { l3_id: 'ability.skipped_step.merge_term', l3_name: '合并同类项跳步', count: 19 },
+        { l3_id: 'knowledge.formula_misremember', l3_name: '公式记错', count: 15 },
+    ],
+    students: [
+        { name: '小明', status: 'active',  loops: 12, last_at: '今天 14:32', mastery: 0.74, week_delta: 0.21, risk: 'low' },
+        { name: '小红', status: 'active',  loops: 8,  last_at: '今天 12:11', mastery: 0.62, week_delta: 0.18, risk: 'low' },
+        { name: '小刚', status: 'idle',    loops: 3,  last_at: '昨天 21:00', mastery: 0.41, week_delta: 0.04, risk: 'mid' },
+        { name: '小宇', status: 'idle',    loops: 2,  last_at: '2 天前',     mastery: 0.33, week_delta: 0.02, risk: 'mid' },
+        { name: '小婷', status: 'lost',    loops: 1,  last_at: '5 天前',     mastery: 0.28, week_delta: 0.0,  risk: 'high' },
+    ],
+    alerts: [
+        '小婷 5 天未活跃，建议私信干预',
+        '错题归因 64 类里「符号错」占 47 次，可能要在 retrieve few-shot 加强',
+        'NCDM 训练数据不足（attempts < 1000），暂跑 mock 雷达',
+    ],
+};
+
+async function loadAll() {
+    const tr = document.getElementById('time-range').value;
+    let data = await fetchAdmin('/summary?range=' + tr);
+    if (!data) {
+        data = MOCK; // API 不通用 mock
+        document.getElementById('api-status').textContent = 'mock 数据';
+    } else {
+        document.getElementById('api-status').textContent = 'live';
+    }
+    renderKpis(data.summary);
+    renderAlerts(data.alerts || []);
+    renderSpark(data.daily_active || []);
+    renderTaxonomy(data.taxonomy_top || []);
+    renderStudents(data.students || []);
+    document.getElementById('cohort-name').textContent = data.summary.cohort_name || '内测';
+    document.getElementById('updated-at').textContent = '更新于 ' + new Date(data.summary.updated_at).toLocaleString('zh-CN');
+}
+
+function renderKpis(s) {
+    const set = (id, num, delta, modifier) => {
+        const el = document.getElementById(id);
+        el.querySelector('.num').textContent = num;
+        if (delta) el.querySelector('.delta').innerHTML = delta;
+        el.classList.remove('alert', 'crit');
+        if (modifier) el.classList.add(modifier);
+    };
+    const activeDelta = s.active_today - s.active_yesterday;
+    set('kpi-active', `${s.active_today} / ${s.active_total}`,
+        `vs 昨日 <span class="${activeDelta >= 0 ? 'up' : 'down'}">${activeDelta >= 0 ? '+' : ''}${activeDelta}</span>`,
+        s.active_today / s.active_total < 0.6 ? 'crit' : (s.active_today / s.active_total < 0.75 ? 'alert' : null));
+    set('kpi-completion', `${(s.completion_rate * 100).toFixed(0)}%`,
+        `${s.completion_today_n} / ${s.completion_today_d}`,
+        s.completion_rate < 0.5 ? 'crit' : (s.completion_rate < 0.7 ? 'alert' : null));
+    set('kpi-mastery-gain', `+${s.avg_mastery_gain.toFixed(2)}`, '单次闭环',
+        s.avg_mastery_gain < 0.1 ? 'alert' : null);
+    set('kpi-error-rate', `${(s.error_rate * 100).toFixed(0)}%`, '> 60% 调难度',
+        s.error_rate > 0.6 ? 'crit' : null);
+    set('kpi-w4-projection', `${(s.w4_projection * 100).toFixed(0)}%`, '基线 60% / 目标 75%',
+        s.w4_projection < 0.6 ? 'crit' : (s.w4_projection < 0.75 ? 'alert' : null));
+}
+
+function renderAlerts(arr) {
+    const box = document.getElementById('alerts-box');
+    const list = document.getElementById('alerts-list');
+    list.innerHTML = '';
+    if (!arr.length) {
+        box.classList.add('empty');
+        document.getElementById('alerts-title').textContent = '一切正常，无告警';
+        list.innerHTML = '<li>所有学员活跃中，错题归因正常，NCDM 服务在线</li>';
+        return;
+    }
+    box.classList.remove('empty');
+    document.getElementById('alerts-title').textContent = `系统告警 (${arr.length})`;
+    arr.forEach(a => { const li = document.createElement('li'); li.textContent = a; list.appendChild(li); });
+}
+
+function renderSpark(daily) {
+    const svg = document.getElementById('spark-active');
+    svg.innerHTML = '';
+    if (!daily.length) return;
+    const W = 600, H = 140, padX = 30, padY = 20;
+    const maxN = Math.max(...daily.map(d => d.n), 30);
+    const xStep = (W - 2 * padX) / Math.max(1, daily.length - 1);
+    const ns = 'http://www.w3.org/2000/svg';
+    // y 轴 grid
+    [0, 0.25, 0.5, 0.75, 1].forEach(p => {
+        const y = padY + (H - 2 * padY) * (1 - p);
+        const ln = document.createElementNS(ns, 'line');
+        ln.setAttribute('x1', padX); ln.setAttribute('y1', y);
+        ln.setAttribute('x2', W - padX); ln.setAttribute('y2', y);
+        ln.setAttribute('class', 'axis');
+        svg.appendChild(ln);
+        const t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', 4); t.setAttribute('y', y + 3);
+        t.setAttribute('class', 'axis-label');
+        t.textContent = Math.round(p * maxN);
+        svg.appendChild(t);
+    });
+    // 折线
+    const pts = daily.map((d, i) => {
+        const x = padX + i * xStep;
+        const y = padY + (H - 2 * padY) * (1 - d.n / maxN);
+        return [x, y, d.d, d.n];
+    });
+    const linePath = 'M ' + pts.map(p => `${p[0]},${p[1]}`).join(' L ');
+    const areaPath = `M ${pts[0][0]},${H - padY} L ` + pts.map(p => `${p[0]},${p[1]}`).join(' L ') + ` L ${pts[pts.length - 1][0]},${H - padY} Z`;
+    const a = document.createElementNS(ns, 'path');
+    a.setAttribute('d', areaPath); a.setAttribute('class', 'area');
+    svg.appendChild(a);
+    const ln = document.createElementNS(ns, 'path');
+    ln.setAttribute('d', linePath); ln.setAttribute('class', 'line');
+    svg.appendChild(ln);
+    // 点 + x 轴标签（每 3 天一个）
+    pts.forEach((p, i) => {
+        if (p[3] > 0) {
+            const c = document.createElementNS(ns, 'circle');
+            c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', 3);
+            c.setAttribute('class', 'pt');
+            svg.appendChild(c);
+        }
+        if (i % 3 === 0 || i === pts.length - 1) {
+            const t = document.createElementNS(ns, 'text');
+            t.setAttribute('x', p[0]); t.setAttribute('y', H - 4);
+            t.setAttribute('text-anchor', 'middle');
+            t.setAttribute('class', 'axis-label');
+            t.textContent = p[2].slice(-5);
+            svg.appendChild(t);
+        }
+    });
+}
+
+function renderTaxonomy(arr) {
+    const ul = document.getElementById('taxonomy-list');
+    ul.innerHTML = '';
+    arr.forEach(t => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="l3">${escapeHtml(t.l3_name)} <span style="color:var(--c-warm-dim);font-size:0.72rem;font-family:var(--c-mono);">${t.l3_id}</span></span><span class="cnt">${t.count}</span>`;
+        ul.appendChild(li);
+    });
+    if (!arr.length) ul.innerHTML = '<li style="color:var(--c-warm-dim);">暂无错题数据（attempts 表空）</li>';
+}
+
+function renderStudents(arr) {
+    const tb = document.getElementById('student-rows');
+    tb.innerHTML = '';
+    arr.forEach(s => {
+        const tr = document.createElement('tr');
+        const riskMap = { low: { tag: 'active', text: '正常' }, mid: { tag: 'idle', text: '待干预' }, high: { tag: 'lost', text: '高危' } };
+        const r = riskMap[s.risk] || riskMap.low;
+        tr.innerHTML = `
+            <td>${escapeHtml(s.name)}</td>
+            <td><span class="tag ${s.status === 'active' ? 'active' : (s.status === 'idle' ? 'idle' : 'lost')}">${s.status}</span></td>
+            <td class="mono">${s.loops}</td>
+            <td class="mono">${escapeHtml(s.last_at)}</td>
+            <td><span class="bar-mini"><span class="bar-mini-fill" style="display:inline-block;width:${(s.mastery * 100).toFixed(0)}%"></span></span>${(s.mastery * 100).toFixed(0)}%</td>
+            <td class="mono ${s.week_delta >= 0.05 ? 'up' : (s.week_delta < 0.02 ? 'down' : '')}" style="color:${s.week_delta >= 0.05 ? 'var(--c-success)' : (s.week_delta < 0.02 ? 'var(--c-warning)' : 'inherit')}">+${s.week_delta.toFixed(2)}</td>
+            <td><span class="tag ${r.tag}">${r.text}</span></td>
+        `;
+        tb.appendChild(tr);
+    });
+    if (!arr.length) tb.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--c-warm-dim);padding:24px;">暂无学员数据</td></tr>';
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+</script>
+
+</body>
+</html>
