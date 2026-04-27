@@ -84,7 +84,8 @@ export default async function handler(req) {
         const r = await fetch(
             `${SUPABASE_URL}/rest/v1/student_states?` +
             `student_id=eq.${encodeURIComponent(studentId)}&` +
-            `select=knowledge_point_id,mastery_score,fsrs_state,next_review_at,attempts_count,correct_count`,
+            // 嵌入 knowledge_points 拉 code/name；否则前端拼 mastery-loop URL 时 topic_code 是 UUID 不是 ontology code
+            `select=knowledge_point_id,mastery_score,fsrs_state,next_review_at,attempts_count,correct_count,knowledge_points(code,name)`,
             {
                 headers: {
                     'apikey': SUPABASE_ANON_KEY,
@@ -102,6 +103,8 @@ export default async function handler(req) {
         const due = states
             .map(s => ({
                 knowledge_point_id: s.knowledge_point_id,
+                kp_code: s.knowledge_points?.code || null,         // 提到顶层方便前端拼链接
+                kp_name: s.knowledge_points?.name || null,
                 mastery_score: s.mastery_score,
                 attempts_count: s.attempts_count || 0,
                 correct_count: s.correct_count || 0,

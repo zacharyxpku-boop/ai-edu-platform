@@ -464,7 +464,7 @@ function updateAction(rec) {
     if (!rec) return;
     document.getElementById('rec-kp').textContent = rec.name;
     document.getElementById('rec-mastery').textContent = (rec.mastery * 100).toFixed(0) + '%';
-    document.getElementById('practice-btn').href = `/mastery-loop?topic_code=${encodeURIComponent(rec.knowledge_point_id)}&name=${encodeURIComponent(CHILD_NAME)}`;
+    document.getElementById('practice-btn').href = `/mastery-loop?student_id=${encodeURIComponent(STUDENT_ID)}&topic_code=${encodeURIComponent(rec.knowledge_point_id)}&name=${encodeURIComponent(CHILD_NAME)}`;
 }
 
 // =========== 分享卡片 ===========
@@ -503,7 +503,7 @@ function renderFsrsPanel(data) {
         const li = document.createElement('li');
         li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(184,176,168,0.1);';
         li.innerHTML = `
-            <a href="/mastery-loop?topic_code=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
+            <a href="/mastery-loop?student_id=${encodeURIComponent(STUDENT_ID)}&topic_code=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
                 ${escapeHtml(item.kp_name || item.knowledge_point_id?.slice(0, 8) || '未命名')}
                 <span style="color: ${isUrgent ? 'var(--c-error)' : 'var(--c-warm-dim)'}; font-size: 0.78rem; margin-left: 8px;">
                     记忆度 ${(r * 100).toFixed(0)}%${isUrgent ? ' · 紧急' : ''}
