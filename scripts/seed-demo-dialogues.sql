@@ -5,12 +5,12 @@
 -- 撤销：DELETE FROM dialogues WHERE student_id = '00000000-0000-0000-0000-000000000001' AND meta->>'seed_source' = 'demo-day-2026-05-04';
 --
 -- 设计：
---   · 12 条对话（6 轮学生+老师交替）
---   · cognitive_style 分布：visual ×6 / verbal ×2 / abstract ×1 / unknown ×3 → 主导 visual (置信 6/5=1.0)
---   · interest_keywords：篮球 ×3 / 游戏 ×2 / 抖音 ×1 → top 3 = 篮球·游戏·抖音
---   · emotion_state：焦虑 ×4 / 投入 ×3 / 平和 ×3 / 自信 ×2 → 主导 焦虑
---   · analogy_effective: true ×4 / false ×2 / null ×6 → 奏效率 4/6 = 67%
---   · stuck_point：一元一次方程移项 ×3 / 分式去分母 ×2 / 应用题翻译 ×2
+--   · 16 条对话（4 轮学生+老师交替 + 4 条额外学生独白）
+--   · cognitive_style 分布：visual ×5 / verbal ×2 / abstract ×1 / unknown ×8 → 主导 visual (5/5 → 置信 1.0)
+--   · interest_keywords：篮球 ×3 / 游戏 ×1 / 抖音 ×1 → top 3 = 篮球·游戏·抖音
+--   · emotion_state：焦虑 ×6 / 平和 ×4 / 投入 ×4 / 自信 ×1 / 沮丧 ×1 → 主导 焦虑
+--   · analogy_effective: true ×4 / false ×2 / null ×10 → 奏效率 4/6 = 67%
+--   · stuck_point：移项忘记变号 ×2 / 分式去分母漏乘 ×1 / 应用题翻译 ×1 / 去分母原理 ×1
 
 DO $$
 DECLARE
@@ -281,7 +281,7 @@ BEGIN
      ),
      0, base_t + interval '68 minutes');
 
-    RAISE NOTICE 'Demo seed inserted: 14 dialogues for demo-student-001';
+    RAISE NOTICE 'Demo seed inserted: 16 dialogues for demo-student-001 (12 student + 4 tutor)';
 END $$;
 
 -- 验证查询
@@ -294,4 +294,7 @@ SELECT
 FROM dialogues
 WHERE student_id = '00000000-0000-0000-0000-000000000001'
   AND meta->>'seed_source' = 'demo-day-2026-05-04';
--- 期望：total=14, visual=6, anxious=4, analogy_true=4, analogy_false=2
+-- 期望：total=16, visual=5, anxious=6, analogy_true=4, analogy_false=2
+-- rollup 后 cognitive_style 主导 visual（5/5 → confidence 1.0，远超 0.4 门槛）
+-- emotion 主导 焦虑（6 hits）；类比奏效率 4/(4+2)=67%（>0.55 → tutor 多用比喻）
+-- 兴趣 top: 篮球(3) / 游戏(1) / 抖音(1)
