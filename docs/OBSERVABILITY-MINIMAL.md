@@ -181,4 +181,21 @@ EXP-4 · 图卡按钮点击率：__ % vs PV → 留 / 撤
 
 snippet 2 的连续周回溯循环顶 60 周作 safety cap，零通关时单次跳出（i===0 走 fallback 一次后 break），确认无死循环或 NaN 风险。可以放心粘贴进任意学生浏览器。
 
-> 如果未来加新埋点，记得回这份文档加新 snippet + dry-run 一遍再拍版。
+### 自动化回归（不再靠手动跑）
+
+```bash
+npm test            # 跑全部回归
+npm run test:obs    # 只跑本文档相关 snippet 回归
+```
+
+实际执行的是 [`scripts/observability-dry-run.cjs`](../scripts/observability-dry-run.cjs)（5 个 case，约 50ms 完成）：
+
+1. 空 localStorage / 空 DOM 不爆错
+2. 4 周连续通关 → streak === 4
+3. 1 周通关 + 跨 2 周空白 → streak === 1（不跨空白）
+4. malformed entries（null / 无 ts / 字符串 ts）不 crash
+5. 200 entries 压测 < 50ms + safety cap 60 周生效
+
+退出码 non-zero → 阻塞 push（接 git pre-push hook 或 GitHub Action 时）。改 streak 算法之前先跑一次确认 baseline，改完再跑确认没破。
+
+> 加新埋点时：先在本文档加 snippet → dry-run 一遍 → 把对应 case 加进 `observability-dry-run.cjs` → 再拍版。三步走。
