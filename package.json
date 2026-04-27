@@ -11,10 +11,11 @@
   },
   "scripts": {
     "dev": "http-server . -p 3000 -c-1",
-    "test": "node scripts/observability-dry-run.cjs && node scripts/check-static-links.cjs && node scripts/test-track.cjs",
+    "test": "node scripts/observability-dry-run.cjs && node scripts/check-static-links.cjs && node scripts/test-track.cjs && node scripts/test-streak-bar.cjs",
     "test:obs": "node scripts/observability-dry-run.cjs",
     "test:links": "node scripts/check-static-links.cjs",
-    "test:track": "node scripts/test-track.cjs"
+    "test:track": "node scripts/test-track.cjs",
+    "test:streak": "node scripts/test-streak-bar.cjs"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
