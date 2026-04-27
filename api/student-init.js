@@ -13,15 +13,20 @@ const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? p
 const ENGINE_VERSION = 'student-init-v1.0';
 
 // 默认推荐起点（按年级 → 该年级第一章第一个 KP）
+// PoC 期 KP 表只 seed 了 math.7.ch3.kp1-4 (一元一次方程章节)。
+// 非 middle_1 档的孩子 fallback 到这条真存在的 KP，避免 mastery-loop 落到不存在 topic_code → 全链路 404。
+// V2 真 KP 全表 import 后逐档替换成各自高频起点。
+const POC_REAL_KP = 'math.7.ch3.kp3';   // 一元一次方程·移项（PoC 唯一真 seed 进 knowledge_points 表的章节）
+
 const DEFAULT_FIRST_TOPIC = {
-    middle_1: 'math.7.ch3.kp3',  // 一元一次方程·移项（最高频考点）
-    middle_2: 'math.8.ch11.kp3', // 全等三角形判定
-    middle_3: 'math.9.ch21.kp3', // 一元二次方程·配方法
-    primary_5: 'math.5.ch1.kp1', // 占位（小学未做完）
-    primary_6: 'math.6.ch1.kp1',
-    high_1: 'math.h.func_concept',
-    high_2: 'math.h.deriv',
-    high_3: 'math.h.deriv',
+    primary_1: POC_REAL_KP,  primary_2: POC_REAL_KP,  primary_3: POC_REAL_KP,
+    primary_4: POC_REAL_KP,  primary_5: POC_REAL_KP,  primary_6: POC_REAL_KP,
+    middle_1: 'math.7.ch3.kp3',  // 一元一次方程·移项（最高频考点 + PoC 真 seed）
+    middle_2: POC_REAL_KP,       // V2 替换成 'math.8.ch11.kp3' 全等三角形判定
+    middle_3: POC_REAL_KP,       // V2 替换成 'math.9.ch21.kp3' 一元二次方程·配方法
+    high_1: POC_REAL_KP,         // V2 替换成 'math.h.func_concept'
+    high_2: POC_REAL_KP,         // V2 替换成 'math.h.deriv'
+    high_3: POC_REAL_KP,         // V2 替换成 'math.h.deriv'
 };
 
 const VALID_GRADES = new Set(Object.keys(DEFAULT_FIRST_TOPIC));
