@@ -251,11 +251,16 @@ snippet 2 的连续周回溯循环顶 60 周作 safety cap，零通关时单次�
 ### 自动化回归（不再靠手动跑）
 
 ```bash
-npm test            # 跑全部回归
-npm run test:obs    # 只跑本文档相关 snippet 回归
+npm test            # 跑全部回归 (observability + 静态链接 lint)
+npm run test:obs    # 只跑 observability 相关 snippet 回归
+npm run test:links  # 只跑 HTML 静态链接 404 检查
 ```
 
-实际执行的是 [`scripts/observability-dry-run.cjs`](../scripts/observability-dry-run.cjs)（5 个 case，约 50ms 完成）：
+`npm test` 串行跑两件事：
+1. [`scripts/observability-dry-run.cjs`](../scripts/observability-dry-run.cjs) · 8 case · 50ms · 验 streak 算法 / event ring buffer / 三跳漏斗
+2. [`scripts/check-static-links.cjs`](../scripts/check-static-links.cjs) · 扫 34 个 HTML 文件 499 内部 link · 任何 href/src 指向不存在文件即 fail
+
+第一段（observability）的 5 个 case：
 
 1. 空 localStorage / 空 DOM 不爆错
 2. 4 周连续通关 → streak === 4
@@ -266,3 +271,5 @@ npm run test:obs    # 只跑本文档相关 snippet 回归
 退出码 non-zero → 阻塞 push（接 git pre-push hook 或 GitHub Action 时）。改 streak 算法之前先跑一次确认 baseline，改完再跑确认没破。
 
 > 加新埋点时：先在本文档加 snippet → dry-run 一遍 → 把对应 case 加进 `observability-dry-run.cjs` → 再拍版。三步走。
+
+> CI 守门：`.github/workflows/test.yml` 在 push/PR 改 `src/**` 或 `*.html` 时自动跑 `npm test`，PR 红圈直接挡住 main 被破坏 streak 算法 / 加新死链。
