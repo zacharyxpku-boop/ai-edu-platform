@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数学 · 11 本教材按年级铺开 | 原点 AI 学堂</title>
+<meta name="description" content="可汗学院 Math course 中文化 · 人教版数学初一→高三 11 本教材 + 错题切片 + 下一章推荐 + AI 私教随时上线。">
+<style>
+:root{
+  --ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bg:#FAFAF7;--card:#FFFFFF;--bdr:#E4E4E7;--soft:#F4F4F5;
+  --blue:#2563EB;--blue-bg:#EFF6FF;--blue-dk:#1D4ED8;
+  --amber:#F5A623;--amber-bg:#FEF3C7;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --green:#059669;--green-bg:#ECFDF5;
+  --font:system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:ui-monospace,'JetBrains Mono','Menlo',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--blue);background:var(--blue-bg)}
+
+/* layout */
+.wrap{max-width:1120px;margin:0 auto;padding:24px 20px 80px}
+
+/* hero */
+.subj-hero{
+  display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
+  background:linear-gradient(135deg,#EFF6FF 0%,#FFF 60%);
+  border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;margin:14px 0 18px;
+}
+.subj-hero .sigil{
+  width:64px;height:64px;border-radius:14px;
+  background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:800;line-height:1;
+  box-shadow:0 4px 14px -4px rgba(37,99,235,.4);
+}
+.subj-hero h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
+.subj-hero h1 small{font-size:12px;color:var(--ink3);font-weight:500;margin-left:8px}
+.subj-hero .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.subj-hero .meta b{color:var(--ink);font-weight:800}
+.subj-ring{
+  width:84px;height:84px;position:relative;flex:0 0 auto;
+}
+.subj-ring svg{transform:rotate(-90deg)}
+.subj-ring .pct{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+}
+.subj-ring .pct .n{font-size:20px;font-weight:800;color:var(--blue)}
+.subj-ring .pct .l{font-size:9px;color:var(--ink3);letter-spacing:.5px;margin-top:1px}
+
+/* primary CTA strip */
+.cta-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.cta-strip a{
+  flex:1;min-width:200px;display:flex;align-items:center;gap:10px;padding:13px 16px;
+  background:#fff;border:1px solid var(--bdr);border-radius:11px;
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:13px;transition:.15s;
+}
+.cta-strip a:hover{border-color:var(--blue);box-shadow:0 2px 10px -2px rgba(37,99,235,.18);transform:translateY(-1px)}
+.cta-strip a .em{font-size:20px;line-height:1}
+.cta-strip a .s{font-size:11px;color:var(--ink3);font-weight:500;display:block;margin-top:2px}
+.cta-strip a.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.cta-strip a.primary:hover{background:var(--blue-dk)}
+.cta-strip a.primary .s{color:rgba(255,255,255,.8)}
+
+/* section heads */
+.h2{font-size:16px;font-weight:800;letter-spacing:-.005em;margin:24px 0 10px;display:flex;align-items:baseline;gap:10px}
+.h2 small{font-size:11px;color:var(--ink3);font-weight:500;margin-left:auto}
+.h2 a{font-size:11px;color:var(--blue);text-decoration:none;font-weight:600}
+
+/* book list */
+.book-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.book-card{
+  background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;
+  transition:.15s;border-left:3px solid var(--blue);
+}
+.book-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px -2px rgba(0,0,0,.06);border-left-width:5px}
+.book-card .bk-em{font-size:24px;line-height:1;flex:0 0 auto}
+.book-card .bk-bd{flex:1;min-width:0}
+.book-card .bk-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.book-card .bk-s{font-size:11px;color:var(--ink3);margin-bottom:8px}
+.book-card .bk-bar{height:5px;background:var(--soft);border-radius:100px;overflow:hidden;margin-bottom:5px}
+.book-card .bk-bar i{display:block;height:100%;background:var(--blue);transition:width .4s}
+.book-card .bk-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.book-card .bk-meta b{color:var(--ink);font-weight:700}
+.book-card .bk-meta .err{color:var(--red);font-weight:700}
+.book-card.zero{opacity:.78;border-left-color:#D4D4D8}
+.book-card.zero:hover{opacity:1}
+.book-card.zero .bk-bar i{background:#D4D4D8}
+
+/* errors slice */
+.err-row{
+  display:flex;gap:12px;background:var(--red-bg);border:1px solid #FCA5A5;border-radius:10px;
+  padding:11px 13px;margin-bottom:8px;align-items:flex-start;
+}
+.err-row .em{font-size:18px;flex:0 0 auto;line-height:1.2}
+.err-row .bd{flex:1;min-width:0;font-size:12.5px;color:#7F1D1D}
+.err-row .bd b{color:#991B1B;font-weight:700}
+.err-row .qx{font-size:11px;color:#B91C1C;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.err-row .ax{
+  font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;
+  text-decoration:none;flex-shrink:0;align-self:center;
+}
+.err-empty{
+  padding:14px 16px;background:var(--green-bg);border:1px dashed #6EE7B7;color:#065F46;
+  font-size:13px;border-radius:10px;
+}
+
+/* quick actions */
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.qa-card{
+  background:#fff;border:1px solid var(--bdr);border-radius:11px;padding:13px 14px;
+  text-decoration:none;color:inherit;transition:.15s;display:flex;gap:10px;align-items:center;
+}
+.qa-card:hover{border-color:var(--blue);transform:translateY(-1px)}
+.qa-card .em{font-size:20px;line-height:1}
+.qa-card .t{font-size:12.5px;font-weight:700;color:var(--ink)}
+.qa-card .s{font-size:10.5px;color:var(--ink3);margin-top:2px;display:block}
+
+@media(max-width:680px){
+  .subj-hero{grid-template-columns:auto 1fr;gap:14px;padding:18px}
+  .subj-ring{display:none}
+  .subj-hero h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+      <span>原点 AI 学堂</span>
+    </a>
+    <a href="/paths.html" class="nav-a">学习路径</a>
+    <a href="/quiz.html?subject=math" class="nav-a on">数学</a>
+    <a href="/errors.html" class="nav-a">错题本</a>
+    <a href="/progress.html" class="nav-a">成长档案</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div id="streak-mount"></div>
+
+  <!-- HERO -->
+  <section class="subj-hero">
+    <div class="sigil">∑</div>
+    <div>
+      <h1>数学 <small>Mathematics · 高考必考主科</small></h1>
+      <div class="meta">
+        <span>📚 <b id="m-books">--</b> 本教材</span>
+        <span>📑 <b id="m-ch">--</b> 章节</span>
+        <span>📖 已读 <b id="m-read">0</b> 章</span>
+        <span>❌ 错题 <b id="m-err">0</b> 道</span>
+        <span>🔥 已掌握 <b id="m-mas">0</b> 章</span>
+      </div>
+    </div>
+    <div class="subj-ring">
+      <svg width="84" height="84" viewBox="0 0 84 84">
+        <circle cx="42" cy="42" r="36" fill="none" stroke="#E4E4E7" stroke-width="8"/>
+        <circle id="ring-fg" cx="42" cy="42" r="36" fill="none" stroke="#2563EB" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+      </svg>
+      <div class="pct"><span class="n" id="ring-n">0%</span><span class="l">MASTERY</span></div>
+    </div>
+  </section>
+
+  <!-- PRIMARY CTAS · KA "Continue learning" + "Practice" -->
+  <div class="cta-strip">
+    <a href="#" id="cta-continue" class="primary">
+      <span class="em">▶</span>
+      <span><span id="cta-cont-t">先开始第一本教材</span><span class="s" id="cta-cont-s">从初一上册起步</span></span>
+    </a>
+    <a href="/quiz.html?subject=math">
+      <span class="em">🎯</span>
+      <span>数学每日一题<span class="s">3 分钟一道，含解析</span></span>
+    </a>
+    <a href="/errors.html?subject=math">
+      <span class="em">📕</span>
+      <span>数学错题攻克<span class="s" id="cta-err-s">0 道待复习</span></span>
+    </a>
+  </div>
+
+  <!-- TEXTBOOK LIST -->
+  <h2 class="h2">11 本数学教材 · 按年级排<small>浅蓝条 = 已读章节占比</small></h2>
+  <div id="book-list" class="book-list"><div style="color:var(--ink3);font-size:13px;padding:12px">manifest 加载中...</div></div>
+
+  <!-- ERRORS SLICE -->
+  <h2 class="h2">最近的数学错题 · 别让同一道题白错<a href="/errors.html?subject=math">全部 →</a></h2>
+  <div id="err-mount"></div>
+
+  <!-- QUICK TOOLS · KA Khanmigo + Test prep links -->
+  <h2 class="h2">数学专属工具<small>AI 私教 · 题库 · 大题拆解</small></h2>
+  <div class="qa-grid">
+    <a class="qa-card" href="/tutor.html?subject=math">
+      <span class="em">🧑‍🏫</span>
+      <span><span class="t">AI 数学私教</span><span class="s">苏格拉底式追问 + 章节绑定</span></span>
+    </a>
+    <a class="qa-card" href="/tools/feynman.html?subject=math">
+      <span class="em">🗣️</span>
+      <span><span class="t">费曼讲题</span><span class="s">用人话讲一遍, AI 找漏洞</span></span>
+    </a>
+    <a class="qa-card" href="/tools/exam-diagnosis.html?subject=math">
+      <span class="em">📊</span>
+      <span><span class="t">月考诊断</span><span class="s">上传卷子 → 逐题失分定位</span></span>
+    </a>
+    <a class="qa-card" href="/tools/knowledge-arcade.html?subject=math">
+      <span class="em">🎮</span>
+      <span><span class="t">题库速练</span><span class="s">游戏化 4 模式 · 抢分</span></span>
+    </a>
+    <a class="qa-card" href="/tools/textbook-browser.html">
+      <span class="em">📖</span>
+      <span><span class="t">教材原文阅读器</span><span class="s">PDF + 章节高亮 + 笔记</span></span>
+    </a>
+    <a class="qa-card" href="/tools/learning-profile.html">
+      <span class="em">🧭</span>
+      <span><span class="t">3 分钟生成数学画像</span><span class="s">优势 / 短板 / 下一步</span></span>
+    </a>
+  </div>
+
+</div>
+
+<script src="/src/learning-store.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script>
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
+
+const SUBJECT_ZH = '数学';
+const SUBJECT_KEY = 'math';
+const RING_CIRC = 226.2;   // 2*pi*36
+
+function $(id){ return document.getElementById(id); }
+function safeGet(k, dflt){ try { return JSON.parse(localStorage.getItem(k) || (dflt!=null?JSON.stringify(dflt):'null')); } catch(e){ return dflt; } }
+
+const GRADE_ORDER = ['七年级','八年级','九年级','必修','必修1','必修2','必修3','必修4','必修第一册','必修第二册','第一册','第二册','选择性必修','选择性必修1','选择性必修2','选择性必修3'];
+function gradeRank(g){ const i = GRADE_ORDER.indexOf(g); return i < 0 ? 99 : i; }
+
+async function init(){
+  let manifest = null;
+  try {
+    const r = await fetch('/data/extracted/manifest.json', { cache: 'force-cache' });
+    manifest = await r.json();
+  } catch(e){
+    $('book-list').innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px">manifest 加载失败 · ' + (e.message||e) + '</div>';
+    return;
+  }
+  const books = (manifest.books || []).filter(b => b.subject === SUBJECT_ZH);
+  books.sort((a, b) => {
+    const sa = a.stage === '初中' ? 0 : (a.stage === '高中' ? 1 : 2);
+    const sb = b.stage === '初中' ? 0 : (b.stage === '高中' ? 1 : 2);
+    if (sa !== sb) return sa - sb;
+    const ga = gradeRank(a.grade), gb = gradeRank(b.grade);
+    if (ga !== gb) return ga - gb;
+    return (a.volume||'').localeCompare(b.volume||'');
+  });
+
+  // ----- 本地状态 -----
+  const read = safeGet('ydzx_textbook_read', {}) || {};
+  const readSig = new Set(Object.keys(read));
+  const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
+  // 错题：按 path::ch 聚合
+  const errs = (window.LearningStore && window.LearningStore.getErrors) ? (window.LearningStore.getErrors() || []) : [];
+  const errsMath = errs.filter(e => e.subject === SUBJECT_ZH || e.subject === SUBJECT_KEY);
+  const errCount = {};   // sig -> active count
+  errsMath.forEach(e => {
+    if ((e.reviewCount||0) >= 3) return;
+    if (!e.textbookRef || !e.textbookRef.path || e.textbookRef.ch == null) return;
+    const sig = e.textbookRef.path + '::ch' + e.textbookRef.ch;
+    errCount[sig] = (errCount[sig]||0) + 1;
+  });
+
+  // 章节做题正/负 from outcomes (subj=math 写入的)
+  const chPx = {};   // sig -> {good, bad}
+  Object.values(outcomes).forEach(o => {
+    if (!o || !o.book || o.ch == null) return;
+    if (o.subj && !(o.subj === SUBJECT_KEY || o.subj === SUBJECT_ZH)) return;
+    const sig = o.book + '::ch' + o.ch;
+    if (!chPx[sig]) chPx[sig] = { good: 0, bad: 0 };
+    if (o.r === 'right' || o.r === 'correct') chPx[sig].good++;
+    else if (o.r === 'wrong' || o.r === 'incorrect') chPx[sig].bad++;
+  });
+
+  // ----- 总分母 / mastery -----
+  let totalCh = 0, readCh = 0, masteredCh = 0, errChapters = 0;
+  books.forEach(b => {
+    (b.chapters||[]).forEach(c => {
+      totalCh++;
+      const sig = b.path + '::ch' + c.ch;
+      if (readSig.has(sig)) readCh++;
+      const px = chPx[sig];
+      if (readSig.has(sig) && px && px.good >= 2 && px.good >= px.bad * 2) masteredCh++;
+      if (errCount[sig]) errChapters++;
+    });
+  });
+  $('m-books').textContent = books.length;
+  $('m-ch').textContent = totalCh;
+  $('m-read').textContent = readCh;
+  $('m-err').textContent = Object.keys(errCount).length;
+  $('m-mas').textContent = masteredCh;
+
+  const pct = totalCh > 0 ? Math.round(masteredCh / totalCh * 100) : 0;
+  $('ring-n').textContent = pct + '%';
+  $('ring-fg').setAttribute('stroke-dashoffset', String(RING_CIRC * (1 - pct/100)));
+
+  // 错题 CTA 文案
+  $('cta-err-s').textContent = errsMath.filter(e => (e.reviewCount||0) < 3).length + ' 道待复习';
+
+  // ----- 渲染教材列 -----
+  const list = $('book-list');
+  if (!books.length){
+    list.innerHTML = '<div style="color:var(--ink3);font-size:13px;padding:12px">manifest 里暂无数学教材</div>';
+  } else {
+    list.innerHTML = books.map(b => {
+      const chs = b.chapters || [];
+      const rN = chs.reduce((a, c) => a + (readSig.has(b.path + '::ch' + c.ch) ? 1 : 0), 0);
+      const eN = chs.reduce((a, c) => a + (errCount[b.path + '::ch' + c.ch] ? 1 : 0), 0);
+      const total = chs.length;
+      const w = total > 0 ? Math.round(rN/total*100) : 0;
+      const zero = rN === 0;
+      const em = b.stage === '初中' ? '📘' : '📗';
+      const subTitle = (b.edition||'') + ' · ' + (b.grade||'') + (b.volume ? '·'+b.volume : '');
+      const href = '/tools/textbook-browser.html?path=' + encodeURIComponent(b.path);
+      return `<a class="book-card ${zero?'zero':''}" href="${href}">
+        <span class="bk-em">${em}</span>
+        <span class="bk-bd">
+          <div class="bk-t">${b.stage} · ${b.grade}${b.volume?' · '+b.volume:''}</div>
+          <div class="bk-s">${subTitle}</div>
+          <div class="bk-bar"><i style="width:${w}%"></i></div>
+          <div class="bk-meta">
+            <span>已读 <b>${rN}</b>/${total} 章</span>
+            ${eN>0?`<span class="err">${eN} 章有错题</span>`:`<span>${w}%</span>`}
+          </div>
+        </span>
+      </a>`;
+    }).join('');
+  }
+
+  // ----- 错题切片(取 5 条最新未掌握) -----
+  const slice = errsMath
+    .filter(e => (e.reviewCount||0) < 3)
+    .sort((a,b) => (b.createdAt||0) - (a.createdAt||0))
+    .slice(0, 5);
+  const errMount = $('err-mount');
+  if (!slice.length){
+    errMount.innerHTML = '<div class="err-empty">✅ 数学没有待复习的错题 · 状态干净 · <a href="/quiz.html?subject=math" style="color:#065F46;font-weight:700">来一题保持手感 →</a></div>';
+  } else {
+    errMount.innerHTML = slice.map(e => {
+      const tag = e.keyword || (e.mistakeTags && e.mistakeTags[0]) || '错题';
+      const q = (e.question||'').replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])).slice(0, 90);
+      const due = (e.nextReviewAt||0) <= Date.now() ? '今日到期' : '复习中';
+      return `<div class="err-row">
+        <div class="em">📕</div>
+        <div class="bd">
+          <div><b>${tag}</b> · 阶段 ${e.reviewCount||0}/3 · ${due}</div>
+          <div class="qx">${q || '(无题干)'}</div>
+        </div>
+        <a class="ax" href="/errors.html?id=${encodeURIComponent(e.id||'')}#review">复习</a>
+      </div>`;
+    }).join('');
+  }
+
+  // ----- 智能"继续学习" CTA -----
+  // 优先级：1)有错题→去复习  2)已读但未掌握 (chPracticed && bad>good)  3)第一本未读
+  let contHref = '/quiz.html?subject=math', contT = '从数学每日一题开始', contS = 'AI 出题, 1 道挂 1 个考点';
+  if (slice.length > 0){
+    contHref = '/errors.html?subject=math&due=1';
+    contT = '今日 ' + slice.filter(e=>(e.nextReviewAt||0)<=Date.now()).length + ' 道数学错题到期';
+    contS = '错题不补就是给同学送分 · 直接进复习';
+  } else {
+    // 找第一本未完整读完的教材
+    const firstIncomplete = books.find(b => {
+      const chs = b.chapters||[];
+      const r = chs.filter(c => readSig.has(b.path+'::ch'+c.ch)).length;
+      return r < chs.length;
+    });
+    if (firstIncomplete){
+      const chs = firstIncomplete.chapters||[];
+      const nextCh = chs.find(c => !readSig.has(firstIncomplete.path+'::ch'+c.ch));
+      if (nextCh){
+        contHref = '/tools/textbook-browser.html?path=' + encodeURIComponent(firstIncomplete.path) + '&ch=' + nextCh.ch;
+        contT = '继续读 ' + (firstIncomplete.grade||'') + ' · 第 ' + nextCh.ch + ' 章';
+        contS = nextCh.title || '下一章';
+      }
+    }
+  }
+  $('cta-continue').href = contHref;
+  $('cta-cont-t').textContent = contT;
+  $('cta-cont-s').textContent = contS;
+}
+
+init();
+</script>
+</body>
+</html>
