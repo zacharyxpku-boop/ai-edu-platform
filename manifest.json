@@ -1,8 +1,8 @@
 {
-  "name": "原点智学 — AI 时代家庭教育",
-  "short_name": "原点智学",
-  "description": "AI 时代家庭教育成长平台：学习工具、成长课、研究院文章，一站式陪伴家庭。",
-  "start_url": "/?utm_source=pwa",
+  "name": "原点智学 · AI 私教 · 这位老师记得你",
+  "short_name": "原点 AI 私教",
+  "description": "中国高考体系下的一对一 AI 私教 · 不是 ChatGPT · 跨会话记忆 + 学情指纹 + 中国课标对齐 · 单点提分目标 0.4-0.5 SD",
+  "start_url": "/start?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -19,8 +19,8 @@
     }
   ],
   "shortcuts": [
-    { "name": "学习工具",     "url": "/study-tools.html",     "description": "17 个 AI 学习工具" },
-    { "name": "原点研究院",   "url": "/articles.html",        "description": "家庭教育深度内容" },
-    { "name": "报名少年营",   "url": "/methods.html#pricing", "description": "3 天 AI 创造营" }
+    { "name": "找老师做题",   "url": "/start",                "description": "25 分钟单知识点闭环 · BKT 实时调难度" },
+    { "name": "跟老师聊聊",   "url": "/tutor",                "description": "记得你卡过哪的一对一私教对话" },
+    { "name": "妈妈视角",     "url": "/radar",                "description": "雷达图 + 学习指纹 + 今日金句" }
   ]
 }

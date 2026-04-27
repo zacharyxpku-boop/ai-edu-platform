@@ -1,5 +1,14 @@
 {
+  "name": "yuandian-ai-tutor",
+  "version": "1.1.0",
+  "description": "原点智学 AI 私教 · 中国高考体系下的一对一应试 AI 老师 · 跨会话记忆 + 6 字段学情指纹 + 64 类错题归因",
   "type": "module",
+  "private": true,
+  "homepage": "https://yuandianzhixue.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacharyxpku-boop/ai-edu-platform.git"
+  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }
