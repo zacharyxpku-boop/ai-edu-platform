@@ -7,6 +7,7 @@
 
 ## 战略 / 顶层设计
 - **AI-TUTOR-TOPDOWN-DESIGN.md** — v1.1 顶层设计（9 要素、Khanmigo 借鉴 + 反 Khanmigo 死穴、实现度评估）
+- **KHANMIGO-LEARNINGS.md** — 团队营销 / 公众号 / UI 文案弹药库（7 节 · 5 句家长金句 + 6 场景口袋词 + 反向差异化清单）
 - **ARCHITECTURE.md** — 技术架构总览
 - **DESIGN.md** — 视觉设计系统
 - **DECISIONS.md** — 关键技术决策
