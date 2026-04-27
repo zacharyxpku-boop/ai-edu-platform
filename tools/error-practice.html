@@ -339,13 +339,14 @@
         <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
     </footer>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
     <script>
     function sharePractice() {
         var total = document.querySelectorAll('#questions-container .question-item').length || document.querySelectorAll('#questions-container > div').length;
-        if (!total) { alert('先生成练习题再分享'); return; }
+        if (!total) { YdzxToast.show('先生成练习题再分享', 'warn'); return; }
         var stage = (document.getElementById('school-stage')||{}).value || '';
         var grade = (document.getElementById('grade')||{}).value || '';
         var subj = (document.getElementById('subject')||{}).value || '';
@@ -440,11 +441,11 @@
         var quantity = document.getElementById('quantity').value;
         var keyword = document.getElementById('keyword').value;
 
-        if (!stage) { alert('请选择学段'); return; }
-        if (!grade) { alert('请选择年级'); return; }
-        if (!subject) { alert('请选择科目'); return; }
-        if (!version) { alert('请选择教材版本'); return; }
-        if (!keyword) { alert('请输入知识点或关键词'); return; }
+        if (!stage) { YdzxToast.show('请选择学段', 'error'); YdzxToast.flagField('school-stage'); return; }
+        if (!grade) { YdzxToast.show('请选择年级', 'error'); YdzxToast.flagField('grade'); return; }
+        if (!subject) { YdzxToast.show('请选择科目', 'error'); YdzxToast.flagField('subject'); return; }
+        if (!version) { YdzxToast.show('请选择教材版本', 'error'); YdzxToast.flagField('textbook-version'); return; }
+        if (!keyword) { YdzxToast.show('请输入知识点或关键词', 'error'); YdzxToast.flagField('keyword'); return; }
 
         // 动态注入真题样本
         var sampleQuestions = getSampleQuestions(subject);
@@ -588,7 +589,7 @@
         var q = lastQuestions[index];
         if (!q) return;
         var studentAns = (document.getElementById('stu-ans-' + index).value || '').trim();
-        if (!studentAns) { alert('请先写下你的作答'); return; }
+        if (!studentAns) { YdzxToast.show('请先写下你的作答', 'warn'); return; }
 
         var btn = document.getElementById('submit-btn-' + index);
         var card = document.getElementById('judge-' + index);
@@ -703,27 +704,29 @@
     function markAsError(index) {
         var q = lastQuestions[index];
         if (!q) return;
-        if (!confirm('标记为错题？会连同题目/解析一起存入错题本。')) return;
-        var studentAns = (document.getElementById('stu-ans-' + index).value || '').trim();
-        if (window.LearningStore) {
-            window.LearningStore.saveError({
-                source: 'error-practice',
-                subject: lastContext.subject,
-                grade: lastContext.grade,
-                keyword: lastContext.keyword,
-                question: q.content,
-                studentAnswer: studentAns || '（未作答）',
-                correctAnswer: q.answer,
-                explanation: q.explanation,
-                score: 0,
-                verdict: 'wrong',
-                gap: '用户手动标记',
-                mistakeTags: ['用户手动标记']
-            });
-        }
-        stats.errors++;
-        updateStats();
-        alert('已存入错题本，可在「学习档案」或「错题举一反三」中复习。');
+        YdzxToast.confirm('标记为错题？会连同题目/解析一起存入错题本。', { confirmText: '存入错题本' }).then(function(ok){
+            if (!ok) return;
+            var studentAns = (document.getElementById('stu-ans-' + index).value || '').trim();
+            if (window.LearningStore) {
+                window.LearningStore.saveError({
+                    source: 'error-practice',
+                    subject: lastContext.subject,
+                    grade: lastContext.grade,
+                    keyword: lastContext.keyword,
+                    question: q.content,
+                    studentAnswer: studentAns || '（未作答）',
+                    correctAnswer: q.answer,
+                    explanation: q.explanation,
+                    score: 0,
+                    verdict: 'wrong',
+                    gap: '用户手动标记',
+                    mistakeTags: ['用户手动标记']
+                });
+            }
+            stats.errors++;
+            updateStats();
+            YdzxToast.show('已存入错题本 · 可在「学习档案 / 错题举一反三」复习', 'success');
+        });
     }
 
     function updateStats() {
