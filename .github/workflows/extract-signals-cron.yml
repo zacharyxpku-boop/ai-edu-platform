@@ -4,9 +4,11 @@
 name: Extract Dialogue Signals (Daily)
 
 on:
-  schedule:
-    - cron: '0 20 * * *'        # 每天 04:00 北京 = 20:00 UTC
-  workflow_dispatch:             # 也支持手动触发
+  # V1 砍掉自动 cron · 422 mock 数据没意义跑（SESSION-REVIEW 决策）
+  # V2 真用户上线后恢复：把下面两行 uncomment
+  # schedule:
+  #   - cron: '0 20 * * *'        # 每天 04:00 北京 = 20:00 UTC
+  workflow_dispatch:             # PoC 期只手动触发
 
 jobs:
   extract:

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>原点 25 分钟闭环 · 一元一次方程</title>
-<meta name="description" content="单知识点 25 分钟从练气到化神，原点 AI 私教 mastery loop 演示页">
+<meta name="description" content="单知识点 25 分钟从入门到精通，原点 AI 私教学习闭环">
 <style>
 :root {
     --c-ink: #1A1A2E;
@@ -226,7 +226,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .completion .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--c-origin-soft); font-family: "Noto Serif SC", serif; }
 .completion .stat-label { font-size: 0.78rem; color: var(--c-warm-dim); }
 
-/* 化神奖章 */
+/* 出师奖章（学习段位完成）*/
 .medal {
     width: 96px; height: 96px;
     margin: 0 auto 16px;
@@ -380,16 +380,16 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     <header class="hero">
         <span class="topic-tag">单知识点 · 25 分钟</span>
         <h1>一元一次方程</h1>
-        <p>从练气到化神，看你这一道关</p>
+        <p>从入门到出师，看你这一道关</p>
     </header>
 
     <section class="progress-block">
         <div class="progress-meta">
             <span class="step" id="step-meta">第 1 / 5 题</span>
-            <span class="level" id="level-tag">练气</span>
+            <span class="level" id="level-tag">入门</span>
         </div>
         <div class="bar-track">
-            <span class="threshold-label">化神 0.9</span>
+            <span class="threshold-label">过关 90%</span>
             <div class="threshold-marker"></div>
             <div class="bar-fill" id="bar"></div>
         </div>
@@ -426,10 +426,10 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
                 </defs>
                 <polygon class="star" points="48,4 56,36 90,36 62,56 72,90 48,70 24,90 34,56 6,36 40,36"/>
                 <circle class="core" cx="48" cy="48" r="20"/>
-                <text class="label" x="48" y="54" text-anchor="middle" font-size="16">化神</text>
+                <text class="label" x="48" y="54" text-anchor="middle" font-size="16">★</text>
             </svg>
         </div>
-        <h2 id="completion-h2">化神成就</h2>
+        <h2 id="completion-h2">这道题你会了 🎉</h2>
         <p id="completion-text">这道关你过了。这种题型再来你一眼就能看穿。</p>
         <div class="stats">
             <div class="stat"><div class="stat-num" id="final-mastery">—</div><div class="stat-label">掌握度</div></div>
@@ -438,7 +438,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         </div>
         <div class="actions-final">
             <button class="btn-submit" id="brag-trigger">炫耀给爸妈看 →</button>
-            <button class="btn-flex" onclick="location.reload()">再来一关</button>
+            <button class="btn-flex" onclick="location.reload()">再来一道</button>
             <button class="btn-flex" onclick="location.href='/parent-radar?student_id=demo-student-001'">看雷达</button>
         </div>
     </section>
@@ -448,11 +448,11 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div class="brag-card" id="brag-card">
             <div class="top-row"><div class="badge">原点 AI 私教</div></div>
             <div class="center-block">
-                <div class="level-tag" id="brag-level">化神达成 ✦</div>
+                <div class="level-tag" id="brag-level">出师 ✦</div>
                 <div class="child" id="brag-child">小米同学</div>
                 <div class="achievement" id="brag-line">
                     今晚 25 分钟，<br>
-                    把一元一次方程从练气推到了化神。
+                    把一元一次方程从入门做到出师。
                 </div>
             </div>
             <div class="meta-row">
@@ -492,11 +492,11 @@ const FALLBACK_QUESTIONS = [
 let QUESTIONS = FALLBACK_QUESTIONS.slice();
 
 const LEVELS = [
-    { min: 0.0, max: 0.2, name: '练气', desc: '入门期，多看一眼' },
-    { min: 0.2, max: 0.4, name: '筑基', desc: '基础在长，继续' },
-    { min: 0.4, max: 0.6, name: '金丹', desc: '形成方法，向上突破' },
-    { min: 0.6, max: 0.8, name: '元婴', desc: '熟练了，离化神不远' },
-    { min: 0.8, max: 1.01, name: '化神', desc: '这一道你是真的会了' }
+    { min: 0.0, max: 0.2, name: '入门', desc: '刚开始，多做几道找感觉' },
+    { min: 0.2, max: 0.5, name: '熟悉', desc: '路子对了，继续' },
+    { min: 0.5, max: 0.75, name: '掌握', desc: '已经能独立解了' },
+    { min: 0.75, max: 0.9, name: '精通', desc: '稳定能做对，离过关不远' },
+    { min: 0.9, max: 1.01, name: '出师', desc: '这道题型你是真的会了' }
 ];
 
 let state = {
@@ -666,7 +666,7 @@ async function fsrsUpdateAttempt(topic_code, is_correct, time_ms, hint_level, ma
         if (r.ok) {
             const d = await r.json();
             logDebug(`✓ FSRS grade=${d.grade_inferred} next=${d.days_until_next_review}d`);
-            // 记下下次复习时间，化神后显示
+            // 记下下次复习时间，出师后显示
             state.fsrs_last = d;
             return d;
         } else if (r.status === 503) {
@@ -895,7 +895,7 @@ function showCompletion() {
     const isMastered = state.mastery >= 0.9;
     const lv = levelFor(state.mastery);
 
-    // 化神时显示「下次复习时间」（FSRS 主动召回承诺）
+    // 出师时显示「下次复习时间」（FSRS 主动召回承诺）
     if (isMastered && state.fsrs_last && state.fsrs_last.days_until_next_review != null) {
         const days = state.fsrs_last.days_until_next_review;
         const completionText = document.getElementById('completion-text');
@@ -904,7 +904,7 @@ function showCompletion() {
     }
 
     if (!isMastered) {
-        // 未到化神：换个温和的奖章 + 文案
+        // 未到出师：换个温和的奖章 + 文案
         document.getElementById('completion-h2').textContent = `今日 ${lv.name}`;
         document.getElementById('completion-h2').style.color = 'var(--c-warning)';
         document.getElementById('completion-text').textContent = '这一关还没破，错题进了你的复习库，明天再回来一次。';
@@ -912,11 +912,11 @@ function showCompletion() {
         document.getElementById('medal').querySelector('.core').setAttribute('fill', '#D4A843');
         document.getElementById('brag-trigger').style.display = 'none';
     } else {
-        // 化神：备好分享卡数据
+        // 出师：备好分享卡数据
         document.getElementById('brag-mastery').textContent = (state.mastery * 100).toFixed(0) + '%';
         document.getElementById('brag-time').textContent = minutes;
         document.getElementById('brag-correct').textContent = `${state.correctCount}/${state.attempts.length}`;
-        document.getElementById('brag-line').innerHTML = `今晚 ${minutes} 分钟，<br>把${TOPIC}从练气推到了化神。`;
+        document.getElementById('brag-line').innerHTML = `今晚 ${minutes} 分钟，<br>把${TOPIC}从入门做到了出师。`;
     }
 }
 
