@@ -11,9 +11,9 @@
 
 export const config = { runtime: 'edge' };
 
-const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_URL : '';
+const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
-const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_ANON_KEY : '';
+const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) : '';
 const ENGINE_VERSION = 'fsrs-due-v1.0';
 
 // FSRS 算法内联（Edge runtime 不支持 ESM import 跨目录，复制核心函数）

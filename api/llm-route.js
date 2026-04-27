@@ -21,8 +21,8 @@ export const config = { runtime: 'edge' };
 
 const ENGINE_VERSION = 'llm-route-v1.0';
 
-const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? process.env.DEEPSEEK_KEY : '';
-const QWEN_KEY = (typeof process !== 'undefined' && process.env) ? process.env.QWEN_KEY : '';
+const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.DEEPSEEK_KEY || process.env.DEEPSEEK_API_KEY) : '';
+const QWEN_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.QWEN_KEY || process.env.DASHSCOPE_API_KEY) : '';
 const CONFUCIUS_HOST = (typeof process !== 'undefined' && process.env) ? process.env.CONFUCIUS_HOST : ''; // 未来自部署 Confucius3-Math vLLM endpoint
 
 const ENDPOINTS = {

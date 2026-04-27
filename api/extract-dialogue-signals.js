@@ -22,9 +22,9 @@
 
 export const config = { runtime: 'edge', maxDuration: 60 };
 
-const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_URL : '';
+const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
-const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? process.env.DEEPSEEK_KEY : '';
+const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.DEEPSEEK_KEY || process.env.DEEPSEEK_API_KEY) : '';
 const ADMIN_TOKEN = (typeof process !== 'undefined' && process.env) ? process.env.ADMIN_TOKEN : '';
 const ENGINE_VERSION = 'extract-signals-v1.0';
 

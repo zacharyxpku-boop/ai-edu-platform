@@ -19,8 +19,8 @@
 
 export const config = { runtime: 'edge' };
 
-const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_URL : '';
-const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_ANON_KEY : '';
+const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
+const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) : '';
 const ENGINE_VERSION = 'get-questions-v1.0';
 
 const CORS_HEADERS = {

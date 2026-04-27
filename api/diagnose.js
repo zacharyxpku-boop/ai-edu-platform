@@ -133,8 +133,8 @@ function jsonErr(status, code, msg) {
 }
 
 async function callLLM(messages) {
-    const dsKey = (typeof process !== 'undefined' && process.env) ? process.env.DEEPSEEK_KEY : '';
-    const qwKey = (typeof process !== 'undefined' && process.env) ? process.env.QWEN_KEY : '';
+    const dsKey = (typeof process !== 'undefined' && process.env) ? (process.env.DEEPSEEK_KEY || process.env.DEEPSEEK_API_KEY) : '';
+    const qwKey = (typeof process !== 'undefined' && process.env) ? (process.env.QWEN_KEY || process.env.DASHSCOPE_API_KEY) : '';
 
     // 优先 DeepSeek（中文数理强，准确率基线 72.3% from Agent 6）
     if (dsKey) {

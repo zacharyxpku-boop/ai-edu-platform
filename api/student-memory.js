@@ -9,9 +9,9 @@
 
 export const config = { runtime: 'edge' };
 
-const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_URL : '';
+const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
-const QWEN_KEY = (typeof process !== 'undefined' && process.env) ? process.env.QWEN_KEY : '';
+const QWEN_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.QWEN_KEY || process.env.DASHSCOPE_API_KEY) : '';
 const ENGINE_VERSION = 'student-memory-v1.0';
 
 const DASHSCOPE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings';
