@@ -17,6 +17,9 @@
 | 5 | 章节考点细分三档 | ⏸️ 排队 W3 | — | 等 EXP-2/3 数据 |
 | 6 | 移动端 tab bar | ⏸️ 排队 W3+ | — | 看 mobile UA |
 
+> **怎么查数？** 拍版那天直接打开 [`OBSERVABILITY-MINIMAL.md`](./OBSERVABILITY-MINIMAL.md) 的 5 段 console snippet, copy-paste 进 DevTools 即跑；不依赖任何外部 SaaS。
+> **决策怎么砍？** 走 [`sunset/`](./sunset/) 模板：写 blocker 文档 + 资源重分配 + 解锁条件，不要悄悄留代码烂 main 上。
+
 ---
 
 ## 总体心法
@@ -172,6 +175,8 @@
 ---
 
 ## W1 数据观察 checklist（5/5 拍版会用）
+
+> 配套 [`OBSERVABILITY-MINIMAL.md`](./OBSERVABILITY-MINIMAL.md) 5 段 snippet · DevTools Console 粘贴即出表
 
 EXP-2/3/4 上线即跑表，5/5 周一收集结果决定砍留：
 

@@ -3,6 +3,8 @@
 > 用法：在用户浏览器 DevTools Console 粘贴对应 snippet，立即拿到 EXP-2/3/4 真实数据。
 > 没有埋点服务器、没有 Datadog，纯 localStorage + 现场观察。
 > 拍版前 5 分钟可执行，每个 snippet < 30 行。
+>
+> 上游：[`EXPERIMENT-WEEK-v1.1.md`](./EXPERIMENT-WEEK-v1.1.md) 定义假设和 stop-loss · 本文档负责"怎么取数"
 
 ---
 
