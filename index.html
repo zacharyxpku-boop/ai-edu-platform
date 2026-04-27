@@ -256,6 +256,58 @@ if (localStorage.getItem('yd:my_student_id')) {
 <!-- 顶部个性化 banner (today-recos.pickUpNext 4 档逻辑选一张) -->
 <div style="max-width:1120px;margin:18px auto 0;padding:0 20px"><div id="upnext-banner-mount"></div></div>
 
+<!-- WHAT'S NEW · 横滑更新带 -->
+<section style="max-width:1120px;margin:14px auto 0;padding:0 20px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
+        <h3 style="font-size:13px;font-weight:800;color:#52525B;letter-spacing:.5px;margin:0">本周新增 · KA 化第一波</h3>
+        <a href="/docs/KA-LOCALIZE-MILESTONE-v1.md" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整里程碑 →</a>
+    </div>
+    <div class="wn-band" style="display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:2px 2px 12px;-webkit-overflow-scrolling:touch">
+        <a href="subjects/math.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#EFF6FF 0%,#fff 100%);border:1px solid #BFDBFE;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#1D4ED8">📚 内容入口</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">8 学科枢纽页</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">数学 / 物理 / 化学 / 生物 / 语文 / 历史 / 地理 / 政治 全亮</div>
+        </a>
+        <a href="paths.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#F0FDF4 0%,#fff 100%);border:1px solid #86EFAC;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#15803D">🗺️ 进度地图</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">章节方块 4 阶色阶</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">未碰 / 读过 / 读+练 / 已掌握 + 错题红 + 冲关金圈</div>
+        </a>
+        <a href="errors.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FEF3C7 0%,#fff 100%);border:1px solid #FCD34D;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#92400E">🎯 主动出击</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">考前冲关 5 题</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">同章节攒 5 道全对解锁徽章 +20 XP</div>
+        </a>
+        <a href="progress.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FFFBEB 0%,#fff 100%);border:1px solid #FBBF24;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#B45309">🏆 战利品</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">奖章墙 + 单关分享</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">每关一张琥珀奖章 · 走 share-kit 一键转朋友圈</div>
+        </a>
+        <a href="subjects/math.html#parent-mount" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FEF2F2 0%,#fff 100%);border:1px solid #FCA5A5;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#991B1B">💌 家长视图</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">一眼读懂 + 微信简报</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">4 档状态 + 反虎妈建议 + 一键复制</div>
+        </a>
+        <a href="paths.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FFF7ED 0%,#fff 100%);border:1px solid #FDBA74;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#9A3412">🔥 retention</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">连续学习天数条</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">5 档火苗 + 今日动作 + 历史最佳全站可见</div>
+        </a>
+        <a href="quiz.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#F5F3FF 0%,#fff 100%);border:1px solid #C4B5FD;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#5B21B6">🌟 反 dopamine</div>
+            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">10 连对收工提示</div>
+            <div style="font-size:11px;color:#52525B;line-height:1.5">quiz 顶部胶囊 · 满 10 主动劝退节奏</div>
+        </a>
+    </div>
+</section>
+<style>
+.wn-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px -8px rgba(0,0,0,.12)}
+.wn-band::-webkit-scrollbar{height:5px}
+.wn-band::-webkit-scrollbar-track{background:transparent}
+.wn-band::-webkit-scrollbar-thumb{background:#E4E4E7;border-radius:100px}
+.wn-band::-webkit-scrollbar-thumb:hover{background:#A1A1AA}
+</style>
+
 <!-- KA-STYLE · 中国 K12 学科入口 grid -->
 <section id="ka-subjects" style="max-width:1120px;margin:18px auto 0;padding:0 20px">
     <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
