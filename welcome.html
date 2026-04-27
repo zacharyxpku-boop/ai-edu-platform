@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>原点 AI 私教 · 第一次见面</title>
+<meta name="description" content="30 秒告诉老师你叫啥、几年级，从此他记得你">
+<style>
+:root{
+    --warm-white:#FAFAF7;
+    --card:#FFFFFF;
+    --ink:#18181B;
+    --ink-soft:#52525B;
+    --ink-mute:#A1A1AA;
+    --bdr:#E4E4E7;
+    --orange:#E94D35;
+    --orange-soft:#FF8A6E;
+    --orange-glow:rgba(233,77,53,0.10);
+    --shadow:0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+    font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    background:var(--warm-white);
+    color:var(--ink);
+    line-height:1.65;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 18px;
+    -webkit-font-smoothing:antialiased;
+}
+.wrap{
+    width:100%;
+    max-width:440px;
+}
+.brand{
+    text-align:center;
+    margin-bottom:28px;
+}
+.brand-mark{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--orange);
+    font-weight:700;
+    font-size:0.82rem;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+}
+.brand-mark::before{
+    content:'';
+    width:18px;height:18px;
+    background:var(--orange);
+    border-radius:50%;
+    display:inline-block;
+}
+.hero h1{
+    font-family:"Noto Serif SC",serif;
+    font-size:2rem;
+    font-weight:800;
+    line-height:1.25;
+    letter-spacing:-0.5px;
+    margin:18px 0 10px;
+    text-align:center;
+}
+.hero p.lede{
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    text-align:center;
+    margin-bottom:30px;
+    max-width:380px;
+    margin-left:auto;margin-right:auto;
+}
+.hero p.lede em{
+    font-style:normal;
+    color:var(--orange);
+    font-weight:600;
+}
+.card{
+    background:var(--card);
+    border:1px solid var(--bdr);
+    border-radius:16px;
+    padding:28px 26px;
+    box-shadow:var(--shadow);
+}
+.field{
+    margin-bottom:18px;
+}
+.field label{
+    display:block;
+    font-size:0.84rem;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+    font-weight:500;
+}
+.field input,.field select{
+    width:100%;
+    padding:12px 14px;
+    font-size:1rem;
+    font-family:inherit;
+    border:1px solid var(--bdr);
+    border-radius:10px;
+    background:var(--warm-white);
+    color:var(--ink);
+    transition:border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus,.field select:focus{
+    outline:none;
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px var(--orange-glow);
+}
+.field .hint{
+    font-size:0.76rem;
+    color:var(--ink-mute);
+    margin-top:6px;
+}
+.cta{
+    width:100%;
+    padding:14px 18px;
+    background:var(--orange);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background 0.15s, transform 0.1s;
+    margin-top:8px;
+}
+.cta:hover{background:var(--orange-soft)}
+.cta:active{transform:scale(0.98)}
+.cta:disabled{background:var(--ink-mute);cursor:not-allowed}
+.cta .arrow{margin-left:6px}
+.fineprint{
+    margin-top:18px;
+    font-size:0.76rem;
+    color:var(--ink-mute);
+    text-align:center;
+    line-height:1.55;
+}
+.fineprint a{
+    color:var(--ink-soft);
+    text-decoration:underline;
+    text-decoration-color:var(--bdr);
+}
+.bullets{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+.bullet{
+    background:transparent;
+    padding:10px 12px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+    border-left:2px solid var(--orange);
+    padding-left:10px;
+}
+.bullet b{color:var(--ink);font-weight:600}
+.recover{
+    text-align:center;
+    margin-top:24px;
+    font-size:0.82rem;
+    color:var(--ink-mute);
+}
+.recover a{color:var(--orange);text-decoration:none;font-weight:500}
+.error{
+    color:#DC2626;
+    font-size:0.82rem;
+    margin-top:8px;
+    display:none;
+}
+.error.show{display:block}
+.loading{
+    display:none;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.88rem;
+    margin-top:16px;
+}
+.loading.show{display:block}
+@media (max-width:480px){
+    .hero h1{font-size:1.7rem}
+    .card{padding:22px 20px}
+    .bullets{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="brand">
+        <span class="brand-mark">原点智学</span>
+    </div>
+
+    <section class="hero">
+        <h1>这是你的私教 · 不是 ChatGPT</h1>
+        <p class="lede">告诉他你叫啥、几年级，<em>30 秒后他就记得你</em>。<br>不要邮箱，不要手机号。</p>
+    </section>
+
+    <form class="card" id="onboard-form" autocomplete="off">
+        <div class="field">
+            <label for="name">老师叫你什么</label>
+            <input id="name" type="text" placeholder="比如 小米 / 小宇 / 朵朵" maxlength="20" required>
+            <div class="hint">真名 / 昵称都行 · 老师每次开口都用这个叫你</div>
+        </div>
+
+        <div class="field">
+            <label for="grade">你几年级</label>
+            <select id="grade" required>
+                <option value="">选一下</option>
+                <optgroup label="小学">
+                    <option value="primary_4">小学四年级</option>
+                    <option value="primary_5">小学五年级</option>
+                    <option value="primary_6">小学六年级</option>
+                </optgroup>
+                <optgroup label="初中">
+                    <option value="middle_1">初一</option>
+                    <option value="middle_2">初二</option>
+                    <option value="middle_3">初三</option>
+                </optgroup>
+                <optgroup label="高中">
+                    <option value="high_1">高一</option>
+                    <option value="high_2">高二</option>
+                    <option value="high_3">高三</option>
+                </optgroup>
+            </select>
+            <div class="hint">告诉老师该用哪本教材、哪一档难度</div>
+        </div>
+
+        <button type="submit" class="cta" id="cta-btn">
+            认识老师 <span class="arrow">→</span>
+        </button>
+        <div class="error" id="err"></div>
+        <div class="loading" id="loading">老师正在准备你的专属档案 · 大概 3 秒</div>
+    </form>
+
+    <div class="bullets">
+        <div class="bullet"><b>跨会话记得你</b><br>明天再来不用从头解释</div>
+        <div class="bullet"><b>认你的卡点</b><br>不再讲你早会的</div>
+        <div class="bullet"><b>家长一眼看懂</b><br>给妈妈看的不是 PDF</div>
+        <div class="bullet"><b>≤80 字回应</b><br>不啰嗦不灌鸡汤</div>
+    </div>
+
+    <div class="recover">
+        已经有专属链接了？<a href="#" id="restore">输入找回码</a>
+    </div>
+
+    <div class="fineprint">
+        我们不卖你的数据 · 不投广告 · 不要你的邮箱<br>
+        你的对话只在你和老师之间，老师把它累积成「懂你的判断」
+    </div>
+</div>
+
+<script>
+const form = document.getElementById('onboard-form');
+const ctaBtn = document.getElementById('cta-btn');
+const errEl = document.getElementById('err');
+const loadingEl = document.getElementById('loading');
+
+function showError(msg) {
+    errEl.textContent = msg;
+    errEl.classList.add('show');
+    setTimeout(() => errEl.classList.remove('show'), 4000);
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const grade = document.getElementById('grade').value;
+    if (!name || !grade) return;
+
+    ctaBtn.disabled = true;
+    ctaBtn.textContent = '正在创建...';
+    loadingEl.classList.add('show');
+    errEl.classList.remove('show');
+
+    // 推断 stage
+    const stage = grade.startsWith('primary') ? 'primary'
+                : grade.startsWith('middle') ? 'middle'
+                : 'high';
+
+    try {
+        const r = await fetch('/api/student-init', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name, grade, stage,
+                subjects: ['math'],
+                cohort: 'self-onboard-' + new Date().toISOString().slice(0, 10),
+            }),
+        });
+        if (!r.ok) {
+            const txt = await r.text();
+            showError('创建失败：' + txt.slice(0, 100));
+            ctaBtn.disabled = false;
+            ctaBtn.innerHTML = '认识老师 <span class="arrow">→</span>';
+            loadingEl.classList.remove('show');
+            return;
+        }
+        const data = await r.json();
+        // 存 localStorage 给所有 4 页读
+        localStorage.setItem('yd:my_student_id', data.student_id);
+        localStorage.setItem('yd:my_name', name);
+        localStorage.setItem('yd:my_grade', grade);
+        localStorage.setItem('yd:my_recover_code', data.student_id.slice(-6).toUpperCase());
+
+        // 跳到推荐起点（默认进 mastery-loop）
+        const next = data.next_url || `/mastery-loop?student_id=${encodeURIComponent(data.student_id)}&name=${encodeURIComponent(name)}`;
+        location.href = next;
+    } catch (e) {
+        showError('网络异常：' + e.message);
+        ctaBtn.disabled = false;
+        ctaBtn.innerHTML = '认识老师 <span class="arrow">→</span>';
+        loadingEl.classList.remove('show');
+    }
+});
+
+// 找回码（用 student_id 后 6 位作 case-insensitive 匹配）
+document.getElementById('restore').addEventListener('click', (e) => {
+    e.preventDefault();
+    const code = prompt('粘贴你的找回码（6 位字母数字）：');
+    if (!code) return;
+    const cleaned = code.trim().toUpperCase();
+    if (cleaned.length !== 6) {
+        showError('找回码必须是 6 位');
+        return;
+    }
+    // 简单方案：要求完整 student_id（找回码只是后 6 位提示，真要找回需要后端查表）
+    showError('找回功能 V2 上线 · 当前请重新填昵称生成新档案');
+});
+
+// 已注册检测：如果 localStorage 已有 my_student_id，直接跳进 tutor 不再问
+const existingId = localStorage.getItem('yd:my_student_id');
+if (existingId && existingId.length === 36) {
+    const existingName = localStorage.getItem('yd:my_name') || '同学';
+    setTimeout(() => {
+        if (confirm(`你已经认识过老师啦（${existingName}）。直接进去？`)) {
+            location.href = `/tutor?student_id=${encodeURIComponent(existingId)}&name=${encodeURIComponent(existingName)}`;
+        }
+    }, 200);
+}
+</script>
+</body>
+</html>

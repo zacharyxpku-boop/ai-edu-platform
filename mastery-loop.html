@@ -480,13 +480,20 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 const SUBJECT = 'math';
 const TOPIC = '一元一次方程';
 const GRADE = '初一';
-// URL ?topic_code=xxx 优先；否则默认 math.7.ch3.kp3（移项 · 必须在 knowledge_points 表，跑 seed-demo-dialogues.sql 自动建）
+// 跨页身份桥：URL > localStorage > demo UUID
 const _params = new URLSearchParams(location.search);
+const _urlSid = _params.get('student_id');
+const _lsSid = localStorage.getItem('yd:my_student_id');
+const _urlName = _params.get('name');
+const _lsName = localStorage.getItem('yd:my_name');
+if (_urlSid && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(_urlSid)) {
+    localStorage.setItem('yd:my_student_id', _urlSid);
+    if (_urlName) localStorage.setItem('yd:my_name', _urlName);
+}
 const TOPIC_CODE = _params.get('topic_code') || 'math.7.ch3.kp3';
-// STUDENT_ID 之前**完全没声明** → 全文 student_id: STUDENT_ID 抛 ReferenceError 被 try/catch 吞，写库链路一直死
-// 默认 demo UUID 与 tutor / parent-radar / seed-demo-dialogues 一致
-const STUDENT_ID = _params.get('student_id') || '00000000-0000-0000-0000-000000000001';
-const NAME = _params.get('name') || '同学';
+const STUDENT_ID = _urlSid || _lsSid || '00000000-0000-0000-0000-000000000001';
+const NAME = _urlName || _lsName || '同学';
+const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
 
 // 兜底硬编码题（API 失败/不够数时使用）
 const FALLBACK_QUESTIONS = [

@@ -229,10 +229,21 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
 <script>
 const params = new URLSearchParams(location.search);
-const STUDENT_ID = params.get('student_id') || '00000000-0000-0000-0000-000000000001';
+// 跨页身份桥：URL > localStorage > demo UUID
+// URL 有 student_id 时同步写 localStorage（覆盖），下次自动认人
+const _urlSid = params.get('student_id');
+const _lsSid = localStorage.getItem('yd:my_student_id');
+const _urlName = params.get('name');
+const _lsName = localStorage.getItem('yd:my_name');
+if (_urlSid && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(_urlSid)) {
+    localStorage.setItem('yd:my_student_id', _urlSid);
+    if (_urlName) localStorage.setItem('yd:my_name', _urlName);
+}
+const STUDENT_ID = _urlSid || _lsSid || '00000000-0000-0000-0000-000000000001';
 const TOPIC_CODE = params.get('topic_code') || null;
-const NAME = params.get('name') || '同学';
+const NAME = _urlName || _lsName || '同学';
 const SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : null;
+const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
 
 const chat = document.getElementById('chat');
 const input = document.getElementById('msg');

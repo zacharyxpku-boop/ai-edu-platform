@@ -181,8 +181,27 @@
     <button class="nav-set" onclick="location.href='settings.html'">API 设置</button>
 </div></nav>
 
+<!-- 第一次来：30 秒轻注册 -->
+<div style="max-width:1120px;margin:18px auto 0;padding:0 20px" id="welcome-banner-wrap">
+<a href="/welcome" id="welcome-banner" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(110deg,#FFF5EE,#FFFBF0);border:1px solid #F5A623;border-radius:10px;text-decoration:none;color:#18181B">
+    <div style="font-size:20px">👋</div>
+    <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:#C2410C;margin-bottom:2px">第一次来？30 秒让老师记住你</div>
+        <div style="font-size:11px;color:#71717A">不要邮箱不要手机号 · 只问昵称和年级 · 后续打开自动认人</div>
+    </div>
+    <div style="font-size:13px;color:#C2410C;font-weight:700">→</div>
+</a>
+</div>
+<script>
+// 已经认过的用户隐藏 welcome banner
+if (localStorage.getItem('yd:my_student_id')) {
+    var _b = document.getElementById('welcome-banner-wrap');
+    if (_b) _b.style.display = 'none';
+}
+</script>
+
 <!-- AI 私教 PoC 入口（5.4 Demo Day 二维码落地点） -->
-<div style="max-width:1120px;margin:18px auto 0;padding:0 20px">
+<div style="max-width:1120px;margin:10px auto 0;padding:0 20px">
 <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px">
     <a href="/start" style="display:flex;flex-direction:column;justify-content:center;padding:18px 22px;background:linear-gradient(135deg,#0F3460,#16213E);border-radius:12px;text-decoration:none;color:#F5F0EB;transition:transform .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
         <div style="font-size:11px;color:#FF6B4A;font-weight:700;letter-spacing:1px;margin-bottom:4px">AI 私教 · 学生入口</div>

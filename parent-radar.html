@@ -315,9 +315,19 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
 <script>
 // =========== 配置 ===========
-// 默认 STUDENT_ID 与 mastery-loop / tutor / seed-demo-dialogues 全套件保持一致：UUID 不是字符串
-const STUDENT_ID = new URLSearchParams(location.search).get('student_id') || '00000000-0000-0000-0000-000000000001';
-const CHILD_NAME = new URLSearchParams(location.search).get('name') || '小米';
+// 跨页身份桥：URL > localStorage > demo UUID
+const _qparams = new URLSearchParams(location.search);
+const _urlSid = _qparams.get('student_id');
+const _lsSid = localStorage.getItem('yd:my_student_id');
+const _urlName = _qparams.get('name');
+const _lsName = localStorage.getItem('yd:my_name');
+if (_urlSid && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(_urlSid)) {
+    localStorage.setItem('yd:my_student_id', _urlSid);
+    if (_urlName) localStorage.setItem('yd:my_name', _urlName);
+}
+const STUDENT_ID = _urlSid || _lsSid || '00000000-0000-0000-0000-000000000001';
+const CHILD_NAME = _urlName || _lsName || '小米';
+const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
 const NCDM_PROXY = '/api/mastery-proxy';  // 走 ai-edu-platform Edge proxy
 // 直连 NCDM Fly.io 兜底（开发期可指向 https://yuandian-ncdm.fly.dev）
 const NCDM_DIRECT = '';
