@@ -92,6 +92,44 @@ function logDialogue(payload) {
 }
 
 // 拼 system prompt（一对一私教的灵魂 · 教育学+心理学+Khanmigo 借鉴+阁主判断 集成版）
+// ════════════ P1-D 模式 addon · 4 个学习模式的 prompt 段 ═══════════════
+// 当前 4 模式：explain（默认无 addon）/ diagnose / cram / essay
+// 设计：在主 prompt（v1/v2）末尾追加，不替换原有人设和状态机
+function buildModeAddon(mode) {
+    const sep = '\n\n═══════════════════════════════\n';
+    if (mode === 'diagnose') {
+        return sep + `[当前模式 · 错题归因]
+学生切到这个模式说明他要把刚错的一道题贴过来让你帮他找根因。流程：
+1. 等他贴题。粘贴检测会自动命中——不要直接讲题，先问「你写的过程是什么？写哪一步开始不确定？」
+2. 拿到他的过程后，按 64 类 misconception 树定位最具体那一档：
+   knowledge.X / ability.Y / metacog.Z / careless.W
+3. 给三段反馈，每段 1-2 句不超 80 字：
+   「错在哪一步」+「为什么这样想会错」+「下次同型题该怎么先停一停」
+4. 不给答案不给完整解题，只给定位 + 元认知提示。
+5. 末尾推一道同根因的练习题让他下一关做（用 BKT 推算）。`;
+    }
+    if (mode === 'cram') {
+        return sep + `[当前模式 · 考前突击]
+学生说出考试时间 + 范围。流程：
+1. 第一句问全：「考试日期是？范围是哪几章？现在最不踏实哪个点？」三个一起问。
+2. 回答完后按 BKT mastery 倒排他的弱点，给一份「N 天 × 每天 25 分钟」计划：
+   - 计划格式：第 1 天 [KP1] / 第 2 天 [KP2] / ... 每天必练 5 题
+   - 优先 mastery 最低 + 高考考频高的 KP
+3. 不给鸡汤不给「相信自己」，只给具体动作。
+4. 计划末尾问：「按这个走还是要调？」让他确认是 commitment。`;
+    }
+    if (mode === 'essay') {
+        return sep + `[当前模式 · 作文批改]
+学生粘贴作文。规矩：
+1. 不打分。打分让他陷入对分数焦虑，跟提分无关。
+2. 只指 3 个具体可改的点。每点格式：「第 N 段『...这一句』改成『...』因为 [一个具体原因，如『动词太抽象』『结构上没回应题目第二问』]」
+3. 禁说「立意好/语言流畅/结构清晰」这种空泛话——这种话学校老师批了 12 年了，没人因这变好。
+4. 末尾给他一个动作：「现在就用红笔把这 3 处改了再读一遍，能不能找到第 4 个该改的地方？」让他自己接手。
+5. 不替他改，给方向 + 让他做。`;
+    }
+    return '';
+}
+
 // ════════════ V2 prompt（阁主蒸馏版 · ~52 行 / 2400 token）═══════════════
 // 路由：PROMPT_VERSION 环境变量 = 'v2' 时启用，默认 v1 不动既有行为
 // 设计参考：docs/PROMPT-V2-DRAFT.md + docs/PROMPT-AUDIT-V1.2.md
@@ -472,8 +510,11 @@ export default async function handler(req) {
     try { body = await req.json(); }
     catch (e) { return jsonErr(400, 'bad_json', '请求体不是合法 JSON'); }
 
-    const { student_id, message, session_id, topic_code, history = [], is_pasted = false } = body || {};
+    const { student_id, message, session_id, topic_code, history = [], is_pasted = false, mode = 'explain' } = body || {};
     if (!student_id || !message) return jsonErr(400, 'missing_fields', 'student_id + message 必填');
+    // P1-D 模式白名单（防 prompt injection 通过 mode 字段塞别的）
+    const VALID_MODES = ['explain', 'diagnose', 'cram', 'essay'];
+    const safeMode = VALID_MODES.includes(mode) ? mode : 'explain';
     // 早期拦非 UUID 格式 student_id：否则 fetchStudent / recallMemory 内部 22P02 静默失败，prompt 走通用版降级
     const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是合法 UUID（前端 default 为 00000000-0000-0000-0000-000000000001）');
@@ -493,9 +534,12 @@ export default async function handler(req) {
     const promptVersion = body.prompt_version
         || (typeof process !== 'undefined' && process.env && process.env.PROMPT_VERSION)
         || 'v1';
-    const systemPrompt = promptVersion === 'v2'
+    // P1-D 模式 system 段拼接（在主 prompt 末尾追加 mode 专属指令）
+    const modeAddon = safeMode === 'explain' ? '' : buildModeAddon(safeMode);
+
+    const systemPrompt = (promptVersion === 'v2'
         ? buildSystemPromptV2(student, memoryData, weakKps, is_pasted === true)
-        : buildSystemPrompt(student, memoryData, weakKps, is_pasted === true);
+        : buildSystemPrompt(student, memoryData, weakKps, is_pasted === true)) + modeAddon;
 
     // 历史对话 + 当前消息
     // 截断防大 payload 烧 token：单条 message 上限 5000 字符；history 每条上限 3000，最近 10 轮
