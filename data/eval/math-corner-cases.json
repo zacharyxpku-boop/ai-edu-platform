@@ -1,0 +1,280 @@
+{
+  "version": "v1.0",
+  "generated_at": "2026-04-27",
+  "subject": "math",
+  "scope": "初中代数核心 · 一元一次方程 / 整式 / 分式 / 一元二次 / 应用题",
+  "total": 30,
+  "notes": "每条覆盖一种典型错误路径。answer 是标答；wrong_response 是学生最易错的版本，跑 diagnose 应当 has_error=true 且 l3 命中 expected_l3 前缀。",
+  "cases": [
+    {
+      "id": "alg-01",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程：x + 5 = 12",
+      "correct_answer": "7",
+      "wrong_response": "17",
+      "expected_l3": "knowledge.algebra.equation.move_sign",
+      "comment": "移项时把 5 加到右边变 17 而不是减"
+    },
+    {
+      "id": "alg-02",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程：3x - 7 = 14",
+      "correct_answer": "7",
+      "wrong_response": "x = 14/3 - 7",
+      "expected_l3": "ability.algebra.order_of_op",
+      "comment": "运算顺序错：先除后减"
+    },
+    {
+      "id": "alg-03",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程：5x = 3x + 8",
+      "correct_answer": "4",
+      "wrong_response": "8",
+      "expected_l3": "knowledge.algebra.equation.move_sign",
+      "comment": "未把 3x 移项过来直接 5x = 8 解"
+    },
+    {
+      "id": "alg-04",
+      "topic_code": "math.7.ch3.kp4",
+      "problem": "解方程：(x+1)/2 - x/3 = 1",
+      "correct_answer": "3",
+      "wrong_response": "x+1 - x = 1，所以 x = 0 错",
+      "expected_l3": "knowledge.algebra.fraction.miss_multiply",
+      "comment": "去分母漏乘整式项 1"
+    },
+    {
+      "id": "alg-05",
+      "topic_code": "math.7.ch3.kp4",
+      "problem": "解方程：(x-2)/3 = (x+1)/4",
+      "correct_answer": "11",
+      "wrong_response": "4(x-2) = 3(x+1)，4x - 2 = 3x + 1，x = 3",
+      "expected_l3": "knowledge.algebra.fraction.bracket_missing",
+      "comment": "去分母后分子带括号没加括号导致 4x-8 写成 4x-2"
+    },
+    {
+      "id": "alg-06",
+      "topic_code": "math.7.ch2.kp3",
+      "problem": "化简：3x + 5y - 2x + y",
+      "correct_answer": "x + 6y",
+      "wrong_response": "x + 5y",
+      "expected_l3": "knowledge.algebra.like_terms.miss_one",
+      "comment": "合并同类项时漏了 +y"
+    },
+    {
+      "id": "alg-07",
+      "topic_code": "math.7.ch2.kp3",
+      "problem": "化简：2a²b + 3ab² - a²b",
+      "correct_answer": "a²b + 3ab²",
+      "wrong_response": "5a²b² (3-2 + 3 + 整体当一项)",
+      "expected_l3": "knowledge.algebra.like_terms.wrong_terms",
+      "comment": "把 a²b 和 ab² 当作同类项合并"
+    },
+    {
+      "id": "alg-08",
+      "topic_code": "math.7.ch2.kp4",
+      "problem": "化简：3 - (2x - 5)",
+      "correct_answer": "8 - 2x",
+      "wrong_response": "3 - 2x - 5 = -2x - 2",
+      "expected_l3": "knowledge.algebra.bracket.minus_sign",
+      "comment": "括号前是负号没把 -5 变 +5"
+    },
+    {
+      "id": "alg-09",
+      "topic_code": "math.7.ch2.kp4",
+      "problem": "化简：-2(3a - 4b + c)",
+      "correct_answer": "-6a + 8b - 2c",
+      "wrong_response": "-6a - 8b - 2c",
+      "expected_l3": "knowledge.algebra.bracket.distribute_sign",
+      "comment": "负号没分配到括号每一项"
+    },
+    {
+      "id": "alg-10",
+      "topic_code": "math.7.ch3.kp5",
+      "problem": "甲乙两人相距 30 公里同时相向而行，甲速 4km/h，乙速 6km/h，几小时后相遇？",
+      "correct_answer": "3 小时",
+      "wrong_response": "30/(6-4) = 15 小时",
+      "expected_l3": "ability.application.relative_speed",
+      "comment": "相向用速度和不是速度差"
+    },
+    {
+      "id": "alg-11",
+      "topic_code": "math.7.ch3.kp5",
+      "problem": "顺水船速 24km/h，逆水 16km/h，求水流速度",
+      "correct_answer": "4km/h",
+      "wrong_response": "(24+16)/2 = 20",
+      "expected_l3": "knowledge.algebra.application.upstream",
+      "comment": "求的是水流不是船速，应该 (24-16)/2"
+    },
+    {
+      "id": "alg-12",
+      "topic_code": "math.7.ch3.kp6",
+      "problem": "甲单独完成需 12 天，乙单独完成需 18 天，合作几天完成？",
+      "correct_answer": "7.2 天",
+      "wrong_response": "(12+18)/2 = 15 天",
+      "expected_l3": "ability.application.work_rate",
+      "comment": "工作效率应当 1/12 + 1/18，不是平均时间"
+    },
+    {
+      "id": "alg-13",
+      "topic_code": "math.7.ch3.kp7",
+      "problem": "100g 浓度 20% 的盐水，加多少克水变 10%？",
+      "correct_answer": "100g",
+      "wrong_response": "加 50g（直接按浓度比算）",
+      "expected_l3": "knowledge.algebra.application.concentration",
+      "comment": "盐量不变 20g，要保持 20g 是 10%，新总量 200g，所以加 100g"
+    },
+    {
+      "id": "alg-14",
+      "topic_code": "math.7.ch3.kp1",
+      "problem": "判断：3x² + 1 = 0 是不是一元一次方程？",
+      "correct_answer": "不是（x 的次数为 2）",
+      "wrong_response": "是",
+      "expected_l3": "knowledge.algebra.equation.degree",
+      "comment": "未识别次数判定"
+    },
+    {
+      "id": "alg-15",
+      "topic_code": "math.7.ch3.kp2",
+      "problem": "若 a = b，则 a + 3 与 b + 3 的关系？",
+      "correct_answer": "相等（等式性质 1）",
+      "wrong_response": "不一定相等",
+      "expected_l3": "knowledge.algebra.equation.equality_property",
+      "comment": "等式性质理解不到位"
+    },
+    {
+      "id": "alg-16",
+      "topic_code": "math.9.ch21.kp3",
+      "problem": "解方程：x² - 4x + 3 = 0",
+      "correct_answer": "x=1 或 x=3",
+      "wrong_response": "x = 1",
+      "expected_l3": "ability.algebra.quadratic.miss_root",
+      "comment": "二次方程漏一个根"
+    },
+    {
+      "id": "alg-17",
+      "topic_code": "math.9.ch21.kp3",
+      "problem": "解方程：(x-2)² = 9",
+      "correct_answer": "x=5 或 x=-1",
+      "wrong_response": "x-2=3，x=5",
+      "expected_l3": "ability.algebra.quadratic.miss_root",
+      "comment": "开平方漏 ±"
+    },
+    {
+      "id": "alg-18",
+      "topic_code": "math.9.ch21.kp3",
+      "problem": "解方程：x² - 5x = 0",
+      "correct_answer": "x=0 或 x=5",
+      "wrong_response": "两边除以 x，得 x = 5",
+      "expected_l3": "knowledge.algebra.quadratic.divide_by_x",
+      "comment": "两边除 x 丢失 x=0 这个根"
+    },
+    {
+      "id": "alg-19",
+      "topic_code": "math.7.ch2.kp1",
+      "problem": "x² · x³ 等于多少？",
+      "correct_answer": "x⁵",
+      "wrong_response": "x⁶",
+      "expected_l3": "knowledge.algebra.exponent.product",
+      "comment": "底数相同指数相加，不是相乘"
+    },
+    {
+      "id": "alg-20",
+      "topic_code": "math.7.ch2.kp1",
+      "problem": "(x²)³ 等于多少？",
+      "correct_answer": "x⁶",
+      "wrong_response": "x⁵",
+      "expected_l3": "knowledge.algebra.exponent.power",
+      "comment": "幂的乘方指数相乘"
+    },
+    {
+      "id": "alg-21",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程：2(x-3) = 4x + 1",
+      "correct_answer": "-7/2",
+      "wrong_response": "2x - 3 = 4x + 1",
+      "expected_l3": "knowledge.algebra.bracket.miss_distribute",
+      "comment": "去括号没乘 -3"
+    },
+    {
+      "id": "alg-22",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程：0.3x - 0.5 = 0.7",
+      "correct_answer": "4",
+      "wrong_response": "0.3x = 0.7 - 0.5 = 0.2，x = 2/3",
+      "expected_l3": "ability.algebra.decimal.subtract",
+      "comment": "0.7 - (-0.5) 应该 = 0.7 + 0.5 = 1.2，错算成 0.2"
+    },
+    {
+      "id": "alg-23",
+      "topic_code": "math.7.ch3.kp4",
+      "problem": "解方程：x/2 + x/3 = 5",
+      "correct_answer": "6",
+      "wrong_response": "x/5 = 5，x = 25",
+      "expected_l3": "knowledge.algebra.fraction.add_denominators",
+      "comment": "分母不能直接相加"
+    },
+    {
+      "id": "alg-24",
+      "topic_code": "math.7.ch3.kp7",
+      "problem": "已知 a = 2, b = -3，求 a² - b² 的值",
+      "correct_answer": "-5",
+      "wrong_response": "4 - 9 - (-1) (符号混淆)",
+      "expected_l3": "ability.computation.signed_number",
+      "comment": "(-3)² 应当 = 9，不是 -9"
+    },
+    {
+      "id": "alg-25",
+      "topic_code": "math.7.ch3.kp1",
+      "problem": "x = 3 是方程 2x - 7 = -1 的解吗？",
+      "correct_answer": "是（代入：6-7=-1 ✓）",
+      "wrong_response": "不是",
+      "expected_l3": "habit.verification.skip",
+      "comment": "代入验证就能发现，但学生跳了"
+    },
+    {
+      "id": "alg-26",
+      "topic_code": "math.7.ch2.kp1",
+      "problem": "化简：(2x³y²) · (3xy⁴)",
+      "correct_answer": "6x⁴y⁶",
+      "wrong_response": "6x³y⁸",
+      "expected_l3": "ability.algebra.monomial.multiply",
+      "comment": "x 的指数没相加"
+    },
+    {
+      "id": "alg-27",
+      "topic_code": "math.7.ch3.kp4",
+      "problem": "解方程：(2x-1)/3 - (x+2)/4 = 1",
+      "correct_answer": "x = 22/5 = 4.4",
+      "wrong_response": "去分母后写：4(2x-1) - 3(x+2) = 1",
+      "expected_l3": "knowledge.algebra.fraction.miss_multiply",
+      "comment": "右边的 1 没乘公分母 12"
+    },
+    {
+      "id": "alg-28",
+      "topic_code": "math.7.ch3.kp5",
+      "problem": "甲从 A 到 B 速 60，乙从 B 到 A 速 40，相距 200km，几小时后甲乙距离 50km？",
+      "correct_answer": "1.5 小时（相遇前）或 2.5 小时（相遇后）",
+      "wrong_response": "只算 1.5 小时",
+      "expected_l3": "ability.application.case_split",
+      "comment": "应用题分类讨论缺失"
+    },
+    {
+      "id": "alg-29",
+      "topic_code": "math.7.ch3.kp3",
+      "problem": "解方程组：{x+y=10, x-y=2}",
+      "correct_answer": "x=6, y=4",
+      "wrong_response": "x=8, y=2 (一个方程两边算)",
+      "expected_l3": "knowledge.algebra.system.elimination",
+      "comment": "未做加减消元法"
+    },
+    {
+      "id": "alg-30",
+      "topic_code": "math.9.ch21.kp3",
+      "problem": "若 x² + bx + 9 = 0 有两个相等的实根，求 b",
+      "correct_answer": "b = ±6",
+      "wrong_response": "b = 6",
+      "expected_l3": "ability.algebra.quadratic.discriminant_sign",
+      "comment": "判别式为 0 时漏负根"
+    }
+  ]
+}
