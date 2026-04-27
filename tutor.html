@@ -198,6 +198,8 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 <body>
 
 <header class="hero">
+    <a href="/" style="position:absolute;left:14px;top:18px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">← 首页</a>
+    <a href="/radar" id="hero-to-radar" style="position:absolute;right:14px;top:18px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">家长视角 →</a>
     <h1 id="tutor-title">原点 AI 私教</h1>
     <div class="badges">
         <span class="badge" id="b-memory">记忆 —</span>
@@ -267,6 +269,9 @@ input.addEventListener('input', () => {
 });
 
 document.getElementById('tutor-title').textContent = `原点 AI 私教 · ${NAME}`;
+// 顶部跳雷达链接带上当前 student_id + name，跨页同一个学生
+const _radarLink = document.getElementById('hero-to-radar');
+if (_radarLink) _radarLink.href = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
 
 function addBubble(role, text) {
     if (emptyHint && !emptyHint.classList.contains('hidden')) {
