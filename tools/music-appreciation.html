@@ -272,6 +272,7 @@
         </div>
     </div>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -279,7 +280,7 @@
         function shareMusic() {
             var composer = (document.getElementById('composer')||{}).value || '';
             var piece = (document.getElementById('piece-name')||{}).value || '';
-            if (!piece) { alert('先解析一首乐曲再分享'); return; }
+            if (!piece) { YdzxToast.show('先解析一首乐曲再分享', 'warn'); return; }
             var sections = document.querySelectorAll('#timeline-track .timeline-section, #timeline-track > div').length;
             var questions = document.querySelectorAll('#question-list li').length;
             YdzxShare.open({
@@ -383,7 +384,7 @@
             const composer = document.getElementById('composer').value.trim();
 
             if (!pieceName || !composer) {
-                alert('请输入曲名和作曲家');
+                YdzxToast.show('请输入曲名和作曲家', 'warn');
                 return;
             }
 
@@ -470,13 +471,13 @@
                         btn.textContent = '开始解析';
                         saveLearningRecord(pieceName, composer, data);
                     } catch (e) {
-                        alert('解析失败,请重试');
+                        YdzxToast.show('解析失败,请重试', 'error', 5000);
                         btn.disabled = false;
                         btn.textContent = '开始解析';
                     }
                 },
                 onError: function(err) {
-                    alert('解析失败: ' + err);
+                    YdzxToast.show('解析失败: ' + err, 'error', 5000);
                     btn.disabled = false;
                     btn.textContent = '开始解析';
                 }

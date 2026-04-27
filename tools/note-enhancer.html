@@ -351,6 +351,7 @@
         </div>
     </div>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -392,7 +393,7 @@
             const subject = document.getElementById('subject-select').value;
 
             if (!notes) {
-                alert('请输入笔记内容');
+                YdzxToast.show('请输入笔记内容', 'warn');
                 return;
             }
 
@@ -456,13 +457,13 @@
                         saveLearningRecord(notes, data);
                     } catch (e) {
                         console.error('Parse error:', e, response);
-                        alert('增强失败,请重试');
+                        YdzxToast.show('增强失败,请重试', 'error', 5000);
                         btn.disabled = false;
                         btn.textContent = '开始增强';
                     }
                 },
                 onError: function(err) {
-                    alert('增强失败: ' + err);
+                    YdzxToast.show('增强失败: ' + err, 'error', 5000);
                     btn.disabled = false;
                     btn.textContent = '开始增强';
                 }
@@ -585,7 +586,7 @@
             if (!window.LearningStore || !window.LearningStore.getDueFlashcards) return;
             _rvQueue = window.LearningStore.getDueFlashcards({ limit: 30 });
             if (_rvQueue.length === 0) {
-                alert('暂无到期闪卡');
+                YdzxToast.show('暂无到期闪卡', 'warn');
                 return;
             }
             _rvIdx = 0;

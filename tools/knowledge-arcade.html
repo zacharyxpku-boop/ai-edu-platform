@@ -298,6 +298,7 @@ h1 em{font-style:normal;color:var(--cta)}
 
 <footer class="foot">© 2026 原点智学 · 游戏化学习只是入口，真正学到脑子里才是目的</footer>
 
+<script src="/src/toast.js"></script>
 <script src="/src/api-manager.js"></script>
 <script src="/src/share-kit.js"></script>
 <script src="/src/gamification.js"></script>
@@ -351,7 +352,7 @@ fillGradeOptions(); // 初始化
 // ==========================================
 async function startGame() {
     const kp = document.getElementById('kp-input').value.trim();
-    if (!kp) { alert('请输入一个知识点'); return; }
+    if (!kp) { YdzxToast.show('请输入一个知识点', 'warn'); YdzxToast.flagField('kp-input'); return; }
 
     const stage = document.getElementById('stage-sel').value;
     const grade = document.getElementById('grade-sel').value;
@@ -748,7 +749,7 @@ function endGame() {
 
 function shareArcade() {
     if (typeof YdzxShare === 'undefined') {
-        alert('分享模块加载中，请稍候再试');
+        YdzxToast.show('分享模块加载中，请稍候再试', 'info');
         return;
     }
     const gameNames = { whack:'打地鼠', match:'消消乐', snake:'贪吃蛇', sokoban:'推箱子' };

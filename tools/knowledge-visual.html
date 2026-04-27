@@ -290,6 +290,7 @@
         </div>
     </div>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -558,7 +559,7 @@ currentVisualType === 'mindmap' ?
         function downloadImage() {
             const svg = document.querySelector('#visual-canvas svg');
             if (!svg) {
-                alert('没有可下载的图表');
+                YdzxToast.show('没有可下载的图表', 'warn');
                 return;
             }
 

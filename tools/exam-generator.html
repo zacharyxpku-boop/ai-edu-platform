@@ -313,6 +313,7 @@
         <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
     </footer>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -440,7 +441,7 @@
         var calcCount = parseInt(document.getElementById('calc-count').value);
 
         if (choiceCount + blankCount + calcCount === 0) {
-            alert('至少需要一道题');
+            YdzxToast.show('至少需要一道题', 'warn');
             return;
         }
 

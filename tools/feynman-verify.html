@@ -318,6 +318,7 @@
         <div class="quick-nav-container" id="quick-nav"></div>
     </section>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -408,7 +409,7 @@
             const subject = document.getElementById('subject-select').value;
 
             if (!topic) {
-                alert('请输入知识点名称');
+                YdzxToast.show('请输入知识点名称', 'warn');
                 return;
             }
 

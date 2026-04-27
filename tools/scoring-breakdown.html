@@ -269,6 +269,7 @@
         </div>
     </div>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -276,7 +277,7 @@
         var textbookIndex = null;
         window._sbLast = null;
         function shareScore() {
-            if (!window._sbLast) { alert('先拆解一道大题再分享'); return; }
+            if (!window._sbLast) { YdzxToast.show('先拆解一道大题再分享', 'warn'); return; }
             var stage = (document.getElementById('school-stage')||{}).value || '';
             var grade = (document.getElementById('grade')||{}).value || '';
             var sel = document.getElementById('subject');
@@ -313,7 +314,7 @@
             const question = document.getElementById('question-input').value.trim();
 
             if (!question) {
-                alert('请输入题目内容');
+                YdzxToast.show('请输入题目内容', 'warn');
                 return;
             }
 
@@ -394,13 +395,13 @@
                         btn.textContent = '开始拆解';
                         saveLearningRecord(subject, question, data);
                     } catch (e) {
-                        alert('拆解失败,请重试');
+                        YdzxToast.show('拆解失败,请重试', 'error', 5000);
                         btn.disabled = false;
                         btn.textContent = '开始拆解';
                     }
                 },
                 onError: function(err) {
-                    alert('拆解失败: ' + err);
+                    YdzxToast.show('拆解失败: ' + err, 'error', 5000);
                     btn.disabled = false;
                     btn.textContent = '开始拆解';
                 }

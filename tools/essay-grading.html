@@ -311,6 +311,7 @@
         </div>
     </div>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -330,7 +331,7 @@
             const essay = document.getElementById('essay-input').value.trim();
 
             if (!essay) {
-                alert('请输入作文内容');
+                YdzxToast.show('请输入作文内容', 'warn');
                 return;
             }
 
@@ -409,7 +410,7 @@
                     saveLearningRecord(essay, response);
                 },
                 onError: function(err) {
-                    alert('批改失败: ' + err);
+                    YdzxToast.show('批改失败: ' + err, 'error', 5000);
                     btn.disabled = false;
                     btn.textContent = '开始批改';
                 }
@@ -502,7 +503,7 @@
         }
 
         function shareEssay() {
-            if (!window._essayLast) { alert('先批改一篇作文再分享'); return; }
+            if (!window._essayLast) { YdzxToast.show('先批改一篇作文再分享', 'warn'); return; }
             var stage = document.getElementById('school-stage').value || '';
             var grade = document.getElementById('grade').value || '';
             var genreSel = document.getElementById('genre');

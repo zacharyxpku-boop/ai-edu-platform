@@ -325,6 +325,7 @@
         <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
     </footer>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -354,7 +355,7 @@
         var dailyTime = parseInt(document.getElementById('daily-time').value);
 
         if (!weakSubjects || !goal) {
-            alert('请填写薄弱科目和学习目标');
+            YdzxToast.show('请填写薄弱科目和学习目标', 'warn');
             return;
         }
 
@@ -526,7 +527,7 @@
     }
 
     function sharePlan() {
-        if (!planData) { alert('先生成学习计划再分享'); return; }
+        if (!planData) { YdzxToast.show('先生成学习计划再分享', 'warn'); return; }
         var stage = (document.getElementById('school-stage')||{}).value || '';
         var grade = (document.getElementById('grade')||{}).value || '';
         var subject = (document.getElementById('subject')||{}).value || '';
