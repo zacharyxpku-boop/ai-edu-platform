@@ -332,6 +332,7 @@
         <div class="footer-bottom"><span>© 2026 原点智学 YUANDIAN ZHIXUE.</span><span>AI是教练，不是替代者。</span></div>
     </footer>
 
+    <script src="../src/toast.js"></script>
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/share-kit.js"></script>
@@ -339,7 +340,7 @@
     window._emLast = null;
     function shareMastery() {
         var d = window._emLast;
-        if (!d) { alert('先完成一次错题攻克再分享'); return; }
+        if (!d) { YdzxToast.show('先完成一次错题攻克再分享', 'warn'); return; }
         var stage = (document.getElementById('school-stage')||{}).value || '';
         var grade = (document.getElementById('grade')||{}).value || '';
         var subj = (document.getElementById('subject')||{}).value || '';
@@ -648,11 +649,11 @@
         var myAnswer = document.getElementById('my-answer').value;
         var correctAnswer = document.getElementById('correct-answer').value;
 
-        if (!stage) { alert('请选择学段'); return; }
-        if (!grade) { alert('请选择年级'); return; }
-        if (!subject) { alert('请选择科目'); return; }
-        if (!version) { alert('请选择教材版本'); return; }
-        if (!question) { alert('请输入题目内容'); return; }
+        if (!stage) { YdzxToast.show('请选择学段', 'error'); YdzxToast.flagField('school-stage'); return; }
+        if (!grade) { YdzxToast.show('请选择年级', 'error'); YdzxToast.flagField('grade'); return; }
+        if (!subject) { YdzxToast.show('请选择科目', 'error'); YdzxToast.flagField('subject'); return; }
+        if (!version) { YdzxToast.show('请选择教材版本', 'error'); YdzxToast.flagField('textbook-version'); return; }
+        if (!question) { YdzxToast.show('请输入题目内容', 'error'); YdzxToast.flagField('question'); return; }
 
         // 动态注入课纲和真题格式
         var knowledgePoints = extractKnowledgePoints(grade, subject);
