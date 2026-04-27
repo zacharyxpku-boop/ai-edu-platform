@@ -82,6 +82,8 @@ a{color:inherit}
 .gc-chs a.lvl-2{background:#34D399;color:#fff;border-color:#10B981}             /* 已读 + 答过 */
 .gc-chs a.lvl-3{background:#047857;color:#fff;border-color:#065F46}             /* 已掌握(错题全 ≥3 阶) */
 .gc-chs a.err{background:var(--red);color:#fff;border-color:var(--red)}         /* 有活跃错题（红色优先） */
+.gc-chs a.cleared{box-shadow:0 0 0 2px #FBBF24,0 0 0 3px rgba(251,191,36,.4);position:relative;z-index:1}                       /* 已 5 题冲关通关：金色外圈 */
+.gc-chs a.cleared::after{content:'';position:absolute;top:-3px;right:-3px;width:6px;height:6px;border-radius:50%;background:#F59E0B;border:1px solid #fff}
 .empty{padding:40px 20px;text-align:center;color:var(--ink4);font-size:13px;background:#fff;border:1px dashed var(--bdr2);border-radius:10px}
 
 @media(max-width:600px){
@@ -204,6 +206,7 @@ function renderStage(){
   const subjects = Object.keys(bySubject).sort();
   // 拉用户本地状态
   const readSet = new Set(safeGet('ydzx_textbook_read', []) || []);
+  const clearedSet = new Set(Object.keys(safeGet('ydzx_challenge_clears_v1', {}) || {}));   // path::chN
   let errActive = {}, errMastered = {}; // 'path::ch' → count
   if (window.LearningStore && window.LearningStore.getErrors) {
     try {
@@ -259,9 +262,11 @@ function renderStage(){
     const dotColor = SUBJ_COLOR[subj] || '#71717A';
     const totalCh = bs.reduce((a,b) => a + ((b.chapters||[]).length), 0);
     // 预扫：算各级章节数，得出 mastery 百分比
-    const stat = { read:0, lvl1:0, lvl2:0, lvl3:0, err:0 };
+    const stat = { read:0, lvl1:0, lvl2:0, lvl3:0, err:0, cleared:0 };
     bs.forEach(b => (b.chapters||[]).forEach(c => {
-      if (readSet.has(b.path+'::ch'+c.ch)) stat.read++;
+      const sig = b.path+'::ch'+c.ch;
+      if (readSet.has(sig)) stat.read++;
+      if (clearedSet.has(sig)) stat.cleared++;
       const cls = clsForCh(b, c);
       if (cls === 'lvl-1') stat.lvl1++;
       else if (cls === 'lvl-2') stat.lvl2++;
@@ -277,6 +282,9 @@ function renderStage(){
     if (stat.err > 0){
       html += `<span class="mastery-chip err" title="待复习的活跃错题章节数">${stat.err} 章有错题</span>`;
     }
+    if (stat.cleared > 0){
+      html += `<span class="mastery-chip cleared-chip" title="本学科已通过 5 题冲关的章节" style="background:#FEF3C7;color:#92400E;border:1px solid #FBBF24">🏆 ${stat.cleared} 章冲关</span>`;
+    }
     html += '</div>';
     html += '<div class="grade-grid">';
     bs.forEach(b => {
@@ -289,8 +297,11 @@ function renderStage(){
         const eA = errActive[sig] || 0;
         const eM = errMastered[sig] || 0;
         const chPx = chPracticed[sig];
-        const cls = clsForCh(b, c);  // 共用预扫的同一逻辑
+        const isCleared = clearedSet.has(sig);
+        const baseCls = clsForCh(b, c);
+        const cls = baseCls + (isCleared ? ' cleared' : '');
         const tipParts = [`${b.path} · 第 ${c.ch} 章`, c.title || ''];
+        if (isCleared) tipParts.push('🏆 已 5 题冲关通关');
         if (eA > 0) tipParts.push(`活跃错题 ${eA}`);
         if (eM > 0) tipParts.push(`已掌握错题 ${eM}`);
         if (chPx && (chPx.good + chPx.bad) > 0) tipParts.push(`本章答过 ${chPx.good + chPx.bad} 题（对 ${chPx.good}）`);

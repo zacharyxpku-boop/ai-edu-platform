@@ -179,6 +179,7 @@
     const read = safeGet('ydzx_textbook_read', {}) || {};
     const readSig = new Set(Object.keys(read));
     const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
+    const clearedSet = new Set(Object.keys(safeGet('ydzx_challenge_clears_v1', {}) || {}));
 
     const allErrs = (global.LearningStore && global.LearningStore.getErrors)
       ? (global.LearningStore.getErrors() || []) : [];
@@ -205,13 +206,14 @@
       const books = stage === '全部' ? allBooks : allBooks.filter(b => b.stage === stage);
 
       // ----- 总分母 + mastery (随 stage 变) -----
-      let totalCh = 0, readCh = 0, masteredCh = 0;
+      let totalCh = 0, readCh = 0, masteredCh = 0, clearedCh = 0;
       const stageErrSet = new Set();
       books.forEach(b => {
         (b.chapters || []).forEach(c => {
           totalCh++;
           const sig = b.path + '::ch' + c.ch;
           if (readSig.has(sig)) readCh++;
+          if (clearedSet.has(sig)) clearedCh++;
           const px = chPx[sig];
           if (readSig.has(sig) && px && px.good >= 2 && px.good >= px.bad * 2) masteredCh++;
           if (errCount[sig]) stageErrSet.add(sig);
@@ -223,6 +225,7 @@
       if ($('m-read'))  $('m-read').textContent  = readCh;
       if ($('m-err'))   $('m-err').textContent   = stageErrSet.size;
       if ($('m-mas'))   $('m-mas').textContent   = masteredCh;
+      if ($('m-cleared')) $('m-cleared').textContent = clearedCh;
 
       const pct = totalCh > 0 ? Math.round(masteredCh / totalCh * 100) : 0;
       if ($('ring-n'))  $('ring-n').textContent  = pct + '%';
@@ -250,21 +253,29 @@
             const chs = b.chapters || [];
             const rN = chs.reduce((a, c) => a + (readSig.has(b.path + '::ch' + c.ch) ? 1 : 0), 0);
             const eN = chs.reduce((a, c) => a + (errCount[b.path + '::ch' + c.ch] ? 1 : 0), 0);
+            const cN = chs.reduce((a, c) => a + (clearedSet.has(b.path + '::ch' + c.ch) ? 1 : 0), 0);
             const total = chs.length;
             const w = total > 0 ? Math.round(rN / total * 100) : 0;
             const zero = rN === 0;
             const em = b.stage === '初中' ? '📘' : '📗';
             const sub = (b.edition || '') + ' · ' + (b.grade || '') + (b.volume ? '·' + b.volume : '');
             const href = '/tools/textbook-browser.html?path=' + encodeURIComponent(b.path);
-            return '<a class="book-card ' + (zero ? 'zero' : '') + '" href="' + href + '">' +
+            const tailMeta = eN > 0
+              ? '<span class="err">' + eN + ' 章有错题</span>'
+              : (cN > 0
+                  ? '<span class="cleared">🏆 ' + cN + ' 章冲关</span>'
+                  : '<span>' + w + '%</span>');
+            return '<a class="book-card ' + (zero ? 'zero' : '') + (cN > 0 ? ' has-cleared' : '') + '" href="' + href + '">' +
               '<span class="bk-em">' + em + '</span>' +
               '<span class="bk-bd">' +
-                '<div class="bk-t">' + escHtml(b.stage) + ' · ' + escHtml(b.grade) + (b.volume ? ' · ' + escHtml(b.volume) : '') + '</div>' +
+                '<div class="bk-t">' + escHtml(b.stage) + ' · ' + escHtml(b.grade) + (b.volume ? ' · ' + escHtml(b.volume) : '') +
+                  (cN > 0 ? ' <span style="font-size:11px;color:#92400E;background:#FEF3C7;border:1px solid #FBBF24;padding:1px 6px;border-radius:100px;font-weight:700;margin-left:4px">🏆 ' + cN + '</span>' : '') +
+                '</div>' +
                 '<div class="bk-s">' + escHtml(sub) + '</div>' +
                 '<div class="bk-bar"><i style="width:' + w + '%"></i></div>' +
                 '<div class="bk-meta">' +
                   '<span>已读 <b>' + rN + '</b>/' + total + ' 章</span>' +
-                  (eN > 0 ? '<span class="err">' + eN + ' 章有错题</span>' : '<span>' + w + '%</span>') +
+                  tailMeta +
                 '</div>' +
               '</span>' +
             '</a>';
