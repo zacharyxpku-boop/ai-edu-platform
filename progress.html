@@ -1332,6 +1332,40 @@ function renderSmartNext() {
 }
 
 // ─────── 冲关战利品 ───────
+// ISO 周键 (周一为一周开始)
+function _isoWeekKey(ts){
+  const d = new Date(ts);
+  d.setHours(0,0,0,0);
+  // 移到最近的周四确定 ISO year
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const yearStart = new Date(d.getFullYear(), 0, 4);
+  const week = Math.round(((d - yearStart) / 86400000 + 1) / 7);
+  return d.getFullYear() + '-W' + String(week).padStart(2,'0');
+}
+// 跨周连续: 从最近一周回溯, 找连续有 ≥1 通关的周数
+function _challengeWeekStreak(cleared){
+  const weeks = new Set();
+  Object.values(cleared || {}).forEach(v => {
+    if (v && typeof v.ts === 'number') weeks.add(_isoWeekKey(v.ts));
+  });
+  if (!weeks.size) return 0;
+  // 从本周开始往前数
+  let cur = new Date();
+  let streak = 0;
+  for (let i = 0; i < 60; i++){   // safety cap 60 周
+    const key = _isoWeekKey(cur.getTime());
+    if (weeks.has(key)){
+      streak++;
+      cur.setDate(cur.getDate() - 7);
+    } else if (streak === 0 && i === 0){
+      // 本周还没通关, 往前找一下"上周"是不是有(允许本周空白)
+      cur.setDate(cur.getDate() - 7);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
 function renderTrophies(){
   const sec = document.getElementById('trophy-sec');
   const mount = document.getElementById('tro-mount');
@@ -1343,6 +1377,27 @@ function renderTrophies(){
   try { cleared = JSON.parse(localStorage.getItem('ydzx_challenge_clears_v1') || '{}') || {}; } catch(_){}
   const sigs = Object.keys(cleared);
   countEl.textContent = sigs.length;
+
+  // EXP-3: 跨周 streak chip + 解锁徽章
+  const wkStreak = _challengeWeekStreak(cleared);
+  if (wkStreak > 0){
+    let chipBg = '#FFFBEB', chipColor = '#92400E', chipBorder = '#FBBF24', chipEm = '🔥';
+    if (wkStreak >= 12){ chipBg = '#FEF3C7'; chipColor = '#78350F'; chipBorder = '#F59E0B'; chipEm = '👑'; }
+    else if (wkStreak >= 8){ chipBg = '#FFF7ED'; chipColor = '#9A3412'; chipBorder = '#FB923C'; chipEm = '🏆🏆'; }
+    else if (wkStreak >= 4){ chipBg = '#FEF3C7'; chipColor = '#92400E'; chipBorder = '#FBBF24'; chipEm = '🏆'; }
+    if (subEl){
+      subEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:'+chipBg+';border:1px solid '+chipBorder+';border-radius:100px;color:'+chipColor+';font-size:11px;font-weight:800">'
+        + chipEm + ' 连续 ' + wkStreak + ' 周每周至少通关 1 关</span>';
+    }
+    // 触发徽章解锁(已通过自动跳过)
+    if (window.GAME && typeof window.GAME.unlockBadge === 'function'){
+      try {
+        if (wkStreak >= 4)  window.GAME.unlockBadge('challenge_streak_4');
+        if (wkStreak >= 8)  window.GAME.unlockBadge('challenge_streak_8');
+        if (wkStreak >= 12) window.GAME.unlockBadge('challenge_streak_12');
+      } catch(_){}
+    }
+  }
 
   if (!sigs.length){
     mount.innerHTML = '<div class="tro-empty">'

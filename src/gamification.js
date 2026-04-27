@@ -48,7 +48,11 @@
         { id: 'knowledge_cartographer', name: '知识地图师', emoji: '🗺️', hint: '生成一张知识可视化图' },
         { id: 'essay_polisher',     name: '作文工匠',    emoji: '✍️', hint: '作文打分得 85+ 分' },
         { id: 'all_five_tools',     name: '五件套',      emoji: '🎯', hint: '一天内用过 5 件不同工具' },
-        { id: 'ai_whisperer',       name: 'AI 细语者',   emoji: '🔮', hint: 'BYOK 配置成功自己的 API Key' }
+        { id: 'ai_whisperer',       name: 'AI 细语者',   emoji: '🔮', hint: 'BYOK 配置成功自己的 API Key' },
+        // EXP-3 跨周冲关 streak: 每周至少通关 1 关算 1, 连续多周累积解锁
+        { id: 'challenge_streak_4',  name: '一月冲关',    emoji: '🏆', hint: '连续 4 周每周至少通关 1 关' },
+        { id: 'challenge_streak_8',  name: '双月不间断',  emoji: '🏆🏆', hint: '连续 8 周每周至少通关 1 关' },
+        { id: 'challenge_streak_12', name: '一季登顶',    emoji: '👑', hint: '连续 12 周每周至少通关 1 关' }
     ];
 
     function safeGet(k, fallback) {
