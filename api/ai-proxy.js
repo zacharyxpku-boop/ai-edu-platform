@@ -86,8 +86,19 @@ export default async function handler(req) {
     const cfg = PROVIDERS[providerKey];
     if (!cfg) return jsonErr(400, 'bad_provider', '不支持的 provider: ' + providerKey);
 
-    const key = (typeof process !== 'undefined' && process.env) ? process.env[cfg.env] : '';
-    if (!key) return jsonErr(500, 'not_configured', cfg.env + ' 未配置，请联系管理员');
+    // env fallback：兼容用户既有命名（例如 DEEPSEEK_API_KEY 也认）
+    const ENV_FALLBACK = {
+        DEEPSEEK_KEY: ['DEEPSEEK_KEY', 'DEEPSEEK_API_KEY'],
+        QWEN_KEY: ['QWEN_KEY', 'DASHSCOPE_API_KEY'],
+    };
+    const candidates = ENV_FALLBACK[cfg.env] || [cfg.env];
+    let key = '';
+    if (typeof process !== 'undefined' && process.env) {
+        for (const name of candidates) {
+            if (process.env[name]) { key = process.env[name]; break; }
+        }
+    }
+    if (!key) return jsonErr(500, 'not_configured', candidates.join(' / ') + ' 都未配置，请联系管理员');
 
     if (!Array.isArray(body.messages) || body.messages.length === 0) {
         return jsonErr(400, 'bad_messages', 'messages 必须是非空数组');
