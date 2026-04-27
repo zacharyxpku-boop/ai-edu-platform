@@ -25,6 +25,10 @@
     { "source": "/about-brand.html", "destination": "/about", "permanent": true },
     { "source": "/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
     { "source": "/tools/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
-    { "source": "/tools/scoring-breakdown.html", "destination": "/tools/exam-diagnosis", "permanent": true }
+    { "source": "/tools/scoring-breakdown.html", "destination": "/tools/exam-diagnosis", "permanent": true },
+    { "source": "/start", "destination": "/mastery-loop", "permanent": false },
+    { "source": "/tutor", "destination": "/tutor.html", "permanent": false },
+    { "source": "/radar", "destination": "/parent-radar.html", "permanent": false },
+    { "source": "/report", "destination": "/parent-report.html", "permanent": false }
   ]
 }
