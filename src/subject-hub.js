@@ -377,12 +377,17 @@
             const tag = e.keyword || (e.mistakeTags && e.mistakeTags[0]) || '错题';
             const q = escHtml((e.question || '').slice(0, 90));
             const dueLbl = (e.nextReviewAt || 0) <= Date.now() ? '今日到期' : '复习中';
-            return '<div class="err-row">' +
+            // 让老师讲讲: 把错题 keyword 和 id 透传给 tutor.html, 跟 mastery-loop mini-tutor 形成同样的"立即问"动作
+            const tutorHref = '/tutor.html?subject=' + encodeURIComponent(TOOL_QUERY)
+              + (e.keyword ? '&topic=' + encodeURIComponent(e.keyword) : '')
+              + (e.id ? '&q=' + encodeURIComponent(e.id) : '');
+            return '<div class="err-row" style="flex-wrap:wrap">' +
               '<div class="em">📕</div>' +
               '<div class="bd">' +
                 '<div><b>' + escHtml(tag) + '</b> · 阶段 ' + (e.reviewCount || 0) + '/3 · ' + dueLbl + '</div>' +
                 '<div class="qx">' + (q || '(无题干)') + '</div>' +
               '</div>' +
+              '<a class="ax" style="background:#1D4ED8;margin-right:6px" href="' + tutorHref + '">🤖 讲讲</a>' +
               '<a class="ax" href="/errors.html?id=' + encodeURIComponent(e.id || '') + '#review">复习</a>' +
             '</div>';
           }).join('');
