@@ -7,31 +7,35 @@
 <meta name="description" content="家长端：孩子在每个知识点上的真实掌握度，弱在哪强在哪一目了然">
 <style>
 :root {
-    --c-ink: #1A1A2E;
-    --c-ink-light: #16213E;
-    --c-ink-surface: #0F3460;
+    /* 暖白底版（KA 化第 4 段：家长视角不该是黑底考试舱）*/
+    --c-ink: #FAFAF7;            /* 主背景：暖白 */
+    --c-ink-light: #FFFFFF;      /* 卡片：纯白 */
+    --c-ink-surface: #F4F1EC;    /* 略沉一档暖白：高亮区 */
     --c-origin: #E94D35;
-    --c-origin-soft: #FF6B4A;
-    --c-origin-glow: rgba(233,77,53,0.15);
-    --c-warm-white: #F5F0EB;
-    --c-warm-gray: #B8B0A8;
-    --c-warm-dim: #7A7067;
-    --c-success: #2D9F6F;
-    --c-warning: #D4A843;
-    --c-error: #C94040;
+    --c-origin-soft: #FF8A6E;
+    --c-origin-glow: rgba(233,77,53,0.10);
+    --c-warm-white: #18181B;     /* 主字色：墨青（语义反转后这里是字色不是底色）*/
+    --c-warm-gray: #52525B;      /* 次字色 */
+    --c-warm-dim: #A1A1AA;       /* 辅助小字 */
+    --c-bdr: #E7E5DF;            /* 卡片边 */
+    --c-bdr-soft: #EFEDE7;       /* 浅边 */
+    --c-success: #059669;
+    --c-warning: #D97706;
+    --c-error: #DC2626;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-light) 100%);
+    background: var(--c-ink);
     color: var(--c-warm-white);
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
 }
 h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .container { max-width: 880px; margin: 0 auto; padding: 24px 16px 80px; }
 
-.hero { padding: 24px 0 16px; border-bottom: 1px solid rgba(184,176,168,0.15); }
+.hero { padding: 24px 0 16px; border-bottom: 1px solid var(--c-bdr); }
 .hero .child-meta { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .hero h1 { font-size: 1.55rem; }
 .hero .subtitle { color: var(--c-warm-gray); font-size: 0.9rem; }
@@ -46,10 +50,11 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 }
 .glance-card {
     background: var(--c-ink-light);
-    border: 1px solid rgba(184,176,168,0.1);
-    border-radius: 8px;
+    border: 1px solid var(--c-bdr);
+    border-radius: 10px;
     padding: 16px 12px;
     text-align: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 .glance-card .num {
     font-size: 1.8rem;
@@ -73,15 +78,16 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
 .panel {
     background: var(--c-ink-light);
-    border: 1px solid rgba(184,176,168,0.1);
-    border-radius: 12px;
+    border: 1px solid var(--c-bdr);
+    border-radius: 14px;
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 .panel h2 { font-size: 1.05rem; margin-bottom: 12px; color: var(--c-warm-white); }
 
 /* 雷达图 SVG */
 #radar-svg { width: 100%; height: auto; max-width: 360px; margin: 0 auto; display: block; }
-.radar-grid line, .radar-grid polygon { stroke: rgba(184,176,168,0.18); fill: none; }
+.radar-grid line, .radar-grid polygon { stroke: rgba(24,24,27,0.12); fill: none; }
 .radar-axis-label { font-size: 11px; fill: var(--c-warm-gray); text-anchor: middle; }
 .radar-shape { fill: var(--c-origin-glow); stroke: var(--c-origin); stroke-width: 2; }
 .radar-shape.weak { stroke: var(--c-warning); }
@@ -93,7 +99,7 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px dashed rgba(184,176,168,0.12);
+    border-bottom: 1px dashed rgba(24,24,27,0.12);
     gap: 12px;
 }
 .kc-item:last-child { border-bottom: none; }
@@ -141,7 +147,7 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .btn-secondary {
     background: transparent;
     color: var(--c-warm-gray);
-    border: 1px solid rgba(184,176,168,0.25);
+    border: 1px solid rgba(24,24,27,0.25);
     padding: 9px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -257,7 +263,7 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     <div class="panel" id="latest-quote-panel" style="display:none; border-left: 3px solid var(--c-success); padding: 14px 18px; margin-top: 16px; background: linear-gradient(135deg, rgba(78,164,116,0.12), rgba(78,164,116,0.04)); border-radius: 8px;">
         <div style="font-size: 0.78rem; color: var(--c-warm-dim); margin-bottom: 6px;">🌟 孩子今天刚出师 · <span id="latest-quote-time">—</span></div>
         <div id="latest-quote-text" style="font-size: 1rem; line-height: 1.55; color: var(--c-warm-white); margin-bottom: 8px;"></div>
-        <div id="latest-quote-mom" style="font-size: 0.86rem; color: var(--c-warm-gray); padding-top: 8px; border-top: 1px dashed rgba(184,176,168,0.2);"></div>
+        <div id="latest-quote-mom" style="font-size: 0.86rem; color: var(--c-warm-gray); padding-top: 8px; border-top: 1px dashed rgba(24,24,27,0.2);"></div>
     </div>
 
     <div class="panel" id="profile-panel" style="display:none; border-left: 3px solid var(--c-origin); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
@@ -520,7 +526,7 @@ function renderFsrsPanel(data) {
         const r = item.retrievability ?? 0;
         const isUrgent = r < 0.6;
         const li = document.createElement('li');
-        li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(184,176,168,0.1);';
+        li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(24,24,27,0.1);';
         li.innerHTML = `
             <a href="/mastery-loop?student_id=${encodeURIComponent(STUDENT_ID)}&topic_code=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
                 ${escapeHtml(item.kp_name || item.knowledge_point_id?.slice(0, 8) || '未命名')}
