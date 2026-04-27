@@ -55,8 +55,12 @@
         var dueErrs = errs.filter(function(e){
             return (e.nextReviewAt||0) <= Date.now() && (e.reviewCount||0) < 3;
         });
-        var read = safeGet('ydzx_textbook_read', []) || [];
-        if (!Array.isArray(read)) read = [];
+        // ydzx_textbook_read 兼容两种写法: 老的 Array<sig> 与新的 Object<sig:ts>
+        var rawRead = safeGet('ydzx_textbook_read', null);
+        var readN = 0;
+        if (Array.isArray(rawRead)) readN = rawRead.length;
+        else if (rawRead && typeof rawRead === 'object') readN = Object.keys(rawRead).length;
+        var read = { length: readN };   // 占位仅供 readN 引用
         var log = (window.GAME && window.GAME.getLog) ? (window.GAME.getLog() || []) : [];
         var arcadeN = 0, feynmanN = 0, errorActN = 0;
         log.forEach(function(e){
