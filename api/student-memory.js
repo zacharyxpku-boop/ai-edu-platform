@@ -135,6 +135,25 @@ function buildMemoryPrompt(memories, profile, extras) {
     return lines.join('\n');
 }
 
+// 简易 IP 限流：每分钟 60 次（含正常 tutor-chat 串调用频度，留足余量挡随手刷）
+// 仅当 x-forwarded-for 存在时启用 → tutor-chat 内部 fetch 没传该 header，自动绕过；
+// 外部直接命中本端点时（如 parent-radar fetchProfile）才计数
+const IP_LIMIT_PER_MIN = 60;
+const ipBucket = new Map();
+function ratelimit(ip) {
+    const minute = Math.floor(Date.now() / 60000);
+    const k = ip + '|' + minute;
+    const n = (ipBucket.get(k) || 0) + 1;
+    ipBucket.set(k, n);
+    if (ipBucket.size > 5000) {
+        for (const key of ipBucket.keys()) {
+            const m = parseInt(key.split('|')[1], 10);
+            if (m < minute - 1) ipBucket.delete(key);
+        }
+    }
+    return n <= IP_LIMIT_PER_MIN;
+}
+
 export default async function handler(req) {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: { 'access-control-allow-origin': '*' } });
     if (req.method !== 'POST') return jsonErr(405, 'method_not_allowed', '只接受 POST');
@@ -142,6 +161,9 @@ export default async function handler(req) {
     if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY || !QWEN_KEY) {
         return jsonErr(503, 'not_configured', 'env 未配齐');
     }
+
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim();
+    if (ip && !ratelimit(ip)) return jsonErr(429, 'rate_limited', 'memory 查询过于频繁（60 次/分钟上限）');
 
     let body;
     try { body = await req.json(); }
