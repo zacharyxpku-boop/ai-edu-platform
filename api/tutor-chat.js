@@ -301,6 +301,24 @@ function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     return L.join('\n');
 }
 
+// 简易 IP 限流（Edge 单实例 Map，冷启动重置；够挡随手刷）
+// tutor-chat 是最贵端点（DeepSeek 流式 400 max_tokens），单 IP 每分钟 30 次上限
+const IP_LIMIT_PER_MIN = 30;
+const ipBucket = new Map();
+function ratelimit(ip) {
+    const minute = Math.floor(Date.now() / 60000);
+    const k = ip + '|' + minute;
+    const n = (ipBucket.get(k) || 0) + 1;
+    ipBucket.set(k, n);
+    if (ipBucket.size > 5000) {
+        for (const key of ipBucket.keys()) {
+            const m = parseInt(key.split('|')[1], 10);
+            if (m < minute - 1) ipBucket.delete(key);
+        }
+    }
+    return n <= IP_LIMIT_PER_MIN;
+}
+
 export default async function handler(req) {
     if (req.method === 'OPTIONS') {
         return new Response(null, {
@@ -314,6 +332,11 @@ export default async function handler(req) {
     }
     if (req.method !== 'POST') return jsonErr(405, 'method_not_allowed', '只接受 POST');
     if (!DEEPSEEK_KEY) return jsonErr(503, 'not_configured', 'DEEPSEEK key 未配');
+
+    // IP 限流：单 IP 每分钟 30 次（含一次 student-memory 子调用，实际外部上限 ~30 轮对话/分钟）
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+        || req.headers.get('x-real-ip') || 'unknown';
+    if (!ratelimit(ip)) return jsonErr(429, 'rate_limited', '对话过于频繁，请稍后再试（30 次/分钟上限）');
 
     let body;
     try { body = await req.json(); }

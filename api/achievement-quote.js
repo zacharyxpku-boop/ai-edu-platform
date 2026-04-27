@@ -85,6 +85,23 @@ function buildPrompt(p) {
     return L.join('\n');
 }
 
+// 简易 IP 限流（出师才触发，10 次/分钟够正常场景）
+const IP_LIMIT_PER_MIN = 10;
+const ipBucket = new Map();
+function ratelimit(ip) {
+    const minute = Math.floor(Date.now() / 60000);
+    const k = ip + '|' + minute;
+    const n = (ipBucket.get(k) || 0) + 1;
+    ipBucket.set(k, n);
+    if (ipBucket.size > 5000) {
+        for (const key of ipBucket.keys()) {
+            const m = parseInt(key.split('|')[1], 10);
+            if (m < minute - 1) ipBucket.delete(key);
+        }
+    }
+    return n <= IP_LIMIT_PER_MIN;
+}
+
 export default async function handler(req) {
     if (req.method === 'OPTIONS') {
         return new Response(null, {
@@ -98,6 +115,10 @@ export default async function handler(req) {
     }
     if (req.method !== 'POST') return jerr(405, 'method_not_allowed', '只接 POST');
     if (!DEEPSEEK_KEY) return jerr(503, 'not_configured', 'DEEPSEEK key 未配');
+
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+        || req.headers.get('x-real-ip') || 'unknown';
+    if (!ratelimit(ip)) return jerr(429, 'rate_limited', '请求过于频繁（10 次/分钟上限）');
 
     let body;
     try { body = await req.json(); }
