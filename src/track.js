@@ -44,5 +44,32 @@
     } catch (_) { return {}; }
   }
 
-  global.YDZX_TRACK = { event: event, recent: recent, countByName: countByName, KEY: KEY, CAP: CAP };
+  // ─── 自动 page_view 一次/加载 ───
+  // 页面只要 <script src="/src/track.js"></script> 就自动登记 PV, 无需手动调用
+  // 页面名优先 meta[name="ydzx-page"], fallback 取 location.pathname 的最后一段(去 .html)
+  function derivePageName() {
+    try {
+      const meta = document.querySelector('meta[name="ydzx-page"]');
+      if (meta && meta.content) return meta.content;
+      const path = (location.pathname || '/').replace(/\/$/, '/');
+      let seg = path.split('/').filter(Boolean).pop() || 'home';
+      seg = seg.replace(/\.html?$/i, '');
+      return seg || 'home';
+    } catch (_) { return 'unknown'; }
+  }
+  // 防同次刷新内重复 push (例如 SPA 二次 boot 误触)
+  if (!global.__YDZX_PV_FIRED__) {
+    global.__YDZX_PV_FIRED__ = true;
+    setTimeout(function () {
+      try {
+        event('page_view', {
+          page: derivePageName(),
+          path: location.pathname || '',
+          ref: document.referrer || ''
+        });
+      } catch (_) {}
+    }, 0);
+  }
+
+  global.YDZX_TRACK = { event: event, recent: recent, countByName: countByName, derivePageName: derivePageName, KEY: KEY, CAP: CAP };
 })(window);
