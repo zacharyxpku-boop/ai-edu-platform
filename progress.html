@@ -342,6 +342,34 @@
     </div>
 </section>
 
+<!-- TROPHY SHOWCASE · 冲关战利品 -->
+<section class="sec" id="trophy-sec">
+    <div class="sec-h">
+        <div class="sec-t">🏆 冲关战利品 · <span id="tro-count">0</span> 关已通</div>
+        <div class="sec-sub" id="tro-sub">每攒满 5 道同章节错题就解锁一关</div>
+    </div>
+    <div id="tro-mount"></div>
+</section>
+
+<style>
+.tro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.tro-card{position:relative;background:linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%);border:1px solid #FBBF24;border-radius:12px;padding:14px 16px 14px 18px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.tro-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#F59E0B}
+.tro-card .tro-head{display:flex;align-items:center;gap:8px}
+.tro-card .tro-em{font-size:24px;line-height:1}
+.tro-card .tro-subj{font-size:11px;font-weight:800;letter-spacing:.5px;color:#78350F;text-transform:uppercase}
+.tro-card .tro-t{font-size:14px;font-weight:800;color:#18181B;letter-spacing:-.005em;line-height:1.4}
+.tro-card .tro-s{font-size:11px;color:#92400E;font-variant-numeric:tabular-nums}
+.tro-card .tro-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:11px;color:#78350F}
+.tro-card .tro-share{padding:4px 10px;background:#F59E0B;color:#fff;border:none;border-radius:6px;font:700 11px var(--font);cursor:pointer;transition:.15s}
+.tro-card .tro-share:hover{background:#D97706}
+.tro-empty{padding:32px 20px;text-align:center;background:#FAFAF7;border:1px dashed var(--bdr);border-radius:12px;color:var(--ink3);font-size:13px;line-height:1.7}
+.tro-empty .em{font-size:36px;display:block;margin-bottom:6px;opacity:.4}
+.tro-empty a{color:var(--amber);font-weight:700;text-decoration:none}
+.tro-share-all{padding:8px 16px;background:#18181B;color:#fff;border:none;border-radius:7px;font:700 12px var(--font);cursor:pointer;float:right;margin-top:-30px;position:relative;z-index:1}
+.tro-share-all:hover{background:#000}
+</style>
+
 <!-- XP CHART -->
 <section class="sec">
     <div class="sec-h">
@@ -1303,12 +1331,129 @@ function renderSmartNext() {
         });
 }
 
+// ─────── 冲关战利品 ───────
+function renderTrophies(){
+  const sec = document.getElementById('trophy-sec');
+  const mount = document.getElementById('tro-mount');
+  const countEl = document.getElementById('tro-count');
+  const subEl = document.getElementById('tro-sub');
+  if (!sec || !mount) return;
+
+  let cleared = {};
+  try { cleared = JSON.parse(localStorage.getItem('ydzx_challenge_clears_v1') || '{}') || {}; } catch(_){}
+  const sigs = Object.keys(cleared);
+  countEl.textContent = sigs.length;
+
+  if (!sigs.length){
+    mount.innerHTML = '<div class="tro-empty">'
+      + '<span class="em">🏆</span>'
+      + '<div>还没有冲关记录</div>'
+      + '<div style="margin-top:6px">去 <a href="errors.html">错题本</a> 攒满 5 道同章节错题, 一次答对解锁第一关</div>'
+      + '</div>';
+    return;
+  }
+
+  // 按通关时间倒序
+  const items = sigs.map(function(sig){
+    const v = cleared[sig] || {};
+    return { sig: sig, ts: v.ts || 0, label: v.label || sig };
+  }).sort(function(a,b){ return b.ts - a.ts; });
+
+  // 分享全部按钮挂在 sec-h 区(用 absolute float)
+  if (!document.getElementById('tro-share-all-btn')){
+    const btn = document.createElement('button');
+    btn.id = 'tro-share-all-btn';
+    btn.className = 'tro-share-all';
+    btn.textContent = '📤 分享我的战利品';
+    btn.addEventListener('click', shareAllTrophies);
+    sec.appendChild(btn);
+  }
+
+  // 简化路径 → 学科推断 + 短标签
+  function inferSubject(sig){
+    if (sig.indexOf('数学')>=0 || sig.indexOf('math')>=0) return { zh:'数学', em:'∑', color:'#2563EB' };
+    if (sig.indexOf('物理')>=0 || sig.indexOf('physics')>=0) return { zh:'物理', em:'⚛', color:'#7C3AED' };
+    if (sig.indexOf('化学')>=0 || sig.indexOf('chemistry')>=0) return { zh:'化学', em:'⚗', color:'#059669' };
+    if (sig.indexOf('生物学')>=0 || sig.indexOf('biology')>=0) return { zh:'生物', em:'🧬', color:'#16A34A' };
+    if (sig.indexOf('语文')>=0 || sig.indexOf('chinese')>=0) return { zh:'语文', em:'文', color:'#DC2626' };
+    if (sig.indexOf('历史')>=0 || sig.indexOf('history')>=0) return { zh:'历史', em:'史', color:'#92400E' };
+    if (sig.indexOf('地理')>=0 || sig.indexOf('geography')>=0) return { zh:'地理', em:'地', color:'#0D9488' };
+    if (sig.indexOf('思想政治')>=0 || sig.indexOf('politics')>=0) return { zh:'政治', em:'政', color:'#EA580C' };
+    return { zh:'通关', em:'🏆', color:'#92400E' };
+  }
+  function fmtDate(ts){ const d = new Date(ts || 0); return (d.getMonth()+1) + '/' + d.getDate(); }
+
+  mount.innerHTML = '<div class="tro-grid">' + items.map(function(it, i){
+    const subj = inferSubject(it.sig);
+    return '<div class="tro-card" data-i="' + i + '">'
+      + '<div class="tro-head">'
+      +   '<span class="tro-em">' + subj.em + '</span>'
+      +   '<span class="tro-subj" style="color:' + subj.color + '">' + subj.zh + ' · 5 题冲关</span>'
+      + '</div>'
+      + '<div class="tro-t">' + escHtmlSafe(it.label) + '</div>'
+      + '<div class="tro-row">'
+      +   '<span class="tro-s">' + fmtDate(it.ts) + ' 通关</span>'
+      +   '<button class="tro-share" type="button" data-i="' + i + '">📤 分享这关</button>'
+      + '</div>'
+      + '</div>';
+  }).join('') + '</div>';
+
+  // 单个分享
+  mount.querySelectorAll('.tro-share').forEach(function(b){
+    b.addEventListener('click', function(){
+      const i = parseInt(b.dataset.i, 10);
+      shareOneTrophy(items[i]);
+    });
+  });
+}
+
+function escHtmlSafe(s){
+  return String(s||'').replace(/[<>&"']/g, function(c){return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]);});
+}
+
+function shareOneTrophy(item){
+  if (!window.YdzxShare){ alert('分享模块加载中, 稍等'); return; }
+  const studentName = (function(){ try { return localStorage.getItem('yd:my_name') || '同学'; } catch(_){ return '同学'; }})();
+  const date = new Date(item.ts || 0);
+  YdzxShare.open({
+    source: 'challenge-clear',
+    title: studentName + ' 通关了「' + item.label + '」',
+    subtitle: '原点 AI 学堂 · 5 题考前冲关',
+    metrics: [
+      { label: '通关章节', value: item.label.length > 12 ? item.label.slice(-10) : item.label },
+      { label: '一次答对', value: '5/5 道' },
+      { label: '通关日', value: (date.getMonth()+1) + '月' + date.getDate() + '日' }
+    ],
+    quote: '同章节 5 题一次过 · 这关下次不再考你'
+  });
+}
+
+function shareAllTrophies(){
+  if (!window.YdzxShare){ alert('分享模块加载中, 稍等'); return; }
+  let cleared = {};
+  try { cleared = JSON.parse(localStorage.getItem('ydzx_challenge_clears_v1') || '{}') || {}; } catch(_){}
+  const cnt = Object.keys(cleared).length;
+  const studentName = (function(){ try { return localStorage.getItem('yd:my_name') || '我'; } catch(_){ return '我'; }})();
+  YdzxShare.open({
+    source: 'trophy-wall',
+    title: studentName + ' 的冲关战利品墙',
+    subtitle: '原点 AI 学堂 · 累计 ' + cnt + ' 关通关',
+    metrics: [
+      { label: '通关章节', value: cnt + ' 关' },
+      { label: '冲关 XP', value: (cnt * 20) + ' XP' },
+      { label: '错题清空', value: cnt * 5 + ' 道' }
+    ],
+    quote: '不背运气, 凭一次答对'
+  });
+}
+
 // init
 GAME.pingToday('progress');
 render();
 renderFsrs();
 renderSubjects();
 renderSmartNext();
+renderTrophies();
 </script>
 
 </body>
