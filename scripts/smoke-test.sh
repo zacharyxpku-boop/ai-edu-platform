@@ -127,6 +127,10 @@ post "信号抽取（手动触发）" "/api/extract-dialogue-signals?limit=5" \
 post "对话向量化" "/api/embed-dialogue?limit=5" \
     "{}" "-H X-Admin-Token:$ADMIN"
 
+# v1.1 新端点 · 出师金句
+post "出师金句生成" "/api/achievement-quote" \
+    '{"topic":"一元一次方程","minutes":12,"attempts_count":7,"correct_count":6,"final_mastery":0.92,"highlights":[{"step":"去分母漏乘","from":"错","to":"对"}]}' ""
+
 echo ""
 echo "── 六、代理端点（NCDM 服务，依赖 NCDM_HOST）──"
 
