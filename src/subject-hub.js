@@ -432,13 +432,175 @@
       document.head.appendChild(s);
     }
 
+    // ----- 给家长看·一眼读懂卡 -----
+    function ensureParentStyle() {
+      if (document.getElementById('subj-hub-parent-style')) return;
+      const css = ''
+        + '.parent-card{background:#FAFAF7;border:1px solid #E4E4E7;border-radius:14px;padding:18px 20px;margin:24px 0 0}'
+        + '.parent-card .ph{display:flex;align-items:center;gap:8px;margin-bottom:10px}'
+        + '.parent-card .ph .em{font-size:18px}'
+        + '.parent-card .ph h3{font-size:14px;font-weight:800;color:#18181B;margin:0;letter-spacing:.3px}'
+        + '.parent-card .ph .badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;letter-spacing:.4px;margin-left:auto}'
+        + '.parent-card .badge.b-stable{background:#DBEAFE;color:#1E40AF}'
+        + '.parent-card .badge.b-burst{background:#FEF3C7;color:#92400E}'
+        + '.parent-card .badge.b-stuck{background:#FEE2E2;color:#991B1B}'
+        + '.parent-card .badge.b-start{background:#F4F4F5;color:#52525B}'
+        + '.parent-card .lines{font-size:13px;color:#3F3F46;line-height:1.85;margin-bottom:12px}'
+        + '.parent-card .lines b{color:#18181B;font-weight:800}'
+        + '.parent-card .lines .m{color:#92400E;font-weight:700}'
+        + '.parent-card .advice{background:#fff;border-left:3px solid #F59E0B;padding:10px 14px;font-size:12.5px;color:#52525B;border-radius:0 8px 8px 0;margin-bottom:10px;line-height:1.6}'
+        + '.parent-card .advice b{color:#92400E}'
+        + '.parent-card .copy-row{display:flex;gap:8px;align-items:center}'
+        + '.parent-card .copy-btn{padding:7px 14px;background:#18181B;color:#fff;border:none;border-radius:7px;font:700 12px var(--font,system-ui);cursor:pointer;transition:.15s}'
+        + '.parent-card .copy-btn:hover{background:#000}'
+        + '.parent-card .copy-tip{font-size:11px;color:#A1A1AA}';
+      const s = document.createElement('style'); s.id='subj-hub-parent-style'; s.textContent=css;
+      document.head.appendChild(s);
+    }
+
+    function renderParentSummary() {
+      const mount = $('parent-mount');
+      if (!mount) return;
+      ensureParentStyle();
+
+      // 一周窗口起点(7 天前的 00:00)
+      const weekAgo = (function () {
+        const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - 6);
+        return d.getTime();
+      })();
+      const todayStart = (function () { const d = new Date(); d.setHours(0,0,0,0); return d.getTime(); })();
+
+      // 本周读章 / 今日读章 (限定本科目教材)
+      const subjBookPaths = new Set(allBooks.map(b => b.path));
+      let weekRead = 0, todayRead = 0;
+      Object.keys(read).forEach(sig => {
+        const ts = read[sig];
+        if (typeof ts !== 'number') return;
+        const path = sig.split('::ch')[0];
+        if (!subjBookPaths.has(path)) return;
+        if (ts >= weekAgo) weekRead++;
+        if (ts >= todayStart) todayRead++;
+      });
+
+      // 本周做题 / 答对率
+      let weekQ = 0, weekRight = 0;
+      Object.values(outcomes).forEach(o => {
+        if (!o || !o.book || o.ch == null) return;
+        if (o.subj && !(o.subj === SUBJECT_KEY || o.subj === SUBJECT_ZH)) return;
+        // outcome 没绝对时间戳就用 d 字段判断 7 天内
+        if (o.d) {
+          const t = new Date(o.d + 'T00:00:00').getTime();
+          if (t >= weekAgo) {
+            weekQ++;
+            if (o.r === 'right' || o.r === 'correct') weekRight++;
+          }
+        }
+      });
+      const acc = weekQ ? Math.round(weekRight / weekQ * 100) : null;
+
+      // 错题数 active 当前
+      const activeErrCount = subjErrs.filter(e => (e.reviewCount || 0) < 3).length;
+      // 本周新增错题
+      const weekNewErrs = subjErrs.filter(e => (e.timestamp || 0) >= weekAgo).length;
+      // 本周通关数
+      let weekClears = 0;
+      try {
+        const cleared = JSON.parse(localStorage.getItem('ydzx_challenge_clears_v1') || '{}') || {};
+        Object.keys(cleared).forEach(sig => {
+          const path = sig.split('::ch')[0];
+          if (!subjBookPaths.has(path)) return;
+          if ((cleared[sig].ts || 0) >= weekAgo) weekClears++;
+        });
+      } catch (e) {}
+
+      // 状态判定
+      let state = 'start', stateLabel = '起步中', stateAdvice = '';
+      if (weekClears >= 1 || weekRead >= 5) {
+        state = 'burst'; stateLabel = '突进期';
+        stateAdvice = '这周明显发力 · <b>建议保护节奏, 不要再加任务</b>, 让她自然过完这个高峰';
+      } else if (weekRead >= 3 && (acc == null || acc >= 60)) {
+        state = 'stable'; stateLabel = '稳推进';
+        stateAdvice = '稳定爬坡 · <b>不催不夸, 保持当前节奏</b> 就是最好的支持';
+      } else if (weekRead <= 1 && activeErrCount >= 5) {
+        state = 'stuck'; stateLabel = '卡顿';
+        stateAdvice = '错题攒了不少, 阅读节奏掉下来了 · <b>不要硬推, 先陪她做完一道错题</b>把状态拉回来';
+      } else if (weekRead === 0 && weekQ === 0) {
+        state = 'stuck'; stateLabel = '本周空白';
+        stateAdvice = '本周还没有进度 · <b>问她哪一科最让她头疼</b>, 一起在这门里挑 1 章读 10 分钟即可';
+      } else {
+        state = 'start'; stateLabel = '起步中';
+        stateAdvice = '总量不大, 处于刚起步阶段 · <b>每天 15 分钟胜过周末突击</b>, 别用考试压力催';
+      }
+
+      // 第一行
+      const lineWeek = '本周读了 <b>' + weekRead + '</b> 章'
+        + (weekQ > 0 ? '· 答了 <b>' + weekQ + '</b> 题' + (acc != null ? ' (对 <b>' + acc + '%</b>)' : '') : '')
+        + (weekClears > 0 ? '· <span class="m">通关 ' + weekClears + ' 关</span>' : '');
+
+      // 第二行
+      const lineState = (todayRead > 0 ? '今天已读 <b>' + todayRead + '</b> 章 · ' : '')
+        + '错题在线 <b>' + activeErrCount + '</b> 道'
+        + (weekNewErrs > 0 ? ' · 本周新进 <b>' + weekNewErrs + '</b> 道' : '');
+
+      // 拷贝文本
+      const myName = studentName || '孩子';
+      const copyText = '【' + myName + ' · ' + SUBJECT_ZH + '·一周】' + '\n'
+        + '状态：' + stateLabel + '\n'
+        + '本周：读 ' + weekRead + ' 章'
+        + (weekQ > 0 ? ' · 答 ' + weekQ + ' 题' + (acc != null ? '(对 ' + acc + '%)' : '') : '')
+        + (weekClears > 0 ? ' · 通关 ' + weekClears + ' 关' : '')
+        + '\n'
+        + '错题：在线 ' + activeErrCount + ' 道'
+        + (weekNewErrs > 0 ? ' · 本周新进 ' + weekNewErrs + ' 道' : '');
+
+      mount.innerHTML = ''
+        + '<div class="parent-card">'
+        +   '<div class="ph">'
+        +     '<span class="em">💌</span>'
+        +     '<h3>给家长看 · ' + SUBJECT_ZH + '本周一眼读懂</h3>'
+        +     '<span class="badge b-' + state + '">' + stateLabel + '</span>'
+        +   '</div>'
+        +   '<div class="lines">'
+        +     '<div>' + lineWeek + '</div>'
+        +     '<div>' + lineState + '</div>'
+        +   '</div>'
+        +   '<div class="advice">家长这周可以：' + stateAdvice + '</div>'
+        +   '<div class="copy-row">'
+        +     '<button class="copy-btn" id="parent-copy">📋 复制本周简报</button>'
+        +     '<span class="copy-tip">粘贴进微信发给爸妈</span>'
+        +   '</div>'
+        + '</div>';
+
+      const btn = $('parent-copy');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(copyText).then(function () {
+              btn.textContent = '✓ 已复制 · 发给爸妈吧';
+              setTimeout(function () { btn.textContent = '📋 复制本周简报'; }, 1800);
+            }).catch(function () { fallbackCopy(); });
+          } else {
+            fallbackCopy();
+          }
+          function fallbackCopy() {
+            const ta = document.createElement('textarea');
+            ta.value = copyText; document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); btn.textContent = '✓ 已复制'; } catch(_){ btn.textContent = '复制失败'; }
+            ta.remove();
+            setTimeout(function () { btn.textContent = '📋 复制本周简报'; }, 1800);
+          }
+        });
+      }
+    }
+
     // 可选: stage tabs
     if (cfg.stageTabsMountId) {
-      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); renderUpNext(); });
+      renderStageTabs(cfg.stageTabsMountId, activeStage, (s) => { activeStage = s; paint(s); renderUpNext(); renderParentSummary(); });
     }
 
     const r = paint(activeStage);
     renderUpNext();
+    renderParentSummary();
     return r;
   }
 
