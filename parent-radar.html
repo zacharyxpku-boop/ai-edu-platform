@@ -306,8 +306,9 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
 <script>
 // =========== 配置 ===========
-const STUDENT_ID = new URLSearchParams(location.search).get('student_id') || 'demo-student-001';
-const CHILD_NAME = new URLSearchParams(location.search).get('name') || '小米同学';
+// 默认 STUDENT_ID 与 mastery-loop / tutor / seed-demo-dialogues 全套件保持一致：UUID 不是字符串
+const STUDENT_ID = new URLSearchParams(location.search).get('student_id') || '00000000-0000-0000-0000-000000000001';
+const CHILD_NAME = new URLSearchParams(location.search).get('name') || '小米';
 const NCDM_PROXY = '/api/mastery-proxy';  // 走 ai-edu-platform Edge proxy
 // 直连 NCDM Fly.io 兜底（开发期可指向 https://yuandian-ncdm.fly.dev）
 const NCDM_DIRECT = '';
