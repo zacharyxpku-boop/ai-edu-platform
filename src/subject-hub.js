@@ -72,6 +72,27 @@
     return Array.isArray(v) ? v : [v];
   }
 
+  // ─── EXP-4 · 懒加载 share-kit + html2canvas ───
+  let _shareKitLoading = null;
+  function ensureShareKit() {
+    if (global.YdzxShare && global.html2canvas) return Promise.resolve();
+    if (_shareKitLoading) return _shareKitLoading;
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src; s.async = true;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('load fail: ' + src));
+        document.head.appendChild(s);
+      });
+    }
+    _shareKitLoading = (async () => {
+      if (!global.html2canvas) await loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
+      if (!global.YdzxShare) await loadScript('/src/share-kit.js');
+    })();
+    return _shareKitLoading;
+  }
+
   // ─── EXP-2 · 月度 mastery snapshot ───
   // Shape: ydzx_mastery_snapshots_v1 = { 'YYYY-MM': { 'math': { mc:5, total:284, pct:1 }, ... } }
   const SNAP_KEY = 'ydzx_mastery_snapshots_v1';
@@ -622,8 +643,9 @@
         +     '<div>' + lineState + '</div>'
         +   '</div>'
         +   '<div class="advice">家长这周可以：' + stateAdvice + '</div>'
-        +   '<div class="copy-row">'
+        +   '<div class="copy-row" style="flex-wrap:wrap">'
         +     '<button class="copy-btn" id="parent-copy">📋 复制本周简报</button>'
+        +     '<button class="copy-btn" id="parent-card-share" style="background:#F5A623">📤 生成图卡发朋友圈</button>'
         +     '<span class="copy-tip">粘贴进微信发给爸妈</span>'
         +   '</div>'
         + '</div>';
@@ -645,6 +667,36 @@
             try { document.execCommand('copy'); btn.textContent = '✓ 已复制'; } catch(_){ btn.textContent = '复制失败'; }
             ta.remove();
             setTimeout(function () { btn.textContent = '📋 复制本周简报'; }, 1800);
+          }
+        });
+      }
+
+      // EXP-4 · 生成图卡 (懒加载 share-kit + html2canvas)
+      const cardBtn = $('parent-card-share');
+      if (cardBtn) {
+        cardBtn.addEventListener('click', async function () {
+          const orig = cardBtn.textContent;
+          cardBtn.textContent = '⏳ 加载分享模块…';
+          try {
+            await ensureShareKit();
+            cardBtn.textContent = orig;
+            const utm = '?utm_source=parent-card&utm_medium=share&utm_campaign=' + SUBJECT_KEY;
+            global.YdzxShare.open({
+              source: 'parent-summary-' + SUBJECT_KEY,
+              title: (studentName || '同学') + ' · ' + SUBJECT_ZH + '·一周',
+              subtitle: '原点 AI 学堂 · 状态: ' + stateLabel,
+              metrics: [
+                { label: '本周读章', value: weekRead + ' 章' },
+                { label: '错题在线', value: activeErrCount + ' 道' + (weekClears > 0 ? ' / 通关 ' + weekClears : '') },
+                { label: '答题准确', value: acc != null ? acc + '%' : (weekQ > 0 ? weekQ + ' 题' : '—') }
+              ],
+              quote: stateAdvice.replace(/<\/?b>/g, '').slice(0, 60),
+              extraUrl: 'https://yuandianzhixue.com/' + utm
+            });
+          } catch (e) {
+            cardBtn.textContent = '加载失败 · 重试';
+            console.warn('share-kit load fail', e);
+            setTimeout(function () { cardBtn.textContent = orig; }, 2000);
           }
         });
       }
