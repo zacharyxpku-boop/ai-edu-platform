@@ -272,6 +272,31 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div id="profile-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"></div>
     </div>
 
+    <!-- 最近对话面板（中国家长比美国家长更要看孩子聊了啥）-->
+    <div class="panel" id="recent-dialogues-panel" style="display:none; border-left: 3px solid #5B8DBF; padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
+        <h2 style="font-size: 1rem; margin-bottom: 6px;">💬 孩子最近跟老师聊了什么 <span id="rd-summary" style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;">—</span></h2>
+        <p style="color: var(--c-warm-gray); font-size: 0.82rem; margin-bottom: 14px;">学校老师面对 40 个孩子看不见这些。这里每条都是孩子和 AI 老师真实对话。</p>
+        <div id="rd-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; padding-right: 4px;"></div>
+        <div style="margin-top: 10px; text-align: right;">
+            <button id="rd-load-more" style="background: none; border: 1px solid rgba(184,176,168,0.3); color: var(--c-warm-gray); padding: 6px 14px; border-radius: 100px; font-size: 0.78rem; cursor: pointer; font-family: inherit;" onclick="loadRecentDialogues({ limit: 50, days: 30 })">看更多 ·  最近 30 天</button>
+        </div>
+    </div>
+
+    <style>
+    .rd-item { padding: 10px 12px; border-radius: 8px; line-height: 1.55; }
+    .rd-item.student { background: rgba(233,77,53,0.08); border-left: 2px solid #E94D35; }
+    .rd-item.tutor { background: rgba(91,141,191,0.08); border-left: 2px solid #5B8DBF; }
+    .rd-meta { font-size: 0.72rem; color: var(--c-warm-dim); margin-bottom: 4px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .rd-meta .who { font-weight: 700; }
+    .rd-meta .who.student { color: #E94D35; }
+    .rd-meta .who.tutor { color: #5B8DBF; }
+    .rd-content { font-size: 0.88rem; color: var(--c-warm-white); white-space: pre-wrap; word-break: break-word; }
+    .rd-tag { font-size: 0.68rem; padding: 1px 7px; border-radius: 100px; background: rgba(255,255,255,0.06); color: var(--c-warm-gray); }
+    .rd-tag.stuck { background: rgba(245,158,11,0.15); color: #F59E0B; }
+    .rd-tag.emo { background: rgba(168,85,247,0.15); color: #A855F7; }
+    .rd-tag.pasted { background: rgba(245,158,11,0.20); color: #F59E0B; }
+    </style>
+
     <!-- FSRS 今日复习区（仅在有待复习时显示） -->
     <div class="panel" id="fsrs-panel" style="display:none; border-left: 3px solid var(--c-warning); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
         <h2 style="font-size: 1rem; margin-bottom: 8px;">⏰ 今日 FSRS 复习 <span style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;" id="fsrs-count">—</span></h2>
@@ -648,6 +673,60 @@ function renderProfile(payload) {
     document.getElementById('profile-panel').style.display = 'block';
 }
 
+// =========== 最近对话面板（P0-B Khanmigo 差距补强）===========
+function escapeHtmlRd(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function loadRecentDialogues({ limit = 20, days = 7 } = {}) {
+    const list = document.getElementById('rd-list');
+    const summary = document.getElementById('rd-summary');
+    const panel = document.getElementById('recent-dialogues-panel');
+    list.innerHTML = '<div style="color: var(--c-warm-dim); font-size: 0.84rem; padding: 12px 0;">读取中…</div>';
+    try {
+        const r = await fetch(`/api/student-recent-dialogues?student_id=${encodeURIComponent(STUDENT_ID)}&limit=${limit}&days=${days}`);
+        if (!r.ok) {
+            list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem;">读取失败 ${r.status}</div>`;
+            panel.style.display = 'block';
+            return;
+        }
+        const data = await r.json();
+        if (!data.ok || !Array.isArray(data.dialogues)) {
+            list.innerHTML = '<div style="color:var(--c-warm-dim);font-size:0.84rem;">数据格式异常</div>';
+            panel.style.display = 'block';
+            return;
+        }
+        if (data.dialogues.length === 0) {
+            list.innerHTML = '<div style="color:var(--c-warm-dim);font-size:0.84rem;line-height:1.6;">最近 ' + data.window_days + ' 天还没和老师聊过。<br>让孩子打开 <a href="/tutor.html" style="color:var(--c-origin-soft);">私教页</a> 问个问题，这里就有内容了。</div>';
+            panel.style.display = 'block';
+            return;
+        }
+
+        const sm = data.summary || {};
+        summary.textContent = `· ${sm.total} 条 · ${sm.days_active} 天有过对话 · 学生 ${sm.by_role?.student || 0} / 老师 ${sm.by_role?.tutor || 0}`;
+
+        list.innerHTML = data.dialogues.map(d => {
+            const who = d.role === 'student' ? '孩子' : (d.role === 'tutor' ? '老师' : d.role);
+            const tags = [];
+            if (d.is_pasted) tags.push('<span class="rd-tag pasted">📋 粘贴</span>');
+            if (d.signals?.stuck_point) tags.push(`<span class="rd-tag stuck">卡点 · ${escapeHtmlRd(d.signals.stuck_point.slice(0, 14))}</span>`);
+            if (d.signals?.emotion_state) tags.push(`<span class="rd-tag emo">${escapeHtmlRd(d.signals.emotion_state)}</span>`);
+            return `
+                <div class="rd-item ${d.role}">
+                    <div class="rd-meta">
+                        <span class="who ${d.role}">${who}</span>
+                        <span>${d.created_at_rel}</span>
+                        ${tags.join('')}
+                    </div>
+                    <div class="rd-content">${escapeHtmlRd((d.content || '').slice(0, 280))}${(d.content && d.content.length > 280) ? '…' : ''}</div>
+                </div>
+            `;
+        }).join('');
+        panel.style.display = 'block';
+    } catch (e) {
+        list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem;">网络异常 · ${escapeHtmlRd(e.message)}</div>`;
+        panel.style.display = 'block';
+    }
+}
+
 // =========== 启动 ===========
 async function boot() {
     document.getElementById('child-name').textContent = CHILD_NAME;
@@ -659,6 +738,7 @@ async function boot() {
     renderLatestQuote();
     renderProfile(profile);
     renderFsrsPanel(fsrs);
+    loadRecentDialogues();  // P0-B：最近对话历史
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);
     document.getElementById('share-btn').addEventListener('click', () => openShare(data.all_kcs));
