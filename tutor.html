@@ -319,7 +319,18 @@ async function send(message) {
             }),
         });
         if (!resp.ok) {
-            tutorBubble.textContent = `[出错 ${resp.status}] ` + (await resp.text()).slice(0, 200);
+            // 429 / 503 / 502 等用人话替代裸 HTTP code，cursor 在 finally 里统一清
+            let friendly;
+            if (resp.status === 429) {
+                friendly = '老师有点忙，喘口气再问（30 秒后再发）';
+            } else if (resp.status === 503) {
+                friendly = '老师暂时离线（503 服务未配齐），请稍后再试';
+            } else if (resp.status === 502) {
+                friendly = '上游模型不在状态，先刷新一下';
+            } else {
+                friendly = `[网络出错 ${resp.status}] ` + (await resp.text().catch(() => '')).slice(0, 120);
+            }
+            tutorBubble.textContent = friendly;
             return;
         }
 
@@ -359,11 +370,12 @@ async function send(message) {
                 } catch (e) { /* skip */ }
             }
         }
-        cursor.remove();
         if (accumulated) history.push({ role: 'assistant', content: accumulated });
     } catch (e) {
         tutorBubble.textContent = '[网络异常] ' + e.message;
     } finally {
+        // cursor 在所有 return / throw 路径都被清掉，避免错误 bubble 仍有空白闪烁光标
+        if (cursor && cursor.parentNode) cursor.remove();
         sendBtn.disabled = false;
         input.focus();
     }
