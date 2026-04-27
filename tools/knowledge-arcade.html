@@ -176,7 +176,7 @@ h1 em{font-style:normal;color:var(--cta)}
         </div>
         <div class="cfg-field">
             <label>年级</label>
-            <select id="grade-sel"><option>初二</option></select>
+            <select id="grade-sel"></select>
         </div>
         <div class="cfg-field">
             <label>科目</label>
@@ -306,6 +306,25 @@ document.querySelectorAll('.gbtn').forEach(btn => {
         currentGame = btn.dataset.game;
     });
 });
+
+// 学段→年级 联动：初中默认初一/初二/初三，小学一年级到六年级，高中高一/高二/高三
+const GRADES_BY_STAGE = {
+    '小学': ['一年级','二年级','三年级','四年级','五年级','六年级'],
+    '初中': ['初一','初二','初三'],
+    '高中': ['高一','高二','高三'],
+};
+function fillGradeOptions(){
+    const stage = document.getElementById('stage-sel').value;
+    const sel = document.getElementById('grade-sel');
+    const options = GRADES_BY_STAGE[stage] || ['初二'];
+    const prev = sel.value;
+    sel.innerHTML = options.map(function(g){ return '<option value="'+g+'">'+g+'</option>'; }).join('');
+    // 保留之前的选择，否则默认中间
+    if (options.indexOf(prev) >= 0) sel.value = prev;
+    else sel.value = options[Math.floor(options.length / 2)] || options[0];
+}
+document.getElementById('stage-sel').addEventListener('change', fillGradeOptions);
+fillGradeOptions(); // 初始化
 
 // ==========================================
 // 启动流程

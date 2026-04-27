@@ -52,6 +52,10 @@
         // 拒绝后 14 天冷却
         if (dismissedTs && (Date.now() - dismissedTs) < 14 * 864e5) return;
         if (visits < MIN_VISITS) return;
+        // 桌面端不弹（PWA 在桌面价值低且会盖住内容）
+        var isMobile = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+        var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (!isMobile && !isTouch) return;
         showBar();
     }
 
@@ -71,7 +75,7 @@
         bar.innerHTML =
             '<div style="flex:1;line-height:1.5">' +
               '<div style="font-weight:700;margin-bottom:2px">装到桌面，像 App 一样打开</div>' +
-              '<div style="font-size:11px;color:rgba(255,255,255,.65)">17 个工具一键打开，离线也能查指南</div>' +
+              '<div style="font-size:11px;color:rgba(255,255,255,.65)">所有工具一键打开，离线也能查指南</div>' +
             '</div>' +
             '<button id="ydz-pwa-no"  style="background:transparent;border:none;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;font-family:inherit;padding:6px 8px">以后再说</button>' +
             '<button id="ydz-pwa-yes" style="background:#F5A623;border:none;color:#18181B;font-weight:800;font-size:13px;padding:8px 14px;border-radius:8px;cursor:pointer;font-family:inherit">装到桌面</button>';
