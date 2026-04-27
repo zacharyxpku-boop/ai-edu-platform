@@ -945,12 +945,31 @@ function switchDim(d){
 <script src="/src/gamification.js"></script>
 <script src="/src/gamification-hud.js"></script>
 <script src="/src/today-recos.js"></script>
+<script src="/src/track.js"></script>
 <script>
 window.addEventListener('DOMContentLoaded', function(){
     if (window.TodayRecos) {
         window.TodayRecos.render(document.getElementById('recos-grid'));
         if (window.TodayRecos.renderUpNextBanner) window.TodayRecos.renderUpNextBanner('#upnext-banner-mount');
     }
+    // 9 学科 grid 卡片点击埋点
+    document.querySelectorAll('#ka-subjects .ka-subj').forEach(function(a){
+        a.addEventListener('click', function(){
+            // 从 href 抽 subject key
+            var href = a.getAttribute('href') || '';
+            var m = href.match(/(?:subject=|subjects\/(?:\?key=)?)([a-z]+)/i);
+            var subject = m ? m[1].replace('.html','') : 'unknown';
+            if (window.YDZX_TRACK) YDZX_TRACK.event('home_subject_click', { subject: subject, href: href });
+        });
+    });
+    // What's New 7 卡 点击埋点
+    document.querySelectorAll('.wn-band .wn-card').forEach(function(a, i){
+        a.addEventListener('click', function(){
+            var t = a.querySelector('div:nth-child(2)') || a;
+            var label = (t.textContent || '').trim().slice(0, 16);
+            if (window.YDZX_TRACK) YDZX_TRACK.event('whatsnew_click', { idx: i, label: label, href: a.getAttribute('href') });
+        });
+    });
 });
 </script>
 </body>

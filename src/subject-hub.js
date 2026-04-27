@@ -73,14 +73,14 @@
   }
 
   // ─── 极简事件埋点 (无外部 SaaS, localStorage append-only) ───
-  // 写 ydzx_event_log_v1: 环形数组, 上限 500 条, 满了挤老的
-  // 同时如果页面有 window.gtag (GA4) / window.fbq (Meta) 也镜像一份, 但不依赖
+  // 优先用 window.YDZX_TRACK (src/track.js 提供); 没加载就 fallback 到内置实现
   function trackEvent(name, props) {
-    const entry = {
-      ts: Date.now(),
-      e: name,
-      p: props || {}
-    };
+    if (global.YDZX_TRACK && typeof global.YDZX_TRACK.event === 'function') {
+      global.YDZX_TRACK.event(name, props);
+      return;
+    }
+    // fallback: 内置环形数组
+    const entry = { ts: Date.now(), e: name, p: props || {} };
     try {
       const log = JSON.parse(localStorage.getItem('ydzx_event_log_v1') || '[]');
       log.push(entry);
