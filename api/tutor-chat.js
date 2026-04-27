@@ -580,6 +580,7 @@ export default async function handler(req) {
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
             'X-Engine-Version': ENGINE_VERSION,
+            'X-Prompt-Version': promptVersion,
             'X-Memory-Used': String(memoryData?.memory_count || 0),
             'X-Weak-Kps': String(weakKps.length),
             'X-Paste-Detected': is_pasted === true ? '1' : '0',

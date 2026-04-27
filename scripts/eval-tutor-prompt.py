@@ -26,6 +26,9 @@ from typing import Callable, Optional
 PROD_HOST = os.environ.get("PROD_HOST", "https://yuandianzhixue.com").rstrip("/")
 STUDENT_ID = os.environ.get("STUDENT_ID", "00000000-0000-0000-0000-000000000001")
 TIMEOUT = int(os.environ.get("TIMEOUT", "30"))
+# PROMPT_VERSION 通过 body.prompt_version 单次 override 走 server side
+# 让 baseline 跑 v1 / v2 跑 v2 互不干扰，即使 server 默认设了别的也能强制切
+PROMPT_VERSION = os.environ.get("PROMPT_VERSION", "v1")
 
 
 # ============ SSE 消费 + 累积 ============
@@ -35,6 +38,7 @@ def call_tutor(message: str, history: list = None, is_pasted: bool = False) -> s
         "student_id": STUDENT_ID,
         "message": message,
         "history": history or [],
+        "prompt_version": PROMPT_VERSION,
         "is_pasted": is_pasted,
     }
     req = urllib.request.Request(
@@ -230,6 +234,7 @@ CASES = [
 def run():
     print(f"PROD_HOST = {PROD_HOST}")
     print(f"STUDENT_ID = {STUDENT_ID}")
+    print(f"PROMPT_VERSION = {PROMPT_VERSION}（v1=147 行原版 / v2=阁主蒸馏 52 行版）")
     print(f"测试用例数：{len(CASES)}")
     print(f"每条断言数总计：{sum(len(c.assertions) for c in CASES)}")
     print("=" * 80)
