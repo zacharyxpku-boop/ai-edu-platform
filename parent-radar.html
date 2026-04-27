@@ -319,16 +319,17 @@ const MOCK = {
     trained_at: '2026-04-26T03:00:00Z',
     n_kcs: 10,
     all_kcs: [
-        { knowledge_point_id: 'kp-7-eq-linear', name: '一元一次方程', subject: 'math', mastery: 0.42 },
-        { knowledge_point_id: 'kp-7-expr-merge', name: '合并同类项', subject: 'math', mastery: 0.78 },
-        { knowledge_point_id: 'kp-7-expr-bracket', name: '去括号', subject: 'math', mastery: 0.65 },
-        { knowledge_point_id: 'kp-7-eq-property', name: '等式性质', subject: 'math', mastery: 0.88 },
-        { knowledge_point_id: 'kp-7-eq-move', name: '移项', subject: 'math', mastery: 0.55 },
-        { knowledge_point_id: 'kp-7-eq-frac', name: '去分母', subject: 'math', mastery: 0.31 },
-        { knowledge_point_id: 'kp-7-app-trip', name: '应用题·行程', subject: 'math', mastery: 0.27 },
-        { knowledge_point_id: 'kp-7-app-work', name: '应用题·工程', subject: 'math', mastery: 0.46 },
-        { knowledge_point_id: 'kp-7-app-conc', name: '应用题·浓度', subject: 'math', mastery: 0.18 },
-        { knowledge_point_id: 'kp-7-int-mul', name: '整式乘除', subject: 'math', mastery: 0.71 },
+        // MOCK kp 用 ontology kp_id 格式（math.7.ch3.kpN），点了「让孩子开始练」可以走通 mastery-loop
+        { knowledge_point_id: 'math.7.ch3.kp1', name: '一元一次方程概念', subject: 'math', mastery: 0.42 },
+        { knowledge_point_id: 'math.7.ch2.kp4', name: '合并同类项',     subject: 'math', mastery: 0.78 },
+        { knowledge_point_id: 'math.7.ch2.kp3', name: '去括号',         subject: 'math', mastery: 0.65 },
+        { knowledge_point_id: 'math.7.ch3.kp2', name: '等式性质',       subject: 'math', mastery: 0.88 },
+        { knowledge_point_id: 'math.7.ch3.kp3', name: '移项',           subject: 'math', mastery: 0.55 },
+        { knowledge_point_id: 'math.7.ch3.kp4', name: '去分母',         subject: 'math', mastery: 0.31 },
+        { knowledge_point_id: 'math.7.ch3.kp5', name: '应用题·行程',   subject: 'math', mastery: 0.27 },
+        { knowledge_point_id: 'math.7.ch3.kp6', name: '应用题·工程',   subject: 'math', mastery: 0.46 },
+        { knowledge_point_id: 'math.7.ch3.kp7', name: '应用题·浓度',   subject: 'math', mastery: 0.18 },
+        { knowledge_point_id: 'math.7.ch2.kp1', name: '整式乘除',       subject: 'math', mastery: 0.71 },
     ],
 };
 
@@ -463,7 +464,7 @@ function updateAction(rec) {
     if (!rec) return;
     document.getElementById('rec-kp').textContent = rec.name;
     document.getElementById('rec-mastery').textContent = (rec.mastery * 100).toFixed(0) + '%';
-    document.getElementById('practice-btn').href = `/mastery-loop?topic=${encodeURIComponent(rec.knowledge_point_id)}&name=${encodeURIComponent(CHILD_NAME)}`;
+    document.getElementById('practice-btn').href = `/mastery-loop?topic_code=${encodeURIComponent(rec.knowledge_point_id)}&name=${encodeURIComponent(CHILD_NAME)}`;
 }
 
 // =========== 分享卡片 ===========
@@ -502,7 +503,7 @@ function renderFsrsPanel(data) {
         const li = document.createElement('li');
         li.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(184,176,168,0.1);';
         li.innerHTML = `
-            <a href="/mastery-loop?topic=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
+            <a href="/mastery-loop?topic_code=${encodeURIComponent(item.kp_code || item.knowledge_point_id || '')}&name=${encodeURIComponent(CHILD_NAME)}" style="color: var(--c-warm-white); text-decoration: none; flex: 1;">
                 ${escapeHtml(item.kp_name || item.knowledge_point_id?.slice(0, 8) || '未命名')}
                 <span style="color: ${isUrgent ? 'var(--c-error)' : 'var(--c-warm-dim)'}; font-size: 0.78rem; margin-left: 8px;">
                     记忆度 ${(r * 100).toFixed(0)}%${isUrgent ? ' · 紧急' : ''}
