@@ -682,18 +682,37 @@ function endGame() {
             var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); };
             mkList.innerHTML = ms.map(function(mk){
                 var item = mk.item || {};
-                var isHit = mk.action === 'wrong-hit'; // 打到了错误陈述
-                var tagTxt = isHit ? '打错了' : '错过了';
-                var tagCls = isHit ? '' : 'miss';
-                var stmt = esc(item.text || item.q || '（无题面）');
-                var why = item.why ? esc(item.why) : (isHit ? '这条陈述是错的，AI 没给详细解释；下一局如果想查，可以专门搜这个知识点。' : '这条是对的，但 1.8 秒内没打到——眼快脑要更快。');
-                var correctTxt = isHit ? '<b>这条说法本身是错的</b>。' : '<b>这条说法是对的</b>，应该打。';
+                var act = mk.action;
+                var tagTxt, tagCls = '', stmt, body;
+                if (act === 'wrong-hit'){
+                    tagTxt = '打错了';
+                    stmt = esc(item.text || '（无题面）');
+                    body = '<b>这条说法本身是错的</b>。' + (item.why ? esc(item.why) : '下次别打这种"听起来对其实错"的陈述。');
+                } else if (act === 'missed'){
+                    tagTxt = '错过了'; tagCls = 'miss';
+                    stmt = esc(item.text || '（无题面）');
+                    body = '<b>这条说法是对的</b>，应该打。' + (item.why ? esc(item.why) : '1.8 秒反应时间不够——眼快脑要更快。');
+                } else if (act === 'wrong-answer'){
+                    // snake: 吃错答案
+                    tagTxt = '吃错答案'; tagCls = 'miss';
+                    stmt = esc(item.q || '（无题面）');
+                    body = '你吃到的是 <b>「' + esc(item.picked || '?') + '」</b>，正确答案是 <b style="color:#059669">「' + esc(item.right || '?') + '」</b>。';
+                } else if (act === 'wrong-pair'){
+                    // sokoban: 推错配对
+                    tagTxt = '配错了'; tagCls = 'miss';
+                    stmt = esc(item.concept || '（无概念）') + ' → ' + esc(item.picked || '?');
+                    body = '<b>「' + esc(item.concept) + '」</b> 应该配 <b style="color:#059669">「' + esc(item.right || '?') + '」</b>，不是 「' + esc(item.picked) + '」。';
+                } else {
+                    tagTxt = '失误'; tagCls = 'miss';
+                    stmt = esc(item.text || item.q || '');
+                    body = '看回原题再想一遍。';
+                }
                 return '<details class="mk-row">'
                   + '<summary>'
                   + '<span class="mk-tag ' + tagCls + '">' + tagTxt + '</span>'
                   + '<span class="mk-stmt">' + stmt + '</span>'
                   + '</summary>'
-                  + '<div class="mk-why">' + correctTxt + ' ' + why + '</div>'
+                  + '<div class="mk-why">' + body + '</div>'
                   + '</details>';
             }).join('');
         }
@@ -872,6 +891,13 @@ function snakeStep() {
             state.score = Math.max(0, state.score - 10);
             state.wrong++;
             state.combo = 0;
+            // 错题回顾：记下"撞了哪个错答案、当时这道题问什么、正确答案是什么"
+            var qNow = state.items[snakeState.qIndex] || {};
+            state.mistakes.push({
+                game: 'snake',
+                action: 'wrong-answer',
+                item: { q: qNow.q, picked: food.text, right: qNow.right }
+            });
             // 蛇变短
             if (snakeState.snake.length > 1) snakeState.snake.pop();
             if (snakeState.snake.length > 1) snakeState.snake.pop();
@@ -1004,6 +1030,22 @@ function checkSokWin() {
     // 所有箱子必须在正确的target上
     const tgtMap = {};
     sokState.targets.forEach(t => tgtMap[t.x+','+t.y] = t);
+    // 检测"推到了 target 格但配对错"——记 mistake 供回顾，避免同对重复
+    sokState.boxes.forEach(b => {
+        const t = tgtMap[b.x+','+b.y];
+        if (t && t.text !== b.target){
+            const key = b.text + '→' + t.text;
+            const seen = state.mistakes.some(m => m.game === 'sokoban' && m.item && m.item.key === key);
+            if (!seen){
+                // 找到正确目标对应文案，便于复习时显示
+                const correctTarget = sokState.boxes.find(x => x.text === b.text)?.target || b.target;
+                state.mistakes.push({
+                    game: 'sokoban', action: 'wrong-pair',
+                    item: { key: key, concept: b.text, picked: t.text, right: correctTarget }
+                });
+            }
+        }
+    });
     const matched = sokState.boxes.filter(b => {
         const t = tgtMap[b.x+','+b.y];
         return t && t.text === b.target;
