@@ -166,6 +166,8 @@ a{color:inherit}
     <div class="h-stats">题库 · <b id="pool-n">—</b> 道 · 你已浏览 <b id="seen-n">0</b></div>
   </div>
 
+  <div id="streak-counter-mount"></div>
+
   <div class="intro">
     <b>规则：</b>每打开一次抽 1 道，先在心里写答案；点「展开答案」对照解析；如果想知道这道题考的是哪一段课本，点「跳到原文」直接进 textbook 阅读器对位章节。
     可以按学段/学科筛选；当前题的链接（含 <code style="font-family:var(--mono);font-size:12px">#q=ID</code>）直接复制就能转给孩子。<a href="/eval.html">关于这 943 道题怎么挂上教材的 →</a>
@@ -447,10 +449,64 @@ function renderCard(){
   renderSessionBar();
 }
 
+// ─── 连对 N 题 sessionStorage 计数器 + 反狂热 nudge ───
+const STREAK_KEY = 'ydzx_quiz_streak_v1';   // sessionStorage(刷新 reset, 关 tab reset)
+function readStreak(){
+  try { return JSON.parse(sessionStorage.getItem(STREAK_KEY) || '{"n":0,"best":0,"capped":false}'); }
+  catch(e){ return { n:0, best:0, capped:false }; }
+}
+function writeStreak(s){
+  try { sessionStorage.setItem(STREAK_KEY, JSON.stringify(s)); } catch(e){}
+}
+function bumpStreak(result){
+  const s = readStreak();
+  if (result === 'good'){
+    s.n = (s.n || 0) + 1;
+    if (s.n > (s.best || 0)) s.best = s.n;
+    // 10 连对触发反狂热提示, 一次性
+    if (s.n === 10) s.capped = false;   // 重置以便再次显示新阈值提示
+  } else if (result === 'bad'){
+    s.n = 0;
+    s.capped = false;
+  }
+  writeStreak(s);
+  return s;
+}
+function renderStreakCounter(){
+  const mount = document.getElementById('streak-counter-mount');
+  if (!mount) return;
+  const s = readStreak();
+  if (s.n <= 0){
+    mount.innerHTML = '';
+    return;
+  }
+  // 视觉等级: 1-2 暖灰, 3-5 amber, 6-9 orange, 10+ 紫色 + 反狂热文案
+  let bg = '#FAFAF7', border = '#E4E4E7', color = '#52525B', icon = '🟢', tail = '';
+  if (s.n >= 10){
+    bg = '#F5F3FF'; border = '#C4B5FD'; color = '#5B21B6'; icon = '🌟';
+    tail = '<span style="margin-left:auto;font-size:11px;color:#7C3AED;font-weight:600">节奏满了 · 今天可以收工 ✋</span>';
+  } else if (s.n >= 6){
+    bg = '#FFF7ED'; border = '#FDBA74'; color = '#9A3412'; icon = '🔥';
+  } else if (s.n >= 3){
+    bg = '#FFFBEB'; border = '#FCD34D'; color = '#92400E'; icon = '✨';
+  } else {
+    icon = '🟢';
+  }
+  const bestTxt = s.best > s.n ? '本次最佳 ' + s.best : '继续保持';
+  mount.innerHTML = ''
+    + '<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:100px;background:'+bg+';border:1px solid '+border+';margin:8px 0 6px;font-size:12.5px;color:'+color+';font-weight:700">'
+    +   '<span style="font-size:16px;line-height:1">' + icon + '</span>'
+    +   '<span>连对 <b style="font-variant-numeric:tabular-nums;font-size:14px">' + s.n + '</b> 题</span>'
+    +   '<span style="font-size:11px;font-weight:500;opacity:.7">· ' + bestTxt + '</span>'
+    +   tail
+    + '</div>';
+}
+
 function grade(result){
   if (!CUR) return;
   if (getOutcomes()[CUR.id]) return; // 已评过，幂等
   setOutcome(CUR.id, result, CUR);
+  bumpStreak(result);
   var subjZh = SUBJ_ZH[CUR.subject] || CUR.subject;
   if (window.GAME && typeof window.GAME.addXP === 'function'){
     if (result === 'good') window.GAME.addXP(XP_GOOD, '题库速练 · ' + subjZh + ' · quiz');
@@ -487,6 +543,7 @@ function grade(result){
     if (label) label.textContent = (result === 'good' ? '做对了 ✓' : '做错了 ✗');
   }
   renderSessionBar();
+  renderStreakCounter();
 }
 
 function renderSessionBar(){
@@ -545,6 +602,7 @@ function escapeHtml(s){
   $('pool-n').textContent = POOL.length + (local.length ? ' (含本地 AI ' + local.length + ' 道)' : '');
   $('seen-n').textContent = getSeen().size;
   renderSessionBar();
+  renderStreakCounter();
   // 优先 URL hash 直链
   const hashId = readHashId();
   if (hashId && loadById(hashId)) return;
