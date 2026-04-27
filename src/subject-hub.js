@@ -72,6 +72,45 @@
     return Array.isArray(v) ? v : [v];
   }
 
+  // ─── EXP-2 · 月度 mastery snapshot ───
+  // Shape: ydzx_mastery_snapshots_v1 = { 'YYYY-MM': { 'math': { mc:5, total:284, pct:1 }, ... } }
+  const SNAP_KEY = 'ydzx_mastery_snapshots_v1';
+  function thisMonthKey() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+  function prevMonthKey() {
+    const d = new Date();
+    d.setDate(1); d.setMonth(d.getMonth() - 1);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+  function readSnaps() {
+    try { return JSON.parse(localStorage.getItem(SNAP_KEY) || '{}') || {}; }
+    catch (e) { return {}; }
+  }
+  function writeSnaps(o) {
+    try { localStorage.setItem(SNAP_KEY, JSON.stringify(o)); } catch (e) {}
+  }
+  // 把当前月-学科 mastery 写入 snapshot, 只写一次/月
+  function ensureSnapshot(subjectKey, mc, total) {
+    const m = thisMonthKey();
+    const all = readSnaps();
+    if (!all[m]) all[m] = {};
+    if (all[m][subjectKey]) return; // 本月已 snapshot, 不重写
+    all[m][subjectKey] = { mc: mc, total: total, pct: total ? mc / total : 0, ts: Date.now() };
+    writeSnaps(all);
+  }
+  // 取上月 snapshot, 算 pct 差
+  function deltaVsLastMonth(subjectKey, currMc, currTotal) {
+    const all = readSnaps();
+    const prev = (all[prevMonthKey()] && all[prevMonthKey()][subjectKey]) || null;
+    if (!prev || !currTotal || !prev.total) return null;
+    const currPct = currMc / currTotal;
+    const prevPct = prev.mc / prev.total;
+    const diff = Math.round((currPct - prevPct) * 100);
+    return diff;   // 数字, 单位百分点; 0 = 平
+  }
+
   async function fetchManifest() {
     const r = await fetch('/data/extracted/manifest.json', { cache: 'force-cache' });
     return r.json();
@@ -230,6 +269,24 @@
       const pct = totalCh > 0 ? Math.round(masteredCh / totalCh * 100) : 0;
       if ($('ring-n'))  $('ring-n').textContent  = pct + '%';
       if ($('ring-fg')) $('ring-fg').setAttribute('stroke-dashoffset', String(RING_CIRC * (1 - pct / 100)));
+
+      // EXP-2: 本月初取一次 snapshot, 与上月对比生成 delta 文案
+      // 只在 stage='全部' 时记 snapshot, 避免被学段过滤干扰
+      if (stage === '全部') ensureSnapshot(SUBJECT_KEY, masteredCh, totalCh);
+      const dEl = $('m-delta');
+      if (dEl) {
+        const diff = deltaVsLastMonth(SUBJECT_KEY, masteredCh, totalCh);
+        if (diff == null) {
+          dEl.innerHTML = '<span style="color:#A1A1AA;font-size:11px;font-weight:600">本月起步</span>';
+        } else if (diff > 0) {
+          dEl.innerHTML = '<span style="color:#15803D;font-size:11px;font-weight:800">↑ 比上月 +' + diff + '%</span>';
+        } else if (diff === 0) {
+          dEl.innerHTML = '<span style="color:#71717A;font-size:11px;font-weight:600">与上月持平</span>';
+        } else {
+          // 故意不显示负值, 避免负反馈打击动机
+          dEl.innerHTML = '<span style="color:#A1A1AA;font-size:11px;font-weight:600">·</span>';
+        }
+      }
 
       // 错题 stage 切片 = 当前 stage 学段下的本科错题
       const stageBookPaths = new Set(books.map(b => b.path));
