@@ -392,7 +392,7 @@
             '没有待复习的错题 · 状态干净 · ' +
             '<a href="/quiz.html?subject=' + encodeURIComponent(TOOL_QUERY) + '" style="color:#065F46;font-weight:700">来一题保持手感 →</a></div>';
         } else {
-          errMount.innerHTML = slice.map(e => {
+          errMount.innerHTML = slice.map((e, idx) => {
             const tag = e.keyword || (e.mistakeTags && e.mistakeTags[0]) || '错题';
             const q = escHtml((e.question || '').slice(0, 90));
             const dueLbl = (e.nextReviewAt || 0) <= Date.now() ? '今日到期' : '复习中';
@@ -400,16 +400,23 @@
             const tutorHref = '/tutor.html?subject=' + encodeURIComponent(TOOL_QUERY)
               + (e.keyword ? '&topic=' + encodeURIComponent(e.keyword) : '')
               + (e.id ? '&q=' + encodeURIComponent(e.id) : '');
-            return '<div class="err-row" style="flex-wrap:wrap">' +
+            return '<div class="err-row" data-eid="' + escHtml(e.id || '') + '" data-tag="' + escHtml(tag) + '" style="flex-wrap:wrap">' +
               '<div class="em">📕</div>' +
               '<div class="bd">' +
                 '<div><b>' + escHtml(tag) + '</b> · 阶段 ' + (e.reviewCount || 0) + '/3 · ' + dueLbl + '</div>' +
                 '<div class="qx">' + (q || '(无题干)') + '</div>' +
               '</div>' +
-              '<a class="ax" style="background:#1D4ED8;margin-right:6px" href="' + tutorHref + '">🤖 讲讲</a>' +
-              '<a class="ax" href="/errors.html?id=' + encodeURIComponent(e.id || '') + '#review">复习</a>' +
+              '<a class="ax err-explain-btn" data-eid="' + escHtml(e.id || '') + '" data-tag="' + escHtml(tag) + '" style="background:#1D4ED8;margin-right:6px" href="' + tutorHref + '">🤖 讲讲</a>' +
+              '<a class="ax err-review-btn" data-eid="' + escHtml(e.id || '') + '" href="/errors.html?id=' + encodeURIComponent(e.id || '') + '#review">复习</a>' +
             '</div>';
           }).join('');
+          // 给 5 条错题切片的两个按钮各绑 trackEvent
+          errMount.querySelectorAll('.err-explain-btn').forEach(b => {
+            b.addEventListener('click', () => trackEvent('err_explain_click', { subject: SUBJECT_KEY, eid: b.dataset.eid, tag: b.dataset.tag }));
+          });
+          errMount.querySelectorAll('.err-review-btn').forEach(b => {
+            b.addEventListener('click', () => trackEvent('err_review_click', { subject: SUBJECT_KEY, eid: b.dataset.eid }));
+          });
         }
       }
 
@@ -509,6 +516,8 @@
         +   '<a class="upnext-go" href="' + href + '">开始 →</a>'
         + '</div>'
         + '<div class="upnext-pep">' + escHtml(pep) + '</div>';
+      const goBtn = mount.querySelector('.upnext-go');
+      if (goBtn) goBtn.addEventListener('click', () => trackEvent('upnext_go_click', { subject: SUBJECT_KEY, kind: kind }));
     }
 
     function ensureUpNextStyle() {
@@ -817,6 +826,15 @@
           + '<div class="pb-go">复盘 →</div>'
         + '</a>'
         + '</div>';
+      // 3 套打法卡点击埋点
+      mount.querySelectorAll('.pb-card').forEach(c => {
+        c.addEventListener('click', () => {
+          const slot = c.classList.contains('pb-quick') ? 'quick'
+                      : c.classList.contains('pb-tonight') ? 'tonight'
+                      : c.classList.contains('pb-weekend') ? 'weekend' : 'unknown';
+          trackEvent('playbook_click', { subject: SUBJECT_KEY, slot: slot, dueCount: dueCount, activeCount: activeCount });
+        });
+      });
     }
 
     // 可选: stage tabs
