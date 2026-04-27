@@ -2,7 +2,7 @@
 # 原点智学 · tutor-chat system prompt 指令跟随评测
 #
 # 用法：
-#   PROD_HOST=https://0dianxue.com STUDENT_ID=00000000-0000-0000-0000-000000000001 \
+#   PROD_HOST=https://yuandianzhixue.com STUDENT_ID=00000000-0000-0000-0000-000000000001 \
 #       python3 scripts/eval-tutor-prompt.py
 #
 # 设计意图：
@@ -23,7 +23,7 @@ import urllib.error
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-PROD_HOST = os.environ.get("PROD_HOST", "https://0dianxue.com").rstrip("/")
+PROD_HOST = os.environ.get("PROD_HOST", "https://yuandianzhixue.com").rstrip("/")
 STUDENT_ID = os.environ.get("STUDENT_ID", "00000000-0000-0000-0000-000000000001")
 TIMEOUT = int(os.environ.get("TIMEOUT", "30"))
 

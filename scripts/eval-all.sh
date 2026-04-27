@@ -2,7 +2,7 @@
 # 原点智学 · 一键跑 A+B+C 三件评测
 #
 # 用法：
-#   PROD_HOST=https://0dianxue.com \
+#   PROD_HOST=https://yuandianzhixue.com \
 #   STUDENT_ID=00000000-0000-0000-0000-000000000001 \
 #   DEEPSEEK_KEY=sk-xxx \
 #       bash scripts/eval-all.sh
@@ -19,7 +19,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 2
 
-PROD_HOST="${PROD_HOST:-https://0dianxue.com}"
+PROD_HOST="${PROD_HOST:-https://yuandianzhixue.com}"
 STUDENT_ID="${STUDENT_ID:-00000000-0000-0000-0000-000000000001}"
 DEEPSEEK_KEY="${DEEPSEEK_KEY:-${DEEPSEEK_API_KEY:-}}"
 

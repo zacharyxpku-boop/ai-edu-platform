@@ -3,7 +3,7 @@
 # 验证 15 个 Edge endpoint + Supabase 写库链路全活
 #
 # 用法：
-#   PROD_HOST=https://www.0dianxue.com ADMIN_TOKEN=xxx STUDENT_ID=demo-001 bash scripts/smoke-test.sh
+#   PROD_HOST=https://www.yuandianzhixue.com ADMIN_TOKEN=xxx STUDENT_ID=demo-001 bash scripts/smoke-test.sh
 #
 # 通过条件：所有 [PASS] 全绿，没有 [FAIL]
 # 失败的端点会输出 HTTP code 和响应体前 200 字符

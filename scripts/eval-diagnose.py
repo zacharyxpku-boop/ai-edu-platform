@@ -2,7 +2,7 @@
 # 原点智学 · diagnose 端点真实归因准确率评测
 #
 # 用法：
-#   PROD_HOST=https://0dianxue.com python3 scripts/eval-diagnose.py
+#   PROD_HOST=https://yuandianzhixue.com python3 scripts/eval-diagnose.py
 #
 # 设计：
 #   data/eval/math-corner-cases.json 30 道题，每道带 (problem, correct_answer, wrong_response, expected_l3)。
@@ -22,7 +22,7 @@ import urllib.request
 import urllib.error
 from pathlib import Path
 
-PROD_HOST = os.environ.get("PROD_HOST", "https://0dianxue.com").rstrip("/")
+PROD_HOST = os.environ.get("PROD_HOST", "https://yuandianzhixue.com").rstrip("/")
 TIMEOUT = int(os.environ.get("TIMEOUT", "30"))
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "eval" / "math-corner-cases.json"

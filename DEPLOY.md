@@ -74,17 +74,17 @@ Vercel 会自动检测到 push，约 1-2 分钟构建完成。
 
 | URL | 期待 |
 |---|---|
-| `https://0dianxue.com/` | 首页正常 |
-| `https://0dianxue.com/mastery-loop` | 进入 25 分钟闭环页面，能做完 5 题 |
-| `https://0dianxue.com/parent-radar?student_id=demo-student-001` | 显示 mock 雷达图 |
-| `https://0dianxue.com/admin` | 输入 `ADMIN_TOKEN` 后能进看板 |
-| `https://0dianxue.com/api/bkt` | POST 测试，返回 mastery_trace |
-| `https://0dianxue.com/api/diagnose` | POST 错题，返回 64 类归因 |
-| `https://0dianxue.com/api/retrieve` | POST topic，返回 system_prompt |
+| `https://yuandianzhixue.com/` | 首页正常 |
+| `https://yuandianzhixue.com/mastery-loop` | 进入 25 分钟闭环页面，能做完 5 题 |
+| `https://yuandianzhixue.com/parent-radar?student_id=demo-student-001` | 显示 mock 雷达图 |
+| `https://yuandianzhixue.com/admin` | 输入 `ADMIN_TOKEN` 后能进看板 |
+| `https://yuandianzhixue.com/api/bkt` | POST 测试，返回 mastery_trace |
+| `https://yuandianzhixue.com/api/diagnose` | POST 错题，返回 64 类归因 |
+| `https://yuandianzhixue.com/api/retrieve` | POST topic，返回 system_prompt |
 
 测试 BKT 端点（curl 一行）：
 ```bash
-curl -X POST https://0dianxue.com/api/bkt \
+curl -X POST https://yuandianzhixue.com/api/bkt \
   -H "Content-Type: application/json" \
   -d '{"current_mastery":0.3,"attempts":[{"is_correct":false,"difficulty":0.5},{"is_correct":true,"difficulty":0.5},{"is_correct":true,"difficulty":0.5},{"is_correct":true,"difficulty":0.5}]}'
 ```
@@ -111,7 +111,7 @@ curl -X POST https://0dianxue.com/api/bkt \
 }
 ```
 
-让家长扫码进 `https://0dianxue.com/start?code=XXX&name=小明` 直接到 mastery-loop。
+让家长扫码进 `https://yuandianzhixue.com/start?code=XXX&name=小明` 直接到 mastery-loop。
 
 ---
 
@@ -119,7 +119,7 @@ curl -X POST https://0dianxue.com/api/bkt \
 
 ### 5.4 现场设备 checklist（结营前 1 小时）
 
-- [ ] 笔记本浏览器开 `https://0dianxue.com/mastery-loop` 提前预热
+- [ ] 笔记本浏览器开 `https://yuandianzhixue.com/mastery-loop` 提前预热
 - [ ] 关掉浏览器其他 tab（避免提示干扰）
 - [ ] 备用 4G 热点（北大中关 wifi 不稳）
 - [ ] 备一份本地版 mastery-loop.html（U 盘 + 离线模式）
