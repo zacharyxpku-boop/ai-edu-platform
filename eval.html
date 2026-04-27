@@ -194,7 +194,7 @@ h1 em{font-style:normal;color:var(--sky);font-variant-numeric:tabular-nums}
     <span class="tag e">可复现</span>
     <span class="tag v">无 LLM 调用</span>
   </div>
-  <h1>843 题盲跑 · 三层防御 r@1 <em id="hero-r1">—</em></h1>
+  <h1>843 题盲跑 · ensemble 命中率 <em id="hero-r1">—</em></h1>
   <p class="subh">这是原点自研章节匹配引擎的公开战绩页。每个数字都来自 src/models/*-recall-report.json，每个评测脚本都在 GitHub 可复现，整条流水线 0 次 LLM 调用——纯本地索引 + 规则引擎，毫秒级返回。下面所有图表实时读取最新报告。</p>
   <div class="eval-meta">
     <span>评测集 · <b id="m-eval">—</b> 道带 gold textbook_ref</span>
@@ -212,22 +212,22 @@ h1 em{font-style:normal;color:var(--sky);font-variant-numeric:tabular-nums}
 <section class="champ">
   <div class="champ-card">
     <div style="position:relative;z-index:1">
-      <div class="champ-label">Ensemble + Rerank · Recall@1</div>
+      <div class="champ-label">Ensemble Recall@1</div>
       <div class="champ-num" id="champ-num">—<small>%</small></div>
-      <p class="champ-sub">在 843 道带 gold textbook_ref 的题目上，三层防御一发命中正确章节的比例。基线对照：单纯规则 <b id="champ-r-cmp">—</b>%、单纯 BM25 <b id="champ-b-cmp">—</b>%、Ensemble 融合 <b id="champ-e-cmp">—</b>%。最终一层 DeepSeek LLM 精排把 ensemble top-5 里的正确章节拉到首位，再涨一档。</p>
+      <p class="champ-sub">在 843 道带 gold textbook_ref 的题目上，融合引擎一发命中正确章节的比例。基线对照：单纯规则 <b id="champ-r-cmp">—</b>%、单纯 BM25 <b id="champ-b-cmp">—</b>%。融合不是把两个模型平均，是 BM25 给候选 + rules 给精排，互补打掉单引擎漏召的长尾。</p>
     </div>
     <div class="champ-row">
       <div class="champ-cell"><div class="champ-cell-l">Rules Only</div><div class="champ-cell-n" id="cell-rules">—</div></div>
       <div class="champ-cell"><div class="champ-cell-l">BM25 Only</div><div class="champ-cell-n" id="cell-bm25">—</div></div>
       <div class="champ-cell"><div class="champ-cell-l">Ensemble</div><div class="champ-cell-n" id="cell-ens">—</div></div>
-      <div class="champ-cell lift"><div class="champ-cell-l">+Rerank</div><div class="champ-cell-n" id="cell-rerank">—</div></div>
+      <div class="champ-cell lift"><div class="champ-cell-l">Lift vs BM25</div><div class="champ-cell-n" id="cell-lift">—</div></div>
     </div>
   </div>
 </section>
 
 <section class="sec">
-  <div class="sec-h">从 0 到 95% · 自研路径五步</div>
-  <div class="sec-s">每一步都解决上一步漏的失败模式：规则太死 → 检索太散 → 融合互补 → LLM 精排把 top-5 内的正确答案拉到首位 → 数据反哺让题库自洽。</div>
+  <div class="sec-h">从 0 到 89% · 自研路径四步</div>
+  <div class="sec-s">不是一夜之间 89%。每一步都解决了上一步漏掉的失败模式：规则太死 → 检索太散 → 融合互补 → 反哺数据。第五步 LLM 精排实验下面单独披露——失败信号比假成功更值得记录。</div>
   <div class="timeline">
     <div class="tl-card">
       <div class="tl-step">STEP 01</div>
@@ -249,16 +249,26 @@ h1 em{font-style:normal;color:var(--sky);font-variant-numeric:tabular-nums}
     </div>
     <div class="tl-card">
       <div class="tl-step">STEP 04</div>
-      <div class="tl-name">DeepSeek LLM 精排</div>
-      <div class="tl-num e" id="tl-rerank">—</div>
-      <div class="tl-desc">取 ensemble top-5（r@5 已 ≥93%），让 DeepSeek 看题面+5 候选标题挑首位。把"召回得到但排没到首位"的正确答案救回，再涨 <b id="tl-rerank-lift">—</b>pp。</div>
-    </div>
-    <div class="tl-card">
-      <div class="tl-step">STEP 05</div>
       <div class="tl-name">数据反哺</div>
       <div class="tl-num a">100<small style="font-size:.5em">/100</small></div>
       <div class="tl-desc">用 ensemble 给 100 道无 textbook_ref 人工题自动打标，rules≥6 或 bm25≥8 双闸门，全部高置信通过。</div>
     </div>
+  </div>
+</section>
+
+<!-- 失败实验诚实披露 · v1 LLM rerank 反向结果 -->
+<section class="sec" id="sec-rerank-fail" style="display:none">
+  <div class="sec-h" style="color:var(--ink2)">实验 v1 · LLM 精排尝试（结果：负贡献）</div>
+  <div class="sec-s">把 ensemble top-5 丢给 DeepSeek 让它选首位——直觉上应该再涨几个点，因为 r@5 已经 98%。但 843 全量结果颠覆直觉：<b style="color:var(--red)">90.9% → <span id="rerank-r1-fail">—</span>%（<span id="rerank-lift-fail">—</span>pp）</b>。</div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px;margin-top:14px">
+    <p style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px">为什么反向？看 LLM 实际行为：</p>
+    <ul style="font-size:13px;color:var(--ink2);line-height:1.8;padding-left:20px;margin-bottom:10px">
+      <li>把 ensemble 已经选对的题改错（<b id="rerank-break">—</b> 道，<span style="color:var(--red)">误伤</span>）</li>
+      <li>把 ensemble 选错的题救回（<b id="rerank-fix">—</b> 道，<span style="color:var(--emerald)">正贡献</span>）</li>
+      <li>误伤 / 救回 比例 ≈ <b id="rerank-ratio">—</b>:1，净亏损</li>
+    </ul>
+    <p style="font-size:13px;color:var(--ink3);line-height:1.7">解读：LLM 在用户没要求"是否需要改"时倾向"挑个不同的"刷存在感。Ensemble 已经接近 r@5 上限（98%），<b style="color:var(--ink)">在它已经选对的题上做 rerank 是负贡献</b>。下一步是 confidence-aware：仅当 ensemble_score 低于阈值时才调用 LLM，让 LLM 只看"自己也不确定"的题。这才是 v2 路径。</p>
+    <p style="font-size:11px;color:var(--ink4);margin-top:12px;font-family:var(--mono)">data: <a href="/src/models/ensemble-rerank-report.json" style="color:var(--ink3)">ensemble-rerank-report.json</a> · script: <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/scripts/eval-rerank.py" target="_blank" style="color:var(--ink3)">scripts/eval-rerank.py</a></p>
   </div>
 </section>
 
@@ -402,43 +412,44 @@ async function loadEval() {
     const bm5 = ((d.recall_at_5_bm25 || 0) * 100).toFixed(1);
     const liftBm = ((d.lift_over_bm25_r1 || 0) * 100).toFixed(1);
 
+    $('hero-r1').textContent = en + '%';
     $('m-eval').textContent = d.eval_set;
     $('m-time').textContent = d.elapsed_seconds;
     $('m-gen').textContent = (d.generated_at || '').slice(0, 10);
 
+    $('champ-num').innerHTML = en + '<small>%</small>';
     $('champ-r-cmp').textContent = ru;
     $('champ-b-cmp').textContent = bm;
-    if ($('champ-e-cmp')) $('champ-e-cmp').textContent = en;
     $('cell-rules').textContent = ru + '%';
     $('cell-bm25').textContent = bm + '%';
     $('cell-ens').textContent = en + '%';
+    $('cell-lift').textContent = '+' + liftBm + 'pp';
 
     $('tl-rules').innerHTML = ru + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
     $('tl-bm25').innerHTML = bm + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
     $('tl-bm5').textContent = bm5 + '%';
     $('tl-ens').innerHTML = en + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
 
-    // 默认 hero 先用 ensemble 数字打底；rerank 报告到位会覆盖
-    $('hero-r1').textContent = en + '%';
-    $('champ-num').innerHTML = en + '<small>%</small>';
-    $('cell-rerank').textContent = '—';
-
-    // 拉 rerank 报告（如果存在）
+    // 异步拉 v1 rerank 失败实验报告（如果存在），呈现透明披露
     try {
       const rr = await fetch('/src/models/ensemble-rerank-report.json?t=' + Date.now());
       if (rr.ok) {
         const dd = await rr.json();
-        const rerR1 = dd.recall_at_1 && dd.recall_at_1.with_rerank;
-        const baseR1 = dd.recall_at_1 && dd.recall_at_1.ensemble_baseline;
-        if (rerR1) {
-          const rerPct = (rerR1 * 100).toFixed(1);
-          const liftPP = ((rerR1 - (baseR1 || 0)) * 100).toFixed(1);
-          // hero + 冠军卡：以 rerank 后数字为门面
-          $('hero-r1').textContent = rerPct + '%';
-          $('champ-num').innerHTML = rerPct + '<small>%</small>';
-          $('cell-rerank').textContent = '+' + liftPP + 'pp';
-          if ($('tl-rerank')) $('tl-rerank').innerHTML = rerPct + '<small style="font-size:.4em;color:var(--ink4)">%</small>';
-          if ($('tl-rerank-lift')) $('tl-rerank-lift').textContent = liftPP;
+        if (dd.eval_set && !dd.sample_mode) {
+          const rerR1 = (dd.recall_at_1 && dd.recall_at_1.with_rerank) || 0;
+          const baseR1 = (dd.recall_at_1 && dd.recall_at_1.ensemble_baseline) || 0;
+          const liftPP = ((rerR1 - baseR1) * 100).toFixed(1);
+          const acts = dd.rerank_actions || {};
+          $('rerank-r1-fail').textContent = (rerR1 * 100).toFixed(1);
+          $('rerank-lift-fail').textContent = (liftPP[0] === '-' ? '' : '+') + liftPP;
+          $('rerank-fix').textContent = acts.fixed_wrong_to_right || 0;
+          $('rerank-break').textContent = acts.broke_right_to_wrong || 0;
+          const ratio = acts.fixed_wrong_to_right ? (acts.broke_right_to_wrong / acts.fixed_wrong_to_right).toFixed(1) : '—';
+          $('rerank-ratio').textContent = ratio;
+          // 仅在 lift < 0 时显示这一节（说明确实是负贡献，需要披露）
+          if (rerR1 < baseR1) {
+            $('sec-rerank-fail').style.display = '';
+          }
         }
       }
     } catch(_){}
