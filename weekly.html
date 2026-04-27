@@ -57,6 +57,11 @@ a{color:inherit}
 .hero-cell .hl{font-size:10px;color:#C4B5FD;letter-spacing:.6px;font-weight:600;margin-bottom:3px;text-transform:uppercase}
 .hero-cell .hn{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
 .hero-cell .hu{font-size:11px;color:#DDD6FE;font-weight:500;margin-left:3px}
+.hero-cell .hd{display:inline-block;font-size:10px;font-weight:800;font-variant-numeric:tabular-nums;padding:1px 5px;border-radius:4px;margin-left:4px;letter-spacing:.2px;line-height:1.4}
+.hero-cell .hd.up{background:rgba(134,239,172,.22);color:#86EFAC}
+.hero-cell .hd.down{background:rgba(252,165,165,.22);color:#FCA5A5}
+.hero-cell .hd.flat{background:rgba(255,255,255,.1);color:#DDD6FE}
+.hero-cell .hd-prev{display:block;font-size:10px;color:#C4B5FD;margin-top:2px;font-family:var(--mono);letter-spacing:0;font-weight:500}
 
 .print-bar{margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .print-bar button{background:#fff;border:1px solid var(--bdr);padding:7px 13px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink2)}
@@ -142,10 +147,10 @@ a{color:inherit}
     <div class="hero-h" id="hero-headline">先来看看 7 天数据 ...</div>
     <div class="hero-sub" id="hero-sub">家长一周一看的学习快照 · 数据全部来自本设备 localStorage · 不上传服务器。</div>
     <div class="hero-row">
-      <div class="hero-cell"><div class="hl">XP 周累计</div><div><span class="hn" id="m-xp">—</span></div></div>
-      <div class="hero-cell"><div class="hl">学习天数</div><div><span class="hn" id="m-active">—</span><span class="hu">/ 7</span></div></div>
-      <div class="hero-cell"><div class="hl">读章节</div><div><span class="hn" id="m-read">—</span><span class="hu"> 章</span></div></div>
-      <div class="hero-cell"><div class="hl">答题正确率</div><div><span class="hn" id="m-acc">—</span><span class="hu">%</span></div></div>
+      <div class="hero-cell"><div class="hl">XP 周累计</div><div><span class="hn" id="m-xp">—</span><span class="hd" id="d-xp" style="display:none"></span></div><span class="hd-prev" id="p-xp"></span></div>
+      <div class="hero-cell"><div class="hl">学习天数</div><div><span class="hn" id="m-active">—</span><span class="hu">/ 7</span><span class="hd" id="d-active" style="display:none"></span></div><span class="hd-prev" id="p-active"></span></div>
+      <div class="hero-cell"><div class="hl">读章节</div><div><span class="hn" id="m-read">—</span><span class="hu"> 章</span><span class="hd" id="d-read" style="display:none"></span></div><span class="hd-prev" id="p-read"></span></div>
+      <div class="hero-cell"><div class="hl">答题正确率</div><div><span class="hn" id="m-acc">—</span><span class="hu">%</span><span class="hd" id="d-acc" style="display:none"></span></div><span class="hd-prev" id="p-acc"></span></div>
     </div>
   </div>
 
@@ -229,8 +234,15 @@ function dayKey(ts){ return new Date(ts).toISOString().slice(0,10); }
 function fmtDate(d){ return (d.getMonth()+1) + '/' + d.getDate(); }
 function dayName(d){ return ['日','一','二','三','四','五','六'][d.getDay()]; }
 
-function aggregate(){
-  const wk = thisWeekRange();
+function prevWeekRange(thisWk){
+  const start = thisWk.monday;
+  const prevMonday = new Date(start); prevMonday.setDate(prevMonday.getDate() - 7);
+  const prevSunday = new Date(prevMonday); prevSunday.setDate(prevSunday.getDate() + 6); prevSunday.setHours(23,59,59,999);
+  return { start: prevMonday.getTime(), end: prevSunday.getTime(), monday: prevMonday, sunday: prevSunday };
+}
+
+function aggregate(rangeOverride){
+  const wk = rangeOverride || thisWeekRange();
   // gamification log
   const log = (window.GAME && window.GAME.getLog) ? (window.GAME.getLog() || []) : [];
   const profile = safeGet('ydzx_profile', {}) || {};
@@ -317,8 +329,39 @@ function aggregate(){
   };
 }
 
+// 计算 diff，返回 { txt, cls }；txt 形如 "+30%" / "-12%" / "持平"；cls = up/down/flat
+function _diff(curr, prev, opts){
+  opts = opts || {};
+  const isPct = !!opts.isPercent;
+  // 上周完全为 0：不显示百分比，只标"上周 0 → 本周 N"
+  if (!prev && !curr) return { txt: '持平 0', cls: 'flat', prev: 0 };
+  if (!prev){ return { txt: '新增', cls: 'up', prev: 0 }; }
+  if (!curr){ return { txt: '回落', cls: 'down', prev: prev }; }
+  if (isPct){
+    // 正确率本身是 %，diff 用百分点
+    const pp = curr - prev;
+    if (pp === 0) return { txt: '持平', cls: 'flat', prev: prev };
+    return { txt: (pp > 0 ? '+' : '') + pp + ' pp', cls: pp > 0 ? 'up' : 'down', prev: prev };
+  }
+  const pct = Math.round((curr - prev) / prev * 100);
+  if (pct === 0) return { txt: '持平', cls: 'flat', prev: prev };
+  // cap 显示，避免奇怪数字
+  const display = pct > 999 ? '+999%+' : (pct < -100 ? '-100%' : ((pct > 0 ? '+' : '') + pct + '%'));
+  return { txt: display, cls: pct > 0 ? 'up' : 'down', prev: prev };
+}
+function _setDiff(idDelta, idPrev, diff, prevLabel){
+  const dEl = $(idDelta), pEl = $(idPrev);
+  if (dEl){
+    dEl.textContent = diff.txt;
+    dEl.className = 'hd ' + diff.cls;
+    dEl.style.display = '';
+  }
+  if (pEl){ pEl.textContent = '上周 ' + prevLabel; }
+}
+
 function render(){
   const d = aggregate();
+  const prev = aggregate(prevWeekRange(d.wk));
   // 标题区
   $('period-label').textContent = '本周回顾 · ' + fmtDate(d.wk.monday) + ' 至 ' + fmtDate(d.wk.sunday);
 
@@ -337,12 +380,34 @@ function render(){
   $('m-active').textContent = d.activeDays;
   $('m-read').textContent = d.readWeekCount;
   $('m-acc').textContent = d.qTotal ? d.qAcc : '—';
-  // headline 文案
+  // hero diff vs 上周
+  _setDiff('d-xp', 'p-xp', _diff(d.weekXP, prev.weekXP), prev.weekXP + ' XP');
+  _setDiff('d-active', 'p-active', _diff(d.activeDays, prev.activeDays), prev.activeDays + ' 天');
+  _setDiff('d-read', 'p-read', _diff(d.readWeekCount, prev.readWeekCount), prev.readWeekCount + ' 章');
+  if (d.qTotal && prev.qTotal){
+    _setDiff('d-acc', 'p-acc', _diff(d.qAcc, prev.qAcc, { isPercent: true }), prev.qAcc + '%');
+  } else if (!prev.qTotal && d.qTotal){
+    _setDiff('d-acc', 'p-acc', { txt: '新增', cls: 'up', prev: 0 }, '0 道');
+  } else if (prev.qTotal && !d.qTotal){
+    _setDiff('d-acc', 'p-acc', { txt: '回落', cls: 'down', prev: prev.qAcc }, prev.qAcc + '%');
+  } else {
+    $('p-acc').textContent = '上周 0 道';
+  }
+  // headline 文案 · 优先用 vs 上周 对比叙事
   let head;
-  if (d.activeDays >= 5) head = '本周非常稳定 · 学了 <em>' + d.activeDays + '</em> 天，累计 <em>' + d.weekXP + '</em> XP';
-  else if (d.activeDays >= 3) head = '本周保持节奏 · <em>' + d.activeDays + '</em> 天动手';
-  else if (d.activeDays >= 1) head = '本周仅 <em>' + d.activeDays + '</em> 天动手 · 下周加加油';
-  else head = '本周完全没动 · 该启动了';
+  if (prev.weekXP > 0 && d.weekXP > prev.weekXP * 1.5){
+    head = '本周比上周多了 <em>' + Math.round((d.weekXP - prev.weekXP) / prev.weekXP * 100) + '%</em> XP · 状态在涨';
+  } else if (prev.weekXP > 0 && d.weekXP < prev.weekXP * 0.6){
+    head = '本周比上周少了 <em>' + Math.round((prev.weekXP - d.weekXP) / prev.weekXP * 100) + '%</em> · 该收一收节奏';
+  } else if (d.activeDays >= 5){
+    head = '本周非常稳定 · 学了 <em>' + d.activeDays + '</em> 天，累计 <em>' + d.weekXP + '</em> XP';
+  } else if (d.activeDays >= 3){
+    head = '本周保持节奏 · <em>' + d.activeDays + '</em> 天动手';
+  } else if (d.activeDays >= 1){
+    head = '本周仅 <em>' + d.activeDays + '</em> 天动手 · 下周加加油';
+  } else {
+    head = '本周完全没动 · 该启动了';
+  }
   $('hero-headline').innerHTML = head;
 
   // 7 天 bar
@@ -399,7 +464,9 @@ function render(){
   } else {
     ev = '— 本周没新错题。继续保持。'; evCls = '';
   }
-  const evEl = $('err-verdict'); evEl.className = 'callout ' + evCls; evEl.innerHTML = ev;
+  // 拼上"上周新增 X 道"对比
+  const prevTail = ' <span style="opacity:.7;font-size:11px;display:block;margin-top:4px">上周 · 新增 ' + prev.errNew + ' · 复习 ' + prev.errReviewed + ' · 答题 ' + prev.qTotal + '</span>';
+  const evEl = $('err-verdict'); evEl.className = 'callout ' + evCls; evEl.innerHTML = ev + prevTail;
 
   // 学科活跃 table
   const SUBJ_KEYS = Object.keys(SUBJ_ZH);
