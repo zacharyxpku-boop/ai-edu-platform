@@ -6,14 +6,22 @@ on:
     paths:
       - 'src/**'
       - 'scripts/observability-dry-run.cjs'
+      - 'scripts/check-static-links.cjs'
       - 'package.json'
+      - 'vercel.json'
+      - '*.html'
+      - 'subjects/**'
       - '.github/workflows/test.yml'
   pull_request:
     branches: [main]
     paths:
       - 'src/**'
       - 'scripts/observability-dry-run.cjs'
+      - 'scripts/check-static-links.cjs'
       - 'package.json'
+      - 'vercel.json'
+      - '*.html'
+      - 'subjects/**'
 
 jobs:
   observability:

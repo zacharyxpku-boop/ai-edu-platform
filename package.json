@@ -10,8 +10,9 @@
     "url": "https://github.com/zacharyxpku-boop/ai-edu-platform.git"
   },
   "scripts": {
-    "test": "node scripts/observability-dry-run.cjs",
-    "test:obs": "node scripts/observability-dry-run.cjs"
+    "test": "node scripts/observability-dry-run.cjs && node scripts/check-static-links.cjs",
+    "test:obs": "node scripts/observability-dry-run.cjs",
+    "test:links": "node scripts/check-static-links.cjs"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
