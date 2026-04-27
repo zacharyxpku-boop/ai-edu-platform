@@ -9,6 +9,10 @@
     "type": "git",
     "url": "https://github.com/zacharyxpku-boop/ai-edu-platform.git"
   },
+  "scripts": {
+    "test": "node scripts/observability-dry-run.cjs",
+    "test:obs": "node scripts/observability-dry-run.cjs"
+  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }
