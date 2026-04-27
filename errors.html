@@ -214,6 +214,8 @@ a{color:inherit}
 
   <div id="streak-mount"></div>
 
+  <div id="upnext-banner-mount"></div>
+
   <div class="intro">
     <b>规则：</b>quiz 评「做错了」、error-practice 手动标记、exam-diagnosis 推送，都进同一个池。每条按 FSRS 简化版排期：首次 24h 后到期，「记得了」+1 阶 (1d→3d→7d→15d→30d)，「还不会」回 0 阶。同一道题不再白错。
   </div>
@@ -253,7 +255,11 @@ a{color:inherit}
 <script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/streak-bar.js"></script>
-<script>try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }</script>
+<script src="/src/today-recos.js"></script>
+<script>
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
+try { if (window.TodayRecos && TodayRecos.renderUpNextBanner) TodayRecos.renderUpNextBanner('#upnext-banner-mount'); } catch(e){ console.warn('upnext banner', e); }
+</script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
 const SOURCE_ZH = { 'quiz':'每日一题', 'error-practice':'举一反三', 'error-mastery':'错题攻克', 'exam-diagnosis':'考试诊断', 'essay-grading':'作文批改' };
@@ -321,7 +327,7 @@ function renderWeak(){
   });
 }
 
-// 复习模式 CTA：根据到期数显示「开始复习」按钮
+// 复习模式 CTA：根据到期数显示「开始复习」按钮 + 5 题冲关挑战
 function renderCTA(){
   const slot = $('cta-bar'); if (!slot) return;
   if (!window.LearningStore){ slot.innerHTML = ''; return; }
@@ -329,16 +335,104 @@ function renderCTA(){
   try { due = window.LearningStore.getErrors({ dueOnly: true, subject: FILTER.subject || undefined }) || []; }
   catch(e){ slot.innerHTML = ''; return; }
   due = due.filter(function(e){ return (e.reviewCount || 0) < 3; });
+
+  // 冲关 batch: 在 全部 active 错题(不只 due)里, 找同章节 ≥5 道的最热章节
+  let allActive = [];
+  try {
+    const subjFilter = FILTER.subject ? { subject: FILTER.subject } : null;
+    allActive = (window.LearningStore.getErrors(subjFilter) || []).filter(function(e){ return (e.reviewCount || 0) < 3; });
+  } catch(_){ allActive = []; }
+  const challenge = pickChallengeBatch(allActive);
+
+  let html = '';
   if (!due.length){
-    slot.innerHTML = '<button class="btn-review" disabled>📚 没有到期错题</button>'
-      + '<span class="cta-meta">所有题都在间隔期 · 复习模式仅在有到期题时启用</span>';
-    return;
+    html += '<button class="btn-review" disabled>📚 没有到期错题</button>';
+  } else {
+    const subjLbl = FILTER.subject ? (' · ' + (SUBJ_ZH[FILTER.subject] || FILTER.subject)) : '';
+    html += '<button class="btn-review" id="btn-start-review">📚 开始复习模式 · ' + due.length + ' 道' + subjLbl + '</button>';
   }
-  const subjLbl = FILTER.subject ? (' · ' + (SUBJ_ZH[FILTER.subject] || FILTER.subject)) : '';
-  slot.innerHTML = '<button class="btn-review" id="btn-start-review">📚 开始复习模式 · ' + due.length + ' 道' + subjLbl + '</button>'
-    + '<span class="cta-meta">键盘：<b>空格</b> 翻面 · <b>1/2/3</b> 评分 · <b>Esc</b> 退出</span>';
+
+  if (challenge && challenge.batch.length >= 5) {
+    html += '<button class="btn-challenge" id="btn-start-challenge" '
+      + 'style="background:linear-gradient(135deg,#F59E0B,#DC2626);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.3px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 12px -4px rgba(220,38,38,.4)">'
+      + '🎯 考前冲关 · ' + escHtml(challenge.label) + ' 5 题</button>';
+  } else {
+    const need = 5 - (challenge ? challenge.batch.length : 0);
+    html += '<button class="btn-challenge" disabled '
+      + 'style="background:#F4F4F5;color:#A1A1AA;border:1px dashed #D4D4D8;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;font-family:inherit;cursor:not-allowed">'
+      + '🎯 冲关·还差 ' + Math.max(1, need) + ' 题攒一关</button>';
+  }
+  html += '<span class="cta-meta">键盘：<b>空格</b> 翻面 · <b>1/2/3</b> 评分 · <b>Esc</b> 退出</span>';
+  slot.innerHTML = html;
   const b = document.getElementById('btn-start-review');
   if (b) b.addEventListener('click', function(){ startReview(due); });
+  const c = document.getElementById('btn-start-challenge');
+  if (c && challenge && challenge.batch.length >= 5) {
+    c.addEventListener('click', function(){ startChallenge(challenge); });
+  }
+}
+
+// 选出最适合冲关的 5 题: 同章节 active 错题最多的章节; 没章节绑定的退化为同学科
+function pickChallengeBatch(errs){
+  if (!errs || !errs.length) return null;
+  // 兼容两种 textbook 字段(textbookRef.path / 顶层 textbookPath)
+  function sigOf(e){
+    if (e.textbookRef && e.textbookRef.path && e.textbookRef.ch != null)
+      return e.textbookRef.path + '::ch' + e.textbookRef.ch;
+    if (e.textbookPath && e.textbookCh != null)
+      return e.textbookPath + '::ch' + e.textbookCh;
+    return '';
+  }
+  const byChapter = {};
+  errs.forEach(function(e){
+    const s = sigOf(e);
+    if (!s) return;
+    if (!byChapter[s]) byChapter[s] = [];
+    byChapter[s].push(e);
+  });
+  // 找最大的章节桶
+  let bestSig = '', bestList = [];
+  Object.keys(byChapter).forEach(function(s){
+    if (byChapter[s].length > bestList.length) { bestSig = s; bestList = byChapter[s]; }
+  });
+  if (bestList.length >= 5) {
+    // 限定 5 题, 优先到期 + 阶段较低
+    const sorted = bestList.slice().sort(function(a, b){
+      const ad = (a.nextReviewAt||0) <= Date.now() ? 0 : 1;
+      const bd = (b.nextReviewAt||0) <= Date.now() ? 0 : 1;
+      if (ad !== bd) return ad - bd;
+      return (a.reviewCount||0) - (b.reviewCount||0);
+    });
+    const ch = bestSig.split('::ch')[1];
+    const path = bestSig.split('::ch')[0];
+    const tail = path.split('/').slice(-3).join('/');
+    return { sig: bestSig, batch: sorted.slice(0, 5), label: tail + ' 第 ' + ch + ' 章' };
+  }
+  // 退化 1: 同学科最大桶
+  const bySubj = {};
+  errs.forEach(function(e){
+    const k = e.subject || '_';
+    if (!bySubj[k]) bySubj[k] = [];
+    bySubj[k].push(e);
+  });
+  let subjBest = '_', subjList = [];
+  Object.keys(bySubj).forEach(function(k){
+    if (bySubj[k].length > subjList.length) { subjBest = k; subjList = bySubj[k]; }
+  });
+  if (subjList.length >= 5){
+    return { sig: 'subj::' + subjBest, batch: subjList.slice(0, 5), label: (SUBJ_ZH[subjBest] || subjBest) + '·混章' };
+  }
+  return { sig: '', batch: errs.slice(0, Math.min(5, errs.length)), label: '攒题中' };
+}
+
+// 5 题冲关: 复用 startReview, 但开 REVIEW.mode=challenge, 全对解锁
+function startChallenge(challenge){
+  // 拷贝 + 不打乱顺序(冲关按难度梯度更友好)
+  const queue = challenge.batch.slice();
+  REVIEW = { queue: queue, idx: 0, flipped: false, stats: { ok: 0, mid: 0, no: 0, xp: 0 }, mode: 'challenge', challengeSig: challenge.sig, challengeLabel: challenge.label };
+  $('rev-mod').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  drawReview();
 }
 
 // 复习模式状态机
@@ -431,9 +525,36 @@ function drawReviewDone(){
   const s = REVIEW.stats; const total = s.ok + s.mid + s.no;
   $('rh-prog-fill').style.width = '100%';
   $('rh-num').textContent = total + ' / ' + total;
-  $('rev-body').innerHTML = '<div class="rev-done">'
+
+  // 冲关模式: 全对触发额外 XP + 写 localStorage 解锁记录
+  let challengeBanner = '';
+  if (REVIEW.mode === 'challenge') {
+    const perfect = (s.ok === total && total >= 5);
+    if (perfect) {
+      // 加 +20 XP, 写解锁记录(同 sig 不重复加)
+      try {
+        const KEY = 'ydzx_challenge_clears_v1';
+        const cleared = JSON.parse(localStorage.getItem(KEY) || '{}');
+        if (!cleared[REVIEW.challengeSig]) {
+          cleared[REVIEW.challengeSig] = { ts: Date.now(), label: REVIEW.challengeLabel };
+          localStorage.setItem(KEY, JSON.stringify(cleared));
+          if (window.GAME) window.GAME.addXP(20, '考前冲关·' + REVIEW.challengeLabel + ' 全对通关');
+        }
+      } catch(_){}
+      challengeBanner = '<div style="background:linear-gradient(135deg,#F59E0B,#DC2626);color:#fff;padding:18px;border-radius:12px;margin-bottom:14px;text-align:center">'
+        + '<div style="font-size:32px;line-height:1;margin-bottom:6px">🏆</div>'
+        + '<div style="font-size:16px;font-weight:800;letter-spacing:.5px;margin-bottom:3px">冲关成功 · ' + escHtml(REVIEW.challengeLabel) + '</div>'
+        + '<div style="font-size:11px;opacity:.9">5 题全对 · +20 XP · 这一关下次不再考你</div>'
+        + '</div>';
+    } else {
+      challengeBanner = '<div style="background:#FEF2F2;border:1px solid #FCA5A5;color:#7F1D1D;padding:14px;border-radius:10px;margin-bottom:14px;text-align:center;font-size:13px">'
+        + '<b>冲关未过</b> · 下次再来一遍 · 全对解锁 +20 XP</div>';
+    }
+  }
+
+  $('rev-body').innerHTML = challengeBanner + '<div class="rev-done">'
     + '<div class="rd-em">🎉</div>'
-    + '<div class="rd-t">本轮复习完成</div>'
+    + '<div class="rd-t">' + (REVIEW.mode === 'challenge' ? '本轮冲关结束' : '本轮复习完成') + '</div>'
     + '<div class="rd-stats">共 <b>' + total + '</b> 道 · 会了 <b style="color:var(--emerald)">' + s.ok + '</b> · 模糊 <b style="color:var(--amber)">' + s.mid + '</b> · 不会 <b style="color:var(--red)">' + s.no + '</b><br>本轮累计 <b>+' + s.xp + ' XP</b></div>'
     + '<button class="btn-close" id="rev-close">关闭并刷新错题本</button>'
     + '</div>';
