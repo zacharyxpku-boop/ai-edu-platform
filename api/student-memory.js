@@ -149,6 +149,8 @@ export default async function handler(req) {
 
     const { student_id, query, top_k = 5, include_profile = true } = body || {};
     if (!student_id || !query) return jsonErr(400, 'missing_fields', 'student_id + query 必填');
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
 
     // 1. embed query
     let qVec;

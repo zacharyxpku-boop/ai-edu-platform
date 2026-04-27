@@ -321,6 +321,9 @@ export default async function handler(req) {
 
     const { student_id, message, session_id, topic_code, history = [], is_pasted = false } = body || {};
     if (!student_id || !message) return jsonErr(400, 'missing_fields', 'student_id + message 必填');
+    // 早期拦非 UUID 格式 student_id：否则 fetchStudent / recallMemory 内部 22P02 静默失败，prompt 走通用版降级
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是合法 UUID（前端 default 为 00000000-0000-0000-0000-000000000001）');
 
     const origin = new URL(req.url).origin;
     const sid = session_id || (typeof crypto !== 'undefined' ? crypto.randomUUID() : null);

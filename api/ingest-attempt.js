@@ -72,6 +72,9 @@ export default async function handler(req) {
     if (!student_id || typeof is_correct !== 'boolean' || response == null) {
         return jsonErr(400, 'missing_fields', 'student_id + is_correct + response 必填');
     }
+    // student_id UUID 校验（避免 22P02 静默失败）
+    const STUDENT_UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!STUDENT_UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
 
     // 0001 schema 严格校验：hint_level 必须是 enum 值
     const VALID_HINT_LEVELS = new Set(['none', 'light', 'medium', 'strong', 'reveal']);

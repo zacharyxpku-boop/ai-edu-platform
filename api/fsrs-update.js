@@ -115,6 +115,9 @@ export default async function handler(req) {
     if (!student_id || (!rawKpId && !knowledge_point_code) || typeof is_correct !== 'boolean') {
         return jsonErr(400, 'missing_fields', 'student_id + (knowledge_point_id 或 knowledge_point_code) + is_correct 必填');
     }
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
+    if (rawKpId && !UUID_RE.test(rawKpId)) return jsonErr(400, 'bad_kp_id', 'knowledge_point_id 必须是 UUID（前端建议传 knowledge_point_code 让后端 lookup）');
 
     // code → UUID 桥接（mastery-loop 前端只有 code 字符串）
     let knowledge_point_id = rawKpId;
