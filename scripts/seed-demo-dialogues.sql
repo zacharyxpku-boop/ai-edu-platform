@@ -21,9 +21,9 @@ BEGIN
     -- 清掉旧 seed（重跑安全）
     DELETE FROM dialogues WHERE student_id = demo_id AND meta->>'seed_source' = 'demo-day-2026-05-04';
 
-    -- 确保 demo 学生存在
+    -- 确保 demo 学生存在（grade/stage 必须是 enum 字面量 · 0001 init 定义）
     INSERT INTO students (id, name, grade, stage, created_at)
-    VALUES (demo_id, '小米', '初一', '中学', now())
+    VALUES (demo_id, '小米', 'middle_1'::grade_enum, 'middle'::stage_enum, now())
     ON CONFLICT (id) DO NOTHING;
 
     -- ========== 轮 1：移项卡点 + 视觉提示奏效 ==========
