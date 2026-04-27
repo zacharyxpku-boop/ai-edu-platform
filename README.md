@@ -1,6 +1,6 @@
 # 原点 AI 学堂 · K12 高考 AI 提分平台
 
-[![Release](https://img.shields.io/badge/release-v1.0--ka--wave-F5A623?style=flat-square)](https://github.com/zacharyxpku-boop/ai-edu-platform/releases/tag/v1.0-ka-wave)
+[![Release](https://img.shields.io/badge/release-v1.1--experiment--wave-7C3AED?style=flat-square)](https://github.com/zacharyxpku-boop/ai-edu-platform/releases/tag/v1.1-experiment-wave)
 [![Subjects](https://img.shields.io/badge/subjects-8%2F9%20live-2563EB?style=flat-square)](./subjects/)
 [![Textbooks](https://img.shields.io/badge/textbooks-56%20%C2%B7%20%E4%BA%BA%E6%95%99%2F%E7%BB%9F%E7%BC%96-059669?style=flat-square)](./paths.html)
 [![Stack](https://img.shields.io/badge/stack-pure%20HTML%20%2B%20Vercel-18181B?style=flat-square)](#-stack)
@@ -19,7 +19,12 @@
 - **数据**：纯 localStorage 单一信源（8 个 key），零迁移即跨页打通
 - **栈**：纯 HTML + Vercel edge functions + 后端 `/api/ai-proxy` 代理 DeepSeek
 
-[完整里程碑文档 →](./docs/KA-LOCALIZE-MILESTONE-v1.md)
+阶段入口（按看的人不同选一个）：
+
+- **先看打了什么仗** → [v1.0 → v1.1 阶段演进](./docs/V1.0-TO-V1.1-DIFF.md) · 6 维对照表 + 5/4 demo checklist
+- **先看交付了什么** → [KA 本地化里程碑 v1](./docs/KA-LOCALIZE-MILESTONE-v1.md) · 7 模块清单 + 数据契约
+- **想知道现在赌什么** → [实验赌桌 v1.1](./docs/EXPERIMENT-WEEK-v1.1.md) · 6 EXP 假设/止损/数据窗
+- **拍版怎么取数** → [Console 极简观察](./docs/OBSERVABILITY-MINIMAL.md) · 5 段 snippet 复制即跑
 
 ---
 
