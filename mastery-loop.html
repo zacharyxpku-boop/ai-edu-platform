@@ -462,6 +462,9 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
             </div>
             <div class="footer">扫码 0 元试 4 周 · yuandian.cn</div>
         </div>
+        <div style="display:flex;gap:10px;margin-top:14px;justify-content:center;">
+            <button id="copy-mom-btn" style="background:rgba(255,255,255,0.95);color:#0F3460;border:none;padding:10px 18px;border-radius:100px;font-weight:600;cursor:pointer;font-family:inherit;font-size:0.88rem;">📋 复制给妈妈看</button>
+        </div>
         <button class="brag-modal-close" onclick="document.getElementById('brag-modal').classList.remove('show')">×</button>
     </div>
 
@@ -917,6 +920,55 @@ function showCompletion() {
         document.getElementById('brag-time').textContent = minutes;
         document.getElementById('brag-correct').textContent = `${state.correctCount}/${state.attempts.length}`;
         document.getElementById('brag-line').innerHTML = `今晚 ${minutes} 分钟，<br>把${TOPIC}从入门做到了出师。`;
+        // AI 生成个性化金句（反 Khanmigo 无产出 · 给妈妈看具体进步点）
+        fetchAchievementQuote(minutes).catch(() => {});
+    }
+}
+
+// 从 attempts 抽 highlights：错→对的瞬间是最有产出价值的瞬间
+function extractHighlights() {
+    const out = [];
+    let lastWrong = null;
+    for (const a of state.attempts) {
+        if (!a.is_correct && a.diagnose) {
+            lastWrong = a.diagnose.l3 || a.diagnose.l1 || a.diagnose.root_cause;
+        } else if (a.is_correct && lastWrong) {
+            out.push({ step: lastWrong, from: '错', to: '对' });
+            lastWrong = null;
+        }
+    }
+    return out;
+}
+
+async function fetchAchievementQuote(minutes) {
+    try {
+        const r = await fetch('/api/achievement-quote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id: STUDENT_ID,
+                topic: TOPIC,
+                minutes,
+                attempts_count: state.attempts.length,
+                correct_count: state.correctCount,
+                final_mastery: state.mastery,
+                highlights: extractHighlights(),
+            }),
+        });
+        if (!r.ok) { logDebug && logDebug(`! achievement-quote HTTP ${r.status}`); return; }
+        const data = await r.json();
+        if (!data.ok) return;
+        if (data.quote) {
+            document.getElementById('brag-line').innerHTML =
+                `「${data.quote}」<br><span style="font-size:0.78rem;opacity:0.75;font-weight:400;">${data.sub_quote || ''}</span>`;
+        }
+        if (data.share_for_mom) {
+            // 留作给妈妈端的 share text，单独存到 dataset 供分享按钮使用
+            const card = document.getElementById('brag-modal');
+            if (card) card.dataset.shareForMom = data.share_for_mom;
+        }
+    } catch (e) {
+        logDebug && logDebug(`! achievement-quote err: ${e.message}`);
     }
 }
 
@@ -927,6 +979,21 @@ function setupBrag() {
     trigger.addEventListener('click', () => {
         document.getElementById('brag-modal').classList.add('show');
     });
+    const copyBtn = document.getElementById('copy-mom-btn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+            const card = document.getElementById('brag-modal');
+            const txt = (card && card.dataset.shareForMom)
+                || `他今晚把「${TOPIC}」从入门做到出师，掌握度 ${(state.mastery * 100).toFixed(0)}%`;
+            try {
+                await navigator.clipboard.writeText(txt);
+                copyBtn.textContent = '✓ 已复制 · 粘到妈妈微信';
+                setTimeout(() => { copyBtn.textContent = '📋 复制给妈妈看'; }, 2200);
+            } catch (e) {
+                copyBtn.textContent = '复制失败 · 长按文字选中';
+            }
+        });
+    }
 }
 setupBrag();
 
