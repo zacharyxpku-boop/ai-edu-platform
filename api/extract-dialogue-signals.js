@@ -26,11 +26,12 @@ const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.DEEPSEEK_KEY || process.env.DEEPSEEK_API_KEY) : '';
 const ADMIN_TOKEN = (typeof process !== 'undefined' && process.env) ? process.env.ADMIN_TOKEN : '';
-const ENGINE_VERSION = 'extract-signals-v1.0';
+const ENGINE_VERSION = 'extract-signals-v1.1';
 
 const EMOTION_STATES = ['焦虑', '自信', '走神', '投入', '沮丧', '平和'];
+const COGNITIVE_STYLES = ['visual', 'verbal', 'kinesthetic', 'abstract', 'unknown'];
 
-const SYSTEM_PROMPT = `你是 K12 学生认知行为分析专家。任务：从一条 AI 私教对话中抽取学生的 4 个隐性认知信号。
+const SYSTEM_PROMPT = `你是 K12 学生认知行为分析专家。任务：从一条 AI 私教对话中抽取学生的 6 个隐性认知信号。
 
 输入：一段对话（含一句学生说的话 + 上下文 1-2 句 tutor 之前的话）
 输出：严格 JSON，无任何额外文字。
@@ -62,8 +63,23 @@ const SYSTEM_PROMPT = `你是 K12 学生认知行为分析专家。任务：从�
    - 沮丧：「算了不学了」「太烦了」
    - 平和：默认状态
 
+5. cognitive_style（字符串）·· 信号面，多次累积才有意义
+   - 五选一：visual / verbal / kinesthetic / abstract / unknown
+   - visual: 学生说「能画一下吗」「我想看个图」「图我能懂」
+   - verbal: 学生说「再说一遍」「能换种说法吗」「举个例子」「故事化讲讲」
+   - kinesthetic: 学生说「我自己试试」「我推一遍」「让我动手算」
+   - abstract: 学生说「为什么是这样」「公式怎么推出来的」「证明一下」
+   - unknown: 这条信号判断不出来（默认）—— 宁可填 unknown 也不要瞎猜
+
+6. interest_keywords（数组）·· 兴趣词典，未来类比定制用
+   - 学生**自然提及**的兴趣点关键词，0-3 个
+   - 例：篮球 / 王者荣耀 / 二次元 / 编程 / 做饭 / 钢琴 / 抖音 / 舞蹈 / 游戏
+   - 必须是学生自己说的，不要从 tutor 那边抄
+   - 没提到就给空数组 []
+   - 每词 ≤ 6 字，全部小写中文（不要带「我喜欢」等定语）
+
 输出格式严格如下（无任何 markdown 包裹）：
-{"stuck_point":"...","misconception_l3":"...","analogy_effective":true,"emotion_state":"..."}`;
+{"stuck_point":"...","misconception_l3":"...","analogy_effective":true,"emotion_state":"...","cognitive_style":"...","interest_keywords":[]}`;
 
 
 function jsonErr(status, code, msg) {
@@ -193,12 +209,19 @@ export default async function handler(req) {
         const parsed = extractJSON(llmText);
         if (!parsed) { failed++; continue; }
 
-        // 校验 emotion_state 在白名单
+        // 校验 emotion_state / cognitive_style 在白名单 + interest_keywords 数组合法
+        const interests = Array.isArray(parsed.interest_keywords)
+            ? parsed.interest_keywords
+                .filter(k => typeof k === 'string' && k.trim().length > 0 && k.length <= 8)
+                .slice(0, 3)
+            : [];
         const signals = {
             stuck_point: parsed.stuck_point && parsed.stuck_point !== 'null' ? String(parsed.stuck_point).slice(0, 60) : null,
             misconception_l3: parsed.misconception_l3 && parsed.misconception_l3 !== 'null' ? String(parsed.misconception_l3).slice(0, 80) : null,
             analogy_effective: typeof parsed.analogy_effective === 'boolean' ? parsed.analogy_effective : null,
             emotion_state: EMOTION_STATES.includes(parsed.emotion_state) ? parsed.emotion_state : '平和',
+            cognitive_style: COGNITIVE_STYLES.includes(parsed.cognitive_style) ? parsed.cognitive_style : 'unknown',
+            interest_keywords: interests,
         };
 
         const ok = await updateSignals(row.id, signals, row.meta);

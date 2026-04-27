@@ -98,6 +98,9 @@ function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     const analogyRate = profile.analogy_success_rate;
     const useAnalogy = analogyRate != null && analogyRate > 0.55;
     const emotion = profile.dominant_emotion || '平和';
+    const cogStyle = profile.cognitive_style && profile.cognitive_style !== 'unknown' ? profile.cognitive_style : null;
+    const cogConf = profile.cognitive_style_confidence || 0;
+    const topInterests = (profile.top_interests || []).slice(0, 3).map(t => t.keyword);
 
     const L = [];
 
@@ -120,6 +123,18 @@ function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     }
     if (analogyRate != null) {
         L.push(`【类比奏效率】${(analogyRate * 100).toFixed(0)}% → ${useAnalogy ? '✓ 多用生活化比喻' : '✗ 少用比喻，直讲步骤'}`);
+    }
+    if (cogStyle && cogConf >= 0.4) {
+        const styleAdvice = {
+            visual: '画图 / 数轴 / 表格优先，少长段文字',
+            verbal: '讲故事 / 举例子优先，公式留后',
+            kinesthetic: '让他自己推一遍，少替他写步骤',
+            abstract: '直接讲为什么 / 公式来源，比喻反而稀释',
+        };
+        L.push(`【认知风格】${cogStyle}（置信 ${(cogConf * 100).toFixed(0)}%）→ ${styleAdvice[cogStyle] || ''}`);
+    }
+    if (topInterests.length) {
+        L.push(`【兴趣锚点】${topInterests.join(' / ')}（合适场景借为类比，禁硬塞）`);
     }
     if (weakKps.length) {
         L.push('【当前最弱知识点】');

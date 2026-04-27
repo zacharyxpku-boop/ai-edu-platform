@@ -12,7 +12,7 @@ export const config = { runtime: 'edge' };
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 const QWEN_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.QWEN_KEY || process.env.DASHSCOPE_API_KEY) : '';
-const ENGINE_VERSION = 'student-memory-v1.0';
+const ENGINE_VERSION = 'student-memory-v1.1';
 
 const DASHSCOPE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings';
 
@@ -53,7 +53,53 @@ function vecToPgString(vec) {
     return '[' + vec.map(x => x.toFixed(6)).join(',') + ']';
 }
 
-function buildMemoryPrompt(memories, profile) {
+// 拉最近 50 条 signals 已抽好的 dialogue，聚合 cognitive_style 众数 + interest 词频
+async function rollupExtras(student_id) {
+    try {
+        const r = await fetch(
+            `${SUPABASE_URL}/rest/v1/dialogues?select=meta&student_id=eq.${student_id}&meta->>signals_extracted_at=not.is.null&order=created_at.desc&limit=50`,
+            { headers: { 'apikey': SUPABASE_SERVICE_KEY, 'Authorization': 'Bearer ' + SUPABASE_SERVICE_KEY } }
+        );
+        if (!r.ok) return null;
+        const rows = await r.json();
+        const styleCount = {};
+        const interestCount = {};
+        for (const row of rows) {
+            const s = row?.meta?.signals;
+            if (!s) continue;
+            if (s.cognitive_style && s.cognitive_style !== 'unknown') {
+                styleCount[s.cognitive_style] = (styleCount[s.cognitive_style] || 0) + 1;
+            }
+            if (Array.isArray(s.interest_keywords)) {
+                for (const k of s.interest_keywords) {
+                    if (typeof k === 'string' && k.length <= 8) {
+                        interestCount[k] = (interestCount[k] || 0) + 1;
+                    }
+                }
+            }
+        }
+        const styleMode = Object.entries(styleCount).sort((a, b) => b[1] - a[1])[0];
+        const topInterests = Object.entries(interestCount)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([k, c]) => ({ keyword: k, count: c }));
+        return {
+            cognitive_style: styleMode ? styleMode[0] : 'unknown',
+            cognitive_style_confidence: styleMode ? Math.min(1, styleMode[1] / 5) : 0,
+            top_interests: topInterests,
+            sample_size: rows.length,
+        };
+    } catch (e) { return null; }
+}
+
+const STYLE_HINTS = {
+    visual: '他偏视觉 → 多画图 / 表格 / 数轴',
+    verbal: '他偏语言 → 多用故事化叙述 / 举具体例子',
+    kinesthetic: '他偏动手 → 让他自己推一遍，少灌输',
+    abstract: '他偏抽象 → 直接讲公式逻辑/为什么，不用比喻',
+};
+
+function buildMemoryPrompt(memories, profile, extras) {
     const lines = [];
     lines.push('=== 这个学生的历史记忆指纹 ===');
     if (profile && profile.dominant_emotion) {
@@ -64,6 +110,13 @@ function buildMemoryPrompt(memories, profile) {
     }
     if (profile && profile.analogy_success_rate != null) {
         lines.push(`· 类比奏效率：${(profile.analogy_success_rate * 100).toFixed(0)}%（${profile.analogy_success_rate > 0.6 ? '类比对他有效，多用比喻' : '类比效果一般，直接讲'}）`);
+    }
+    if (extras && extras.cognitive_style && extras.cognitive_style !== 'unknown' && extras.cognitive_style_confidence >= 0.4) {
+        lines.push(`· 认知风格：${extras.cognitive_style}（${STYLE_HINTS[extras.cognitive_style] || ''}）`);
+    }
+    if (extras && extras.top_interests && extras.top_interests.length) {
+        const top = extras.top_interests.slice(0, 3).map(t => t.keyword).join(' / ');
+        lines.push(`· 兴趣词典：${top}（恰当时机用作类比锚点，**不要硬塞**）`);
     }
 
     if (memories && memories.length) {
@@ -114,17 +167,31 @@ export default async function handler(req) {
     });
     const memories = memR.ok ? await memR.json() : [];
 
-    // 3. 拉信号指纹
+    // 3. 拉信号指纹 + 4. 拉认知风格 / 兴趣词典 rollup（并行）
+    const [pR, extras] = await Promise.all([
+        include_profile ? pgRpc('student_signal_profile', { p_student_id: student_id }) : Promise.resolve(null),
+        include_profile ? rollupExtras(student_id) : Promise.resolve(null),
+    ]);
     let profile = null;
-    if (include_profile) {
-        const pR = await pgRpc('student_signal_profile', { p_student_id: student_id });
-        if (pR.ok) {
-            const arr = await pR.json();
-            profile = arr[0] || null;
-        }
+    if (pR && pR.ok) {
+        const arr = await pR.json();
+        profile = arr[0] || null;
     }
 
-    const system_prompt = buildMemoryPrompt(memories, profile);
+    // extras 信号合并进 profile 顶层（方便下游 tutor-chat 访问）
+    if (profile && extras) {
+        profile.cognitive_style = extras.cognitive_style;
+        profile.cognitive_style_confidence = extras.cognitive_style_confidence;
+        profile.top_interests = extras.top_interests;
+    } else if (!profile && extras) {
+        profile = {
+            cognitive_style: extras.cognitive_style,
+            cognitive_style_confidence: extras.cognitive_style_confidence,
+            top_interests: extras.top_interests,
+        };
+    }
+
+    const system_prompt = buildMemoryPrompt(memories, profile, extras);
 
     return new Response(JSON.stringify({
         ok: true,
