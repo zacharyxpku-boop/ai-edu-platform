@@ -33,7 +33,10 @@ BEGIN
         ('math.7.ch3.kp4', '解方程·去分母',   4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp4'),
         ('math.7.ch3.kp1', '一元一次方程概念', 4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp1'),
         ('math.7.ch3.kp2', '等式性质',        4, 'math'::subject_enum, 'middle'::stage_enum, 'middle_1'::grade_enum, 'demo-seed', 'math.7.ch3.kp2')
-    ON CONFLICT (source, source_id) DO NOTHING;
+    -- ON CONFLICT 用 code（单列 UNIQUE）而不是 (source, source_id)：
+    -- V2 真灌 ontology 时 source 会变 'ck12' (source, source_id) 不冲突但 code 会冲，
+    -- 用 code 当冲突键 → 真 ontology 导入时 demo-seed 行 DO NOTHING 跳过，无报错
+    ON CONFLICT (code) DO NOTHING;
 
     -- ========== 轮 1：移项卡点 + 视觉提示奏效 ==========
     INSERT INTO dialogues (student_id, session_id, role, kind, content, meta, turn_index, created_at) VALUES

@@ -319,17 +319,17 @@ const MOCK = {
     trained_at: '2026-04-26T03:00:00Z',
     n_kcs: 10,
     all_kcs: [
-        // MOCK kp 用 ontology kp_id 格式（math.7.ch3.kpN），点了「让孩子开始练」可以走通 mastery-loop
-        { knowledge_point_id: 'math.7.ch3.kp1', name: '一元一次方程概念', subject: 'math', mastery: 0.42 },
-        { knowledge_point_id: 'math.7.ch2.kp4', name: '合并同类项',     subject: 'math', mastery: 0.78 },
-        { knowledge_point_id: 'math.7.ch2.kp3', name: '去括号',         subject: 'math', mastery: 0.65 },
+        // MOCK kp 严格对齐 ontology JSON（cn-k12-knowledge-ontology kp_id ↔ name），点链接走 mastery-loop 真匹配
+        { knowledge_point_id: 'math.7.ch3.kp1', name: '方程概念',       subject: 'math', mastery: 0.42 },
+        { knowledge_point_id: 'math.7.ch2.kp3', name: '合并同类项',     subject: 'math', mastery: 0.78 },
+        { knowledge_point_id: 'math.7.ch2.kp4', name: '去括号',         subject: 'math', mastery: 0.65 },
         { knowledge_point_id: 'math.7.ch3.kp2', name: '等式性质',       subject: 'math', mastery: 0.88 },
-        { knowledge_point_id: 'math.7.ch3.kp3', name: '移项',           subject: 'math', mastery: 0.55 },
-        { knowledge_point_id: 'math.7.ch3.kp4', name: '去分母',         subject: 'math', mastery: 0.31 },
+        { knowledge_point_id: 'math.7.ch3.kp3', name: '解方程·移项',   subject: 'math', mastery: 0.55 },
+        { knowledge_point_id: 'math.7.ch3.kp4', name: '解方程·去分母', subject: 'math', mastery: 0.31 },
         { knowledge_point_id: 'math.7.ch3.kp5', name: '应用题·行程',   subject: 'math', mastery: 0.27 },
         { knowledge_point_id: 'math.7.ch3.kp6', name: '应用题·工程',   subject: 'math', mastery: 0.46 },
-        { knowledge_point_id: 'math.7.ch3.kp7', name: '应用题·浓度',   subject: 'math', mastery: 0.18 },
-        { knowledge_point_id: 'math.7.ch2.kp1', name: '整式乘除',       subject: 'math', mastery: 0.71 },
+        { knowledge_point_id: 'math.7.ch3.kp7', name: '应用题·浓度配比', subject: 'math', mastery: 0.18 },
+        { knowledge_point_id: 'math.7.ch2.kp1', name: '代数式',         subject: 'math', mastery: 0.71 },
     ],
 };
 

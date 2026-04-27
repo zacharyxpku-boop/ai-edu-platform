@@ -46,6 +46,9 @@ export default async function handler(req) {
 
     const { student_id, role, content, kind, meta, question_id, topic_id, attempt_id, session_id, turn_index, model_name } = body || {};
     if (!student_id || !role || content == null) return jsonErr(400, 'missing_fields', 'student_id + role + content 必填');
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(student_id)) {
+        return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
+    }
     if (!ALLOWED_ROLES.has(role)) return jsonErr(400, 'bad_role', `role 必须是 ${[...ALLOWED_ROLES].join('|')}`);
     if (kind && !ALLOWED_KINDS.has(kind)) return jsonErr(400, 'bad_kind', `kind 必须是 ${[...ALLOWED_KINDS].join('|')}`);
 
