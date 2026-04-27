@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本周回顾 · 给家长一周一看的学习快照 | 原点智学</title>
+<meta name="description" content="过去 7 天读、练、错、讲四维聚合一页：哪科最活跃、错题在涨在降、累计 XP 多少。打印或截图直接发给家长。纯客户端，数据不出本机。">
+<meta name="theme-color" content="#7C3AED">
+<link rel="canonical" href="https://www.yuandianzhixue.com/weekly.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%237C3AED'/><text x='50' y='66' font-size='42' text-anchor='middle' fill='%23fff' font-weight='900'>W</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--bdr2:#D4D4D8;
+  --amber:#F5A623;--amber-bg:#FFFBF0;--gold:#D97706;
+  --emerald:#059669;--emerald-bg:#ECFDF5;
+  --violet:#7C3AED;--violet-bg:#F5F3FF;--violet-deep:#5B21B6;
+  --sky:#0EA5E9;--sky-bg:#F0F9FF;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --slate:#334155;--slate-bg:#F1F5F9;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --font:'Noto Sans SC',system-ui,sans-serif;
+  --r:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:920px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--violet);background:var(--violet-bg)}
+
+@media print{
+  .nav,.print-bar{display:none !important}
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+}
+
+.wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+
+.hero{background:linear-gradient(135deg,var(--violet) 0%,#5B21B6 100%);color:#fff;border-radius:var(--r);padding:30px 32px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.18) 0%,transparent 70%)}
+.hero-tag{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#DDD6FE;margin-bottom:6px;position:relative}
+.hero-h{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-.6px;line-height:1.18;position:relative}
+.hero-h em{font-style:normal;color:#FCD34D;font-variant-numeric:tabular-nums}
+.hero-sub{margin-top:10px;font-size:13px;color:#E9D5FF;line-height:1.7;position:relative;max-width:520px}
+.hero-row{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1}
+@media(max-width:600px){.hero-row{grid-template-columns:repeat(2,1fr)}}
+.hero-cell{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px}
+.hero-cell .hl{font-size:10px;color:#C4B5FD;letter-spacing:.6px;font-weight:600;margin-bottom:3px;text-transform:uppercase}
+.hero-cell .hn{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.hero-cell .hu{font-size:11px;color:#DDD6FE;font-weight:500;margin-left:3px}
+
+.print-bar{margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.print-bar button{background:#fff;border:1px solid var(--bdr);padding:7px 13px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink2)}
+.print-bar button:hover{border-color:var(--ink3);color:var(--ink)}
+
+.section{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:22px 24px;margin-bottom:14px}
+.section h2{font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-.2px;margin-bottom:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.section h2 small{font-weight:500;color:var(--ink3);font-size:12px}
+.section .sub{font-size:12px;color:var(--ink4);margin-bottom:14px}
+
+/* daily bars */
+.daybars{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.daybars .db-col{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.daybars .db-bar{height:80px;background:#F4F4F5;border-radius:5px;display:flex;flex-direction:column-reverse;overflow:hidden;position:relative}
+.daybars .db-fill{display:block;background:linear-gradient(180deg,var(--violet),#A78BFA);width:100%;border-radius:5px 5px 0 0;transition:height .4s ease}
+.daybars .db-fill.zero{background:#E4E4E7}
+.daybars .db-bar .db-n{position:absolute;left:0;right:0;top:4px;text-align:center;font-size:10px;color:var(--ink2);font-weight:700;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.daybars .db-bar .db-n.empty{color:var(--ink4)}
+.daybars .db-lbl{text-align:center;font-size:10px;color:var(--ink3);font-weight:600;line-height:1.3}
+.daybars .db-lbl b{display:block;color:var(--ink2);font-size:11px}
+
+/* subjects mini-table */
+.subj-tab{display:grid;grid-template-columns:90px repeat(4,1fr);gap:1px;background:var(--bdr);border-radius:8px;overflow:hidden;font-size:12px;margin-top:8px}
+.subj-tab>div{padding:8px 10px;background:#fff}
+.subj-tab .head{font-size:10px;color:var(--ink3);font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#FAFAF9;text-align:center}
+.subj-tab .head.left{text-align:left}
+.subj-tab .name{font-weight:700;display:flex;align-items:center;gap:6px}
+.subj-tab .name .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.subj-tab .num{text-align:center;font-weight:800;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.subj-tab .num.zero{color:var(--ink4);font-weight:500}
+
+/* big stat row in section */
+.bigstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0}
+@media(max-width:520px){.bigstats{grid-template-columns:repeat(2,1fr)}}
+.bigstats .bs{padding:14px;background:#FAFAFA;border:1px solid var(--bdr);border-radius:10px;text-align:center}
+.bigstats .bs .n{font-size:26px;font-weight:900;line-height:1;letter-spacing:-.5px}
+.bigstats .bs .l{font-size:11px;color:var(--ink3);margin-top:4px;font-weight:500}
+.bigstats .bs.up .n{color:var(--red)}
+.bigstats .bs.down .n{color:var(--emerald)}
+.bigstats .bs.flat .n{color:var(--ink2)}
+
+/* Highlight + lowlights paragraph */
+.callout{margin-top:10px;padding:14px 16px;border-left:3px solid var(--amber);background:var(--amber-bg);border-radius:0 8px 8px 0;font-size:13px;line-height:1.65;color:var(--ink2)}
+.callout b{color:var(--ink);font-weight:800}
+.callout.green{border-left-color:var(--emerald);background:var(--emerald-bg)}
+.callout.red{border-left-color:var(--red);background:var(--red-bg)}
+.callout.sky{border-left-color:var(--sky);background:var(--sky-bg)}
+
+.empty{padding:32px 18px;text-align:center;color:var(--ink4);font-size:13px;background:#FAFAFA;border:1px dashed var(--bdr2);border-radius:10px}
+.empty b{display:block;color:var(--ink2);font-weight:800;font-size:15px;margin-bottom:6px}
+.empty a{color:var(--violet);font-weight:700;text-decoration:none}
+
+@media(max-width:600px){
+  .section{padding:18px 18px}
+  .hero{padding:24px 22px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
+      原点智学
+    </a>
+    <a href="/weekly.html" class="nav-a on">本周回顾</a>
+    <a href="/progress.html" class="nav-a">成长档案</a>
+    <a href="/errors.html" class="nav-a">错题本</a>
+    <a href="/quiz.html" class="nav-a">每日一题</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="print-bar">
+    <button onclick="window.print()">🖨 打印 / 存 PDF</button>
+    <button onclick="copyShareLink()">🔗 复制分享链接</button>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag" id="period-label">本周回顾 · — 至 —</div>
+    <div class="hero-h" id="hero-headline">先来看看 7 天数据 ...</div>
+    <div class="hero-sub" id="hero-sub">家长一周一看的学习快照 · 数据全部来自本设备 localStorage · 不上传服务器。</div>
+    <div class="hero-row">
+      <div class="hero-cell"><div class="hl">XP 周累计</div><div><span class="hn" id="m-xp">—</span></div></div>
+      <div class="hero-cell"><div class="hl">学习天数</div><div><span class="hn" id="m-active">—</span><span class="hu">/ 7</span></div></div>
+      <div class="hero-cell"><div class="hl">读章节</div><div><span class="hn" id="m-read">—</span><span class="hu"> 章</span></div></div>
+      <div class="hero-cell"><div class="hl">答题正确率</div><div><span class="hn" id="m-acc">—</span><span class="hu">%</span></div></div>
+    </div>
+  </div>
+
+  <div id="empty-state" class="empty" style="display:none">
+    <b>本周还没有学习数据</b>
+    去 <a href="/quiz.html">每日一题</a> 刷一道，或 <a href="/tools/textbook-browser">教材原文</a> 翻一章，下周这页就有内容了。<br>
+    <a href="/demo.html" style="color:var(--violet)">⚡ 看演示数据下的回顾长什么样</a>
+  </div>
+
+  <div id="content" style="display:none">
+
+    <div class="section">
+      <h2>📅 7 天 XP 节奏<small>每天累计积分</small></h2>
+      <div class="sub">学习是细水长流的事 · 一周里有 <b id="active-days">—</b> 天动手 · 单日峰值 <b id="peak-xp">—</b> XP</div>
+      <div class="daybars" id="daybars"></div>
+      <div class="callout" id="rhythm-verdict"></div>
+    </div>
+
+    <div class="section">
+      <h2>📖 教材阅读<small>本周新读 / 累计</small></h2>
+      <div class="bigstats">
+        <div class="bs up"><div class="n" id="bs-read-week">0</div><div class="l">本周新读章节</div></div>
+        <div class="bs flat"><div class="n" id="bs-read-total">0</div><div class="l">累计已读章节</div></div>
+        <div class="bs flat"><div class="n" id="bs-read-books">0</div><div class="l">涉及教材本数</div></div>
+      </div>
+      <div id="read-detail"></div>
+    </div>
+
+    <div class="section">
+      <h2>✏️ 答题与错题<small>题量 / 错题积压趋势</small></h2>
+      <div class="bigstats">
+        <div class="bs flat"><div class="n" id="bs-q-total">0</div><div class="l">本周做题</div></div>
+        <div class="bs up"><div class="n" id="bs-err-new">0</div><div class="l">新增错题</div></div>
+        <div class="bs down"><div class="n" id="bs-err-reviewed">0</div><div class="l">复习次数</div></div>
+      </div>
+      <div class="callout" id="err-verdict"></div>
+    </div>
+
+    <div class="section">
+      <h2>🧪 学科活跃度<small>本周哪一科动得最多</small></h2>
+      <div class="subj-tab" id="subj-tab"></div>
+      <div class="callout sky" id="subj-verdict"></div>
+    </div>
+
+    <div class="section">
+      <h2>🗣️ 费曼讲解<small>跟自己讲一遍课</small></h2>
+      <div id="feynman-detail"></div>
+    </div>
+
+    <div class="section">
+      <h2>🎯 下周建议<small>从本周缺口推 3 件最值得做的</small></h2>
+      <div id="recos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/src/learning-store.js"></script>
+<script src="/src/gamification.js"></script>
+<script src="/src/today-recos.js"></script>
+<script>
+const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
+const SUBJ_COLOR = { math:'#2563EB', physics:'#7C3AED', chemistry:'#059669', biology:'#16A34A', chinese:'#DC2626', english:'#0891B2', history:'#92400E', geography:'#0D9488', politics:'#EA580C', moral:'#6B21A8' };
+
+function $(id){ return document.getElementById(id); }
+function escHtml(s){
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; });
+}
+function safeGet(k, dflt){ try { return JSON.parse(localStorage.getItem(k) || (dflt!=null?JSON.stringify(dflt):'null')); } catch(e){ return dflt; } }
+// 周一到本周日（中国习惯：周一为起点）
+function thisWeekRange(){
+  const now = new Date();
+  const day = now.getDay() === 0 ? 7 : now.getDay(); // 周日记为 7
+  const monday = new Date(now); monday.setHours(0,0,0,0); monday.setDate(monday.getDate() - (day - 1));
+  const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6); sunday.setHours(23,59,59,999);
+  return { start: monday.getTime(), end: sunday.getTime(), monday: monday, sunday: sunday };
+}
+function dayKey(ts){ return new Date(ts).toISOString().slice(0,10); }
+function fmtDate(d){ return (d.getMonth()+1) + '/' + d.getDate(); }
+function dayName(d){ return ['日','一','二','三','四','五','六'][d.getDay()]; }
+
+function aggregate(){
+  const wk = thisWeekRange();
+  // gamification log
+  const log = (window.GAME && window.GAME.getLog) ? (window.GAME.getLog() || []) : [];
+  const profile = safeGet('ydzx_profile', {}) || {};
+  const dailyMap = profile.daily || {};
+  // 7 days
+  const days = [];
+  for (let i = 0; i < 7; i++){
+    const d = new Date(wk.monday); d.setDate(d.getDate() + i);
+    const k = d.toISOString().slice(0,10);
+    days.push({ d: d, k: k, xp: (dailyMap[k] && dailyMap[k].xp) || 0 });
+  }
+  const weekXP = days.reduce(function(a,b){ return a+b.xp; }, 0);
+  const activeDays = days.filter(function(d){ return d.xp > 0; }).length;
+  const peakXP = Math.max.apply(null, days.map(function(d){ return d.xp; }).concat([0]));
+
+  // 阅读
+  const readAll = safeGet('ydzx_textbook_read', []) || [];
+  const readSet = new Set(readAll);
+  // 用 log 反推这周读的章节
+  let readWeekCount = 0;
+  const readWeekSigs = new Set();
+  log.forEach(function(e){
+    if (e.type !== 'xp' || (e.ts || 0) < wk.start || (e.ts || 0) > wk.end) return;
+    if ((e.reason || '').indexOf('教材精读') === 0){
+      // 这一行表示读了一章；不能反推具体 path::ch，但能算次数
+      readWeekCount++;
+    }
+  });
+
+  // 答题：quiz outcome 数据
+  const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
+  let qTotal = 0, qGood = 0, qBad = 0;
+  Object.keys(outcomes).forEach(function(id){
+    const o = outcomes[id];
+    if (!o || !o.d) return;
+    const dt = new Date(o.d).getTime();
+    if (dt < wk.start || dt > wk.end) return;
+    qTotal++;
+    if (o.r === 'good') qGood++; else qBad++;
+  });
+  const qAcc = qTotal ? Math.round(qGood / qTotal * 100) : 0;
+
+  // 错题：本周新增 + 本周复习次数
+  const errors = (window.LearningStore && window.LearningStore.getErrors) ? (window.LearningStore.getErrors() || []) : [];
+  let errNew = 0, errReviewed = 0;
+  errors.forEach(function(e){
+    if ((e.timestamp || 0) >= wk.start && (e.timestamp || 0) <= wk.end) errNew++;
+    if ((e.lastReviewAt || 0) >= wk.start && (e.lastReviewAt || 0) <= wk.end) errReviewed++;
+  });
+
+  // 学科活跃：log 拆每学科的题/错/费曼次数
+  const SUBJ_KEYS = Object.keys(SUBJ_ZH);
+  const ZH_TO_KEY = [['思想政治','politics'],['道德与法治','moral'],['生物学','biology'],
+    ['数学','math'],['物理','physics'],['化学','chemistry'],['语文','chinese'],['英语','english'],
+    ['历史','history'],['地理','geography'],['政治','politics'],['道法','moral'],['生物','biology']];
+  const subjAct = {};
+  SUBJ_KEYS.forEach(function(k){ subjAct[k] = { arc: 0, err: 0, fey: 0 }; });
+  log.forEach(function(e){
+    if (e.type !== 'xp' || (e.ts || 0) < wk.start || (e.ts || 0) > wk.end) return;
+    const r = e.reason || '';
+    let sk = null;
+    for (let i = 0; i < ZH_TO_KEY.length; i++){
+      if (r.indexOf(ZH_TO_KEY[i][0]) >= 0){ sk = ZH_TO_KEY[i][1]; break; }
+    }
+    if (!sk || !subjAct[sk]) return;
+    if (r.indexOf('题库速练') >= 0) subjAct[sk].arc++;
+    else if (r.indexOf('错题攻克') >= 0) subjAct[sk].err++;
+    else if (r.indexOf('费曼') >= 0) subjAct[sk].fey++;
+  });
+
+  // 费曼总数
+  let feynmanN = 0;
+  log.forEach(function(e){
+    if (e.type !== 'xp' || (e.ts || 0) < wk.start || (e.ts || 0) > wk.end) return;
+    if ((e.reason || '').indexOf('费曼') >= 0) feynmanN++;
+  });
+
+  return {
+    wk: wk, days: days, weekXP: weekXP, activeDays: activeDays, peakXP: peakXP,
+    readAllN: readAll.length, readWeekCount: readWeekCount,
+    qTotal: qTotal, qGood: qGood, qBad: qBad, qAcc: qAcc,
+    errNew: errNew, errReviewed: errReviewed,
+    subjAct: subjAct, feynmanN: feynmanN
+  };
+}
+
+function render(){
+  const d = aggregate();
+  // 标题区
+  $('period-label').textContent = '本周回顾 · ' + fmtDate(d.wk.monday) + ' 至 ' + fmtDate(d.wk.sunday);
+
+  // 完全空白：跳整页
+  if (d.weekXP === 0 && d.qTotal === 0 && d.errNew === 0 && d.readWeekCount === 0){
+    $('empty-state').style.display = 'block';
+    $('content').style.display = 'none';
+    $('hero-headline').textContent = '本周还没动手 · 0 XP';
+    return;
+  }
+  $('empty-state').style.display = 'none';
+  $('content').style.display = 'block';
+
+  // hero 数字
+  $('m-xp').textContent = d.weekXP;
+  $('m-active').textContent = d.activeDays;
+  $('m-read').textContent = d.readWeekCount;
+  $('m-acc').textContent = d.qTotal ? d.qAcc : '—';
+  // headline 文案
+  let head;
+  if (d.activeDays >= 5) head = '本周非常稳定 · 学了 <em>' + d.activeDays + '</em> 天，累计 <em>' + d.weekXP + '</em> XP';
+  else if (d.activeDays >= 3) head = '本周保持节奏 · <em>' + d.activeDays + '</em> 天动手';
+  else if (d.activeDays >= 1) head = '本周仅 <em>' + d.activeDays + '</em> 天动手 · 下周加加油';
+  else head = '本周完全没动 · 该启动了';
+  $('hero-headline').innerHTML = head;
+
+  // 7 天 bar
+  $('active-days').textContent = d.activeDays;
+  $('peak-xp').textContent = d.peakXP;
+  const max = Math.max(1, d.peakXP);
+  const dayHtml = d.days.map(function(day){
+    const h = day.xp > 0 ? Math.max(8, Math.round(day.xp / max * 100)) : 0;
+    const fillCls = day.xp > 0 ? '' : ' zero';
+    const numCls = day.xp > 0 ? '' : ' empty';
+    return '<div class="db-col">'
+      + '<div class="db-bar">'
+      + '<span class="db-n' + numCls + '">' + (day.xp || 0) + '</span>'
+      + '<i class="db-fill' + fillCls + '" style="height:' + h + '%"></i>'
+      + '</div>'
+      + '<div class="db-lbl"><b>周' + dayName(day.d) + '</b>' + (day.d.getMonth()+1) + '/' + day.d.getDate() + '</div>'
+      + '</div>';
+  }).join('');
+  $('daybars').innerHTML = dayHtml;
+  // rhythm verdict
+  let rv, rvCls = 'sky';
+  if (d.activeDays >= 5){ rv = '✓ <b>稳定 5 天以上</b>，节奏好。学习不靠某一天爆发，靠每天都摸一摸。'; rvCls = 'green'; }
+  else if (d.activeDays >= 3){ rv = '— <b>保持节奏</b>，争取下周达到 5 天。'; rvCls = 'sky'; }
+  else if (d.activeDays >= 1){ rv = '⚠ <b>只有 ' + d.activeDays + ' 天</b>动手，太集中。短时间塞太多，不如分散到 5 天每天 15 分钟。'; rvCls = ''; }
+  else { rv = '— 没有数据 · 先做一道题或读一章，下周这里就会有内容。'; rvCls = ''; }
+  const rEl = $('rhythm-verdict');
+  rEl.className = 'callout ' + rvCls;
+  rEl.innerHTML = rv;
+
+  // 阅读
+  $('bs-read-week').textContent = d.readWeekCount;
+  $('bs-read-total').textContent = d.readAllN;
+  // 算涉及教材本数
+  const allRead = safeGet('ydzx_textbook_read', []) || [];
+  const bookSet = new Set();
+  allRead.forEach(function(sig){
+    const idx = sig.indexOf('::ch');
+    if (idx > 0) bookSet.add(sig.slice(0, idx));
+  });
+  $('bs-read-books').textContent = bookSet.size;
+  $('read-detail').innerHTML = d.readWeekCount === 0
+    ? '<div class="callout">本周没翻教材 · 题做对了再多，也需要原文做底。<a href="/tools/textbook-browser" style="color:var(--amber);font-weight:700">挑一本翻翻 →</a></div>'
+    : '<div class="callout green">✓ 本周新读 <b>' + d.readWeekCount + '</b> 章 · 累计 <b>' + d.readAllN + '</b> 章 / <b>' + bookSet.size + '</b> 本</div>';
+
+  // 答题与错题
+  $('bs-q-total').textContent = d.qTotal;
+  $('bs-err-new').textContent = d.errNew;
+  $('bs-err-reviewed').textContent = d.errReviewed;
+  let ev, evCls;
+  if (d.errReviewed >= d.errNew && d.errReviewed > 0){
+    ev = '✓ 复习数 ≥ 新增数 · <b>错题在被消化，没积压。</b>'; evCls = 'green';
+  } else if (d.errNew > d.errReviewed && d.errNew > 0){
+    ev = '⚠ 新增 <b>' + d.errNew + '</b> 道，仅复习 <b>' + d.errReviewed + '</b> 次 · <a href="/errors.html" style="color:var(--red);font-weight:700">先去复习 →</a>'; evCls = 'red';
+  } else {
+    ev = '— 本周没新错题。继续保持。'; evCls = '';
+  }
+  const evEl = $('err-verdict'); evEl.className = 'callout ' + evCls; evEl.innerHTML = ev;
+
+  // 学科活跃 table
+  const SUBJ_KEYS = Object.keys(SUBJ_ZH);
+  let stHtml = '<div class="head left">学科</div><div class="head">练</div><div class="head">错</div><div class="head">讲</div><div class="head">合计</div>';
+  const active = SUBJ_KEYS.filter(function(k){ const a = d.subjAct[k]; return a.arc + a.err + a.fey > 0; });
+  if (active.length === 0){
+    stHtml += '<div class="name">—</div><div class="num zero">0</div><div class="num zero">0</div><div class="num zero">0</div><div class="num zero">0</div>';
+  } else {
+    active.forEach(function(k){
+      const a = d.subjAct[k]; const sum = a.arc + a.err + a.fey;
+      stHtml += '<div class="name"><span class="dot" style="background:' + SUBJ_COLOR[k] + '"></span>' + SUBJ_ZH[k] + '</div>';
+      stHtml += '<div class="num' + (a.arc?'':' zero') + '">' + a.arc + '</div>';
+      stHtml += '<div class="num' + (a.err?'':' zero') + '">' + a.err + '</div>';
+      stHtml += '<div class="num' + (a.fey?'':' zero') + '">' + a.fey + '</div>';
+      stHtml += '<div class="num"><b>' + sum + '</b></div>';
+    });
+  }
+  $('subj-tab').innerHTML = stHtml;
+  // 学科评语
+  if (active.length){
+    const top = active.reduce(function(a, b){
+      const sa = d.subjAct[a].arc + d.subjAct[a].err + d.subjAct[a].fey;
+      const sb = d.subjAct[b].arc + d.subjAct[b].err + d.subjAct[b].fey;
+      return sb > sa ? b : a;
+    });
+    $('subj-verdict').innerHTML = '本周最活跃 · <b>' + SUBJ_ZH[top] + '</b>（'
+      + (d.subjAct[top].arc + d.subjAct[top].err + d.subjAct[top].fey) + ' 次动作）'
+      + ' · 涉及 ' + active.length + ' 个学科';
+  } else {
+    $('subj-verdict').innerHTML = '本周没拿任何学科开张 · 下周从一道数学题开始 →';
+  }
+
+  // 费曼
+  $('feynman-detail').innerHTML = d.feynmanN > 0
+    ? '<div class="callout green">✓ 本周费曼 <b>' + d.feynmanN + '</b> 次 · 自己讲一遍是知识落地最关键的一步</div>'
+    : '<div class="callout">本周 0 次费曼 · 输入再多没输出还是会忘 · <a href="/tools/feynman-verify" style="color:var(--amber);font-weight:700">去讲一段 →</a></div>';
+
+  // 推荐：复用 today-recos
+  if (window.TodayRecos){
+    window.TodayRecos.render($('recos-grid'));
+  }
+}
+
+function copyShareLink(){
+  const url = location.origin + '/weekly.html';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function(){
+      alert('链接已复制 · 注意：分享链接对方打开看到的是他们自己的数据。要发自己的数据给别人，先打印 PDF。');
+    });
+  } else {
+    prompt('复制这个链接：', url);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
