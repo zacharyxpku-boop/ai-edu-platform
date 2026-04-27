@@ -88,9 +88,13 @@ export default async function handler(req) {
     // 临时题（不在 questions 表）的题面快照
     const question_snapshot = question_stem ? { stem: String(question_stem).slice(0, 1000), topic_id: topic_id || null } : null;
 
+    // question_id 必须是合法 UUID（mastery-loop fallback 题 id 是 'fb1' 非 UUID，原样发会触发 22P02）
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const safe_question_id = (typeof question_id === 'string' && UUID_RE.test(question_id)) ? question_id : null;
+
     const row = {
         student_id,
-        question_id: question_id || null,                   // 0004 后 nullable
+        question_id: safe_question_id,                       // 非 UUID 强制 null 避免 invalid uuid syntax
         session_id: session_id || null,                     // 可空
         response: String(response).slice(0, 2000),
         is_correct,

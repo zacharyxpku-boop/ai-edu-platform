@@ -56,6 +56,11 @@ export default async function handler(req) {
     // session_id 缺失时端点生成（0004 已设 default gen_random_uuid，但前端传清晰更可读）
     const sid = session_id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : null);
 
+    // 同 ingest-attempt：UUID 校验避免 'fb1' 这种 fallback id 触发 22P02
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const safe_qid = (typeof question_id === 'string' && UUID_RE.test(question_id)) ? question_id : null;
+    const safe_aid = (typeof attempt_id === 'string' && UUID_RE.test(attempt_id)) ? attempt_id : null;
+
     const row = {
         student_id,
         session_id: sid,
@@ -63,8 +68,8 @@ export default async function handler(req) {
         kind: kind || 'chat',
         content: String(content).slice(0, 5000),
         meta: enrichedMeta,                                  // 0004 加的字段
-        question_id: question_id || null,
-        attempt_id: attempt_id || null,
+        question_id: safe_qid,
+        attempt_id: safe_aid,
         turn_index: typeof turn_index === 'number' ? turn_index : 0,
         model_name: model_name || null,
         created_at: new Date().toISOString(),
