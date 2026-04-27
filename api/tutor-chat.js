@@ -113,9 +113,16 @@ function buildSystemPrompt(student, memoryData, weakKps, isPasted) {
     L.push('');
 
     // ============ 2. 学生专属档案（个性化 4 维度落数据）============
+    // grade/stage 是 0001 的 enum literal（middle_1 / middle 等），LLM 不应直接看到「middle_1 同学」这种话
+    const GRADE_CN = {
+        primary_1:'小一',primary_2:'小二',primary_3:'小三',primary_4:'小四',primary_5:'小五',primary_6:'小六',
+        middle_1:'初一',middle_2:'初二',middle_3:'初三',
+        high_1:'高一',high_2:'高二',high_3:'高三',
+    };
     L.push('═══ 这位学生的专属档案 ═══');
     if (student) {
-        L.push(`【学生】${student.name} · ${student.grade || '中学生'} · ${student.stage || ''}`);
+        const g = GRADE_CN[student.grade] || student.grade || '中学生';
+        L.push(`【学生】${student.name} · ${g}`);
     }
     L.push(`【主导情绪】${emotion}`);
     if (stuckPts.length) {
