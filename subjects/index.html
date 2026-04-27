@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="page-title">学科枢纽 | 原点 AI 学堂</title>
+<meta name="description" content="原点学科枢纽 · 教材 + 错题 + 推荐章 + AI 私教 一页打通 · 可汗学院 course page 中文化版">
+<style>
+:root{
+  --ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bg:#FAFAF7;--card:#FFFFFF;--bdr:#E4E4E7;--soft:#F4F4F5;
+  --tone:#16A34A;--tone-bg:#F0FDF4;--tone-dk:#15803D;
+  --amber:#F5A623;--amber-bg:#FEF3C7;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --green:#059669;--green-bg:#ECFDF5;
+  --font:system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:ui-monospace,'JetBrains Mono','Menlo',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
+.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
+.nav-brand svg{width:24px;height:24px}
+.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+.nav-a.on{color:var(--tone);background:var(--tone-bg)}
+
+.wrap{max-width:1120px;margin:0 auto;padding:24px 20px 80px}
+
+.subj-hero{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;background:linear-gradient(135deg,var(--tone-bg) 0%,#FFF 60%);border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;margin:14px 0 18px}
+.subj-hero .sigil{width:64px;height:64px;border-radius:14px;background:var(--tone);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;line-height:1}
+.subj-hero h1{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
+.subj-hero h1 small{font-size:12px;color:var(--ink3);font-weight:500;margin-left:8px}
+.subj-hero .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.subj-hero .meta b{color:var(--ink);font-weight:800}
+.subj-ring{width:84px;height:84px;position:relative;flex:0 0 auto}
+.subj-ring svg{transform:rotate(-90deg)}
+.subj-ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.subj-ring .pct .n{font-size:20px;font-weight:800;color:var(--tone)}
+.subj-ring .pct .l{font-size:9px;color:var(--ink3);letter-spacing:.5px;margin-top:1px}
+
+.cta-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.cta-strip a{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border:1px solid var(--bdr);border-radius:11px;text-decoration:none;color:var(--ink);font-weight:700;font-size:13px;transition:.15s}
+.cta-strip a:hover{border-color:var(--tone);transform:translateY(-1px)}
+.cta-strip a .em{font-size:20px;line-height:1}
+.cta-strip a .s{font-size:11px;color:var(--ink3);font-weight:500;display:block;margin-top:2px}
+.cta-strip a.primary{background:var(--tone);color:#fff;border-color:var(--tone)}
+.cta-strip a.primary:hover{background:var(--tone-dk)}
+.cta-strip a.primary .s{color:rgba(255,255,255,.8)}
+
+.h2{font-size:16px;font-weight:800;margin:24px 0 10px;display:flex;align-items:baseline;gap:10px}
+.h2 small{font-size:11px;color:var(--ink3);font-weight:500;margin-left:auto}
+.h2 a{font-size:11px;color:var(--tone);text-decoration:none;font-weight:600}
+
+.book-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.book-card{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid var(--tone)}
+.book-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px -2px rgba(0,0,0,.06);border-left-width:5px}
+.book-card .bk-em{font-size:24px;line-height:1;flex:0 0 auto}
+.book-card .bk-bd{flex:1;min-width:0}
+.book-card .bk-t{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.book-card .bk-s{font-size:11px;color:var(--ink3);margin-bottom:8px}
+.book-card .bk-bar{height:5px;background:var(--soft);border-radius:100px;overflow:hidden;margin-bottom:5px}
+.book-card .bk-bar i{display:block;height:100%;background:var(--tone);transition:width .4s}
+.book-card .bk-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.book-card .bk-meta b{color:var(--ink);font-weight:700}
+.book-card .bk-meta .err{color:var(--red);font-weight:700}
+.book-card.zero{opacity:.78;border-left-color:#D4D4D8}
+.book-card.zero:hover{opacity:1}
+.book-card.zero .bk-bar i{background:#D4D4D8}
+
+.err-row{display:flex;gap:12px;background:var(--red-bg);border:1px solid #FCA5A5;border-radius:10px;padding:11px 13px;margin-bottom:8px;align-items:flex-start}
+.err-row .em{font-size:18px;flex:0 0 auto}
+.err-row .bd{flex:1;min-width:0;font-size:12.5px;color:#7F1D1D}
+.err-row .bd b{color:#991B1B;font-weight:700}
+.err-row .qx{font-size:11px;color:#B91C1C;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.err-row .ax{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:5px 10px;border-radius:7px;text-decoration:none;flex-shrink:0;align-self:center}
+.err-empty{padding:14px 16px;background:var(--green-bg);border:1px dashed #6EE7B7;color:#065F46;font-size:13px;border-radius:10px}
+
+.qa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.qa-card{background:#fff;border:1px solid var(--bdr);border-radius:11px;padding:13px 14px;text-decoration:none;color:inherit;transition:.15s;display:flex;gap:10px;align-items:center}
+.qa-card:hover{border-color:var(--tone);transform:translateY(-1px)}
+.qa-card .em{font-size:20px}
+.qa-card .t{font-size:12.5px;font-weight:700;color:var(--ink)}
+.qa-card .s{font-size:10.5px;color:var(--ink3);margin-top:2px;display:block}
+
+.subj-switcher{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.subj-switcher a{padding:5px 11px;font-size:11.5px;font-weight:700;color:var(--ink3);background:#fff;border:1px solid var(--bdr);border-radius:100px;text-decoration:none;transition:.15s}
+.subj-switcher a:hover{border-color:var(--tone);color:var(--tone)}
+.subj-switcher a.on{background:var(--tone);color:#fff;border-color:var(--tone)}
+
+.notfound{padding:60px 20px;text-align:center;color:var(--ink3)}
+.notfound h2{font-size:18px;color:var(--ink)}
+.notfound a{color:var(--tone);font-weight:700}
+
+@media(max-width:680px){.subj-hero{grid-template-columns:auto 1fr;gap:14px;padding:18px}.subj-ring{display:none}.subj-hero h1{font-size:18px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg>
+      <span>原点 AI 学堂</span>
+    </a>
+    <a href="/paths.html" class="nav-a">学习路径</a>
+    <a href="#" id="nav-on" class="nav-a on">学科</a>
+    <a href="/errors.html" class="nav-a">错题本</a>
+    <a href="/progress.html" class="nav-a">成长档案</a>
+  </div>
+</nav>
+
+<div class="wrap" id="wrap-content">
+
+  <div id="streak-mount"></div>
+
+  <div class="subj-switcher" id="subj-switcher"></div>
+
+  <section class="subj-hero">
+    <div class="sigil" id="hero-sigil">●</div>
+    <div>
+      <h1 id="hero-title">加载中…<small id="hero-sub"></small></h1>
+      <div class="meta">
+        <span>📚 <b id="m-books">--</b> 本教材</span>
+        <span>📑 <b id="m-ch">--</b> 章节</span>
+        <span>📖 已读 <b id="m-read">0</b> 章</span>
+        <span>❌ 错题 <b id="m-err">0</b> 道</span>
+        <span>🔥 已掌握 <b id="m-mas">0</b> 章</span>
+      </div>
+    </div>
+    <div class="subj-ring">
+      <svg width="84" height="84" viewBox="0 0 84 84">
+        <circle cx="42" cy="42" r="36" fill="none" stroke="#E4E4E7" stroke-width="8"/>
+        <circle id="ring-fg" cx="42" cy="42" r="36" fill="none" stroke="#16A34A" stroke-width="8" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+      </svg>
+      <div class="pct"><span class="n" id="ring-n">0%</span><span class="l">MASTERY</span></div>
+    </div>
+  </section>
+
+  <div class="cta-strip">
+    <a href="#" id="cta-continue" class="primary">
+      <span class="em">▶</span>
+      <span><span id="cta-cont-t">继续学习</span><span class="s" id="cta-cont-s">为你计算下一步</span></span>
+    </a>
+    <a href="#" id="cta-quiz">
+      <span class="em">🎯</span>
+      <span><span id="cta-quiz-t">每日一题</span><span class="s">3 分钟一道, 含解析</span></span>
+    </a>
+    <a href="#" id="cta-err">
+      <span class="em">📕</span>
+      <span><span id="cta-err-t">错题攻克</span><span class="s" id="cta-err-s">0 道待复习</span></span>
+    </a>
+  </div>
+
+  <h2 class="h2"><span id="h-books-t">教材列表</span><small id="h-books-s">已读章节占比</small></h2>
+  <div id="book-list"><div style="color:var(--ink3);font-size:13px;padding:12px">manifest 加载中...</div></div>
+
+  <h2 class="h2"><span id="h-err-t">最近错题</span><a href="#" id="h-err-link">全部 →</a></h2>
+  <div id="err-mount"></div>
+
+  <h2 class="h2"><span id="h-tools-t">学科专属工具</span><small>AI 私教 · 题库 · 大题拆解</small></h2>
+  <div class="qa-grid" id="qa-grid"></div>
+
+</div>
+
+<script src="/src/learning-store.js"></script>
+<script src="/src/streak-bar.js"></script>
+<script src="/src/subject-hub.js"></script>
+<script>
+// 学科注册表 · 在这里加学科, 不需要再写新 HTML
+const REG = {
+  biology: {
+    zh:'生物学', en:'Biology', sigil:'🧬', tone:'#16A34A', toneBg:'#F0FDF4', toneDk:'#15803D',
+    sub:'高考理综 / 生物组卷主科',
+    bookHeadHint:'绿条 = 已读章节占比',
+    errHeadHint:'细胞结构 / 遗传 / 生态系统',
+    toolsHint:'AI 私教 · 实验图分析 · 选择题速练',
+    tutorHint:'细胞 / 遗传 / 生态分块陪练',
+    feynmanHint:'图示讲明白 = 真懂',
+    diagHint:'理综卷生物段失分定位',
+    arcadeHint:'细胞 / 遗传 / 生态 4 模式',
+    profileHint:'强弱项分块图谱'
+  },
+  history: {
+    zh:'历史', en:'History', sigil:'史', tone:'#92400E', toneBg:'#FEF3C7', toneDk:'#78350F',
+    sub:'高考文综主科 · 时间轴 + 史论',
+    bookHeadHint:'棕条 = 已读章节占比',
+    errHeadHint:'时间线 / 因果分析 / 史论结合',
+    toolsHint:'AI 私教 · 时间轴 · 史料解读',
+    tutorHint:'通史 / 专题史 / 史料分析',
+    feynmanHint:'把因果讲清楚才算懂',
+    diagHint:'文综卷历史段失分定位',
+    arcadeHint:'人物 / 事件 / 时间 / 影响 4 模式',
+    profileHint:'通史 / 中史 / 世界史强弱'
+  },
+  geography: {
+    zh:'地理', en:'Geography', sigil:'地', tone:'#0D9488', toneBg:'#F0FDFA', toneDk:'#0F766E',
+    sub:'高考文综主科 · 自然 + 人文双线',
+    bookHeadHint:'青条 = 已读章节占比',
+    errHeadHint:'气候 / 地形 / 人文区位',
+    toolsHint:'AI 私教 · 地图判读 · 等值线',
+    tutorHint:'自然 / 人文 / 区域分块陪练',
+    feynmanHint:'区位条件讲清楚才算懂',
+    diagHint:'文综卷地理段失分定位',
+    arcadeHint:'气候 / 地形 / 区位 / 人口 4 模式',
+    profileHint:'自然 / 人文 / 区域强弱'
+  },
+  politics: {
+    zh:'思想政治', en:'Politics', sigil:'政', tone:'#EA580C', toneBg:'#FFF7ED', toneDk:'#C2410C',
+    sub:'高考文综主科 · 哲学 + 经济 + 政治',
+    bookHeadHint:'橙条 = 已读章节占比',
+    errHeadHint:'原理对应 / 材料分析 / 答题套路',
+    toolsHint:'AI 私教 · 原理速记 · 大题模板',
+    tutorHint:'哲学 / 经济 / 政治分块陪练',
+    feynmanHint:'用原理解释现象 = 真懂',
+    diagHint:'文综卷政治段失分定位',
+    arcadeHint:'原理 / 概念 / 时事 / 案例 4 模式',
+    profileHint:'哲学 / 经济 / 政治强弱'
+  }
+};
+const SUBJ_LIST = [
+  { key:'math',     zh:'数学', href:'/subjects/math.html' },
+  { key:'physics',  zh:'物理', href:'/subjects/physics.html' },
+  { key:'chemistry',zh:'化学', href:'/subjects/chemistry.html' },
+  { key:'biology',  zh:'生物', href:'/subjects/?key=biology' },
+  { key:'chinese',  zh:'语文', href:'/subjects/chinese.html' },
+  { key:'history',  zh:'历史', href:'/subjects/?key=history' },
+  { key:'geography',zh:'地理', href:'/subjects/?key=geography' },
+  { key:'politics', zh:'政治', href:'/subjects/?key=politics' }
+];
+
+function $(id){return document.getElementById(id)}
+function getKey(){
+  const m = location.search.match(/[?&]key=([^&]+)/);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+function setVar(name, val){ document.documentElement.style.setProperty(name, val); }
+function setRingColor(c){ const el = $('ring-fg'); if (el) el.setAttribute('stroke', c); }
+
+const KEY = getKey();
+const cfg = KEY && REG[KEY];
+
+if (!cfg){
+  $('wrap-content').innerHTML = '<div class="notfound"><h2>学科未配置</h2><p>访问 <code>?key=biology|history|geography|politics</code> 之一</p><p>或 <a href="/">回到首页 9 学科入口</a></p></div>';
+} else {
+  // 颜色注入
+  setVar('--tone', cfg.tone);
+  setVar('--tone-bg', cfg.toneBg);
+  setVar('--tone-dk', cfg.toneDk);
+  setRingColor(cfg.tone);
+
+  // 文案注入
+  document.title = cfg.zh + ' · 学科枢纽 | 原点 AI 学堂';
+  $('hero-sigil').textContent = cfg.sigil;
+  $('hero-title').firstChild.nodeValue = cfg.zh + ' ';
+  $('hero-sub').textContent = cfg.en + ' · ' + cfg.sub;
+  $('cta-quiz-t').textContent = cfg.zh + '每日一题';
+  $('cta-err-t').textContent  = cfg.zh + '错题攻克';
+  $('cta-quiz').href = '/quiz.html?subject=' + KEY;
+  $('cta-err').href  = '/errors.html?subject=' + KEY;
+  $('h-books-s').textContent = cfg.bookHeadHint;
+  $('h-err-t').textContent   = '最近的' + cfg.zh + '错题 · ' + cfg.errHeadHint;
+  $('h-err-link').href = '/errors.html?subject=' + KEY;
+  $('h-tools-t').textContent = cfg.zh + '专属工具';
+
+  // 工具卡渲染
+  const tools = [
+    { em:'🧑‍🏫', t:'AI ' + cfg.zh + '私教', s:cfg.tutorHint, href:'/tutor.html?subject=' + KEY },
+    { em:'🗣️', t:'费曼讲题', s:cfg.feynmanHint, href:'/tools/feynman.html?subject=' + KEY },
+    { em:'📊', t:'月考诊断', s:cfg.diagHint, href:'/tools/exam-diagnosis.html?subject=' + KEY },
+    { em:'🎮', t:'题库速练', s:cfg.arcadeHint, href:'/tools/knowledge-arcade.html?subject=' + KEY },
+    { em:'📖', t:'教材原文阅读器', s:'PDF + 章节高亮 + 笔记', href:'/tools/textbook-browser.html' },
+    { em:'🧭', t:'3 分钟' + cfg.zh + '画像', s:cfg.profileHint, href:'/tools/learning-profile.html' }
+  ];
+  $('qa-grid').innerHTML = tools.map(t =>
+    '<a class="qa-card" href="' + t.href + '"><span class="em">' + t.em + '</span><span><span class="t">' + t.t + '</span><span class="s">' + t.s + '</span></span></a>'
+  ).join('');
+
+  // 学科切换
+  $('subj-switcher').innerHTML = SUBJ_LIST.map(s =>
+    '<a class="' + (s.key === KEY ? 'on' : '') + '" href="' + s.href + '">' + s.zh + '</a>'
+  ).join('');
+
+  // streak + hub init
+  try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){}
+  SUBJECT_HUB.init({ subjectZh: cfg.zh, subjectKey: KEY, toolQuery: KEY });
+}
+</script>
+</body>
+</html>
