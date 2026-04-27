@@ -250,6 +250,13 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         </div>
     </div>
 
+    <!-- AI 已识别孩子的学习指纹（认知风格 + 兴趣锚点）-->
+    <div class="panel" id="profile-panel" style="display:none; border-left: 3px solid var(--c-origin); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
+        <h2 style="font-size: 1rem; margin-bottom: 6px;">🎯 AI 已识别孩子的学习指纹</h2>
+        <p style="color: var(--c-warm-gray); font-size: 0.82rem; margin-bottom: 14px;">基于他和老师的对话，自动总结。学校老师面对 40 个孩子做不到这件事。</p>
+        <div id="profile-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"></div>
+    </div>
+
     <!-- FSRS 今日复习区（仅在有待复习时显示） -->
     <div class="panel" id="fsrs-panel" style="display:none; border-left: 3px solid var(--c-warning); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
         <h2 style="font-size: 1rem; margin-bottom: 8px;">⏰ 今日 FSRS 复习 <span style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;" id="fsrs-count">—</span></h2>
@@ -506,14 +513,103 @@ function renderFsrsPanel(data) {
     });
 }
 
+// =========== AI 学习指纹（认知风格 + 兴趣锚点 + 主导情绪 + 类比奏效率）===========
+const COG_STYLE_LABEL = {
+    visual: { name: '偏视觉型', desc: '画图 / 图表帮助他理解' },
+    verbal: { name: '偏语言型', desc: '故事化讲解他更容易吸收' },
+    kinesthetic: { name: '偏动手型', desc: '让他自己推一遍最有效' },
+    abstract: { name: '偏抽象型', desc: '直接讲公式逻辑，不用比喻' },
+};
+
+async function fetchProfile() {
+    try {
+        const r = await fetch('/api/student-memory', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id: STUDENT_ID,
+                query: '这个孩子的学习偏好',
+                top_k: 0,
+                include_profile: true,
+            }),
+        });
+        if (!r.ok) return null;
+        return await r.json();
+    } catch (e) { return null; }
+}
+
+function renderProfile(payload) {
+    const profile = payload?.signal_profile;
+    if (!profile) return;
+    const grid = document.getElementById('profile-grid');
+    const cards = [];
+
+    // 认知风格
+    if (profile.cognitive_style && profile.cognitive_style !== 'unknown'
+        && (profile.cognitive_style_confidence || 0) >= 0.4) {
+        const lbl = COG_STYLE_LABEL[profile.cognitive_style];
+        if (lbl) {
+            cards.push(`
+                <div style="background:rgba(233,77,53,0.08);border-left:3px solid var(--c-origin);padding:10px 14px;border-radius:6px;">
+                    <div style="font-size:0.78rem;color:var(--c-warm-dim);margin-bottom:2px;">认知风格</div>
+                    <div style="font-size:1rem;font-weight:600;color:var(--c-origin-soft);">${lbl.name}</div>
+                    <div style="font-size:0.82rem;color:var(--c-warm-gray);margin-top:4px;line-height:1.4;">${lbl.desc}</div>
+                </div>`);
+        }
+    }
+
+    // 主导情绪
+    if (profile.dominant_emotion) {
+        cards.push(`
+            <div style="background:rgba(212,168,67,0.08);border-left:3px solid var(--c-warning);padding:10px 14px;border-radius:6px;">
+                <div style="font-size:0.78rem;color:var(--c-warm-dim);margin-bottom:2px;">主导情绪</div>
+                <div style="font-size:1rem;font-weight:600;color:var(--c-warning);">${profile.dominant_emotion}</div>
+                <div style="font-size:0.82rem;color:var(--c-warm-gray);margin-top:4px;line-height:1.4;">老师每次开口前会先看这个</div>
+            </div>`);
+    }
+
+    // 兴趣锚点
+    if (profile.top_interests && profile.top_interests.length) {
+        const tags = profile.top_interests.slice(0, 3).map(t => t.keyword).join(' · ');
+        cards.push(`
+            <div style="background:rgba(15,52,96,0.5);border-left:3px solid var(--c-warm-gray);padding:10px 14px;border-radius:6px;grid-column:span 2;">
+                <div style="font-size:0.78rem;color:var(--c-warm-dim);margin-bottom:2px;">兴趣锚点（合适时用作类比）</div>
+                <div style="font-size:0.95rem;font-weight:600;color:var(--c-warm-white);">${tags}</div>
+                <div style="font-size:0.78rem;color:var(--c-warm-gray);margin-top:4px;line-height:1.4;">他自然提及的兴趣，老师会借为类比锚点</div>
+            </div>`);
+    }
+
+    // 类比奏效率
+    if (profile.analogy_success_rate != null) {
+        const rate = Math.round(profile.analogy_success_rate * 100);
+        const useFlag = profile.analogy_success_rate > 0.55;
+        cards.push(`
+            <div style="background:rgba(0,0,0,0.2);border-left:3px solid ${useFlag ? 'var(--c-success)' : 'var(--c-warm-dim)'};padding:10px 14px;border-radius:6px;grid-column:span 2;">
+                <div style="font-size:0.78rem;color:var(--c-warm-dim);margin-bottom:2px;">类比奏效率</div>
+                <div style="font-size:1rem;font-weight:600;color:${useFlag ? 'var(--c-success)' : 'var(--c-warm-gray)'};">${rate}%</div>
+                <div style="font-size:0.82rem;color:var(--c-warm-gray);margin-top:4px;line-height:1.4;">
+                    ${useFlag ? '类比对他奏效，老师多用生活化比喻' : '类比效果一般，老师直接讲步骤'}
+                </div>
+            </div>`);
+    }
+
+    if (cards.length === 0) {
+        grid.innerHTML = `<div style="grid-column:span 2;color:var(--c-warm-gray);font-size:0.85rem;">数据积累中（再用 1-2 次老师就能识别出他的学习指纹）</div>`;
+    } else {
+        grid.innerHTML = cards.join('');
+    }
+    document.getElementById('profile-panel').style.display = 'block';
+}
+
 // =========== 启动 ===========
 async function boot() {
     document.getElementById('child-name').textContent = CHILD_NAME;
-    const [data, fsrs] = await Promise.all([fetchMastery(), fetchFsrsDue()]);
+    const [data, fsrs, profile] = await Promise.all([fetchMastery(), fetchFsrsDue(), fetchProfile()]);
     document.getElementById('updated-at').textContent = '数据更新于 ' + (data.trained_at ? new Date(data.trained_at).toLocaleString('zh-CN') : '—');
     drawRadar(data.all_kcs, document.getElementById('radar-svg'));
     renderKcList(data.all_kcs);
     updateGlance(data.all_kcs);
+    renderProfile(profile);
     renderFsrsPanel(fsrs);
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);
