@@ -212,6 +212,25 @@
             .quick-nav-list { gap: var(--sp-sm); }
             .quick-nav-item { min-width: 80px; padding: var(--sp-sm); }
         }
+
+        /* Toast 系统 — 替代 alert */
+        .ydz-toast-wrap{position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:calc(100vw - 40px)}
+        @media(max-width:480px){.ydz-toast-wrap{left:12px;right:12px;top:12px;align-items:stretch}}
+        .ydz-toast{background:#18181B;color:#fff;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,.18);display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:ydzToastIn .25s cubic-bezier(.2,.8,.2,1);max-width:380px;line-height:1.5}
+        .ydz-toast.error{background:#DC2626}
+        .ydz-toast.success{background:#059669}
+        .ydz-toast.warn{background:#F59E0B;color:#7C2D12}
+        .ydz-toast.info{background:#0EA5E9}
+        .ydz-toast .ydz-toast-em{flex:0 0 auto;font-size:16px;line-height:1.2}
+        .ydz-toast .ydz-toast-msg{flex:1;min-width:0;word-break:break-word}
+        .ydz-toast.fade{opacity:0;transform:translateX(20px);transition:opacity .25s,transform .25s}
+        @keyframes ydzToastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+        /* 表单字段错误高亮 */
+        .form-group.has-error select,
+        .form-group.has-error input,
+        .form-group.has-error textarea{border-color:#DC2626;background:#FEF2F2}
+        .form-group.has-error::after{content:'';display:block;height:0}
     </style>
 </head>
 <body>
@@ -399,6 +418,41 @@
     <script src="../src/tools-nav.js"></script>
     <script src="../src/app.js"></script>
     <script>
+    // Toast 系统：替代 alert，不阻塞主流程
+    function showToast(msg, kind, ttl){
+        kind = kind || 'info';
+        ttl = ttl || (kind === 'error' ? 4500 : 2800);
+        var wrap = document.getElementById('ydz-toast-wrap');
+        if (!wrap){
+            wrap = document.createElement('div');
+            wrap.id = 'ydz-toast-wrap';
+            wrap.className = 'ydz-toast-wrap';
+            document.body.appendChild(wrap);
+        }
+        var em = { error:'⚠', success:'✓', warn:'!', info:'ⓘ' }[kind] || 'ⓘ';
+        var t = document.createElement('div');
+        t.className = 'ydz-toast ' + kind;
+        t.innerHTML = '<span class="ydz-toast-em">' + em + '</span><span class="ydz-toast-msg"></span>';
+        t.querySelector('.ydz-toast-msg').textContent = msg;
+        wrap.appendChild(t);
+        setTimeout(function(){
+            t.classList.add('fade');
+            setTimeout(function(){ t.remove(); }, 280);
+        }, ttl);
+    }
+    // 表单字段错误标记
+    function flagField(id){
+        var el = document.getElementById(id); if (!el) return;
+        var grp = el.closest('.form-group');
+        if (grp){
+            grp.classList.add('has-error');
+            var clear = function(){ grp.classList.remove('has-error'); el.removeEventListener('change', clear); el.removeEventListener('input', clear); };
+            el.addEventListener('change', clear);
+            el.addEventListener('input', clear);
+        }
+        try { el.focus(); } catch(_){}
+    }
+
     // 初始化工具导航
     window.addEventListener('DOMContentLoaded', () => {
         initToolsNav('exam-diagnosis.html');
@@ -679,24 +733,13 @@
         var score = document.getElementById('score').value;
         var totalScore = document.getElementById('total-score').value;
 
-        if (!stage) {
-            alert('请选择学段');
-            return;
-        }
-        if (!grade) {
-            alert('请选择年级');
-            return;
-        }
-        if (!subject) {
-            alert('请选择科目');
-            return;
-        }
-        if (!version) {
-            alert('请选择教材版本');
-            return;
-        }
+        if (!stage) { showToast('请选择学段', 'error'); flagField('school-stage'); return; }
+        if (!grade) { showToast('请选择年级', 'error'); flagField('grade'); return; }
+        if (!subject) { showToast('请选择科目', 'error'); flagField('subject'); return; }
+        if (!version) { showToast('请选择教材版本', 'error'); flagField('textbook-version'); return; }
         if (!score || !totalScore) {
-            alert('请填写实际得分和满分');
+            showToast('请填写实际得分和满分', 'error');
+            flagField(score ? 'total-score' : 'score');
             return;
         }
         document.getElementById('step-1').style.display = 'none';
@@ -775,7 +818,7 @@
     function startDiagnosis() {
         updateErrorCount();
         if (errors.length < 3) {
-            alert('请至少录入3道错题，AI才能准确诊断');
+            showToast('请至少录入 3 道错题，AI 才能准确诊断', 'warn');
             return;
         }
 
@@ -1166,7 +1209,7 @@
     // 生成分享卡
     function generateShareCard() {
         if (!window.ReportGenerator) {
-            alert('分享卡生成模块未加载');
+            showToast('分享卡生成模块未加载，请刷新页面重试', 'error');
             return;
         }
 
@@ -1219,10 +1262,12 @@
 
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function() {
-                alert('分享文案已复制！可以粘贴到微信/小红书/朋友圈了');
+                showToast('分享文案已复制 · 粘贴到微信/小红书/朋友圈', 'success');
+            }).catch(function(){
+                window.prompt('clipboard 不可用 · 请手动复制：', text);
             });
         } else {
-            alert('请手动复制：\n\n' + text);
+            window.prompt('请手动复制：', text);
         }
     }
     </script>
