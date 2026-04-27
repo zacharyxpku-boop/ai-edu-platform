@@ -174,22 +174,23 @@ export default async function handler(req) {
     const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!UUID_RE.test(student_id)) return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
 
-    // 1. embed query
-    let qVec;
-    try {
-        qVec = await embedQuery(query);
-    } catch (e) {
-        return jsonErr(502, 'embed_failed', e.message);
+    // 1+2. embed query + 向量搜索（top_k<=0 跳过整段，只返 profile，省 Qwen embedding 成本）
+    let memories = [];
+    if (top_k > 0) {
+        let qVec;
+        try {
+            qVec = await embedQuery(query);
+        } catch (e) {
+            return jsonErr(502, 'embed_failed', e.message);
+        }
+        const memR = await pgRpc('student_memory_search', {
+            p_student_id: student_id,
+            p_query_embedding: vecToPgString(qVec),
+            p_top_k: top_k,
+            p_min_age_seconds: 1800,
+        });
+        memories = memR.ok ? await memR.json() : [];
     }
-
-    // 2. 拉相似对话
-    const memR = await pgRpc('student_memory_search', {
-        p_student_id: student_id,
-        p_query_embedding: vecToPgString(qVec),
-        p_top_k: top_k,
-        p_min_age_seconds: 1800,
-    });
-    const memories = memR.ok ? await memR.json() : [];
 
     // 3. 拉信号指纹 + 4. 拉认知风格 / 兴趣词典 rollup（并行）
     const [pR, extras] = await Promise.all([
