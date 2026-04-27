@@ -203,17 +203,21 @@ const DEMO_READ = [
 
 // quiz outcome：14 对 6 错（错的对应上面 6 道 quizId，对的随机分布）
 const DEMO_QUIZ_OUTCOMES = (function(){
-  const today = new Date().toISOString().slice(0,10);
+  // 散布在最近 14 天，让 weekly "本周 vs 上周" 答题正确率有真实对比
+  function dayN(n){ const d = new Date(); d.setDate(d.getDate() - n); return d.toISOString().slice(0,10); }
   const o = {};
-  // 6 道错题对应的 quizId 标 bad
-  ['gen-math-de1eb900-1','gen-physics-3485b317-1','gen-chemistry-7b502f8e-1',
-   'gen-biology-75207012-1','gen-history-f9e825a9-1','gen-geography-76a4a8eb-1']
-    .forEach(function(id){ o[id] = { r: 'bad', d: today }; });
-  // 14 道 good
-  const goodIds = ['gen-math-x1','gen-math-x2','gen-physics-y1','gen-physics-y2','gen-chemistry-z1',
+  // 6 道错题（quizId 来自 DEMO_ERRORS）—— 本周 4 道 + 上周 2 道
+  const badThisWeek = ['gen-math-de1eb900-1','gen-physics-3485b317-1','gen-chemistry-7b502f8e-1','gen-biology-75207012-1'];
+  badThisWeek.forEach(function(id, i){ o[id] = { r: 'bad', d: dayN(i) }; }); // 0/1/2/3 天前
+  const badPrevWeek = ['gen-history-f9e825a9-1','gen-geography-76a4a8eb-1'];
+  badPrevWeek.forEach(function(id, i){ o[id] = { r: 'bad', d: dayN(8 + i) }; }); // 8/9 天前
+  // 20 道 good：本周 14（正确率 14/(14+4)=78%），上周 6（正确率 6/(6+2)=75%）
+  const goodThisWeek = ['gen-math-x1','gen-math-x2','gen-physics-y1','gen-physics-y2','gen-chemistry-z1',
     'gen-chinese-y1','gen-chinese-y2','gen-history-z1','gen-history-z2','gen-geography-z1',
     'gen-biology-y1','gen-biology-y2','gen-politics-z1','gen-math-x3'];
-  goodIds.forEach(function(id){ o[id] = { r: 'good', d: today }; });
+  goodThisWeek.forEach(function(id, i){ o[id] = { r: 'good', d: dayN(i % 6) }; });
+  const goodPrevWeek = ['gen-math-pw1','gen-math-pw2','gen-physics-pw1','gen-chemistry-pw1','gen-chinese-pw1','gen-history-pw1'];
+  goodPrevWeek.forEach(function(id, i){ o[id] = { r: 'good', d: dayN(7 + (i % 7)) }; });
   return o;
 })();
 const DEMO_QUIZ_SEEN = Object.keys(DEMO_QUIZ_OUTCOMES);
@@ -246,31 +250,74 @@ const DEMO_GEN = (function(){
 
 // XP 日志（gamification log）—— 7 天每日累计
 function buildDemoXPLog(){
+  // 14 天分布：本周（前 7 天）密度更高，让 weekly 对比图显示 "+30% 状态在涨"
+  // 上周（再前 7 天）拿基础数据，让对比有底
   const log = [];
   const now = Date.now();
   const day = 24 * 3600 * 1000;
-  // 7 天，每天 5-15 个事件
-  for (let d = 6; d >= 0; d--){
-    const base = now - d * day - (Math.random() * 3 * 3600 * 1000);
-    const events = [
-      { reason: '教材精读 · 数学 第'+(d+1)+'章', amount: 5 },
-      { reason: '题库速练 · 数学 · quiz', amount: 2 },
-      { reason: '题库速练 · 物理 · quiz', amount: 2 },
-      { reason: '题库速练 · 化学 · quiz', amount: 2 },
-      { reason: '错题攻克 · 数学 · quiz', amount: 3 },
-      { reason: '费曼验证 · 数学 · 银级', amount: 20 },
-    ];
+
+  function pushDay(dOffset, events){
+    const base = now - dOffset * day - (Math.random() * 3 * 3600 * 1000);
     events.forEach(function(e, i){
       log.push({
-        type: 'xp',
-        ts: base + i * 60000,
-        amount: e.amount,
-        reason: e.reason,
-        total: 0  // 累计在 LearningStore/gamification 内部不参与，只用 reason 给 progress 解析
+        type: 'xp', ts: base + i * 60000,
+        amount: e.amount, reason: e.reason, total: 0
       });
     });
   }
+
+  // 本周（d=0..6，今天是 d=0）：每天 6-7 个事件，约 35 XP/day
+  for (let d = 0; d <= 6; d++){
+    const events = [
+      { reason: '教材精读 · 数学 第'+(7-d)+'章', amount: 5 },
+      { reason: '题库速练 · 数学 · quiz', amount: 2 },
+      { reason: '题库速练 · 物理 · quiz', amount: 2 },
+      { reason: '题库速练 · 化学 · quiz', amount: 2 },
+      { reason: '错题攻克 · 数学 · quiz · 复习对了', amount: 2 },
+    ];
+    if (d % 2 === 0) events.push({ reason: '费曼验证 · 数学 · 银级', amount: 20 });
+    if (d % 3 === 0) events.push({ reason: '错题攻克 · 物理 · quiz · 复习对了', amount: 2 });
+    pushDay(d, events);
+  }
+
+  // 上周（d=7..13）：每天 4 个事件，约 20 XP/day（比本周低 ~40%）
+  for (let d = 7; d <= 13; d++){
+    const events = [
+      { reason: '教材精读 · 物理 第'+(d-6)+'章', amount: 5 },
+      { reason: '题库速练 · 数学 · quiz', amount: 2 },
+      { reason: '题库速练 · 物理 · quiz', amount: 2 },
+    ];
+    if (d === 9 || d === 11) events.push({ reason: '费曼验证 · 物理 · 铜级', amount: 15 });
+    if (d % 2 === 1) events.push({ reason: '错题攻克 · 化学 · quiz · 复习对了', amount: 2 });
+    pushDay(d, events);
+  }
+
   return log;
+}
+
+// 把 8 道错题分布到本周 + 上周（让 weekly errNew + errReviewed 对比有数）
+function distributeDemoErrorTimestamps(){
+  const pool = JSON.parse(localStorage.getItem('ydzx_errors_pool') || '[]');
+  if (!pool.length) return;
+  const now = Date.now();
+  const day = 24 * 3600 * 1000;
+  // 前 4 道：本周不同天 + 已到期
+  // 后 4 道：上周创建（让 prev 周报错题数 = 4）
+  pool.forEach(function(e, i){
+    if (i < 4){
+      e.timestamp = now - i * day - 2 * 3600 * 1000; // 0/1/2/3 天前
+      e.nextReviewAt = now - 3600 * 1000; // 立即到期
+      // 本周内有 2 道已被复习过
+      if (i < 2) e.lastReviewAt = now - i * 12 * 3600 * 1000;
+    } else {
+      // 7-10 天前创建（上周区间），上周内已复习
+      e.timestamp = now - (i + 4) * day;
+      e.lastReviewAt = now - (i + 3) * day;
+      e.reviewCount = 1;
+      e.nextReviewAt = now + (i - 3) * day; // 后续到期
+    }
+  });
+  try { localStorage.setItem('ydzx_errors_pool', JSON.stringify(pool)); } catch(_){}
 }
 
 function $(id){ return document.getElementById(id); }
@@ -298,20 +345,9 @@ function injectDemo(){
     safeSet(DEMO_FLAG_KEY, { on: true, at: Date.now() });
     // 2) 教材已读
     safeSet('ydzx_textbook_read', DEMO_READ);
-    // 3) 错题池（用 LearningStore.saveError，这样会自动塞 id/timestamp/nextReviewAt）
-    DEMO_ERRORS.forEach(function(e, i){
-      // 让前面 4 道立刻到期、后面 4 道处于不同间隔阶段
-      const stale = i < 4;
-      window.LearningStore.saveError(e);
-      if (stale){
-        // 把 nextReviewAt 改成已经过期
-        const pool = JSON.parse(localStorage.getItem('ydzx_errors_pool') || '[]');
-        if (pool.length){
-          pool[pool.length - 1].nextReviewAt = Date.now() - 3600 * 1000;
-          localStorage.setItem('ydzx_errors_pool', JSON.stringify(pool));
-        }
-      }
-    });
+    // 3) 错题池：先 saveError，再用 distributeDemoErrorTimestamps 分布到本周+上周
+    DEMO_ERRORS.forEach(function(e){ window.LearningStore.saveError(e); });
+    distributeDemoErrorTimestamps();
     // 4) Quiz outcome + seen
     safeSet('ydzx_quiz_outcome_v1', DEMO_QUIZ_OUTCOMES);
     safeSet('ydzx_quiz_seen_v1', DEMO_QUIZ_SEEN);
