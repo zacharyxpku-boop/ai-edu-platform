@@ -223,6 +223,88 @@ if (localStorage.getItem('yd:my_student_id')) {
 </div>
 </div>
 
+<!-- KA-STYLE · 三身份分流 hero（学习者 / 家长 / 走深者） -->
+<section id="ka-roles" style="max-width:1120px;margin:24px auto 0;padding:0 20px">
+    <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;color:#71717A;letter-spacing:1.5px;margin-bottom:6px">原 点 智 学 · 中 国 K12 高 考 学 习 引 擎</div>
+        <h2 style="font-size:clamp(22px,3.4vw,30px);font-weight:900;letter-spacing:-.6px;line-height:1.2;color:#18181B">免费工具学得透 · 想要陪跑选课程</h2>
+        <p style="font-size:13px;color:#52525B;margin-top:8px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7">一句话：<b>课内提分 + AI 能力 + 升学产出训练</b>。先用免费的 18 个 AI 工具 + 56 本教材原文 + 错题本，深度需要再聊课程。</p>
+    </div>
+    <div class="ka-roles-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <a href="quiz.html" class="ka-role" style="display:block;padding:18px 20px;background:#FFFBF0;border:1px solid #F5A623;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
+            <div style="font-size:11px;color:#92400E;font-weight:700;letter-spacing:1px;margin-bottom:6px">我是学生</div>
+            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">立即试一道题</div>
+            <div style="font-size:12px;color:#57534E;line-height:1.55">挂教材的 943 道随机刷一道 · 做完跳原文 · FSRS 错题自动排队</div>
+            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#C2410C">开始刷题 →</div>
+        </a>
+        <a href="progress.html" class="ka-role" style="display:block;padding:18px 20px;background:#F0F9FF;border:1px solid #0EA5E9;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
+            <div style="font-size:11px;color:#0C4A6E;font-weight:700;letter-spacing:1px;margin-bottom:6px">我是家长</div>
+            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">看孩子学得怎么样</div>
+            <div style="font-size:12px;color:#3F3F46;line-height:1.55">读 / 练 / 错 / 讲四维体检 · 周对比 · 错题在涨在降一目了然</div>
+            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#0369A1">打开档案 →</div>
+        </a>
+        <a href="assistant.html" class="ka-role" style="display:block;padding:18px 20px;background:#F5F3FF;border:1px solid #7C3AED;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
+            <div style="font-size:11px;color:#5B21B6;font-weight:700;letter-spacing:1px;margin-bottom:6px">想走深一点</div>
+            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">少年营 + 12 周陪跑课</div>
+            <div style="font-size:12px;color:#3F3F46;line-height:1.55">3 天阿里参访 · Demo Day 路演 · 创始人亲授 · ¥99/月起</div>
+            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#5B21B6">看课程 →</div>
+        </a>
+    </div>
+</section>
+
+<!-- KA-STYLE · 中国 K12 学科入口 grid -->
+<section id="ka-subjects" style="max-width:1120px;margin:18px auto 0;padding:0 20px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+        <h3 style="font-size:15px;font-weight:800;color:#18181B;letter-spacing:.3px">按学科直接进 · 9 大科目 56 本教材 284 章</h3>
+        <a href="tools/textbook-browser" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整教材库 →</a>
+    </div>
+    <div class="ka-subj-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">
+        <a href="quiz.html?subject=math" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #2563EB">
+            <span style="font-size:22px;line-height:1">∑</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">数学</span><span style="font-size:11px;color:#71717A">11 本 · 高考必考</span></span>
+        </a>
+        <a href="quiz.html?subject=physics" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #7C3AED">
+            <span style="font-size:22px;line-height:1">⚛</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">物理</span><span style="font-size:11px;color:#71717A">9 本 · 理综</span></span>
+        </a>
+        <a href="quiz.html?subject=chemistry" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #059669">
+            <span style="font-size:22px;line-height:1">⚗</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">化学</span><span style="font-size:11px;color:#71717A">4 本 · 理综</span></span>
+        </a>
+        <a href="quiz.html?subject=biology" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #16A34A">
+            <span style="font-size:22px;line-height:1">🧬</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">生物</span><span style="font-size:11px;color:#71717A">4 本 · 理综</span></span>
+        </a>
+        <a href="quiz.html?subject=chinese" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #DC2626">
+            <span style="font-size:22px;line-height:1">文</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">语文</span><span style="font-size:11px;color:#71717A">6 本 · 高考必考</span></span>
+        </a>
+        <a href="quiz.html?subject=history" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #92400E">
+            <span style="font-size:22px;line-height:1">史</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">历史</span><span style="font-size:11px;color:#71717A">8 本 · 文综</span></span>
+        </a>
+        <a href="quiz.html?subject=geography" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #0D9488">
+            <span style="font-size:22px;line-height:1">地</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">地理</span><span style="font-size:11px;color:#71717A">8 本 · 文综</span></span>
+        </a>
+        <a href="quiz.html?subject=politics" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #EA580C">
+            <span style="font-size:22px;line-height:1">政</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">政治</span><span style="font-size:11px;color:#71717A">6 本 · 文综</span></span>
+        </a>
+        <a href="quiz.html?subject=english" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#FAFAFA;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:#71717A;transition:.15s;border-left:3px solid #0891B2;opacity:.7">
+            <span style="font-size:22px;line-height:1">A</span>
+            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#52525B">英语</span><span style="font-size:11px;color:#A1A1AA">建设中 · 即将上线</span></span>
+        </a>
+    </div>
+    <p style="font-size:11px;color:#A1A1AA;margin-top:8px;text-align:center;line-height:1.6">本科目数实时来自 <a href="/data/extracted/manifest.json" style="color:#A1A1AA;text-decoration:underline">manifest.json</a> · 高考 9 大科目 全 K12 学段覆盖</p>
+</section>
+
+<style>
+.ka-role:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.ka-subj:hover{border-color:#A1A1AA;background:#FAFAFA}
+@media(max-width:680px){.ka-roles-grid{grid-template-columns:1fr !important}}
+</style>
+
 <!-- DAILY CHALLENGE -->
 <div style="max-width:1120px;margin:16px auto 0;padding:0 20px">
 <div id="daily-ch" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#fff;border:1px dashed #F5A623;border-radius:10px">
