@@ -2,235 +2,414 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>原点 AI 私教 · 这个老师记得你</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>原点 AI 私教 · 这位老师记得你</title>
 <meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比、什么情绪的一对一私教">
 <style>
-:root {
-    --c-ink: #1A1A2E;
-    --c-ink-light: #16213E;
-    --c-ink-surface: #0F3460;
-    --c-origin: #E94D35;
-    --c-origin-soft: #FF6B4A;
-    --c-origin-glow: rgba(233,77,53,0.15);
-    --c-warm-white: #F5F0EB;
-    --c-warm-gray: #B8B0A8;
-    --c-warm-dim: #7A7067;
+:root{
+    --warm-white:#FAFAF7;
+    --card:#FFFFFF;
+    --card-soft:#FBFAF6;
+    --ink:#18181B;
+    --ink-soft:#52525B;
+    --ink-mute:#A1A1AA;
+    --bdr:#E7E5DF;
+    --bdr-strong:#D4D2CC;
+    --orange:#E94D35;
+    --orange-soft:#FF8A6E;
+    --orange-glow:rgba(233,77,53,0.08);
+    --amber:#F5A623;
+    --amber-glow:rgba(245,166,35,0.10);
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md:0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-    background: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-light) 100%);
-    color: var(--c-warm-white);
-    min-height: 100vh;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-}
-h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
-
-.hero {
-    text-align: center;
-    padding: 18px 16px 14px;
-    border-bottom: 1px solid rgba(184,176,168,0.15);
-    background: rgba(0,0,0,0.2);
-    position: sticky; top: 0; z-index: 10;
-    backdrop-filter: blur(12px);
-}
-.hero h1 { font-size: 1.1rem; }
-.hero .badges {
-    display: flex; gap: 6px; justify-content: center; margin-top: 4px; flex-wrap: wrap;
-}
-.hero .badge {
-    font-size: 0.72rem;
-    padding: 1px 8px;
-    border-radius: 100px;
-    background: var(--c-origin-glow);
-    color: var(--c-origin-soft);
-}
-.hero .badge.muted { background: rgba(184,176,168,0.1); color: var(--c-warm-gray); }
-
-.chat-container {
-    max-width: 720px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 18px 14px 100px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+    font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+    background:var(--warm-white);
+    color:var(--ink);
+    line-height:1.65;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    -webkit-font-smoothing:antialiased;
 }
 
-.bubble {
-    max-width: 85%;
-    padding: 12px 16px;
-    border-radius: 14px;
-    font-size: 0.96rem;
-    line-height: 1.65;
-    animation: fadeUp 0.3s ease-out;
+/* ─── Header ─── */
+.app-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,250,247,0.92);
+    backdrop-filter:saturate(180%) blur(12px);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--bdr);
 }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-.bubble.tutor {
-    align-self: flex-start;
-    background: var(--c-ink-light);
-    border-left: 3px solid var(--c-origin);
-    border-bottom-left-radius: 4px;
-    color: var(--c-warm-white);
+.header-row{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
-.bubble.student {
-    align-self: flex-end;
-    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
-    border-bottom-right-radius: 4px;
-    color: white;
+.header-back, .header-radar{
+    color:var(--ink-mute);
+    text-decoration:none;
+    font-size:0.84rem;
+    padding:6px 10px;
+    border-radius:8px;
+    transition:all 0.15s;
+    white-space:nowrap;
 }
-.bubble.system {
-    align-self: center;
-    max-width: 95%;
-    background: rgba(212,168,67,0.1);
-    border: 1px dashed rgba(212,168,67,0.4);
-    color: var(--c-warm-gray);
-    font-size: 0.84rem;
-    padding: 8px 14px;
+.header-back:hover, .header-radar:hover{
+    color:var(--ink);
+    background:var(--card);
 }
-
-.bubble.tutor::before {
-    content: '老师';
-    display: block;
-    font-size: 0.72rem;
-    color: var(--c-origin-soft);
-    margin-bottom: 4px;
-    font-weight: 600;
+.tutor-id{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
 }
-.bubble .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: var(--c-origin);
-    margin-left: 2px;
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
+.avatar{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;
+    font-weight:800;
+    font-size:1.1rem;
+    flex-shrink:0;
+    box-shadow:0 2px 6px rgba(233,77,53,0.25);
 }
-@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-
-.input-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--c-ink);
-    border-top: 1px solid rgba(184,176,168,0.15);
-    padding: 12px 16px;
-    z-index: 100;
+.tutor-name{
+    min-width:0;
+    overflow:hidden;
 }
-.input-row {
-    max-width: 720px; margin: 0 auto;
-    display: flex; gap: 10px;
+.tutor-name h1{
+    font-size:0.95rem;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.input-row input {
-    flex: 1;
-    background: var(--c-ink-light);
-    border: 1px solid rgba(184,176,168,0.2);
-    color: var(--c-warm-white);
-    padding: 12px 16px;
-    font-size: 1rem;
-    border-radius: 100px;
-    font-family: inherit;
+.tutor-name .sub{
+    font-size:0.74rem;
+    color:var(--ink-mute);
+    line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.input-row input:focus {
-    outline: none;
-    border-color: var(--c-origin);
-    box-shadow: 0 0 0 3px var(--c-origin-glow);
-}
-.input-row button {
-    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
-    color: white;
-    border: none;
-    padding: 0 22px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 100px;
-    cursor: pointer;
-    font-family: inherit;
-}
-.input-row button:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.paste-warn {
-    max-width: 720px; margin: 0 auto 8px;
-    padding: 8px 14px; border-radius: 10px;
-    background: rgba(233,77,53,0.08);
-    border: 1px solid rgba(233,77,53,0.35);
-    color: var(--c-origin-soft);
-    font-size: 0.82rem;
-    display: none;
-}
-.paste-warn.show { display: block; }
-.input-row input.pasted {
-    border-color: var(--c-origin);
-    box-shadow: 0 0 0 2px var(--c-origin-glow);
+.tutor-name .sub b{
+    color:var(--orange);
+    font-weight:600;
 }
 
-.empty-hint {
-    text-align: center;
-    color: var(--c-warm-dim);
-    font-size: 0.88rem;
-    padding: 40px 20px 20px;
+/* ─── Chat scrollable ─── */
+.chat-wrap{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:24px 18px 140px;
 }
-.empty-hint .quick {
-    margin-top: 14px;
-    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+.chat{
+    max-width:760px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
 }
-.quick button {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(184,176,168,0.2);
-    color: var(--c-warm-white);
-    padding: 8px 14px;
-    border-radius: 100px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.85rem;
-}
-.quick button:hover { background: rgba(255,255,255,0.08); border-color: var(--c-origin); }
 
-@media (max-width: 480px) {
-    .bubble { max-width: 90%; font-size: 0.92rem; }
+/* ─── Empty state ─── */
+.empty-hint{
+    text-align:center;
+    padding:30px 16px 10px;
+    color:var(--ink-soft);
+    animation:fadeIn 0.4s ease-out;
+}
+.empty-hint .greeting-avatar{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+    color:#fff;
+    margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;
+    font-weight:800;
+    font-size:1.6rem;
+    box-shadow:0 4px 14px rgba(233,77,53,0.28);
+}
+.empty-hint .greeting-line{
+    font-size:1.08rem;
+    color:var(--ink);
+    font-weight:600;
+    margin-bottom:6px;
+}
+.empty-hint .greeting-sub{
+    font-size:0.86rem;
+    color:var(--ink-mute);
+    margin-bottom:24px;
+}
+.quick{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    max-width:520px;
+    margin:0 auto;
+}
+.quick button{
+    background:var(--card);
+    border:1px solid var(--bdr);
+    color:var(--ink);
+    padding:14px 16px;
+    border-radius:14px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:0.92rem;
+    text-align:left;
+    line-height:1.4;
+    transition:all 0.18s;
+    box-shadow:var(--shadow-sm);
+}
+.quick button:hover{
+    border-color:var(--orange);
+    background:var(--orange-glow);
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-md);
+}
+.quick button .qicon{
+    font-size:1.1rem;
+    margin-right:6px;
+}
+
+/* ─── Bubbles ─── */
+.bubble{
+    max-width:88%;
+    animation:fadeUp 0.32s ease-out;
+    line-height:1.7;
+    font-size:0.96rem;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.bubble.tutor{
+    align-self:flex-start;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    max-width:92%;
+}
+.bubble.tutor .b-avatar{
+    width:32px;height:32px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+    color:#fff;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif SC",serif;
+    font-weight:800;
+    font-size:0.92rem;
+    margin-top:2px;
+}
+.bubble.tutor .b-content{
+    background:var(--card);
+    border:1px solid var(--bdr);
+    border-left:3px solid var(--orange);
+    border-radius:14px;
+    border-top-left-radius:4px;
+    padding:12px 16px;
+    color:var(--ink);
+    box-shadow:var(--shadow-sm);
+    word-wrap:break-word;
+    overflow-wrap:break-word;
+    min-height:24px;
+}
+
+.bubble.student{
+    align-self:flex-end;
+    background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+    color:#fff;
+    padding:11px 16px;
+    border-radius:14px;
+    border-top-right-radius:4px;
+    box-shadow:0 2px 6px rgba(233,77,53,0.20);
+    word-wrap:break-word;
+    overflow-wrap:break-word;
+}
+
+.bubble.system{
+    align-self:center;
+    max-width:92%;
+    background:var(--amber-glow);
+    border:1px dashed rgba(245,166,35,0.5);
+    color:var(--ink-soft);
+    font-size:0.78rem;
+    padding:8px 14px;
+    border-radius:10px;
+    text-align:center;
+    line-height:1.5;
+}
+
+/* ─── Streaming dots ─── */
+.dots{
+    display:inline-flex;
+    gap:4px;
+    align-items:center;
+    height:1em;
+    vertical-align:middle;
+}
+.dots span{
+    width:5px;height:5px;
+    background:var(--orange);
+    border-radius:50%;
+    opacity:0.4;
+    animation:dotBounce 1.2s infinite ease-in-out;
+}
+.dots span:nth-child(2){animation-delay:0.15s}
+.dots span:nth-child(3){animation-delay:0.3s}
+@keyframes dotBounce{
+    0%,80%,100%{transform:translateY(0);opacity:0.35}
+    40%{transform:translateY(-3px);opacity:1}
+}
+
+/* ─── Input bar ─── */
+.input-bar{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:linear-gradient(to top,var(--warm-white) 86%,rgba(250,250,247,0));
+    padding:14px 16px 18px;
+    z-index:40;
+}
+.paste-warn{
+    max-width:760px;
+    margin:0 auto 10px;
+    padding:9px 14px;
+    border-radius:10px;
+    background:var(--amber-glow);
+    border:1px solid rgba(245,166,35,0.45);
+    color:#92400E;
+    font-size:0.82rem;
+    line-height:1.45;
+    display:none;
+    align-items:center;
+    gap:8px;
+}
+.paste-warn.show{display:flex}
+.paste-warn .icon{font-size:1rem;flex-shrink:0}
+
+.input-row{
+    max-width:760px;
+    margin:0 auto;
+    display:flex;
+    gap:8px;
+    background:var(--card);
+    border:1px solid var(--bdr-strong);
+    border-radius:24px;
+    padding:6px 6px 6px 18px;
+    align-items:center;
+    box-shadow:var(--shadow-md);
+    transition:border-color 0.15s, box-shadow 0.15s;
+}
+.input-row:focus-within{
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px var(--orange-glow), var(--shadow-md);
+}
+.input-row.pasted{
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px var(--amber-glow);
+}
+.input-row input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:var(--ink);
+    font-size:1rem;
+    font-family:inherit;
+    padding:10px 0;
+    min-width:0;
+}
+.input-row input::placeholder{
+    color:var(--ink-mute);
+}
+.send-btn{
+    width:38px;height:38px;
+    background:var(--orange);
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.15s;
+}
+.send-btn:hover{background:var(--orange-soft);transform:scale(1.05)}
+.send-btn:active{transform:scale(0.95)}
+.send-btn:disabled{background:var(--bdr-strong);cursor:not-allowed;transform:none}
+.send-btn svg{width:18px;height:18px}
+
+/* ─── Mobile ─── */
+@media (max-width:480px){
+    .header-row{padding:12px 14px;gap:8px}
+    .tutor-name h1{font-size:0.88rem}
+    .tutor-name .sub{font-size:0.7rem}
+    .header-back, .header-radar{font-size:0.78rem;padding:5px 8px}
+    .chat-wrap{padding:18px 14px 130px}
+    .quick{grid-template-columns:1fr;max-width:none}
+    .bubble{font-size:0.94rem}
+    .input-bar{padding:12px 12px 16px}
 }
 </style>
 </head>
 <body>
 
-<header class="hero">
-    <a href="/" style="position:absolute;left:14px;top:18px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">← 首页</a>
-    <a href="/radar" id="hero-to-radar" style="position:absolute;right:14px;top:18px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">家长视角 →</a>
-    <h1 id="tutor-title">原点 AI 私教</h1>
-    <div class="badges">
-        <span class="badge" id="b-memory">记忆 —</span>
-        <span class="badge muted" id="b-weak">最弱知识点 —</span>
+<header class="app-header">
+    <div class="header-row">
+        <a href="/" class="header-back" aria-label="回到首页">← 首页</a>
+        <div class="tutor-id">
+            <div class="avatar" id="tutor-avatar">墨</div>
+            <div class="tutor-name">
+                <h1 id="tutor-title">莫小语 · 你的私教</h1>
+                <div class="sub"><span id="b-memory">读取记忆中…</span> · <span id="b-weak">看你最近卡哪</span></div>
+            </div>
+        </div>
+        <a href="/radar" class="header-radar" id="hero-to-radar">家长视角 →</a>
     </div>
 </header>
 
-<div class="chat-container" id="chat">
-    <div class="empty-hint" id="empty-hint">
-        <p>这位老师记得你之前每个卡点。直接说你想问什么。</p>
-        <div class="quick">
-            <button data-q="一元一次方程怎么解我老忘">📝 一元一次方程怎么解</button>
-            <button data-q="分式去分母总忘乘整式项">🧮 分式去分母</button>
-            <button data-q="今天我该练什么">🎯 今天该练什么</button>
-            <button data-q="你还记得我之前哪里卡过吗">🧠 你还记得我吗</button>
+<main class="chat-wrap">
+    <div class="chat" id="chat">
+        <div class="empty-hint" id="empty-hint">
+            <div class="greeting-avatar">墨</div>
+            <div class="greeting-line">我是莫小语，你的数学私教。</div>
+            <div class="greeting-sub">直接说你想问什么，或者从下面挑一个开始。</div>
+            <div class="quick">
+                <button data-q="一元一次方程怎么解我老忘"><span class="qicon">📝</span>方程怎么解我老忘</button>
+                <button data-q="分式去分母总忘乘整式项"><span class="qicon">🧮</span>分式去分母总漏乘</button>
+                <button data-q="今天我该练什么"><span class="qicon">🎯</span>今天该练什么</button>
+                <button data-q="你还记得我之前哪里卡过吗"><span class="qicon">🧠</span>你还记得我吗</button>
+            </div>
         </div>
     </div>
-</div>
+</main>
 
 <div class="input-bar">
-    <div class="paste-warn" id="paste-warn">⚠️ 检测到长段粘贴 · 这是你自己想的吗？发送后老师会先问你的思路</div>
-    <div class="input-row">
-        <input id="msg" type="text" placeholder="说说你想学什么 / 卡在哪..." autocomplete="off">
-        <button id="send-btn">发送</button>
+    <div class="paste-warn" id="paste-warn">
+        <span class="icon">⚠️</span>
+        <span>看到你贴了一段过来，我会先问你的思路再帮你想——不是想为难你，是怕「贴一题等答案」养成习惯下次还卡</span>
+    </div>
+    <div class="input-row" id="input-row">
+        <input id="msg" type="text" placeholder="说说你想学什么，或者卡在哪一步…" autocomplete="off">
+        <button id="send-btn" class="send-btn" aria-label="发送">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
     </div>
 </div>
 
 <script>
 const params = new URLSearchParams(location.search);
 // 跨页身份桥：URL > localStorage > demo UUID
-// URL 有 student_id 时同步写 localStorage（覆盖），下次自动认人
 const _urlSid = params.get('student_id');
 const _lsSid = localStorage.getItem('yd:my_student_id');
 const _urlName = params.get('name');
@@ -248,20 +427,29 @@ const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
 const chat = document.getElementById('chat');
 const input = document.getElementById('msg');
 const sendBtn = document.getElementById('send-btn');
+const inputRow = document.getElementById('input-row');
 const emptyHint = document.getElementById('empty-hint');
 const pasteWarn = document.getElementById('paste-warn');
 const history = [];
 
-// 粘贴检测 · 反 Khanmigo 算错+反作弊（Think Before Speaking）
-const PASTE_THRESHOLD = 15;     // 超过 15 字判定为长段粘贴
+// 顶部副标题：用 NAME（如果不是默认「同学」）
+if (NAME && NAME !== '同学') {
+    document.getElementById('tutor-title').textContent = `莫小语 · ${NAME} 的私教`;
+}
+// 跳雷达带 student_id
+const _radarLink = document.getElementById('hero-to-radar');
+if (_radarLink) _radarLink.href = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+
+// 粘贴检测
+const PASTE_THRESHOLD = 15;
 let pasteState = { flagged: false, len: 0 };
 function updatePasteUI() {
     if (pasteState.flagged) {
         pasteWarn.classList.add('show');
-        input.classList.add('pasted');
+        inputRow.classList.add('pasted');
     } else {
         pasteWarn.classList.remove('show');
-        input.classList.remove('pasted');
+        inputRow.classList.remove('pasted');
     }
 }
 input.addEventListener('paste', e => {
@@ -272,28 +460,31 @@ input.addEventListener('paste', e => {
     }
 });
 input.addEventListener('input', () => {
-    // 若用户大幅删减（剩余长度小于粘贴长度的一半），认为已重新组织语言
     if (pasteState.flagged && input.value.length < Math.floor(pasteState.len / 2)) {
         pasteState = { flagged: false, len: 0 };
         updatePasteUI();
     }
 });
 
-document.getElementById('tutor-title').textContent = `原点 AI 私教 · ${NAME}`;
-// 顶部跳雷达链接带上当前 student_id + name，跨页同一个学生
-const _radarLink = document.getElementById('hero-to-radar');
-if (_radarLink) _radarLink.href = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
+function scrollToBottom() {
+    requestAnimationFrame(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+}
 
 function addBubble(role, text) {
-    if (emptyHint && !emptyHint.classList.contains('hidden')) {
-        emptyHint.style.display = 'none';
+    if (emptyHint) emptyHint.style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'bubble ' + role;
+    if (role === 'tutor') {
+        wrap.innerHTML = `<div class="b-avatar">墨</div><div class="b-content"></div>`;
+        wrap.querySelector('.b-content').textContent = text;
+    } else {
+        wrap.textContent = text;
     }
-    const div = document.createElement('div');
-    div.className = 'bubble ' + role;
-    div.textContent = text;
-    chat.appendChild(div);
-    chat.scrollIntoView({ block: 'end', behavior: 'smooth' });
-    return div;
+    chat.appendChild(wrap);
+    scrollToBottom();
+    return role === 'tutor' ? wrap.querySelector('.b-content') : wrap;
 }
 
 function addSystemHint(text) {
@@ -301,7 +492,14 @@ function addSystemHint(text) {
     div.className = 'bubble system';
     div.textContent = text;
     chat.appendChild(div);
-    chat.scrollIntoView({ block: 'end' });
+    scrollToBottom();
+}
+
+function makeDots() {
+    const dots = document.createElement('span');
+    dots.className = 'dots';
+    dots.innerHTML = '<span></span><span></span><span></span>';
+    return dots;
 }
 
 async function send(message) {
@@ -315,10 +513,9 @@ async function send(message) {
     updatePasteUI();
     sendBtn.disabled = true;
 
-    const tutorBubble = addBubble('tutor', '');
-    const cursor = document.createElement('span');
-    cursor.className = 'cursor';
-    tutorBubble.appendChild(cursor);
+    const tutorContent = addBubble('tutor', '');
+    const dots = makeDots();
+    tutorContent.appendChild(dots);
 
     let accumulated = '';
     try {
@@ -330,35 +527,32 @@ async function send(message) {
                 message,
                 session_id: SESSION_ID,
                 topic_code: TOPIC_CODE,
-                history: history.slice(0, -1),     // 不含刚加进去那条
-                is_pasted: isPasted,                // 反作弊信号 → 后端切换引导模式
+                history: history.slice(0, -1),
+                is_pasted: isPasted,
             }),
         });
         if (!resp.ok) {
-            // 429 / 503 / 502 等用人话替代裸 HTTP code，cursor 在 finally 里统一清
             let friendly;
             if (resp.status === 429) {
-                friendly = '老师有点忙，喘口气再问（30 秒后再发）';
+                friendly = '稍等一下，喘口气再问哦（30 秒后再发）';
             } else if (resp.status === 503) {
-                friendly = '老师暂时离线（503 服务未配齐），请稍后再试';
+                friendly = '服务暂时离线，等一下再试';
             } else if (resp.status === 502) {
-                friendly = '上游模型不在状态，先刷新一下';
+                friendly = '上游模型不在状态，先刷新看看';
             } else {
-                friendly = `[网络出错 ${resp.status}] ` + (await resp.text().catch(() => '')).slice(0, 120);
+                friendly = `[出错 ${resp.status}] ` + (await resp.text().catch(() => '')).slice(0, 120);
             }
-            tutorBubble.textContent = friendly;
+            tutorContent.textContent = friendly;
             return;
         }
 
-        // 顶部 badge 更新
         const memUsed = resp.headers.get('X-Memory-Used');
         const weakN = resp.headers.get('X-Weak-Kps');
         const pasteHit = resp.headers.get('X-Paste-Detected');
-        if (memUsed) document.getElementById('b-memory').textContent = `记忆 ${memUsed} 条`;
-        if (weakN) document.getElementById('b-weak').textContent = `最弱 ${weakN} KP`;
-        if (pasteHit === '1') addSystemHint('🔍 老师识别到你这条是粘贴的 · 它会先问你的思路（Think Before Speaking）');
+        if (memUsed) document.getElementById('b-memory').textContent = `记得 ${memUsed} 条`;
+        if (weakN) document.getElementById('b-weak').textContent = `最弱 ${weakN} 处`;
+        if (pasteHit === '1') addSystemHint('🔍 老师识到你这条是粘贴的 · 它会先问你的思路再开讲');
 
-        // SSE 流式累积
         const reader = resp.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
@@ -379,19 +573,17 @@ async function send(message) {
                     const delta = j.choices?.[0]?.delta?.content;
                     if (delta) {
                         accumulated += delta;
-                        tutorBubble.textContent = accumulated;
-                        tutorBubble.appendChild(cursor);
-                        chat.scrollIntoView({ block: 'end' });
+                        tutorContent.textContent = accumulated;
+                        scrollToBottom();
                     }
                 } catch (e) { /* skip */ }
             }
         }
         if (accumulated) history.push({ role: 'assistant', content: accumulated });
     } catch (e) {
-        tutorBubble.textContent = '[网络异常] ' + e.message;
+        tutorContent.textContent = '[网络异常] ' + e.message;
     } finally {
-        // cursor 在所有 return / throw 路径都被清掉，避免错误 bubble 仍有空白闪烁光标
-        if (cursor && cursor.parentNode) cursor.remove();
+        if (dots && dots.parentNode) dots.remove();
         sendBtn.disabled = false;
         input.focus();
     }
@@ -409,8 +601,11 @@ document.querySelectorAll('.quick button').forEach(btn => {
     btn.addEventListener('click', () => send(btn.dataset.q));
 });
 
-// 启动 hint
-addSystemHint(`已加载 · 学生 ID ${STUDENT_ID.slice(0, 8)}... · 第一句话老师会主动引用你的历史卡点`);
+// 启动 hint：根据用户身份显示不同欢迎
+if (IS_DEMO_USER) {
+    addSystemHint('👋 你正在用演示账号 · 想用自己的档案？← 回首页填 30 秒');
+}
+input.focus();
 </script>
 </body>
 </html>
