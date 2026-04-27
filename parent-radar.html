@@ -251,6 +251,13 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     </div>
 
     <!-- AI 已识别孩子的学习指纹（认知风格 + 兴趣锚点）-->
+    <!-- 今天孩子刚出师 → 同浏览器从 mastery-loop 读最新金句，妈妈第一眼看到的不是雷达图是这一句 -->
+    <div class="panel" id="latest-quote-panel" style="display:none; border-left: 3px solid var(--c-success); padding: 14px 18px; margin-top: 16px; background: linear-gradient(135deg, rgba(78,164,116,0.12), rgba(78,164,116,0.04)); border-radius: 8px;">
+        <div style="font-size: 0.78rem; color: var(--c-warm-dim); margin-bottom: 6px;">🌟 孩子今天刚出师 · <span id="latest-quote-time">—</span></div>
+        <div id="latest-quote-text" style="font-size: 1rem; line-height: 1.55; color: var(--c-warm-white); margin-bottom: 8px;"></div>
+        <div id="latest-quote-mom" style="font-size: 0.86rem; color: var(--c-warm-gray); padding-top: 8px; border-top: 1px dashed rgba(184,176,168,0.2);"></div>
+    </div>
+
     <div class="panel" id="profile-panel" style="display:none; border-left: 3px solid var(--c-origin); padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
         <h2 style="font-size: 1rem; margin-bottom: 6px;">🎯 AI 已识别孩子的学习指纹</h2>
         <p style="color: var(--c-warm-gray); font-size: 0.82rem; margin-bottom: 14px;">基于他和老师的对话，自动总结。学校老师面对 40 个孩子做不到这件事。</p>
@@ -515,6 +522,26 @@ function renderFsrsPanel(data) {
     });
 }
 
+// =========== 今日最新金句（同浏览器跨页 localStorage 桥）===========
+function renderLatestQuote() {
+    try {
+        const raw = localStorage.getItem('yd:lastQuote:' + STUDENT_ID);
+        if (!raw) return;
+        const q = JSON.parse(raw);
+        if (!q || !q.share_for_mom) return;
+        // 8 小时内的金句才显示，避免家长看到几天前旧的
+        if (Date.now() - (q.at || 0) > 8 * 3600 * 1000) return;
+        const minsAgo = Math.round((Date.now() - q.at) / 60000);
+        const timeLabel = minsAgo < 60 ? `${minsAgo} 分钟前` : `${Math.round(minsAgo / 60)} 小时前`;
+        document.getElementById('latest-quote-time').textContent = `${timeLabel} · ${q.topic || ''}`;
+        document.getElementById('latest-quote-text').innerHTML = q.quote
+            ? `「${q.quote}」<br><span style="font-size:0.84rem;opacity:0.78;">${q.sub_quote || ''}</span>`
+            : `（出师 · 用时 ${q.minutes || '?'} 分钟 · 掌握度 ${Math.round((q.mastery || 0) * 100)}%）`;
+        document.getElementById('latest-quote-mom').textContent = '👩 给妈妈的话：' + q.share_for_mom;
+        document.getElementById('latest-quote-panel').style.display = 'block';
+    } catch (e) { /* 静默 */ }
+}
+
 // =========== AI 学习指纹（认知风格 + 兴趣锚点 + 主导情绪 + 类比奏效率）===========
 const COG_STYLE_LABEL = {
     visual: { name: '偏视觉型', desc: '画图 / 图表帮助他理解' },
@@ -611,6 +638,7 @@ async function boot() {
     drawRadar(data.all_kcs, document.getElementById('radar-svg'));
     renderKcList(data.all_kcs);
     updateGlance(data.all_kcs);
+    renderLatestQuote();
     renderProfile(profile);
     renderFsrsPanel(fsrs);
     const rec = pickRecommendation(data.all_kcs);

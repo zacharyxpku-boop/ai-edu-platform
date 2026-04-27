@@ -973,6 +973,18 @@ async function fetchAchievementQuote(minutes) {
             // 留作给妈妈端的 share text，单独存到 dataset 供分享按钮使用
             const card = document.getElementById('brag-modal');
             if (card) card.dataset.shareForMom = data.share_for_mom;
+            // 同时写 localStorage：parent-radar 同浏览器打开时能直接读最新金句给妈妈看（同设备扫码场景）
+            try {
+                localStorage.setItem('yd:lastQuote:' + STUDENT_ID, JSON.stringify({
+                    topic: TOPIC,
+                    quote: data.quote || '',
+                    sub_quote: data.sub_quote || '',
+                    share_for_mom: data.share_for_mom,
+                    minutes,
+                    mastery: state.mastery,
+                    at: Date.now(),
+                }));
+            } catch (e) { /* localStorage 不可用就静默放弃 */ }
         }
     } catch (e) {
         logDebug && logDebug(`! achievement-quote err: ${e.message}`);
