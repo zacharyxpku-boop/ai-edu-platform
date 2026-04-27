@@ -139,6 +139,8 @@ a{color:inherit}
 
 <div class="wrap">
 
+  <div id="subject-context-mount"></div>
+
   <div id="streak-mount"></div>
 
   <div id="upnext-banner-mount"></div>
@@ -222,6 +224,27 @@ a{color:inherit}
 <script>
 try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
 try { if (window.TodayRecos && TodayRecos.renderUpNextBanner) TodayRecos.renderUpNextBanner('#upnext-banner-mount'); } catch(e){ console.warn('upnext banner', e); }
+// 学科上下文 chip: 当从学科 hub 的"周末复盘"打法卡跳进来时, 显示来源面包屑
+(function(){
+  const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治' };
+  const SUBJ_TONE = { math:'#2563EB', physics:'#7C3AED', chemistry:'#059669', biology:'#16A34A', chinese:'#DC2626', history:'#92400E', geography:'#0D9488', politics:'#EA580C' };
+  const SUBJ_HREF = { math:'/subjects/math.html', physics:'/subjects/physics.html', chemistry:'/subjects/chemistry.html', chinese:'/subjects/chinese.html', biology:'/subjects/?key=biology', history:'/subjects/?key=history', geography:'/subjects/?key=geography', politics:'/subjects/?key=politics' };
+  const m = location.search.match(/[?&]subject=([^&]+)/);
+  if (!m) return;
+  const key = decodeURIComponent(m[1]);
+  const zh = SUBJ_ZH[key]; if (!zh) return;
+  const tone = SUBJ_TONE[key] || '#52525B';
+  const href = SUBJ_HREF[key] || '/';
+  const mount = document.getElementById('subject-context-mount');
+  if (!mount) return;
+  mount.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:'+tone+'10;border:1px solid '+tone+'40;border-radius:10px;font-size:12.5px;margin:0 0 12px;flex-wrap:wrap">'
+    + '<span style="color:'+tone+';font-weight:800">📌 来自'+zh+'的周末复盘</span>'
+    + '<span style="color:#71717A">·</span>'
+    + '<span style="color:#52525B">本页统计仍是全学科, 复盘后 →</span>'
+    + '<a href="'+href+'" style="color:'+tone+';text-decoration:none;font-weight:700;margin-left:auto">回'+zh+'学科页 →</a>'
+    + '<a href="/weekly.html" style="color:#A1A1AA;text-decoration:underline;font-size:11px">看全学科 →</a>'
+    + '</div>';
+})();
 </script>
 <script>
 const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'政治', moral:'道法' };
