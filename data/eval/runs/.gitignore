@@ -1,0 +1,4 @@
+# 跑次日志归档不入库（含 LLM 真实输出，token 成本日志），仅 summary.txt 保留
+*
+!.gitignore
+!*/summary.txt
