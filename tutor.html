@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原点 AI 私教 · 这个老师记得你</title>
+<meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比、什么情绪的一对一私教">
+<style>
+:root {
+    --c-ink: #1A1A2E;
+    --c-ink-light: #16213E;
+    --c-ink-surface: #0F3460;
+    --c-origin: #E94D35;
+    --c-origin-soft: #FF6B4A;
+    --c-origin-glow: rgba(233,77,53,0.15);
+    --c-warm-white: #F5F0EB;
+    --c-warm-gray: #B8B0A8;
+    --c-warm-dim: #7A7067;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    background: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-light) 100%);
+    color: var(--c-warm-white);
+    min-height: 100vh;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+}
+h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+
+.hero {
+    text-align: center;
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid rgba(184,176,168,0.15);
+    background: rgba(0,0,0,0.2);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(12px);
+}
+.hero h1 { font-size: 1.1rem; }
+.hero .badges {
+    display: flex; gap: 6px; justify-content: center; margin-top: 4px; flex-wrap: wrap;
+}
+.hero .badge {
+    font-size: 0.72rem;
+    padding: 1px 8px;
+    border-radius: 100px;
+    background: var(--c-origin-glow);
+    color: var(--c-origin-soft);
+}
+.hero .badge.muted { background: rgba(184,176,168,0.1); color: var(--c-warm-gray); }
+
+.chat-container {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 18px 14px 100px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.96rem;
+    line-height: 1.65;
+    animation: fadeUp 0.3s ease-out;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.bubble.tutor {
+    align-self: flex-start;
+    background: var(--c-ink-light);
+    border-left: 3px solid var(--c-origin);
+    border-bottom-left-radius: 4px;
+    color: var(--c-warm-white);
+}
+.bubble.student {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
+    border-bottom-right-radius: 4px;
+    color: white;
+}
+.bubble.system {
+    align-self: center;
+    max-width: 95%;
+    background: rgba(212,168,67,0.1);
+    border: 1px dashed rgba(212,168,67,0.4);
+    color: var(--c-warm-gray);
+    font-size: 0.84rem;
+    padding: 8px 14px;
+}
+
+.bubble.tutor::before {
+    content: '老师';
+    display: block;
+    font-size: 0.72rem;
+    color: var(--c-origin-soft);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+.bubble .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--c-origin);
+    margin-left: 2px;
+    animation: blink 0.8s infinite;
+    vertical-align: middle;
+}
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+.input-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--c-ink);
+    border-top: 1px solid rgba(184,176,168,0.15);
+    padding: 12px 16px;
+    z-index: 100;
+}
+.input-row {
+    max-width: 720px; margin: 0 auto;
+    display: flex; gap: 10px;
+}
+.input-row input {
+    flex: 1;
+    background: var(--c-ink-light);
+    border: 1px solid rgba(184,176,168,0.2);
+    color: var(--c-warm-white);
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 100px;
+    font-family: inherit;
+}
+.input-row input:focus {
+    outline: none;
+    border-color: var(--c-origin);
+    box-shadow: 0 0 0 3px var(--c-origin-glow);
+}
+.input-row button {
+    background: linear-gradient(135deg, var(--c-origin), var(--c-origin-soft));
+    color: white;
+    border: none;
+    padding: 0 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.input-row button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.empty-hint {
+    text-align: center;
+    color: var(--c-warm-dim);
+    font-size: 0.88rem;
+    padding: 40px 20px 20px;
+}
+.empty-hint .quick {
+    margin-top: 14px;
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+}
+.quick button {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(184,176,168,0.2);
+    color: var(--c-warm-white);
+    padding: 8px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+}
+.quick button:hover { background: rgba(255,255,255,0.08); border-color: var(--c-origin); }
+
+@media (max-width: 480px) {
+    .bubble { max-width: 90%; font-size: 0.92rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <h1 id="tutor-title">原点 AI 私教</h1>
+    <div class="badges">
+        <span class="badge" id="b-memory">记忆 —</span>
+        <span class="badge muted" id="b-weak">最弱知识点 —</span>
+    </div>
+</header>
+
+<div class="chat-container" id="chat">
+    <div class="empty-hint" id="empty-hint">
+        <p>这位老师记得你之前每个卡点。直接说你想问什么。</p>
+        <div class="quick">
+            <button data-q="一元一次方程怎么解我老忘">📝 一元一次方程怎么解</button>
+            <button data-q="分式去分母总忘乘整式项">🧮 分式去分母</button>
+            <button data-q="今天我该练什么">🎯 今天该练什么</button>
+            <button data-q="你还记得我之前哪里卡过吗">🧠 你还记得我吗</button>
+        </div>
+    </div>
+</div>
+
+<div class="input-bar">
+    <div class="input-row">
+        <input id="msg" type="text" placeholder="说说你想学什么 / 卡在哪..." autocomplete="off">
+        <button id="send-btn">发送</button>
+    </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const STUDENT_ID = params.get('student_id') || '00000000-0000-0000-0000-000000000001';
+const TOPIC_CODE = params.get('topic_code') || null;
+const NAME = params.get('name') || '同学';
+const SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : null;
+
+const chat = document.getElementById('chat');
+const input = document.getElementById('msg');
+const sendBtn = document.getElementById('send-btn');
+const emptyHint = document.getElementById('empty-hint');
+const history = [];
+
+document.getElementById('tutor-title').textContent = `原点 AI 私教 · ${NAME}`;
+
+function addBubble(role, text) {
+    if (emptyHint && !emptyHint.classList.contains('hidden')) {
+        emptyHint.style.display = 'none';
+    }
+    const div = document.createElement('div');
+    div.className = 'bubble ' + role;
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    return div;
+}
+
+function addSystemHint(text) {
+    const div = document.createElement('div');
+    div.className = 'bubble system';
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollIntoView({ block: 'end' });
+}
+
+async function send(message) {
+    if (!message || !message.trim()) return;
+    if (emptyHint) emptyHint.style.display = 'none';
+    addBubble('student', message);
+    history.push({ role: 'user', content: message });
+    input.value = '';
+    sendBtn.disabled = true;
+
+    const tutorBubble = addBubble('tutor', '');
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    tutorBubble.appendChild(cursor);
+
+    let accumulated = '';
+    try {
+        const resp = await fetch('/api/tutor-chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id: STUDENT_ID,
+                message,
+                session_id: SESSION_ID,
+                topic_code: TOPIC_CODE,
+                history: history.slice(0, -1),     // 不含刚加进去那条
+            }),
+        });
+        if (!resp.ok) {
+            tutorBubble.textContent = `[出错 ${resp.status}] ` + (await resp.text()).slice(0, 200);
+            return;
+        }
+
+        // 顶部 badge 更新
+        const memUsed = resp.headers.get('X-Memory-Used');
+        const weakN = resp.headers.get('X-Weak-Kps');
+        if (memUsed) document.getElementById('b-memory').textContent = `记忆 ${memUsed} 条`;
+        if (weakN) document.getElementById('b-weak').textContent = `最弱 ${weakN} KP`;
+
+        // SSE 流式累积
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                const data = line.slice(6).trim();
+                if (!data || data === '[DONE]') continue;
+                try {
+                    const j = JSON.parse(data);
+                    const delta = j.choices?.[0]?.delta?.content;
+                    if (delta) {
+                        accumulated += delta;
+                        tutorBubble.textContent = accumulated;
+                        tutorBubble.appendChild(cursor);
+                        chat.scrollIntoView({ block: 'end' });
+                    }
+                } catch (e) { /* skip */ }
+            }
+        }
+        cursor.remove();
+        if (accumulated) history.push({ role: 'assistant', content: accumulated });
+    } catch (e) {
+        tutorBubble.textContent = '[网络异常] ' + e.message;
+    } finally {
+        sendBtn.disabled = false;
+        input.focus();
+    }
+}
+
+sendBtn.addEventListener('click', () => send(input.value));
+input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        send(input.value);
+    }
+});
+
+document.querySelectorAll('.quick button').forEach(btn => {
+    btn.addEventListener('click', () => send(btn.dataset.q));
+});
+
+// 启动 hint
+addSystemHint(`已加载 · 学生 ID ${STUDENT_ID.slice(0, 8)}... · 第一句话老师会主动引用你的历史卡点`);
+</script>
+</body>
+</html>
