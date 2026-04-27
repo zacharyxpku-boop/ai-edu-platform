@@ -440,7 +440,8 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 <script>
 const KP_LABELS = ['整式', '一元一次', '移项', '去分母', '应用题·行程', '应用题·工程', '应用题·浓度', '几何基础', '角', '数据'];
 const params = new URLSearchParams(location.search);
-const STUDENT_ID = params.get('student_id') || 'demo-student-001';
+// 默认 STUDENT_ID 与 mastery-loop / tutor / parent-radar / seed 套件统一（UUID 不是 hyphen 字符串）
+const STUDENT_ID = params.get('student_id') || '00000000-0000-0000-0000-000000000001';
 const CHILD_NAME = params.get('name') || '小米同学';
 const PERIOD = (params.get('period') || '4w').toLowerCase();   // '4w' | '1w' | '2w'
 const PERIOD_META = {
