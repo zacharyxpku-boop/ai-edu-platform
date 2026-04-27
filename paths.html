@@ -51,9 +51,10 @@ a{color:inherit}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3);margin-bottom:14px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:4px}
 .legend .lg-base{background:#F4F4F5;border:1px solid var(--bdr)}
-.legend .lg-read{background:var(--emerald)}
+.legend .lg-r1{background:#A7F3D0;border:1px solid #6EE7B7}
+.legend .lg-r2{background:#34D399}
+.legend .lg-r3{background:#047857}
 .legend .lg-err{background:var(--red)}
-.legend .lg-now{background:var(--amber)}
 
 /* path grid */
 #path-mount{margin-top:6px}
@@ -68,9 +69,11 @@ a{color:inherit}
 .gc-chs{display:flex;flex-wrap:wrap;gap:3px}
 .gc-chs a{display:inline-block;width:18px;height:18px;border-radius:3px;background:#F4F4F5;border:1px solid var(--bdr);font-size:9px;line-height:16px;text-align:center;font-weight:600;color:var(--ink3);text-decoration:none;font-family:var(--mono);transition:.12s}
 .gc-chs a:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
-.gc-chs a.read{background:var(--emerald);color:#fff;border-color:var(--emerald)}
-.gc-chs a.err{background:var(--red);color:#fff;border-color:var(--red)}
-.gc-chs a.both{background:linear-gradient(135deg,var(--emerald) 50%,var(--red) 50%);color:#fff;border-color:transparent}
+/* KA 4 态色阶：从浅到深表示掌握程度 */
+.gc-chs a.lvl-1{background:#A7F3D0;color:#065F46;border-color:#6EE7B7}        /* 已读基础 */
+.gc-chs a.lvl-2{background:#34D399;color:#fff;border-color:#10B981}             /* 已读 + 答过 */
+.gc-chs a.lvl-3{background:#047857;color:#fff;border-color:#065F46}             /* 已掌握(错题全 ≥3 阶) */
+.gc-chs a.err{background:var(--red);color:#fff;border-color:var(--red)}         /* 有活跃错题（红色优先） */
 .empty{padding:40px 20px;text-align:center;color:var(--ink4);font-size:13px;background:#fff;border:1px dashed var(--bdr2);border-radius:10px}
 
 @media(max-width:600px){
@@ -107,10 +110,11 @@ a{color:inherit}
   <div class="stage-tabs" id="stage-tabs"></div>
 
   <div class="legend">
-    <span><i class="lg-base"></i>未读章节</span>
-    <span><i class="lg-read"></i>已读</span>
-    <span><i class="lg-err"></i>有错题</span>
-    <span><i class="lg-now"></i>正在读</span>
+    <span><i class="lg-base"></i>未碰</span>
+    <span><i class="lg-r1"></i>读过</span>
+    <span><i class="lg-r2"></i>读 + 练</span>
+    <span><i class="lg-r3"></i>已掌握</span>
+    <span><i class="lg-err"></i>有活跃错题</span>
   </div>
 
   <div id="path-mount"><div class="empty">manifest 加载中...</div></div>
@@ -167,16 +171,27 @@ function renderStage(){
   const subjects = Object.keys(bySubject).sort();
   // 拉用户本地状态
   const readSet = new Set(safeGet('ydzx_textbook_read', []) || []);
-  let errMap = {}; // 'path::ch' → count
+  let errActive = {}, errMastered = {}; // 'path::ch' → count
   if (window.LearningStore && window.LearningStore.getErrors) {
     try {
       (window.LearningStore.getErrors() || []).forEach(e => {
         if (!e.textbookPath || e.textbookCh == null) return;
         const k = e.textbookPath + '::ch' + e.textbookCh;
-        errMap[k] = (errMap[k] || 0) + 1;
+        if ((e.reviewCount || 0) >= 3) errMastered[k] = (errMastered[k]||0) + 1;
+        else errActive[k] = (errActive[k]||0) + 1;
       });
     } catch(_){}
   }
+  // quiz 答题数据 → 该章是否练过
+  const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
+  // outcome 是按 quiz id 不直接知道章节，但只要"用户至少练过这一科任意题"就升一级（粗粒度）
+  const quizPracticedSubjects = new Set();
+  Object.keys(outcomes).forEach(id => {
+    // gen-{subject}-{...} 提取学科
+    const m = (id || '').match(/^(?:gen|ai)-([a-z]+)-/);
+    if (m) quizPracticedSubjects.add(m[1]);
+  });
+  const SUBJ_ZH_TO_KEY = {'数学':'math','物理':'physics','化学':'chemistry','生物学':'biology','语文':'chinese','英语':'english','历史':'history','地理':'geography','思想政治':'politics'};
 
   let html = '';
   subjects.forEach(subj => {
@@ -192,16 +207,25 @@ function renderStage(){
       const gradeLabel = (b.grade || '') + (b.volume ? ' · ' + b.volume : '');
       const chs = (b.chapters || []).sort((x,y) => x.ch - y.ch);
       let chsHtml = '';
+      const subjKey = SUBJ_ZH_TO_KEY[b.subject] || '';
+      const subjPracticed = quizPracticedSubjects.has(subjKey);
       chs.forEach(c => {
         const sig = b.path + '::ch' + c.ch;
         const isRead = readSet.has(sig);
-        const errN = errMap[sig] || 0;
+        const eA = errActive[sig] || 0;
+        const eM = errMastered[sig] || 0;
+        // KA 4 阶 mastery（红色优先级最高）
         let cls = '';
-        if (isRead && errN > 0) cls = 'both';
-        else if (errN > 0) cls = 'err';
-        else if (isRead) cls = 'read';
-        const title = `${b.path} · 第 ${c.ch} 章 · ${c.title || ''}` + (errN > 0 ? ` · 错题 ${errN}` : '');
-        chsHtml += `<a href="/tools/textbook-browser?book=${encodeURIComponent(b.path)}&ch=${c.ch}" class="${cls}" title="${title.replace(/"/g,'&quot;')}">${c.ch}</a>`;
+        if (eA > 0) cls = 'err';                                   // 还有活跃错题
+        else if (isRead && eM > 0) cls = 'lvl-3';                  // 错题全攻克 + 已读 = 真掌握
+        else if (isRead && subjPracticed) cls = 'lvl-2';           // 读 + 该学科练过题
+        else if (isRead) cls = 'lvl-1';                            // 仅读过
+        // else: lvl-0 = 灰底（默认 class 空）
+        const tipParts = [`${b.path} · 第 ${c.ch} 章`, c.title || ''];
+        if (eA > 0) tipParts.push(`活跃错题 ${eA}`);
+        if (eM > 0) tipParts.push(`已掌握错题 ${eM}`);
+        if (isRead && !eA && !eM) tipParts.push('已读');
+        chsHtml += `<a href="/tools/textbook-browser?book=${encodeURIComponent(b.path)}&ch=${c.ch}" class="${cls}" title="${tipParts.filter(Boolean).join(' · ').replace(/"/g,'&quot;')}">${c.ch}</a>`;
       });
       html += '<div class="grade-card">';
       html += `<div class="gc-title">${gradeLabel}</div>`;
