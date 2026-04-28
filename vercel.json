@@ -17,7 +17,13 @@
       ]
     },
     {
-      "source": "/((tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|index)?)",
+      "source": "/:page(tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|admin|tools|assistant|about|paths|question-bank|quiz)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=120" }
+      ]
+    },
+    {
+      "source": "/",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=120" }
       ]
