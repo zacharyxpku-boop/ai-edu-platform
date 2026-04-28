@@ -302,7 +302,36 @@ BEGIN
 END;
 $$;
 
-DO $$ BEGIN RAISE NOTICE '[5/5] PIPL 保留期限 + cleanup/user_delete 函数 ✓'; END $$;
+DO $$ BEGIN RAISE NOTICE '[5/6] PIPL 保留期限 + cleanup/user_delete 函数 ✓'; END $$;
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0012 · IRT-2PL discrimination 字段 + 启发式回填
+-- 修 FINAL-AUDIT 翻车点 #5：题库 a 字段全默认 → mastery 曲线没说服力
+-- ════════════════════════════════════════════════════════════════════
+
+ALTER TABLE questions
+  ADD COLUMN IF NOT EXISTS discrimination numeric(3,2)
+    CHECK (discrimination IS NULL OR (discrimination >= 0.3 AND discrimination <= 2.5));
+
+CREATE INDEX IF NOT EXISTS idx_questions_irt
+  ON questions(difficulty, discrimination)
+  WHERE is_active = true;
+
+-- 启发式回填：difficulty=0.5 → a=1.8（最区分）, 极端难度 → a≈1.0（信号弱）
+UPDATE questions
+   SET discrimination = ROUND(
+         GREATEST(0.30, LEAST(2.50,
+           1.0 + 0.8 * (1.0 - 4.0 * (difficulty - 0.5) * (difficulty - 0.5))
+              + (random() - 0.5) * 0.2
+         ))::numeric, 2
+       )
+ WHERE discrimination IS NULL AND difficulty IS NOT NULL;
+
+UPDATE questions
+   SET discrimination = ROUND((1.0 + (random() - 0.5) * 0.6)::numeric, 2)
+ WHERE discrimination IS NULL;
+
+DO $$ BEGIN RAISE NOTICE '[6/6] IRT discrimination 字段 + 回填 ✓'; END $$;
 
 -- ════════════════════════════════════════════════════════════════════
 -- 验证查询（跑完看一眼数字对得上就行）
@@ -321,4 +350,8 @@ SELECT '✅ moderation_logs 表存在（应 = 1）',      count(*)::int FROM inf
 UNION ALL
 SELECT '✅ students.expires_at 字段存在（应 = 1）', count(*)::int FROM information_schema.columns WHERE table_name = 'students' AND column_name = 'expires_at'
 UNION ALL
-SELECT '✅ cleanup_expired_data() 函数存在（应 = 1）', count(*)::int FROM pg_proc WHERE proname = 'cleanup_expired_data';
+SELECT '✅ cleanup_expired_data() 函数存在（应 = 1）', count(*)::int FROM pg_proc WHERE proname = 'cleanup_expired_data'
+UNION ALL
+SELECT '✅ questions.discrimination 字段存在（应 = 1）', count(*)::int FROM information_schema.columns WHERE table_name = 'questions' AND column_name = 'discrimination'
+UNION ALL
+SELECT '✅ discrimination 已回填非空题数（应 > 0）', COALESCE(count(*), 0)::int FROM questions WHERE discrimination IS NOT NULL;

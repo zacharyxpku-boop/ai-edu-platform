@@ -1,0 +1,38 @@
+# 学生 archetype 聚类 · 每天凌晨 2:30 UTC（北京 10:30）跑一次
+# 落档：docs/CHINESE-FAMILY-AI-MANAGER-V1.md / FINAL-AUDIT 模块 #12 archetype 55% → 75%
+# 把 students.goals.archetype 写满，让 v3 prompt 按学生 archetype 调风格
+
+name: archetype-cluster
+
+on:
+  schedule:
+    - cron: "30 2 * * *"     # 北京 10:30 每天一次
+  workflow_dispatch:           # 也允许手动 trigger（debug / 5.4 demo 前预热用）
+
+jobs:
+  cluster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Trigger archetype-cluster endpoint
+        env:
+          PROD_HOST: https://yuandianzhixue.com
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          set -e
+          echo "🧬 调 archetype-cluster endpoint..."
+          RESP=$(curl -sS -w "\n__HTTP_CODE__%{http_code}" \
+            -X POST "$PROD_HOST/api/cron-archetype-cluster" \
+            -H "Content-Type: application/json" \
+            -H "X-Admin-Token: $ADMIN_TOKEN" \
+            -d '{}')
+          CODE=$(echo "$RESP" | grep -o '__HTTP_CODE__[0-9]*' | grep -o '[0-9]*')
+          BODY=$(echo "$RESP" | sed 's/__HTTP_CODE__[0-9]*//')
+          echo "HTTP $CODE"
+          echo "$BODY" | head -c 1200
+          if [ "$CODE" != "200" ]; then
+            echo "::error::Archetype endpoint returned $CODE"
+            exit 1
+          fi
+          echo ""
+          echo "✅ 聚类完成"

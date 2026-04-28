@@ -837,12 +837,15 @@ async function callDiagnose(problem, correctAnswer, studentResponse) {
     }
 }
 
-async function callBKT(isCorrect, difficulty, timeMs) {
+async function callBKT(isCorrect, difficulty, discrimination, timeMs) {
+    const attempt = { is_correct: isCorrect, time_spent_ms: timeMs };
+    if (difficulty != null)     attempt.difficulty = difficulty;
+    if (discrimination != null) attempt.discrimination = discrimination;
     const body = {
         current_mastery: state.mastery,
-        attempts: [{ is_correct: isCorrect, difficulty, time_spent_ms: timeMs }]
+        attempts: [attempt]
     };
-    logDebug(`POST /api/bkt mastery_in=${state.mastery.toFixed(3)} correct=${isCorrect} d=${difficulty} t=${timeMs}ms`);
+    logDebug(`POST /api/bkt mastery_in=${state.mastery.toFixed(3)} correct=${isCorrect} d=${difficulty} a=${discrimination} t=${timeMs}ms`);
     try {
         const r = await fetch('/api/bkt', {
             method: 'POST',
@@ -894,7 +897,7 @@ async function onSubmit() {
 
     const prevMastery = state.mastery;
     // 答对：只调 BKT；答错：BKT + diagnose 并行
-    const tasks = [callBKT(isCorrect, q.difficulty, timeMs)];
+    const tasks = [callBKT(isCorrect, q.difficulty, q.discrimination, timeMs)];
     if (!isCorrect) tasks.push(callDiagnose(q.stem, q.answer, submitted));
     const [result, diagnose] = await Promise.all(tasks);
 

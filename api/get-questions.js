@@ -79,6 +79,8 @@ function normalize(row) {
         answer: row.answer,
         explanation: row.explanation || null,
         difficulty: row.difficulty != null ? Number(row.difficulty) : 0.5,
+        // 0012 migration 加的 IRT 区分度参数 a，缺失时回退 1.0
+        discrimination: row.discrimination != null ? Number(row.discrimination) : 1.0,
         type: row.type || (hasOptions ? 'mcq' : 'fill_blank'),
         kp_id: Array.isArray(row.knowledge_point_ids) ? row.knowledge_point_ids[0] : null,
     };
@@ -90,7 +92,7 @@ async function fetchQuestionsByKpIds(kpIds, limit, difficultyMax) {
     // PostgREST or() 拼一组 cs 谓词，命中任一 kp 即可
     const orParts = kpIds.map(id => `knowledge_point_ids.cs.{${id}}`);
     let q = `questions?or=(${orParts.join(',')})&is_active=eq.true`
-        + `&select=id,content,options,answer,explanation,difficulty,type,knowledge_point_ids`
+        + `&select=id,content,options,answer,explanation,difficulty,discrimination,type,knowledge_point_ids`
         + `&limit=${limit}`;
     if (difficultyMax != null) q += `&difficulty=lte.${difficultyMax}`;
     return pgQuery(q);
