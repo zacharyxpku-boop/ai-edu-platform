@@ -51,6 +51,50 @@ export default async function handler(req) {
     try { body = await req.json(); }
     catch (e) { return jsonErr(400, 'bad_json', '请求体不是合法 JSON'); }
 
+    // PATCH 模式 · 学生 profile 部分字段更新（非创建路径）
+    // 当前支持：visibility_mode（家长查阅权三态：opt_out/opt_summary/opt_in）
+    if (body && body.patch === true && body.student_id) {
+        const validModes = ['opt_out', 'opt_summary', 'opt_in'];
+        if (body.visibility_mode) {
+            if (!validModes.includes(body.visibility_mode)) {
+                return jsonErr(400, 'bad_visibility_mode', 'visibility_mode 必须是 opt_out/opt_summary/opt_in');
+            }
+            try {
+                const r = await fetch(`${SUPABASE_URL}/rest/v1/students?id=eq.${encodeURIComponent(body.student_id)}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': SUPABASE_SERVICE_KEY,
+                        'Authorization': 'Bearer ' + SUPABASE_SERVICE_KEY,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal',
+                    },
+                    body: JSON.stringify({
+                        meta: {
+                            visibility_mode: body.visibility_mode,
+                            mode_set_at: new Date().toISOString(),
+                        },
+                    }),
+                });
+                if (!r.ok) {
+                    const text = await r.text();
+                    return jsonErr(502, 'patch_failed', `Supabase ${r.status}: ${text.slice(0, 200)}`);
+                }
+            } catch (e) {
+                return jsonErr(502, 'upstream_unreachable', `Supabase 不可达: ${e.message}`);
+            }
+            return new Response(JSON.stringify({
+                ok: true,
+                student_id: body.student_id,
+                visibility_mode: body.visibility_mode,
+                engine_version: ENGINE_VERSION,
+            }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
+            });
+        }
+        return jsonErr(400, 'patch_no_field', 'patch 模式至少要带一个可更新字段（visibility_mode）');
+    }
+
     const { name, grade, stage = 'middle', subjects = ['math'], goals = {}, cohort } = body || {};
     if (!name || !grade) return jsonErr(400, 'missing_fields', 'name + grade 必填');
     if (!VALID_GRADES.has(grade)) return jsonErr(400, 'bad_grade', `grade 必须是 ${[...VALID_GRADES].join('|')}`);

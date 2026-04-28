@@ -231,6 +231,38 @@ body{
     transform:translateY(-1px);
     box-shadow:0 6px 18px rgba(15,79,61,0.30);
 }
+/* 家长查阅权三态选择（contract onboarding 第 5 段） */
+.contract-choice{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:8px;max-width:480px;margin:14px auto 8px;
+}
+.contract-opt{
+    background:var(--side);border:1.5px solid var(--bdr);
+    border-radius:10px;padding:12px 8px;
+    font-family:inherit;font-size:0.86rem;font-weight:600;
+    color:var(--ink);cursor:pointer;
+    display:flex;flex-direction:column;gap:4px;align-items:center;
+    transition:all 0.15s;
+}
+.contract-opt small{font-weight:400;font-size:0.72rem;color:var(--ink-mute);}
+.contract-opt:hover{border-color:var(--orange);transform:translateY(-1px);}
+.contract-opt.selected{background:var(--orange-bg);border-color:var(--orange);}
+.contract-opt.selected small{color:var(--orange);}
+.contract-skip{
+    display:block;margin:8px auto 0;
+    background:none;border:none;color:var(--ink-mute);
+    font-family:inherit;font-size:0.78rem;cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;
+}
+.contract-skip:hover{color:var(--orange);}
+/* 右上角隐私设置入口（小字弱视） */
+.header-privacy{
+    background:none;border:1px solid transparent;
+    color:var(--ink-mute);font-size:0.74rem;font-family:inherit;
+    padding:4px 10px;border-radius:8px;cursor:pointer;
+    opacity:0.7;transition:all 0.15s;
+}
+.header-privacy:hover{opacity:1;border-color:var(--bdr);color:var(--orange);}
 .bubble.system .body{
     background:var(--amber-bg);color:#B85C2E;
     border:1px solid rgba(184,92,46,0.30);
@@ -425,6 +457,7 @@ body{
                 <span class="mp-text" id="mp-text">— / 7 站</span>
                 <span class="mp-dots" id="mp-dots"></span>
             </div>
+            <button class="header-privacy" id="open-privacy" aria-label="隐私设置">🔒 隐私</button>
             <a href="/radar" class="header-radar" id="hero-to-radar">家长周报 →</a>
             <button class="mobile-r-toggle" id="mob-r-toggle" aria-label="学习进度">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg>
@@ -726,6 +759,23 @@ const radarHref = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${en
 document.getElementById('hero-to-radar').href = radarHref;
 document.getElementById('cta-radar').href = radarHref;
 
+// 右上角隐私入口 · 让孩子任何时候能改三态档位
+document.getElementById('open-privacy')?.addEventListener('click', () => {
+    const current = localStorage.getItem('yd:visibility_mode_v1') || 'opt_out';
+    const labelMap = { opt_out: '基础（只看摘要）', opt_summary: '精选（5 条/周）', opt_in: '全开（完整记录）' };
+    const choice = prompt(
+        `当前档位：${labelMap[current] || current}\n\n选择爸妈可见档位：\n1. 基础（只看摘要）\n2. 精选（5 条/周）\n3. 全开（完整记录）\n\n输入数字（1/2/3）或留空保持`,
+        '1'
+    );
+    if (!choice) return;
+    const map = { '1': 'opt_out', '2': 'opt_summary', '3': 'opt_in' };
+    if (map[choice]) {
+        // setVisibilityMode 会显示 system hint + 写 localStorage + PATCH 后端
+        // 这里 contract-choice/skip 已不存在，setVisibilityMode 的清理调用是 no-op，安全
+        if (typeof setVisibilityMode === 'function') setVisibilityMode(map[choice]);
+    }
+});
+
 // 当前 KP 同步右栏
 const kpDisplay = KP_NAME_HINT[TOPIC_CODE] || '解方程·移项';
 document.getElementById('now-kp').textContent = kpDisplay;
@@ -829,6 +879,7 @@ const CONTRACT_MESSAGES = [
     `你跟我说的话，**原文爸妈看不到**——你笑骂我、抱怨老师、说题烦你都行，我不会逐字告诉他们。`,
     `但你的学习进度、错题归因，我会做成简报给爸妈看——比如「他这周方程概念从 26% 推到 41%」这种。这是他们决定继不继续的依据。`,
     `如果你说严重的事——比如想伤害自己——我会立刻同时找爸妈和懂这方面的大人。这件事我不会瞒你。\n\n任何时候你想问「刚才那句爸妈会看到吗」，直接问我。`,
+    `${NAME}，最后一件事——你来选爸妈能看你多少：\n\n🔒 **基础**：他们只看到你这周学了啥、错过哪类（默认）\n👀 **精选**：他们每周能看 5 条你最有价值的对话片段（AI 挑选）\n📖 **全开**：他们能看完整聊天记录\n\n任何时候你都能改——在右上角「隐私」里。`,
 ];
 
 // 轻量 **粗体** 渲染（contract onboarding 专用，避免污染主 addBubble 的 textContent）
@@ -850,29 +901,70 @@ function renderContractBubble(text) {
     return wrap;
 }
 
+// 家长查阅权三态档位 · 学生自选 · localStorage key: yd:visibility_mode_v1
+const VISIBILITY_LABELS = {
+    opt_out:     '🔒 基础（只看摘要）',
+    opt_summary: '👀 精选（5 条/周）',
+    opt_in:      '📖 全开（完整记录）',
+};
+
+function setVisibilityMode(mode) {
+    if (!VISIBILITY_LABELS[mode]) mode = 'opt_out';
+    localStorage.setItem('yd:visibility_mode_v1', mode);
+    localStorage.setItem('yd:contract_acked_v1', new Date().toISOString());
+    // 后台 fire-and-forget · 学生 profile.meta 写一份
+    fetch('/api/student-init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            student_id: STUDENT_ID,
+            visibility_mode: mode,
+            patch: true,
+        }),
+    }).catch(() => {});
+    // 清掉 contract UI · 进入 welcome
+    document.querySelectorAll('.contract-choice, .contract-skip').forEach(el => el.remove());
+    if (welcomeBlock) welcomeBlock.style.display = '';
+    addSystemHint(`✓ 你选了「${VISIBILITY_LABELS[mode]}」· 任何时候可以改`);
+}
+
 async function runContractOnboarding() {
     if (localStorage.getItem('yd:contract_acked_v1')) return false;  // 已 ack 跳过
 
     // 暂时隐藏 welcome（避免 hero-av 与契约气泡视觉冲突）
     if (welcomeBlock) welcomeBlock.style.display = 'none';
 
-    // 4 段消息依次出现，每段 800ms 间隔
+    // 5 段消息依次出现，每段 800ms 间隔
     for (const msg of CONTRACT_MESSAGES) {
         renderContractBubble(msg);
         await new Promise(r => setTimeout(r, 800));
     }
 
-    // 末尾「我知道了」按钮
-    const btn = document.createElement('button');
-    btn.className = 'contract-cta';
-    btn.textContent = '我知道了，开始吧 →';
-    btn.onclick = () => {
-        localStorage.setItem('yd:contract_acked_v1', new Date().toISOString());
-        btn.remove();
-        // 重显 welcome（hero-av + 「咱们继续」+ 4 个 quick chip）
-        if (welcomeBlock) welcomeBlock.style.display = '';
-    };
-    chat.appendChild(btn);
+    // 末尾 3 选按钮 + skip 链
+    const choice = document.createElement('div');
+    choice.className = 'contract-choice';
+    choice.innerHTML = `
+        <button class="contract-opt" data-mode="opt_out">🔒 基础<small>只看摘要</small></button>
+        <button class="contract-opt" data-mode="opt_summary">👀 精选<small>5 条/周</small></button>
+        <button class="contract-opt" data-mode="opt_in">📖 全开<small>完整记录</small></button>
+    `;
+    chat.appendChild(choice);
+
+    const skip = document.createElement('button');
+    skip.className = 'contract-skip';
+    skip.id = 'contract-skip';
+    skip.textContent = '先用基础档 →';
+    chat.appendChild(skip);
+
+    choice.querySelectorAll('.contract-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+            choice.querySelectorAll('.contract-opt').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            setTimeout(() => setVisibilityMode(btn.dataset.mode), 180);
+        });
+    });
+    skip.addEventListener('click', () => setVisibilityMode('opt_out'));
+
     scrollToBottom();
     return true;
 }
