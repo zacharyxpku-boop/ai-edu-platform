@@ -694,6 +694,9 @@ img{max-width:100%;display:block}
         <a href="/welcome" class="hero-cta-primary">30 秒认识原小点 →</a>
         <a href="/parent-radar" class="hero-cta-secondary">家长视角先看一眼</a>
       </div>
+      <div style="margin-top:18px">
+        <a class="link-secondary" href="/report">已诊断过 · 查看我的报告</a>
+      </div>
       <div class="hero-trust">
         <span>· Bloom 2-Sigma · BKT · FSRS-4.5 ·</span>
         <span>· 单 KP 4 周 0.3 → 0.7 提升 ·</span>
@@ -760,6 +763,160 @@ img{max-width:100%;display:block}
     <div class="pricing-grid stagger" id="pricing-grid"></div>
     <div class="pricing-foot fade-up">
       不知道选哪档 · <a href="/products/compare">看完整对比 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 学员故事 · 编辑式三段 -->
+<style>
+.stories-head{text-align:left;margin-bottom:56px;max-width:720px}
+.stories-list{display:flex;flex-direction:column;gap:48px;max-width:1040px;margin:0 auto}
+.story{
+  display:grid;grid-template-columns:120px 1fr;gap:36px;align-items:start;
+  padding-top:48px;border-top:0.5px solid var(--border-default);
+}
+.story:first-child{border-top:0.5px solid var(--border-strong)}
+.story-avatar{
+  width:96px;height:96px;border-radius:50%;
+  background:var(--accent-primary);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif-sc);font-weight:500;font-size:38px;letter-spacing:0.04em;
+  flex-shrink:0;
+}
+.story-meta{
+  display:flex;flex-wrap:wrap;gap:10px 18px;
+  font-family:var(--font-en);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text-tertiary);margin-bottom:16px;
+}
+.story-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--text-muted);align-self:center}
+.story-h3{
+  font-family:var(--font-serif-sc);font-weight:500;font-size:22px;line-height:1.4;
+  color:var(--text-primary);margin-bottom:18px;letter-spacing:0.01em;
+}
+.story-ba{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:0.5px solid var(--border-default);border-radius:6px;overflow:hidden;
+  margin-bottom:20px;
+}
+.story-ba > div{padding:16px 18px;font-size:13px;line-height:1.7;color:var(--text-secondary)}
+.story-ba .before{background:var(--bg-secondary);border-right:0.5px solid var(--border-default)}
+.story-ba .after{background:var(--accent-light)}
+.story-ba .ba-label{
+  display:block;font-family:var(--font-en);font-size:10px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px;
+}
+.story-quote{
+  font-family:var(--font-serif-sc);font-style:normal;
+  font-size:15px;line-height:1.85;color:var(--text-primary);
+  padding-left:16px;border-left:2px solid var(--accent-primary);
+  margin-bottom:20px;
+}
+.story-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--accent-primary);
+  border-bottom:0.5px solid var(--accent-primary);padding-bottom:2px;
+  background:none;border-top:none;border-left:none;border-right:none;
+  cursor:pointer;font-family:inherit;
+  transition:opacity .15s;
+}
+.story-cta:hover{opacity:0.7}
+@media(max-width:720px){
+  .story{grid-template-columns:1fr;gap:20px}
+  .story-avatar{width:72px;height:72px;font-size:30px}
+  .story-ba{grid-template-columns:1fr}
+  .story-ba .before{border-right:none;border-bottom:0.5px solid var(--border-default)}
+}
+</style>
+<section class="section" id="stories">
+  <div class="container">
+    <div class="stories-head fade-up">
+      <div class="eyebrow-en">[Stories.]</div>
+      <h2 class="section-h2">不止 3000 个<br>但这 3 个最有代表性</h2>
+      <p class="section-lede">
+        每个孩子的卡点不一样, 路径也不一样。下面三段是从去年陪跑名单里挑的, 都同意公开姓氏 + 故事。看看哪一段最像你家孩子。
+      </p>
+    </div>
+
+    <div class="stories-list">
+
+      <article class="story fade-up">
+        <div class="story-avatar">张</div>
+        <div>
+          <div class="story-meta">
+            <span>张同学 · 初二</span><span class="dot"></span>
+            <span>线上系统课 · 2 个月</span><span class="dot"></span>
+            <span>数学</span>
+          </div>
+          <h3 class="story-h3">从「看到压轴题就放弃」, 到自己做出最后一道大题</h3>
+          <div class="story-ba">
+            <div class="before">
+              <span class="ba-label">Before</span>
+              数学常年 70 分以下, 看到压轴题就放弃, 错题本写一半就懒得抄。
+            </div>
+            <div class="after">
+              <span class="ba-label">After</span>
+              3 个月后期末数学 92 分, 自己做出最后一道大题, 主动跟妈妈讲解题思路。
+            </div>
+          </div>
+          <p class="story-quote">
+            「之前我们也报过两个网课, 都听不进去。原小点不一样, 它知道孩子卡在哪, 不会从头讲。她现在每天晚饭后自己打开练 20 分钟, 不用催。」 —— 张妈妈
+          </p>
+          <button class="story-cta" data-wechat-cta="hero-cta">看孩子能不能这样 · 加微信咨询 →</button>
+        </div>
+      </article>
+
+      <article class="story fade-up">
+        <div class="story-avatar">李</div>
+        <div>
+          <div class="story-meta">
+            <span>李同学 · 初三</span><span class="dot"></span>
+            <span>少年营 · 3 天</span><span class="dot"></span>
+            <span>方法 + 习惯</span>
+          </div>
+          <h3 class="story-h3">3 天少年营, 把「学不进去」拆成 5 个具体动作</h3>
+          <div class="story-ba">
+            <div class="before">
+              <span class="ba-label">Before</span>
+              中考前 4 个月还在 480 分附近徘徊, 一坐书桌就刷手机, 妈妈一管就吵架。
+            </div>
+            <div class="after">
+              <span class="ba-label">After</span>
+              营后第 6 周模考 537 分, 每天用番茄钟自己规划 3 个学习段, 错题当晚归因。
+            </div>
+          </div>
+          <p class="story-quote">
+            「他不是笨, 是没被教过怎么学。3 天下来回家像换了个人, 不是鸡血那种, 是真的知道下一步该干嘛了。冲刺阶段我没再插手, 他自己跑下来的。」 —— 李爸爸
+          </p>
+          <button class="story-cta" data-wechat-cta="hero-cta">看孩子能不能这样 · 加微信咨询 →</button>
+        </div>
+      </article>
+
+      <article class="story fade-up">
+        <div class="story-avatar">陈</div>
+        <div>
+          <div class="story-meta">
+            <span>陈同学 · 高一</span><span class="dot"></span>
+            <span>清北 4 对 1 陪跑 · 12 周</span><span class="dot"></span>
+            <span>全科 + 心态</span>
+          </div>
+          <h3 class="story-h3">12 周陪跑, 数理化从年级 200+ 进到前 50</h3>
+          <div class="story-ba">
+            <div class="before">
+              <span class="ba-label">Before</span>
+              中考侥幸进重点高中, 高一上学期被甩开, 数理化全部 60 分以下, 开始失眠。
+            </div>
+            <div class="after">
+              <span class="ba-label">After</span>
+              陪跑 12 周后期末数理化全部 85+, 年级排名 200+ 进到前 50, 睡眠回到 7 小时。
+            </div>
+          </div>
+          <p class="story-quote">
+            「四个清北学长每周轮着给孩子做规划, 不是辅导班那种刷题, 是真把每一道错题拆开讲。最关键是有人接孩子的情绪, 我和他爸不再是唯一的出口。这 12 周值。」 —— 陈妈妈
+          </p>
+          <button class="story-cta" data-wechat-cta="hero-cta">看孩子能不能这样 · 加微信咨询 →</button>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -984,6 +1141,7 @@ const io = new IntersectionObserver((entries)=>{
 },{ rootMargin: '0px 0px -100px 0px', threshold: 0.05 });
 document.querySelectorAll('.fade-up,.stagger').forEach(el => io.observe(el));
 </script>
+<script src="/src/wechat-cta.js" defer></script>
 <script src="/src/track.js"></script>
 </body>
 </html>

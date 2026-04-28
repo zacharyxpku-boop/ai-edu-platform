@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3 分钟 AI 诊断 · 第 2 步 · 答 10 题 | 原点智学</title>
+<meta name="description" content="10 道题快速判断 13 维度学习状态，AI 实时分析生成专属报告。">
+<meta name="ydzx-page" content="diagnose">
+<meta name="theme-color" content="#0F4F3D">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;
+  --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
+  --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
+  --accent-warm:#B85C2E;
+  --border-subtle:rgba(26,26,26,0.06);--border-default:rgba(26,26,26,0.10);--border-strong:rgba(26,26,26,0.20);
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans-sc);font-size:15px;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+.nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(250,247,240,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle);z-index:50}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 40px;display:flex;align-items:center}
+@media(max-width:768px){.nav-in{padding:0 24px}.nav{height:60px}}
+.brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:0.04em;color:var(--text-primary)}
+.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
+.back{font-size:13px;color:var(--text-secondary);margin-left:auto;border-bottom:0.5px solid var(--border-default);padding-bottom:1px;transition:color 200ms ease}
+.back:hover{color:var(--text-primary)}
+
+main{padding:140px 40px 100px;max-width:760px;margin:0 auto}
+@media(max-width:768px){main{padding:96px 24px 64px}}
+
+.steps{display:flex;gap:8px;margin-bottom:28px;font-family:var(--font-en);font-size:11px;color:var(--text-tertiary);letter-spacing:0.12em;text-transform:uppercase}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--border-strong);display:inline-block;margin-right:6px;vertical-align:middle}
+.step-dot.active{background:var(--accent-primary)}
+.step-dot.done{background:var(--accent-primary);opacity:.4}
+
+.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
+h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.4vw,44px);font-weight:500;letter-spacing:0.02em;line-height:1.2;color:var(--text-primary);margin-bottom:14px}
+.lede{font-size:15px;color:var(--text-secondary);line-height:1.8;margin-bottom:36px;max-width:560px}
+
+/* 进度 */
+.progress-row{display:flex;align-items:center;gap:14px;margin-bottom:28px;font-size:13px;color:var(--text-tertiary)}
+.progress-bar{flex:1;height:3px;background:var(--bg-secondary);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent-primary);width:0%;transition:width 280ms ease-out;border-radius:2px}
+.progress-num{font-family:var(--font-en);font-feature-settings:"tnum" 1;color:var(--text-primary);font-weight:500}
+
+/* 题卡 */
+.qcard{background:var(--bg-elevated);border:0.5px solid var(--border-subtle);border-radius:8px;padding:32px 28px;animation:slideIn .35s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-tertiary);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:14px;font-family:var(--font-en)}
+.q-meta b{color:var(--accent-primary);font-weight:500}
+.q-stem{font-family:var(--font-serif-sc);font-size:19px;font-weight:500;letter-spacing:0.02em;line-height:1.5;margin-bottom:24px;color:var(--text-primary)}
+.q-options{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.q-opt{padding:14px 18px;background:#fff;border:0.5px solid var(--border-default);border-radius:6px;cursor:pointer;font-size:14px;line-height:1.6;color:var(--text-primary);transition:all .15s;text-align:left;font-family:inherit}
+.q-opt:hover{border-color:var(--accent-primary);background:var(--accent-light)}
+.q-opt.selected{border-color:var(--accent-primary);background:var(--accent-light);color:var(--accent-primary);font-weight:500}
+.q-opt-letter{display:inline-block;width:22px;height:22px;border:0.5px solid var(--border-default);border-radius:50%;font-family:var(--font-en);font-size:12px;font-weight:500;line-height:21px;text-align:center;margin-right:10px;color:var(--text-tertiary);vertical-align:-3px}
+.q-opt.selected .q-opt-letter{background:var(--accent-primary);color:#fff;border-color:var(--accent-primary)}
+
+.q-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.q-skip{background:transparent;border:none;font:400 13px var(--font-sans-sc);color:var(--text-tertiary);cursor:pointer;text-decoration:underline}
+.q-skip:hover{color:var(--text-primary)}
+.q-next{padding:12px 28px;background:var(--accent-primary);color:#FAF7F0;border:none;border-radius:4px;font:500 14px var(--font-sans-sc);letter-spacing:0.04em;cursor:pointer;transition:background .15s}
+.q-next:hover{background:var(--accent-hover)}
+.q-next:disabled{background:var(--text-tertiary);cursor:not-allowed}
+
+/* loading */
+.loading{display:none;text-align:center;padding:48px 24px}
+.loading.on{display:block}
+.loading-mark{width:48px;height:48px;margin:0 auto 18px;border:2px solid var(--accent-light);border-top-color:var(--accent-primary);border-radius:50%;animation:spin 800ms linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-h{font-family:var(--font-serif-sc);font-size:20px;font-weight:500;letter-spacing:0.02em;margin-bottom:8px}
+.loading-step{font-size:13px;color:var(--text-secondary);line-height:1.85;margin-top:6px}
+
+/* error */
+.err{display:none;padding:16px 20px;background:#F5E8DF;color:#8B3A1F;border-radius:6px;font-size:13px;margin-top:16px;line-height:1.75}
+.err.on{display:block}
+
+.fineprint{font-size:11px;color:var(--text-tertiary);margin-top:32px;text-align:center;line-height:1.85;padding-top:24px;border-top:0.5px solid var(--border-subtle)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <a href="/" class="back">← 退出诊断</a>
+  </div>
+</nav>
+
+<main>
+  <div class="steps">
+    <span><span class="step-dot done"></span>基础信息</span>
+    <span><span class="step-dot active"></span>3 分钟答题</span>
+    <span><span class="step-dot"></span>查看报告</span>
+  </div>
+
+  <div class="eyebrow">[Step 02 of 03.]</div>
+  <h1 id="page-h1">问 <b style="color:var(--accent-primary);font-style:normal" id="hello-name">同学</b> 10 个问题</h1>
+  <p class="lede">凭直觉选, 不要纠结时间。AI 不评分对错, 只看你思考问题的方式。</p>
+
+  <div class="progress-row">
+    <span>已答 <span class="progress-num" id="prog-cur">0</span> / <span class="progress-num" id="prog-total">10</span></span>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div id="qcard-mount"></div>
+
+  <div class="loading" id="loading">
+    <div class="loading-mark"></div>
+    <div class="loading-h" id="loading-h">AI 正在分析...</div>
+    <div class="loading-step" id="loading-step">解析答题模式 · 13 维度评分中</div>
+  </div>
+
+  <div class="err" id="err"></div>
+
+  <p class="fineprint">数据全部本地保存 · 不上传服务器 · 报告可分享给孩子</p>
+</main>
+
+<script>
+// 题库 (10 道题 · 涵盖 13 维度的代理信号)
+const QUESTIONS = [
+  { id: 1, dim: '审题', stem: '看到一道复杂题, 你最常先做哪一步?',
+    opts: [
+      { v: 'A', t: '马上动笔, 边算边想' },
+      { v: 'B', t: '先把已知条件列在草稿纸上' },
+      { v: 'C', t: '想几分钟没思路就跳过' },
+      { v: 'D', t: '反复读题 3-5 遍才动手' }
+    ]
+  },
+  { id: 2, dim: '错题复盘', stem: '上次月考错的题, 一周后再做相同题型, 你的状态是?',
+    opts: [
+      { v: 'A', t: '又错一遍 / 错在同一类问题' },
+      { v: 'B', t: '能做对但要花很长时间' },
+      { v: 'C', t: '能很快做对' },
+      { v: 'D', t: '从来没复盘过错题' }
+    ]
+  },
+  { id: 3, dim: '速度', stem: '一节课 45 分钟, 老师让做 8 道题, 你通常?',
+    opts: [
+      { v: 'A', t: '只能做完 4-5 道' },
+      { v: 'B', t: '正好做完但来不及检查' },
+      { v: 'C', t: '提前做完, 还能检查 1 遍' },
+      { v: 'D', t: '速度时快时慢, 看心情' }
+    ]
+  },
+  { id: 4, dim: '概念深度', stem: '老师讲完一个新公式, 你能?',
+    opts: [
+      { v: 'A', t: '记下来直接套公式做题' },
+      { v: 'B', t: '能用 1-2 句话解释这个公式为什么成立' },
+      { v: 'C', t: '能想到这个公式跟之前学的什么有关' },
+      { v: 'D', t: '听完很快就忘了' }
+    ]
+  },
+  { id: 5, dim: '迁移能力', stem: '题型稍微变一下 (比如把"求面积"换成"求高"), 你?',
+    opts: [
+      { v: 'A', t: '基本不会, 跟练习的不一样' },
+      { v: 'B', t: '想一会儿能反应过来' },
+      { v: 'C', t: '能很快看出来本质是同一类' },
+      { v: 'D', t: '看情况, 简单的可以' }
+    ]
+  },
+  { id: 6, dim: '记忆策略', stem: '背 50 个英语单词 / 古文实词, 你的方法是?',
+    opts: [
+      { v: 'A', t: '反复看反复抄, 直到记住' },
+      { v: 'B', t: '编故事 / 拆字根 / 分组记忆' },
+      { v: 'C', t: '隔天复习, 一周内重复 3-4 次' },
+      { v: 'D', t: '考前临时抱佛脚' }
+    ]
+  },
+  { id: 7, dim: '思维输出', stem: '让你给同学讲一道你刚学会的题, 你能?',
+    opts: [
+      { v: 'A', t: '会做但讲不清楚' },
+      { v: 'B', t: '照课本/老师的话说一遍' },
+      { v: 'C', t: '能用自己的话把核心思路讲明白' },
+      { v: 'D', t: '能讲, 还能告诉对方哪里容易错' }
+    ]
+  },
+  { id: 8, dim: '专注', stem: '写作业时, 你的注意力?',
+    opts: [
+      { v: 'A', t: '能连续专注 45 分钟以上' },
+      { v: 'B', t: '20-30 分钟就要起来走动' },
+      { v: 'C', t: '不到 15 分钟就走神 / 摸手机' },
+      { v: 'D', t: '看心情, 喜欢的科目能很久' }
+    ]
+  },
+  { id: 9, dim: '计算/书写', stem: '考试中因为低级错误丢的分?',
+    opts: [
+      { v: 'A', t: '很少, 不到 5 分' },
+      { v: 'B', t: '5-10 分, 主要是计算和抄错数' },
+      { v: 'C', t: '10-20 分, 经常因为粗心丢' },
+      { v: 'D', t: '说不清, 没统计过' }
+    ]
+  },
+  { id: 10, dim: '元认知', stem: '让你说"今天我哪一科哪个章节最薄弱", 你?',
+    opts: [
+      { v: 'A', t: '能立刻说出具体到知识点' },
+      { v: 'B', t: '大概知道哪一科, 说不出具体哪章' },
+      { v: 'C', t: '只知道哪一科分数低' },
+      { v: 'D', t: '完全没头绪' }
+    ]
+  }
+];
+
+let currentIdx = 0;
+const answers = [];
+
+function getStudent() {
+  try {
+    return {
+      name: localStorage.getItem('yd:my_name') || '同学',
+      grade: localStorage.getItem('yd:my_grade') || '',
+    };
+  } catch (e) { return { name: '同学', grade: '' }; }
+}
+
+function init() {
+  const s = getStudent();
+  document.getElementById('hello-name').textContent = s.name;
+  document.getElementById('prog-total').textContent = QUESTIONS.length;
+  renderQ(0);
+}
+
+function renderQ(idx) {
+  const q = QUESTIONS[idx];
+  if (!q) return;
+  const mount = document.getElementById('qcard-mount');
+  const opts = q.opts.map(o =>
+    `<button class="q-opt" data-v="${o.v}"><span class="q-opt-letter">${o.v}</span>${o.t}</button>`
+  ).join('');
+  mount.innerHTML = `
+    <div class="qcard">
+      <div class="q-meta">第 <b>${idx + 1}</b> 题 / ${QUESTIONS.length} · 维度 ${q.dim}</div>
+      <div class="q-stem">${q.stem}</div>
+      <div class="q-options">${opts}</div>
+      <div class="q-actions">
+        <button class="q-skip" data-skip>跳过这题</button>
+        <button class="q-next" id="q-next" disabled>下一题 →</button>
+      </div>
+    </div>`;
+
+  let selected = null;
+  mount.querySelectorAll('.q-opt').forEach(b => {
+    b.addEventListener('click', () => {
+      mount.querySelectorAll('.q-opt').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      selected = b.dataset.v;
+      document.getElementById('q-next').disabled = false;
+    });
+  });
+
+  mount.querySelector('[data-skip]').addEventListener('click', () => {
+    answers.push({ q: q.stem, a: '', dim: q.dim, idx: idx + 1 });
+    next();
+  });
+
+  document.getElementById('q-next').addEventListener('click', () => {
+    if (!selected) return;
+    const text = q.opts.find(o => o.v === selected)?.t || selected;
+    answers.push({ q: q.stem, a: `${selected}. ${text}`, dim: q.dim, idx: idx + 1 });
+    next();
+  });
+}
+
+function next() {
+  currentIdx++;
+  document.getElementById('prog-cur').textContent = currentIdx;
+  document.getElementById('prog-fill').style.width = `${(currentIdx / QUESTIONS.length) * 100}%`;
+  if (currentIdx >= QUESTIONS.length) {
+    submit();
+  } else {
+    renderQ(currentIdx);
+  }
+}
+
+async function submit() {
+  document.getElementById('qcard-mount').innerHTML = '';
+  const loading = document.getElementById('loading');
+  loading.classList.add('on');
+
+  const lstep = document.getElementById('loading-step');
+  const steps = ['解析答题模式 · 13 维度评分中', '生成知识漏洞地图...', '匹配最适合的提分方案...'];
+  let si = 0;
+  const stepTimer = setInterval(() => {
+    si = (si + 1) % steps.length;
+    lstep.textContent = steps[si];
+  }, 1100);
+
+  const s = getStudent();
+  const payload = {
+    name: s.name,
+    grade: s.grade,
+    subject: '综合',
+    answers: answers.map(a => ({ q: a.q, a: a.a }))
+  };
+
+  try {
+    const r = await fetch('/api/openai-diagnose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    clearInterval(stepTimer);
+
+    if (!r.ok) {
+      const data = await r.json().catch(() => ({}));
+      throw new Error(data.error || `HTTP ${r.status}`);
+    }
+    const report = await r.json();
+    try {
+      localStorage.setItem('yd:diagnose_report', JSON.stringify({
+        report, payload, ts: Date.now()
+      }));
+    } catch (e) {}
+    if (window.YDZX_TRACK) YDZX_TRACK.event('diagnose_complete', { dimensions: report.dimensions?.length || 0 });
+    location.href = '/report';
+  } catch (e) {
+    clearInterval(stepTimer);
+    loading.classList.remove('on');
+    const err = document.getElementById('err');
+    err.classList.add('on');
+    err.innerHTML = '出错了 · ' + (e.message || '未知错误') +
+      '<br><button onclick="location.reload()" style="margin-top:8px;padding:6px 14px;background:var(--accent-primary);color:#fff;border:none;border-radius:4px;font:500 12px var(--font-sans-sc);cursor:pointer">重新诊断</button>';
+  }
+}
+
+init();
+</script>
+<script src="/src/track.js"></script>
+</body>
+</html>

@@ -88,6 +88,10 @@
     .tag-review{background:var(--bg-2);color:var(--ink)}
     .tag-think{background:var(--bg-3);color:var(--ink)}
     .tag-age{background:var(--ok-bg);color:var(--ok-ink)}
+    .article-wip{display:inline-block;font-size:10px;font-weight:400;padding:2px 8px;border-radius:3px;background:rgba(0,0,0,0.05);color:var(--ink-3);letter-spacing:.3px;margin-left:8px;vertical-align:middle}
+    .article.is-wip{cursor:default;opacity:0.85}
+    .article.is-wip:hover{padding-left:0}
+    .article.is-wip:hover h3{color:var(--ink)}
     .article h3{font-size:16px;font-weight:500;margin-bottom:6px;line-height:1.45;color:var(--ink)}
     .article:hover h3{color:var(--primary)}
     .article p{font-size:13px;color:var(--ink-2);line-height:1.7}
@@ -138,7 +142,7 @@
     <div class="sec-eyebrow">[Latest.]</div>
     <h2 class="sec-h2">6 篇正在被家长读</h2>
     <div class="articles">
-        <a href="#" class="article">
+        <a href="articles/beijing-students-ai-survey" class="article">
             <div>
                 <h3>18 个北京中学生里，只有 1 个在用 AI 做这件事</h3>
                 <p>采访 18 个北京名校中学生，17 个把 AI 当百度用，第 18 个用 Claude 给自己写了一个背古文的小工具。消费者和创造者的分水岭，在开始的时候就定型了。</p>
@@ -146,7 +150,7 @@
             </div>
             <span class="article-tag tag-think">认知</span>
         </a>
-        <a href="#" class="article">
+        <a href="articles/tonight-5-things" class="article">
             <div>
                 <h3>今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南</h3>
                 <p>不需要任何工具，不需要会编程。打开任意 AI 助手，输入一段话，让孩子跟它聊一道作业题。附完整提示词模板。</p>
@@ -154,31 +158,31 @@
             </div>
             <span class="article-tag tag-guide">实操</span>
         </a>
-        <a href="#" class="article">
+        <div class="article is-wip">
             <div>
-                <h3>豆包 vs Kimi vs 通义千问 · 哪个最适合初中生</h3>
+                <h3>豆包 vs Kimi vs 通义千问 · 哪个最适合初中生<span class="article-wip">连载中</span></h3>
                 <p>用同一道数学题、同一篇作文、同一个英语对话测试三款免费 AI。结论可能跟你想的不一样。</p>
                 <div class="article-meta">工具测评系列 · 第 1 篇</div>
             </div>
             <span class="article-tag tag-review">测评</span>
-        </a>
-        <a href="#" class="article">
+        </div>
+        <div class="article is-wip">
             <div>
-                <h3>6 岁、10 岁、14 岁 · 三个年龄段接触 AI 的正确姿势</h3>
+                <h3>6 岁、10 岁、14 岁 · 三个年龄段接触 AI 的正确姿势<span class="article-wip">连载中</span></h3>
                 <p>6 岁重在好奇心保护，10 岁重在提问训练，14 岁重在判断力培养。每个年龄段给 3 条具体建议。</p>
                 <div class="article-meta">分龄系列 · 第 1 篇</div>
             </div>
             <span class="article-tag tag-age">分龄</span>
-        </a>
-        <a href="#" class="article">
+        </div>
+        <div class="article is-wip">
             <div>
-                <h3>AI 时代，「聪明」可能不值钱了</h3>
+                <h3>AI 时代，「聪明」可能不值钱了<span class="article-wip">连载中</span></h3>
                 <p>AI 最擅长帮聪明孩子更快拿到答案。那不聪明但有韧性的孩子呢？也许他们才是 AI 时代的赢家。</p>
                 <div class="article-meta">认知系列 · 第 2 篇</div>
             </div>
             <span class="article-tag tag-think">认知</span>
-        </a>
-        <a href="#" class="article">
+        </div>
+        <a href="articles/feynman-x-ai" class="article">
             <div>
                 <h3>费曼学习法 × AI · 让孩子教 AI，比 AI 教孩子更有效</h3>
                 <p>反过来让孩子当老师，AI 当学生。孩子讲不清楚的地方就是没真懂的地方。附完整操作流程。</p>
@@ -193,7 +197,7 @@
     <div class="cta-box">
         <h3>关注「原点 AI 学堂」</h3>
         <p>每周更新，不买课也值得看。</p>
-        <button class="cta-btn" data-lead-kind="newsletter" data-lead-title="订阅「原点家长周刊」" data-lead-sub="每周一封邮件 / 微信推送，不买课也能跟着精选方法成长。">订阅每周更新</button>
+        <button class="cta-btn" data-wechat-cta="newsletter">加微信订阅每周更新</button>
     </div>
 </div>
 
@@ -202,6 +206,7 @@
 </div></footer>
 
 <script src="/src/lead-modal.js" defer></script>
+<script src="/src/wechat-cta.js" defer></script>
 <script src="/src/track.js"></script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>

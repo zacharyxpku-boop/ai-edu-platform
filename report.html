@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>诊断报告 · 13 维度学习状态分析 | 原点智学</title>
+<meta name="description" content="基于 10 题快速判断, AI 实时分析孩子 13 个维度的学习状态, 给出具体提升路径。">
+<meta name="ydzx-page" content="report">
+<meta name="theme-color" content="#0F4F3D">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;--bg-3:#EAE6DC;
+  --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
+  --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
+  --accent-warm:#B85C2E;--accent-warm-light:#F5E8DF;
+  --border-subtle:rgba(26,26,26,0.06);--border-default:rgba(26,26,26,0.10);--border-strong:rgba(26,26,26,0.20);
+  --pain-bg:#F5E8DF;--pain-ink:#8B3A1F;
+  --ok-bg:#E8EFE9;--ok-ink:#0F4F3D;
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans-sc);font-size:15px;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+.nav{position:sticky;top:0;left:0;right:0;height:68px;background:rgba(250,247,240,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle);z-index:50}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 40px;display:flex;align-items:center}
+@media(max-width:768px){.nav-in{padding:0 24px}.nav{height:60px}}
+.brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:0.04em;color:var(--text-primary)}
+.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
+.nav-cta{margin-left:auto;padding:8px 18px;background:var(--accent-primary);color:#FAF7F0;border:none;border-radius:4px;font:500 13px var(--font-sans-sc);cursor:pointer;letter-spacing:0.04em;transition:background .15s}
+.nav-cta:hover{background:var(--accent-hover)}
+
+main{padding:80px 40px 40px;max-width:880px;margin:0 auto}
+@media(max-width:768px){main{padding:48px 24px 32px}}
+
+.steps{display:flex;gap:8px;margin-bottom:28px;font-family:var(--font-en);font-size:11px;color:var(--text-tertiary);letter-spacing:0.12em;text-transform:uppercase}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--border-strong);display:inline-block;margin-right:6px;vertical-align:middle}
+.step-dot.done{background:var(--accent-primary);opacity:.4}
+.step-dot.active{background:var(--accent-primary)}
+
+.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
+h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.4vw,46px);font-weight:500;letter-spacing:0.02em;line-height:1.18;color:var(--text-primary);margin-bottom:16px}
+.lede{font-size:15px;color:var(--text-secondary);line-height:1.85;margin-bottom:48px;max-width:680px}
+.lede b{color:var(--text-primary);font-weight:500}
+
+/* Summary card */
+.summary{background:var(--bg-elevated);border:0.5px solid var(--border-subtle);border-radius:8px;padding:32px 28px;margin-bottom:32px}
+.summary-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:13px;color:var(--accent-primary);margin-bottom:12px;letter-spacing:0.01em}
+.summary-text{font-family:var(--font-serif-sc);font-size:18px;font-weight:400;line-height:1.75;color:var(--text-primary);letter-spacing:0.02em}
+
+/* Dimensions grid */
+.section-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:14px}
+.section-h2{font-family:var(--font-serif-sc);font-size:24px;font-weight:500;letter-spacing:0.02em;line-height:1.3;margin-bottom:24px;color:var(--text-primary)}
+.dims{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:48px}
+.dim{background:var(--bg-elevated);border:0.5px solid var(--border-subtle);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.dim:hover{border-color:var(--border-strong)}
+.dim.weak{border-left:2px solid var(--accent-warm)}
+.dim.ok{border-left:2px solid var(--accent-primary)}
+.dim-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.dim-name{font-size:14px;font-weight:500;color:var(--text-primary)}
+.dim-score{font-family:var(--font-en);font-feature-settings:"tnum" 1;font-size:18px;font-weight:500;color:var(--text-primary);letter-spacing:-0.02em}
+.dim.weak .dim-score{color:var(--accent-warm)}
+.dim.ok .dim-score{color:var(--accent-primary)}
+.dim-bar{height:3px;background:var(--bg-3);border-radius:2px;overflow:hidden}
+.dim-bar-fill{height:100%;background:var(--text-tertiary);border-radius:2px;transition:width .6s ease-out}
+.dim.weak .dim-bar-fill{background:var(--accent-warm)}
+.dim.ok .dim-bar-fill{background:var(--accent-primary)}
+.dim-gap{font-size:12px;color:var(--text-secondary);line-height:1.65}
+.dim-hint{font-size:11px;color:var(--text-tertiary);font-style:italic;margin-top:2px;line-height:1.65}
+
+/* Recommendation block */
+.reco{background:var(--bg-secondary);border:0.5px solid var(--border-subtle);border-radius:8px;padding:32px 28px;margin-bottom:48px}
+.reco-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:13px;color:var(--accent-primary);margin-bottom:12px;letter-spacing:0.01em}
+.reco h3{font-family:var(--font-serif-sc);font-size:20px;font-weight:500;letter-spacing:0.02em;margin-bottom:14px;color:var(--text-primary)}
+.reco p{font-size:14px;color:var(--text-secondary);line-height:1.85}
+.reco p+p{margin-top:10px}
+
+/* Match card · 主转化 */
+.match{background:var(--text-primary);color:#FAF7F0;border-radius:8px;padding:40px 36px;margin-bottom:32px;position:relative;overflow:hidden}
+.match::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-warm)}
+.match-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-warm);margin-bottom:14px;letter-spacing:0.01em}
+.match h3{font-family:var(--font-serif-sc);font-size:28px;font-weight:500;letter-spacing:0.02em;margin-bottom:14px;color:#FAF7F0}
+.match p.match-reason{font-size:14px;color:#CFC9BB;line-height:1.85;margin-bottom:24px;max-width:620px}
+.match-meta{display:flex;align-items:baseline;gap:18px;margin-bottom:28px;flex-wrap:wrap}
+.match-price{font-family:var(--font-en);font-feature-settings:"tnum" 1;font-size:38px;font-weight:400;color:#FAF7F0;letter-spacing:-0.02em;line-height:1}
+.match-price .cur{font-size:18px;color:#CFC9BB;margin-right:4px;vertical-align:5px}
+.match-period{font-size:13px;color:#CFC9BB}
+.match-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{padding:14px 28px;background:var(--accent-warm);color:#FAF7F0;border:none;border-radius:4px;font:500 14px var(--font-sans-sc);letter-spacing:0.04em;cursor:pointer;transition:background .15s}
+.btn-primary:hover{background:#A04C25}
+.btn-ghost{padding:14px 22px;background:transparent;color:#FAF7F0;border:0.5px solid rgba(255,255,255,0.3);border-radius:4px;font:500 14px var(--font-sans-sc);cursor:pointer;letter-spacing:0.04em;transition:all .15s}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.5)}
+
+/* Other tiers (smaller) */
+.alt{background:var(--bg-elevated);border:0.5px solid var(--border-subtle);border-radius:8px;padding:24px 26px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;transition:border-color .15s}
+.alt:hover{border-color:var(--border-strong)}
+.alt-info{flex:1;min-width:240px}
+.alt-name{font-family:var(--font-serif-sc);font-size:16px;font-weight:500;letter-spacing:0.02em;margin-bottom:4px}
+.alt-sub{font-size:12px;color:var(--text-tertiary);line-height:1.7}
+.alt-price{font-family:var(--font-en);font-feature-settings:"tnum" 1;font-size:22px;font-weight:500;color:var(--text-primary);letter-spacing:-0.02em}
+.alt-cta{padding:10px 18px;background:transparent;color:var(--text-primary);border:0.5px solid var(--border-strong);border-radius:4px;font:500 13px var(--font-sans-sc);letter-spacing:0.04em;cursor:pointer;transition:all .15s}
+.alt-cta:hover{background:var(--text-primary);color:#FAF7F0}
+
+/* Loading */
+.loading{display:flex;flex-direction:column;align-items:center;padding:96px 24px;text-align:center}
+.loading-mark{width:48px;height:48px;margin-bottom:18px;border:2px solid var(--accent-light);border-top-color:var(--accent-primary);border-radius:50%;animation:spin 800ms linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-h{font-family:var(--font-serif-sc);font-size:20px;font-weight:500;letter-spacing:0.02em;margin-bottom:6px}
+.loading-sub{font-size:13px;color:var(--text-secondary)}
+
+/* Empty state */
+.empty{padding:80px 32px;text-align:center;background:var(--bg-secondary);border-radius:8px}
+.empty h2{font-family:var(--font-serif-sc);font-size:22px;font-weight:500;margin-bottom:12px}
+.empty p{font-size:14px;color:var(--text-secondary);margin-bottom:24px;line-height:1.85;max-width:480px;margin-left:auto;margin-right:auto}
+.empty .btn-primary{background:var(--accent-primary);display:inline-block;text-decoration:none}
+.empty .btn-primary:hover{background:var(--accent-hover)}
+
+/* Sticky CTA bottom */
+.cta-sticky{position:fixed;bottom:0;left:0;right:0;background:var(--text-primary);color:#FAF7F0;padding:14px 24px;z-index:40;display:none;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 -8px 24px rgba(0,0,0,0.18)}
+.cta-sticky.on{display:flex}
+.cta-sticky-text{font-size:13px;color:#CFC9BB;flex:1;min-width:200px;line-height:1.6}
+.cta-sticky-text b{color:#FAF7F0;font-weight:500}
+.cta-sticky button{padding:11px 22px;background:var(--accent-warm);color:#FAF7F0;border:none;border-radius:4px;font:500 13px var(--font-sans-sc);letter-spacing:0.04em;cursor:pointer}
+.cta-sticky button:hover{background:#A04C25}
+@media(max-width:600px){.cta-sticky-text{display:none}}
+
+main{padding-bottom:96px}
+
+.fineprint{font-size:11px;color:var(--text-tertiary);text-align:center;margin-top:32px;padding-top:24px;border-top:0.5px solid var(--border-subtle);line-height:1.85}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <button class="nav-cta" data-wechat-cta="report-cta">咨询定制方案</button>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="loading" id="loading">
+    <div class="loading-mark"></div>
+    <div class="loading-h">加载报告...</div>
+    <div class="loading-sub">从本地读取诊断结果</div>
+  </div>
+</main>
+
+<div class="cta-sticky" id="cta-sticky">
+  <span class="cta-sticky-text">已为你匹配最适合的方案 · <b id="sticky-product">清北 4 对 1 陪跑</b></span>
+  <button data-wechat-cta="report-cta" id="sticky-btn">立即 1v1 咨询</button>
+</div>
+
+<script>
+const PRODUCTS = {
+  online: {
+    label: '线上系统课',
+    name: '线上系统课 + 家长社群',
+    price: 2499,
+    period: '入门首选 · 自主节奏',
+    sub: '4 维方法论系统课 · 家长社群每周答疑 · 错题本 + 学习路径',
+    channel: 'pricing-online'
+  },
+  camp: {
+    label: '少年营',
+    name: '少年营 · 线下研学',
+    price: 4980,
+    period: '3 天 2 夜 · 沉浸体验',
+    sub: '清北学长面对面 · 阿里参访 + Demo Day · 形成作品集',
+    channel: 'pricing-camp'
+  },
+  qingbei: {
+    label: '清北 4 对 1',
+    name: '清北联盟 4 对 1 陪跑',
+    price: 6980,
+    period: '3 个月全程陪跑 · 限 4 人/期',
+    sub: '4 位清北导师 1v1 · 每日定制规划 · 24h 答疑 + 情绪陪伴',
+    channel: 'pricing-flagship'
+  }
+};
+
+function load() {
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem('yd:diagnose_report') || 'null');
+  } catch (e) {}
+  if (!saved || !saved.report) {
+    showEmpty();
+    return;
+  }
+  render(saved);
+}
+
+function showEmpty() {
+  document.getElementById('main').innerHTML = `
+    <div class="empty">
+      <h2>还没有诊断报告</h2>
+      <p>先用 3 分钟做一次 AI 诊断, 看清孩子的 13 维度学习状态再决定下一步。</p>
+      <a href="/welcome" class="btn-primary">开始诊断 →</a>
+    </div>`;
+}
+
+function render(saved) {
+  const r = saved.report;
+  const student = saved.payload || {};
+  const matchKey = ['online', 'camp', 'qingbei'].includes(r.match_product) ? r.match_product : 'qingbei';
+  const matched = PRODUCTS[matchKey];
+  const others = Object.entries(PRODUCTS).filter(([k]) => k !== matchKey);
+
+  // 弱项排序: score 升序 (最弱在前)
+  const dims = (r.dimensions || []).slice().sort((a, b) => (a.score || 0) - (b.score || 0));
+  const weakCount = dims.filter(d => (d.score || 0) < 60).length;
+
+  document.getElementById('main').innerHTML = `
+    <div class="steps">
+      <span><span class="step-dot done"></span>基础信息</span>
+      <span><span class="step-dot done"></span>3 分钟答题</span>
+      <span><span class="step-dot active"></span>查看报告</span>
+    </div>
+
+    <div class="eyebrow">[Step 03 of 03.]</div>
+    <h1>${escHtml(student.name || '同学')}的诊断报告</h1>
+    <p class="lede">基于 10 题答案, AI 看出 <b>${weakCount} 个明显弱项</b>。<br>下面按弱到强排序, 弱项已用砖红色标出, 重点先攻这几条。</p>
+
+    <div class="summary">
+      <div class="summary-eyebrow">[Summary.]</div>
+      <p class="summary-text">${escHtml(r.summary || '诊断完成')}</p>
+    </div>
+
+    <div class="section-eyebrow">[13 Dimensions.]</div>
+    <h2 class="section-h2">维度详情 · 弱项优先</h2>
+    <div class="dims">
+      ${dims.map(d => {
+        const score = Math.max(0, Math.min(100, Number(d.score) || 0));
+        const cls = score < 60 ? 'weak' : 'ok';
+        return `
+          <div class="dim ${cls}">
+            <div class="dim-head">
+              <span class="dim-name">${escHtml(d.name || '维度')}</span>
+              <span class="dim-score">${score}</span>
+            </div>
+            <div class="dim-bar"><div class="dim-bar-fill" style="width:${score}%"></div></div>
+            <div class="dim-gap">${escHtml(d.gap || '')}</div>
+            ${d.hint ? `<div class="dim-hint">↳ ${escHtml(d.hint)}</div>` : ''}
+          </div>`;
+      }).join('')}
+    </div>
+
+    <div class="reco">
+      <div class="reco-eyebrow">[Next Steps.]</div>
+      <h3>给家长的具体建议</h3>
+      <p>${escHtml(r.recommendation || '建议先观察孩子的弱项, 再决定下一步。')}</p>
+    </div>
+
+    <div class="section-eyebrow">[Best Match.]</div>
+    <h2 class="section-h2">基于诊断结果, 推荐 ${escHtml(matched.label)}</h2>
+    <div class="match">
+      <div class="match-eyebrow">[Recommended for ${escHtml(student.name || '同学')}.]</div>
+      <h3>${escHtml(matched.name)}</h3>
+      <p class="match-reason">${escHtml(r.match_reason || '基于你的答题, 这一档最匹配孩子当前的学习节奏。')}</p>
+      <div class="match-meta">
+        <span class="match-price"><span class="cur">¥</span>${matched.price.toLocaleString()}</span>
+        <span class="match-period">${escHtml(matched.period)}</span>
+      </div>
+      <div class="match-actions">
+        <button class="btn-primary" data-wechat-cta="report-cta" data-wechat-title="基于诊断报告 1v1 定制方案" data-wechat-sub="把报告发给 Zack, 24h 内回复你具体能怎么提分">加微信 · 1v1 定制方案</button>
+        <button class="btn-ghost" onclick="downloadReport()">下载完整报告</button>
+      </div>
+    </div>
+
+    <div class="section-eyebrow">[Other Options.]</div>
+    <h2 class="section-h2">另外两档也可以了解</h2>
+    ${others.map(([k, p]) => `
+      <div class="alt">
+        <div class="alt-info">
+          <div class="alt-name">${escHtml(p.name)}</div>
+          <div class="alt-sub">${escHtml(p.sub)} · ${escHtml(p.period)}</div>
+        </div>
+        <span class="alt-price">¥${p.price.toLocaleString()}</span>
+        <button class="alt-cta" data-wechat-cta="${p.channel}">咨询</button>
+      </div>`).join('')}
+
+    <p class="fineprint">报告由 GPT-4o 实时生成 · 仅供参考 · 完整 1v1 诊断请加微信预约</p>`;
+
+  document.getElementById('sticky-product').textContent = matched.name;
+  document.getElementById('sticky-btn').dataset.wechatCta = 'report-cta';
+  setTimeout(() => document.getElementById('cta-sticky').classList.add('on'), 800);
+
+  // 重新绑定 wechat-cta (因为是动态生成的)
+  if (window.YDZX_WECHAT_CTA) window.YDZX_WECHAT_CTA.bind();
+
+  if (window.YDZX_TRACK) YDZX_TRACK.event('report_view', {
+    match: matchKey, weak_count: weakCount
+  });
+}
+
+function downloadReport() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem('yd:diagnose_report') || 'null'); } catch (e) {}
+  if (!saved) return;
+  const r = saved.report;
+  const s = saved.payload || {};
+  const text = [
+    '原点智学 · 13 维度学习诊断报告',
+    `孩子: ${s.name || '同学'} · 年级: ${s.grade || '—'}`,
+    `生成时间: ${new Date(saved.ts).toLocaleString('zh-CN')}`,
+    '',
+    '─────────────',
+    '',
+    '【综述】',
+    r.summary || '',
+    '',
+    '【13 维度详情】',
+    ...(r.dimensions || []).map(d => `  · ${d.name}: ${d.score}/100 — ${d.gap}${d.hint ? '\n    建议: ' + d.hint : ''}`),
+    '',
+    '【建议】',
+    r.recommendation || '',
+    '',
+    '【推荐方案】',
+    `${r.match_product} — ${r.match_reason || ''}`,
+    '',
+    '─────────────',
+    '完整 1v1 诊断, 加微信 yuandian-zhixue 备注「报告」'
+  ].join('\n');
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `原点智学诊断报告-${s.name || '匿名'}-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  if (window.YDZX_TRACK) YDZX_TRACK.event('report_download', {});
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/[<>&"']/g, c => ({
+    '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+load();
+</script>
+<script src="/src/wechat-cta.js"></script>
+<script src="/src/track.js"></script>
+</body>
+</html>

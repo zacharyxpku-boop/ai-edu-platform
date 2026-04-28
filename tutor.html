@@ -203,6 +203,16 @@ body{
     max-width:calc(100% - 50px);
     white-space:pre-wrap;word-break:break-word;
     box-shadow:var(--shadow-sm);
+    position:relative;
+}
+/* 「AI 生成」合规标识 · 生成式 AI 服务管理暂行办法第 12 条 */
+.bubble.tutor .ai-tag{
+    display:block;margin-top:6px;
+    font-size:9px;line-height:1;
+    color:var(--ink-mute);opacity:0.55;
+    font-family:"Inter",sans-serif;letter-spacing:0.04em;
+    text-align:right;font-weight:400;
+    user-select:none;pointer-events:none;
 }
 .bubble.student{justify-content:flex-end}
 .bubble.student .body{
@@ -850,7 +860,15 @@ function addBubble(role, text) {
         av.textContent = "原";
         const c = document.createElement('div');
         c.className = 'b-content';
-        c.textContent = text;
+        // 文本节点 + 「AI 生成」标识（合规·显著标识 AI 输出）
+        const textNode = document.createElement('span');
+        textNode.className = 'b-text';
+        textNode.textContent = text;
+        const tag = document.createElement('span');
+        tag.className = 'ai-tag';
+        tag.textContent = 'AI 生成';
+        c.appendChild(textNode);
+        c.appendChild(tag);
         wrap.appendChild(av);
         wrap.appendChild(c);
     } else {
@@ -861,7 +879,7 @@ function addBubble(role, text) {
     }
     chat.appendChild(wrap);
     scrollToBottom();
-    return role === 'tutor' ? wrap.querySelector('.b-content') : wrap;
+    return role === 'tutor' ? wrap.querySelector('.b-text') : wrap;
 }
 
 function addSystemHint(text) {

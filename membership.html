@@ -228,7 +228,7 @@ h1 em{font-style:normal;color:var(--accent-primary)}
                 <li class="locked">不代办账号注册</li>
                 <li class="locked">不代付外卡订阅</li>
             </ul>
-            <button class="tier-btn" onclick="joinMember('basic')">加入基础会员</button>
+            <button class="tier-btn" data-wechat-cta="membership-basic" onclick="joinMember('basic')">加入基础会员</button>
         </div>
 
         <div class="tier hot">
@@ -250,7 +250,7 @@ h1 em{font-style:normal;color:var(--accent-primary)}
                 <li>孩子使用报告月度推送</li>
                 <li>新工具首发体验权</li>
             </ul>
-            <button class="tier-btn" onclick="joinMember('family')">加入全家会员</button>
+            <button class="tier-btn" data-wechat-cta="membership-family" onclick="joinMember('family')">加入全家会员</button>
         </div>
     </div>
 </section>
@@ -283,7 +283,7 @@ h1 em{font-style:normal;color:var(--accent-primary)}
 <section class="contact">
     <h3>准备好了吗？</h3>
     <p>加创始人Zack微信（zacharyxpku@gmail.com）备注「会员」，1v1沟通后开通</p>
-    <button class="contact-btn" onclick="joinMember('contact')">加微信 · 创始人亲自对接</button>
+    <button class="contact-btn" data-wechat-cta="hero-cta" onclick="joinMember('contact')">加微信 · 创始人亲自对接</button>
 </section>
 
 <footer class="foot">© 2026 原点智学 · 不替孩子学，替家长选好</footer>
@@ -413,5 +413,6 @@ document.getElementById('mb-modal').addEventListener('click', function(e){
 </script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
+<script src="/src/wechat-cta.js" defer></script>
 </body>
 </html>

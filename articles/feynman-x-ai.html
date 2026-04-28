@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>费曼学习法 × AI · 让孩子教 AI, 比 AI 教孩子更有效 | 原点研究院</title>
+    <meta name="description" content="反过来让孩子当老师, AI 当学生。孩子讲不清楚的地方就是没真懂的地方。附完整 prompt 模板和真实案例。">
+    <meta name="theme-color" content="#0F4F3D">
+    <meta name="ydzx-page" content="article-feynman-x-ai">
+    <meta property="og:title" content="费曼学习法 × AI · 让孩子教 AI, 比 AI 教孩子更有效">
+    <meta property="og:description" content="反过来让孩子当老师, AI 当学生。孩子讲不清楚的地方就是没真懂的地方。">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="费曼学习法 × AI · 让孩子教 AI, 比 AI 教孩子更有效">
+    <meta name="twitter:description" content="反过来让孩子当老师, AI 当学生。">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+    <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --bg-primary:#FAF7F0; --bg-secondary:#F2EEE3; --bg-elevated:#FFFFFF;
+        --text-primary:#1A1A1A; --text-secondary:#4A4A47; --text-tertiary:#8A8780; --text-muted:#B8B5AC;
+        --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-light:#E8EFE9;
+        --accent-warm:#B85C2E; --accent-warm-light:#F5E8DF;
+        --border-subtle:rgba(26,26,26,0.06); --border-default:rgba(26,26,26,0.10); --border-strong:rgba(26,26,26,0.20);
+        --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+        --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+        --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+        --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+        --primary:var(--accent-primary);
+        --ink:var(--text-primary); --ink-2:var(--text-secondary); --ink-3:var(--text-tertiary); --ink-4:var(--text-muted);
+        --bg:var(--bg-primary); --bg-2:var(--bg-secondary); --bg-3:#EAE6DC;
+        --border:var(--border-subtle);
+        --font:var(--font-sans-sc);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-sans-sc);font-size:15px;background:var(--bg-primary);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
+    a{color:inherit;text-decoration:none}
+    .w{max-width:860px;margin:0 auto;padding:0 32px}
+    @media(max-width:720px){.w{padding:0 20px}}
+
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 20px}}
+    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav-links{display:flex;gap:4px}
+    .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
+    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+    .nav-cta{padding:7px 14px;border-radius:6px;border:none;background:var(--ink);color:#fff;font:500 13px var(--font);cursor:pointer}
+    .nav-cta:hover{background:#000}
+    @media(max-width:780px){.nav-links{display:none}}
+
+    .hero{padding:80px 0 40px}
+    @media(max-width:720px){.hero{padding:48px 0 32px}}
+    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3);margin-bottom:32px;transition:color .12s}
+    .back-link:hover{color:var(--primary)}
+    .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
+    .hero h1{font-family:var(--font-serif-sc);font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:0.01em;line-height:1.25;margin-bottom:20px;color:var(--text-primary)}
+    .lede{font-size:14px;color:var(--text-secondary);max-width:700px;line-height:1.85;padding-bottom:24px;border-bottom:0.5px solid var(--border)}
+    .meta-row{display:flex;gap:16px;align-items:center;font-size:12px;color:var(--ink-4);margin-top:18px}
+    .meta-tag{padding:3px 10px;border-radius:4px;background:var(--bg-3);color:var(--ink-2);font-weight:500;letter-spacing:.3px}
+
+    .body-wrap{padding:32px 0 64px}
+    .body{max-width:700px;margin:0 auto;font-size:16px;line-height:1.85;color:var(--text-primary)}
+    .body p{margin-bottom:18px}
+    .body h2{font-family:var(--font-serif-sc);font-size:22px;font-weight:500;line-height:1.4;margin:40px 0 16px;color:var(--text-primary);letter-spacing:0.01em}
+    .body h3{font-size:17px;font-weight:500;margin:28px 0 12px;color:var(--text-primary)}
+    .body strong{font-weight:500;color:var(--accent-primary)}
+    .body em{font-family:var(--font-serif-en);font-style:italic;color:var(--ink-2)}
+    .body blockquote{margin:24px 0;padding:16px 20px;border-left:2px solid var(--accent-primary);background:var(--bg-2);font-size:15px;color:var(--ink-2);border-radius:0 6px 6px 0}
+    .body ul, .body ol{margin:12px 0 18px;padding-left:24px}
+    .body li{margin-bottom:8px}
+    .body code{background:var(--bg-3);padding:2px 6px;border-radius:3px;font-size:14px;font-family:ui-monospace,Menlo,monospace}
+    .prompt-box{background:var(--bg-2);border:0.5px solid var(--border);border-radius:6px;padding:14px 16px;margin:14px 0 22px;font-size:14px;line-height:1.75;color:var(--ink-2);font-family:ui-monospace,Menlo,monospace;white-space:pre-wrap}
+    .pullquote{font-family:var(--font-serif-sc);font-size:20px;line-height:1.5;color:var(--text-primary);padding:24px 0;margin:32px 0;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);text-align:center}
+    .case-box{background:var(--bg-2);border-radius:8px;padding:22px;margin:24px 0;border-left:3px solid var(--accent-warm)}
+    .case-box h3{margin-top:0;color:var(--accent-warm)}
+
+    .cta-box{background:var(--ink);color:#fff;border-radius:8px;padding:36px 28px;text-align:center;margin:48px auto 32px;max-width:700px}
+    .cta-box .cta-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px}
+    .cta-box h3{font-size:19px;font-weight:500;margin-bottom:10px}
+    .cta-box p{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:22px;line-height:1.7}
+    .cta-btn{background:var(--primary);color:#fff;border:none;padding:11px 26px;border-radius:6px;font:500 13px var(--font);cursor:pointer;transition:background .15s}
+    .cta-btn:hover{background:#0A3D2E}
+
+    .foot{border-top:0.5px solid var(--border);padding:28px 0;text-align:center;font-size:12px;color:var(--ink-4);margin-top:32px}
+    </style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="/study-tools" class="nav-a">免费工具</a>
+        <a href="/paths" class="nav-a">学科教材</a>
+        <a href="/products/compare" class="nav-a">课程产品</a>
+        <a href="/progress" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='/assistant'">报名少年营</button>
+</div></nav>
+
+<section class="hero"><div class="w">
+    <a href="/articles" class="back-link">← 返回研究院</a>
+    <div class="eyebrow">[Method.] 实操系列 · 第 2 篇</div>
+    <h1>费曼学习法 × AI · 让孩子教 AI, 比 AI 教孩子更有效</h1>
+    <p class="lede">大部分家长用 AI 的方式是: 让 AI 给孩子讲题。这事 AI 干得很好, 但孩子越听越被动。反过来玩, 让孩子去教 AI, AI 装一个不懂的小学生, 听不懂的地方就追问。孩子答不上的, 才是他真没懂的地方。这就是费曼学习法的 AI 升级版。</p>
+    <div class="meta-row">
+        <span class="meta-tag">实操</span>
+        <span>2026.04.20</span>
+        <span>原点 AI 学堂 · 首发</span>
+    </div>
+</div></section>
+
+<section class="body-wrap"><div class="w">
+<article class="body">
+
+<h2>为什么"听明白"≠"懂"</h2>
+
+<p>费曼当年说过一句话: 如果你不能把一件事讲给一个 6 岁小孩听明白, 那你自己就没真懂。</p>
+
+<p>这话听了几十年, 学校里很难落地, 因为找不到一个"愿意一直追问的 6 岁小孩"。家长替代不了这个角色 — 家长太忙, 而且容易心疼孩子, 听到一半就放过去。</p>
+
+<p>AI 解决了这个问题。AI 不会累、不会嫌烦、可以无限追问, 而且它真的会从"不懂"的角度问出尖锐的问题。这是 2025 年之前不存在的工具。</p>
+
+<blockquote>这个方法的关键不是 AI 多聪明, 而是 AI 装得多笨。越笨, 孩子越得讲清楚。</blockquote>
+
+<h2>完整流程: 4 步, 每次 15-20 分钟</h2>
+
+<h3>Step 1 · 选一个今天学的概念</h3>
+<p>不要选孩子已经倒背如流的, 也不要选完全没接触过的。<strong>选今天上课讲的、孩子觉得"应该会了"的那一个。</strong>越是觉得自己懂的, 越容易暴露盲点。</p>
+<p>例: 今天物理课讲了"动量守恒", 数学课讲了"绝对值不等式", 语文课讲了"互文修辞"。挑一个。</p>
+
+<h3>Step 2 · 给 AI 设定身份</h3>
+<p>把下面这段话发给豆包 / Kimi / 通义千问 / Claude 都行:</p>
+<div class="prompt-box">从现在开始你扮演一个 6 年级学生, 名字叫小明。
+你完全没有学过 [动量守恒] 这个概念,
+但你听课很认真, 喜欢问"为什么"。
+
+接下来我会给你讲这个概念。
+请你严格做到 3 件事:
+1. 不要假装听懂, 听不懂就直接打断我
+2. 我每讲一段, 你提一个具体的、追根问底的问题
+3. 不要给我答案、不要补充我没讲到的地方
+
+如果我讲的某句话有逻辑漏洞, 你要追问"那如果 XX 情况下呢?"
+准备好了就说"老师好, 我准备好了"。</div>
+
+<h3>Step 3 · 让孩子开口讲</h3>
+<p>不要让孩子打字, 让孩子说话。<strong>开口讲和打字讲完全不是一件事</strong> — 打字时大脑会自动整理逻辑, 开口讲会暴露真实理解。</p>
+<p>豆包有语音对话, Kimi、ChatGPT 也都有。打开后让孩子像给同学讲题一样讲一遍。</p>
+
+<h3>Step 4 · 记录卡壳的地方</h3>
+<p>讲完之后, 让 AI 做一件事:</p>
+<div class="prompt-box">现在请你跳出小明的角色, 回到 AI 助手身份。
+请总结刚才这次讲解中:
+1. 我讲得最清楚的部分是哪 1-2 个
+2. 我答不上来或者绕开的问题有哪些
+3. 这些被绕开的地方对应着什么知识点
+4. 给我列出 3 道针对这些盲点的小练习题</div>
+
+<p>这一步是整个流程最值钱的部分。AI 会输出一份诊断报告, 告诉孩子"你看似会了, 但其实不会"的地方。</p>
+
+<div class="case-box">
+<h3>真实案例 · 小柯, 高一, 物理</h3>
+<p>上周我陪一个朋友的儿子小柯试了一次。题目: 给 AI 讲"动量守恒定律"。</p>
+<p>小柯讲了 3 分钟, 顺溜得像背书: "动量守恒就是 m1v1 + m2v2 = m1v1' + m2v2', 在没有外力的情况下两个物体碰撞前后动量总和不变。"</p>
+<p>AI (扮演小学生) 提了 5 个追问:</p>
+<ul>
+<li>"老师, 那如果两个物体不一样重呢, 重的会不会动量更大?" → 小柯答得上</li>
+<li>"那为什么必须没有外力呢, 有外力会怎样?" → 小柯支吾, "就是不能算"</li>
+<li>"那地球引力算不算外力?两个物体在地上碰撞, 也算守恒吗?" → 小柯沉默 8 秒</li>
+<li>"如果碰撞之后两个物体粘在一起, 动量还守恒吗?能量守恒吗?" → 小柯说"动量守恒, 能量..不知道"</li>
+<li>"那守恒的到底是什么, 你能用一句话不用公式告诉我吗?" → 小柯哑火</li>
+</ul>
+<p><strong>小柯只是把公式背下来了, 没真懂。</strong>这件事在他自己听课、刷题、看答案的循环里, 一辈子都不会暴露出来。一个装 6 年级的 AI 用 8 分钟挖了出来。</p>
+</div>
+
+<div class="pullquote">孩子的"会了"和"真懂", 中间隔着一个会追问的 6 年级学生。<br>这个学生以前找不到, 现在 AI 能扮演。</div>
+
+<h2>常见 3 个翻车点</h2>
+
+<p><strong>1. AI 装得不够笨。</strong>有时候 AI 会忍不住给提示, 这时候在 prompt 里多加一句: "如果你忍不住想给提示, 把那个提示改成一个问题问回我。"</p>
+
+<p><strong>2. 孩子讲两句就放弃。</strong>很多孩子第一次玩这个会卡壳卡得想关掉。家长这时候不要救场, 让 AI 帮孩子从更基础的概念开始重新讲。"那我们先讲什么是动量本身吧, 你能告诉我动量是什么吗?"</p>
+
+<p><strong>3. 家长全程在旁边听。</strong>不要这么干。孩子会因为你在旁边而表演, 不会暴露真实的不懂。让孩子单独和 AI 聊, 你看事后的诊断报告就够了。</p>
+
+<h2>为什么这个方法值得每周做一次</h2>
+
+<p>学校里大部分孩子在做的事是<strong>"输入 → 输出答案"</strong>: 听课输入, 作业输出。这个回路里, 真懂还是假懂, 没人知道。</p>
+
+<p>费曼 × AI 这个回路是 <strong>"输入 → 输出讲解 → 被追问 → 修补理解"</strong>。多了被追问这一步, 假懂就藏不住了。</p>
+
+<p>每周一次, 一个学期 18 次。期末的时候孩子会发现 — 他不是变聪明了, 是该不会的早就发现并补上了。</p>
+
+</article>
+
+<div class="cta-box">
+    <div class="cta-eyebrow">[Action.]</div>
+    <h3>陪孩子跑一次费曼对话?</h3>
+    <p>把孩子要讲的概念发我, 我帮你调一段适合孩子年龄的 prompt,<br>第一次免费陪跑, 不收费、不卖课。</p>
+    <button class="cta-btn" data-wechat-cta="hero-cta">加微信看孩子情况</button>
+</div>
+
+</div></section>
+
+<footer class="foot"><div class="w">
+    <p>© 2026 原点智学 · business@yuandianzhixue.com</p>
+</div></footer>
+
+<script src="/src/wechat-cta.js" defer></script>
+<script src="/src/track.js"></script>
+<script src="/src/analytics.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南 | 原点研究院</title>
+    <meta name="description" content="不需要任何工具, 不需要会编程。从 5 分钟到周末半天, 5 个不同时长的 AI 陪学方案, 附完整 prompt 模板和具体引导话术。">
+    <meta name="theme-color" content="#0F4F3D">
+    <meta name="ydzx-page" content="article-tonight-5-things">
+    <meta property="og:title" content="今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南">
+    <meta property="og:description" content="从 5 分钟到周末半天, 5 个不同时长的 AI 陪学方案, 附完整 prompt 模板和引导话术。">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南">
+    <meta name="twitter:description" content="从 5 分钟到周末半天, 5 个不同时长的 AI 陪学方案。">
+    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+    <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --bg-primary:#FAF7F0; --bg-secondary:#F2EEE3; --bg-elevated:#FFFFFF;
+        --text-primary:#1A1A1A; --text-secondary:#4A4A47; --text-tertiary:#8A8780; --text-muted:#B8B5AC;
+        --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-light:#E8EFE9;
+        --accent-warm:#B85C2E; --accent-warm-light:#F5E8DF;
+        --border-subtle:rgba(26,26,26,0.06); --border-default:rgba(26,26,26,0.10); --border-strong:rgba(26,26,26,0.20);
+        --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+        --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+        --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+        --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+        --primary:var(--accent-primary);
+        --ink:var(--text-primary); --ink-2:var(--text-secondary); --ink-3:var(--text-tertiary); --ink-4:var(--text-muted);
+        --bg:var(--bg-primary); --bg-2:var(--bg-secondary); --bg-3:#EAE6DC;
+        --border:var(--border-subtle);
+        --font:var(--font-sans-sc);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-sans-sc);font-size:15px;background:var(--bg-primary);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
+    a{color:inherit;text-decoration:none}
+    .w{max-width:860px;margin:0 auto;padding:0 32px}
+    @media(max-width:720px){.w{padding:0 20px}}
+
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 20px}}
+    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav-links{display:flex;gap:4px}
+    .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
+    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+    .nav-cta{padding:7px 14px;border-radius:6px;border:none;background:var(--ink);color:#fff;font:500 13px var(--font);cursor:pointer}
+    .nav-cta:hover{background:#000}
+    @media(max-width:780px){.nav-links{display:none}}
+
+    .hero{padding:80px 0 40px}
+    @media(max-width:720px){.hero{padding:48px 0 32px}}
+    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3);margin-bottom:32px;transition:color .12s}
+    .back-link:hover{color:var(--primary)}
+    .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
+    .hero h1{font-family:var(--font-serif-sc);font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:0.01em;line-height:1.25;margin-bottom:20px;color:var(--text-primary)}
+    .lede{font-size:14px;color:var(--text-secondary);max-width:700px;line-height:1.85;padding-bottom:24px;border-bottom:0.5px solid var(--border)}
+    .meta-row{display:flex;gap:16px;align-items:center;font-size:12px;color:var(--ink-4);margin-top:18px}
+    .meta-tag{padding:3px 10px;border-radius:4px;background:var(--bg-3);color:var(--ink-2);font-weight:500;letter-spacing:.3px}
+
+    .body-wrap{padding:32px 0 64px}
+    .body{max-width:700px;margin:0 auto;font-size:16px;line-height:1.85;color:var(--text-primary)}
+    .body p{margin-bottom:18px}
+    .body h2{font-family:var(--font-serif-sc);font-size:22px;font-weight:500;line-height:1.4;margin:40px 0 16px;color:var(--text-primary);letter-spacing:0.01em}
+    .body h3{font-size:17px;font-weight:500;margin:28px 0 12px;color:var(--text-primary)}
+    .body strong{font-weight:500;color:var(--accent-primary)}
+    .body em{font-family:var(--font-serif-en);font-style:italic;color:var(--ink-2)}
+    .body blockquote{margin:24px 0;padding:16px 20px;border-left:2px solid var(--accent-primary);background:var(--bg-2);font-size:15px;color:var(--ink-2);border-radius:0 6px 6px 0}
+    .body ul, .body ol{margin:12px 0 18px;padding-left:24px}
+    .body li{margin-bottom:8px}
+    .body code{background:var(--bg-3);padding:2px 6px;border-radius:3px;font-size:14px;font-family:ui-monospace,Menlo,monospace}
+    .prompt-box{background:var(--bg-2);border:0.5px solid var(--border);border-radius:6px;padding:14px 16px;margin:14px 0 22px;font-size:14px;line-height:1.75;color:var(--ink-2);font-family:ui-monospace,Menlo,monospace;white-space:pre-wrap}
+    .step-card{border:0.5px solid var(--border);border-radius:8px;padding:22px;margin:24px 0;background:#fff}
+    .step-time{font-family:var(--font-serif-en);font-style:italic;font-size:13px;color:var(--accent-primary);margin-bottom:6px}
+    .step-card h3{margin-top:0}
+
+    .cta-box{background:var(--ink);color:#fff;border-radius:8px;padding:36px 28px;text-align:center;margin:48px auto 32px;max-width:700px}
+    .cta-box .cta-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px}
+    .cta-box h3{font-size:19px;font-weight:500;margin-bottom:10px}
+    .cta-box p{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:22px;line-height:1.7}
+    .cta-btn{background:var(--primary);color:#fff;border:none;padding:11px 26px;border-radius:6px;font:500 13px var(--font);cursor:pointer;transition:background .15s}
+    .cta-btn:hover{background:#0A3D2E}
+
+    .foot{border-top:0.5px solid var(--border);padding:28px 0;text-align:center;font-size:12px;color:var(--ink-4);margin-top:32px}
+    </style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="/study-tools" class="nav-a">免费工具</a>
+        <a href="/paths" class="nav-a">学科教材</a>
+        <a href="/products/compare" class="nav-a">课程产品</a>
+        <a href="/progress" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='/assistant'">报名少年营</button>
+</div></nav>
+
+<section class="hero"><div class="w">
+    <a href="/articles" class="back-link">← 返回研究院</a>
+    <div class="eyebrow">[Hands-on.] 实操系列 · 第 1 篇</div>
+    <h1>今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南</h1>
+    <p class="lede">家长群里最常见的提问是: "我也想用 AI 陪孩子, 但不知道从哪里开始。"这篇文章给的不是大道理, 是 5 个可以照着做的方案, 按时间从短到长排, 5 分钟那条今晚就能用。每条都标清楚: 用什么工具, 输入什么 prompt, 怎么引导孩子, 期望产物是什么。</p>
+    <div class="meta-row">
+        <span class="meta-tag">实操</span>
+        <span>2026.04.15</span>
+        <span>原点 AI 学堂 · 首发</span>
+    </div>
+</div></section>
+
+<section class="body-wrap"><div class="w">
+<article class="body">
+
+<p>先说一个原则: <strong>不要让 AI 帮孩子写作业。</strong>这是底线。下面 5 件事都不涉及代写, 都是把 AI 当作"陪练"或"造工具的工人"来用。</p>
+
+<div class="step-card">
+<div class="step-time">[5 minutes]</div>
+<h3>① 5 分钟 · 把今天一道错题讲明白</h3>
+<p><strong>用什么:</strong> 豆包 / Kimi / 通义千问 · 任意一个手机 App 都行</p>
+<p><strong>怎么做:</strong> 翻孩子今天作业本, 找一道做错的题。让孩子自己拍照上传, 别用搜题模式, 直接打字提问。</p>
+<div class="prompt-box">我是初二学生, 这道题我写错了。
+请你不要直接给我答案, 而是先问我三个问题, 帮我自己找到错在哪里。
+我答完三个问题, 你再判断我是哪一步卡住的。</div>
+<p><strong>家长引导:</strong> 不在旁边盯, 但和孩子约定 5 分钟后聊一聊。聊的内容是: AI 问了你什么? 你卡在哪一步?</p>
+<p><strong>期望产物:</strong> 孩子能用一句话说出"我错在 X 这一步, 因为我以为 Y", 而不是"我会做了"。</p>
+</div>
+
+<div class="step-card">
+<div class="step-time">[15 minutes]</div>
+<h3>② 15 分钟 · 让孩子讲一个今天学的新概念</h3>
+<p><strong>用什么:</strong> 豆包 (语音对话功能, 解放双手)</p>
+<p><strong>怎么做:</strong> 让孩子选一个今天课上学的新东西, 比如"光合作用"、"杠杆原理"、"完成时态"。打开豆包语音模式, 让 AI 装一个不懂的角色。</p>
+<div class="prompt-box">你扮演一个 4 年级的小朋友, 完全没听过我接下来要讲的内容。
+我是六年级哥哥/姐姐, 我要给你讲明白这个东西。
+我每讲完一段, 你就提一个真正听不懂的问题, 别客气, 也别故意找茬。</div>
+<p><strong>家长引导:</strong> 第一次孩子大概率会卡壳, 卡壳是好事。卡的地方就是真没懂。</p>
+<p><strong>期望产物:</strong> 一段 5 分钟的录音, 孩子能讲清楚至少 80% 的内容, 剩下 20% 是 AI 追问出来的盲点, 孩子自己记下来明天问老师。</p>
+</div>
+
+<div class="step-card">
+<div class="step-time">[30 minutes]</div>
+<h3>③ 30 分钟 · 一起做一份本周的"知识地图"</h3>
+<p><strong>用什么:</strong> Kimi 长文本模式, 或者通义千问</p>
+<p><strong>怎么做:</strong> 让孩子把这一周课本上学过的章节标题打字进去 (5 - 8 个), 然后用下面这段 prompt:</p>
+<div class="prompt-box">这一周我学了: [章节列表]
+请你帮我把它们之间的关系画成一张文字版的地图,
+告诉我哪些是基础概念、哪些是应用、哪些有相互依赖。
+最后问我 3 个能检验我有没有真懂的问题。</div>
+<p><strong>家长引导:</strong> 周末和孩子一起看 AI 给的地图, 孩子用笔画一遍。</p>
+<p><strong>期望产物:</strong> 一张能贴在书桌上的手画版知识图, 比刷一本练习册管用。</p>
+</div>
+
+<div class="step-card">
+<div class="step-time">[1 hour]</div>
+<h3>④ 1 小时 · 让孩子用 AI 出一份"自我诊断卷"</h3>
+<p><strong>用什么:</strong> 豆包 / Kimi 都可</p>
+<p><strong>怎么做:</strong> 让孩子选一个最近成绩波动大的科目, 比如数学。用以下 prompt:</p>
+<div class="prompt-box">我是 X 年级学生, 我数学最近这两次考试: 一次 92, 一次 76。
+我把两张卷子的错题类型告诉你: [列举 5-8 道错题主题]
+请你帮我出一份 10 题的诊断卷, 专门针对我已经暴露出的弱点,
+难度从 60% 到 85% 渐进, 题型避开纯计算题, 都是应用题。</div>
+<p><strong>家长引导:</strong> 孩子做完卷子后, 让 AI 改卷并给出"知识点 → 错误率"分析。</p>
+<p><strong>期望产物:</strong> 一份个性化弱点清单, 比刷十套通用卷有用十倍。</p>
+</div>
+
+<div class="step-card">
+<div class="step-time">[Saturday, 1/2 day]</div>
+<h3>⑤ 周末半天 · 让孩子做一个属于自己的"小工具"</h3>
+<p><strong>用什么:</strong> Claude (推荐, 写代码最稳) 或 ChatGPT</p>
+<p><strong>怎么做:</strong> 这一条是分水岭。让孩子选一件他每天都要做的小事 — 背单词、记错题、复习古诗 — 然后让 AI 帮他写一个网页小工具。</p>
+<div class="prompt-box">我想做一个网页小工具, 帮我每天 [背 30 个英语单词 / 复习昨天错题 / ...]。
+要求:
+1. 我打开就能用, 不需要登录
+2. 内容来自我下面给你的列表 (先给 30 条做种子)
+3. 答错的明天再出现一次, 答对的一周后再出现
+4. 界面简单, 像 Notion 那种素净风格
+
+请你一步一步指导我, 我完全不会写代码, 你写好之后告诉我怎么打开。</div>
+<p><strong>家长引导:</strong> 你不用懂代码。你只需要在旁边坐着, 提醒孩子: 不行就再问一遍, 截图给 AI 看错在哪。</p>
+<p><strong>期望产物:</strong> 一个可以双击打开的 .html 文件, 孩子接下来一周每天都会主动打开它。</p>
+</div>
+
+<h2>这 5 条之间的关系</h2>
+
+<p>从 ① 到 ⑤, 是从<strong>消费 AI</strong>到<strong>使用 AI</strong>再到<strong>创造工具</strong>的渐进。</p>
+
+<p>大部分家长卡在 ① 和 ② 之间过不去, 是因为没有给孩子设定"产物"这个标准。<strong>没有产物的对话, 5 分钟和 50 分钟没有区别, 都等于零。</strong></p>
+
+<p>一旦孩子做完 ⑤, 走通整条流程, 那以后所有作业都可以这样玩。这不是噱头, 这是认知升级。</p>
+
+<h2>不要做的 3 件事</h2>
+
+<ul>
+<li><strong>不要让 AI 写作文。</strong>孩子的语言节奏会被 AI 同化, 老师一眼就能看出来, 还会让孩子失去练笔的耐心。</li>
+<li><strong>不要让 AI 直接给答案。</strong>所有 prompt 都加一句"先不要给答案", 这是工具用对的最低门槛。</li>
+<li><strong>不要把孩子一个人扔给 AI。</strong>至少前 2 周陪着, 看 AI 给的回答有没有错, 有错的当场纠正, 比批评孩子重要。</li>
+</ul>
+
+<p>今晚先做第一条, 5 分钟。试完了你就知道这件事到底容易还是难。</p>
+
+</article>
+
+<div class="cta-box">
+    <div class="cta-eyebrow">[Action.]</div>
+    <h3>需要一份家庭定制版?</h3>
+    <p>把孩子年级、科目薄弱点、每天可用时间发我,<br>30 分钟回一份"7 天 AI 陪学计划", 不收费。</p>
+    <button class="cta-btn" data-wechat-cta="hero-cta">加微信看孩子情况</button>
+</div>
+
+</div></section>
+
+<footer class="foot"><div class="w">
+    <p>© 2026 原点智学 · business@yuandianzhixue.com</p>
+</div></footer>
+
+<script src="/src/wechat-cta.js" defer></script>
+<script src="/src/track.js"></script>
+<script src="/src/analytics.js" defer></script>
+</body>
+</html>
