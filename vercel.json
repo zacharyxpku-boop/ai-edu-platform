@@ -11,6 +11,18 @@
       ]
     },
     {
+      "source": "/(.*)\\.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=120" }
+      ]
+    },
+    {
+      "source": "/((tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|index)?)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=120" }
+      ]
+    },
+    {
       "source": "/src/api-manager.js",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex" }
