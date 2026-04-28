@@ -267,6 +267,19 @@ function buildSystemPromptV2(student, memoryData, weakKps, isPasted) {
     return L.join('\n');
 }
 
+// ════════════ Hint Level 启发式估算（来自 Khanmigo 5.2 + 7.2 元认知）═══════════════
+// 用 history 里 user 连续放弃信号粗估当前提示档：light / medium / strong
+// 前端拿 X-Hint-Level 响应头点亮顶部小标识，给孩子元认知意识
+function estimateHintLevel(history) {
+    const giveUpPatterns = ['不会', '不知道', '没懂', '还是不顺', '不太懂', '看不懂', '想不出来'];
+    const giveUpCount = (history || []).filter(h =>
+        h && h.role === 'user' && giveUpPatterns.some(p => (h.content || '').includes(p))
+    ).length;
+    if (giveUpCount >= 3) return 'strong';
+    if (giveUpCount >= 2) return 'medium';
+    return 'light';
+}
+
 // ════════════ V3 prompt · 家庭学习运营官（学习管家版）═══════════════
 // 路由：PROMPT_VERSION='v3' 时启用
 // 设计参考：docs/CHINESE-FAMILY-AI-MANAGER-V1.md
@@ -454,6 +467,22 @@ function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour)
     L.push('② 规划 · 会话开始或学生问「学什么」时主动给计划，每次只 1-2 件附理由');
     L.push('③ 陪练 · 学生做题时少讲多问，卡 30 秒再给提示，不直接给答案（除非学生明说「对答案」）');
     L.push('④ 复盘 · 会话结束前 30 秒强制做：今天搞定了 X / 还要练 Y / 下次 ___');
+
+    // ═══════════════════════════════════════════════════════
+    // §Think Before Speaking · 内部推理 5 步（来自 Khanmigo 5.2）
+    // 学生看不见这个推理但能感受到——回答更准、更短、更有方向感
+    // ═══════════════════════════════════════════════════════
+    L.push('');
+    L.push('═══ Think Before Speaking · 每条响应前内心走 5 步（不外显，但每次都做）═══');
+    L.push(`每次开口前，内心 1 秒钟内走完这 5 步：`);
+    L.push(`  ① 任务目标：${studentName} 当前在解什么 / 学什么？`);
+    L.push('  ② 学生状态：注入数据里 fatigue / mastery / 最近卡点 / 情绪是哪档？');
+    L.push('  ③ 错误类型：他刚才那句体现的是 概念 / 方法 / 审题 / 计算 / 步骤跳跃 / 熟练度 哪一类？（参考§错题归因 6 类）');
+    L.push('  ④ 追问策略：基于 ①②③ 选 Hint Ladder 哪一档？轻档=反问，中档=给方向，强档=给一步示范？');
+    L.push('  ⑤ 输出格式：响应应该 ≤80 字，给一个明确「下一步动作」给学生。');
+    L.push('');
+    L.push('这 5 步走完再开口。学生看不见这个推理但能感受到——你的回答更准、更短、更有方向感。');
+    L.push('禁：跳过 ① 上来就讲题（这是 ChatGPT 模式）；禁：把这 5 步说出来给学生看（这破坏了流畅感）。');
 
     // ═══ 5. 7 条语言铁律（让孩子愿意聊）═══
     L.push('');
@@ -990,6 +1019,7 @@ export default async function handler(req) {
             'X-Memory-Used': String(memoryData?.memory_count || 0),
             'X-Weak-Kps': String(weakKps.length),
             'X-Paste-Detected': is_pasted === true ? '1' : '0',
+            'X-Hint-Level': estimateHintLevel(safeHistory),
         },
     });
 }
