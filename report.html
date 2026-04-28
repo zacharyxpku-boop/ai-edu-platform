@@ -269,6 +269,13 @@ function render(saved) {
         <span class="match-price"><span class="cur">¥</span>${matched.price.toLocaleString()}</span>
         <span class="match-period">${escHtml(matched.period)}</span>
       </div>
+      <div class="match-qr-mini" style="display:flex;align-items:center;gap:14px;margin:24px 0;padding:14px 16px;background:rgba(255,255,255,0.06);border-radius:6px;border:0.5px solid rgba(255,255,255,0.12)">
+        <img src="/wechat-qr.jpg" alt="加微信" style="width:60px;height:60px;border-radius:4px;background:#fff;padding:4px" onerror="this.style.display='none'">
+        <div style="font-size:13px;color:#CFC9BB;line-height:1.7">
+          <div style="color:#fff;font-weight:500;margin-bottom:2px">截图保存二维码 → 扫码加 <b style="color:#0F4F3D;background:#86EFAC;padding:1px 6px;border-radius:3px">原点智学_Zack</b></div>
+          <div style="font-size:11px;color:#8A8780">备注「报告」<b style="color:#fff">Zack 会优先回复并把诊断深聊讲清</b></div>
+        </div>
+      </div>
       <div class="match-actions">
         <button class="btn-primary" data-wechat-cta="report-cta" data-wechat-title="基于诊断报告 1v1 定制方案" data-wechat-sub="把报告发给 Zack, 24h 内回复你具体能怎么提分">加微信 · 1v1 定制方案</button>
         <button class="btn-ghost" onclick="downloadReport()">下载完整报告</button>
@@ -346,6 +353,7 @@ function escHtml(s) {
 load();
 </script>
 <script src="/src/wechat-cta.js"></script>
+<script src="/src/sticky-wechat.js" defer></script>
 <script src="/src/track.js"></script>
 </body>
 </html>

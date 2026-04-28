@@ -34,7 +34,7 @@
        真二维码: 把客服截图保存到项目根目录命名 wechat-qr.png 即生效 (Vercel 静态托管会自动 serve)
        fallback: 文件不存在时用下方占位 SVG */
     var WECHAT_ID = '原点智学_Zack';
-    var WECHAT_QR_PNG = '/wechat-qr.png';
+    var WECHAT_QR_PNG = '/wechat-qr.jpg';
     var WECHAT_QR_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent([
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">',
         '<rect width="240" height="240" fill="#FFFFFF" rx="6"/>',
