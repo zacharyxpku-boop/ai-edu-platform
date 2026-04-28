@@ -3,122 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于原点智学 | 十年教育老兵 × 清北AI前沿团队</title>
-    <meta name="description" content="原点智学：AI自学提分×AI能力培养×AI商业产出。北大经院+伦敦商学院创始人，10+名企AI专家，50+清北哈佛剑桥导师。">
-    <meta name="theme-color" content="#F5A623">
+    <title>关于原点智学 · 十年教育老兵 × 清北 AI 前沿团队</title>
+    <meta name="description" content="原点智学：AI 自学提分 × AI 能力培养 × AI 商业产出。北大经院+伦敦商学院创始人，10+ 名企 AI 专家，50+ 清北哈佛剑桥导师。">
+    <meta name="theme-color" content="#D85A30">
+    <meta name="ydzx-page" content="about">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
     <style>
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        :root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--green:#059669;--blue:#2563EB;--purple:#7C3AED;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
-        html{scroll-behavior:smooth}
-        body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
-        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-        .w{max-width:860px;margin:0 auto;padding:0 24px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --primary:#D85A30;
+        --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
+        --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
+        --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+        --pain-bg:#FCEBEB; --pain-ink:#791F1F;
+        --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
+        --ok-bg:#E1F5EE;   --ok-ink:#085041;
+        --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .w{max-width:880px;margin:0 auto;padding:0 32px}
+    @media(max-width:720px){.w{padding:0 20px}}
 
-        .nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bdr)}
-        .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-        .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-        .nav-brand svg{width:24px;height:24px}
-        .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
-        .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-        .nav-a.on{color:var(--amber);background:var(--amber-bg)}
-        .nav-cta-btn{background:var(--ink);color:#fff;border:none;padding:6px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 20px}}
+    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav-links{display:flex;gap:4px}
+    .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
+    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+    .nav-a.on{color:var(--ink);font-weight:500}
+    .nav-a.on::after{content:'·';color:var(--primary);margin-left:4px;font-weight:700}
+    .nav-cta{padding:7px 14px;border-radius:6px;border:none;background:var(--ink);color:#fff;font:500 13px var(--font);cursor:pointer}
+    .nav-cta:hover{background:#000}
+    @media(max-width:780px){.nav-links{display:none}}
 
-        section{padding:56px 0}
-        section:nth-child(even){background:var(--card)}
-        .label{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.5px;margin-bottom:6px}
-        .stitle{font-size:clamp(24px,4vw,34px);font-weight:900;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2}
+    section{padding:56px 0}
+    section:nth-child(even){background:var(--bg-2)}
+    .label{font-size:11px;color:var(--ink-3);letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase}
+    .stitle{font-size:22px;font-weight:500;letter-spacing:-.3px;margin-bottom:16px;line-height:1.3}
 
-        /* hero */
-        .hero{padding:72px 0 48px;position:relative;overflow:hidden}
-        .hero::before{content:'';position:absolute;top:-80px;right:-120px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.06) 0%,transparent 70%);pointer-events:none}
-        .hero h1{font-size:clamp(30px,5vw,48px);font-weight:900;line-height:1.12;letter-spacing:-1px;margin-bottom:16px}
-        .hero h1 em{font-style:normal;color:var(--cta)}
-        .hero-sub{font-size:17px;color:var(--ink2);max-width:520px;line-height:1.8}
-        .hero-sub strong{color:var(--ink)}
+    /* HERO */
+    .hero{padding:80px 0 56px}
+    .hero h1{font-size:clamp(28px,4.4vw,42px);font-weight:500;line-height:1.2;letter-spacing:-.5px;margin-bottom:18px}
+    .hero h1 em{font-style:normal;color:var(--primary)}
+    .hero-sub{font-size:15px;color:var(--ink-2);max-width:540px;line-height:1.8}
+    .hero-sub b{color:var(--ink);font-weight:500}
 
-        /* three things */
-        .three{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-radius:var(--r);overflow:hidden;margin-bottom:48px}
-        .three-cell{padding:32px 24px;text-align:center;transition:background .2s}
-        .three-cell:nth-child(1){background:rgba(232,89,12,0.06)}
-        .three-cell:nth-child(2){background:rgba(37,99,235,0.06)}
-        .three-cell:nth-child(3){background:rgba(5,150,105,0.06)}
-        .three-cell:hover{background:var(--card)}
-        .three-num{font-size:36px;font-weight:900;opacity:0.12;margin-bottom:4px}
-        .three-h{font-size:16px;font-weight:800;margin-bottom:6px}
-        .three-p{font-size:13px;color:var(--ink2);line-height:1.6}
-        @media(max-width:600px){.three{grid-template-columns:1fr}}
+    /* THREE THINGS */
+    .three{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden;margin:32px 0 24px}
+    .three-cell{padding:28px 22px;background:#fff;text-align:left}
+    .three-num{font-size:11px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:10px;font-variant-numeric:tabular-nums}
+    .three-h{font-size:15px;font-weight:500;margin-bottom:8px;color:var(--ink)}
+    .three-p{font-size:13px;color:var(--ink-2);line-height:1.7}
+    @media(max-width:600px){.three{grid-template-columns:1fr}}
 
-        /* team */
-        .team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-        .team-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px 16px;text-align:center;transition:all .2s}
-        .team-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.05)}
-        .team-big{font-size:32px;font-weight:900;margin-bottom:4px;letter-spacing:-1px}
-        .team-desc{font-size:12px;color:var(--ink3);line-height:1.5}
-        @media(max-width:700px){.team{grid-template-columns:1fr 1fr}}
+    /* TEAM */
+    .team{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .team-card{background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:22px 16px;text-align:center;transition:border-color .15s}
+    .team-card:hover{border-color:var(--border-strong)}
+    .team-big{font-size:28px;font-weight:500;margin-bottom:6px;letter-spacing:-.4px;color:var(--ink);font-variant-numeric:tabular-nums}
+    .team-desc{font-size:11px;color:var(--ink-3);line-height:1.55}
+    @media(max-width:700px){.team{grid-template-columns:1fr 1fr}}
 
-        /* founder */
-        .founder{position:relative;padding:40px 0}
-        .founder::before{content:'\201C';position:absolute;top:-20px;left:-8px;font-size:100px;color:var(--amber);opacity:0.08;font-family:Georgia,serif;line-height:1;pointer-events:none}
-        .founder h2{font-size:24px;font-weight:800;margin-bottom:20px}
-        .founder p{font-size:15px;color:var(--ink2);line-height:1.85;margin-bottom:16px}
-        .founder strong{color:var(--ink)}
-        .founder-sig{margin-top:24px;padding-top:16px;border-top:1px solid var(--bdr)}
-        .founder-sig b{font-size:15px;display:block;margin-bottom:2px}
-        .founder-sig span{font-size:13px;color:var(--ink4);display:block}
+    /* FOUNDER */
+    .founder{padding:24px 0}
+    .founder h2{font-size:20px;font-weight:500;margin-bottom:18px;letter-spacing:-.2px}
+    .founder p{font-size:14px;color:var(--ink-2);line-height:1.85;margin-bottom:14px}
+    .founder b{color:var(--ink);font-weight:500}
+    .founder-sig{margin-top:24px;padding-top:18px;border-top:0.5px solid var(--border)}
+    .founder-sig b{font-size:14px;display:block;margin-bottom:4px;color:var(--ink);font-weight:500}
+    .founder-sig span{font-size:12px;color:var(--ink-3);display:block;margin-bottom:2px}
 
-        /* vision cards */
-        .vision{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        .v-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:24px}
-        .v-card h4{font-size:15px;font-weight:700;margin-bottom:6px}
-        .v-card p{font-size:13px;color:var(--ink2);line-height:1.7}
-        @media(max-width:600px){.vision{grid-template-columns:1fr}}
+    /* VISION cards */
+    .vision{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .v-card{background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:22px}
+    .v-card h4{font-size:14px;font-weight:500;margin-bottom:6px;color:var(--ink)}
+    .v-card p{font-size:13px;color:var(--ink-2);line-height:1.7}
+    .v-card a{color:var(--primary);font-weight:500}
+    .v-card a:hover{color:var(--ink)}
+    @media(max-width:600px){.vision{grid-template-columns:1fr}}
 
-        /* market */
-        .market{display:flex;gap:24px;flex-wrap:wrap}
-        .market-item{flex:1;min-width:160px;text-align:center}
-        .market-num{font-size:28px;font-weight:900;color:var(--cta)}
-        .market-label{font-size:12px;color:var(--ink3);margin-top:2px}
+    /* MARKET */
+    .market{display:flex;gap:24px;flex-wrap:wrap;margin-top:8px}
+    .market-item{flex:1;min-width:160px;text-align:center;padding:18px;background:#fff;border:0.5px solid var(--border);border-radius:8px}
+    .market-num{font-size:24px;font-weight:500;color:var(--primary);letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+    .market-label{font-size:12px;color:var(--ink-3);margin-top:6px;line-height:1.5}
 
-        .foot{border-top:1px solid var(--bdr);padding:24px 0;text-align:center;font-size:12px;color:var(--ink4)}
+    /* DARK MOAT BLOCK — kept intentionally for moat-feel */
+    .moat{background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0C4A6E 100%);border-radius:8px;padding:32px 28px;color:#fff;margin-top:18px}
+    .moat-head{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end;margin-bottom:24px}
+    .moat-r1{font-size:56px;font-weight:500;line-height:1;color:#86EFAC;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+    .moat-r1-lbl{font-size:11px;color:#94A3B8;margin-top:6px;letter-spacing:.5px}
+    .moat-blurb{flex:1;min-width:240px;font-size:13px;color:#CBD5E1;line-height:1.75}
+    .moat-blurb b{color:#fff;font-weight:500}
+    .moat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+    .moat-tile{background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.12);border-radius:6px;padding:14px 16px}
+    .moat-tile-k{font-size:10px;color:#94A3B8;letter-spacing:.5px;text-transform:uppercase}
+    .moat-tile-n{font-size:18px;font-weight:500;margin-top:6px;color:#fff;font-variant-numeric:tabular-nums}
+    .moat-tile-n.green{color:#86EFAC}
+    .moat-tile-s{font-size:11px;color:#7DD3FC;margin-top:4px;line-height:1.5}
+    .moat-cta-row{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
+    .moat-btn{padding:10px 18px;border-radius:6px;font:500 13px var(--font);text-decoration:none;transition:opacity .15s}
+    .moat-btn:hover{opacity:.85}
+    .moat-btn.primary{background:var(--primary);color:#fff}
+    .moat-btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:0.5px solid rgba(255,255,255,.2)}
+    .moat-btn.outline{background:transparent;color:#7DD3FC;border:0.5px solid #1E40AF}
+
+    .foot{border-top:0.5px solid var(--border);padding:32px 0;text-align:center;font-size:12px;color:var(--ink-4);background:#fff}
+    .foot a{color:var(--ink-2)}
+    .foot a:hover{color:var(--ink)}
+    .foot p+p{margin-top:6px}
     </style>
 </head>
 <body>
 
 <nav class="nav"><div class="nav-in">
-    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
-    <a href="/" class="nav-a">学习工具</a>
-    <a href="assistant.html" class="nav-a">少年营</a>
-    <a href="articles.html" class="nav-a">研究院</a>
-    <a href="about.html" class="nav-a on">关于</a>
-    <button class="nav-cta-btn" onclick="location.href='assistant.html#pricing'">报名少年营</button>
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="study-tools.html" class="nav-a">免费工具</a>
+        <a href="paths.html" class="nav-a">学科教材</a>
+        <a href="products/compare.html" class="nav-a">课程产品</a>
+        <a href="progress.html" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='assistant.html'">报名少年营</button>
 </div></nav>
 
 <section class="hero"><div class="w">
-    <div class="label">ORIGIN AI EDU</div>
-    <h1>不教孩子<em>用AI</em><br>教孩子<em>驾驭AI</em></h1>
-    <p class="hero-sub">我们做三件事。每一件都指向同一个目标——<strong>让孩子站在AI的肩膀上学习、创造、看见未来</strong>。</p>
+    <div class="label">关于原点智学</div>
+    <h1>不教孩子 <em>用 AI</em><br>教孩子 <em>驾驭 AI</em></h1>
+    <p class="hero-sub">我们做三件事。每一件都指向同一个目标 — <b>让孩子站在 AI 的肩膀上学习、创造、看见未来</b>。</p>
 </div></section>
 
 <section><div class="w">
     <div class="label">我们做三件事</div>
-    <div class="stitle">AI自学提分 · AI能力培养 · AI商业产出</div>
+    <div class="stitle">AI 自学提分 · AI 能力培养 · AI 商业产出</div>
     <div class="three">
         <div class="three-cell">
             <div class="three-num">01</div>
-            <div class="three-h">AI自学提分</div>
-            <p class="three-p">用AI把孩子的薄弱知识点打穿，一对一诊断式学习。学得快，学得准。</p>
+            <div class="three-h">AI 自学提分</div>
+            <p class="three-p">用 AI 把孩子的薄弱知识点打穿，一对一诊断式学习。学得快，学得准。</p>
         </div>
         <div class="three-cell">
             <div class="three-num">02</div>
-            <div class="three-h">AI能力培养</div>
-            <p class="three-p">Prompt思维、AI协作、信息判断力——未来10年的底层能力。不会被AI替代的那些。</p>
+            <div class="three-h">AI 能力培养</div>
+            <p class="three-p">Prompt 思维、AI 协作、信息判断力 — 未来 10 年的底层能力。不会被 AI 替代的那些。</p>
         </div>
         <div class="three-cell">
             <div class="three-num">03</div>
-            <div class="three-h">AI商业产出</div>
+            <div class="three-h">AI 商业产出</div>
             <p class="three-p">孩子做出真实可用的产品、文案、作品集。走进真实世界，不是纸上谈兵。</p>
         </div>
     </div>
@@ -126,27 +166,27 @@
 
 <section><div class="w">
     <div class="label">团队</div>
-    <div class="stitle">十年教育老兵 × 清北AI前沿科技</div>
+    <div class="stitle">十年教育老兵 × 清北 AI 前沿科技</div>
     <div class="team">
-        <div class="team-card"><div class="team-big">10+</div><div class="team-desc">字节/阿里/腾讯/商汤<br>一线名企AI专家</div></div>
+        <div class="team-card"><div class="team-big">10+</div><div class="team-desc">字节 / 阿里 / 腾讯 / 商汤<br>一线名企 AI 专家</div></div>
         <div class="team-card"><div class="team-big">50+</div><div class="team-desc">清北哈佛剑桥<br>在读导师陪练</div></div>
         <div class="team-card"><div class="team-big">5+</div><div class="team-desc">清北专家教授<br>长期学术顾问</div></div>
-        <div class="team-card"><div class="team-big">3000+</div><div class="team-desc">原点AI学堂<br>累计服务家庭</div></div>
+        <div class="team-card"><div class="team-big">3000+</div><div class="team-desc">原点 AI 学堂<br>累计服务家庭</div></div>
     </div>
 </div></section>
 
 <section><div class="w">
     <div class="founder">
         <div class="label">创始人</div>
-        <h2>为什么做原点智学？</h2>
-        <p>我花了很多时间研究市面上的AI教育产品。结论让我不舒服：<strong>大部分产品在教孩子依赖AI，而不是驾驭AI</strong>。</p>
-        <p>搜题App让孩子不用思考就能拿到答案。AI写作工具让孩子不用组织语言就能交作文。表面上效率提升了，实际上孩子失去了最宝贵的东西——独立思考的能力。</p>
-        <p>我想做一个不一样的产品：<strong>不是教孩子「用AI」，而是教孩子「用AI思考」</strong>。成绩会提升，但更重要的是，孩子学会了提问、判断和创造。</p>
-        <p>「原点」这个名字，取自我们的办公地点——海淀东升大厦，我们叫它"原点大厦"，全国AI人才密度最高的区域之一。也取自教育的原点：培养一个能独立思考、有产出能力的人。</p>
+        <h2>为什么做原点智学</h2>
+        <p>我花了很多时间研究市面上的 AI 教育产品。结论让我不舒服 — <b>大部分产品在教孩子依赖 AI，而不是驾驭 AI</b>。</p>
+        <p>搜题 App 让孩子不用思考就能拿到答案。AI 写作工具让孩子不用组织语言就能交作文。表面上效率提升了，实际上孩子失去了最宝贵的东西 — 独立思考的能力。</p>
+        <p>我想做一个不一样的产品 · <b>不是教孩子「用 AI」，而是教孩子「用 AI 思考」</b>。成绩会提升，但更重要的是，孩子学会了提问、判断和创造。</p>
+        <p>「原点」这个名字，取自我们的办公地点 — 海淀东升大厦，我们叫它「原点大厦」，全国 AI 人才密度最高的区域之一。也取自教育的原点 · 培养一个能独立思考、有产出能力的人。</p>
         <div class="founder-sig">
             <b>Zack Zhang</b>
             <span>原点智学创始人</span>
-            <span>北大经济学院 · 伦敦商学院(LBS) · 天使投资人</span>
+            <span>北大经济学院 · 伦敦商学院（LBS）· 天使投资人</span>
             <span>NYU × LBS × 清北经管 × 哈佛牛剑</span>
         </div>
     </div>
@@ -156,55 +196,70 @@
     <div class="label">五张王牌</div>
     <div class="stitle">为什么选原点，不选别家</div>
     <div class="vision">
-        <div class="v-card"><h4>全球最顶尖AI工具</h4><p>GPT-4 + Claude + Gemini，不只是国产平替。让孩子接触世界级AI。</p></div>
-        <div class="v-card"><h4>原点社区数千位AI创业者</h4><p>中国最顶尖AI社群，孩子接触的不是理论，是正在发生的真实AI世界。</p></div>
+        <div class="v-card"><h4>全球最顶尖 AI 工具</h4><p>GPT-4 + Claude + Gemini，不只是国产平替。让孩子接触世界级 AI。</p></div>
+        <div class="v-card"><h4>原点社区数千位 AI 创业者</h4><p>中国最顶尖 AI 社群，孩子接触的不是理论，是正在发生的真实 AI 世界。</p></div>
         <div class="v-card"><h4>清北哈佛数十人团队</h4><p>不是挂名顾问，是每周参与课程设计和答疑的真实导师。</p></div>
         <div class="v-card"><h4>世界顶级商学院创始人</h4><p>北大经院 + LBS + NYU + 哈佛商学院的视野和资源网络。</p></div>
-        <div class="v-card"><h4>自研章节匹配模型</h4><p>56 本教材 OCR + BM25+规则融合引擎，843 题盲跑 r@1 89%。0 LLM 调用、毫秒级、全开源。<a href="/eval.html" style="color:#F5A623;font-weight:700;text-decoration:none">看评测页 →</a></p></div>
+        <div class="v-card"><h4>自研章节匹配模型</h4><p>56 本教材 OCR + BM25 + 规则融合引擎，843 题盲跑 r@1 89%。0 LLM 调用、毫秒级、全开源。<a href="/platform.html">看自研平台 →</a></p></div>
     </div>
 </div></section>
 
 <section><div class="w">
     <div class="label">技术护城河</div>
     <div class="stitle">自研平台 + 自研模型 · 数据全栈开源</div>
-    <div style="background:linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0C4A6E 100%);border-radius:12px;padding:32px 28px;color:#fff;margin-top:18px">
-        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end;margin-bottom:24px">
+    <div class="moat">
+        <div class="moat-head">
             <div>
-                <div id="ab-r1" style="font:900 64px/1 var(--font);color:#86EFAC;letter-spacing:-2px;font-variant-numeric:tabular-nums">89.0%</div>
-                <div style="font-size:12px;color:#94A3B8;margin-top:6px;letter-spacing:.5px">ENSEMBLE RECALL@1 · 843 题公开盲跑</div>
+                <div id="ab-r1" class="moat-r1">89.0%</div>
+                <div class="moat-r1-lbl">ENSEMBLE RECALL@1 · 843 题公开盲跑</div>
             </div>
-            <div style="flex:1;min-width:240px;font-size:14px;color:#CBD5E1;line-height:1.7">竞品做"AI 套壳"——把 GPT 包一层 UI 就叫智能教育。我们做"自研全栈"——教材 OCR 管道、BM25 检索模型、规则匹配引擎、融合算法，每一层代码、数据、评测脚本都在 GitHub 公开可复现。</div>
+            <div class="moat-blurb">竞品做「AI 套壳」 — 把 GPT 包一层 UI 就叫智能教育。我们做「自研全栈」 — 教材 OCR 管道、BM25 检索模型、规则匹配引擎、融合算法，每一层代码、数据、评测脚本都在 GitHub 公开可复现。</div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
-            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
-                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">教材数据底座</div>
-                <div style="font-size:20px;font-weight:900;margin-top:4px"><span id="ab-books">56</span> 本 · <span id="ab-ch">284</span> 章</div>
-                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">人教版/统编版 K12 全 OCR</div>
+        <div class="moat-grid">
+            <div class="moat-tile">
+                <div class="moat-tile-k">教材数据底座</div>
+                <div class="moat-tile-n"><span id="ab-books">56</span> 本 · <span id="ab-ch">284</span> 章</div>
+                <div class="moat-tile-s">人教版 / 统编版 K12 全 OCR</div>
             </div>
-            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
-                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">题库×章节反链</div>
-                <div style="font-size:20px;font-weight:900;margin-top:4px"><span id="ab-q">943</span> 题</div>
-                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">每道题精准链回源章</div>
+            <div class="moat-tile">
+                <div class="moat-tile-k">题库 × 章节反链</div>
+                <div class="moat-tile-n"><span id="ab-q">943</span> 题</div>
+                <div class="moat-tile-s">每道题精准链回源章</div>
             </div>
-            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
-                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">浏览器端模型</div>
-                <div style="font-size:20px;font-weight:900;margin-top:4px">1.8 MB</div>
-                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">BM25 倒排索引 0 后端</div>
+            <div class="moat-tile">
+                <div class="moat-tile-k">浏览器端模型</div>
+                <div class="moat-tile-n">1.8 MB</div>
+                <div class="moat-tile-s">BM25 倒排索引 0 后端</div>
             </div>
-            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px 14px">
-                <div style="font-size:10px;color:#94A3B8;letter-spacing:.6px">融合互补 lift</div>
-                <div style="font-size:20px;font-weight:900;margin-top:4px;color:#86EFAC">+44pp</div>
-                <div style="font-size:11px;color:#7DD3FC;margin-top:2px">vs 单纯规则引擎</div>
+            <div class="moat-tile">
+                <div class="moat-tile-k">融合互补 lift</div>
+                <div class="moat-tile-n green">+44pp</div>
+                <div class="moat-tile-s">vs 单纯规则引擎</div>
             </div>
         </div>
-        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
-            <a href="/eval.html" style="background:#86EFAC;color:#064E3B;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:800;text-decoration:none">→ 看完整评测报告</a>
-            <a href="/demo.html" style="background:#C4B5FD;color:#5B21B6;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:800;text-decoration:none">⚡ 30 秒看产品满载状态</a>
-            <a href="/platform.html" style="background:rgba(255,255,255,.1);color:#fff;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,.2)">→ 看平台技术架构</a>
-            <a href="https://github.com/zacharyxpku-boop/ai-edu-platform" target="_blank" style="background:transparent;color:#7DD3FC;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid #1E40AF">→ GitHub 开源仓库</a>
+        <div class="moat-cta-row">
+            <a href="/platform.html" class="moat-btn primary">看自研平台 →</a>
+            <a href="https://github.com/zacharyxpku-boop/ai-edu-platform" target="_blank" class="moat-btn outline">GitHub 开源仓库</a>
+            <a href="/products/compare.html" class="moat-btn ghost">看课程方案 →</a>
         </div>
     </div>
 </div></section>
+
+<section><div class="w">
+    <div class="label">市场背景</div>
+    <div class="stitle">AI 教育不是选修课，是必修课</div>
+    <div class="market">
+        <div class="market-item"><div class="market-num">¥3000 亿+</div><div class="market-label">2026 年中国 AI 教育市场</div></div>
+        <div class="market-item"><div class="market-num">≥8 课时/年</div><div class="market-label">2025.9 起全国中小学 AI 必修</div></div>
+        <div class="market-item"><div class="market-num">509 所</div><div class="market-label">AI 教育基地校</div></div>
+    </div>
+    <p style="margin-top:24px;font-size:13px;color:var(--ink-3);text-align:center">2026 年 4 月 10 日，教育部等五部门联发《「人工智能 + 教育」行动计划》</p>
+</div></section>
+
+<footer class="foot"><div class="w">
+    <p>© 2026 原点智学 · 公众号「原点 AI 学堂」 · business@yuandianzhixue.com</p>
+    <p>让孩子站在 AI 的肩膀上学习、创造、看见未来</p>
+</div></footer>
 
 <script>
 (async function(){
@@ -225,29 +280,7 @@
     } catch(e){}
 })();
 </script>
-
-<section><div class="w">
-    <div class="label">市场背景</div>
-    <div class="stitle">AI教育不是选修课，是必修课</div>
-    <div class="market">
-        <div class="market-item"><div class="market-num">¥3000亿+</div><div class="market-label">2026年中国AI教育市场</div></div>
-        <div class="market-item"><div class="market-num">≥8课时/年</div><div class="market-label">2025.9起全国中小学AI必修</div></div>
-        <div class="market-item"><div class="market-num">509所</div><div class="market-label">AI教育基地校</div></div>
-    </div>
-    <p style="margin-top:24px;font-size:13px;color:var(--ink3);text-align:center">2026年4月10日，教育部等五部门联发《"人工智能+教育"行动计划》</p>
-</div></section>
-
-<footer class="foot"><div class="w">
-    <p>© 2026 原点智学 · 公众号「原点AI学堂」· business@yuandianzhixue.com</p>
-    <p style="margin-top:4px">让孩子站在AI的肩膀上学习、创造、看见未来</p>
-    <p style="margin-top:10px;font-size:12px;color:#71717A">
-        给评委 / 新工程师 5 分钟读懂全集 →
-        <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/blob/main/docs/KA-LOCALIZE-MILESTONE-v1.md" target="_blank" rel="noopener" style="color:#F5A623;font-weight:700;text-decoration:none">📋 KA 本地化里程碑 v1</a>
-        ·
-        <a href="https://github.com/zacharyxpku-boop/ai-edu-platform/releases/tag/v1.0-ka-wave" target="_blank" rel="noopener" style="color:#71717A;text-decoration:underline">v1.0-ka-wave release</a>
-    </p>
-</div></footer>
-
+<script src="/src/track.js"></script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
 </body>

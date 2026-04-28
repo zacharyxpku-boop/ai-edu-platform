@@ -3,148 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>原点研究院 | AI时代家庭教育深度内容 | 原点智学</title>
-    <meta name="description" content="免费、实用、不贩卖焦虑。实操指南、工具测评、认知升级、分龄建议——看完之后，家长能立刻做点什么。">
-    <meta name="theme-color" content="#F5A623">
+    <title>原点研究院 · AI 时代家庭教育深度内容 | 原点智学</title>
+    <meta name="description" content="免费、实用、不贩卖焦虑。实操指南、工具测评、认知升级、分龄建议——看完之后家长能立刻做点什么。">
+    <meta name="theme-color" content="#D85A30">
+    <meta name="ydzx-page" content="articles">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
     <style>
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        :root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--green:#059669;--blue:#2563EB;--purple:#7C3AED;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
-        html{scroll-behavior:smooth}
-        body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
-        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.018;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-        .w{max-width:860px;margin:0 auto;padding:0 24px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+        --primary:#D85A30;
+        --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
+        --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
+        --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+        --pain-bg:#FCEBEB; --pain-ink:#791F1F;
+        --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
+        --ok-bg:#E1F5EE;   --ok-ink:#085041;
+        --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .w{max-width:860px;margin:0 auto;padding:0 32px}
+    @media(max-width:720px){.w{padding:0 20px}}
 
-        .nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.88);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bdr)}
-        .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-        .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-        .nav-brand svg{width:24px;height:24px}
-        .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
-        .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-        .nav-a.on{color:var(--amber);background:var(--amber-bg)}
-        .nav-cta-btn{background:var(--ink);color:#fff;border:none;padding:6px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 20px}}
+    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav-links{display:flex;gap:4px}
+    .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
+    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
+    .nav-a.on{color:var(--ink);font-weight:500}
+    .nav-a.on::after{content:'·';color:var(--primary);margin-left:4px;font-weight:700}
+    .nav-cta{padding:7px 14px;border-radius:6px;border:none;background:var(--ink);color:#fff;font:500 13px var(--font);cursor:pointer}
+    .nav-cta:hover{background:#000}
+    @media(max-width:780px){.nav-links{display:none}}
 
-        .hero{padding:64px 0 40px}
-        .hero h1{font-size:clamp(28px,5vw,42px);font-weight:900;letter-spacing:-1px;margin-bottom:8px;line-height:1.15}
-        .hero-sub{font-size:16px;color:var(--ink2);max-width:480px}
-        .hero-rule{font-size:14px;color:var(--ink3);margin-top:16px;padding:12px 16px;background:var(--amber-bg);border-radius:var(--r);border-left:3px solid var(--amber);max-width:480px}
+    .hero{padding:64px 0 40px}
+    @media(max-width:720px){.hero{padding:40px 0 28px}}
+    .hero .eyebrow{font-size:12px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:10px}
+    .hero h1{font-size:clamp(28px,4.5vw,40px);font-weight:500;letter-spacing:-.4px;line-height:1.2;margin-bottom:14px}
+    .hero-sub{font-size:15px;color:var(--ink-2);max-width:480px;margin-bottom:18px}
+    .hero-rule{font-size:13px;color:var(--ink);padding:14px 18px;background:var(--bg-2);border-radius:8px;border-left:2px solid var(--primary);max-width:520px}
 
-        /* categories */
-        .cats{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--r);overflow:hidden;margin:40px 0}
-        .cat{padding:24px 20px;transition:background .2s}
-        .cat:nth-child(1){background:rgba(232,89,12,0.05)}
-        .cat:nth-child(2){background:rgba(37,99,235,0.05)}
-        .cat:nth-child(3){background:rgba(124,58,237,0.05)}
-        .cat:nth-child(4){background:rgba(5,150,105,0.05)}
-        .cat:hover{background:var(--card)}
-        .cat h3{font-size:15px;font-weight:800;margin-bottom:4px}
-        .cat p{font-size:13px;color:var(--ink2);line-height:1.6}
-        @media(max-width:600px){.cats{grid-template-columns:1fr}}
+    /* categories — single ink, primary on hover only */
+    .cats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden;margin:36px 0 48px}
+    .cat{padding:22px 22px;background:#fff;transition:background .15s}
+    .cat:hover{background:var(--bg-2)}
+    .cat-mark{font-size:11px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
+    .cat h3{font-size:14px;font-weight:500;margin-bottom:6px;color:var(--ink)}
+    .cat p{font-size:12px;color:var(--ink-2);line-height:1.7}
+    @media(max-width:600px){.cats{grid-template-columns:1fr}}
 
-        /* article list */
-        .label{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.5px;margin-bottom:6px}
-        .stitle{font-size:clamp(22px,3.5vw,30px);font-weight:900;letter-spacing:-0.3px;margin-bottom:24px;line-height:1.2}
+    /* article list */
+    .label{font-size:11px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:6px}
+    .stitle{font-size:20px;font-weight:500;letter-spacing:-.2px;margin-bottom:24px;line-height:1.3}
 
-        .articles{display:flex;flex-direction:column;gap:0}
-        .article{display:grid;grid-template-columns:1fr auto;gap:16px;padding:24px 0;border-bottom:1px solid var(--bdr);text-decoration:none;color:inherit;transition:all .15s;align-items:start}
-        .article:hover{padding-left:8px}
-        .article:last-child{border-bottom:none}
-        .article-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;align-self:start;margin-top:4px}
-        .tag-guide{background:rgba(232,89,12,0.08);color:var(--cta)}
-        .tag-review{background:rgba(37,99,235,0.08);color:var(--blue)}
-        .tag-think{background:rgba(124,58,237,0.08);color:var(--purple)}
-        .tag-age{background:rgba(5,150,105,0.08);color:var(--green)}
-        .article h3{font-size:17px;font-weight:700;margin-bottom:4px;line-height:1.4}
-        .article p{font-size:13px;color:var(--ink3);line-height:1.6}
-        .article-meta{font-size:11px;color:var(--ink4);margin-top:6px}
+    .articles{display:flex;flex-direction:column;gap:0}
+    .article{display:grid;grid-template-columns:1fr auto;gap:14px;padding:22px 0;border-bottom:0.5px solid var(--border);align-items:start;transition:padding-left .15s}
+    .article:hover{padding-left:8px}
+    .article:last-child{border-bottom:none}
+    .article-tag{font-size:11px;font-weight:500;padding:3px 10px;border-radius:4px;white-space:nowrap;align-self:start;margin-top:4px;background:var(--bg-2);color:var(--ink-2);letter-spacing:.3px}
+    .tag-guide{background:var(--mid-bg);color:var(--mid-ink)}
+    .tag-review{background:var(--bg-2);color:var(--ink)}
+    .tag-think{background:var(--bg-3);color:var(--ink)}
+    .tag-age{background:var(--ok-bg);color:var(--ok-ink)}
+    .article h3{font-size:16px;font-weight:500;margin-bottom:6px;line-height:1.45;color:var(--ink)}
+    .article:hover h3{color:var(--primary)}
+    .article p{font-size:13px;color:var(--ink-2);line-height:1.7}
+    .article-meta{font-size:11px;color:var(--ink-4);margin-top:8px}
 
-        /* cta */
-        .cta-box{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px;text-align:center;margin:48px 0}
-        .cta-box h3{font-size:20px;font-weight:800;margin-bottom:8px}
-        .cta-box p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:20px}
-        .cta-btn{background:var(--amber);color:var(--ink);border:none;padding:12px 28px;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .15s}
-        .cta-btn:hover{opacity:.9}
+    /* cta */
+    .cta-box{background:var(--ink);color:#fff;border-radius:8px;padding:32px 28px;text-align:center;margin:48px 0 32px}
+    .cta-box h3{font-size:18px;font-weight:500;margin-bottom:8px}
+    .cta-box p{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:20px}
+    .cta-btn{background:var(--primary);color:#fff;border:none;padding:11px 24px;border-radius:6px;font:500 13px var(--font);cursor:pointer;transition:background .15s}
+    .cta-btn:hover{background:#B84720}
 
-        .foot{border-top:1px solid var(--bdr);padding:24px 0;text-align:center;font-size:12px;color:var(--ink4)}
+    .foot{border-top:0.5px solid var(--border);padding:28px 0;text-align:center;font-size:12px;color:var(--ink-4);margin-top:32px}
     </style>
 </head>
 <body>
 
 <nav class="nav"><div class="nav-in">
-    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
-    <a href="/" class="nav-a">学习工具</a>
-    <a href="assistant.html" class="nav-a">少年营</a>
-    <a href="articles.html" class="nav-a on">研究院</a>
-    <a href="about.html" class="nav-a">关于</a>
-    <button class="nav-cta-btn" onclick="location.href='assistant.html#pricing'">报名少年营</button>
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="study-tools.html" class="nav-a">免费工具</a>
+        <a href="paths.html" class="nav-a">学科教材</a>
+        <a href="products/compare.html" class="nav-a">课程产品</a>
+        <a href="progress.html" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='assistant.html'">报名少年营</button>
 </div></nav>
 
 <section class="hero"><div class="w">
-    <h1>原点研究院</h1>
-    <p class="hero-sub">AI时代家庭教育的深度内容。免费、实用、不贩卖焦虑。</p>
-    <div class="hero-rule">每篇文章都有一个标准：看完之后，家长能立刻做点什么。</div>
+    <div class="eyebrow">原点研究院</div>
+    <h1>AI 时代家庭教育的深度内容</h1>
+    <p class="hero-sub">免费、实用、不贩卖焦虑。</p>
+    <div class="hero-rule">每篇文章都有一个标准 — 看完之后，家长能立刻做点什么。</div>
 </div></section>
 
 <section><div class="w">
     <div class="cats">
-        <div class="cat"><h3>实操指南</h3><p>不花一分钱，在家就能带孩子做的AI学习活动。具体到用什么工具、说什么话、怎么引导。</p></div>
-        <div class="cat"><h3>工具测评</h3><p>ChatGPT、豆包、Kimi、通义千问……到底哪个适合孩子用？亲测对比，给真实推荐。</p></div>
-        <div class="cat"><h3>认知升级</h3><p>AI时代什么能力最重要？用数据和案例帮你看清趋势，做出理性判断。</p></div>
-        <div class="cat"><h3>分龄建议</h3><p>6岁和16岁接触AI的方式完全不同。按年龄段给出具体的、可操作的引导建议。</p></div>
+        <div class="cat"><div class="cat-mark">类别 01</div><h3>实操指南</h3><p>不花一分钱，在家就能带孩子做的 AI 学习活动。具体到用什么工具、说什么话、怎么引导。</p></div>
+        <div class="cat"><div class="cat-mark">类别 02</div><h3>工具测评</h3><p>ChatGPT、豆包、Kimi、通义千问，哪个适合孩子用？亲测对比，给真实推荐。</p></div>
+        <div class="cat"><div class="cat-mark">类别 03</div><h3>认知升级</h3><p>AI 时代什么能力最重要？用数据和案例帮你看清趋势，做出理性判断。</p></div>
+        <div class="cat"><div class="cat-mark">类别 04</div><h3>分龄建议</h3><p>6 岁和 16 岁接触 AI 的方式完全不同。按年龄段给出具体的、可操作的引导建议。</p></div>
     </div>
 </div></section>
 
 <section><div class="w">
-    <div class="label">文章</div>
-    <div class="stitle">最新内容</div>
+    <div class="label">最新内容</div>
+    <div class="stitle">6 篇正在被家长读</div>
     <div class="articles">
         <a href="#" class="article">
             <div>
-                <h3>18个北京中学生里，只有1个在用AI做这件事</h3>
-                <p>采访18个北京名校中学生，17个把AI当百度用，第18个用Claude给自己写了一个背古文的小工具。消费者和创造者的分水岭，在开始的时候就定型了。</p>
-                <div class="article-meta">公众号「原点AI学堂」首发</div>
+                <h3>18 个北京中学生里，只有 1 个在用 AI 做这件事</h3>
+                <p>采访 18 个北京名校中学生，17 个把 AI 当百度用，第 18 个用 Claude 给自己写了一个背古文的小工具。消费者和创造者的分水岭，在开始的时候就定型了。</p>
+                <div class="article-meta">公众号「原点 AI 学堂」首发</div>
             </div>
             <span class="article-tag tag-think">认知</span>
         </a>
         <a href="#" class="article">
             <div>
-                <h3>今晚就能做的5件事：用AI陪孩子学习的入门指南</h3>
-                <p>不需要任何工具，不需要会编程。打开任意AI助手，输入一段话，让孩子跟它聊一道作业题。附完整提示词模板。</p>
-                <div class="article-meta">实操系列 · 第1篇</div>
+                <h3>今晚就能做的 5 件事 · 用 AI 陪孩子学习的入门指南</h3>
+                <p>不需要任何工具，不需要会编程。打开任意 AI 助手，输入一段话，让孩子跟它聊一道作业题。附完整提示词模板。</p>
+                <div class="article-meta">实操系列 · 第 1 篇</div>
             </div>
             <span class="article-tag tag-guide">实操</span>
         </a>
         <a href="#" class="article">
             <div>
-                <h3>豆包 vs Kimi vs 通义千问：哪个最适合初中生？</h3>
-                <p>用同一道数学题、同一篇作文、同一个英语对话测试三款免费AI。结论可能跟你想的不一样。</p>
-                <div class="article-meta">工具测评系列 · 第1篇</div>
+                <h3>豆包 vs Kimi vs 通义千问 · 哪个最适合初中生</h3>
+                <p>用同一道数学题、同一篇作文、同一个英语对话测试三款免费 AI。结论可能跟你想的不一样。</p>
+                <div class="article-meta">工具测评系列 · 第 1 篇</div>
             </div>
             <span class="article-tag tag-review">测评</span>
         </a>
         <a href="#" class="article">
             <div>
-                <h3>6岁、10岁、14岁：三个年龄段接触AI的正确姿势</h3>
-                <p>6岁重在好奇心保护，10岁重在提问训练，14岁重在判断力培养。每个年龄段给3条具体建议。</p>
-                <div class="article-meta">分龄系列 · 第1篇</div>
+                <h3>6 岁、10 岁、14 岁 · 三个年龄段接触 AI 的正确姿势</h3>
+                <p>6 岁重在好奇心保护，10 岁重在提问训练，14 岁重在判断力培养。每个年龄段给 3 条具体建议。</p>
+                <div class="article-meta">分龄系列 · 第 1 篇</div>
             </div>
             <span class="article-tag tag-age">分龄</span>
         </a>
         <a href="#" class="article">
             <div>
-                <h3>AI时代，「聪明」可能不值钱了</h3>
-                <p>AI最擅长帮聪明孩子更快拿到答案。那不聪明但有韧性的孩子呢？也许他们才是AI时代的赢家。</p>
-                <div class="article-meta">认知系列 · 第2篇</div>
+                <h3>AI 时代，「聪明」可能不值钱了</h3>
+                <p>AI 最擅长帮聪明孩子更快拿到答案。那不聪明但有韧性的孩子呢？也许他们才是 AI 时代的赢家。</p>
+                <div class="article-meta">认知系列 · 第 2 篇</div>
             </div>
             <span class="article-tag tag-think">认知</span>
         </a>
         <a href="#" class="article">
             <div>
-                <h3>费曼学习法 × AI：让孩子教AI，比AI教孩子更有效</h3>
-                <p>反过来让孩子当老师，AI当学生。孩子讲不清楚的地方就是没真懂的地方。附完整操作流程。</p>
-                <div class="article-meta">实操系列 · 第2篇</div>
+                <h3>费曼学习法 × AI · 让孩子教 AI，比 AI 教孩子更有效</h3>
+                <p>反过来让孩子当老师，AI 当学生。孩子讲不清楚的地方就是没真懂的地方。附完整操作流程。</p>
+                <div class="article-meta">实操系列 · 第 2 篇</div>
             </div>
             <span class="article-tag tag-guide">实操</span>
         </a>
@@ -153,7 +174,7 @@
 
 <div class="w">
     <div class="cta-box">
-        <h3>关注「原点AI学堂」</h3>
+        <h3>关注「原点 AI 学堂」</h3>
         <p>每周更新，不买课也值得看。</p>
         <button class="cta-btn" data-lead-kind="newsletter" data-lead-title="订阅「原点家长周刊」" data-lead-sub="每周一封邮件 / 微信推送，不买课也能跟着精选方法成长。">订阅每周更新</button>
     </div>
@@ -164,6 +185,7 @@
 </div></footer>
 
 <script src="/src/lead-modal.js" defer></script>
+<script src="/src/track.js"></script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
 </body>

@@ -3,110 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>原点会员 · 一个人帮你把全球AI学习工具用起来 | 原点智学</title>
-<meta name="description" content="¥99/月解锁中文指南+答疑。¥299/月代账号+代付+一站式使用。前100名半价。">
-<meta name="theme-color" content="#F5A623">
+<title>原点会员 · 一个人帮你把全球 AI 学习工具用起来 | 原点智学</title>
+<meta name="description" content="¥99/月解锁中文指南+答疑。¥299/月代账号+代付+一站式使用。前 100 名半价。">
+<meta name="theme-color" content="#D85A30">
+<meta name="ydzx-page" content="membership">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;--bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;--font:'Noto Sans SC',system-ui,sans-serif;--r:10px}
+:root{
+    --primary:#D85A30;
+    --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
+    --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
+    --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+    --pain-bg:#FCEBEB; --pain-ink:#791F1F;
+    --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
+    --ok-bg:#E1F5EE;   --ok-ink:#085041;
+    /* legacy aliases for inline styles in modal markup (form 仍引这些) */
+    --card:#fff; --bdr:rgba(0,0,0,0.08); --bdr2:rgba(0,0,0,0.16);
+    --ink2:#3F3F46; --ink3:#666; --ink4:#999;
+    --amber:#D85A30; --amber-bg:#FAEEDA; --cta:#D85A30;
+    --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
+    --r:8px;
+}
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
 
-.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr)}
-.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-.nav-brand svg{width:24px;height:24px}
-.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+@media(max-width:720px){.nav-in{padding:0 20px}}
+.brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+.nav-links{display:flex;gap:4px}
+.nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
 .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+.nav-a.on{color:var(--ink);font-weight:500}
+.nav-a.on::after{content:'·';color:var(--primary);margin-left:4px;font-weight:700}
+.nav-cta{padding:7px 14px;border-radius:6px;border:none;background:var(--ink);color:#fff;font:500 13px var(--font);cursor:pointer}
+.nav-cta:hover{background:#000}
+@media(max-width:780px){.nav-links{display:none}}
 
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.wrap{max-width:900px;margin:0 auto;padding:0 32px}
+@media(max-width:720px){.wrap{padding:0 20px}}
 
-.hero{padding:56px 20px 32px;text-align:center;max-width:860px;margin:0 auto}
-.pill{display:inline-block;background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;margin-bottom:14px;letter-spacing:.5px}
-h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:14px}
-h1 em{font-style:normal;color:var(--cta)}
-.hero-sub{font-size:16px;color:var(--ink2);max-width:620px;margin:0 auto;line-height:1.8}
+.hero{padding:64px 32px 32px;text-align:center;max-width:880px;margin:0 auto}
+@media(max-width:720px){.hero{padding:40px 20px 24px}}
+.pill{display:inline-block;background:var(--bg-2);color:var(--ink-2);font-size:11px;font-weight:500;padding:5px 14px;border-radius:4px;margin-bottom:18px;letter-spacing:.4px;border:0.5px solid var(--border)}
+.pill b{color:var(--primary);font-weight:500}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:500;letter-spacing:-.4px;line-height:1.2;margin-bottom:14px;color:var(--ink)}
+h1 em{font-style:normal;color:var(--primary)}
+.hero-sub{font-size:14px;color:var(--ink-2);max-width:560px;margin:0 auto;line-height:1.85}
 
-.why{padding:40px 20px;background:var(--card)}
-.why-in{max-width:860px;margin:0 auto}
-.why h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:24px}
-.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.why{padding:48px 32px;background:var(--bg-2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+@media(max-width:720px){.why{padding:36px 20px}}
+.why-in{max-width:880px;margin:0 auto}
+.why h2{font-size:20px;font-weight:500;text-align:center;margin-bottom:24px;letter-spacing:-.2px}
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:700px){.pains{grid-template-columns:1fr}}
-.pain{padding:20px;background:var(--bg);border-radius:var(--r);border:1px solid var(--bdr)}
-.pain-icon{font-size:26px;margin-bottom:8px}
-.pain h3{font-size:14px;font-weight:800;margin-bottom:6px}
-.pain p{font-size:13px;color:var(--ink3);line-height:1.7}
+.pain{padding:22px;background:#fff;border-radius:8px;border:0.5px solid var(--border);transition:border-color .15s}
+.pain:hover{border-color:var(--border-strong)}
+.pain-mark{font-size:11px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:10px}
+.pain h3{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--ink)}
+.pain p{font-size:13px;color:var(--ink-2);line-height:1.7}
 
-.tiers-sec{padding:48px 20px}
-.tiers-sec h2{font-size:26px;font-weight:900;text-align:center;margin-bottom:8px}
-.tiers-sub{text-align:center;color:var(--ink3);font-size:14px;margin-bottom:32px}
-.tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:860px;margin:0 auto}
+.tiers-sec{padding:56px 32px}
+@media(max-width:720px){.tiers-sec{padding:40px 20px}}
+.tiers-sec h2{font-size:22px;font-weight:500;text-align:center;margin-bottom:8px;letter-spacing:-.2px}
+.tiers-sub{text-align:center;color:var(--ink-3);font-size:13px;margin-bottom:32px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:880px;margin:0 auto}
 @media(max-width:700px){.tiers{grid-template-columns:1fr}}
-.tier{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:28px 24px;position:relative}
-.tier.hot{border-color:var(--amber);border-width:2px;box-shadow:0 8px 30px rgba(245,166,35,.12)}
-.tier-badge{position:absolute;top:-11px;right:20px;background:var(--cta);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
-.tier-name{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.5px;margin-bottom:4px}
-.tier-title{font-size:22px;font-weight:900;margin-bottom:12px}
+.tier{background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:28px 26px;position:relative;transition:border-color .15s}
+.tier:hover{border-color:var(--border-strong)}
+.tier.hot{border-color:var(--ink);border-width:1px}
+.tier-badge{position:absolute;top:-10px;right:20px;background:var(--primary);color:#fff;font-size:11px;font-weight:500;padding:3px 10px;border-radius:4px;letter-spacing:.3px}
+.tier-name{font-size:11px;font-weight:500;color:var(--ink-3);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
+.tier-title{font-size:18px;font-weight:500;margin-bottom:14px;letter-spacing:-.1px;color:var(--ink)}
 .tier-price{display:flex;align-items:baseline;gap:6px;margin-bottom:4px}
-.tier-price-now{font-size:36px;font-weight:900;color:var(--cta);letter-spacing:-1px}
-.tier-price-unit{font-size:13px;color:var(--ink3)}
-.tier-price-old{font-size:13px;color:var(--ink4);text-decoration:line-through}
-.tier-note{font-size:11px;color:var(--ink4);margin-bottom:18px}
+.tier-price-now{font-size:36px;font-weight:500;color:var(--primary);letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.tier-price-unit{font-size:13px;color:var(--ink-3)}
+.tier-price-old{font-size:13px;color:var(--ink-4);text-decoration:line-through}
+.tier-note{font-size:11px;color:var(--ink-3);margin-bottom:18px}
 .tier ul{list-style:none;margin-bottom:20px}
-.tier li{padding:7px 0;font-size:13px;color:var(--ink2);display:flex;gap:8px}
-.tier li::before{content:'✓';color:#047857;font-weight:800;flex-shrink:0}
-.tier li.locked{color:var(--ink4)}
-.tier li.locked::before{content:'✗';color:var(--ink4)}
-.tier-btn{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer}
-.tier.hot .tier-btn{background:var(--cta)}
-.tier-btn:hover{opacity:.9}
+.tier li{padding:6px 0;font-size:13px;color:var(--ink-2);display:flex;gap:10px}
+.tier li::before{content:'✓';color:var(--ok-ink);font-weight:500;flex-shrink:0}
+.tier li.locked{color:var(--ink-4)}
+.tier li.locked::before{content:'×';color:var(--ink-4);font-weight:400}
+.tier-btn{width:100%;padding:11px;background:var(--ink);color:#fff;border:none;border-radius:6px;font:500 13px var(--font);cursor:pointer;transition:background .15s}
+.tier.hot .tier-btn{background:var(--primary)}
+.tier-btn:hover{background:#000}
+.tier.hot .tier-btn:hover{background:#B84720}
 
-.faq{padding:48px 20px;background:var(--card)}
+.faq{padding:56px 32px;background:var(--bg-2);border-top:0.5px solid var(--border)}
+@media(max-width:720px){.faq{padding:40px 20px}}
 .faq-in{max-width:800px;margin:0 auto}
-.faq h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:24px}
-.q{border-bottom:1px solid var(--bdr);padding:18px 0}
+.faq h2{font-size:20px;font-weight:500;text-align:center;margin-bottom:24px;letter-spacing:-.2px}
+.q{border-bottom:0.5px solid var(--border);padding:18px 0}
 .q:last-child{border:none}
-.q h4{font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)}
-.q p{font-size:13px;color:var(--ink2);line-height:1.7}
+.q h4{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--ink)}
+.q h4::before{content:'Q.';color:var(--primary);font-weight:500;margin-right:8px}
+.q p{font-size:13px;color:var(--ink-2);line-height:1.75}
 
-.contact{padding:36px 20px;text-align:center;background:var(--ink);color:#fff}
-.contact h3{font-size:18px;font-weight:900;margin-bottom:8px}
-.contact p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:14px}
-.contact-btn{background:var(--amber);color:var(--ink);border:none;padding:10px 22px;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer}
+.contact{padding:48px 32px;text-align:center;background:var(--ink);color:#fff}
+@media(max-width:720px){.contact{padding:36px 20px}}
+.contact h3{font-size:20px;font-weight:500;margin-bottom:8px;color:#fff;letter-spacing:-.2px}
+.contact p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:18px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+.contact-btn{background:var(--primary);color:#fff;border:none;padding:11px 24px;border-radius:6px;font:500 13px var(--font);cursor:pointer;transition:background .15s}
+.contact-btn:hover{background:#B84720}
 
-.foot{padding:18px 0;text-align:center;font-size:12px;color:var(--ink4);border-top:1px solid var(--bdr)}
+.foot{padding:24px;text-align:center;font-size:12px;color:var(--ink-4);border-top:0.5px solid var(--border);background:#fff}
 </style>
 </head>
 <body>
 
 <nav class="nav"><div class="nav-in">
-    <a href="/" class="nav-brand"><svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>原点智学</a>
-    <a href="/" class="nav-a">工具箱</a>
-    <a href="/tools/global-picks.html" class="nav-a">全球精选</a>
-    <a href="/membership.html" class="nav-a on">会员</a>
-    <a href="/assistant" class="nav-a">少年营</a>
-    <a href="/about.html" class="nav-a">关于</a>
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="/study-tools.html" class="nav-a">免费工具</a>
+        <a href="/paths.html" class="nav-a">学科教材</a>
+        <a href="/products/compare.html" class="nav-a">课程产品</a>
+        <a href="/progress.html" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='/assistant.html'">报名少年营</button>
 </div></nav>
 
 <header class="hero">
-    <div class="pill">前100名半价 · 不满意30天内全退</div>
-    <h1>原点会员<br>一个人帮你把<em>全球AI学习工具</em>用起来</h1>
-    <p class="hero-sub">你不用翻墙、不用懂英文、不用有外卡。付钱给一个能信任的中文教练，比冒险信20个陌生网站省心多了。</p>
+    <div class="pill">前 100 名半价 · 不满意 <b>30 天内全退</b></div>
+    <h1>一个人帮你把<br><em>全球 AI 学习工具</em> 用起来</h1>
+    <p class="hero-sub">你不用翻墙、不用懂英文、不用有外卡。付钱给一个能信任的中文教练，比冒险信 20 个陌生网站省心多了。</p>
 </header>
 
-<div style="max-width:860px;margin:-8px auto 0;padding:0 20px">
-<a href="/platform.html" id="mb-moat" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(110deg,#0F172A,#1E293B);border-radius:12px;color:#fff;text-decoration:none;border:1px solid #0F172A">
-    <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:#FCD34D">SELF-BUILT</div>
-    <div style="flex:1;min-width:0;font-size:13px;line-height:1.6;color:#E5E7EB">
-        我们不只是转介全球工具 — 还自研 <b style="color:#fff">章节匹配引擎 v1.2</b>，
-        覆盖 <b style="color:#fff" id="mb-books">—</b> 本教材 <b style="color:#fff" id="mb-ch">—</b> 章，
-        <b style="color:#fff" id="mb-q">—</b> 道题反链命中率 <b style="color:#FCD34D" id="mb-rate">—</b>
+<div style="max-width:880px;margin:-4px auto 0;padding:0 32px">
+<a href="/platform.html" id="mb-moat" style="display:flex;align-items:center;gap:14px;padding:16px 20px;background:#1A1A1A;border-radius:8px;color:#fff;text-decoration:none">
+    <div style="font-size:10px;font-weight:500;letter-spacing:.6px;color:#D85A30;text-transform:uppercase;padding:3px 8px;background:rgba(216,90,48,0.12);border-radius:4px">自研</div>
+    <div style="flex:1;min-width:0;font-size:13px;line-height:1.6;color:#CBD5E1">
+        我们不只是转介全球工具，还自研 <b style="color:#fff;font-weight:500">章节匹配引擎 v1.2</b>。
+        覆盖 <b style="color:#fff;font-weight:500" id="mb-books">—</b> 本教材 <b style="color:#fff;font-weight:500" id="mb-ch">—</b> 章，
+        <b style="color:#fff;font-weight:500" id="mb-q">—</b> 道题反链命中率 <b style="color:#D85A30;font-weight:500" id="mb-rate">—</b>
     </div>
-    <div style="font-size:12px;color:#FCD34D;font-weight:700;white-space:nowrap">看引擎 →</div>
+    <div style="font-size:12px;color:#D85A30;font-weight:500;white-space:nowrap">看引擎 →</div>
 </a>
 </div>
 <script>
@@ -131,22 +170,22 @@ h1 em{font-style:normal;color:var(--cta)}
 </script>
 
 <section class="why"><div class="why-in">
-    <h2>为什么家长需要一个"AI学习教练"</h2>
+    <h2>为什么家长需要一个 AI 学习教练</h2>
     <div class="pains">
         <div class="pain">
-            <div class="pain-icon">🔍</div>
+            <div class="pain-mark">痛点 01</div>
             <h3>工具太多不知道选哪个</h3>
-            <p>Khanmigo、Brilliant、Synthesis、IXL…每个都说自己最好。家长要花几十小时对比。我们替你测完。</p>
+            <p>Khanmigo、Brilliant、Synthesis、IXL，每个都说自己最好。家长要花几十小时对比。我们替你测完。</p>
         </div>
         <div class="pain">
-            <div class="pain-icon">🌐</div>
-            <h3>翻墙+外卡+英文三道坎</h3>
-            <p>ChatGPT要VPN、要Visa、要英文输入——任何一关卡住，80%的家长就放弃了。我们代办三件事。</p>
+            <div class="pain-mark">痛点 02</div>
+            <h3>翻墙 + 外卡 + 英文三道坎</h3>
+            <p>ChatGPT 要 VPN、要 Visa、要英文输入，任何一关卡住，80% 的家长就放弃了。我们代办三件事。</p>
         </div>
         <div class="pain">
-            <div class="pain-icon">👨‍👩‍👧</div>
+            <div class="pain-mark">痛点 03</div>
             <h3>孩子用起来没人管</h3>
-            <p>工具开了号不等于学得好。每周1v1答疑让家长知道孩子真的在用、用得对、学到了什么。</p>
+            <p>工具开了号不等于学得好。每周 1v1 答疑让家长知道孩子真的在用、用得对、学到了什么。</p>
         </div>
     </div>
 </div></section>
@@ -157,7 +196,7 @@ h1 em{font-style:normal;color:var(--cta)}
 
     <div class="tiers">
         <div class="tier">
-            <div class="tier-name">🌱 基础会员</div>
+            <div class="tier-name">基础会员</div>
             <div class="tier-title">中文使用指南</div>
             <div class="tier-price">
                 <span class="tier-price-now">¥99</span>
@@ -179,7 +218,7 @@ h1 em{font-style:normal;color:var(--cta)}
 
         <div class="tier hot">
             <span class="tier-badge">推荐 · 省心</span>
-            <div class="tier-name">🔥 全家会员</div>
+            <div class="tier-name">全家会员</div>
             <div class="tier-title">一站式代办</div>
             <div class="tier-price">
                 <span class="tier-price-now">¥299</span>
@@ -275,7 +314,7 @@ function mbClose() {
 function mbCopyEmail() {
     if (navigator.clipboard) {
         navigator.clipboard.writeText('business@yuandianzhixue.com');
-        alert('邮箱已复制 ✓\n备注「会员」+ 你的诉求，Zack 24 小时内回复');
+        alert('邮箱已复制\n备注「会员」+ 你的诉求，Zack 24 小时内回复');
     } else {
         alert('请手动复制: business@yuandianzhixue.com');
     }
@@ -333,8 +372,8 @@ function mbSubmit(e) {
                 localStorage.setItem('ydzx_last_membership_tier', tier);
             } catch(e){}
 
-            btn.textContent = '✓ 已提交，Zack 24h 内联系';
-            btn.style.background = '#2D9F6F';
+            btn.textContent = '已提交，Zack 24h 内联系';
+            btn.style.background = '#085041';
             setTimeout(function(){
                 mbClose();
                 btn.textContent = '提交预约';
