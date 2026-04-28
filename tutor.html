@@ -1079,6 +1079,70 @@ function openEscalateDialog(presetKind = 'manual') {
 
 document.getElementById('call-mentor-btn')?.addEventListener('click', () => openEscalateDialog('manual'));
 
+// P1-4 · 检查最近 1 小时内学长回复，弹 banner 给孩子
+async function checkMentorResolved() {
+    try {
+        const r = await fetch(`/api/escalate?student_id=${encodeURIComponent(STUDENT_ID)}&status=resolved&limit=5`);
+        if (!r.ok) return;
+        const data = await r.json();
+        if (!data.ok || !Array.isArray(data.escalations)) return;
+        const oneHourAgo = Date.now() - 60 * 60 * 1000;
+        const fresh = data.escalations.filter(e => {
+            if (!e.resolved_at) return false;
+            return new Date(e.resolved_at).getTime() > oneHourAgo;
+        });
+        // 已读追踪：sessionStorage 'yd:read_esc' 是 id 数组 JSON
+        let read = [];
+        try { read = JSON.parse(sessionStorage.getItem('yd:read_esc') || '[]'); } catch(e) {}
+        const unread = fresh.filter(e => !read.includes(e.id));
+        if (unread.length === 0) return;
+        // 取最新一条弹 hint
+        const e = unread[0];
+        const lab = KIND_LABELS[e.kind]?.label || '回复';
+        addSystemHint(`📩 学长回复了你的「${lab}」（${e.created_at_rel}）· 点右栏「呼叫记录」看完整回复`);
+        // 标记已读
+        read.push(e.id);
+        sessionStorage.setItem('yd:read_esc', JSON.stringify(read.slice(-30)));
+        // 同步刷新右栏列表
+        loadEscalateHistory();
+    } catch (e) { /* silent */ }
+}
+checkMentorResolved();
+setInterval(checkMentorResolved, 60 * 1000);  // 每 60 秒拉一次
+
+// 点开 resolved 看完整回复
+window.showMentorReply = async function(escId, kindLabel) {
+    try {
+        const r = await fetch(`/api/escalate?student_id=${encodeURIComponent(STUDENT_ID)}&limit=20`);
+        if (!r.ok) return;
+        const data = await r.json();
+        const e = (data.escalations || []).find(x => x.id === escId);
+        if (!e || !e.resolution_content) {
+            addSystemHint('回复还没拉到，稍后看看');
+            return;
+        }
+        // 把回复以 tutor 气泡形式追加到对话区（视觉上像老师在线讲解）
+        if (welcomeBlock) welcomeBlock.style.display = 'none';
+        const wrap = document.createElement('div');
+        wrap.className = 'bubble tutor';
+        const av = document.createElement('div');
+        av.className = 'b-avatar';
+        av.textContent = '学';
+        av.style.background = 'linear-gradient(135deg,#5B8DBF,#8FB4D9)';
+        const c = document.createElement('div');
+        c.className = 'b-content';
+        c.style.borderLeftColor = '#5B8DBF';
+        c.innerHTML = `<div style="font-size:0.74rem;color:#5B8DBF;font-weight:700;margin-bottom:4px">学长回复 · ${escapeHtml(kindLabel)}</div>${escapeHtml(e.resolution_content)}`;
+        wrap.appendChild(av);
+        wrap.appendChild(c);
+        chat.appendChild(wrap);
+        scrollToBottom();
+    } catch (e) {
+        addSystemHint('打不开回复，再点一次试试');
+    }
+};
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
 async function loadEscalateHistory() {
     try {
         const r = await fetch(`/api/escalate?student_id=${encodeURIComponent(STUDENT_ID)}&limit=5`);
@@ -1091,8 +1155,10 @@ async function loadEscalateHistory() {
         recent.innerHTML = data.escalations.slice(0, 3).map(e => {
             const lab = KIND_LABELS[e.kind]?.label || e.kind;
             const cls = e.status === 'resolved' ? 'resolved' : (e.status === 'pending' ? 'pending' : '');
-            const stat = e.status === 'pending' ? '等回复' : (e.status === 'resolved' ? '✓ 已回' : (e.status === 'claimed' ? '处理中' : ''));
-            return `<div class="item ${cls}"><span>${lab} · ${e.created_at_rel}</span><span>${stat}</span></div>`;
+            const stat = e.status === 'pending' ? '等回复' : (e.status === 'resolved' ? '✓ 已回 · 点开' : (e.status === 'claimed' ? '处理中' : ''));
+            const clickAttr = e.status === 'resolved' && e.resolution_content
+                ? `style="cursor:pointer" onclick="showMentorReply('${e.id}', ${JSON.stringify(lab).replace(/"/g,'&quot;')})"` : '';
+            return `<div class="item ${cls}" ${clickAttr}><span>${lab} · ${e.created_at_rel}</span><span>${stat}</span></div>`;
         }).join('');
         // ETA：算 pending 平均，没 pending 就算 resolved 平均
         const pending = data.escalations.filter(e => e.status === 'pending');

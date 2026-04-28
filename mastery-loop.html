@@ -916,11 +916,67 @@ async function onSubmit() {
     updateProgress(state.mastery);
     showFeedback(q, isCorrect, submitted, prevMastery, state.mastery, diagnose);
 
+    // P1-4 · 同型连错 3 次自动 escalate（streak_3_wrong）
+    // 触发条件：最近 3 次 attempts 全是 wrong + 同 l1 类目 + 防 30min 内重复触发
+    autoStreakEscalate(diagnose);
+
     if (state.mastery >= 0.9 || state.idx >= QUESTIONS.length - 1) {
         document.getElementById('next-btn').textContent = '完成 →';
     }
     document.getElementById('next-btn').style.display = '';
     document.getElementById('next-btn').focus();
+}
+
+// ─── P1-4 同型连错自动求助学长 ──────────────
+function autoStreakEscalate(latestDiagnose) {
+    const recent3 = state.attempts.slice(-3);
+    if (recent3.length < 3) return;
+    if (recent3.some(a => a.is_correct)) return;  // 必须连续 3 错
+    // 同 l1 类目（concept/ability/metacog/careless）
+    const l1Set = new Set(recent3.map(a => a.diagnose?.l1).filter(Boolean));
+    if (l1Set.size > 1) return;  // 不是同类问题就不 escalate
+    // 防重复：30 分钟内同 KP 不重复 escalate
+    const lastKey = `yd:streak_esc:${TOPIC_CODE}`;
+    const lastAt = parseInt(sessionStorage.getItem(lastKey) || '0');
+    if (Date.now() - lastAt < 30 * 60 * 1000) return;
+    sessionStorage.setItem(lastKey, String(Date.now()));
+
+    const l3Tags = recent3.flatMap(a => a.diagnose?.l3 || []).filter(Boolean);
+    const rootCauses = recent3.map(a => a.diagnose?.root_cause).filter(Boolean);
+    const wrongResponses = recent3.map(a => state.questions[state.idx - (recent3.length - 1 - recent3.indexOf(a))]?.userAnswer || '');
+
+    // 静默 fire-and-forget
+    fetch('/api/escalate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            student_id: STUDENT_ID,
+            kind: 'streak_3_wrong',
+            student_message: `连续 3 道同类型错：${state.questions[state.idx]?.stem || ''}`,
+            topic_code: TOPIC_CODE,
+            ai_summary: `同型连错 3 次 · l3 标签 ${l3Tags.slice(0, 3).join(' / ') || '未识别'} · 根因 ${rootCauses[rootCauses.length - 1] || '未抽取'}`,
+            context: {
+                recent_3_attempts: recent3.map(a => ({
+                    is_correct: a.is_correct,
+                    diagnose: a.diagnose,
+                    mastery_after: a.mastery_after,
+                })),
+                current_kp: TOPIC_CODE,
+                trigger: 'auto_streak_3_wrong',
+            },
+        }),
+    }).then(r => r.json()).then(data => {
+        if (data.ok) {
+            const fb = document.getElementById('feedback');
+            if (fb) {
+                const note = document.createElement('div');
+                note.className = 'streak-esc-note';
+                note.style.cssText = 'margin-top:10px;padding:10px 12px;background:rgba(91,141,191,0.10);border-left:3px solid #5B8DBF;border-radius:8px;font-size:0.86rem;color:#5B8DBF;line-height:1.55;';
+                note.innerHTML = `🔁 同类错了 3 次 · 我把这道转给学长录段讲解（${data.expected_response_minutes || 60} 分钟内发你）。等的时候咱继续做别的，不停下。`;
+                fb.appendChild(note);
+            }
+        }
+    }).catch(() => {});
 }
 
 function showFeedback(q, isCorrect, submitted, prev, now, diagnose) {
