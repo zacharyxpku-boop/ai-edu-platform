@@ -1,34 +1,111 @@
-// 原点智学 · FSRS state 更新端点
+// 原点智学 · FSRS-4.5 state 更新端点
 // POST /api/fsrs-update
 // Body: { student_id, knowledge_point_id, is_correct, time_spent_ms?, hint_level? }
 // → { ok, fsrs_state, next_due_at }
 //
 // 调用时机：mastery-loop 每答完一题，并行调 ingest-attempt + fsrs-update
-// 服务端做：① 拉旧 fsrs_state ② 推一次 fsrs.update ③ UPSERT 回 student_states
+// 服务端做：① 拉旧 fsrs_state ② 推一次 fsrs.update（FSRS-4.5 完整公式） ③ UPSERT 回 student_states
 //
 // 用 service_role 因为要 UPSERT student_states（anon RLS 没开 INSERT/UPDATE 这表）
+//
+// FSRS-4.5 核心三参数：
+//   stability(S)        记忆强度 · 单位天 · retrievability=90% 时的间隔天数
+//   difficulty(D)       题目对该学生的主观难度 [1, 10]
+//   retrievability(R)   当前回忆概率 · R = (1 + t/(9*S))^(-1)（FSRS-4.5 power-law decay）
+//
+// 17 参数 w0..w16 见 ./_fsrs-weights.json，论文经验值，按学生 fine-tune 后覆盖
+//
+// 复习成功核心增益公式（rating ∈ {2,3,4}）：
+//   alpha = exp(w8) * (11 - D)^(-w9) * ((S+1)^w10 - 1) * exp((1-R) * w11)
+//   S' = S * (1 + alpha * hard_penalty * easy_bonus)
+//
+// 复习失败 lapse 公式（rating=1）：
+//   S' = w11 * D^(-w12) * ((S+1)^w13 - 1) * exp(w14 * (1 - R))
+//
+// 难度更新（mean reversion，FSRS-4.5 修正项）：
+//   D' = w7 * init_D(rating=4) + (1 - w7) * (D - w6 * (rating - 3))
+//
+// 下次复习 interval（target retention 90%）：
+//   I = (9 * S) * (R_target^(-1) - 1)  ≈ S 当 R_target=0.9
+//   FSRS-4.5 标准：I = (S / FACTOR) * (R_target^(1/DECAY) - 1)，FACTOR=DECAY=-0.5
 
 export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
-const ENGINE_VERSION = 'fsrs-update-v1.0';
+const ENGINE_VERSION = 'fsrs-update-v2.0-fsrs45';
 
-// FSRS 9 参数（默认）
-const W = [0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01, 1.49];
+// FSRS-4.5 默认 17 参数（与 _fsrs-weights.json 同步）
+const W = [
+    0.4072, 1.1829, 3.1262, 15.4722, 7.2102, 0.5316, 1.0651, 0.0234,
+    1.616, 0.1544, 1.0824, 1.9813, 0.0953, 0.2975, 2.2042, 0.2407, 2.9466
+];
 const TARGET_RETENTION = 0.9;
+// FSRS-4.5 / 5 power-law decay 常量
+//   DECAY = -0.5
+//   FACTOR = 0.9^(1/DECAY) - 1 = 19/81 ≈ 0.234567，让 R(S,S)=0.9
+const DECAY = -0.5;
+const FACTOR = 19 / 81;
 const DAY_MS = 86400000;
 
 const GRADE = { AGAIN: 1, HARD: 2, GOOD: 3, EASY: 4 };
 
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+// FSRS-4.5 retrievability：power-law 衰减
+// R(t, S) = (1 + FACTOR * t / S)^DECAY，FACTOR=DECAY=-0.5 → R = (1 + t/(9S))^(-1) 等价
 function calcRetrievability(stability, days) {
     if (days <= 0) return 1.0;
-    return Math.pow(0.9, days / Math.max(0.1, stability));
+    const s = Math.max(0.1, stability);
+    return Math.pow(1 + FACTOR * days / s, DECAY);
 }
+
+// FSRS-4.5 next interval：根据 target retention 反解 t
+// I = (S / FACTOR) * (R_target^(1/DECAY) - 1)
 function calcDueAt(lastReviewAt, stability) {
-    const interval = stability * Math.log(TARGET_RETENTION) / Math.log(0.9);
-    return lastReviewAt + clamp(interval, 0.5, 365) * DAY_MS;
+    const interval = (stability / FACTOR) * (Math.pow(TARGET_RETENTION, 1 / DECAY) - 1);
+    return lastReviewAt + clamp(interval, 0.5, 36500) * DAY_MS;
+}
+
+// 初始 stability：首次复习按 rating 取 w0..w3
+function initStability(rating) {
+    return clamp(W[rating - 1], 0.1, 365);
+}
+
+// 初始 difficulty：首次复习 D = w4 - exp(w5 * (rating - 1)) + 1
+function initDifficulty(rating) {
+    return clamp(W[4] - Math.exp(W[5] * (rating - 1)) + 1, 1, 10);
+}
+
+// 难度更新（FSRS-4.5 mean reversion）：
+// D_new = D_target = D - w6 * (rating - 3)
+// D' = w7 * initDifficulty(4) + (1 - w7) * D_new
+function nextDifficulty(D, rating) {
+    const dTarget = D - W[6] * (rating - 3);
+    const reverted = W[7] * initDifficulty(4) + (1 - W[7]) * dTarget;
+    return clamp(reverted, 1, 10);
+}
+
+// 复习成功 stability 增益（rating ∈ {Hard, Good, Easy}）
+// S' = S * (1 + alpha * hardPenalty * easyBonus)
+function nextRecallStability(D, S, R, rating) {
+    const hardPenalty = rating === GRADE.HARD ? W[15] : 1;
+    const easyBonus = rating === GRADE.EASY ? W[16] : 1;
+    const alpha = Math.exp(W[8])
+        * (11 - D)
+        * Math.pow(S, -W[9])
+        * (Math.exp((1 - R) * W[10]) - 1);
+    return clamp(S * (1 + alpha * hardPenalty * easyBonus), 0.1, 36500);
+}
+
+// 复习失败 lapse stability：
+// S' = w11 * D^(-w12) * ((S+1)^w13 - 1) * exp(w14 * (1 - R))
+function nextForgetStability(D, S, R) {
+    const lapse = W[11]
+        * Math.pow(D, -W[12])
+        * (Math.pow(S + 1, W[13]) - 1)
+        * Math.exp(W[14] * (1 - R));
+    return clamp(lapse, 0.1, 36500);
 }
 
 function inferGrade(isCorrect, timeMs, hintLevel) {
@@ -40,42 +117,53 @@ function inferGrade(isCorrect, timeMs, hintLevel) {
 }
 
 function fsrsUpdate(prev, grade, reviewAt) {
-    if (!prev) {
-        const stability = grade === GRADE.AGAIN ? W[0] : grade === GRADE.HARD ? W[1] : grade === GRADE.GOOD ? W[2] : W[3];
-        const difficulty = clamp(W[4] - (grade - 3) * 1.0, 1, 10);
+    // 首次复习：用 init 公式初始化 S/D
+    if (!prev || prev.stability == null || prev.difficulty == null) {
+        const stability = initStability(grade);
+        const difficulty = initDifficulty(grade);
         return {
-            stability, difficulty, retrievability: 1.0,
+            stability: Math.round(stability * 1000) / 1000,
+            difficulty: Math.round(difficulty * 1000) / 1000,
+            retrievability: 1.0,
+            retrievability_at_last_review: 1.0,
             last_review_at: reviewAt,
-            due_at: reviewAt + clamp(stability, 0.5, 365) * DAY_MS,
-            reps: 1, lapses: grade === GRADE.AGAIN ? 1 : 0,
+            due_at: calcDueAt(reviewAt, stability),
+            reps: 1,
+            lapses: grade === GRADE.AGAIN ? 1 : 0,
             state: grade === GRADE.AGAIN ? 'learning' : 'review',
         };
     }
+
     const days = Math.max(0, (reviewAt - prev.last_review_at) / DAY_MS);
-    const r = calcRetrievability(prev.stability, days);
-    let { stability, difficulty, reps, lapses, state } = prev;
+    const R = calcRetrievability(prev.stability, days);
+    const D = clamp(prev.difficulty, 1, 10);
+    const S = clamp(prev.stability, 0.1, 36500);
+    let reps = (prev.reps || 0);
+    let lapses = (prev.lapses || 0);
+    let newS, newD, state;
 
     if (grade === GRADE.AGAIN) {
-        stability = clamp(W[0] + 0.1 * stability, 0.1, 365);
-        difficulty = clamp(difficulty + W[5] * 1.5, 1, 10);
-        lapses += 1; state = 'relearning';
+        newS = nextForgetStability(D, S, R);
+        newD = nextDifficulty(D, grade);
+        lapses += 1;
+        state = 'relearning';
     } else {
-        const factor = grade === GRADE.HARD ? W[8] : grade === GRADE.GOOD ? 1.0 : 1.3;
-        const inc = Math.exp(W[6]) * factor *
-                    Math.pow(11 - difficulty, -W[7]) *
-                    (1 + Math.exp(-r) * 0.5);
-        stability = clamp(stability * inc, 0.5, 365);
-        difficulty = clamp(difficulty - (grade - 3) * 0.3, 1, 10);
+        newS = nextRecallStability(D, S, R, grade);
+        newD = nextDifficulty(D, grade);
         state = 'review';
     }
     reps += 1;
+
     return {
-        stability: Math.round(stability * 1000) / 1000,
-        difficulty: Math.round(difficulty * 1000) / 1000,
-        retrievability: Math.round(r * 1000) / 1000,
+        stability: Math.round(newS * 1000) / 1000,
+        difficulty: Math.round(newD * 1000) / 1000,
+        retrievability: Math.round(R * 1000) / 1000,
+        retrievability_at_last_review: Math.round(R * 1000) / 1000,
         last_review_at: reviewAt,
-        due_at: calcDueAt(reviewAt, stability),
-        reps, lapses, state,
+        due_at: calcDueAt(reviewAt, newS),
+        reps,
+        lapses,
+        state,
     };
 }
 
