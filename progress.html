@@ -5,37 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>成长档案 · 原点智学</title>
     <meta name="description" content="读 · 练 · 错 · 讲 — 一张表看清孩子四个维度的真实状态。">
-    <meta name="theme-color" content="#D85A30">
+    <meta name="theme-color" content="#0F4F3D">
     <meta name="ydzx-page" content="progress">
     <link rel="canonical" href="https://www.yuandianzhixue.com/progress.html">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
     <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-        --primary:#D85A30;
-        --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
-        --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
-        --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
-        --pain-bg:#FCEBEB; --pain-ink:#791F1F;
-        --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
-        --ok-bg:#E1F5EE;   --ok-ink:#085041;
-        --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
+        /* v2 spec tokens */
+        --bg-primary:#FAF7F0; --bg-secondary:#F2EEE3; --bg-elevated:#FFFFFF;
+        --text-primary:#1A1A1A; --text-secondary:#4A4A47; --text-tertiary:#8A8780; --text-muted:#B8B5AC;
+        --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-light:#E8EFE9;
+        --accent-warm:#B85C2E; --accent-warm-light:#F5E8DF;
+        --border-subtle:rgba(26,26,26,0.06); --border-default:rgba(26,26,26,0.10); --border-strong:rgba(26,26,26,0.20);
+        --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+        --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+        --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+        --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+        /* legacy aliases (大量内联 class 引用) */
+        --primary:var(--accent-primary);
+        --ink:var(--text-primary); --ink-2:var(--text-secondary); --ink-3:var(--text-tertiary); --ink-4:var(--text-muted);
+        --bg:var(--bg-primary); --bg-2:var(--bg-secondary); --bg-3:#EAE6DC;
+        --border:var(--border-subtle);
+        --pain-bg:#F5E8DF; --pain-ink:#8B3A1F;
+        --mid-bg:#F5E8DF;  --mid-ink:#B85C2E;
+        --ok-bg:#E8EFE9;   --ok-ink:#0F4F3D;
+        --font:var(--font-sans-sc);
     }
     html{scroll-behavior:smooth}
-    body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.6;
-        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+    body{font-family:var(--font-sans-sc);font-size:15px;background:var(--bg-primary);color:var(--text-primary);line-height:1.7;
+        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;font-feature-settings:"palt" 1}
     a{color:inherit;text-decoration:none}
 
     /* NAV — home aligned 4-item */
-    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
-        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
-    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
-    @media(max-width:720px){.nav-in{padding:0 20px}}
-    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
-    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
-    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,240,0.92);
+        backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle)}
+    .nav-in{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;height:68px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 24px;height:60px}}
+    .brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;margin-right:auto;color:var(--text-primary);letter-spacing:0.04em}
+    .brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
     .nav-links{display:flex;gap:4px}
     .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
     .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
@@ -46,11 +57,12 @@
     @media(max-width:780px){.nav-links{display:none}}
 
     /* WRAP + INTRO */
-    .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
-    @media(max-width:720px){.wrap{padding:0 20px}}
-    .eyebrow{font-size:12px;color:var(--ink-3);margin:32px 0 8px;letter-spacing:.5px}
-    h1.page{font-size:24px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px}
-    .page-lede{font-size:13px;color:var(--ink-2);margin-bottom:28px}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+    @media(max-width:720px){.wrap{padding:0 24px}}
+    .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin:64px 0 20px;letter-spacing:0.01em}
+    h1.page{font-family:var(--font-serif-sc);font-size:48px;font-weight:500;letter-spacing:0.02em;line-height:1.2;margin-bottom:14px;color:var(--text-primary)}
+    @media(max-width:720px){h1.page{font-size:32px}}
+    .page-lede{font-size:15px;color:var(--text-secondary);margin-bottom:48px;line-height:1.8;max-width:680px}
 
     /* HERO */
     .hero{display:grid;grid-template-columns:2fr 1fr;gap:16px}
@@ -297,7 +309,7 @@
 
 <div id="streak-mount"></div>
 
-<div class="eyebrow">成长档案</div>
+<div class="eyebrow">[Progress.]</div>
 <h1 class="page">读 · 练 · 错 · 讲</h1>
 <p class="page-lede">一张表看清孩子四个维度的真实状态。不止是天数和 XP，更是哪一维偏弱。</p>
 
