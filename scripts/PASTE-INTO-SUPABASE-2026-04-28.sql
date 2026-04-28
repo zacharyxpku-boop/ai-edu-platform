@@ -115,3 +115,36 @@ SELECT
   '✅ push_trigger_kind_enum 总值数（应 = 5）',
   count(*)::int
 FROM pg_enum WHERE enumtypid = 'push_trigger_kind_enum'::regtype;
+
+-- ════════════════════════════════════════════════════════════════════
+-- 0010 · Moderation 审核日志（Khanmigo 5.5 安全机制）
+-- ════════════════════════════════════════════════════════════════════
+
+DO $$ BEGIN
+  CREATE TYPE moderation_verdict_enum AS ENUM ('clean', 'flag', 'block', 'escalate');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS moderation_logs (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id      uuid REFERENCES students(id) ON DELETE CASCADE,
+  dialogue_id     uuid REFERENCES dialogues(id) ON DELETE SET NULL,
+  role            text NOT NULL,
+  content_excerpt text NOT NULL,
+  verdict         moderation_verdict_enum NOT NULL,
+  flags           jsonb DEFAULT '[]'::jsonb,
+  actions_taken   text[] DEFAULT '{}',
+  created_at      timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_mod_student_recent ON moderation_logs(student_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_mod_severity ON moderation_logs(verdict, created_at DESC)
+  WHERE verdict IN ('flag', 'block', 'escalate');
+
+ALTER TABLE moderation_logs ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  CREATE POLICY "service_role_full" ON moderation_logs
+    FOR ALL TO service_role USING (true) WITH CHECK (true);
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN RAISE NOTICE '[4/4] Moderation 审核表完成 ✓'; END $$;
