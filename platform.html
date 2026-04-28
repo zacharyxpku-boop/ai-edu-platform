@@ -5,36 +5,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>自研平台 · 数据底座 · 匹配引擎 | 原点智学</title>
 <meta name="description" content="原点智学的自研壁垒：教材章节抽取管道、章节匹配引擎、DeepSeek 生题管道、BM25 浏览器内检索。所有数字实时来自 manifest，可验证。">
-<meta name="theme-color" content="#D85A30">
+<meta name="theme-color" content="#0F4F3D">
 <meta name="ydzx-page" content="platform">
 <link rel="canonical" href="https://www.yuandianzhixue.com/platform.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* spec primary */
-  --primary:#D85A30;
-  --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
-  --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
-  --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
-  --pain-bg:#FCEBEB; --pain-ink:#791F1F;
-  --ok-bg:#E1F5EE; --ok-ink:#085041;
-  /* legacy aliases — 保留 data-viz 编码 (产品矩阵 8 类 + 引擎 4 类) */
-  --card:#fff;
-  --ink2:#3F3F46;--ink3:#666;--ink4:#999;
-  --bdr:rgba(0,0,0,0.08);--bdr2:rgba(0,0,0,0.16);
-  --amber:#D85A30; --amber-bg:#FAEEDA;
-  --emerald:#059669;--emerald-bg:#ECFDF5;
+  /* v2 spec tokens */
+  --bg-primary:#FAF7F0; --bg-secondary:#F2EEE3; --bg-elevated:#FFFFFF;
+  --text-primary:#1A1A1A; --text-secondary:#4A4A47; --text-tertiary:#8A8780; --text-muted:#B8B5AC;
+  --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-light:#E8EFE9;
+  --accent-warm:#B85C2E; --accent-warm-light:#F5E8DF;
+  --border-subtle:rgba(26,26,26,0.06); --border-default:rgba(26,26,26,0.10); --border-strong-tok:rgba(26,26,26,0.20);
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+  /* legacy aliases */
+  --primary:var(--accent-primary);
+  --ink:var(--text-primary); --ink-2:var(--text-secondary); --ink-3:var(--text-tertiary); --ink-4:var(--text-muted);
+  --bg:var(--bg-primary); --bg-2:var(--bg-secondary); --bg-3:#EAE6DC;
+  --border:var(--border-subtle); --border-strong:var(--border-strong-tok);
+  --pain-bg:#F5E8DF; --pain-ink:#8B3A1F;
+  --ok-bg:#E8EFE9; --ok-ink:#0F4F3D;
+  /* data-viz (产品矩阵 8 类 + 引擎 4 类) — 保留语义彩色编码 */
+  --card:var(--bg-elevated);
+  --ink2:var(--text-secondary);--ink3:var(--text-tertiary);--ink4:var(--text-muted);
+  --bdr:var(--border-subtle);--bdr2:var(--border-strong-tok);
+  --amber:var(--accent-primary); --amber-bg:#F5E8DF;
+  --emerald:#0F4F3D;--emerald-bg:#E8EFE9;
   --violet:#7C3AED;--violet-bg:#F5F3FF;
   --slate:#334155;--slate-bg:#F1F5F9;
-  --red:#DC2626;--red-bg:#FEF2F2;
+  --red:#B85C2E;--red-bg:#F5E8DF;
   --mono:'JetBrains Mono',ui-monospace,monospace;
-  --font:'Noto Sans SC',system-ui,sans-serif;
+  --font:var(--font-sans-sc);
   --r:8px;
 }
-body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-sans-sc);font-size:15px;background:var(--bg-primary);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
 a{color:inherit}
 
 /* NAV — home aligned 4-item */
@@ -55,15 +65,15 @@ a{color:inherit}
 @media(max-width:780px){.nav-links{display:none}}
 
 /* HERO */
-.hero{max-width:1120px;margin:36px auto 0;padding:0 32px}
-@media(max-width:720px){.hero{padding:0 20px}}
-.eyebrow{font-size:12px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
-.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 0}
-.tag{font-size:11px;padding:4px 10px;border-radius:4px;background:var(--bg-2);color:var(--ink-2);font-weight:500;letter-spacing:.3px;border:0.5px solid var(--border)}
+.hero{max-width:1200px;margin:80px auto 0;padding:0 40px}
+@media(max-width:720px){.hero{padding:0 24px;margin-top:48px}}
+.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:20px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 0}
+.tag{font-size:11px;padding:4px 10px;border-radius:4px;background:var(--bg-2);color:var(--text-secondary);font-weight:500;letter-spacing:.3px;border:0.5px solid var(--border-subtle)}
 .tag.e{background:var(--ok-bg);color:var(--ok-ink);border-color:transparent}
-.tag.v{background:var(--bg-2);color:var(--ink);border-color:var(--border-strong)}
-h1{font-size:clamp(26px,4vw,38px);font-weight:500;letter-spacing:-.4px;line-height:1.2}
-.subh{margin-top:14px;max-width:720px;color:var(--ink-2);font-size:14px;line-height:1.7}
+.tag.v{background:var(--bg-2);color:var(--text-primary);border-color:var(--border-strong-tok)}
+h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight:500;letter-spacing:0.02em;line-height:1.18;color:var(--text-primary)}
+.subh{margin-top:18px;max-width:760px;color:var(--text-secondary);font-size:15px;line-height:1.8}
 
 /* stats */
 .stats{max-width:1120px;margin:32px auto 0;padding:0 32px}

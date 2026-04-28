@@ -5,25 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>原点研究院 · AI 时代家庭教育深度内容 | 原点智学</title>
     <meta name="description" content="免费、实用、不贩卖焦虑。实操指南、工具测评、认知升级、分龄建议——看完之后家长能立刻做点什么。">
-    <meta name="theme-color" content="#D85A30">
+    <meta name="theme-color" content="#0F4F3D">
     <meta name="ydzx-page" content="articles">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
     <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-        --primary:#D85A30;
-        --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
-        --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
-        --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
-        --pain-bg:#FCEBEB; --pain-ink:#791F1F;
-        --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
-        --ok-bg:#E1F5EE;   --ok-ink:#085041;
-        --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
+        --bg-primary:#FAF7F0; --bg-secondary:#F2EEE3; --bg-elevated:#FFFFFF;
+        --text-primary:#1A1A1A; --text-secondary:#4A4A47; --text-tertiary:#8A8780; --text-muted:#B8B5AC;
+        --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-light:#E8EFE9;
+        --accent-warm:#B85C2E; --accent-warm-light:#F5E8DF;
+        --border-subtle:rgba(26,26,26,0.06); --border-default:rgba(26,26,26,0.10); --border-strong:rgba(26,26,26,0.20);
+        --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+        --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+        --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+        --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+        --primary:var(--accent-primary);
+        --ink:var(--text-primary); --ink-2:var(--text-secondary); --ink-3:var(--text-tertiary); --ink-4:var(--text-muted);
+        --bg:var(--bg-primary); --bg-2:var(--bg-secondary); --bg-3:#EAE6DC;
+        --border:var(--border-subtle);
+        --pain-bg:#F5E8DF; --pain-ink:#8B3A1F;
+        --mid-bg:#F5E8DF;  --mid-ink:#B85C2E;
+        --ok-bg:#E8EFE9;   --ok-ink:#0F4F3D;
+        --font:var(--font-sans-sc);
     }
     html{scroll-behavior:smooth}
-    body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font-sans-sc);font-size:15px;background:var(--bg-primary);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1}
     a{color:inherit;text-decoration:none}
     .w{max-width:860px;margin:0 auto;padding:0 32px}
     @media(max-width:720px){.w{padding:0 20px}}
@@ -44,12 +53,12 @@
     .nav-cta:hover{background:#000}
     @media(max-width:780px){.nav-links{display:none}}
 
-    .hero{padding:64px 0 40px}
-    @media(max-width:720px){.hero{padding:40px 0 28px}}
-    .hero .eyebrow{font-size:12px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:10px}
-    .hero h1{font-size:clamp(28px,4.5vw,40px);font-weight:500;letter-spacing:-.4px;line-height:1.2;margin-bottom:14px}
-    .hero-sub{font-size:15px;color:var(--ink-2);max-width:480px;margin-bottom:18px}
-    .hero-rule{font-size:13px;color:var(--ink);padding:14px 18px;background:var(--bg-2);border-radius:8px;border-left:2px solid var(--primary);max-width:520px}
+    .hero{padding:96px 0 48px}
+    @media(max-width:720px){.hero{padding:64px 0 32px}}
+    .hero .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:20px}
+    .hero h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,48px);font-weight:500;letter-spacing:0.02em;line-height:1.2;margin-bottom:18px;color:var(--text-primary)}
+    .hero-sub{font-size:16px;color:var(--text-secondary);max-width:520px;margin-bottom:24px;line-height:1.8}
+    .hero-rule{font-size:14px;color:var(--text-primary);padding:16px 20px;background:var(--bg-2);border-radius:8px;border-left:2px solid var(--accent-primary);max-width:560px;line-height:1.7}
 
     /* categories — single ink, primary on hover only */
     .cats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden;margin:36px 0 48px}
