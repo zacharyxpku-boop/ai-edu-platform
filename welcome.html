@@ -2,261 +2,253 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>原点 AI 私教 · 第一次见面</title>
-<meta name="description" content="30 秒告诉老师你叫啥、几年级，从此他记得你">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3 分钟 AI 诊断 · 第 1 步 · 原点智学</title>
+<meta name="description" content="告诉 AI 老师孩子叫什么、几年级，30 秒生成专属档案，进入 13 维度知识漏洞诊断。">
+<meta name="ydzx-page" content="welcome">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
 <style>
 :root{
-    --warm-white:#FAFAF7;
-    --card:#FFFFFF;
-    --ink:#18181B;
-    --ink-soft:#52525B;
-    --ink-mute:#A1A1AA;
-    --bdr:#E4E4E7;
-    --orange:#E94D35;
-    --orange-soft:#FF8A6E;
-    --orange-glow:rgba(233,77,53,0.10);
-    --shadow:0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
+  --primary:#D85A30;
+  --ink:#1A1A1A;
+  --ink-2:#666666;
+  --ink-3:#999999;
+  --bg:#FFFFFF;
+  --bg-2:#F7F6F2;
+  --border:rgba(0,0,0,0.08);
+  --border-strong:rgba(0,0,0,0.16);
+  --error:#791F1F;
+  --error-bg:#FCEBEB;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
 body{
-    font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
-    background:var(--warm-white);
-    color:var(--ink);
-    line-height:1.65;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px 18px;
-    -webkit-font-smoothing:antialiased;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:14px;line-height:1.6;color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  font-weight:400;
 }
-.wrap{
-    width:100%;
-    max-width:440px;
+a{color:inherit;text-decoration:none}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:var(--bg);border-bottom:0.5px solid var(--border);height:60px;
 }
-.brand{
-    text-align:center;
-    margin-bottom:28px;
+.nav-in{
+  max-width:1200px;margin:0 auto;height:100%;
+  padding:0 32px;display:flex;align-items:center;
 }
-.brand-mark{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    color:var(--orange);
-    font-weight:700;
-    font-size:0.82rem;
-    letter-spacing:0.5px;
-    text-transform:uppercase;
+.brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500}
+.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+.back{font-size:13px;color:var(--ink-2);margin-left:auto;transition:color .15s}
+.back:hover{color:var(--ink)}
+@media (max-width:768px){.nav-in{padding:0 20px}}
+
+main{
+  padding:120px 32px 80px;
+  max-width:520px;margin:0 auto;
 }
-.brand-mark::before{
-    content:'';
-    width:18px;height:18px;
-    background:var(--orange);
-    border-radius:50%;
-    display:inline-block;
+@media (max-width:768px){main{padding:96px 20px 48px}}
+
+.steps{
+  display:flex;gap:8px;margin-bottom:24px;
+  font-size:11px;color:var(--ink-3);letter-spacing:.4px;
 }
-.hero h1{
-    font-family:"Noto Serif SC",serif;
-    font-size:2rem;
-    font-weight:800;
-    line-height:1.25;
-    letter-spacing:-0.5px;
-    margin:18px 0 10px;
-    text-align:center;
+.step-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border-strong);display:inline-block;
+  margin-right:4px;vertical-align:middle;
 }
-.hero p.lede{
-    color:var(--ink-soft);
-    font-size:0.98rem;
-    text-align:center;
-    margin-bottom:30px;
-    max-width:380px;
-    margin-left:auto;margin-right:auto;
+.step-dot.active{background:var(--ink)}
+
+.eyebrow{font-size:12px;color:var(--ink-3);margin-bottom:16px;letter-spacing:.4px}
+
+h1{
+  font-size:32px;font-weight:500;letter-spacing:-.5px;
+  line-height:1.25;color:var(--ink);
+  margin-bottom:14px;
 }
-.hero p.lede em{
-    font-style:normal;
-    color:var(--orange);
-    font-weight:600;
+@media (max-width:768px){h1{font-size:24px}}
+
+.lede{
+  font-size:14px;color:var(--ink-2);line-height:1.7;
+  margin-bottom:36px;
 }
-.card{
-    background:var(--card);
-    border:1px solid var(--bdr);
-    border-radius:16px;
-    padding:28px 26px;
-    box-shadow:var(--shadow);
+
+form.card{
+  background:var(--bg);
+  border:0.5px solid var(--border);
+  border-radius:8px;padding:28px;
+  display:flex;flex-direction:column;gap:20px;
 }
-.field{
-    margin-bottom:18px;
-}
+
+.field{display:flex;flex-direction:column;gap:6px}
 .field label{
-    display:block;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-    margin-bottom:8px;
-    font-weight:500;
+  font-size:13px;color:var(--ink);font-weight:500;
 }
 .field input,.field select{
-    width:100%;
-    padding:12px 14px;
-    font-size:1rem;
-    font-family:inherit;
-    border:1px solid var(--bdr);
-    border-radius:10px;
-    background:var(--warm-white);
-    color:var(--ink);
-    transition:border-color 0.15s, box-shadow 0.15s;
+  width:100%;
+  padding:12px 14px;min-height:44px;
+  border:0.5px solid var(--border);border-radius:6px;
+  font-family:inherit;font-size:14px;color:var(--ink);
+  background:var(--bg);
+  transition:border-color .15s;
+  font-weight:400;
+  -webkit-appearance:none;appearance:none;
 }
 .field input:focus,.field select:focus{
-    outline:none;
-    border-color:var(--orange);
-    box-shadow:0 0 0 3px var(--orange-glow);
+  outline:none;border-color:var(--ink);
 }
-.field .hint{
-    font-size:0.76rem;
-    color:var(--ink-mute);
-    margin-top:6px;
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:40px;
 }
+.field .hint{font-size:12px;color:var(--ink-3)}
+
 .cta{
-    width:100%;
-    padding:14px 18px;
-    background:var(--orange);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    font-size:1rem;
-    font-weight:700;
-    font-family:inherit;
-    cursor:pointer;
-    transition:background 0.15s, transform 0.1s;
-    margin-top:8px;
+  background:var(--ink);color:var(--bg);
+  padding:14px 24px;min-height:48px;
+  border:none;border-radius:6px;cursor:pointer;
+  font-family:inherit;font-size:14px;font-weight:500;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s,transform .1s;
 }
-.cta:hover{background:var(--orange-soft)}
-.cta:active{transform:scale(0.98)}
-.cta:disabled{background:var(--ink-mute);cursor:not-allowed}
-.cta .arrow{margin-left:6px}
-.fineprint{
-    margin-top:18px;
-    font-size:0.76rem;
-    color:var(--ink-mute);
-    text-align:center;
-    line-height:1.55;
-}
-.fineprint a{
-    color:var(--ink-soft);
-    text-decoration:underline;
-    text-decoration-color:var(--bdr);
-}
-.bullets{
-    margin-top:22px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-.bullet{
-    background:transparent;
-    padding:10px 12px;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    line-height:1.5;
-    border-left:2px solid var(--orange);
-    padding-left:10px;
-}
-.bullet b{color:var(--ink);font-weight:600}
-.recover{
-    text-align:center;
-    margin-top:24px;
-    font-size:0.82rem;
-    color:var(--ink-mute);
-}
-.recover a{color:var(--orange);text-decoration:none;font-weight:500}
+.cta:hover{background:#000}
+.cta:active{transform:scale(.98)}
+.cta:disabled{background:var(--ink-3);cursor:not-allowed}
+.cta .arrow{transition:transform .15s}
+.cta:hover .arrow{transform:translateX(2px)}
+
 .error{
-    color:#DC2626;
-    font-size:0.82rem;
-    margin-top:8px;
-    display:none;
+  display:none;padding:10px 14px;
+  background:var(--error-bg);color:var(--error);
+  border-radius:6px;font-size:13px;
 }
 .error.show{display:block}
 .loading{
-    display:none;
-    text-align:center;
-    color:var(--ink-soft);
-    font-size:0.88rem;
-    margin-top:16px;
+  display:none;font-size:13px;color:var(--ink-2);
+  text-align:center;
 }
 .loading.show{display:block}
-@media (max-width:480px){
-    .hero h1{font-size:1.7rem}
-    .card{padding:22px 20px}
-    .bullets{grid-template-columns:1fr}
+
+.bullets{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+  margin-top:32px;
 }
+.bullet{
+  background:var(--bg-2);border-radius:8px;padding:16px;
+  font-size:13px;color:var(--ink);line-height:1.5;
+}
+.bullet b{font-weight:500;display:block;margin-bottom:4px}
+.bullet span{color:var(--ink-2);font-size:12px}
+
+.recover{
+  text-align:center;margin-top:24px;
+  font-size:12px;color:var(--ink-3);
+}
+.recover a{color:var(--ink-2);text-decoration:underline;transition:color .15s}
+.recover a:hover{color:var(--ink)}
+
+.fineprint{
+  font-size:11px;color:var(--ink-3);
+  text-align:center;margin-top:32px;line-height:1.7;
+  padding-top:24px;border-top:0.5px solid var(--border);
+}
+
+.icon{width:14px;height:14px;display:inline-block;flex-shrink:0;stroke-width:2}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-    <div class="brand">
-        <span class="brand-mark">原点智学</span>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="brand">
+      <span class="brand-dot"></span>
+      <span>原点智学</span>
+    </a>
+    <a href="/" class="back">← 取消</a>
+  </div>
+</nav>
+
+<main>
+  <div class="steps">
+    <span><span class="step-dot active"></span>基础信息</span>
+    <span><span class="step-dot"></span>3 分钟答题</span>
+    <span><span class="step-dot"></span>查看报告</span>
+  </div>
+
+  <div class="eyebrow">第 1 步 · 共 3 步</div>
+  <h1>让 AI 认识你的孩子</h1>
+  <p class="lede">告诉 AI 老师孩子叫什么、几年级，30 秒生成专属档案。<br>不要邮箱，不要手机号，数据全部本地保存。</p>
+
+  <form class="card" id="onboard-form" autocomplete="off">
+    <div class="field">
+      <label for="name">老师叫孩子什么</label>
+      <input id="name" type="text" placeholder="比如 小米 / 小宇 / 朵朵" maxlength="20" required>
+      <div class="hint">真名 / 昵称都行 · 老师每次都用这个称呼</div>
     </div>
 
-    <section class="hero">
-        <h1>这是你的私教 · 不是 ChatGPT</h1>
-        <p class="lede">告诉他你叫啥、几年级，<em>30 秒后他就记得你</em>。<br>不要邮箱，不要手机号。</p>
-    </section>
-
-    <form class="card" id="onboard-form" autocomplete="off">
-        <div class="field">
-            <label for="name">老师叫你什么</label>
-            <input id="name" type="text" placeholder="比如 小米 / 小宇 / 朵朵" maxlength="20" required>
-            <div class="hint">真名 / 昵称都行 · 老师每次开口都用这个叫你</div>
-        </div>
-
-        <div class="field">
-            <label for="grade">你几年级</label>
-            <select id="grade" required>
-                <option value="">选一下</option>
-                <optgroup label="小学">
-                    <option value="primary_4">小学四年级</option>
-                    <option value="primary_5">小学五年级</option>
-                    <option value="primary_6">小学六年级</option>
-                </optgroup>
-                <optgroup label="初中">
-                    <option value="middle_1">初一</option>
-                    <option value="middle_2">初二</option>
-                    <option value="middle_3">初三</option>
-                </optgroup>
-                <optgroup label="高中">
-                    <option value="high_1">高一</option>
-                    <option value="high_2">高二</option>
-                    <option value="high_3">高三</option>
-                </optgroup>
-            </select>
-            <div class="hint">告诉老师该用哪本教材、哪一档难度<br><span style="color:var(--orange);">PoC 期统一从初一「一元一次方程」起步打地基，5.5 后扩到全 K12</span></div>
-        </div>
-
-        <button type="submit" class="cta" id="cta-btn">
-            认识老师 <span class="arrow">→</span>
-        </button>
-        <div class="error" id="err"></div>
-        <div class="loading" id="loading">老师正在准备你的专属档案 · 大概 3 秒</div>
-    </form>
-
-    <div class="bullets">
-        <div class="bullet"><b>跨会话记得你</b><br>明天再来不用从头解释</div>
-        <div class="bullet"><b>认你的卡点</b><br>不再讲你早会的</div>
-        <div class="bullet"><b>家长一眼看懂</b><br>给妈妈看的不是 PDF</div>
-        <div class="bullet"><b>≤80 字回应</b><br>不啰嗦不灌鸡汤</div>
+    <div class="field">
+      <label for="grade">孩子几年级</label>
+      <select id="grade" required>
+        <option value="">请选择</option>
+        <optgroup label="小学">
+          <option value="primary_4">小学四年级</option>
+          <option value="primary_5">小学五年级</option>
+          <option value="primary_6">小学六年级</option>
+        </optgroup>
+        <optgroup label="初中">
+          <option value="middle_1">初一</option>
+          <option value="middle_2">初二</option>
+          <option value="middle_3">初三</option>
+        </optgroup>
+        <optgroup label="高中">
+          <option value="high_1">高一</option>
+          <option value="high_2">高二</option>
+          <option value="high_3">高三</option>
+        </optgroup>
+      </select>
+      <div class="hint">用于匹配教材版本和题目难度</div>
     </div>
 
-    <div class="recover">
-        已经有专属链接了？<a href="#" id="restore">输入找回码</a>
-    </div>
+    <button type="submit" class="cta" id="cta-btn">
+      进入诊断
+      <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="error" id="err"></div>
+    <div class="loading" id="loading">正在创建专属档案 · 大概 3 秒</div>
+  </form>
 
-    <div class="fineprint">
-        我们不卖你的数据 · 不投广告 · 不要你的邮箱<br>
-        你的对话只在你和老师之间，老师把它累积成「懂你的判断」
+  <div class="bullets">
+    <div class="bullet">
+      <b>跨会话记忆</b>
+      <span>明天再来不必从头解释</span>
     </div>
-</div>
+    <div class="bullet">
+      <b>认知卡点定位</b>
+      <span>不再讲已经会了的</span>
+    </div>
+    <div class="bullet">
+      <b>家长简报</b>
+      <span>给妈妈看的不是 PDF</span>
+    </div>
+    <div class="bullet">
+      <b>克制回应</b>
+      <span>≤ 80 字，不灌鸡汤</span>
+    </div>
+  </div>
+
+  <div class="recover">
+    已经有专属链接？<a href="#" id="restore">输入找回码</a>
+  </div>
+
+  <div class="fineprint">
+    数据本地保存 · 不卖数据 · 不投广告 · 不要邮箱<br>
+    对话只在孩子和 AI 老师之间
+  </div>
+</main>
 
 <script>
 const form = document.getElementById('onboard-form');
@@ -265,87 +257,86 @@ const errEl = document.getElementById('err');
 const loadingEl = document.getElementById('loading');
 
 function showError(msg) {
-    errEl.textContent = msg;
-    errEl.classList.add('show');
-    setTimeout(() => errEl.classList.remove('show'), 4000);
+  errEl.textContent = msg;
+  errEl.classList.add('show');
+  setTimeout(() => errEl.classList.remove('show'), 4000);
 }
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const grade = document.getElementById('grade').value;
-    if (!name || !grade) return;
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const grade = document.getElementById('grade').value;
+  if (!name || !grade) return;
 
-    ctaBtn.disabled = true;
-    ctaBtn.textContent = '正在创建...';
-    loadingEl.classList.add('show');
-    errEl.classList.remove('show');
+  ctaBtn.disabled = true;
+  ctaBtn.textContent = '正在创建…';
+  loadingEl.classList.add('show');
+  errEl.classList.remove('show');
 
-    // 推断 stage
-    const stage = grade.startsWith('primary') ? 'primary'
-                : grade.startsWith('middle') ? 'middle'
-                : 'high';
+  if (window.YDZX_TRACK) YDZX_TRACK.event('welcome_submit', { grade });
 
-    try {
-        const r = await fetch('/api/student-init', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name, grade, stage,
-                subjects: ['math'],
-                cohort: 'self-onboard-' + new Date().toISOString().slice(0, 10),
-            }),
-        });
-        if (!r.ok) {
-            const txt = await r.text();
-            showError('创建失败：' + txt.slice(0, 100));
-            ctaBtn.disabled = false;
-            ctaBtn.innerHTML = '认识老师 <span class="arrow">→</span>';
-            loadingEl.classList.remove('show');
-            return;
-        }
-        const data = await r.json();
-        // 存 localStorage 给所有 4 页读
-        localStorage.setItem('yd:my_student_id', data.student_id);
-        localStorage.setItem('yd:my_name', name);
-        localStorage.setItem('yd:my_grade', grade);
-        localStorage.setItem('yd:my_recover_code', data.student_id.slice(-6).toUpperCase());
+  const stage = grade.startsWith('primary') ? 'primary'
+              : grade.startsWith('middle') ? 'middle'
+              : 'high';
 
-        // 跳到推荐起点（默认进 mastery-loop）
-        const next = data.next_url || `/mastery-loop?student_id=${encodeURIComponent(data.student_id)}&name=${encodeURIComponent(name)}`;
-        location.href = next;
-    } catch (e) {
-        showError('网络异常：' + e.message);
-        ctaBtn.disabled = false;
-        ctaBtn.innerHTML = '认识老师 <span class="arrow">→</span>';
-        loadingEl.classList.remove('show');
+  try {
+    const r = await fetch('/api/student-init', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, grade, stage,
+        subjects: ['math'],
+        cohort: 'self-onboard-' + new Date().toISOString().slice(0, 10),
+      }),
+    });
+    if (!r.ok) {
+      const txt = await r.text();
+      showError('创建失败：' + txt.slice(0, 100));
+      resetCta();
+      return;
     }
+    const data = await r.json();
+    localStorage.setItem('yd:my_student_id', data.student_id);
+    localStorage.setItem('yd:my_name', name);
+    localStorage.setItem('yd:my_grade', grade);
+    localStorage.setItem('yd:my_recover_code', data.student_id.slice(-6).toUpperCase());
+
+    const next = data.next_url || `/mastery-loop?student_id=${encodeURIComponent(data.student_id)}&name=${encodeURIComponent(name)}`;
+    location.href = next;
+  } catch (e) {
+    showError('网络异常：' + e.message);
+    resetCta();
+  }
 });
 
-// 找回码（用 student_id 后 6 位作 case-insensitive 匹配）
+function resetCta(){
+  ctaBtn.disabled = false;
+  ctaBtn.innerHTML = '进入诊断 <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+  loadingEl.classList.remove('show');
+}
+
 document.getElementById('restore').addEventListener('click', (e) => {
-    e.preventDefault();
-    const code = prompt('粘贴你的找回码（6 位字母数字）：');
-    if (!code) return;
-    const cleaned = code.trim().toUpperCase();
-    if (cleaned.length !== 6) {
-        showError('找回码必须是 6 位');
-        return;
-    }
-    // 简单方案：要求完整 student_id（找回码只是后 6 位提示，真要找回需要后端查表）
-    showError('找回功能 V2 上线 · 当前请重新填昵称生成新档案');
+  e.preventDefault();
+  const code = prompt('粘贴你的找回码（6 位字母数字）：');
+  if (!code) return;
+  const cleaned = code.trim().toUpperCase();
+  if (cleaned.length !== 6) {
+    showError('找回码必须是 6 位');
+    return;
+  }
+  showError('找回功能 V2 上线 · 当前请重新填昵称生成新档案');
 });
 
-// 已注册检测：如果 localStorage 已有 my_student_id，直接跳进 tutor 不再问
 const existingId = localStorage.getItem('yd:my_student_id');
 if (existingId && existingId.length === 36) {
-    const existingName = localStorage.getItem('yd:my_name') || '同学';
-    setTimeout(() => {
-        if (confirm(`你已经认识过老师啦（${existingName}）。直接进去？`)) {
-            location.href = `/tutor?student_id=${encodeURIComponent(existingId)}&name=${encodeURIComponent(existingName)}`;
-        }
-    }, 200);
+  const existingName = localStorage.getItem('yd:my_name') || '同学';
+  setTimeout(() => {
+    if (confirm(`已经认识过老师啦（${existingName}）。直接进去？`)) {
+      location.href = `/tutor?student_id=${encodeURIComponent(existingId)}&name=${encodeURIComponent(existingName)}`;
+    }
+  }, 200);
 }
 </script>
+<script src="/src/track.js"></script>
 </body>
 </html>
