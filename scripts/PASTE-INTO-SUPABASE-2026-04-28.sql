@@ -115,8 +115,11 @@ CREATE TRIGGER trg_escalation_set_priority
   BEFORE INSERT ON escalations
   FOR EACH ROW EXECUTE FUNCTION fn_escalation_set_priority();
 
-CREATE INDEX IF NOT EXISTS idx_escalations_crisis_pending
-  ON escalations(created_at DESC) WHERE kind = 'crisis' AND status = 'pending';
+-- 注意 1：partial WHERE 直接 kind = 'crisis' → 55P04（同 TX 新 enum 字面量）
+-- 注意 2：partial WHERE kind::text = 'crisis' → 42P17（cast 是 STABLE 不是 IMMUTABLE）
+-- 解：放弃 partial，做成普通复合索引，按 kind+status 一起索引
+CREATE INDEX IF NOT EXISTS idx_escalations_kind_status_time
+  ON escalations(kind, status, created_at DESC);
 
 DO $$ BEGIN RAISE NOTICE '[2/5] T1-T7 enum 扩 3 类 + crisis 索引 ✓'; END $$;
 
@@ -156,11 +159,18 @@ CREATE INDEX IF NOT EXISTS idx_pushes_student_unread
   ON parent_pushes(student_id, created_at DESC)
   WHERE status IN ('pending', 'sent');
 
+-- timestamptz->date 转换是 STABLE，进 index 表达式被拒（42P17）
+-- 用 epoch 算「北京日序号」当 IMMUTABLE wrapper · 同 student+kind 一天一条的 dedup 语义不变
+CREATE OR REPLACE FUNCTION immutable_day_beijing(ts timestamptz)
+RETURNS integer LANGUAGE sql IMMUTABLE PARALLEL SAFE AS $body$
+  SELECT ((extract(epoch from ts)::bigint + 8*3600) / 86400)::int
+$body$;
+
 CREATE INDEX IF NOT EXISTS idx_pushes_kind_day
-  ON parent_pushes(student_id, trigger_kind, (created_at::date));
+  ON parent_pushes(student_id, trigger_kind, created_at);
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_pushes_dedup
-  ON parent_pushes(student_id, trigger_kind, ((created_at AT TIME ZONE 'Asia/Shanghai')::date));
+  ON parent_pushes(student_id, trigger_kind, immutable_day_beijing(created_at));
 
 ALTER TABLE parent_pushes ENABLE ROW LEVEL SECURITY;
 
