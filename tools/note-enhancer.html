@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>笔记增强器 — AI补全+思维导图+闪卡生成 | 原点智学</title>
     <meta name="description" content="AI补全课堂笔记遗漏要点,生成Mermaid思维导图,自动生成可翻转闪卡">
-    <meta name="theme-color" content="#F5A623">
+    <meta name="theme-color" content="#0F4F3D">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({
@@ -37,18 +37,18 @@
         <style>
         /* === 亮色主题基础变量 === */
         :root {
-            --bg: #FAFAF7;
+            --bg: #FAF7F0;
             --bg-card: #FFFFFF;
-            --text: #1C1C1E;
+            --text: #1A1A1A;
             --text-2: #374151;
             --text-3: #6B7280;
             --text-4: #9CA3AF;
             --border: #E8E5DE;
             --border-hover: #D1CCC3;
             
-            --amber: #F5A623;
-            --amber-light: #FFF8EC;
-            --amber-glow: rgba(245,166,35,0.12);
+            --amber: #0F4F3D;
+            --amber-light: #E8EFE9;
+            --amber-glow: rgba(15, 79, 61,0.12);
             
             --success: #059669;
             --success-bg: #ECFDF5;
@@ -81,7 +81,7 @@
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
             
-            --grad-cta: linear-gradient(135deg, #F5A623 0%, #C2410C 100%);
+            --grad-cta: linear-gradient(135deg, #0F4F3D 0%, #C2410C 100%);
             --grad-hero: linear-gradient(180deg, var(--bg) 0%, var(--amber-light) 100%);
             
             /* 兼容旧变量 */
@@ -237,7 +237,7 @@
     <div class="enhancer-container">
 
         <!-- FSRS 复习提醒 · 当有到期卡才显示 -->
-        <div id="due-banner" style="display:none;margin-bottom:18px;padding:16px 20px;background:linear-gradient(135deg,#FFFBF0,#FFF7ED);border:1px solid #F5A623;border-radius:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div id="due-banner" style="display:none;margin-bottom:18px;padding:16px 20px;background:linear-gradient(135deg,#F2EEE3,#FFF7ED);border:1px solid #0F4F3D;border-radius:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
             <div style="font-size:28px">🔁</div>
             <div style="flex:1;min-width:180px">
                 <div style="font-size:15px;font-weight:700;color:#18181B">今天有 <span id="due-count" style="color:#E8590C">0</span> 张闪卡到期复习</div>
@@ -255,10 +255,10 @@
                     <button onclick="closeReviewSession()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6B7280;line-height:1">×</button>
                 </div>
                 <div style="height:4px;background:#F4F4F5;border-radius:999px;overflow:hidden;margin-bottom:20px">
-                    <div id="rv-bar" style="height:100%;background:#F5A623;width:0%;transition:width .3s"></div>
+                    <div id="rv-bar" style="height:100%;background:#0F4F3D;width:0%;transition:width .3s"></div>
                 </div>
                 <div id="rv-meta" style="font-size:11px;color:#A1A1AA;margin-bottom:6px"></div>
-                <div id="rv-q" style="font-size:18px;font-weight:700;color:#18181B;line-height:1.55;padding:20px 18px;background:#FAFAF7;border-radius:10px;margin-bottom:14px;min-height:80px"></div>
+                <div id="rv-q" style="font-size:18px;font-weight:700;color:#18181B;line-height:1.55;padding:20px 18px;background:#FAF7F0;border-radius:10px;margin-bottom:14px;min-height:80px"></div>
                 <div id="rv-a-wrap" style="display:none">
                     <div style="font-size:12px;color:#6B7280;margin-bottom:6px;font-weight:600">答案</div>
                     <div id="rv-a" style="font-size:15px;color:#3F3F46;line-height:1.65;padding:16px 18px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:10px;margin-bottom:18px"></div>
@@ -266,7 +266,7 @@
                         <button onclick="rateCard(0)" style="flex:1;padding:14px 8px;background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;border-radius:10px;font:700 13px/1.2 'Noto Sans SC';cursor:pointer">
                             <div>不会</div><div style="font-size:11px;font-weight:500;color:#991B1B;margin-top:3px">30 分钟后再见</div>
                         </button>
-                        <button onclick="rateCard(1)" style="flex:1;padding:14px 8px;background:#FFFBF0;border:1px solid #FDE68A;color:#D97706;border-radius:10px;font:700 13px/1.2 'Noto Sans SC';cursor:pointer">
+                        <button onclick="rateCard(1)" style="flex:1;padding:14px 8px;background:#F2EEE3;border:1px solid #FDE68A;color:#D97706;border-radius:10px;font:700 13px/1.2 'Noto Sans SC';cursor:pointer">
                             <div>模糊</div><div style="font-size:11px;font-weight:500;color:#92400E;margin-top:3px" id="rate-fuzzy-gap">降一档</div>
                         </button>
                         <button onclick="rateCard(2)" style="flex:1;padding:14px 8px;background:#ECFDF5;border:1px solid #A7F3D0;color:#059669;border-radius:10px;font:700 13px/1.2 'Noto Sans SC';cursor:pointer">

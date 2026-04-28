@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>知识游乐场 · 玩游戏学知识 | 原点智学</title>
 <meta name="description" content="把知识点变成经典小游戏。消消乐背元素、打地鼠练口诀、贪吃蛇学词性。">
-<meta name="theme-color" content="#F5A623">
+<meta name="theme-color" content="#0F4F3D">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
-  --bdr:#E4E4E7;--amber:#F5A623;--amber-bg:#FFFBF0;--cta:#C2410C;
+  --bg:#FAF7F0;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
+  --bdr:#E4E4E7;--amber:#0F4F3D;--amber-bg:#F2EEE3;--cta:#C2410C;
   --pink:#EC4899;--blue:#2563EB;--green:#059669;--purple:#7C3AED;
   --font:'Noto Sans SC',system-ui,sans-serif;--r:10px;
 }
@@ -103,7 +103,7 @@ h1 em{font-style:normal;color:var(--cta)}
 .snake-q{background:var(--amber-bg);border:1px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;text-align:center}
 .snake-board{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;background:#18181B;padding:4px;border-radius:8px;aspect-ratio:12/10}
 .snake-cell{background:#27272A;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;text-align:center;padding:1px;line-height:1;overflow:hidden}
-.snake-cell.snake{background:#F5A623}
+.snake-cell.snake{background:#0F4F3D}
 .snake-cell.head{background:#C2410C}
 .snake-cell.food{background:#059669;color:#fff}
 .snake-cell.bad{background:#DC2626;color:#fff}
@@ -138,7 +138,7 @@ h1 em{font-style:normal;color:var(--cta)}
 .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .result-actions button{padding:10px 20px;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer}
 /* 错题回顾卡（展开式 details）*/
-.mk-row{background:#FFFBF0;border:1px solid #F5D08A;border-left:3px solid #D97706;border-radius:8px;padding:0;overflow:hidden}
+.mk-row{background:#F2EEE3;border:1px solid #F5D08A;border-left:3px solid #D97706;border-radius:8px;padding:0;overflow:hidden}
 .mk-row summary{cursor:pointer;padding:9px 12px;list-style:none;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#7C2D12;line-height:1.5}
 .mk-row summary::-webkit-details-marker{display:none}
 .mk-row summary::after{content:'▸';margin-left:auto;color:#D97706;font-weight:800;transition:transform .15s;flex:0 0 auto}
@@ -248,7 +248,7 @@ h1 em{font-style:normal;color:var(--cta)}
 .sb-tag.easy{background:#E6F7ED;color:#14532D}
 .sb-tag.hard{background:#FCE8E8;color:#991B1B}
 .sb-q{font-size:14px;color:#18181B;line-height:1.7;margin-bottom:8px}
-.sb-ans{display:none;background:#FEF7E6;border-left:3px solid #F5A623;border-radius:0 6px 6px 0;padding:10px 12px;margin-top:8px;font-size:13px;line-height:1.7}
+.sb-ans{display:none;background:#FEF7E6;border-left:3px solid #0F4F3D;border-radius:0 6px 6px 0;padding:10px 12px;margin-top:8px;font-size:13px;line-height:1.7}
 .sb-ans.on{display:block}
 .sb-btn{font:600 12px var(--font);padding:6px 12px;border:1px solid #18181B;background:transparent;color:#18181B;border-radius:6px;cursor:pointer;margin-right:6px}
 .sb-btn.primary{background:#18181B;color:#fff}
@@ -272,7 +272,7 @@ h1 em{font-style:normal;color:var(--cta)}
 <section class="result" id="result">
     <h2>🎉 通关啦！</h2>
     <div class="result-score" id="r-score">0</div>
-    <div id="r-best-badge" style="display:none;font-size:12px;font-weight:700;color:#C2410C;background:#FFFBF0;border:1px solid #F5A623;padding:4px 12px;border-radius:100px;margin:6px auto 0;width:fit-content">🏆 个人新纪录</div>
+    <div id="r-best-badge" style="display:none;font-size:12px;font-weight:700;color:#C2410C;background:#F2EEE3;border:1px solid #0F4F3D;padding:4px 12px;border-radius:100px;margin:6px auto 0;width:fit-content">🏆 个人新纪录</div>
     <div id="r-best-line" style="font-size:12px;color:#71717A;margin-top:4px">个人最佳: <b id="r-best">—</b></div>
     <div class="result-stats">
         <div><b id="r-correct">0</b>答对</div>
