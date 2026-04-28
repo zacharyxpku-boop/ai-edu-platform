@@ -88,6 +88,27 @@ body{font-family:"Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink)
 .btn-resolve{background:var(--green);color:#fff;}
 .btn-resolve:hover{background:#0c6730;}
 .btn:disabled{background:var(--bdr-strong);cursor:wait;}
+
+/* AI 草稿按钮（学长 review 用，不直发学生） */
+.reply-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.btn-draft{
+    background:rgba(124,58,237,0.10);
+    color:#7C3AED;
+    border:1px dashed #7C3AED;
+    padding:6px 12px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:0.82rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.15s;
+}
+.btn-draft:hover{background:rgba(124,58,237,0.18);}
+.btn-draft:disabled{opacity:0.5;cursor:wait;}
+.draft-status{font-size:0.74rem;color:var(--ink-mute);}
+.draft-status.success{color:var(--green);}
+.draft-status.error{color:var(--red);}
+.reply textarea{transition:border-left 0.2s;}
 </style>
 </head>
 <body>
@@ -232,12 +253,57 @@ function renderReplyBox(id) {
     return `
         <div class="reply">
             <h4>给孩子的回复（文字）</h4>
+            <div class="reply-toolbar">
+                <button class="btn-draft" onclick="loadDraft('${id}', this)">✨ AI 给一份草稿（你 review 改）</button>
+                <span class="draft-status" id="draft-status"></span>
+            </div>
             <textarea id="reply-content" placeholder="先用一句话点破他卡的本质（不要重复 AI 已经说过的）。然后给具体一步示范。最后让他用自己的话复述。"></textarea>
             <div class="reply-actions">
                 <button class="btn btn-resolve" onclick="resolveEsc('${id}')">完成回复 ✓</button>
             </div>
         </div>
     `;
+}
+
+async function loadDraft(escalationId, btn) {
+    const status = document.getElementById('draft-status');
+    const textarea = document.getElementById('reply-content');
+    if (!textarea || !status) return;
+
+    // 已有内容时先确认覆盖（避免学长打了一半被冲掉）
+    if (textarea.value.trim() && !confirm('已有内容，覆盖吗？')) return;
+
+    btn.disabled = true;
+    const originalLabel = btn.textContent;
+    btn.textContent = '✨ 生成中…';
+    status.textContent = '';
+    status.className = 'draft-status';
+
+    try {
+        const r = await fetch('/api/mentor-reply-draft', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ escalation_id: escalationId }),
+        });
+        const data = await r.json();
+        if (!data.ok) throw new Error(data.message || data.error || '生成失败');
+
+        textarea.value = data.draft;
+        textarea.focus();
+        // 紫色左边框提示「这是 AI 草稿，不是你写的」（2 秒淡出）
+        textarea.style.borderLeft = '3px solid #7C3AED';
+        setTimeout(() => { textarea.style.borderLeft = ''; }, 2000);
+
+        status.textContent = `已生成 · ${data.token_count || 0} tokens · 你 review 改完发出`;
+        status.className = 'draft-status success';
+        btn.textContent = '✨ 重新生成';
+    } catch (e) {
+        status.textContent = `生成失败 · ${e.message}`;
+        status.className = 'draft-status error';
+        btn.textContent = originalLabel;
+    } finally {
+        btn.disabled = false;
+    }
 }
 
 async function claimEsc(id) {
