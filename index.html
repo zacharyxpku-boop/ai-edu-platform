@@ -3,486 +3,658 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>原点智学 · 清北方法论 + AI 私教</title>
-<meta name="description" content="先看清孩子的问题，再决定怎么学。3 分钟 AI 诊断生成 13 维度知识漏洞地图，免费。">
+<title>原点智学 · 清北方法论 + AI 私教，提分不只刷题</title>
+<meta name="description" content="先用 3 分钟 AI 诊断看清孩子的知识漏洞，再决定怎么学。4 维方法论 · 18 件免费工具 · 三档陪跑可选。">
+<meta name="theme-color" content="#0F4F3D">
 <meta name="ydzx-page" content="home">
+<link rel="canonical" href="https://www.yuandianzhixue.com/">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
-<style>
-:root{
-  --primary:#D85A30;
-  --primary-hover:#B84A24;
-  --ink:#1A1A1A;
-  --ink-2:#666666;
-  --ink-3:#999999;
-  --bg:#FFFFFF;
-  --bg-2:#F7F6F2;
-  --border:rgba(0,0,0,0.08);
-  --border-strong:rgba(0,0,0,0.16);
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 
-  /* pain pill colors (低饱和) */
-  --pain-amber-bg:#FAEEDA;
-  --pain-amber-text:#854F0B;
-  --pain-red-bg:#FCEBEB;
-  --pain-red-text:#791F1F;
-  --pain-green-bg:#E1F5EE;
-  --pain-green-text:#085041;
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  /* 基底 */
+  --bg-primary:#FAF7F0;
+  --bg-secondary:#F2EEE3;
+  --bg-elevated:#FFFFFF;
+
+  /* 文字 */
+  --text-primary:#1A1A1A;
+  --text-secondary:#4A4A47;
+  --text-tertiary:#8A8780;
+  --text-muted:#B8B5AC;
+
+  /* 主色 · 学院深绿 */
+  --accent-primary:#0F4F3D;
+  --accent-hover:#0A3D2E;
+  --accent-light:#E8EFE9;
+
+  /* 暖色 · 砖红（旗舰款专用） */
+  --accent-warm:#B85C2E;
+  --accent-warm-light:#F5E8DF;
+
+  /* 边框 */
+  --border-subtle:rgba(26,26,26,0.06);
+  --border-default:rgba(26,26,26,0.10);
+  --border-strong:rgba(26,26,26,0.20);
+
+  /* 痛点 pill 三色 */
+  --pain-amber-bg:#F5E8DF; --pain-amber-text:#B85C2E;
+  --pain-red-bg:#EFE3DD; --pain-red-text:#8B3A1F;
+  --pain-green-bg:#E8EFE9; --pain-green-text:#0F4F3D;
+
+  /* 字体 */
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,"Songti SC",STSong,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-  font-size:14px;
-  line-height:1.6;
-  font-weight:400;
+  font-family:var(--font-sans-sc);
+  font-size:15px;
+  line-height:1.7;
+  color:var(--text-primary);
+  background:var(--bg-primary);
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-feature-settings:"palt" 1;
 }
 a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
 
-/* ─── 顶部导航 ─── */
+/* ─── NAV ─── */
 .nav{
-  position:fixed;top:0;left:0;right:0;z-index:50;
-  background:var(--bg);
-  border-bottom:0.5px solid var(--border);
-  height:60px;
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,247,240,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--border-subtle);
 }
-.nav-in{
-  max-width:1200px;margin:0 auto;height:100%;
-  padding:0 32px;display:flex;align-items:center;gap:32px;
+.nav-in{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;height:68px;gap:8px}
+@media(max-width:768px){.nav-in{padding:0 24px;height:60px}}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;color:var(--text-primary);font-size:15px;font-weight:500}
+.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative;flex-shrink:0}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
+.brand-name{letter-spacing:0.04em}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-a{padding:7px 12px;color:var(--text-secondary);font-size:14px;font-weight:400;transition:color 200ms ease;letter-spacing:0.02em}
+.nav-a:hover{color:var(--text-primary)}
+.nav-cta{
+  margin-left:8px;padding:8px 18px;
+  background:var(--accent-primary);color:var(--bg-primary);
+  border:none;border-radius:4px;
+  font:500 13px var(--font-sans-sc);letter-spacing:0.04em;
+  transition:background 200ms ease,transform 200ms ease;
 }
-.brand{
-  display:flex;align-items:center;gap:8px;
-  font-size:15px;font-weight:500;color:var(--ink);
-}
-.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;display:inline-block;position:relative}
-.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
-.nav-links{display:flex;gap:28px;flex:1;justify-content:center}
-.nav-links a{font-size:13px;color:var(--ink-2);transition:color .15s}
-.nav-links a:hover{color:var(--ink)}
-.nav-login{font-size:13px;color:var(--ink-2);transition:color .15s}
-.nav-login:hover{color:var(--ink)}
-.nav-toggle{display:none;background:none;border:0.5px solid var(--border);width:36px;height:36px;border-radius:6px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink)}
-@media (max-width:768px){
-  .nav-in{padding:0 20px;gap:0}
-  .nav-links,.nav-login{display:none}
-  .nav-toggle{display:flex;margin-left:auto}
-  .nav-toggle.active + .nav-mobile{display:flex}
-  .nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:var(--bg);border-bottom:0.5px solid var(--border);flex-direction:column;padding:8px 20px 16px}
-  .nav-mobile a{padding:12px 0;font-size:14px;color:var(--ink);border-bottom:0.5px solid var(--border)}
-  .nav-mobile a:last-child{border-bottom:none}
-}
-
-/* shell */
-.page{padding-top:60px}
-.section{padding:80px 32px}
-.section-inner{max-width:1200px;margin:0 auto}
-@media (max-width:768px){
-  .section{padding:48px 20px}
+.nav-cta:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text-primary)}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-toggle{display:block;padding:8px}
+  .nav-cta{display:none}
+  .nav.open .nav-links{display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:var(--bg-primary);padding:16px 24px;border-bottom:0.5px solid var(--border-subtle);gap:0}
+  .nav.open .nav-a{padding:14px 0;border-bottom:0.5px solid var(--border-subtle)}
 }
 
-/* small label 小标签 */
-.eyebrow{
-  font-size:12px;color:var(--ink-3);letter-spacing:.4px;
-  margin-bottom:16px;font-weight:400;
-}
+/* ─── 通用版式 ─── */
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
+@media(max-width:768px){.container{padding:0 24px}}
+.tight{max-width:800px;margin:0 auto}
 
-/* ─── Hero ─── */
-.hero{padding:120px 32px;text-align:center}
-@media (max-width:768px){.hero{padding:64px 20px}}
-.hero h1{
-  font-size:48px;font-weight:500;line-height:1.2;letter-spacing:-1px;color:var(--ink);
+.eyebrow-en{
+  font-family:var(--font-serif-en);
+  font-style:italic;
+  font-size:14px;
+  color:var(--accent-primary);
+  letter-spacing:0.01em;
   margin-bottom:20px;
 }
-.hero h1 span{display:block}
-@media (max-width:768px){.hero h1{font-size:32px;letter-spacing:-.5px}}
+
+.section-h2{
+  font-family:var(--font-serif-sc);
+  font-weight:500;
+  font-size:32px;
+  letter-spacing:0.01em;
+  line-height:1.3;
+  color:var(--text-primary);
+}
+@media(max-width:768px){.section-h2{font-size:24px}}
+
+.section-lede{
+  margin-top:18px;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--text-secondary);
+  max-width:640px;
+}
+
+/* ─── HERO ─── */
+.hero{padding:160px 40px 120px;text-align:center}
+@media(max-width:768px){.hero{padding:96px 24px 64px}}
+.hero-eyebrow{
+  font-family:var(--font-serif-en);font-style:italic;
+  font-size:14px;color:var(--accent-primary);
+  letter-spacing:0.02em;
+}
+.hero-h1{
+  font-family:var(--font-serif-sc);
+  font-weight:500;
+  font-size:64px;
+  line-height:1.15;
+  letter-spacing:0.02em;
+  color:var(--text-primary);
+  margin-top:32px;
+  max-width:880px;
+  margin-left:auto;
+  margin-right:auto;
+}
+@media(max-width:768px){.hero-h1{font-size:44px;line-height:1.2}}
+.hero-h1 br+span{display:block}
 .hero-sub{
-  font-size:14px;color:var(--ink-2);
-  margin-bottom:36px;
+  margin-top:48px;
+  font-size:15px;
+  font-weight:400;
+  line-height:1.8;
+  color:var(--text-secondary);
+  letter-spacing:0.02em;
 }
-.hero-cta{
-  display:inline-flex;align-items:center;gap:24px;
-  margin-bottom:24px;flex-wrap:wrap;justify-content:center;
+@media(max-width:768px){.hero-sub{font-size:14px;margin-top:32px}}
+.hero-cta-row{
+  margin-top:56px;
+  display:flex;justify-content:center;align-items:center;gap:32px;
+  flex-wrap:wrap;
 }
-.cta-primary{
-  background:var(--ink);color:var(--bg);
-  padding:12px 24px;border-radius:6px;border:none;cursor:pointer;
-  font-family:inherit;font-size:14px;font-weight:500;
-  display:inline-flex;align-items:center;gap:8px;
-  transition:background .15s,transform .1s;
-  min-height:44px;
+.btn-primary{
+  padding:14px 28px;
+  background:var(--accent-primary);
+  color:var(--bg-primary);
+  border:none;border-radius:4px;
+  font:500 15px var(--font-sans-sc);
+  letter-spacing:0.04em;
+  transition:background 200ms ease,transform 200ms ease;
 }
-.cta-primary:hover{background:#000}
-.cta-primary:active{transform:scale(.98)}
-.cta-secondary{
-  font-size:13px;color:var(--ink-2);
-  transition:color .15s;
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-primary:active{transform:scale(0.98);transition:all 100ms}
+.btn-primary .arrow{margin-left:6px;display:inline-block}
+.link-secondary{
+  font-size:13px;color:var(--text-secondary);
+  border-bottom:0.5px solid var(--border-default);
+  padding-bottom:2px;
+  transition:color 200ms ease,border-color 200ms ease;
 }
-.cta-secondary:hover{color:var(--ink);text-decoration:underline}
-.hero-trust{
-  font-size:12px;color:var(--ink-3);
-  margin-top:8px;
+.link-secondary:hover{color:var(--text-primary);border-color:var(--border-strong)}
+.hero-proof{
+  margin-top:80px;
+  font-size:12px;font-weight:300;
+  color:var(--text-muted);
+  letter-spacing:0.06em;
 }
+@media(max-width:768px){.hero-proof{margin-top:48px}}
+.hero-proof .num{
+  font-family:var(--font-en);
+  font-weight:400;
+  font-feature-settings:"tnum" 1;
+}
+
+/* ─── SECTION 通用 ─── */
+.section{padding:120px 0}
+@media(max-width:768px){.section{padding:64px 0}}
+.section.alt{background:var(--bg-secondary)}
 
 /* ─── 4 维方法论 ─── */
-.section-head-center{text-align:center;margin-bottom:48px}
-.section-head-center h2{
-  font-size:24px;font-weight:500;color:var(--ink);
-  letter-spacing:-.3px;
-}
-@media (max-width:768px){.section-head-center h2{font-size:20px}}
-
+.dim-head{text-align:center;margin-bottom:64px}
 .dim-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  max-width:1100px;
+  margin:0 auto;
 }
-@media (max-width:768px){.dim-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.dim-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.dim-grid{grid-template-columns:1fr}}
 .dim-card{
-  background:var(--bg-2);
-  border-radius:8px;padding:20px;
-  display:flex;flex-direction:column;gap:6px;
-  min-height:128px;
-  transition:transform .15s;
+  background:var(--bg-elevated);
+  border:0.5px solid var(--border-subtle);
+  border-radius:8px;
+  padding:36px 28px 32px;
+  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
 }
-.dim-card:hover{transform:translateY(-2px)}
-.dim-id{font-size:11px;color:var(--ink-3);letter-spacing:.5px}
-.dim-title{font-size:16px;font-weight:500;color:var(--ink)}
-.dim-desc{font-size:12px;color:var(--ink-2);margin-top:2px}
+.dim-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
+.dim-id{
+  font-family:var(--font-en);
+  font-size:11px;
+  font-weight:400;
+  color:var(--text-tertiary);
+  letter-spacing:0.12em;
+  margin-bottom:14px;
+}
+.dim-title{
+  font-family:var(--font-serif-sc);
+  font-weight:500;
+  font-size:20px;
+  letter-spacing:0.02em;
+  margin-bottom:12px;
+  color:var(--text-primary);
+}
+.dim-desc{
+  font-size:14px;
+  font-weight:300;
+  line-height:1.7;
+  color:var(--text-secondary);
+}
 
-.section-foot-center{text-align:center;margin-top:32px}
-.text-link{
-  font-size:13px;color:var(--ink-2);
-  display:inline-flex;align-items:center;gap:4px;
-  transition:color .15s;
-}
-.text-link:hover{color:var(--ink)}
-
-/* ─── 免费工具 ─── */
-.section-head-row{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  margin-bottom:32px;gap:24px;flex-wrap:wrap;
-}
-.section-head-row h2{
-  font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-.3px;
-}
-@media (max-width:768px){.section-head-row h2{font-size:20px}}
-
+/* ─── 免费工具 3 张 ─── */
+.tools-head{text-align:center;margin-bottom:64px}
 .tools-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  max-width:1100px;margin:0 auto;
 }
-@media (max-width:768px){.tools-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.tools-grid{grid-template-columns:1fr}}
 .tool-card{
-  background:var(--bg);
-  border:0.5px solid var(--border);
-  border-radius:8px;padding:20px;
-  display:flex;flex-direction:column;gap:10px;
-  cursor:pointer;
-  transition:border-color .15s,transform .15s;
-  min-height:140px;
+  display:block;
+  background:var(--bg-elevated);
+  border:0.5px solid var(--border-subtle);
+  border-radius:8px;
+  padding:32px 28px;
+  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
+  color:inherit;
 }
-.tool-card:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+.tool-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
 .pain-pill{
-  align-self:flex-start;
-  padding:2px 8px;border-radius:4px;
-  font-size:11px;font-weight:400;
+  display:inline-block;
+  padding:3px 10px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.02em;
+  border-radius:3px;
+  margin-bottom:16px;
 }
-.tool-title{font-size:16px;font-weight:500;color:var(--ink)}
-.tool-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
+.tool-title{
+  font-family:var(--font-serif-sc);
+  font-weight:500;
+  font-size:18px;
+  letter-spacing:0.02em;
+  margin-bottom:10px;
+  color:var(--text-primary);
+}
+.tool-desc{
+  font-size:14px;
+  font-weight:300;
+  line-height:1.75;
+  color:var(--text-secondary);
+}
+.tools-foot{
+  margin-top:48px;
+  text-align:center;
+  font-size:13px;
+  color:var(--text-tertiary);
+}
+.tools-foot a{
+  color:var(--text-secondary);
+  border-bottom:0.5px solid var(--border-default);
+  padding-bottom:1px;
+  transition:color 200ms ease;
+}
+.tools-foot a:hover{color:var(--accent-primary);border-color:var(--accent-primary)}
 
 /* ─── 三档定价 ─── */
-.pricing-section{
-  background:var(--bg-2);
-  padding:80px 32px;
-}
-@media (max-width:768px){.pricing-section{padding:48px 20px}}
-
+.pricing-head{text-align:center;margin-bottom:64px}
 .pricing-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
-  align-items:start;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  max-width:1100px;margin:0 auto;
 }
-@media (max-width:1024px){.pricing-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
-
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}}
 .price-card{
-  background:var(--bg);border:0.5px solid var(--border);
-  border-radius:8px;padding:24px;
   position:relative;
-  transition:transform .15s,border-color .15s;
+  background:var(--bg-elevated);
+  border:0.5px solid var(--border-subtle);
+  border-radius:8px;
+  padding:36px 28px 32px;
+  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
 }
-.price-card.flagship{border:2px solid var(--primary)}
-.price-card:hover{transform:translateY(-2px)}
+.price-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
+.price-card.flagship{
+  border:1.5px solid var(--accent-warm);
+}
+.price-card.flagship:hover{border-color:var(--accent-warm)}
 .price-badge{
-  position:absolute;top:-10px;left:24px;
-  background:var(--primary);color:#fff;
-  padding:4px 10px;border-radius:4px;
-  font-size:11px;font-weight:500;
-  white-space:nowrap;
+  position:absolute;top:-12px;left:24px;
+  background:var(--accent-warm);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:2px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.05em;
 }
 .price-tier{
-  font-size:12px;color:var(--ink-3);
-  margin-bottom:8px;letter-spacing:.3px;
+  font-family:var(--font-en);
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--text-tertiary);
+  margin-bottom:14px;
 }
+.price-card.flagship .price-tier{color:var(--accent-warm)}
 .price-name{
-  font-size:16px;font-weight:500;color:var(--ink);
-  margin-bottom:16px;line-height:1.4;
+  font-family:var(--font-serif-sc);
+  font-weight:500;
+  font-size:20px;
+  letter-spacing:0.02em;
+  color:var(--text-primary);
+  margin-bottom:18px;
+  line-height:1.4;
 }
 .price-num{
-  font-size:32px;font-weight:500;color:var(--ink);
+  font-family:var(--font-en);
+  font-feature-settings:"tnum" 1;
+  font-weight:400;
+  font-size:42px;
+  letter-spacing:-0.02em;
+  color:var(--text-primary);
   line-height:1;
 }
-@media (max-width:768px){.price-num{font-size:28px}}
-.price-num .price-currency{font-size:16px;font-weight:400;color:var(--ink-2);margin-right:2px}
+.price-currency{
+  font-size:20px;
+  color:var(--text-tertiary);
+  margin-right:4px;
+  vertical-align:5px;
+}
 .price-period{
-  font-size:12px;color:var(--ink-2);
-  margin-top:8px;padding-bottom:16px;
-  border-bottom:0.5px solid var(--border);
+  margin-top:10px;
+  font-size:13px;
+  font-weight:300;
+  color:var(--text-tertiary);
 }
 .price-features{
-  list-style:none;padding:0;margin:16px 0 0;
-  display:flex;flex-direction:column;gap:8px;
+  list-style:none;
+  margin-top:24px;
+  padding-top:24px;
+  border-top:0.5px solid var(--border-subtle);
+  display:flex;flex-direction:column;gap:10px;
 }
 .price-features li{
-  font-size:13px;color:var(--ink);line-height:1.6;
-  display:flex;align-items:flex-start;gap:8px;
+  font-size:14px;
+  font-weight:400;
+  color:var(--text-secondary);
+  padding-left:18px;
+  position:relative;
+  line-height:1.6;
 }
 .price-features li::before{
-  content:'';display:inline-block;flex-shrink:0;
-  width:14px;height:14px;margin-top:4px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+  content:'';
+  position:absolute;left:0;top:9px;
+  width:8px;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238A8780' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3 8l3.5 3.5L13 5'/%3E%3C/svg%3E") no-repeat center / contain;
 }
-.price-card.flagship .price-features li::before{
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23D85A30' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+.pricing-foot{
+  margin-top:48px;text-align:center;font-size:13px;color:var(--text-tertiary);
 }
+.pricing-foot a{
+  color:var(--text-secondary);
+  border-bottom:0.5px solid var(--border-default);
+  padding-bottom:1px;
+  transition:color 200ms ease;
+}
+.pricing-foot a:hover{color:var(--accent-primary);border-color:var(--accent-primary)}
 
-/* ─── 信任数据带 ─── */
-.trust-bar{
-  border-top:0.5px solid var(--border);
-  padding:48px 32px;
-}
-@media (max-width:768px){.trust-bar{padding:32px 20px}}
+/* ─── 信任带 · 杂志页码式 ─── */
+.trust{padding:96px 40px}
+@media(max-width:768px){.trust{padding:64px 24px}}
 .trust-grid{
-  max-width:1200px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  max-width:1100px;margin:0 auto;
+}
+@media(max-width:768px){.trust-grid{grid-template-columns:repeat(2,1fr);gap:32px 0}}
+.trust-cell{
   text-align:center;
+  border-left:0.5px solid var(--border-subtle);
+  padding:0 24px;
 }
-@media (max-width:768px){.trust-grid{grid-template-columns:repeat(2,1fr);gap:32px 16px}}
+.trust-cell:first-child{border-left:none}
+@media(max-width:768px){
+  .trust-cell{border-left:none}
+  .trust-cell:nth-child(odd){border-left:none}
+}
 .trust-num{
-  font-size:28px;font-weight:500;color:var(--ink);
-  line-height:1;margin-bottom:8px;
+  font-family:var(--font-en);
+  font-feature-settings:"tnum" 1;
+  font-weight:400;
+  font-size:60px;
+  letter-spacing:-0.02em;
+  color:var(--text-primary);
+  line-height:1;
 }
-.trust-label{font-size:12px;color:var(--ink-3)}
-
-/* ─── Footer ─── */
-.footer{
-  border-top:0.5px solid var(--border);
-  padding:48px 32px 24px;
-  background:var(--bg);
-}
-@media (max-width:768px){.footer{padding:32px 20px 16px}}
-.footer-in{
-  max-width:1200px;margin:0 auto;
-  display:grid;grid-template-columns:1.5fr 2fr 1fr;gap:32px;
-  margin-bottom:32px;
-}
-@media (max-width:768px){.footer-in{grid-template-columns:1fr;gap:24px}}
-.footer-brand .brand{margin-bottom:8px}
-.footer-slogan{font-size:12px;color:var(--ink-3)}
-.footer-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-@media (max-width:768px){.footer-cols{grid-template-columns:repeat(3,1fr);gap:16px}}
-.footer-col h4{
-  font-size:12px;font-weight:500;color:var(--ink);
-  margin-bottom:12px;
-}
-.footer-col a{
-  display:block;font-size:12px;color:var(--ink-2);
-  padding:4px 0;transition:color .15s;
-}
-.footer-col a:hover{color:var(--ink)}
-.footer-contact{font-size:12px;color:var(--ink-2);line-height:1.8}
-.footer-qr{
-  width:80px;height:80px;background:var(--bg-2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;color:var(--ink-3);
-  margin-top:8px;border:0.5px solid var(--border);
-}
-.footer-bottom{
-  max-width:1200px;margin:0 auto;
-  padding-top:16px;border-top:0.5px solid var(--border);
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
-  font-size:11px;color:var(--ink-3);
+@media(max-width:768px){.trust-num{font-size:42px}}
+.trust-label{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:300;
+  letter-spacing:0.05em;
+  color:var(--text-tertiary);
 }
 
-/* lucide icon size baseline */
-.icon{width:14px;height:14px;display:inline-block;flex-shrink:0;stroke-width:2}
+/* ─── FOOTER ─── */
+.foot{
+  padding:96px 40px 56px;
+  border-top:0.5px solid var(--border-subtle);
+}
+@media(max-width:768px){.foot{padding:64px 24px 40px}}
+.foot-in{max-width:1200px;margin:0 auto}
+.foot-top{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;
+  margin-bottom:64px;
+}
+@media(max-width:768px){.foot-top{grid-template-columns:1fr 1fr;gap:32px}}
+.foot-brand-name{
+  font-family:var(--font-serif-sc);
+  font-size:18px;font-weight:500;
+  color:var(--text-primary);
+  margin-bottom:8px;
+  letter-spacing:0.04em;
+}
+.foot-brand-tag{
+  font-size:13px;
+  color:var(--text-tertiary);
+  font-weight:300;
+}
+.foot-col-h{
+  font-family:var(--font-serif-sc);
+  font-size:16px;
+  font-weight:500;
+  color:var(--text-primary);
+  margin-bottom:18px;
+  letter-spacing:0.02em;
+}
+.foot-col a{
+  display:block;
+  padding:6px 0;
+  font-size:13px;
+  color:var(--text-secondary);
+  transition:color 200ms ease;
+}
+.foot-col a:hover{color:var(--accent-primary)}
+.foot-bottom{
+  padding-top:32px;
+  border-top:0.5px solid var(--border-subtle);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+  font-size:12px;
+  color:var(--text-muted);
+  font-weight:300;
+}
+
+/* ─── 入场动画 ─── */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 600ms ease-out,transform 600ms ease-out}
+.fade-up.in{opacity:1;transform:translateY(0)}
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity 600ms ease-out,transform 600ms ease-out}
+.stagger.in>*{opacity:1;transform:translateY(0)}
+.stagger.in>*:nth-child(1){transition-delay:0ms}
+.stagger.in>*:nth-child(2){transition-delay:80ms}
+.stagger.in>*:nth-child(3){transition-delay:160ms}
+.stagger.in>*:nth-child(4){transition-delay:240ms}
+@media(prefers-reduced-motion:reduce){
+  .fade-up,.stagger>*{opacity:1;transform:none;transition:none}
+}
 </style>
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="nav-in">
     <a href="/" class="brand">
       <span class="brand-dot"></span>
-      <span>原点智学</span>
+      <span class="brand-name">原点智学</span>
     </a>
     <div class="nav-links">
-      <a href="/#tools">免费工具</a>
-      <a href="/paths">学科教材</a>
-      <a href="/#pricing">课程产品</a>
-      <a href="/progress">成长档案</a>
+      <a href="/study-tools" class="nav-a">免费工具</a>
+      <a href="/paths" class="nav-a">学科教材</a>
+      <a href="/products/compare" class="nav-a">课程产品</a>
+      <a href="/progress" class="nav-a">成长档案</a>
     </div>
-    <a href="/welcome" class="nav-login">登录</a>
+    <button class="nav-cta" onclick="document.getElementById('cta-diagnose').click()">开始免费诊断</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="菜单">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-  </div>
-  <div class="nav-mobile" id="nav-mobile">
-    <a href="/#tools">免费工具</a>
-    <a href="/paths">学科教材</a>
-    <a href="/#pricing">课程产品</a>
-    <a href="/progress">成长档案</a>
-    <a href="/welcome">登录</a>
   </div>
 </nav>
 
-<main class="page">
-
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="eyebrow">原点智学 · 清北方法论 + AI 私教</div>
-    <h1>
-      <span>先看清孩子的问题</span>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="fade-up">
+    <div class="hero-eyebrow">[Yuandian.]</div>
+    <h1 class="hero-h1">
+      先看清孩子的问题<br>
       <span>再决定怎么学</span>
     </h1>
-    <div class="hero-sub">3 分钟 AI 诊断 · 13 维度知识漏洞地图 · 完全免费</div>
-    <div class="hero-cta">
-      <button class="cta-primary" id="cta-diagnose" type="button">
-        开始 3 分钟诊断
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-      <a href="/progress" class="cta-secondary">已诊断过？查看我的报告</a>
+    <p class="hero-sub">3 分钟 AI 诊断 · 13 维度知识漏洞地图 · 完全免费</p>
+    <div class="hero-cta-row">
+      <button class="btn-primary" id="cta-diagnose">开始 3 分钟诊断<span class="arrow">→</span></button>
+      <a class="link-secondary" href="/welcome">已诊断过 · 查看我的报告</a>
     </div>
-    <div class="hero-trust">已为 <span id="stat-diagnosed">12,840</span> 位同学生成诊断报告 · 平均找出 <span id="stat-gaps">4.2</span> 个知识漏洞</div>
-  </section>
+    <p class="hero-proof">
+      已为 <span class="num" id="stat-diagnosed">12,840</span> 位同学生成诊断报告 · 平均找出 <span class="num" id="stat-gaps">4.2</span> 个知识漏洞
+    </p>
+  </div>
+</section>
 
-  <!-- 4 维方法论 -->
-  <section class="section">
-    <div class="section-inner">
-      <div class="section-head-center">
-        <div class="eyebrow">原点方法论 · 4 维成长模型</div>
-        <h2>不只是分数，看清孩子的全貌</h2>
-      </div>
-      <div class="dim-grid" id="dim-grid"></div>
-      <div class="section-foot-center">
-        <a href="/methodology" class="text-link">
-          了解 4 维成长模型
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
+<!-- 4 维方法论 -->
+<section class="section alt" id="method">
+  <div class="container">
+    <div class="dim-head fade-up">
+      <div class="eyebrow-en">[Method.]</div>
+      <h2 class="section-h2">不只是分数<br>看清孩子的全貌</h2>
+      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
+        7 年陪跑 3000+ 学生沉淀出的方法论。把模糊的「学得好」拆成 4 个具体可观测的维度，每一维都有匹配的工具与练习。
+      </p>
     </div>
-  </section>
+    <div class="dim-grid stagger" id="dim-grid"></div>
+  </div>
+</section>
 
-  <!-- 免费工具 -->
-  <section class="section" id="tools">
-    <div class="section-inner">
-      <div class="section-head-row">
-        <div>
-          <div class="eyebrow">免费工具集 · 完全免费使用</div>
-          <h2>先用免费工具，把基础打透</h2>
-        </div>
-        <a href="/tools/global-picks" class="text-link">
-          查看全部 <span id="stat-tools-inline">18</span> 个工具
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-      <div class="tools-grid" id="tools-grid"></div>
+<!-- 免费工具 -->
+<section class="section" id="tools">
+  <div class="container">
+    <div class="tools-head fade-up">
+      <div class="eyebrow-en">[Tools.]</div>
+      <h2 class="section-h2">先用免费工具<br>把基础打透</h2>
+      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
+        18 件 AI 学习工具按学得快 · 学得准 · 提升能力 · 有产出四个维度陈列，免登录即用。下面是高频入口三件。
+      </p>
     </div>
-  </section>
-
-  <!-- 三档定价 -->
-  <section class="pricing-section" id="pricing">
-    <div class="section-inner">
-      <div class="section-head-center">
-        <div class="eyebrow">免费工具用透了，想要陪跑提分</div>
-        <h2>三档陪跑方案 · 按家庭节奏选</h2>
-      </div>
-      <div class="pricing-grid" id="pricing-grid"></div>
-      <div class="section-foot-center">
-        <a href="/products/compare" class="text-link">
-          三档对比与升级路径
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 信任数据带 -->
-  <section class="trust-bar">
-    <div class="trust-grid">
-      <div>
-        <div class="trust-num"><span id="stat-students">3000</span>+</div>
-        <div class="trust-label">陪跑学生</div>
-      </div>
-      <div>
-        <div class="trust-num"><span id="stat-years">7</span> 年</div>
-        <div class="trust-label">实战打磨</div>
-      </div>
-      <div>
-        <div class="trust-num"><span id="stat-textbooks">56</span> 本</div>
-        <div class="trust-label">教材原文</div>
-      </div>
-      <div>
-        <div class="trust-num"><span id="stat-tools">18</span> 个</div>
-        <div class="trust-label">AI 免费工具</div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-in">
-    <div class="footer-brand">
-      <a href="/" class="brand">
-        <span class="brand-dot"></span>
-        <span>原点智学</span>
-      </a>
-      <div class="footer-slogan">清北方法论 + AI 私教</div>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <h4>产品</h4>
-        <a href="/#pricing">清北 4 对 1 陪跑</a>
-        <a href="/assistant">少年营 · 线下研学</a>
-        <a href="/#pricing">线上系统课</a>
-        <a href="/welcome">免费诊断</a>
-      </div>
-      <div class="footer-col">
-        <h4>工具</h4>
-        <a href="/paths">学科教材</a>
-        <a href="/quiz">每日一题</a>
-        <a href="/errors">错题本</a>
-        <a href="/progress">成长档案</a>
-      </div>
-      <div class="footer-col">
-        <h4>关于我们</h4>
-        <a href="/about">公司简介</a>
-        <a href="/articles">研究院 · 技术博客</a>
-        <a href="/eval">教材匹配引擎</a>
-        <a href="mailto:business@yuandianzhixue.com">商务联系</a>
-      </div>
-    </div>
-    <div>
-      <h4 style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:12px">联系我们</h4>
-      <div class="footer-contact">
-        business@yuandianzhixue.com<br>
-        公众号「原点AI学堂」
-      </div>
-      <div class="footer-qr">公众号二维码</div>
+    <div class="tools-grid stagger" id="tools-grid"></div>
+    <div class="tools-foot fade-up">
+      想看全部 <span class="num" id="stat-tools-inline">18</span> 件 · <a href="/study-tools">进工具箱 →</a>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div>© 2026 原点智学</div>
-    <div>让孩子站在 AI 的肩膀上学习、创造、看见未来</div>
+</section>
+
+<!-- 三档定价 -->
+<section class="section alt" id="pricing">
+  <div class="container">
+    <div class="pricing-head fade-up">
+      <div class="eyebrow-en">[Programs.]</div>
+      <h2 class="section-h2">三档陪跑方案<br>按家庭节奏选</h2>
+      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
+        不是越贵越好。先看清孩子当前最需要的是什么，再决定投入哪一档。
+      </p>
+    </div>
+    <div class="pricing-grid stagger" id="pricing-grid"></div>
+    <div class="pricing-foot fade-up">
+      不知道选哪档 · <a href="/products/compare">看完整对比 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 信任带 · 杂志页码式 -->
+<section class="trust">
+  <div class="fade-up" style="text-align:center;margin-bottom:48px">
+    <div class="eyebrow-en">[Numbers.]</div>
+  </div>
+  <div class="trust-grid stagger">
+    <div class="trust-cell">
+      <div class="trust-num"><span id="stat-students">3,000</span>+</div>
+      <div class="trust-label">陪跑学生</div>
+    </div>
+    <div class="trust-cell">
+      <div class="trust-num" id="stat-years">7</div>
+      <div class="trust-label">实战年份</div>
+    </div>
+    <div class="trust-cell">
+      <div class="trust-num" id="stat-textbooks">56</div>
+      <div class="trust-label">教材原文</div>
+    </div>
+    <div class="trust-cell">
+      <div class="trust-num" id="stat-tools">18</div>
+      <div class="trust-label">AI 工具</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-in">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand-name">原点智学</div>
+        <div class="foot-brand-tag">清北方法论 · AI 私教</div>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-h">产品</div>
+        <a href="/products/compare">线上系统课</a>
+        <a href="/assistant">少年营</a>
+        <a href="/products/compare">清北陪跑</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-h">工具</div>
+        <a href="/errors">AI 错题专练</a>
+        <a href="/tools/reading-rewriter">阅读改写</a>
+        <a href="/paths">教材原文库</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-h">关于</div>
+        <a href="/about">关于我们</a>
+        <a href="/articles">研究院</a>
+        <a href="/membership">联系方式</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 原点智学</span>
+      <span>让孩子站在 AI 的肩膀上学习、创造、看见未来</span>
+    </div>
   </div>
 </footer>
 
@@ -509,8 +681,8 @@ const FREE_TOOLS_HIGHLIGHT = [
     pain: '读不懂？',
     painBg: 'var(--pain-amber-bg)', painText: 'var(--pain-amber-text)',
     title: '阅读三档难度改写',
-    desc: '把课文/题目改写成你能读懂的版本，再回头看原文。',
-    href: '/tools/visual-textbook',
+    desc: '把课文 / 题目改写成你能读懂的版本，再回头看原文。',
+    href: '/tools/reading-rewriter',
   },
   {
     pain: '错题多？',
@@ -532,7 +704,7 @@ const PRODUCTS = [
   {
     id: 'qingbei', tier: 'flagship',
     badge: '旗舰 · 限额 4 人/期',
-    label: '清北联盟 4 对 1 陪跑',
+    label: 'Flagship',
     name: '清北联盟 4 对 1 陪跑',
     price: 6980,
     period: '3 个月全程陪跑',
@@ -540,12 +712,12 @@ const PRODUCTS = [
       '4 位清北导师 1v1',
       '每日定制学习规划',
       '24h 答疑 + 情绪陪伴',
-      '诊断—练—测—评闭环',
+      '诊断 — 练 — 测 — 评 闭环',
     ],
   },
   {
     id: 'camp', tier: 'standard',
-    label: '少年营 · 线下研学',
+    label: 'Camp',
     name: '少年营 · 线下研学',
     price: 4980,
     period: '3 天 2 夜 · 沉浸体验',
@@ -558,7 +730,7 @@ const PRODUCTS = [
   },
   {
     id: 'online', tier: 'entry',
-    label: '线上系统课 + 家长社群',
+    label: 'Online',
     name: '线上系统课 + 家长社群',
     price: 2499,
     period: '入门首选 · 自主节奏',
@@ -574,25 +746,22 @@ const PRODUCTS = [
 // ─── 渲染 ───
 function escHtml(s){ return String(s||'').replace(/[<>&"]/g, c=>({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
 
-// stats
 document.getElementById('stat-diagnosed').textContent = STATS.diagnosedStudents.toLocaleString();
 document.getElementById('stat-gaps').textContent = STATS.avgGapsFound;
-document.getElementById('stat-students').textContent = STATS.totalStudents;
+document.getElementById('stat-students').textContent = STATS.totalStudents.toLocaleString();
 document.getElementById('stat-years').textContent = STATS.yearsOperating;
 document.getElementById('stat-textbooks').textContent = STATS.textbooks;
 document.getElementById('stat-tools').textContent = STATS.freeTools;
 document.getElementById('stat-tools-inline').textContent = STATS.freeTools;
 
-// dimensions
 document.getElementById('dim-grid').innerHTML = DIMENSIONS.map(d => `
   <div class="dim-card">
-    <div class="dim-id">维度 ${d.id}</div>
+    <div class="dim-id">${d.id}</div>
     <div class="dim-title">${escHtml(d.name)}</div>
     <div class="dim-desc">${escHtml(d.desc)}</div>
   </div>
 `).join('');
 
-// tools
 document.getElementById('tools-grid').innerHTML = FREE_TOOLS_HIGHLIGHT.map(t => `
   <a class="tool-card" href="${t.href}" data-tool="${escHtml(t.title)}">
     <span class="pain-pill" style="background:${t.painBg};color:${t.painText}">${escHtml(t.pain)}</span>
@@ -601,11 +770,11 @@ document.getElementById('tools-grid').innerHTML = FREE_TOOLS_HIGHLIGHT.map(t => 
   </a>
 `).join('');
 
-// pricing
 document.getElementById('pricing-grid').innerHTML = PRODUCTS.map(p => `
   <div class="price-card ${p.tier==='flagship'?'flagship':''}">
     ${p.badge ? `<span class="price-badge">${escHtml(p.badge)}</span>` : ''}
     <div class="price-tier">${escHtml(p.label)}</div>
+    <div class="price-name">${escHtml(p.name)}</div>
     <div class="price-num"><span class="price-currency">¥</span>${p.price.toLocaleString()}</div>
     <div class="price-period">${escHtml(p.period)}</div>
     <ul class="price-features">
@@ -616,9 +785,7 @@ document.getElementById('pricing-grid').innerHTML = PRODUCTS.map(p => `
 
 // 诊断 CTA
 document.getElementById('cta-diagnose').addEventListener('click', () => {
-  console.log('CTA: diagnose start');
   if (window.YDZX_TRACK) YDZX_TRACK.event('hero_diagnose_click', { source: 'home_hero' });
-  // 占位: 后续接真诊断流; 现在直接跳 welcome 让用户填年级
   setTimeout(() => { location.href = '/welcome'; }, 60);
 });
 
@@ -629,18 +796,26 @@ document.querySelectorAll('.tool-card').forEach(c => {
   });
 });
 
-// 定价卡点击埋点 (虽然现在是静态卡, 标 click on the card)
+// 定价卡点击埋点
 document.querySelectorAll('.price-card').forEach(c => {
   c.addEventListener('click', () => {
-    const name = (c.querySelector('.price-tier') || {}).textContent || '';
+    const name = (c.querySelector('.price-name') || {}).textContent || '';
     if (window.YDZX_TRACK) YDZX_TRACK.event('home_pricing_click', { tier: name.trim() });
   });
 });
 
 // 移动 nav 切换
 document.getElementById('nav-toggle').addEventListener('click', function(){
-  this.classList.toggle('active');
+  document.getElementById('nav').classList.toggle('open');
 });
+
+// ─── 入场动画 (IntersectionObserver) ───
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+},{ rootMargin: '0px 0px -100px 0px', threshold: 0.05 });
+document.querySelectorAll('.fade-up,.stagger').forEach(el => io.observe(el));
 </script>
 <script src="/src/track.js"></script>
 </body>
