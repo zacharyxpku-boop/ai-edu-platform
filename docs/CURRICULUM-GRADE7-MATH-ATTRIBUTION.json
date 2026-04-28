@@ -1,0 +1,375 @@
+{
+  "_meta": {
+    "version": "v1.0",
+    "created_at": "2026-04-28",
+    "subject": "math",
+    "grade": "middle_1",
+    "textbook": "人教版七年级·上",
+    "scope_chapter": "math.7.ch3 一元一次方程",
+    "purpose": "学科教研内核 · 错题归因 6 类的真题样本库 · 可被 prompt / 周报 / mentor 直接注入",
+    "alignment": {
+      "prompt_v3_section": "PROMPT-SYSTEM-V2-MASTER.md §1.六 错题归因 6 类",
+      "l3_label_source": "api/mistake-graph.js L3_LABEL（命名 100% 一致）",
+      "kp_seed_source": "scripts/seed-kp-grade7-math.sql + seed-demo-dialogues.sql",
+      "corner_cases_source": "data/eval/math-corner-cases.json"
+    },
+    "usage": {
+      "tutor_chat_v3": "api/tutor-chat.js buildSystemPromptV3 注入「当前 KP 已知 misconception 池」前 3 条 wrong_pattern + root_cause_hint，让 AI 归因更准、不再编",
+      "mentor_reply_draft": "api/mentor-reply-draft.js 调取「同 KP 历史 misconception 列表」给学长做对照，初稿不空泛",
+      "eval_tutor_prompt": "scripts/eval-tutor-prompt.py 用作 truth source · AI 归因输出 expected_l3 跟此 attribution 比对，统计 v1/v2/v3 准确度",
+      "parent_brief": "api/parent-brief.js 周报段 3「错题归因画像」label_cn 字段直接出文，避免无信息标签",
+      "mistake_graph": "api/mistake-graph.js 兜底 L3_LABEL · attribution 字段格式 100% 对齐 64 类标签"
+    },
+    "attribution_taxonomy": {
+      "knowledge": "概念性错误 · 没理解定义/性质 · 后续：回炉概念，不刷题",
+      "ability.method": "方法性错误 · 概念懂但方法错 · 后续：讲方法论 + 给对照例",
+      "reading": "审题性错误 · 漏看条件或读错关键词 · 后续：练审题习惯（圈关键词）",
+      "ability.calculation": "计算性错误 · 思路对算错 · 后续：单独练计算，不混新课",
+      "ability.skipped_step": "步骤跳跃 · 跳步导致出错 · 后续：强制写完整过程",
+      "ability.fluency": "熟练度不足 · 会做但慢/不稳 · 后续：刷量"
+    },
+    "frequency_legend": {
+      "very_high": "≥ 50% 学生在该 KP 上至少犯一次（人教版老师反馈估）",
+      "high": "30-50% 学生会犯",
+      "medium": "10-30% 学生会犯",
+      "low": "< 10% · 边缘案例但归因价值高"
+    },
+    "stats": {
+      "total_misconceptions": 35,
+      "by_attribution_bucket": {
+        "knowledge": 11,
+        "ability.method": 4,
+        "reading": 5,
+        "ability.calculation": 4,
+        "ability.skipped_step": 8,
+        "ability.fluency": 3
+      },
+      "by_kp": {
+        "math.7.ch3.kp1": 6,
+        "math.7.ch3.kp2": 4,
+        "math.7.ch3.kp3": 10,
+        "math.7.ch3.kp4": 9,
+        "math.7.ch3.kp5": 6
+      },
+      "coverage_notes": "knowledge 桶含 knowledge.* 与若干 knowledge.algebra.* 细类（去括号/分配/约分等结构性误概念）。ability.calculation 与 ability.fluency 在一元一次方程章占比相对低，因本章计算量小、熟练度问题更多落在 ch1 有理数与 ch2 整式（后续 v1.1 扩到 ch1/ch2 时补足）。"
+    }
+  },
+  "chapters": [
+    {
+      "code": "math.7.ch3",
+      "name": "一元一次方程",
+      "kps": [
+        {
+          "code": "math.7.ch3.kp1",
+          "name": "一元一次方程概念",
+          "common_misconceptions": [
+            {
+              "attribution": "knowledge.definition.degree",
+              "label_cn": "次数判错",
+              "wrong_pattern": "判断「3x² + 1 = 0 是不是一元一次方程」→ 答「是」（错：x 的次数为 2，不是一次）",
+              "root_cause_hint": "一元一次方程要求未知数最高次数恰好是 1，先看 x 的指数",
+              "remediation_cue": "下次先圈题目里 x 的最高次数，是 2 就直接排除",
+              "frequency": "high"
+            },
+            {
+              "attribution": "knowledge.relationship.confused",
+              "label_cn": "方程与等式混淆",
+              "wrong_pattern": "判断「3 + 5 = 8 是方程」→ 答「是」（错：没有未知数，只是等式不是方程）",
+              "root_cause_hint": "方程必须含未知数，等式不一定，方程 ⊂ 等式",
+              "remediation_cue": "下次先在题里找有没有 x（或字母未知数），没有就不是方程",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "knowledge.definition.unclear",
+              "label_cn": "误判 0x 为一元一次",
+              "wrong_pattern": "判断「3x = 0 是不是一元一次方程」→ 答「不是，因为右边等于 0」（错：是的，x 的系数为 3 ≠ 0，次数为 1）",
+              "root_cause_hint": "一元一次方程定义看 x 系数 a≠0 和次数 1，跟右边等不等于 0 无关",
+              "remediation_cue": "下次按定义三件套查：① 未知数 1 个 ② 次数 1 ③ x 系数不为 0",
+              "frequency": "medium"
+            },
+            {
+              "attribution": "ability.method.verification",
+              "label_cn": "代入验证不会用",
+              "wrong_pattern": "判断「x = 3 是方程 2x - 7 = -1 的解吗」→ 答「不是」（错：代入 6 - 7 = -1 ✓，是的；学生没代入直接猜）",
+              "root_cause_hint": "判断某数是不是解，必须代入原方程左右两边算一遍看是否相等",
+              "remediation_cue": "下次先写「代入法验证」，把 x = 3 写进左边算出 -1 ，跟右边 -1 比",
+              "frequency": "high"
+            },
+            {
+              "attribution": "reading.misunderstand",
+              "label_cn": "把表达式当方程",
+              "wrong_pattern": "判断「3x + 5 是不是一元一次方程」→ 答「是」（错：没有等号，只是代数式不是方程）",
+              "root_cause_hint": "方程必须有等号「=」，没等号的是代数式不是方程",
+              "remediation_cue": "下次先找等号，没等号直接判「不是方程」",
+              "frequency": "medium"
+            },
+            {
+              "attribution": "ability.fluency.recognition",
+              "label_cn": "概念题能做但慢",
+              "wrong_pattern": "5 道一元一次方程概念判断题，全对但平均每题想了 90 秒（应 ≤ 20 秒，说明概念在脑里没自动化）",
+              "root_cause_hint": "判定型概念题应当看一眼就答，慢说明仍在心里默念定义查表",
+              "remediation_cue": "下次连刷 20 道判定题，目标平均 ≤ 15 秒/题再换题型",
+              "frequency": "medium"
+            }
+          ]
+        },
+        {
+          "code": "math.7.ch3.kp2",
+          "name": "等式性质",
+          "common_misconceptions": [
+            {
+              "attribution": "knowledge.property.misuse",
+              "label_cn": "两边除以含 0 的式",
+              "wrong_pattern": "已知 ax = a，两边同除 a 得 x = 1（错：a 可能为 0 时不能除，需分类讨论）",
+              "root_cause_hint": "等式性质 2 要求「除数不为 0」，含字母时必须先讨论字母可不可以为 0",
+              "remediation_cue": "下次两边除字母前，先写一句「当 a ≠ 0 时」，再分类讨论 a = 0 的情况",
+              "frequency": "high"
+            },
+            {
+              "attribution": "knowledge.property.misuse",
+              "label_cn": "性质 1 用反",
+              "wrong_pattern": "已知 a = b，问 a + 3 与 b + 3 关系 → 答「不一定相等」（错：等式两边同加同一个数仍相等，等于）",
+              "root_cause_hint": "等式性质 1：等式两边同加（减）同一个数，等式仍成立",
+              "remediation_cue": "下次默念性质 1：「同加同减不变号」",
+              "frequency": "high"
+            },
+            {
+              "attribution": "knowledge.property.misuse",
+              "label_cn": "两边乘 0 当合法变形",
+              "wrong_pattern": "解方程 2x = 4 → 两边同乘 0 得 0 = 0（错：乘 0 是退化变形，会丢解；性质 2 隐含乘数不为 0）",
+              "root_cause_hint": "性质 2 说「乘除非 0 数」，乘 0 会让任何方程都变成 0=0，没有意义",
+              "remediation_cue": "下次乘除时心里默念「不能乘 0、不能除 0」",
+              "frequency": "low"
+            },
+            {
+              "attribution": "ability.method.equivalence",
+              "label_cn": "只动一边",
+              "wrong_pattern": "解 x - 3 = 5 → 想 +3，只在左边写 x = 5（错：只在左边加 3 没在右边加 3，破坏等式）",
+              "root_cause_hint": "等式性质 1 强调「两边同加」，不能单边加",
+              "remediation_cue": "下次每写一次变形，左右两边都要做同样动作，写完看一眼是不是两边都改了",
+              "frequency": "very_high"
+            }
+          ]
+        },
+        {
+          "code": "math.7.ch3.kp3",
+          "name": "解方程·移项",
+          "common_misconceptions": [
+            {
+              "attribution": "ability.skipped_step.move_term",
+              "label_cn": "移项忘记变号",
+              "wrong_pattern": "5x + 3 = 18 → 5x = 18 + 3 = 21（错：+3 移到右边应变成 -3，正确 18 - 3 = 15）",
+              "root_cause_hint": "把项跨过等号挪过去时必须改符号，正变负负变正，本质是两边同时减 3",
+              "remediation_cue": "下次做这步心里默念「跨过等号变号」一遍再写",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.skipped_step.move_term",
+              "label_cn": "只移变量不合并系数",
+              "wrong_pattern": "3x + 2 = 5x - 4 → 3x - 5x = -4 - 2 = -6 → x = -6（错：左边 3x - 5x = -2x，应除以 -2 得 x = 3）",
+              "root_cause_hint": "移项后必须合并同类项再除系数，不能跳过合并直接给答案",
+              "remediation_cue": "下次移完项必写一行「-2x = -6」再写「x = 3」，不许两步并一步",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "knowledge.algebra.bracket.miss_distribute",
+              "label_cn": "去括号漏分配",
+              "wrong_pattern": "2(x - 3) = 4x + 1 → 2x - 3 = 4x + 1（错：2 没乘 -3，应是 2x - 6 = 4x + 1）",
+              "root_cause_hint": "去括号要把外面的乘数发给括号里每一项，少发一项就不等价",
+              "remediation_cue": "下次去括号画两条小箭头：2 → x，2 → -3，每条都要乘到",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "knowledge.algebra.bracket.distribute_sign",
+              "label_cn": "负号没分配到每项",
+              "wrong_pattern": "-(2x - 5) → -2x - 5（错：负号要分给每一项，应是 -2x + 5）",
+              "root_cause_hint": "括号前是负号等价于乘 -1，要给括号内每一项都改号",
+              "remediation_cue": "下次见到 -(...) 先把它写成 -1·(...)，再分配",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.calculation.decimal",
+              "label_cn": "小数减法符号错",
+              "wrong_pattern": "0.3x - 0.5 = 0.7 → 0.3x = 0.7 - 0.5 = 0.2 → x = 2/3（错：移项 -0.5 变 +0.5，应 0.7 + 0.5 = 1.2，x = 4）",
+              "root_cause_hint": "0.3x - 0.5 = 0.7 移项后是 0.3x = 0.7 + 0.5，符号错就会把答案差一倍",
+              "remediation_cue": "下次每移一项就在草稿写「这一项原符号 X，移过去后 Y」对一下再算",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.skipped_step.move_term",
+              "label_cn": "未知数与常数混移",
+              "wrong_pattern": "5x - 7 = 2x + 8 → 5x + 2x = 8 + 7（错：右边的 2x 移到左边应变 -2x，应是 5x - 2x = 8 + 7）",
+              "root_cause_hint": "把含 x 的项移到左、常数项移到右时，每一项都要改号",
+              "remediation_cue": "下次移项前在原方程上画两种颜色：含 x 的圈红、常数圈蓝，再分别搬家变号",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.calculation.sign",
+              "label_cn": "正负号合并算错",
+              "wrong_pattern": "-3x + 5x = 2x（对），但 -3x - 5x = -2x（错，应是 -8x）",
+              "root_cause_hint": "同号相加取相同符号、绝对值相加；异号相减取大数符号、绝对值相减",
+              "remediation_cue": "下次合并系数前先看符号：同号还是异号？写在草稿边上再算",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.calculation.fraction",
+              "label_cn": "系数化 1 时除错",
+              "wrong_pattern": "-3x = 12 → x = 4（错：除 -3 应是 x = -4，学生忽略了除数的负号）",
+              "root_cause_hint": "系数化 1 那一步两边同除 x 的系数，符号必须保留",
+              "remediation_cue": "下次系数化 1 时先把系数连符号一起写「÷ (-3)」再算",
+              "frequency": "high"
+            },
+            {
+              "attribution": "reading.miss_condition",
+              "label_cn": "漏看负号开头",
+              "wrong_pattern": "-2x + 3 = 7 → 学生抄成 2x + 3 = 7（错：起手 x 系数就是 -2，整道题接下来全错）",
+              "root_cause_hint": "题目首字符是负号时极易漏抄，导致整题方向错",
+              "remediation_cue": "下次抄题时把负号用红笔单独圈一下再继续",
+              "frequency": "medium"
+            },
+            {
+              "attribution": "ability.fluency.speed",
+              "label_cn": "会做但慢",
+              "wrong_pattern": "解 5x + 3 = 18 用了 5 分钟才出 x = 3（答案对，但 30 秒内的题想了 5 分钟）",
+              "root_cause_hint": "步骤都对但每步都要查公式或反复检查，说明熟练度未到自动化",
+              "remediation_cue": "下次同类题做 10 道连续无中断，目标每道 ≤ 1 分钟",
+              "frequency": "high"
+            }
+          ]
+        },
+        {
+          "code": "math.7.ch3.kp4",
+          "name": "解方程·去分母",
+          "common_misconceptions": [
+            {
+              "attribution": "knowledge.algebra.fraction.add_denominators",
+              "label_cn": "分母直接相加",
+              "wrong_pattern": "x/2 + x/3 = 5 → x/5 = 5，x = 25（错：分母不能直接加，应通分或同乘 6）",
+              "root_cause_hint": "分式相加要先通分（找公分母），不是分母直接相加",
+              "remediation_cue": "下次见 x/a + x/b 先找 a 和 b 的最小公倍数当公分母",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.skipped_step.denominator",
+              "label_cn": "去分母漏乘整式项",
+              "wrong_pattern": "(x+1)/2 + x/3 = 1 → 同乘 6 → 3(x+1) + 2x = 1（错：右边的 1 也要乘 6，应是 = 6）",
+              "root_cause_hint": "去分母要把每一项（包括没分母的整式项）都乘最小公倍数",
+              "remediation_cue": "下次去分母时数一下方程几项，乘完后还得是几项",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.skipped_step.denominator",
+              "label_cn": "去分母漏括号",
+              "wrong_pattern": "(x+1)/2 + x/3 = 1 → 同乘 6 得 3x + 1 + 2x = 6（错：3 没乘 (x+1) 整体，应是 3(x+1) + 2x = 6 即 3x + 3 + 2x = 6）",
+              "root_cause_hint": "分子是多项式时去分母要给整个分子加括号，否则乘数只乘到第一项",
+              "remediation_cue": "下次去分母时分子有 ± 号必加括号，乘完再展开",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.skipped_step.distribute",
+              "label_cn": "去括号漏分配",
+              "wrong_pattern": "3(x+1) + 2x = 6 → 3x + 1 + 2x = 6（错：3 没乘 1，应是 3x + 3 + 2x = 6）",
+              "root_cause_hint": "去分母后通常要去括号，3 要乘到括号里每一项，包括常数",
+              "remediation_cue": "下次去括号画箭头：3 → x，3 → 1，两条都要乘",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "ability.calculation.fraction",
+              "label_cn": "分子分母约分错",
+              "wrong_pattern": "(2x+4)/2 → x + 4（错：约分要分子每一项都除 2，应是 x + 2）",
+              "root_cause_hint": "分子是和的形式约分时，每一项都要除以分母，不能只除第一项",
+              "remediation_cue": "下次先把分子拆开 2x/2 + 4/2 = x + 2，再合并",
+              "frequency": "high"
+            },
+            {
+              "attribution": "knowledge.algebra.fraction.lcm",
+              "label_cn": "公倍数找错",
+              "wrong_pattern": "x/4 + x/6 = 5 → 同乘 24（错但合法，不是错；真正错的是同乘 10）",
+              "root_cause_hint": "找公分母用最小公倍数（LCM），4 和 6 的 LCM 是 12，不是 4+6=10",
+              "remediation_cue": "下次先把分母分解质因数 4=2², 6=2·3，LCM = 2²·3 = 12",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.skipped_step.denominator",
+              "label_cn": "去分母后忘记继续合并",
+              "wrong_pattern": "x/2 + x/3 = 5 → 3x + 2x = 30（对），停在这里写 x = 30/5 = 6（对，但中间没合并直接除，孩子常停在 5x = 30 不知道下一步）",
+              "root_cause_hint": "去分母只是第一步，去完要合并同类项再求解",
+              "remediation_cue": "下次去分母后必写「合并同类项」「除系数」两步，分别落到纸上",
+              "frequency": "medium"
+            },
+            {
+              "attribution": "reading.miss_condition",
+              "label_cn": "漏抄分子负号",
+              "wrong_pattern": "(2x-3)/4 = 1 → 学生抄成 (2x+3)/4 = 1（错：漏掉中间负号，整题答案差很远）",
+              "root_cause_hint": "分子里的减号在抄题时极容易漏，导致后续全错",
+              "remediation_cue": "下次抄题先用手指点一下分子每个符号再抄",
+              "frequency": "medium"
+            },
+            {
+              "attribution": "ability.fluency.consistency",
+              "label_cn": "去分母时对时错",
+              "wrong_pattern": "5 道去分母题做对 3 道、错 2 道，错的位置不固定（一会儿漏乘整式项、一会儿漏括号），说明流程没固化",
+              "root_cause_hint": "知识都懂但每次执行步骤不一致，是熟练度未到自动化的典型表现",
+              "remediation_cue": "下次专门去分母刷 15 道一组，每道照着同一套口令做：① 找 LCM ② 每项乘 LCM ③ 分子加括号 ④ 去括号",
+              "frequency": "high"
+            }
+          ]
+        },
+        {
+          "code": "math.7.ch3.kp5",
+          "name": "应用题·行程",
+          "common_misconceptions": [
+            {
+              "attribution": "ability.method.application",
+              "label_cn": "相向用速度差",
+              "wrong_pattern": "甲乙相距 30km 同时相向而行，甲 4km/h，乙 6km/h，几小时相遇 → 30/(6-4) = 15 小时（错：相向相遇用速度和，应 30/(6+4) = 3 小时）",
+              "root_cause_hint": "相向而行 = 距离÷（速度和），追及 = 距离÷（速度差），两公式选错就全错",
+              "remediation_cue": "下次先在题边写一句「相向用和、追及用差」，再代公式",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "knowledge.algebra.application.upstream",
+              "label_cn": "顺逆水船速水速混淆",
+              "wrong_pattern": "顺水 24km/h、逆水 16km/h，求水流速度 → (24+16)/2 = 20（错：求的是水流，应 (24-16)/2 = 4；20 是船在静水中的速度）",
+              "root_cause_hint": "顺水速度 = 船速 + 水速，逆水 = 船速 - 水速；和 ÷ 2 = 船速、差 ÷ 2 = 水速",
+              "remediation_cue": "下次记口诀「和半船，差半水」",
+              "frequency": "high"
+            },
+            {
+              "attribution": "reading.misunderstand",
+              "label_cn": "求什么看反",
+              "wrong_pattern": "题问「水流速度」学生算成船速；题问「乙比甲多走多少」学生算成两人总路程",
+              "root_cause_hint": "应用题最后一句是「求什么」，搞错求的对象就算过程对答案也错",
+              "remediation_cue": "下次先把「求」字后面那一段用红笔圈出来，最后核对答案是不是这个对象",
+              "frequency": "very_high"
+            },
+            {
+              "attribution": "reading.miss_condition",
+              "label_cn": "漏单位换算",
+              "wrong_pattern": "甲速 60km/h、乙速 800m/min，求合速度直接 60+800=860（错：单位不一致，800m/min = 48km/h，应 60+48=108km/h）",
+              "root_cause_hint": "应用题里出现两种单位（km/h 与 m/min、小时与分钟）必须先统一",
+              "remediation_cue": "下次开题先扫一眼所有单位，不一致先在草稿区做单位换算再代入",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.method.application",
+              "label_cn": "未设未知数直接列",
+              "wrong_pattern": "题目「甲乙相距 100km，甲 5km/h、乙 3km/h，相向几小时相遇」→ 学生直接写 100/(5+3)=12.5（答案对，但应用题方程章要求设 t 为相遇时间，列方程 (5+3)t = 100）",
+              "root_cause_hint": "本章是「应用一元一次方程解应用题」，要求设未知数列方程，不是算式题",
+              "remediation_cue": "下次开题先写「设...为 x」，再列等式（左边表示一种量，右边表示同一量的另一种表示）",
+              "frequency": "high"
+            },
+            {
+              "attribution": "ability.skipped_step.distribute",
+              "label_cn": "列对方程后去括号错",
+              "wrong_pattern": "(5+3)t = 100 → 5t + 3 = 100（错：3 没乘 t，应 5t + 3t = 100）",
+              "root_cause_hint": "去括号要把括号外的因子分配到括号里每一项，本质同 KP3 的去括号",
+              "remediation_cue": "下次去括号画箭头：t → 5、t → 3，两条都要连",
+              "frequency": "medium"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
