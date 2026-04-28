@@ -3,200 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI提分教练 — 四维一体学习系统 | 原点智学</title>
-    <meta name="description" content="16 件 AI 学习工具按「学得快 / 学得准 / 能力养成 / 产出」四维陈列，点开即用，无需登录。诊断区·攻克区·思维区·素养区·成长区全景一览。">
-    <meta name="theme-color" content="#F5A623">
+    <title>免费工具 · 16 件 AI 学习工具 | 原点智学</title>
+    <meta name="description" content="16 件 AI 学习工具按学得快·学得准·提升能力·有产出四个维度陈列，免登录即用。">
+    <meta name="theme-color" content="#D85A30">
+    <meta name="ydzx-page" content="study-tools">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
     <link rel="canonical" href="https://www.yuandianzhixue.com/study-tools.html">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
     <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-        --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
-        --bdr:#E4E4E7;--bdr2:#D4D4D8;
-        --amber:#F5A623;--amber-bg:#FFFBF0;
-        --fast:#E8590C;--fast-bg:#FFF7ED;--fast-wash:rgba(232,89,12,0.04);
-        --precise:#2563EB;--precise-bg:#EFF6FF;--precise-wash:rgba(37,99,235,0.04);
-        --ability:#7C3AED;--ability-bg:#F5F3FF;--ability-wash:rgba(124,58,237,0.04);
-        --output:#059669;--output-bg:#ECFDF5;--output-wash:rgba(5,150,105,0.04);
-        --font:'Noto Sans SC',system-ui,sans-serif;
-        --r:10px;
-        --current-color:var(--fast);
-        --current-wash:var(--fast-wash);
-        --current-bg:var(--fast-bg);
+        --primary:#D85A30;
+        --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
+        --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
+        --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+        --pain-bg:#FCEBEB; --pain-ink:#791F1F;
+        --mid-bg:#FAEEDA;  --mid-ink:#854F0B;
+        --ok-bg:#E1F5EE;   --ok-ink:#085041;
+        --font:"Noto Sans SC",system-ui,-apple-system,sans-serif;
     }
     html{scroll-behavior:smooth}
-    body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;
-        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;
-        transition:background .5s ease}
+    body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.6;
+        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+    a{color:inherit;text-decoration:none}
 
-    /* grain */
-    body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.02;
-        background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-    /* atmospheric orb */
-    .orb{position:fixed;width:800px;height:800px;border-radius:50%;pointer-events:none;z-index:0;
-        top:-200px;right:-200px;
-        background:radial-gradient(circle,var(--current-wash) 0%,transparent 70%);
-        transition:background .6s ease;filter:blur(40px)}
-
-    /* ===== NAV ===== */
-    .nav{position:sticky;top:0;z-index:100;
-        background:rgba(250,250,247,0.82);
-        backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);
-        border-bottom:1px solid var(--bdr)}
-    .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-    .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-    .nav-brand svg{width:24px;height:24px;flex-shrink:0}
-    .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
+    /* NAV — home aligned 4-item */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+        backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+    .nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+    @media(max-width:720px){.nav-in{padding:0 20px}}
+    .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink)}
+    .brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+    .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+    .nav-links{display:flex;gap:4px}
+    .nav-a{padding:6px 10px;border-radius:6px;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
     .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-    .nav-a.on{color:var(--amber);background:var(--amber-bg)}
-    .nav-set{background:none;border:1px solid var(--bdr);padding:5px 12px;border-radius:7px;font-size:12px;color:var(--ink3);cursor:pointer;font-family:var(--font);transition:all .12s}
-    .nav-set:hover{border-color:var(--bdr2);color:var(--ink)}
-    @media(max-width:767px){.nav-links-wrap{display:none}}
-    .nav-links-wrap{display:flex;gap:2px}
+    .nav-a.on{color:var(--ink);font-weight:500}
+    .nav-a.on::after{content:'·';color:var(--primary);margin-left:4px;font-weight:700}
+    .nav-set{padding:6px 12px;border-radius:6px;border:0.5px solid var(--border);background:none;font:400 13px var(--font);color:var(--ink-2);cursor:pointer}
+    .nav-set:hover{color:var(--ink);border-color:var(--border-strong)}
+    @media(max-width:780px){.nav-links{display:none}}
 
-    /* ===== STATS ===== */
-    .stats{max-width:1120px;margin:24px auto 0;padding:0 20px}
-    .stats-row{display:flex;gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden}
-    .stat{flex:1;background:var(--card);padding:16px 12px;text-align:center}
-    .stat-n{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;
-        font-variant-numeric:tabular-nums;color:var(--ink)}
-    .stat-l{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
-    @media(max-width:500px){.stat-n{font-size:20px}.stat{padding:12px 8px}}
+    /* WRAP + INTRO */
+    .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+    @media(max-width:720px){.wrap{padding:0 20px}}
+    .eyebrow{font-size:12px;color:var(--ink-3);margin:32px 0 8px;letter-spacing:.5px}
+    h1.page{font-size:24px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px}
+    .page-lede{font-size:13px;color:var(--ink-2);margin-bottom:24px;max-width:640px}
 
-    /* ===== DIMENSION SWITCHER ===== */
-    .switcher{max-width:1120px;margin:28px auto 0;padding:0 20px}
+    /* STATS — 4 inline tiles, neutral */
+    .stats{margin-top:8px}
+    .stats a{display:block}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden}
+    .stat{background:#fff;padding:18px 12px;text-align:center}
+    .stat-n{font-size:24px;font-weight:500;letter-spacing:-.3px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+    .stat-l{font-size:11px;color:var(--ink-3);margin-top:6px}
+    .stats-link{text-align:right;padding:10px 4px 0;font-size:12px;color:var(--primary);font-weight:500}
+    @media(max-width:520px){.stat-n{font-size:18px}.stat{padding:14px 8px}}
+
+    /* PLATFORM BANNER — ink instead of gradient */
+    .platform{display:block;margin:18px auto 0;padding:18px 22px;background:var(--ink);color:#FFF;border-radius:8px;border:0.5px solid var(--ink)}
+    .platform .row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .platform .badge{flex:0 0 auto;padding:4px 10px;border-radius:4px;background:var(--primary);font-weight:500;color:#FFF;font-size:11px;letter-spacing:.6px;text-transform:uppercase}
+    .platform .body{flex:1 1 260px;min-width:240px}
+    .platform .title{font-weight:500;font-size:15px;letter-spacing:-.1px;color:#FFF}
+    .platform .stats-line{font-size:12px;color:#A8A8A0;margin-top:4px}
+    .platform .cta{flex:0 0 auto;font-size:13px;color:var(--primary);font-weight:500}
+
+    /* RECOS section — 今日推荐 */
+    .recos-sec{margin-top:32px}
+    .recos-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+    .recos-h h3{font-size:14px;font-weight:500;letter-spacing:0;color:var(--ink)}
+    .recos-h .sub{color:var(--ink-3);font-weight:400;font-size:12px;margin-left:6px}
+    .recos-h a.full{font-size:12px;color:var(--ink-3)}
+    .recos-h a.full:hover{color:var(--ink)}
+    .recos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+
+    /* DIMENSION SWITCHER — single ink, primary on active */
+    .switcher{margin-top:48px}
+    .switcher-h{font-size:11px;color:var(--ink-3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
     .sw-row{display:flex;gap:6px}
     .sw-btn{
-        flex:1;padding:14px 8px;border:none;border-radius:var(--r);cursor:pointer;
-        font-family:var(--font);font-size:13px;font-weight:700;
-        background:var(--card);color:var(--ink3);border:1.5px solid var(--bdr);
-        transition:all .25s;position:relative;overflow:hidden;
+        flex:1;padding:14px 10px;border:0.5px solid var(--border);border-radius:8px;cursor:pointer;
+        font-family:var(--font);font-size:13px;font-weight:400;
+        background:#fff;color:var(--ink-2);
+        transition:all .15s;position:relative;overflow:hidden;text-align:center;
     }
-    .sw-btn::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-        background:var(--c);transform:scaleX(0);transition:transform .25s;border-radius:0 0 var(--r) var(--r)}
-    .sw-btn:hover{border-color:var(--bdr2);color:var(--ink)}
-    .sw-btn.on{color:var(--c);border-color:var(--c);background:var(--cbg)}
-    .sw-btn.on::before{transform:scaleX(1)}
-    .sw-num{display:block;font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:2px;
-        transition:color .25s}
-    .sw-btn.on .sw-num{color:var(--c)}
+    .sw-btn:hover{border-color:var(--border-strong);color:var(--ink)}
+    .sw-btn.on{color:var(--ink);font-weight:500;border-color:var(--ink);background:#fff}
+    .sw-btn.on::after{content:'';position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--primary)}
+    .sw-num{display:block;font-size:18px;font-weight:500;letter-spacing:-.3px;margin-bottom:4px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+    .sw-btn.on .sw-num{color:var(--primary)}
     @media(max-width:600px){.sw-row{flex-wrap:wrap}.sw-btn{flex:1 1 45%}}
 
-    /* ===== CONTENT ===== */
-    .content{max-width:1120px;margin:32px auto 0;padding:0 20px 100px;position:relative;z-index:1}
-    .dim{display:none;animation:dimIn .4s ease both}
+    /* CONTENT */
+    .content{margin-top:28px;padding-bottom:96px;position:relative;z-index:1}
+    .dim{display:none;animation:dimIn .3s ease both}
     .dim.on{display:block}
-    @keyframes dimIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes dimIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    .dim-head{margin-bottom:24px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-    .dim-title{font-size:clamp(24px,4vw,32px);font-weight:900;letter-spacing:-0.5px}
-    .dim-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.3px}
+    .dim-head{margin-bottom:18px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+    .dim-title{font-size:22px;font-weight:500;letter-spacing:-.3px;color:var(--ink)}
+    .dim-tag{font-size:11px;font-weight:500;color:var(--ink-3);letter-spacing:.3px}
+    .dim-tag b{color:var(--ink);font-weight:500}
 
-    /* ===== TOOL CARDS ===== */
+    /* TOOL CARDS — single ink with primary accent on hover */
     .tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media(min-width:768px){.tgrid{grid-template-columns:repeat(2,1fr);gap:14px}}
+    @media(min-width:768px){.tgrid{grid-template-columns:repeat(3,1fr);gap:14px}}
 
     .tc{
-        background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);
-        padding:0;text-decoration:none;color:inherit;display:flex;
-        transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+        background:#fff;border:0.5px solid var(--border);border-radius:8px;
+        padding:18px 18px;text-decoration:none;color:inherit;display:block;
+        transition:all .15s;position:relative;overflow:hidden;
     }
-    .tc-bar{width:4px;flex-shrink:0;transition:width .22s;border-radius:var(--r) 0 0 var(--r)}
-    .tc:hover .tc-bar{width:6px}
-    .tc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    .tc-body{padding:18px 16px;flex:1;min-width:0}
-    .tc-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-    .tc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:800}
-    .tc-name{font-size:15px;font-weight:700;letter-spacing:-0.2px}
-    .tc-desc{font-size:13px;color:var(--ink3);line-height:1.6}
-    .tc-arrow{margin-top:8px;font-size:12px;font-weight:600;opacity:0;transform:translateX(-4px);transition:all .2s}
+    .tc:hover{border-color:var(--ink);transform:translateY(-1px)}
+    .tc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--primary);transition:width .15s}
+    .tc:hover::before{width:2px}
+    .tc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .tc-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:500;background:var(--bg-2);color:var(--ink)}
+    .tc:hover .tc-icon{background:var(--ink);color:#fff}
+    .tc-name{font-size:14px;font-weight:500;letter-spacing:-.1px;color:var(--ink)}
+    .tc-desc{font-size:12px;color:var(--ink-2);line-height:1.55}
+    .tc-arrow{margin-top:10px;font-size:12px;font-weight:500;color:var(--primary);opacity:0;transform:translateX(-4px);transition:all .15s}
     .tc:hover .tc-arrow{opacity:1;transform:translateX(0)}
 
     /* card stagger */
-    .tc{animation:cardIn .35s ease both}
+    .tc{animation:cardIn .3s ease both}
     .tc:nth-child(1){animation-delay:0s}
-    .tc:nth-child(2){animation-delay:.06s}
-    .tc:nth-child(3){animation-delay:.12s}
-    .tc:nth-child(4){animation-delay:.18s}
-    @keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .tc:nth-child(2){animation-delay:.04s}
+    .tc:nth-child(3){animation-delay:.08s}
+    .tc:nth-child(4){animation-delay:.12s}
+    .tc:nth-child(5){animation-delay:.16s}
+    .tc:nth-child(6){animation-delay:.2s}
+    @keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    /* course promo */
-    .promo{margin-top:20px;padding:20px 24px;border-radius:var(--r);
+    /* COURSE PROMO — neutral, primary accent only */
+    .promo{margin-top:24px;padding:20px 22px;border-radius:8px;
         display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-        border:1px dashed var(--bdr2);background:rgba(255,255,255,.6)}
+        border:0.5px solid var(--border);background:var(--bg-2)}
     .promo-text{flex:1;min-width:200px}
-    .promo-h{font-size:14px;font-weight:700;margin-bottom:2px}
-    .promo-p{font-size:12px;color:var(--ink3)}
+    .promo-h{font-size:14px;font-weight:500;margin-bottom:4px;color:var(--ink)}
+    .promo-p{font-size:12px;color:var(--ink-2)}
     .promo-btn{
-        padding:8px 20px;border-radius:7px;border:none;font-size:13px;font-weight:600;
-        cursor:pointer;font-family:var(--font);color:#fff;transition:opacity .15s}
-    .promo-btn:hover{opacity:.88}
+        padding:9px 18px;border-radius:6px;border:none;font:500 13px var(--font);
+        cursor:pointer;color:#fff;background:var(--ink);transition:background .15s}
+    .promo-btn:hover{background:#000}
 
-    /* ===== MOBILE TABS ===== */
+    /* MOBILE TABS — cleaner */
     .mtabs{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;
-        background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-        border-top:1px solid var(--bdr);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+        background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+        border-top:0.5px solid var(--border);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
     .mtabs-in{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
-    .mt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;
-        border-radius:8px;text-decoration:none;font-size:10px;font-weight:600;
-        color:var(--ink4);transition:all .15s;border:none;background:none;cursor:pointer;font-family:var(--font)}
-    .mt svg{width:20px;height:20px}
-    .mt.on{color:var(--ink);background:rgba(0,0,0,.04)}
-    @media(max-width:767px){.mtabs{display:block}.content{padding-bottom:120px}.switcher{display:none}}
+    .mt{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;
+        border-radius:6px;font-size:11px;font-weight:400;
+        color:var(--ink-3);transition:all .15s;border:none;background:none;cursor:pointer;font-family:var(--font)}
+    .mt-num{font-size:11px;color:var(--ink-4);font-variant-numeric:tabular-nums;font-weight:500}
+    .mt.on{color:var(--ink);background:var(--bg-2);font-weight:500}
+    .mt.on .mt-num{color:var(--primary)}
+    @media(max-width:767px){.mtabs{display:block}.content{padding-bottom:108px}.switcher{display:none}.tgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.tgrid{grid-template-columns:1fr}}
 
-    /* ===== FOOTER ===== */
-    .foot{border-top:1px solid var(--bdr);padding:20px;text-align:center;
-        font-size:11px;color:var(--ink4);position:relative;z-index:1}
+    /* FOOTER */
+    .foot{border-top:0.5px solid var(--border);padding:24px 20px;text-align:center;
+        font-size:12px;color:var(--ink-4);position:relative;z-index:1;margin-top:32px}
     </style>
 </head>
 <body>
 
-<div class="orb" id="orb"></div>
-
 <!-- NAV -->
 <nav class="nav"><div class="nav-in">
-    <a href="/" class="nav-brand">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#F5A623"/><circle cx="12" cy="12" r="5" fill="#18181B"/><circle cx="12" cy="12" r="2" fill="#FAFAF7"/></svg>
-        原点智学
-    </a>
-    <div class="nav-links-wrap">
-        <a href="/" class="nav-a">首页</a>
-        <a href="study-tools.html" class="nav-a on">工具箱</a>
-        <a href="tools/global-picks.html" class="nav-a">全球精选</a>
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+        <a href="study-tools.html" class="nav-a on">免费工具</a>
+        <a href="paths.html" class="nav-a">学科教材</a>
+        <a href="products/compare.html" class="nav-a">课程产品</a>
         <a href="progress.html" class="nav-a">成长档案</a>
-        <a href="membership.html" class="nav-a">会员</a>
-        <a href="assistant.html" class="nav-a">成长课</a>
-        <a href="articles.html" class="nav-a">研究院</a>
     </div>
-    <button class="nav-set" onclick="location.href='settings.html'">API 设置</button>
+    <button class="nav-set" onclick="location.href='settings.html'">设置</button>
 </div></nav>
+
+<div class="wrap">
+
+<div class="eyebrow">免费工具</div>
+<h1 class="page">16 件 AI 学习工具 · 免登录即用</h1>
+<p class="page-lede">按学得快、学得准、提升能力、有产出四个维度陈列。先随便点一个用，再决定要不要进系统课。</p>
 
 <!-- STATS -->
 <div class="stats">
-    <a href="progress.html" style="display:block;text-decoration:none;color:inherit">
-    <div class="stats-row">
-        <div class="stat"><div class="stat-n" id="s-use">0</div><div class="stat-l">累计使用</div></div>
-        <div class="stat"><div class="stat-n" id="s-err">0</div><div class="stat-l">错题攻克</div></div>
-        <div class="stat"><div class="stat-n" id="s-fey">0</div><div class="stat-l">费曼通过</div></div>
-        <div class="stat"><div class="stat-n" id="s-str">0</div><div class="stat-l">连续天数</div></div>
-    </div>
-    <div style="text-align:right;padding:8px 4px 0;font-size:12px;color:var(--amber);font-weight:600">点开看完整成长档案 →</div>
+    <a href="progress.html">
+        <div class="stats-row">
+            <div class="stat"><div class="stat-n" id="s-use">0</div><div class="stat-l">累计使用</div></div>
+            <div class="stat"><div class="stat-n" id="s-err">0</div><div class="stat-l">错题攻克</div></div>
+            <div class="stat"><div class="stat-n" id="s-fey">0</div><div class="stat-l">费曼通过</div></div>
+            <div class="stat"><div class="stat-n" id="s-str">0</div><div class="stat-l">连续天数</div></div>
+        </div>
+        <div class="stats-link">看完整成长档案 →</div>
     </a>
 </div>
 
 <!-- PLATFORM MOAT BANNER -->
-<a href="platform.html" style="display:block;max-width:1040px;margin:8px auto 18px;padding:16px 20px;background:linear-gradient(135deg,#18181B 0%,#2A2A2E 100%);color:#FAFAF7;border-radius:14px;text-decoration:none;border:1px solid #3A3A40;position:relative;overflow:hidden">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <div style="flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:#F5A623;display:flex;align-items:center;justify-content:center;font-weight:800;color:#18181B">自研</div>
-        <div style="flex:1 1 260px;min-width:240px">
-            <div style="font-weight:700;font-size:16px;letter-spacing:.3px">原点自研平台 · 教材 / 引擎 / 模型</div>
-            <div id="platform-banner-stats" style="font-size:12px;color:#B8B8B0;margin-top:2px">加载中 · 章节匹配引擎 v1.2 · 章→题生成管道</div>
+<a href="platform.html" class="platform">
+    <div class="row">
+        <div class="badge">自研</div>
+        <div class="body">
+            <div class="title">原点自研平台 · 教材 / 引擎 / 模型</div>
+            <div id="platform-banner-stats" class="stats-line">加载中 · 章节匹配引擎 v1.2 · 章→题生成管道</div>
         </div>
-        <div style="flex:0 0 auto;font-size:13px;color:#F5A623;font-weight:600">看壁垒 →</div>
+        <div class="cta">看壁垒 →</div>
     </div>
 </a>
 <script>
@@ -212,18 +227,18 @@
     var books = (mf.books||[]).length;
     var chapters = (mf.books||[]).reduce((a,b)=>a+((b.chapters||[]).length),0);
     var qs = ((qc&&qc.questions)||[]).length + ((qg&&qg.questions)||[]).length;
-    s.textContent = books + ' 本教材 · ' + chapters + ' 章 · ' + qs + ' 题 · 章节匹配引擎 v1.2 · 章→题生成管道';
+    s.textContent = books + ' 本教材 · ' + chapters + ' 章 · ' + qs + ' 题 · 章节匹配引擎 v1.2';
   } catch(e){}
 })();
 </script>
 
-<!-- 今日推荐 3 件事（数据驱动 · 共享模块 today-recos.js） -->
-<section id="recos-sec" style="max-width:1040px;margin:8px auto 18px;padding:0 8px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;padding:0 4px">
-        <h3 style="font-size:15px;font-weight:800;letter-spacing:.3px;color:#18181B">今日推荐 · <span style="color:#71717A;font-weight:500;font-size:12px">从你的学习数据反推 3 件最值得做的</span></h3>
-        <a href="progress.html" style="font-size:11px;color:#A1A1AA;text-decoration:none">看完整诊断 →</a>
+<!-- 今日推荐 3 件事 -->
+<section id="recos-sec" class="recos-sec">
+    <div class="recos-h">
+        <h3>今日推荐<span class="sub">从你的学习数据反推 3 件最值得做的</span></h3>
+        <a href="progress.html" class="full">看完整诊断 →</a>
     </div>
-    <div id="recos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px"></div>
+    <div id="recos-grid" class="recos-grid"></div>
 </section>
 <script src="/src/today-recos.js"></script>
 <script>
@@ -233,20 +248,23 @@ window.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <!-- DIMENSION SWITCHER -->
-<div class="switcher"><div class="sw-row">
-    <button class="sw-btn on" data-d="fast" style="--c:var(--fast);--cbg:var(--fast-bg)" onclick="switchDim('fast')">
-        <span class="sw-num">01</span>学得快
-    </button>
-    <button class="sw-btn" data-d="precise" style="--c:var(--precise);--cbg:var(--precise-bg)" onclick="switchDim('precise')">
-        <span class="sw-num">02</span>学得准
-    </button>
-    <button class="sw-btn" data-d="ability" style="--c:var(--ability);--cbg:var(--ability-bg)" onclick="switchDim('ability')">
-        <span class="sw-num">03</span>提升能力
-    </button>
-    <button class="sw-btn" data-d="output" style="--c:var(--output);--cbg:var(--output-bg)" onclick="switchDim('output')">
-        <span class="sw-num">04</span>有产出
-    </button>
-</div></div>
+<div class="switcher">
+    <div class="switcher-h">按维度浏览</div>
+    <div class="sw-row">
+        <button class="sw-btn on" data-d="fast" onclick="switchDim('fast')">
+            <span class="sw-num">01</span>学得快
+        </button>
+        <button class="sw-btn" data-d="precise" onclick="switchDim('precise')">
+            <span class="sw-num">02</span>学得准
+        </button>
+        <button class="sw-btn" data-d="ability" onclick="switchDim('ability')">
+            <span class="sw-num">03</span>提升能力
+        </button>
+        <button class="sw-btn" data-d="output" onclick="switchDim('output')">
+            <span class="sw-num">04</span>有产出
+        </button>
+    </div>
+</div>
 
 <!-- CONTENT -->
 <div class="content">
@@ -255,79 +273,61 @@ window.addEventListener('DOMContentLoaded', function(){
 <div class="dim on" id="d-fast">
     <div class="dim-head">
         <h2 class="dim-title">学得快</h2>
-        <span class="dim-tag" style="background:var(--fast-bg);color:var(--fast)">效率维度 · 6 工具</span>
+        <span class="dim-tag">效率维度 · <b>6 工具</b></span>
     </div>
     <div class="tgrid">
         <a href="tools/exam-diagnosis.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">诊</div>
-                    <div class="tc-name">考试诊断</div>
-                </div>
-                <p class="tc-desc">上传成绩和错题，AI从13个维度找到你的知识漏洞</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始诊断 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">诊</div>
+                <div class="tc-name">考试诊断</div>
             </div>
+            <p class="tc-desc">上传成绩和错题，AI 从 13 个维度找到你的知识漏洞</p>
+            <div class="tc-arrow">开始诊断 →</div>
         </a>
         <a href="tools/study-plan.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">计</div>
-                    <div class="tc-name">学习计划</div>
-                </div>
-                <p class="tc-desc">基于诊断结果，生成每日任务清单和时间分配</p>
-                <div class="tc-arrow" style="color:var(--fast)">制定计划 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">计</div>
+                <div class="tc-name">学习计划</div>
             </div>
+            <p class="tc-desc">基于诊断结果，生成每日任务清单和时间分配</p>
+            <div class="tc-arrow">制定计划 →</div>
         </a>
         <a href="tools/error-practice.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">练</div>
-                    <div class="tc-name">错题专练</div>
-                </div>
-                <p class="tc-desc">针对薄弱知识点，AI生成同类题目强化训练</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始练习 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">练</div>
+                <div class="tc-name">错题专练</div>
             </div>
+            <p class="tc-desc">针对薄弱知识点，AI 生成同类题目强化训练</p>
+            <div class="tc-arrow">开始练习 →</div>
         </a>
         <a href="tools/exam-generator.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">卷</div>
-                    <div class="tc-name">AI出卷</div>
-                </div>
-                <p class="tc-desc">选科目章节难度，AI生成完整模拟试卷</p>
-                <div class="tc-arrow" style="color:var(--fast)">生成试卷 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">卷</div>
+                <div class="tc-name">AI 出卷</div>
             </div>
+            <p class="tc-desc">选科目章节难度，AI 生成完整模拟试卷</p>
+            <div class="tc-arrow">生成试卷 →</div>
         </a>
         <a href="tools/knowledge-arcade.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">玩</div>
-                    <div class="tc-name">知识游乐场</div>
-                </div>
-                <p class="tc-desc">打地鼠/消消乐/贪吃蛇/推箱子四种玩法，AI按知识点出题</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始玩 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">玩</div>
+                <div class="tc-name">知识游乐场</div>
             </div>
+            <p class="tc-desc">打地鼠 / 消消乐 / 贪吃蛇 / 推箱子四种玩法，AI 按知识点出题</p>
+            <div class="tc-arrow">开始玩 →</div>
         </a>
         <a href="search.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">查</div>
-                    <div class="tc-name">题→章节直查</div>
-                </div>
-                <p class="tc-desc">输入任何题目或知识点，自研模型 89% 命中直达课本章节，附原文片段</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始查 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">查</div>
+                <div class="tc-name">题→章节直查</div>
             </div>
+            <p class="tc-desc">输入任何题目或知识点，自研模型 89% 命中直达课本章节</p>
+            <div class="tc-arrow">开始查 →</div>
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想系统掌握高效学习法？</div><p class="promo-p">智元成长课 · 12周从认知到产出</p></div>
-        <button class="promo-btn" style="background:var(--fast)" onclick="location.href='assistant.html'">了解课程</button>
+        <div class="promo-text"><div class="promo-h">想系统掌握高效学习法</div><p class="promo-p">智元成长课 · 12 周从认知到产出</p></div>
+        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
     </div>
 </div>
 
@@ -335,46 +335,37 @@ window.addEventListener('DOMContentLoaded', function(){
 <div class="dim" id="d-precise">
     <div class="dim-head">
         <h2 class="dim-title">学得准</h2>
-        <span class="dim-tag" style="background:var(--precise-bg);color:var(--precise)">精准维度 · 3 工具</span>
+        <span class="dim-tag">精准维度 · <b>3 工具</b></span>
     </div>
     <div class="tgrid">
         <a href="tools/error-mastery.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">析</div>
-                    <div class="tc-name">错题举一反三</div>
-                </div>
-                <p class="tc-desc">五重错因分析，从一道错题拆出本质，生成变式题</p>
-                <div class="tc-arrow" style="color:var(--precise)">分析错题 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">析</div>
+                <div class="tc-name">错题举一反三</div>
             </div>
+            <p class="tc-desc">五重错因分析，从一道错题拆出本质，生成变式题</p>
+            <div class="tc-arrow">分析错题 →</div>
         </a>
         <a href="tools/knowledge-explain.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">解</div>
-                    <div class="tc-name">知识点讲解</div>
-                </div>
-                <p class="tc-desc">苏格拉底式引导，不给答案，逼你自己想通</p>
-                <div class="tc-arrow" style="color:var(--precise)">开始学习 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">解</div>
+                <div class="tc-name">知识点讲解</div>
             </div>
+            <p class="tc-desc">苏格拉底式引导，不给答案，逼你自己想通</p>
+            <div class="tc-arrow">开始学习 →</div>
         </a>
         <a href="tools/knowledge-visual.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">图</div>
-                    <div class="tc-name">知识可视化</div>
-                </div>
-                <p class="tc-desc">数理化生知识树，点击生成流程图和结构图</p>
-                <div class="tc-arrow" style="color:var(--precise)">探索知识树 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">图</div>
+                <div class="tc-name">知识可视化</div>
             </div>
+            <p class="tc-desc">数理化生知识树，点击生成流程图和结构图</p>
+            <div class="tc-arrow">探索知识树 →</div>
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想掌握科学记忆法？</div><p class="promo-p">智元成长课教你建立知识网络</p></div>
-        <button class="promo-btn" style="background:var(--precise)" onclick="location.href='assistant.html'">了解课程</button>
+        <div class="promo-text"><div class="promo-h">想掌握科学记忆法</div><p class="promo-p">智元成长课教你建立知识网络</p></div>
+        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
     </div>
 </div>
 
@@ -382,57 +373,45 @@ window.addEventListener('DOMContentLoaded', function(){
 <div class="dim" id="d-ability">
     <div class="dim-head">
         <h2 class="dim-title">提升能力</h2>
-        <span class="dim-tag" style="background:var(--ability-bg);color:var(--ability)">思维维度 · 4 工具</span>
+        <span class="dim-tag">思维维度 · <b>4 工具</b></span>
     </div>
     <div class="tgrid">
         <a href="tools/feynman-verify.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">验</div>
-                    <div class="tc-name">费曼验证</div>
-                </div>
-                <p class="tc-desc">你来教AI，AI追问盲区，通过=真正掌握</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始教AI →</div>
+            <div class="tc-top">
+                <div class="tc-icon">验</div>
+                <div class="tc-name">费曼验证</div>
             </div>
+            <p class="tc-desc">你来教 AI，AI 追问盲区，通过 = 真正掌握</p>
+            <div class="tc-arrow">开始教 AI →</div>
         </a>
         <a href="tools/reading-rewriter.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">读</div>
-                    <div class="tc-name">阅读改写</div>
-                </div>
-                <p class="tc-desc">文言文/英文原著改写成你能读懂的版本</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始改写 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">读</div>
+                <div class="tc-name">阅读改写</div>
             </div>
+            <p class="tc-desc">文言文 / 英文原著改写成你能读懂的版本</p>
+            <div class="tc-arrow">开始改写 →</div>
         </a>
         <a href="tools/music-appreciation.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">听</div>
-                    <div class="tc-name">音乐欣赏</div>
-                </div>
-                <p class="tc-desc">AI拆解曲式结构、和声、乐器，教你真正听懂音乐</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始聆听 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">听</div>
+                <div class="tc-name">音乐欣赏</div>
             </div>
+            <p class="tc-desc">AI 拆解曲式结构、和声、乐器，教你真正听懂音乐</p>
+            <div class="tc-arrow">开始聆听 →</div>
         </a>
         <a href="tools/art-thinking.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">观</div>
-                    <div class="tc-name">美术思维</div>
-                </div>
-                <p class="tc-desc">AI不评判好坏，用追问引导你观察构图光影色彩</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始观察 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">观</div>
+                <div class="tc-name">美术思维</div>
             </div>
+            <p class="tc-desc">AI 不评判好坏，用追问引导你观察构图光影色彩</p>
+            <div class="tc-arrow">开始观察 →</div>
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想全面提升思维能力？</div><p class="promo-p">智元成长课覆盖批判性思维+创造力训练</p></div>
-        <button class="promo-btn" style="background:var(--ability)" onclick="location.href='assistant.html'">了解课程</button>
+        <div class="promo-text"><div class="promo-h">想全面提升思维能力</div><p class="promo-p">智元成长课覆盖批判性思维 + 创造力训练</p></div>
+        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
     </div>
 </div>
 
@@ -440,95 +419,77 @@ window.addEventListener('DOMContentLoaded', function(){
 <div class="dim" id="d-output">
     <div class="dim-head">
         <h2 class="dim-title">有产出</h2>
-        <span class="dim-tag" style="background:var(--output-bg);color:var(--output)">创造维度 · 3 工具</span>
+        <span class="dim-tag">创造维度 · <b>3 工具</b></span>
     </div>
     <div class="tgrid">
         <a href="tools/essay-grading.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">文</div>
-                    <div class="tc-name">AI作文批改</div>
-                </div>
-                <p class="tc-desc">五维度打分+逐段批注+优化范文对照</p>
-                <div class="tc-arrow" style="color:var(--output)">批改作文 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">文</div>
+                <div class="tc-name">AI 作文批改</div>
             </div>
+            <p class="tc-desc">五维度打分 + 逐段批注 + 优化范文对照</p>
+            <div class="tc-arrow">批改作文 →</div>
         </a>
         <a href="tools/note-enhancer.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">笔</div>
-                    <div class="tc-name">笔记增强器</div>
-                </div>
-                <p class="tc-desc">AI补全遗漏、生成思维导图和间隔复习闪卡</p>
-                <div class="tc-arrow" style="color:var(--output)">增强笔记 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">笔</div>
+                <div class="tc-name">笔记增强器</div>
             </div>
+            <p class="tc-desc">AI 补全遗漏、生成思维导图和间隔复习闪卡</p>
+            <div class="tc-arrow">增强笔记 →</div>
         </a>
         <a href="tools/learning-profile.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">档</div>
-                    <div class="tc-name">学习档案</div>
-                </div>
-                <p class="tc-desc">能力雷达图+成就记录+可分享学习周报</p>
-                <div class="tc-arrow" style="color:var(--output)">查看档案 →</div>
+            <div class="tc-top">
+                <div class="tc-icon">档</div>
+                <div class="tc-name">学习档案</div>
             </div>
+            <p class="tc-desc">能力雷达图 + 成就记录 + 可分享学习周报</p>
+            <div class="tc-arrow">查看档案 →</div>
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想让孩子带走一份AI作品？</div><p class="promo-p">智元成长课 · 每期结课产出一份完整项目</p></div>
-        <button class="promo-btn" style="background:var(--output)" onclick="location.href='assistant.html'">了解课程</button>
+        <div class="promo-text"><div class="promo-h">想让孩子带走一份 AI 作品</div><p class="promo-p">智元成长课 · 每期结课产出一份完整项目</p></div>
+        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
     </div>
+</div>
+
 </div>
 
 </div>
 
 <!-- FOOTER -->
-<div class="foot">© 2026 原点智学 · AI是教练，不是替代者</div>
+<div class="foot">© 2026 原点智学 · AI 是教练，不是替代者</div>
 
 <!-- MOBILE TABS -->
 <div class="mtabs"><div class="mtabs-in">
     <button class="mt on" onclick="switchDim('fast')" data-d="fast">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        学得快
+        <span class="mt-num">01</span>学得快
     </button>
     <button class="mt" onclick="switchDim('precise')" data-d="precise">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        学得准
+        <span class="mt-num">02</span>学得准
     </button>
     <button class="mt" onclick="switchDim('ability')" data-d="ability">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 4 12.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3A7 7 0 0 1 12 2z"/><path d="M10 21h4"/></svg>
-        提升能力
+        <span class="mt-num">03</span>提升能力
     </button>
     <button class="mt" onclick="switchDim('output')" data-d="output">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        有产出
+        <span class="mt-num">04</span>有产出
     </button>
 </div></div>
 
 <script>
-var dims={fast:{color:'#E8590C',wash:'rgba(232,89,12,0.06)'},precise:{color:'#2563EB',wash:'rgba(37,99,235,0.06)'},ability:{color:'#7C3AED',wash:'rgba(124,58,237,0.06)'},output:{color:'#059669',wash:'rgba(5,150,105,0.06)'}};
 var cur='fast';
 
 function switchDim(d){
     if(d===cur)return;cur=d;
-    // dims
     document.querySelectorAll('.dim').forEach(function(el){el.classList.remove('on')});
     document.getElementById('d-'+d).classList.add('on');
-    // desktop buttons
     document.querySelectorAll('.sw-btn').forEach(function(b){b.classList.toggle('on',b.dataset.d===d)});
-    // mobile tabs
     document.querySelectorAll('.mt').forEach(function(b){b.classList.toggle('on',b.dataset.d===d)});
-    // orb color
-    var o=document.getElementById('orb');
-    o.style.background='radial-gradient(circle,'+dims[d].wash+' 0%,transparent 70%)';
-    // re-trigger card animations
     document.querySelectorAll('#d-'+d+' .tc').forEach(function(c,i){
         c.style.animation='none';c.offsetHeight;
-        c.style.animation='cardIn .35s ease both';c.style.animationDelay=(i*0.06)+'s';
+        c.style.animation='cardIn .3s ease both';c.style.animationDelay=(i*0.04)+'s';
     });
+    try { if (window.YDZX_TRACK) window.YDZX_TRACK.event('study_tools_dim_switch', { dim:d }); } catch(_){}
 }
 
 // Stats
@@ -541,7 +502,7 @@ function switchDim(d){
         anim('s-str',streak(logs));
     }catch(e){}
     function anim(id,t){
-        var el=document.getElementById(id);if(!t){el.textContent='0';return}
+        var el=document.getElementById(id);if(!el)return;if(!t){el.textContent='0';return}
         var c=0,s=Math.max(1,Math.floor(t/15));
         var ti=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(ti)}el.textContent=c},25);
     }
@@ -556,6 +517,7 @@ function switchDim(d){
     }
 })();
 </script>
+<script src="/src/track.js"></script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
 <script src="/src/learning-store.js"></script>
