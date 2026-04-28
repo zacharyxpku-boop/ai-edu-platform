@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>原点 AI 私教 · 莫小语</title>
+<title>原点 AI 私教 · 原小点</title>
 <meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比、什么情绪的一对一私教">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&display=swap">
@@ -354,9 +354,9 @@ body{
         <div class="header-row">
             <a href="/" class="header-back" aria-label="回到首页">← 首页</a>
             <div class="tutor-id">
-                <div class="av">墨</div>
+                <div class="av">原</div>
                 <div class="nm">
-                    <h1 id="tutor-title">莫小语 · 你的私教</h1>
+                    <h1 id="tutor-title">原小点 · 你的私教</h1>
                     <div class="sub"><span id="b-memory">读取记忆中…</span> · <span id="b-weak">看你最近卡哪</span></div>
                 </div>
             </div>
@@ -416,7 +416,7 @@ body{
     <main class="center">
         <div class="chat" id="chat">
             <div class="welcome" id="welcome-block">
-                <div class="hero-av">墨</div>
+                <div class="hero-av">原</div>
                 <h2 id="hero-greet">嗯，咱们继续</h2>
                 <div class="greet-sub" id="hero-sub">直接说你想问什么，或者从下面挑一个开始</div>
                 <div class="quick">
@@ -631,7 +631,7 @@ document.querySelectorAll('.mode-chip').forEach(chip => {
 
 // 顶部副标题
 if (NAME && NAME !== '同学') {
-    document.getElementById('tutor-title').textContent = `莫小语 · ${NAME} 的私教`;
+    document.getElementById('tutor-title').textContent = `原小点 · ${NAME} 的私教`;
 }
 // 雷达带身份
 const radarHref = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
@@ -699,7 +699,7 @@ function addBubble(role, text) {
     if (role === 'tutor') {
         const av = document.createElement('div');
         av.className = 'b-avatar';
-        av.textContent = '墨';
+        av.textContent = "原";
         const c = document.createElement('div');
         c.className = 'b-content';
         c.textContent = text;

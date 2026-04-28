@@ -197,7 +197,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     box-shadow: 0 2px 8px rgba(233,77,53,0.30);
 }
 .feedback .ask-tutor-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(233,77,53,0.40); }
-.feedback .ask-tutor-btn::before { content: "墨"; display:inline-flex;align-items:center;justify-content:center;
+.feedback .ask-tutor-btn::before { content: "原"; display:inline-flex;align-items:center;justify-content:center;
     width: 18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.25);
     font-family:"Noto Serif SC",serif;font-weight:900;font-size:11px; }
 
@@ -1031,9 +1031,9 @@ function openMiniTutor(qid) {
         panel.className = 'mini-tutor';
         panel.innerHTML = `
             <div class="mt-head">
-                <div class="mt-av">墨</div>
+                <div class="mt-av">原</div>
                 <div class="mt-title">
-                    <div class="nm">莫小语 · 老师</div>
+                    <div class="nm">原小点 · 老师</div>
                     <div class="ctx" id="mt-ctx">这题：${escapeHtml((q.stem || '').slice(0, 40))}...</div>
                 </div>
                 <button class="mt-close" onclick="closeMiniTutor()" aria-label="关闭">×</button>
