@@ -201,10 +201,44 @@ async function handleCreate(req) {
     const safeMsg = String(student_message).slice(0, 2000);
     const safeContext = (typeof context === 'object' && context) ? context : {};
 
+    // ---- 安全审核层（Khanmigo 5.5 对齐）· 先过 moderation 再走 detectTrigger ----
+    // moderation 命中 verdict='escalate' 时（学生说自伤/严重脏话），强制 kind='crisis'
+    // 不阻塞，调用失败兜底走原 detectTrigger 流程
+    let moderationResult = null;
+    try {
+        const origin = new URL(req.url).origin;
+        const modResp = await fetch(`${origin}/api/moderation`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id,
+                dialogue_id: dialogue_id || null,
+                role: 'student',
+                content: safeMsg,
+                context: { topic_code: topic_code || null },
+            }),
+        });
+        if (modResp.ok) {
+            moderationResult = await modResp.json().catch(() => null);
+        }
+    } catch (e) {
+        // moderation 调用失败不阻塞主流程
+    }
+
     // ---- T1-T7 自动判断 ----
-    // 用户传了 kind → 信任手动覆盖；没传 → detectTrigger 自动判
+    // 优先级：moderation.escalate（harm 类）> 用户手动 kind > detectTrigger
     let kind, detected;
-    if (kindFromBody && VALID_KINDS.includes(kindFromBody)) {
+    if (moderationResult?.verdict === 'escalate') {
+        // moderation 强制 escalate（典型场景：harm 类自伤词）
+        const harmFlag = (moderationResult.flags || []).find(f => f.category === 'harm');
+        kind = 'crisis';
+        detected = {
+            trigger: 'T6',
+            kind: 'crisis',
+            confidence: 0.98,
+            reason: `moderation:${harmFlag?.snippet || moderationResult.flags?.[0]?.category || 'escalate'}`,
+        };
+    } else if (kindFromBody && VALID_KINDS.includes(kindFromBody)) {
         kind = kindFromBody;
         detected = { trigger: 'manual', kind, confidence: 1.0, reason: 'user-override' };
     } else if (kindFromBody && !VALID_KINDS.includes(kindFromBody)) {
@@ -289,6 +323,16 @@ async function handleCreate(req) {
         reason: detected.reason,
         auto_detected: !kindFromBody,
     };
+
+    // ---- 把 moderation 结果塞进 context（学长能看到学生骂了脏话/跑题/作弊）----
+    if (moderationResult && moderationResult.verdict !== 'clean') {
+        enrichedContext.moderation = {
+            verdict: moderationResult.verdict,
+            flags: moderationResult.flags || [],
+            actions_taken: moderationResult.actions_taken || [],
+            moderation_id: moderationResult.moderation_id || null,
+        };
+    }
 
     // ---- T6 crisis 注入危机资源 ----
     if (isCrisis) {
