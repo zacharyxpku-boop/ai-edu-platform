@@ -3,160 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>学习路径 · K12 全学科 56 本教材 · 按年级铺开 | 原点智学</title>
-<meta name="description" content="可汗学院 mastery map 中文版。把 56 本人教/统编初高中教材按学段+学科+年级铺成一张大图，每格点开就是该章原文。已读 / 错题密度跟着你的本地数据动态点亮。">
-<meta name="theme-color" content="#F5A623">
-<link rel="canonical" href="https://www.yuandianzhixue.com/paths.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23F5A623'/><circle cx='50' cy='50' r='20' fill='%2318181B'/><circle cx='50' cy='50' r='8' fill='%23FAFAF7'/></svg>">
+<title>学科教材 · 56 本人教/统编 · 原点智学</title>
+<meta name="description" content="9 大学科 56 本教材按学段铺开，每章可读、可练、可冲关。全部本地状态驱动，不上传服务器。">
+<meta name="ydzx-page" content="paths">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
-  --bdr:#E4E4E7;--bdr2:#D4D4D8;
-  --amber:#F5A623;--amber-bg:#FFFBF0;--gold:#D97706;
-  --emerald:#059669;--emerald-bg:#ECFDF5;
-  --sky:#0EA5E9;--sky-bg:#F0F9FF;
-  --red:#DC2626;--red-bg:#FEF2F2;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
-  --font:'Noto Sans SC',system-ui,sans-serif;
-  --r:12px;
+  --primary:#D85A30;
+  --ink:#1A1A1A;
+  --ink-2:#666;
+  --ink-3:#999;
+  --bg:#FFF;
+  --bg-2:#F7F6F2;
+  --border:rgba(0,0,0,0.08);
+  --border-strong:rgba(0,0,0,0.16);
+  /* mastery 4 阶灰度 (不用花哨颜色) */
+  --m-0:#F4F4F0;       /* 未碰 */
+  --m-1:#D8D8D2;       /* 读过 */
+  --m-2:#888888;       /* 读+练 */
+  --m-3:#1A1A1A;       /* 已掌握 */
+  --m-err-bg:#FCEBEB;
+  --m-err-text:#791F1F;
 }
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
-a{color:inherit}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:14px;line-height:1.6;color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;font-weight:400;
+}
+a{color:inherit;text-decoration:none}
 
-.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.86);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--bdr)}
-.nav-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-.nav-brand svg{width:24px;height:24px}
-.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
-.nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);border-bottom:0.5px solid var(--border);height:60px}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 32px;display:flex;align-items:center;gap:32px}
+.brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--ink)}
+.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+.nav-links{display:flex;gap:28px;flex:1;justify-content:center}
+.nav-links a{font-size:13px;color:var(--ink-2);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--ink);font-weight:500}
+.nav-login{font-size:13px;color:var(--ink-2);transition:color .15s}
+.nav-login:hover{color:var(--ink)}
+@media (max-width:768px){
+  .nav-in{padding:0 20px;gap:0;overflow-x:auto;white-space:nowrap}
+  .nav-links{flex:0 0 auto;gap:20px;justify-content:flex-start}
+  .nav-links a{font-size:12px}
+  .nav-login{margin-left:auto}
+}
 
-.wrap{max-width:1200px;margin:0 auto;padding:32px 20px 80px}
-.head{margin-bottom:18px}
-.head h1{font-size:clamp(22px,3.4vw,32px);font-weight:900;letter-spacing:-.5px;line-height:1.2}
-.head .sub{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.7;max-width:760px}
-.head .sub b{color:var(--ink);font-weight:700}
+.page{padding-top:60px}
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+@media (max-width:768px){main{padding:32px 20px 48px}}
 
-/* stage tabs */
-.stage-tabs{display:inline-flex;background:#fff;border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin:18px 0}
-.stage-tabs button{background:transparent;border:none;padding:9px 18px;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer;font-family:inherit;border-right:1px solid var(--bdr)}
+.head{margin-bottom:32px}
+.eyebrow{font-size:12px;color:var(--ink-3);margin-bottom:12px;letter-spacing:.4px}
+.head h1{font-size:32px;font-weight:500;letter-spacing:-.5px;line-height:1.2;color:var(--ink);margin-bottom:8px}
+.head .sub{font-size:13px;color:var(--ink-2);max-width:720px}
+.head .sub b{font-weight:500;color:var(--ink)}
+@media (max-width:768px){.head h1{font-size:24px}}
+
+#streak-mount,#upnext-banner-mount{margin-bottom:14px}
+
+.stage-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:24px 0}
+.stage-tabs{display:inline-flex;border:0.5px solid var(--border);border-radius:6px;overflow:hidden;height:32px}
+.stage-tabs button{
+  background:none;border:none;border-right:0.5px solid var(--border);
+  padding:0 14px;font-family:inherit;font-size:13px;color:var(--ink-2);cursor:pointer;
+  transition:all .15s;height:100%;
+}
 .stage-tabs button:last-child{border-right:none}
-.stage-tabs button:hover{background:var(--amber-bg)}
-.stage-tabs button.on{background:var(--amber);color:#fff}
+.stage-tabs button:hover{background:var(--bg-2);color:var(--ink)}
+.stage-tabs button.on{background:var(--ink);color:var(--bg)}
 
-/* legend */
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3);margin-bottom:14px}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:4px}
-.legend .lg-base{background:#F4F4F5;border:1px solid var(--bdr)}
-.legend .lg-r1{background:#A7F3D0;border:1px solid #6EE7B7}
-.legend .lg-r2{background:#34D399}
-.legend .lg-r3{background:#047857}
-.legend .lg-err{background:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:11px;color:var(--ink-3)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block;border:0.5px solid var(--border)}
+.legend i.lg-0{background:var(--m-0)}
+.legend i.lg-1{background:var(--m-1)}
+.legend i.lg-2{background:var(--m-2)}
+.legend i.lg-3{background:var(--m-3);border-color:var(--m-3)}
+.legend i.lg-err{background:var(--m-err-bg);border-color:#FCA5A5}
+.legend i.lg-cleared{background:var(--m-3);box-shadow:0 0 0 1.5px var(--primary);border-color:var(--m-3)}
 
-/* path grid */
-#path-mount{margin-top:6px}
-.subj-row{display:grid;grid-template-columns:90px 1fr;gap:12px;margin-bottom:10px;align-items:start}
-.subj-name{font-size:13px;font-weight:800;color:var(--ink);padding:6px 0;display:flex;align-items:center;gap:6px;line-height:1.4;flex-direction:column;align-items:flex-start}
-.subj-name .dot{display:inline-block;width:8px;height:8px;border-radius:50%}
-.subj-name small{font-size:10px;color:var(--ink4);font-weight:500;font-family:var(--mono)}
-.mastery-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:100px;font-size:10px;font-weight:800;font-family:var(--mono);font-variant-numeric:tabular-nums;margin-top:2px}
-.mastery-chip.t0{background:#F4F4F5;color:#A1A1AA}
-.mastery-chip.t1{background:#A7F3D0;color:#065F46}
-.mastery-chip.t2{background:#34D399;color:#fff}
-.mastery-chip.t3{background:#047857;color:#fff}
-.mastery-chip.err{background:var(--red-bg,#FEF2F2);color:#991B1B;border:1px solid #FCA5A5}
-.mastery-bar{display:inline-block;width:36px;height:4px;background:#E4E4E7;border-radius:2px;overflow:hidden}
-.mastery-bar i{display:block;height:100%;background:currentColor;border-radius:2px}
-.grade-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
-.grade-card{background:#fff;border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--ink2);line-height:1.5}
-.grade-card .gc-title{font-weight:700;color:var(--ink);font-size:12px;margin-bottom:4px}
-.grade-card .gc-meta{font-size:10px;color:var(--ink4);font-family:var(--mono);margin-bottom:6px}
-.gc-chs{display:flex;flex-wrap:wrap;gap:3px}
-.gc-chs a{display:inline-block;width:18px;height:18px;border-radius:3px;background:#F4F4F5;border:1px solid var(--bdr);font-size:9px;line-height:16px;text-align:center;font-weight:600;color:var(--ink3);text-decoration:none;font-family:var(--mono);transition:.12s}
-.gc-chs a:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-bg)}
-/* KA 4 态色阶：从浅到深表示掌握程度 */
-.gc-chs a.lvl-1{background:#A7F3D0;color:#065F46;border-color:#6EE7B7}        /* 已读基础 */
-.gc-chs a.lvl-2{background:#34D399;color:#fff;border-color:#10B981}             /* 已读 + 答过 */
-.gc-chs a.lvl-3{background:#047857;color:#fff;border-color:#065F46}             /* 已掌握(错题全 ≥3 阶) */
-.gc-chs a.err{background:var(--red);color:#fff;border-color:var(--red)}         /* 有活跃错题（红色优先） */
-.gc-chs a.cleared{box-shadow:0 0 0 2px #FBBF24,0 0 0 3px rgba(251,191,36,.4);position:relative;z-index:1}                       /* 已 5 题冲关通关：金色外圈 */
-.gc-chs a.cleared::after{content:'';position:absolute;top:-3px;right:-3px;width:6px;height:6px;border-radius:50%;background:#F59E0B;border:1px solid #fff}
-.empty{padding:40px 20px;text-align:center;color:var(--ink4);font-size:13px;background:#fff;border:1px dashed var(--bdr2);border-radius:10px}
-
-@media(max-width:600px){
-  .subj-row{grid-template-columns:1fr;gap:6px}
-  .grade-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+#path-mount{display:flex;flex-direction:column;gap:32px}
+.subj-row{}
+.subj-name{
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px;
+  padding-bottom:12px;margin-bottom:14px;
+  border-bottom:0.5px solid var(--border);
 }
+.subj-name>span:first-child{font-size:16px;font-weight:500;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.subj-name small{font-size:12px;color:var(--ink-3);font-weight:400}
+.subj-name .mastery-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:2px 8px;border-radius:4px;
+  font-size:11px;color:var(--ink-2);background:var(--bg-2);
+}
+.subj-name .mastery-chip b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.subj-name .mastery-chip.err{background:var(--m-err-bg);color:var(--m-err-text)}
+.subj-name .mastery-chip.cleared-chip{background:var(--bg);color:var(--primary);border:0.5px solid var(--primary)}
+
+.grade-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.grade-card{
+  background:var(--bg);
+  border:0.5px solid var(--border);border-radius:8px;
+  padding:14px 16px;transition:border-color .15s;
+}
+.grade-card:hover{border-color:var(--border-strong)}
+.gc-title{font-size:13px;color:var(--ink);font-weight:500;margin-bottom:2px}
+.gc-meta{font-size:11px;color:var(--ink-3);margin-bottom:10px}
+.gc-chs{display:flex;flex-wrap:wrap;gap:4px}
+.gc-chs a{
+  width:22px;height:22px;border-radius:4px;
+  background:var(--m-0);border:0.5px solid var(--border);
+  font-size:10px;line-height:21px;text-align:center;
+  font-weight:400;color:var(--ink-3);
+  transition:all .12s;font-variant-numeric:tabular-nums;
+}
+.gc-chs a:hover{transform:translateY(-1px);border-color:var(--border-strong)}
+.gc-chs a.lvl-1{background:var(--m-1);color:var(--ink-2);border-color:var(--m-1)}
+.gc-chs a.lvl-2{background:var(--m-2);color:#fff;border-color:var(--m-2)}
+.gc-chs a.lvl-3{background:var(--m-3);color:#fff;border-color:var(--m-3)}
+.gc-chs a.err{background:var(--m-err-bg);color:var(--m-err-text);border-color:#FCA5A5}
+.gc-chs a.cleared{box-shadow:0 0 0 1.5px var(--primary);position:relative;z-index:1}
+
+.empty{padding:48px 16px;text-align:center;color:var(--ink-3);font-size:13px}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-in">
-    <a href="/" class="nav-brand">
-      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
-      原点智学
+    <a href="/" class="brand">
+      <span class="brand-dot"></span>
+      <span>原点智学</span>
     </a>
-    <a href="/paths.html" class="nav-a on">学习路径</a>
-    <a href="/#ka-subjects" class="nav-a">9 学科</a>
-    <a href="/quiz.html" class="nav-a">每日一题</a>
-    <a href="/errors.html" class="nav-a">错题本</a>
-    <a href="/progress.html" class="nav-a">成长档案</a>
-    <a href="/about.html" class="nav-a">关于</a>
+    <div class="nav-links">
+      <a href="/#tools">免费工具</a>
+      <a href="/paths" class="active">学科教材</a>
+      <a href="/#pricing">课程产品</a>
+      <a href="/progress">成长档案</a>
+    </div>
+    <a href="/welcome" class="nav-login">登录</a>
   </div>
 </nav>
 
-<div class="wrap">
+<main class="page">
 
   <div class="head">
-    <h1>学习路径 · 56 本教材按年级铺开</h1>
-    <div class="sub">
-      可汗学院 mastery map 中文化版本：把人教 / 统编初高中 <b id="hd-books">56</b> 本 <b id="hd-ch">284</b> 章按<b>学段 → 学科 → 年级 → 教材 → 章节</b>五级展开。每个小方块就是一章，<b>点开</b>跳到原文阅读器。已读 / 错题在本地数据驱动下自动点亮——不上传服务器。
-    </div>
+    <div class="eyebrow">学科教材 · 9 学科</div>
+    <h1>56 本教材按学段铺开</h1>
+    <div class="sub">人教 / 统编初高中 <b id="hd-books">56</b> 本 <b id="hd-ch">284</b> 章按<b>学段 → 学科 → 年级 → 教材 → 章节</b>五级展开。每个小方块就是一章，<b>点开</b>跳到原文阅读器。已读 / 错题 / 冲关在本地数据驱动下自动点亮——不上传服务器。</div>
   </div>
 
   <div id="streak-mount"></div>
 
   <div id="upnext-banner-mount"></div>
 
-  <div class="stage-tabs" id="stage-tabs"></div>
-
-  <div class="legend">
-    <span><i class="lg-base"></i>未碰</span>
-    <span><i class="lg-r1"></i>读过</span>
-    <span><i class="lg-r2"></i>读 + 练</span>
-    <span><i class="lg-r3"></i>已掌握</span>
-    <span><i class="lg-err"></i>有活跃错题</span>
+  <div class="stage-row">
+    <div class="stage-tabs" id="stage-tabs"></div>
+    <div class="legend">
+      <span><i class="lg-0"></i>未碰</span>
+      <span><i class="lg-1"></i>读过</span>
+      <span><i class="lg-2"></i>读 + 练</span>
+      <span><i class="lg-3"></i>已掌握</span>
+      <span><i class="lg-err"></i>错题</span>
+      <span><i class="lg-cleared"></i>冲关</span>
+    </div>
   </div>
 
-  <div id="path-mount"><div class="empty">manifest 加载中...</div></div>
+  <div id="path-mount"><div class="empty">manifest 加载中…</div></div>
 
-</div>
+</main>
 
 <script src="/src/learning-store.js"></script>
 <script src="/src/streak-bar.js"></script>
 <script src="/src/today-recos.js"></script>
 <script src="/src/track.js"></script>
 <script>
-try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){ console.warn('streak-bar mount fail', e); }
-try { if (window.TodayRecos && TodayRecos.renderUpNextBanner) TodayRecos.renderUpNextBanner('#upnext-banner-mount'); } catch(e){ console.warn('upnext banner', e); }
-const SUBJ_COLOR = { '数学':'#2563EB','物理':'#7C3AED','化学':'#059669','生物学':'#16A34A','语文':'#DC2626','英语':'#0891B2','历史':'#92400E','地理':'#0D9488','思想政治':'#EA580C','道德与法治':'#6B21A8' };
+try { if (window.STREAK_BAR) STREAK_BAR.mount('#streak-mount'); } catch(e){}
+try { if (window.TodayRecos && TodayRecos.renderUpNextBanner) TodayRecos.renderUpNextBanner('#upnext-banner-mount'); } catch(e){}
+
 const GRADE_ORDER = ['七年级','八年级','九年级','必修','必修1','必修2','必修3','必修4','必修第一册','第一册','第二册','选择性必修','选择性必修1','选择性必修2','选择性必修3'];
 
 let MANIFEST = null;
-// 默认按 yd:my_grade 推断学段(welcome 页填的); fallback 初中
 function inferStage(){
   let g = '';
   try { g = localStorage.getItem('yd:my_grade') || ''; } catch(e){}
   if (g.indexOf('high') === 0) return '高中';
   if (g.indexOf('middle') === 0) return '初中';
-  // primary_* 暂无 manifest, 给个能看到东西的兜底
   return '初中';
 }
-// URL ?stage=高中 优先(分享场景 override)
 function urlStage(){
   try {
     const m = location.search.match(/[?&]stage=([^&]+)/);
@@ -167,10 +205,7 @@ let CUR_STAGE = urlStage() || inferStage();
 
 function $(id){ return document.getElementById(id); }
 function safeGet(k, dflt){ try { return JSON.parse(localStorage.getItem(k) || (dflt!=null?JSON.stringify(dflt):'null')); } catch(e){ return dflt; } }
-function gradeOrder(g){
-  const i = GRADE_ORDER.indexOf(g);
-  return i < 0 ? 99 : i;
-}
+function gradeOrder(g){ const i = GRADE_ORDER.indexOf(g); return i < 0 ? 99 : i; }
 
 async function init(){
   try {
@@ -189,7 +224,11 @@ async function init(){
   stages.sort((a,b) => (stageOrder.indexOf(a) - stageOrder.indexOf(b)));
   $('stage-tabs').innerHTML = stages.map(s => `<button data-stage="${s}" class="${s===CUR_STAGE?'on':''}">${s}</button>`).join('');
   document.querySelectorAll('[data-stage]').forEach(b => {
-    b.addEventListener('click', () => { CUR_STAGE = b.dataset.stage; renderStage(); });
+    b.addEventListener('click', () => {
+      CUR_STAGE = b.dataset.stage;
+      if (window.YDZX_TRACK) YDZX_TRACK.event('paths_stage_switch', { stage: CUR_STAGE });
+      renderStage();
+    });
   });
   renderStage();
 }
@@ -203,12 +242,10 @@ function renderStage(){
     if (!bySubject[s]) bySubject[s] = [];
     bySubject[s].push(b);
   });
-  // 学科排序
   const subjects = Object.keys(bySubject).sort();
-  // 拉用户本地状态
   const readSet = new Set(safeGet('ydzx_textbook_read', []) || []);
-  const clearedSet = new Set(Object.keys(safeGet('ydzx_challenge_clears_v1', {}) || {}));   // path::chN
-  let errActive = {}, errMastered = {}; // 'path::ch' → count
+  const clearedSet = new Set(Object.keys(safeGet('ydzx_challenge_clears_v1', {}) || {}));
+  let errActive = {}, errMastered = {};
   if (window.LearningStore && window.LearningStore.getErrors) {
     try {
       (window.LearningStore.getErrors() || []).forEach(e => {
@@ -219,11 +256,8 @@ function renderStage(){
       });
     } catch(_){}
   }
-  // quiz outcome → 章节级 mastery 信号
-  // v2 schema: { id: { r, d, book, ch, subj } } — book/ch 是 quiz.html 评分时新写入的字段
-  // v1 fallback: { id: { r, d } } — 用 id 前缀 gen-{subject}- 提取学科作为粗粒度
   const outcomes = safeGet('ydzx_quiz_outcome_v1', {}) || {};
-  const chPracticed = {}; // 'path::ch' → {good, bad}
+  const chPracticed = {};
   const quizPracticedSubjects = new Set();
   Object.keys(outcomes).forEach(id => {
     const o = outcomes[id] || {};
@@ -232,14 +266,12 @@ function renderStage(){
       if (!chPracticed[k]) chPracticed[k] = { good: 0, bad: 0 };
       if (o.r === 'good') chPracticed[k].good++; else chPracticed[k].bad++;
     }
-    // 学科粒度兜底（老数据 + 防 book 字段缺失）
     const m = (id || '').match(/^(?:gen|ai)-([a-z]+)-/);
     if (m) quizPracticedSubjects.add(m[1]);
     if (o.subj) quizPracticedSubjects.add(o.subj);
   });
   const SUBJ_ZH_TO_KEY = {'数学':'math','物理':'physics','化学':'chemistry','生物学':'biology','语文':'chinese','英语':'english','历史':'history','地理':'geography','思想政治':'politics'};
 
-  // 抽出每章 mastery class 计算逻辑，让预扫与渲染共用
   function clsForCh(b, c){
     const sig = b.path + '::ch' + c.ch;
     const isRead = readSet.has(sig);
@@ -260,9 +292,7 @@ function renderStage(){
   let html = '';
   subjects.forEach(subj => {
     const bs = bySubject[subj].slice().sort((a,b) => gradeOrder(a.grade) - gradeOrder(b.grade));
-    const dotColor = SUBJ_COLOR[subj] || '#71717A';
     const totalCh = bs.reduce((a,b) => a + ((b.chapters||[]).length), 0);
-    // 预扫：算各级章节数，得出 mastery 百分比
     const stat = { read:0, lvl1:0, lvl2:0, lvl3:0, err:0, cleared:0 };
     bs.forEach(b => (b.chapters||[]).forEach(c => {
       const sig = b.path+'::ch'+c.ch;
@@ -275,16 +305,16 @@ function renderStage(){
       else if (cls === 'err') stat.err++;
     }));
     const masteredPct = totalCh ? Math.round(stat.lvl3 / totalCh * 100) : 0;
-    const masteredTier = masteredPct >= 70 ? 't3' : masteredPct >= 40 ? 't2' : masteredPct >= 10 ? 't1' : 't0';
     html += '<div class="subj-row">';
-    html += `<div class="subj-name"><span><span class="dot" style="background:${dotColor}"></span>${subj}</span>`;
+    html += `<div class="subj-name">`;
+    html += `<span>${subj}</span>`;
     html += `<small>${bs.length} 本 · ${totalCh} 章 · 已读 ${stat.read}</small>`;
-    html += `<span class="mastery-chip ${masteredTier}" title="lvl-3 章节 ${stat.lvl3} / 总 ${totalCh}"><span class="mastery-bar"><i style="width:${masteredPct}%"></i></span>${masteredPct}% 掌握</span>`;
+    html += `<span class="mastery-chip" title="lvl-3 章节 ${stat.lvl3} / 总 ${totalCh}"><b>${masteredPct}%</b> 掌握</span>`;
     if (stat.err > 0){
-      html += `<span class="mastery-chip err" title="待复习的活跃错题章节数">${stat.err} 章有错题</span>`;
+      html += `<span class="mastery-chip err" title="待复习的活跃错题章节数"><b>${stat.err}</b> 章错题</span>`;
     }
     if (stat.cleared > 0){
-      html += `<span class="mastery-chip cleared-chip" title="本学科已通过 5 题冲关的章节" style="background:#FEF3C7;color:#92400E;border:1px solid #FBBF24">🏆 ${stat.cleared} 章冲关</span>`;
+      html += `<span class="mastery-chip cleared-chip" title="本学科已通过 5 题冲关的章节"><b>${stat.cleared}</b> 章冲关</span>`;
     }
     html += '</div>';
     html += '<div class="grade-grid">';
@@ -302,7 +332,7 @@ function renderStage(){
         const baseCls = clsForCh(b, c);
         const cls = baseCls + (isCleared ? ' cleared' : '');
         const tipParts = [`${b.path} · 第 ${c.ch} 章`, c.title || ''];
-        if (isCleared) tipParts.push('🏆 已 5 题冲关通关');
+        if (isCleared) tipParts.push('已 5 题冲关通关');
         if (eA > 0) tipParts.push(`活跃错题 ${eA}`);
         if (eM > 0) tipParts.push(`已掌握错题 ${eM}`);
         if (chPx && (chPx.good + chPx.bad) > 0) tipParts.push(`本章答过 ${chPx.good + chPx.bad} 题（对 ${chPx.good}）`);
@@ -322,6 +352,5 @@ function renderStage(){
 
 window.addEventListener('DOMContentLoaded', init);
 </script>
-
 </body>
 </html>
