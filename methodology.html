@@ -6,33 +6,48 @@
 <title>4 维成长模型 · 原点智学方法论</title>
 <meta name="description" content="原点方法论：学得快、学得准、思维好、有产出 — 不只是分数，看清孩子的全貌。">
 <meta name="ydzx-page" content="methodology">
+<meta name="theme-color" content="#0F4F3D">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
-:root{--primary:#D85A30;--ink:#1A1A1A;--ink-2:#666;--ink-3:#999;--bg:#FFF;--bg-2:#F7F6F2;--border:rgba(0,0,0,0.08)}
+:root{
+  --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;
+  --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
+  --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
+  --accent-warm:#B85C2E;--accent-warm-light:#F5E8DF;
+  --border-subtle:rgba(26,26,26,0.06);--border-default:rgba(26,26,26,0.10);--border-strong:rgba(26,26,26,0.20);
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+  --primary:var(--accent-primary);--ink:var(--text-primary);--ink-2:var(--text-secondary);--ink-3:var(--text-tertiary);
+  --bg:var(--bg-primary);--bg-2:var(--bg-secondary);--border:var(--border-subtle);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Noto Sans SC",system-ui,sans-serif;font-size:14px;line-height:1.6;color:var(--ink);background:var(--bg)}
+body{font-family:var(--font-sans-sc);font-size:15px;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-.nav{position:fixed;top:0;left:0;right:0;height:60px;background:#fff;border-bottom:0.5px solid var(--border);z-index:50}
-.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 32px;display:flex;align-items:center}
-.brand{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px}
-.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
-.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
-.back{font-size:13px;color:var(--ink-2);margin-left:auto}
-.back:hover{color:var(--ink)}
-main{padding:120px 32px 80px;max-width:880px;margin:0 auto}
-.eyebrow{font-size:12px;color:var(--ink-3);margin-bottom:16px}
-h1{font-size:40px;font-weight:500;letter-spacing:-.5px;margin-bottom:16px;line-height:1.2}
-.lede{font-size:16px;color:var(--ink-2);margin-bottom:48px;max-width:640px}
-@media (max-width:768px){main{padding:96px 20px 48px}h1{font-size:28px}}
+.nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(250,247,240,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle);z-index:50}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 40px;display:flex;align-items:center}
+@media(max-width:768px){.nav-in{padding:0 24px}.nav{height:60px}}
+.brand{font-size:15px;font-weight:500;display:flex;align-items:center;gap:10px;letter-spacing:0.04em;color:var(--text-primary)}
+.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
+.back{font-size:13px;color:var(--text-secondary);margin-left:auto;border-bottom:0.5px solid var(--border-default);padding-bottom:1px;transition:color 200ms ease}
+.back:hover{color:var(--text-primary)}
+main{padding:160px 40px 120px;max-width:880px;margin:0 auto}
+.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin-bottom:20px;letter-spacing:0.01em}
+h1{font-family:var(--font-serif-sc);font-size:56px;font-weight:500;letter-spacing:0.02em;margin-bottom:24px;line-height:1.18;color:var(--text-primary)}
+.lede{font-size:16px;color:var(--text-secondary);margin-bottom:64px;max-width:640px;line-height:1.85}
+@media (max-width:768px){main{padding:96px 24px 64px}h1{font-size:36px}.lede{font-size:15px}}
 
-section.dim{padding:32px 0;border-bottom:0.5px solid var(--border)}
+section.dim{padding:48px 0;border-bottom:0.5px solid var(--border-subtle)}
 section.dim:last-of-type{border-bottom:none}
-.dim-id{font-size:11px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
-.dim-name{font-size:24px;font-weight:500;margin-bottom:8px}
-.dim-tag{font-size:13px;color:var(--ink-2);margin-bottom:16px}
-.dim-body{font-size:14px;color:var(--ink);line-height:1.8;max-width:680px}
-.dim-body p+p{margin-top:12px}
+.dim-id{font-family:var(--font-en);font-size:11px;color:var(--text-tertiary);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase}
+.dim-name{font-family:var(--font-serif-sc);font-size:28px;font-weight:500;letter-spacing:0.02em;margin-bottom:10px;color:var(--text-primary)}
+.dim-tag{font-size:14px;color:var(--text-secondary);margin-bottom:20px;font-weight:300}
+.dim-body{font-size:15px;color:var(--text-primary);line-height:1.85;max-width:680px}
+.dim-body p+p{margin-top:14px}
 </style>
 </head>
 <body>
@@ -45,8 +60,8 @@ section.dim:last-of-type{border-bottom:none}
 </nav>
 
 <main>
-  <div class="eyebrow">原点方法论 · 4 维成长模型</div>
-  <h1>不只是分数，看清孩子的全貌</h1>
+  <div class="eyebrow">[Method.]</div>
+  <h1>不只是分数<br>看清孩子的全貌</h1>
   <p class="lede">7 年陪跑 3000+ 学生沉淀出的方法论。把模糊的"学得好"拆成 4 个具体可观测的维度，每一维都有匹配的工具与练习。</p>
 
   <section class="dim">

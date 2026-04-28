@@ -6,41 +6,51 @@
 <title>错题本 · 间隔复习 | 原点智学</title>
 <meta name="description" content="quiz 自评做错的题、手动标记、月考诊断推送都汇总在这里。FSRS 简化版排期：记得了 +1 阶，还不会回 0 阶。">
 <meta name="ydzx-page" content="errors">
+<meta name="theme-color" content="#0F4F3D">
 <link rel="canonical" href="https://www.yuandianzhixue.com/errors.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --primary:#D85A30;
-  --bg:#FFFFFF;--bg-2:#F7F6F2;
-  --card:#FFFFFF;
-  --ink:#1A1A1A;--ink2:#666666;--ink3:#999999;--ink4:#999999;
-  --bdr:rgba(0,0,0,0.08);--bdr2:rgba(0,0,0,0.16);
-  /* 错题本主题色 (痛点 pill) */
-  --pain-bg:#FCEBEB;--pain-text:#791F1F;
-  /* 完成状态(正确答案/掌握) 用低饱和绿 */
-  --ok-bg:#E1F5EE;--ok-text:#085041;
-  /* 中间态(模糊/今日新增) 用低饱和琥珀 */
-  --mid-bg:#FAEEDA;--mid-text:#854F0B;
+  /* v2 spec tokens */
+  --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;
+  --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
+  --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
+  --accent-warm:#B85C2E;--accent-warm-light:#F5E8DF;
+  --border-subtle:rgba(26,26,26,0.06);--border-default:rgba(26,26,26,0.10);--border-strong:rgba(26,26,26,0.20);
+  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+  /* legacy aliases */
+  --primary:var(--accent-primary);
+  --bg:var(--bg-primary);--bg-2:var(--bg-secondary);
+  --card:var(--bg-elevated);
+  --ink:var(--text-primary);--ink2:var(--text-secondary);--ink3:var(--text-tertiary);--ink4:var(--text-muted);
+  --bdr:var(--border-subtle);--bdr2:var(--border-strong);
+  --pain-bg:#F5E8DF;--pain-text:#8B3A1F;
+  --ok-bg:#E8EFE9;--ok-text:#0F4F3D;
+  --mid-bg:#F5E8DF;--mid-text:#B85C2E;
   --mono:'JetBrains Mono',ui-monospace,monospace;
-  --font:'Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+  --font:var(--font-sans-sc);
   --r:8px;
-  /* 兼容老 class 名: 旧 CSS 用 --red --amber --emerald, 重映射到痛点/中间/掌握 */
-  --red:var(--primary);--red-bg:var(--pain-bg);--red-deep:var(--pain-text);
+  --red:var(--accent-warm);--red-bg:var(--pain-bg);--red-deep:var(--pain-text);
   --amber:var(--mid-text);--amber-bg:var(--mid-bg);--gold:var(--mid-text);
   --emerald:var(--ok-text);--emerald-bg:var(--ok-bg);
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased;font-size:14px;min-height:100vh}
+body{font-family:var(--font-sans-sc);background:var(--bg-primary);color:var(--text-primary);line-height:1.7;font-weight:400;-webkit-font-smoothing:antialiased;font-size:15px;min-height:100vh;font-feature-settings:"palt" 1}
 a{color:inherit;text-decoration:none}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);border-bottom:0.5px solid var(--bdr);height:60px}
-.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 32px;display:flex;align-items:center;gap:32px}
-.nav-brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:var(--ink)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(250,247,240,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle);height:68px}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 40px;display:flex;align-items:center;gap:32px}
+@media(max-width:768px){.nav-in{padding:0 24px}.nav{height:60px}}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;color:var(--text-primary);letter-spacing:0.04em}
 .nav-brand svg{display:none}
-.nav-brand::before{content:'';width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;display:inline-block;position:relative}
-.nav-brand::after{content:'';position:absolute;left:38px;top:30px;width:6px;height:6px;background:var(--primary);border-radius:50%}
+.nav-brand::before{content:'';width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;display:inline-block;position:relative}
+.nav-brand::after{content:'';position:absolute;left:42px;top:34px;width:7px;height:7px;background:var(--accent-primary);border-radius:50%}
 .nav-a{font-size:13px;color:var(--ink2);transition:color .15s;padding:0;background:transparent;border-radius:0;font-weight:400}
 .nav-a:hover{color:var(--ink);background:transparent}
 .nav-a.on{color:var(--ink);font-weight:500;background:transparent}
@@ -52,14 +62,14 @@ a{color:inherit;text-decoration:none}
   .nav-in>.nav-a{margin-right:18px;font-size:12px;flex-shrink:0}
 }
 
-.wrap{max-width:920px;margin:0 auto;padding:90px 32px 80px}
-@media(max-width:768px){.wrap{padding:80px 20px 48px}}
+.wrap{max-width:920px;margin:0 auto;padding:120px 40px 96px}
+@media(max-width:768px){.wrap{padding:88px 24px 64px}}
 
-.head{margin-bottom:24px}
-.eyebrow{font-size:12px;color:var(--ink3);letter-spacing:.4px;margin-bottom:12px}
-.h-title{font-size:32px;font-weight:500;letter-spacing:-.5px;line-height:1.2;color:var(--ink)}
-.h-title small{font-weight:400;color:var(--ink2);font-size:14px;margin-left:0;display:block;margin-top:6px}
-@media(max-width:768px){.h-title{font-size:24px}}
+.head{margin-bottom:36px}
+.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:20px}
+.h-title{font-family:var(--font-serif-sc);font-size:44px;font-weight:500;letter-spacing:0.02em;line-height:1.2;color:var(--text-primary)}
+.h-title small{font-family:var(--font-sans-sc);font-weight:400;color:var(--text-secondary);font-size:15px;margin-left:0;display:block;margin-top:10px;letter-spacing:0}
+@media(max-width:768px){.h-title{font-size:30px}}
 
 #streak-mount,#upnext-banner-mount{margin-bottom:14px}
 
@@ -228,7 +238,7 @@ a{color:inherit;text-decoration:none}
 <div class="wrap">
 
   <div class="head">
-    <div class="eyebrow">错题本 · FSRS 间隔复习</div>
+    <div class="eyebrow">[Errors.]</div>
     <div class="h-title">错题本<small>错的不是失败，是下次能多得的分</small></div>
   </div>
 
