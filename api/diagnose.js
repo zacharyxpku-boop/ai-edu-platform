@@ -14,8 +14,77 @@
 export const config = { runtime: 'edge' };
 
 const ENGINE_VERSION = 'diagnose-v1.0-gated-64tags';
+const FALLBACK_VERSION = 'fallback-pool-v1';
 const IP_LIMIT_PER_DAY = 30;
 const ipBucket = new Map();
+
+// ── Fallback misconception pool · LLM 不可用时的本地兜底 ─────────────────
+// 池来自 docs/CURRICULUM-GRADE7-MATH-ATTRIBUTION.json 抽出的 35 条 misconception，
+// JSON 文件落在 api/_fallback-misconception-pool.json。
+// 加载策略：lazy + cache，第一次失败也不阻塞主流程（直接返回 502/降级 verdict）
+let _fallbackPoolCache = null;
+let _fallbackPoolLoading = null;
+async function loadFallbackPool(origin) {
+    if (_fallbackPoolCache) return _fallbackPoolCache;
+    if (_fallbackPoolLoading) return _fallbackPoolLoading;
+    _fallbackPoolLoading = (async () => {
+        // 尝试 1：动态 import（Vercel Edge 支持，构建期被打包进函数）
+        try {
+            const mod = await import('./_fallback-misconception-pool.json', { assert: { type: 'json' } });
+            const data = mod?.default || mod;
+            if (data && Array.isArray(data.entries)) {
+                _fallbackPoolCache = data;
+                return data;
+            }
+        } catch (_) {}
+        // 尝试 2：origin fetch 作为冷备（如果 host 把 /api/*.json 透出为静态）
+        try {
+            const r = await fetch(origin + '/api/_fallback-misconception-pool.json', { cache: 'no-store' });
+            if (r.ok) {
+                const data = await r.json();
+                if (data && Array.isArray(data.entries)) {
+                    _fallbackPoolCache = data;
+                    return data;
+                }
+            }
+        } catch (_) {}
+        return null;
+    })();
+    const result = await _fallbackPoolLoading;
+    _fallbackPoolLoading = null;
+    return result;
+}
+
+// 字符级 2-gram Jaccard 相似度（中文友好，不依赖分词）
+function bigrams(s) {
+    const set = new Set();
+    const str = String(s || '').replace(/\s+/g, '');
+    if (str.length < 2) return set;
+    for (let i = 0; i < str.length - 1; i++) set.add(str.slice(i, i + 2));
+    return set;
+}
+function jaccard(a, b) {
+    if (!a.size || !b.size) return 0;
+    let inter = 0;
+    for (const g of a) if (b.has(g)) inter++;
+    const union = a.size + b.size - inter;
+    return union === 0 ? 0 : inter / union;
+}
+
+// 基于学生作答 + 题面，从池里挑最相似的一条 misconception 做兜底归因
+function matchFallback(pool, problem, studentResponse) {
+    if (!pool || !Array.isArray(pool.entries) || pool.entries.length === 0) return null;
+    const probeText = `${String(problem || '')}\n${String(studentResponse || '')}`;
+    const probeGrams = bigrams(probeText);
+    let best = null, bestScore = 0;
+    for (const e of pool.entries) {
+        const cand = bigrams(`${e.wrong_pattern || ''} ${e.label_cn || ''}`);
+        const s = jaccard(probeGrams, cand);
+        if (s > bestScore) { bestScore = s; best = e; }
+    }
+    if (!best || bestScore < 0.05) return null;  // 太低则放弃，让上层走 unknown
+    return { entry: best, similarity: Math.round(bestScore * 1000) / 1000 };
+}
 
 const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
 const QWEN_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
@@ -245,12 +314,64 @@ export default async function handler(req) {
         { role: 'user', content: userMsg }
     ]);
 
+    // ── LLM 兜底：上游空返回时走 fallback 池（不让产品变砖）──
     if (!llmResult.text) {
-        return jsonErr(502, 'llm_failed', '上游模型未返回内容');
+        const pool = await loadFallbackPool(origin);
+        const match = matchFallback(pool, problem, student_response);
+        if (match) {
+            const e = match.entry;
+            return new Response(JSON.stringify({
+                has_error: true,
+                verdict: 'fallback_pool',
+                l1_tag: (e.attribution || '').split('.')[0] || 'unknown',
+                l2_tag: (e.attribution || '').split('.').slice(0, 2).join('.') || null,
+                l3_tag: [e.attribution || 'unknown.need_human_review'],
+                evidence: null,
+                root_cause: e.root_cause_hint || null,
+                suggested_drill: e.remediation_cue || null,
+                confidence: 'low',
+                provider: 'fallback',
+                similarity: match.similarity,
+                kp_code: e.kp_code || null,
+                label_cn: e.label_cn || null,
+                engine_version: FALLBACK_VERSION,
+                note: 'LLM 不可达，本次走本地 misconception 池兜底（精度低于 LLM 归因）'
+            }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
+            });
+        }
+        return jsonErr(502, 'llm_failed', '上游模型未返回内容（fallback 池亦未匹配）');
     }
 
     const parsed = extractJSON(llmResult.text);
     if (!parsed) {
+        // LLM 出了内容但不是合法 JSON，先尝试 fallback 池给个有用答复，再退到 raw
+        const pool = await loadFallbackPool(origin);
+        const match = matchFallback(pool, problem, student_response);
+        if (match) {
+            const e = match.entry;
+            return new Response(JSON.stringify({
+                has_error: true,
+                verdict: 'fallback_pool',
+                l1_tag: (e.attribution || '').split('.')[0] || 'unknown',
+                l2_tag: (e.attribution || '').split('.').slice(0, 2).join('.') || null,
+                l3_tag: [e.attribution || 'unknown.need_human_review'],
+                root_cause: e.root_cause_hint || null,
+                suggested_drill: e.remediation_cue || null,
+                confidence: 'low',
+                provider: 'fallback',
+                similarity: match.similarity,
+                kp_code: e.kp_code || null,
+                label_cn: e.label_cn || null,
+                raw: llmResult.text.slice(0, 200),
+                engine_version: FALLBACK_VERSION,
+                note: 'LLM 输出无法解析，本次走本地 misconception 池兜底'
+            }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            });
+        }
         return new Response(JSON.stringify({
             has_error: true,
             verdict: 'llm_unparseable',

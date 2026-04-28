@@ -19,6 +19,8 @@ export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
+const DEEPSEEK_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.DEEPSEEK_KEY || process.env.DEEPSEEK_API_KEY) : '';
+const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -170,6 +172,74 @@ function computeActions(verdict, flags, role) {
 }
 
 // ---------------------------------------------------------------------------
+// LLM 二审 · DeepSeek 判官（仅 severity ≥ 3 且 enrich=llm 时触发）
+// ---------------------------------------------------------------------------
+//
+// 关键词检测的死穴：单字命中率高但语义误报多。
+//   「操」可以是动词（「操作」「操心」）
+//   「草」可以是名词（「小草」「草稿」）
+//   「杀」可以是数学题（「乘法不杀人」反正被命中）
+// LLM 二审就是给 deepseek 一段上下文判断是否是真问题，把误报降下来。
+//
+// 返回 { confirmed: true/false, suggested_verdict: 'clean|flag|block|escalate', reason }
+// LLM 不可达或解析失败时返回 null，调用方按未触发处理（保留启发式 verdict）
+
+const JUDGE_SYSTEM_PROMPT = `你是 K12 教育平台的内容审核员。前置启发式已用关键词把这段中文文本打了 flag，但很多关键词命中是误报：
+- 「操」可以是动词（操作 / 操心 / 体操）
+- 「草」可以是名词（小草 / 草稿 / 草莓）
+- 「杀」可能在数学题语境（不杀人 / 杀手锏 / 厮杀）
+- 「想死」可能是夸张（饿死了 / 累死了）而非真自伤
+- 「答案给我」可能是说反话或角色扮演
+
+你的任务：判断 flag 命中是真问题还是关键词误报。
+- 若是真问题（学生真在脏话/自伤/作弊/严重跑题），confirmed=true 并给 suggested_verdict
+- 若是误报（关键词碰巧命中正常用法），confirmed=false 并降级
+- 拿不准时倾向 confirmed=true，安全优先
+
+严格返回 JSON，不要任何额外文字或代码块包裹：
+{"confirmed": true|false, "suggested_verdict": "clean|flag|block|escalate", "reason": "≤30字中文说明"}`;
+
+async function callDeepSeekJudge(content, flags) {
+    if (!DEEPSEEK_KEY) return null;
+    const userMsg = `【启发式 flag】${JSON.stringify(flags)}\n【待审文本】${String(content || '').slice(0, 1000)}`;
+    try {
+        const r = await fetch(DEEPSEEK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DEEPSEEK_KEY },
+            body: JSON.stringify({
+                model: 'deepseek-chat',
+                messages: [
+                    { role: 'system', content: JUDGE_SYSTEM_PROMPT },
+                    { role: 'user', content: userMsg },
+                ],
+                temperature: 0.1,
+                max_tokens: 200,
+                response_format: { type: 'json_object' },
+            }),
+        });
+        if (!r.ok) return null;
+        const data = await r.json();
+        const txt = data?.choices?.[0]?.message?.content || '';
+        if (!txt) return null;
+        // 解析 JSON（去 markdown 包裹兜底）
+        let cleaned = txt.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+        try {
+            const parsed = JSON.parse(cleaned);
+            if (typeof parsed.confirmed !== 'boolean') return null;
+            const validVerdicts = ['clean', 'flag', 'block', 'escalate'];
+            if (!validVerdicts.includes(parsed.suggested_verdict)) {
+                parsed.suggested_verdict = parsed.confirmed ? 'flag' : 'clean';
+            }
+            return {
+                confirmed: parsed.confirmed,
+                suggested_verdict: parsed.suggested_verdict,
+                reason: String(parsed.reason || '').slice(0, 100),
+            };
+        } catch (_) { return null; }
+    } catch (_) { return null; }
+}
+
+// ---------------------------------------------------------------------------
 // HTTP helpers
 // ---------------------------------------------------------------------------
 function jsonResp(obj, status = 200) {
@@ -201,12 +271,31 @@ async function pgFetch(path, opts = {}) {
 // ---------------------------------------------------------------------------
 // runModeration · 共享逻辑（POST handler + escalate.js 内部直调都用这个）
 // ---------------------------------------------------------------------------
-export async function runModeration({ student_id, dialogue_id, role, content, context = {} }) {
+export async function runModeration({ student_id, dialogue_id, role, content, context = {}, enrich = null }) {
     const safeContent = String(content || '').slice(0, 5000);
     const excerpt = safeContent.slice(0, 500);
 
-    const flags = detectFlags(role, safeContent);
-    const verdict = computeVerdict(flags);
+    let flags = detectFlags(role, safeContent);
+    let verdict = computeVerdict(flags);
+    let llmJudge = null;
+
+    // ── LLM 二审分支：enrich='llm' 且至少有一条 severity ≥ 3 才触发 ──
+    // 关键词命中会大量误报（「操」可以是动词、「草」可以是名词），LLM 二审帮把误报降下来
+    const requestEnrichLlm = enrich === 'llm';
+    if (requestEnrichLlm && flags.some(f => f.severity >= 3)) {
+        llmJudge = await callDeepSeekJudge(safeContent, flags);
+        if (llmJudge) {
+            if (llmJudge.confirmed) {
+                // 真问题，按 LLM 建议升级 verdict
+                verdict = llmJudge.suggested_verdict || verdict;
+            } else {
+                // 误报降级：verdict→clean，所有 flags severity 减 2（不低于 1）
+                verdict = 'clean';
+                flags = flags.map(f => ({ ...f, severity: Math.max(1, f.severity - 2) }));
+            }
+        }
+    }
+
     const actions = computeActions(verdict, flags, role);
 
     // 写 moderation_logs（即便 verdict=clean 也写，保留全审计轨迹用于后续 prompt 调优）
@@ -240,6 +329,7 @@ export async function runModeration({ student_id, dialogue_id, role, content, co
         verdict,
         flags,
         actions_taken: actions,
+        llm_judge: llmJudge,  // null 表示未触发或失败
     };
 }
 
@@ -269,7 +359,7 @@ export default async function handler(req) {
         return jsonErr(400, 'bad_json', '请求体不是合法 JSON');
     }
 
-    const { student_id, dialogue_id, role, content, context } = body || {};
+    const { student_id, dialogue_id, role, content, context, enrich } = body || {};
 
     if (!role || !['student', 'tutor'].includes(role)) {
         return jsonErr(400, 'bad_role', "role 必须是 'student' 或 'tutor'");
@@ -280,12 +370,14 @@ export default async function handler(req) {
     if (student_id && !UUID_RE.test(student_id)) {
         return jsonErr(400, 'bad_student_id', 'student_id 必须是 UUID');
     }
+    // enrich 白名单：'llm' 触发 LLM 二审，其他值或 undefined → 走启发式
+    const safeEnrich = enrich === 'llm' ? 'llm' : null;
 
-    const result = await runModeration({ student_id, dialogue_id, role, content, context });
+    const result = await runModeration({ student_id, dialogue_id, role, content, context, enrich: safeEnrich });
 
     return jsonResp({
         ok: true,
         ...result,
-        engine_version: 'moderation-v1.0',
+        engine_version: 'moderation-v1.1-llm-enrich',
     });
 }

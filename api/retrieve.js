@@ -21,6 +21,25 @@ const SUBJ_ALIAS = {
 
 let _cache = { at: 0, feynman: null };
 
+// ── Fallback misconception pool · feynman 加载失败时的兜底数据源 ──
+let _fallbackPoolCache = null;
+async function loadFallbackPool(origin) {
+    if (_fallbackPoolCache) return _fallbackPoolCache;
+    try {
+        const mod = await import('./_fallback-misconception-pool.json', { assert: { type: 'json' } });
+        const data = mod?.default || mod;
+        if (data && Array.isArray(data.entries)) { _fallbackPoolCache = data; return data; }
+    } catch (_) {}
+    try {
+        const r = await fetch(origin + '/api/_fallback-misconception-pool.json', { cache: 'no-store' });
+        if (r.ok) {
+            const data = await r.json();
+            if (data && Array.isArray(data.entries)) { _fallbackPoolCache = data; return data; }
+        }
+    } catch (_) {}
+    return null;
+}
+
 async function getFeynman(origin) {
     const now = Date.now();
     if (_cache.feynman && (now - _cache.at) < 5 * 60 * 1000) return _cache.feynman;
@@ -158,7 +177,50 @@ export default async function handler(req) {
 
     const origin = new URL(req.url).origin;
     const feynman = await getFeynman(origin);
-    if (!feynman) return jsonErr(503, 'feynman_unavailable', 'feynman-prompts.json 加载失败');
+    if (!feynman) {
+        // ── feynman 加载失败时走 fallback 池兜底，不直接 503 ──
+        // 从 misconception 池找跟 topic 字面相关的几条，合成最小 system_prompt 给 tutor
+        const fb = await loadFallbackPool(origin);
+        if (fb && Array.isArray(fb.entries)) {
+            const probe = String(topic || '').toLowerCase();
+            const hits = fb.entries
+                .map(e => {
+                    const blob = `${e.kp_name || ''} ${e.label_cn || ''} ${e.wrong_pattern || ''}`.toLowerCase();
+                    let score = 0;
+                    if (probe && blob.indexOf(probe) >= 0) score += 5;
+                    return { ...e, _score: score };
+                })
+                .filter(x => x._score > 0)
+                .slice(0, 3);
+            const lines = [];
+            lines.push('你是原点 AI 私教，遵循苏格拉底式引导（feynman 模板加载失败，本次走 fallback 池）。');
+            lines.push('铁律：不直接给答案 · 每轮一个最关键问题 · 学生卡住先共情再给最小提示');
+            if (hits.length) {
+                lines.push('');
+                lines.push('=== 可能相关的常见误区（参考）===');
+                hits.forEach((h, i) => {
+                    lines.push(`【${i + 1}】${h.label_cn}（${h.attribution}）`);
+                    lines.push(`  根因：${h.root_cause_hint}`);
+                    lines.push(`  下次提示：${h.remediation_cue}`);
+                });
+            }
+            lines.push('');
+            lines.push('开始对话。第一句话用「你能用自己的话告诉我...」开场。');
+            return new Response(JSON.stringify({
+                matched_prompts: [],
+                match_count: 0,
+                chapter_match: null,
+                system_prompt: lines.join('\n'),
+                engine_version: 'retrieve-v1.0-fallback-pool',
+                fallback: true,
+                fallback_hits: hits.length,
+            }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
+            });
+        }
+        return jsonErr(503, 'feynman_unavailable', 'feynman-prompts.json 加载失败');
+    }
 
     // 评分排序 prompt_library 20 条
     const scored = (feynman.prompt_library || [])

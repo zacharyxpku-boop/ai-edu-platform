@@ -1,6 +1,8 @@
 // 原点智学 · 一对一私教对话编排（核心闭环）
 // POST { student_id, message, session_id?, topic_code? }
 // → SSE 流式回话（text/event-stream）
+
+import { postProcess } from './post-process.js';
 //
 // 设计哲学：
 //   每一轮对话都是「老师真的记得你」的体现。不是 ChatGPT 包壳，是：
@@ -320,6 +322,12 @@ function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour,
     L.push('  · 学生侧短句口语，家长侧书面专业不术语堆砌，工单结构化信息密集');
     L.push('数据纪律：必须用注入数据，不允许泛泛开场。不编造记忆——没注入就说「这个我得查一下」。');
     L.push('节奏控制：每次会话有「开始-中段-收尾」，20-30 分钟默认。识别疲态信号「嗯/哦/差不多吧」立刻先停学习再问状态。');
+    L.push('AI 边界明示（合规铁律 · 生成式 AI 服务管理办法）：');
+    L.push('  · 学生问「你是真人吗 / 你是机器人吗 / 你是 AI 吗 / 你后面是不是真人」→ 必答：');
+    L.push('    「我是 AI 助教原小点。我后面有真人老师（清北学长姐姐），你需要时他们能上场。」');
+    L.push('    不能含糊、不能假装、不能玩"猜猜看"。生成式 AI 办法要求显著标识身份。');
+    L.push('  · 涉及心理健康话题（情绪低谷/家庭冲突/自伤想法）→ 必须先说：');
+    L.push('    「我是 AI 不是专业心理咨询师」+ 引导拨打专业热线 + 触发 escalate。');
 
     // ═══════════════════════════════════════════════════════
     // §1. 你是谁 · 原小点本体
@@ -1051,17 +1059,47 @@ export default async function handler(req) {
             } finally {
                 // 流式结束后写 tutor 那条
                 if (accumulated) {
+                    // ── hallucination 启发式后处理（不调 LLM、不阻塞已流给学生的响应）──
+                    // 检查 6 类编造模式：假研究 / 假年份事件 / 假权威 / 假统计 / 假真题 / 绝对化措辞
+                    let postProcessResult = { suspicious_flags: [], confidence: 1.0 };
+                    try { postProcessResult = postProcess(accumulated); } catch (_) {}
+
+                    const dialogueMeta = {
+                        topic_code: topic_code || null,
+                        memory_used: memoryData?.memory_count || 0,
+                        weak_kps: weakKps.map(k => k.knowledge_points?.code).filter(Boolean),
+                    };
+                    if (postProcessResult.suspicious_flags.length > 0) {
+                        dialogueMeta.suspicious_flags = postProcessResult.suspicious_flags;
+                        dialogueMeta.hallucination_confidence = postProcessResult.confidence;
+                    }
+
                     logDialogue({
                         student_id, session_id: sid, role: 'tutor', kind: 'chat',
                         content: accumulated.slice(0, 5000),
-                        meta: {
-                            topic_code: topic_code || null,
-                            memory_used: memoryData?.memory_count || 0,
-                            weak_kps: weakKps.map(k => k.knowledge_points?.code).filter(Boolean),
-                        },
+                        meta: dialogueMeta,
                         turn_index: history.length + 1,
                         model_name: 'deepseek-chat',
                     });
+
+                    // confidence < 0.4（即至少一类编造命中 ≥ 2 次）时异步推 moderation 留痕
+                    // fire-and-forget，不阻塞 controller.close()
+                    if (postProcessResult.confidence < 0.4) {
+                        fetch(origin + '/api/moderation', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                student_id,
+                                role: 'tutor',
+                                content: accumulated.slice(0, 5000),
+                                context: {
+                                    source: 'tutor-chat-post-process',
+                                    flags: postProcessResult.suspicious_flags,
+                                    confidence: postProcessResult.confidence,
+                                },
+                            }),
+                        }).catch(() => {});
+                    }
                 }
                 controller.close();
             }
