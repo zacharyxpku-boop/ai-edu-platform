@@ -321,6 +321,35 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div id="profile-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;"></div>
     </div>
 
+    <!-- P1-1 错题图谱（按 64 misconception 自动归类）-->
+    <div class="panel" id="mistake-graph-panel" style="display:none; border-left: 3px solid #C94040; padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
+        <h2 style="font-size: 1rem; margin-bottom: 6px;">📋 本周错题图谱 <span id="mg-summary" style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;">—</span></h2>
+        <p style="color: var(--c-warm-gray); font-size: 0.82rem; margin-bottom: 10px;">学校老师顾不到这种归类——AI 自动把每道错题归到 64 类根因。下周聚焦这 1-2 类比堆题量管用 5 倍。</p>
+        <div id="mg-top-focus" style="display:none;font-size:0.86rem;color:#92400E;background:rgba(245,158,11,0.10);padding:8px 12px;border-radius:8px;border-left:3px solid #F59E0B;margin-bottom:12px"></div>
+        <div id="mg-list" style="display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding-right:4px"></div>
+    </div>
+    <style>
+    .mg-item {
+        padding:10px 12px;border-radius:8px;border:1px solid rgba(184,176,168,0.15);
+        background:rgba(255,255,255,0.03);
+    }
+    .mg-row1 { display:flex;justify-content:space-between;align-items:center;margin-bottom:4px; }
+    .mg-label { font-size:0.92rem;font-weight:700;color:var(--c-warm-white);line-height:1.3; }
+    .mg-count {
+        font-size:0.72rem;font-weight:700;color:#fff;
+        background:#C94040;padding:2px 8px;border-radius:100px;
+    }
+    .mg-meta { font-size:0.74rem;color:var(--c-warm-dim);display:flex;gap:8px;margin-bottom:3px; }
+    .mg-cat-knowledge { background:rgba(91,141,191,0.18);color:#5B8DBF;padding:1px 7px;border-radius:100px; }
+    .mg-cat-ability { background:rgba(245,158,11,0.18);color:#F59E0B;padding:1px 7px;border-radius:100px; }
+    .mg-cat-metacog { background:rgba(168,85,247,0.18);color:#A855F7;padding:1px 7px;border-radius:100px; }
+    .mg-cat-careless { background:rgba(201,64,64,0.18);color:#C94040;padding:1px 7px;border-radius:100px; }
+    .mg-cat-reading,.mg-cat-language { background:rgba(78,164,116,0.18);color:#4EA474;padding:1px 7px;border-radius:100px; }
+    .mg-cat-unknown { background:rgba(184,176,168,0.18);color:var(--c-warm-gray);padding:1px 7px;border-radius:100px; }
+    .mg-cause { font-size:0.82rem;color:var(--c-warm-gray);font-style:italic;line-height:1.5; }
+    .mg-cause::before { content:'→ '; }
+    </style>
+
     <!-- 最近对话面板（中国家长比美国家长更要看孩子聊了啥）-->
     <div class="panel" id="recent-dialogues-panel" style="display:none; border-left: 3px solid #5B8DBF; padding: 16px 20px; margin-top: 16px; background: var(--c-ink-light); border-radius: 8px;">
         <h2 style="font-size: 1rem; margin-bottom: 6px;">💬 孩子最近跟老师聊了什么 <span id="rd-summary" style="color: var(--c-warm-dim); font-size: 0.78rem; font-weight: 400;">—</span></h2>
@@ -722,6 +751,59 @@ function renderProfile(payload) {
     document.getElementById('profile-panel').style.display = 'block';
 }
 
+// =========== 错题图谱（P1-1 自动 64 misconception 归类）===========
+function escMg(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const CAT_ZH = { knowledge:'概念', ability:'能力', metacog:'元认知', careless:'粗心', reading:'审题', language:'翻译', unknown:'其他' };
+
+async function loadMistakeGraph(days = 7) {
+    const panel = document.getElementById('mistake-graph-panel');
+    const list = document.getElementById('mg-list');
+    const summary = document.getElementById('mg-summary');
+    const focusEl = document.getElementById('mg-top-focus');
+    if (!panel) return;
+    panel.style.display = 'block';
+    list.innerHTML = '<div style="color:var(--c-warm-dim);font-size:0.84rem;padding:8px 0">读取中…</div>';
+    try {
+        const r = await fetch(`/api/mistake-graph?student_id=${encodeURIComponent(STUDENT_ID)}&days=${days}`);
+        if (!r.ok) {
+            list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem">读取失败 ${r.status}</div>`;
+            return;
+        }
+        const data = await r.json();
+        if (!data.ok) {
+            list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem">${escMg(data.message || '数据格式异常')}</div>`;
+            return;
+        }
+        if (!Array.isArray(data.groups) || data.groups.length === 0) {
+            list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem;line-height:1.6">最近 ${data.window_days} 天没有错题记录。<br>等孩子在 <a href="/mastery-loop" style="color:var(--c-origin-soft)">练习页</a> 做题答错后，AI 会自动归类到这里。</div>`;
+            return;
+        }
+        const cats = Object.entries(data.by_category || {})
+            .map(([k, v]) => `${CAT_ZH[k] || k} ${v}`).join(' · ');
+        summary.textContent = `· 共 ${data.total_wrong} 错 · ${cats}`;
+        if (Array.isArray(data.top_focus) && data.top_focus.length) {
+            focusEl.textContent = `🎯 下周聚焦：${data.top_focus.join(' · ')}（解决这 ${data.top_focus.length} 类比堆题量见效快 5 倍）`;
+            focusEl.style.display = 'block';
+        }
+        list.innerHTML = data.groups.map(g => `
+            <div class="mg-item">
+                <div class="mg-row1">
+                    <div class="mg-label">${escMg(g.label)}</div>
+                    <div class="mg-count">${g.count} 次</div>
+                </div>
+                <div class="mg-meta">
+                    <span class="mg-cat-${g.category}">${CAT_ZH[g.category] || g.category}</span>
+                    <span>${escMg(g.last_at_rel)}</span>
+                    ${g.kps && g.kps.length ? `<span>涉及 ${g.kps.length} 个 KP</span>` : ''}
+                </div>
+                ${g.sample_root_cause ? `<div class="mg-cause">${escMg(g.sample_root_cause)}</div>` : ''}
+            </div>
+        `).join('');
+    } catch (e) {
+        list.innerHTML = `<div style="color:var(--c-warm-dim);font-size:0.84rem">网络异常 · ${escMg(e.message)}</div>`;
+    }
+}
+
 // =========== 今日给妈妈的话（P0-3 brief panel）===========
 async function loadParentBrief(period = 'morning') {
     const panel = document.getElementById('brief-panel');
@@ -831,6 +913,7 @@ async function boot() {
     renderFsrsPanel(fsrs);
     loadRecentDialogues();  // P0-B：最近对话历史
     loadParentBrief('morning');  // P0-3：今日给妈妈的话
+    loadMistakeGraph(7);          // P1-1：错题图谱（按 64 misconception 归类）
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);
     document.getElementById('share-btn').addEventListener('click', () => openShare(data.all_kcs));
