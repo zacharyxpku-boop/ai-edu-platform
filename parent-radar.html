@@ -293,6 +293,67 @@ h1 { letter-spacing: 0.02em; }
     .brief-tab:hover:not(.active) { background:rgba(15,79,61,0.08); }
     </style>
 
+    <!-- P0-4 · 本章进度（线性 7 站，Khanmigo 5.4 教训：Course Mastery > Knowledge Map） -->
+    <section class="course-progress" id="course-progress" style="display:none">
+        <div class="cp-head">
+            <h3>📍 本章进度 · 一元一次方程</h3>
+            <div class="cp-stats" id="cp-stats">— / 7 站</div>
+        </div>
+        <div class="cp-track" id="cp-track"></div>
+        <div class="cp-legend">
+            <span><span class="ld done"></span>已掌握 ≥85%</span>
+            <span><span class="ld active"></span>攻克中 50-85%</span>
+            <span><span class="ld todo"></span>待补 &lt;50%</span>
+        </div>
+    </section>
+    <style>
+    .course-progress {
+        margin: 14px auto 0; max-width: 100%;
+        background: var(--c-ink-light, #FFFFFF);
+        border: 1px solid rgba(15,79,61,0.18);
+        border-left: 3px solid #0F4F3D;
+        padding: 14px 18px; border-radius: 10px;
+    }
+    .cp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .cp-head h3 { font-size: 0.96rem; margin: 0; color: var(--c-warm-white, #1A1A1A); font-weight: 700; }
+    .cp-stats { font-size: 0.84rem; color: #0F4F3D; font-weight: 700; }
+    .cp-track { display: flex; gap: 4px; align-items: center; }
+    .cp-station {
+        flex: 1; min-width: 0;
+        height: 36px; position: relative;
+        border-radius: 6px; cursor: help;
+        background: rgba(122,117,112,0.06);
+        border: 1px solid rgba(122,117,112,0.18);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.74rem; color: var(--c-warm-gray, #4A4A47);
+        transition: transform 0.15s;
+    }
+    .cp-station.done { background: rgba(45,159,111,0.14); border-color: #2D9F6F; color: #1F7A53; font-weight: 700; }
+    .cp-station.active { background: rgba(245,158,11,0.14); border-color: #F59E0B; color: #B47008; font-weight: 700; }
+    .cp-station.todo { background: rgba(122,117,112,0.04); }
+    .cp-station:hover { transform: translateY(-1px); }
+    .cp-station::after {
+        content: attr(data-tooltip);
+        position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+        background: #1A1A1A; color: #FAF7F0;
+        padding: 5px 10px; border-radius: 6px;
+        font-size: 0.72rem; white-space: nowrap;
+        opacity: 0; pointer-events: none; transition: opacity 0.12s;
+        margin-bottom: 6px; z-index: 20;
+    }
+    .cp-station:hover::after { opacity: 1; }
+    .cp-legend { display: flex; gap: 14px; margin-top: 10px; font-size: 0.72rem; color: var(--c-warm-dim, #7A7570); }
+    .cp-legend .ld { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+    .cp-legend .ld.done { background: #2D9F6F; }
+    .cp-legend .ld.active { background: #F59E0B; }
+    .cp-legend .ld.todo { background: rgba(122,117,112,0.30); }
+    @media (max-width: 600px) {
+        .cp-station { height: 30px; font-size: 0.68rem; }
+        .cp-legend { gap: 10px; font-size: 0.68rem; }
+        .cp-head h3 { font-size: 0.9rem; }
+    }
+    </style>
+
     <!-- 30 秒看懂三件 -->
     <section class="glance">
         <div class="glance-card strong">
@@ -860,6 +921,39 @@ document.querySelectorAll('.brief-tab').forEach(btn => {
     });
 });
 
+// =========== P0-4 · 本章进度（线性 7 站）===========
+async function loadCourseProgress() {
+    const section = document.getElementById('course-progress');
+    const track = document.getElementById('cp-track');
+    const stats = document.getElementById('cp-stats');
+    if (!section || !track) return;
+    try {
+        const r = await fetch(`/api/student-kp-states?student_id=${encodeURIComponent(STUDENT_ID)}&subject=math`);
+        if (!r.ok) return;
+        const data = await r.json();
+        if (!data.ok || !Array.isArray(data.states)) return;
+
+        // 过滤 ch3 一元一次方程的 7 个 KP，按 code 排序（kp1 → kp7）
+        const ch3 = data.states.filter(s => /^math\.7\.ch3\.kp\d+$/.test(s.code))
+                                .sort((a, b) => a.code.localeCompare(b.code, 'en', { numeric: true }));
+        if (ch3.length === 0) return;
+
+        const done = ch3.filter(s => s.mastery_score >= 0.85).length;
+        const active = ch3.filter(s => s.mastery_score >= 0.5 && s.mastery_score < 0.85).length;
+        stats.textContent = `${done + active} / ${ch3.length} 站`;
+
+        track.innerHTML = ch3.map((s, i) => {
+            const m = Number(s.mastery_score) || 0;
+            let cls = 'todo';
+            if (m >= 0.85) cls = 'done';
+            else if (m >= 0.5) cls = 'active';
+            const tip = `${escMg(s.name || s.code)} · ${(m * 100).toFixed(0)}%`;
+            return `<div class="cp-station ${cls}" data-tooltip="${tip}">${i + 1}</div>`;
+        }).join('');
+        section.style.display = 'block';
+    } catch (e) { /* silent */ }
+}
+
 // =========== 最近对话面板（P0-B Khanmigo 差距补强）===========
 function escapeHtmlRd(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -927,6 +1021,7 @@ async function boot() {
     renderFsrsPanel(fsrs);
     loadRecentDialogues();  // P0-B：最近对话历史
     loadParentBrief('morning');  // P0-3：今日给妈妈的话
+    loadCourseProgress();         // P0-4：本章进度（线性 7 站，Khanmigo 5.4 教训）
     loadMistakeGraph(7);          // P1-1：错题图谱（按 64 misconception 归类）
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);

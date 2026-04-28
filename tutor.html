@@ -102,6 +102,23 @@ body{
 .rhythm-dots .rhythm-text{margin-left:4px;}
 .rhythm-dots .rhythm-text b{color:var(--orange);font-weight:700;}
 @media(max-width:767px){.rhythm-dots{display:none;}}
+/* Hint Level Badge · Khanmigo 5.2 元认知意识 · 让孩子看到 AI 当前用哪一档帮助 */
+.hint-level-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bdr-soft);border-radius:100px;font-size:0.72rem;color:var(--ink-mute);cursor:help;}
+.hint-level-badge .hl-dot{width:5px;height:5px;border-radius:50%;background:var(--bdr-strong);}
+.hint-level-badge .hl-dot.on{background:var(--orange);}
+.hint-level-badge .hl-dot.warning{background:#F59E0B;}
+.hint-level-badge .hl-dot.strong{background:#C94040;}
+.hint-level-badge .hl-text{margin-left:3px;font-weight:600;}
+@media(max-width:767px){.hint-level-badge{display:none;}}
+/* Mini Progress · Khanmigo 5.4 教训：线性 Course Mastery 比 Knowledge Map 更好懂 */
+.mini-progress{display:flex;align-items:center;gap:8px;font-size:0.74rem;color:var(--ink-mute);padding:5px 10px;background:var(--bdr-soft);border-radius:100px;cursor:help;}
+.mini-progress .mp-text{font-weight:600;color:var(--ink-mute);}
+.mini-progress .mp-text b{color:var(--orange);font-weight:700;}
+.mini-progress .mp-dots{display:flex;gap:3px;}
+.mini-progress .mp-dots .mpd{width:6px;height:6px;border-radius:50%;background:var(--bdr-strong);transition:background 0.15s;}
+.mini-progress .mp-dots .mpd.done{background:#2D9F6F;}
+.mini-progress .mp-dots .mpd.active{background:#F59E0B;}
+@media(max-width:1023px){.mini-progress{display:none;}}
 .mobile-toggle{display:none;background:none;border:1px solid var(--bdr);width:36px;height:36px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink-soft)}
 .mobile-toggle svg{width:18px;height:18px}
 
@@ -398,6 +415,16 @@ body{
                 <span class="dot"></span>
                 <span class="rhythm-text">今日 · 还有 <b id="rhythm-min">12</b> 分钟</span>
             </div>
+            <div class="hint-level-badge" id="hint-level-badge" title="提示档位 · 越低你独立思考越多">
+                <span class="hl-dot dot-1 on"></span>
+                <span class="hl-dot dot-2"></span>
+                <span class="hl-dot dot-3"></span>
+                <span class="hl-text"><span id="hl-name">轻提示</span></span>
+            </div>
+            <div class="mini-progress" id="mini-progress" title="本章进度 · 一元一次方程">
+                <span class="mp-text" id="mp-text">— / 7 站</span>
+                <span class="mp-dots" id="mp-dots"></span>
+            </div>
             <a href="/radar" class="header-radar" id="hero-to-radar">家长周报 →</a>
             <button class="mobile-r-toggle" id="mob-r-toggle" aria-label="学习进度">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg>
@@ -619,6 +646,29 @@ const TOPIC_CODE = params.get('topic_code') || 'math.7.ch3.kp3';
 const NAME = _urlName || _lsName || '同学';
 const SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : null;
 const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
+
+// ── Hint Level Badge 控制 · Khanmigo 5.2 元认知 ──
+// 后端 X-Hint-Level 响应头来 'light'|'medium'|'strong'，前端点亮顶部小标识
+window.setHintLevel = function(level) {
+    const badge = document.getElementById('hint-level-badge');
+    if (!badge) return;
+    const dots = badge.querySelectorAll('.hl-dot');
+    const name = badge.querySelector('#hl-name');
+    dots.forEach(d => d.classList.remove('on', 'warning', 'strong'));
+    if (level === 'medium') {
+        dots[0].classList.add('on');
+        dots[1].classList.add('warning');
+        if (name) name.textContent = '中提示';
+    } else if (level === 'strong') {
+        dots[0].classList.add('on');
+        dots[1].classList.add('warning');
+        dots[2].classList.add('strong');
+        if (name) name.textContent = '强提示';
+    } else {
+        dots[0].classList.add('on');
+        if (name) name.textContent = '轻提示';
+    }
+};
 
 const KP_NAME_HINT = {
     'math.7.ch3.kp1': '一元一次方程概念',
@@ -872,9 +922,11 @@ async function send(message) {
         const memUsed = resp.headers.get('X-Memory-Used');
         const weakN = resp.headers.get('X-Weak-Kps');
         const pasteHit = resp.headers.get('X-Paste-Detected');
+        const hintLevel = resp.headers.get('X-Hint-Level');
         if (memUsed) document.getElementById('b-memory').textContent = `记得 ${memUsed} 条`;
         if (weakN) document.getElementById('b-weak').textContent = `最弱 ${weakN} 处`;
         if (pasteHit === '1') addSystemHint('🔍 老师识到你这条是粘贴的 · 它会先问你的思路再开讲');
+        if (hintLevel && window.setHintLevel) window.setHintLevel(hintLevel);
 
         const reader = resp.body.getReader();
         const decoder = new TextDecoder();
@@ -1249,6 +1301,24 @@ async function loadKpStates() {
         if (memEl && summary.total) memEl.textContent = `跟过 ${summary.total} 个知识点`;
         if (weakEl && (summary.weak + summary.active)) {
             weakEl.textContent = `还有 ${summary.weak + summary.active} 处要练`;
+        }
+
+        // 6. Mini Progress · 本章 7 站（Khanmigo 5.4 教训：线性 > 图谱）
+        const ch3 = data.states.filter(s => /^math\.7\.ch3\.kp\d+$/.test(s.code))
+                                .sort((a, b) => a.code.localeCompare(b.code, 'en', { numeric: true }));
+        const mpText = document.getElementById('mp-text');
+        const mpDots = document.getElementById('mp-dots');
+        if (ch3.length > 0 && mpText && mpDots) {
+            const done = ch3.filter(s => s.mastery_score >= 0.85).length;
+            const active = ch3.filter(s => s.mastery_score >= 0.5 && s.mastery_score < 0.85).length;
+            mpText.innerHTML = `<b>${done + active}</b> / ${ch3.length} 站`;
+            mpDots.innerHTML = ch3.map(s => {
+                const m = Number(s.mastery_score) || 0;
+                let cls = '';
+                if (m >= 0.85) cls = 'done';
+                else if (m >= 0.5) cls = 'active';
+                return `<span class="mpd ${cls}" title="${(s.name || s.code).replace(/"/g, '&quot;')} · ${(m * 100).toFixed(0)}%"></span>`;
+            }).join('');
         }
     } catch (e) {
         console.warn('[kp-states] error', e);
