@@ -114,21 +114,44 @@ async function handleCreate(req) {
         ? Math.min(expected_response_minutes, 1440)
         : defaultETA;
 
-    // 拼弹药包：把当前 conversation 摘要 + 最近 attempts 一起塞进 context（让学长 30 秒入戏）
+    // 拼弹药包：调 student-dossier 端点把完整档案塞进 context.dossier（让学长 30 秒入戏）
+    // P1-2 升级：从「只塞 weak_kps」升级为「塞完整学情档案」
     let enrichedContext = { ...safeContext };
     try {
-        // 拉最近 5 条 attempts（如果端点存在）
-        const r = await pgFetch(`/student_states?student_id=eq.${student_id}&select=mastery_score,knowledge_points!inner(code,name)&order=mastery_score.asc&limit=3`);
-        if (r.ok) {
-            const states = await r.json();
-            enrichedContext.weak_kps = states.map(s => ({
-                code: s.knowledge_points?.code,
-                name: s.knowledge_points?.name,
-                mastery: s.mastery_score,
-            }));
+        const origin = new URL(req.url).origin;
+        const dossierResp = await fetch(`${origin}/api/student-dossier?student_id=${student_id}`, {
+            // 内部调用，不需要 auth
+            headers: { 'Accept': 'application/json' },
+        });
+        if (dossierResp.ok) {
+            const dossier = await dossierResp.json();
+            if (dossier.ok) {
+                enrichedContext.dossier = {
+                    mentor_brief: dossier.mentor_brief,
+                    profile: dossier.profile,
+                    stats: dossier.stats,
+                    weak_kps: dossier.weak_kps,
+                    mistake_top: dossier.mistake_top,
+                    recent_dialogues: dossier.recent_dialogues?.slice(0, 2),  // 只塞 2 条避免 jsonb 过大
+                };
+            }
         }
     } catch (e) {
-        // 弹药包丰富失败不阻塞 escalation 创建
+        // 弹药包丰富失败不阻塞 escalation 创建（fallback 到 safeContext 即可）
+    }
+    // Fallback：如果 dossier 拉失败，至少塞 weak_kps（旧逻辑保底）
+    if (!enrichedContext.dossier) {
+        try {
+            const r = await pgFetch(`/student_states?student_id=eq.${student_id}&select=mastery_score,knowledge_points!inner(code,name)&order=mastery_score.asc&limit=3`);
+            if (r.ok) {
+                const states = await r.json();
+                enrichedContext.weak_kps = states.map(s => ({
+                    code: s.knowledge_points?.code,
+                    name: s.knowledge_points?.name,
+                    mastery: s.mastery_score,
+                }));
+            }
+        } catch (e) {}
     }
 
     const insertBody = {
