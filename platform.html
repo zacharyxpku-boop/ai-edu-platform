@@ -65,15 +65,15 @@ a{color:inherit}
 @media(max-width:780px){.nav-links{display:none}}
 
 /* HERO */
-.hero{max-width:1200px;margin:80px auto 0;padding:0 40px}
-@media(max-width:720px){.hero{padding:0 24px;margin-top:48px}}
+.hero{max-width:1200px;margin:120px auto 0;padding:0 40px 80px}
+@media(max-width:720px){.hero{padding:0 24px 48px;margin-top:64px}}
 .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:20px}
 .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 0}
 .tag{font-size:11px;padding:4px 10px;border-radius:4px;background:var(--bg-2);color:var(--text-secondary);font-weight:500;letter-spacing:.3px;border:0.5px solid var(--border-subtle)}
 .tag.e{background:var(--ok-bg);color:var(--ok-ink);border-color:transparent}
 .tag.v{background:var(--bg-2);color:var(--text-primary);border-color:var(--border-strong-tok)}
-h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight:500;letter-spacing:0.02em;line-height:1.18;color:var(--text-primary)}
-.subh{margin-top:18px;max-width:760px;color:var(--text-secondary);font-size:15px;line-height:1.8}
+h1{font-family:var(--font-serif-sc);font-size:clamp(36px,5vw,56px);font-weight:500;letter-spacing:0.02em;line-height:1.18;color:var(--text-primary)}
+.subh{margin-top:20px;max-width:640px;color:var(--text-secondary);font-size:15px;line-height:1.8}
 
 /* stats */
 .stats{max-width:1120px;margin:32px auto 0;padding:0 32px}
@@ -86,10 +86,11 @@ h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight
 @media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr)}.stat-n{font-size:22px}}
 
 /* section */
-.sec{max-width:1120px;margin:56px auto 0;padding:0 32px}
-@media(max-width:720px){.sec{padding:0 20px}}
-.sec-h{font-size:18px;font-weight:500;letter-spacing:-.2px;margin-bottom:6px;color:var(--ink)}
-.sec-s{font-size:13px;color:var(--ink-2);margin-bottom:20px;max-width:720px;line-height:1.7}
+.sec{max-width:1120px;margin:0 auto;padding:96px 32px 0}
+@media(max-width:720px){.sec{padding:64px 20px 0}}
+.sec-eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:14px}
+.sec-h{font-family:var(--font-serif-sc);font-size:clamp(26px,3.2vw,32px);font-weight:500;letter-spacing:0.02em;line-height:1.3;margin-bottom:14px;color:var(--text-primary)}
+.sec-s{font-size:15px;color:var(--text-secondary);margin-bottom:32px;max-width:640px;line-height:1.8}
 
 /* matrix grid */
 .matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -171,7 +172,7 @@ h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight
 </nav>
 
 <section class="hero">
-  <div class="eyebrow">自研壁垒 · 教材 / 引擎 / 模型</div>
+  <div class="eyebrow">[Engineering.] 自研壁垒 · 教材 / 引擎 / 模型</div>
   <h1>不是把 LLM 套一层壳</h1>
   <p class="subh">我们自建教材抽章管道、章节匹配引擎、章节到练习题的生成管道，所有数据资产可下载可校验。下面的数字由前端实时读 manifest 得出，刷新即更新。</p>
   <div class="tag-row">
@@ -191,6 +192,7 @@ h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight
 </section>
 
 <section class="sec">
+  <div class="sec-eyebrow">[Matrix.]</div>
   <div class="sec-h">产品矩阵 · 一站式学习闭环</div>
   <div class="sec-s">读 → 练 → 讲 → 记 → 评 → 看，六个动作覆盖从吸收到反馈的完整学习循环。</div>
   <div class="matrix">
@@ -216,6 +218,7 @@ h1{font-family:var(--font-serif-sc);font-size:clamp(32px,4.8vw,52px);font-weight
 </section>
 
 <section class="sec">
+  <div class="sec-eyebrow">[Engines.]</div>
   <div class="sec-h">自研引擎 · 不是套壳</div>
   <div class="sec-s">三个独立 pipeline，每个都能单独作为 API 对外提供或被第三方接入。</div>
   <div class="engines">
@@ -286,6 +289,7 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 </section>
 
 <section class="sec" id="coverage-map">
+  <div class="sec-eyebrow">[Coverage.]</div>
   <div class="sec-h">教材 × 题库 覆盖矩阵</div>
   <div class="sec-s">每本教材一行，每个方块是一章，颜色=本章已有题目数（0/1-2/3+）。绿越多说明数据底座越饱满；灰格是下一步生题的目标。点方块直接跳进 textbook 阅读对应章。这页才是引擎跑得动的前提——没数据，模型再好也是空气。</div>
   <div id="cov-wrap" style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px">
@@ -388,6 +392,7 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 </section>
 
 <section class="sec" id="try-match">
+  <div class="sec-eyebrow">[Try.]</div>
   <div class="sec-h">在线试跑 · chapter-match 引擎</div>
   <div class="sec-s">输入任意章节/考点/学科，秒级返回 manifest 内最匹配的教材章节。</div>
   <div style="background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:20px">
@@ -488,6 +493,7 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 </section>
 
 <section class="sec">
+  <div class="sec-eyebrow">[vs RAG.]</div>
   <div class="sec-h">对比 · 自研 vs 通用 LLM RAG</div>
   <div class="sec-s">同一需求（"这道题对应哪一章？"），两条路径的工程代价和可控性差别。</div>
   <div class="cmp">
@@ -506,6 +512,7 @@ queryBM25(idx, '凸透镜成像规律', { k:5 });</code>
 </section>
 
 <section class="sec">
+  <div class="sec-eyebrow">[Open Data.]</div>
   <div class="sec-h">开放数据资产</div>
   <div class="sec-s">所有数据底座文件可直接 GET，集成到你自己的学习 app 或教研系统。</div>
   <div class="assets">

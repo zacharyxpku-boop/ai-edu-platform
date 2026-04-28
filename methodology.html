@@ -35,19 +35,21 @@ a{color:inherit;text-decoration:none}
 .brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
 .back{font-size:13px;color:var(--text-secondary);margin-left:auto;border-bottom:0.5px solid var(--border-default);padding-bottom:1px;transition:color 200ms ease}
 .back:hover{color:var(--text-primary)}
-main{padding:160px 40px 120px;max-width:880px;margin:0 auto}
+main{padding:180px 40px 140px;max-width:880px;margin:0 auto}
 .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin-bottom:20px;letter-spacing:0.01em}
-h1{font-family:var(--font-serif-sc);font-size:56px;font-weight:500;letter-spacing:0.02em;margin-bottom:24px;line-height:1.18;color:var(--text-primary)}
-.lede{font-size:16px;color:var(--text-secondary);margin-bottom:64px;max-width:640px;line-height:1.85}
-@media (max-width:768px){main{padding:96px 24px 64px}h1{font-size:36px}.lede{font-size:15px}}
+h1{font-family:var(--font-serif-sc);font-size:clamp(40px,5.5vw,64px);font-weight:500;letter-spacing:0.02em;margin-bottom:32px;line-height:1.18;color:var(--text-primary)}
+.lede{font-size:15px;color:var(--text-secondary);margin-bottom:48px;max-width:640px;line-height:1.8}
+@media (max-width:768px){main{padding:112px 24px 80px}.lede{font-size:15px}}
 
-section.dim{padding:48px 0;border-bottom:0.5px solid var(--border-subtle)}
+section.dim{padding:96px 0;border-bottom:0.5px solid var(--border-subtle)}
+section.dim:first-of-type{padding-top:64px}
 section.dim:last-of-type{border-bottom:none}
-.dim-id{font-family:var(--font-en);font-size:11px;color:var(--text-tertiary);letter-spacing:0.12em;margin-bottom:12px;text-transform:uppercase}
-.dim-name{font-family:var(--font-serif-sc);font-size:28px;font-weight:500;letter-spacing:0.02em;margin-bottom:10px;color:var(--text-primary)}
-.dim-tag{font-size:14px;color:var(--text-secondary);margin-bottom:20px;font-weight:300}
+.dim-id{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
+.dim-name{font-family:var(--font-serif-sc);font-size:32px;font-weight:500;letter-spacing:0.02em;line-height:1.3;margin-bottom:14px;color:var(--text-primary)}
+.dim-tag{font-size:14px;color:var(--text-secondary);margin-bottom:24px;font-weight:300}
 .dim-body{font-size:15px;color:var(--text-primary);line-height:1.85;max-width:680px}
 .dim-body p+p{margin-top:14px}
+@media (max-width:768px){section.dim{padding:64px 0}section.dim:first-of-type{padding-top:40px}.dim-name{font-size:26px}}
 </style>
 </head>
 <body>
@@ -65,7 +67,7 @@ section.dim:last-of-type{border-bottom:none}
   <p class="lede">7 年陪跑 3000+ 学生沉淀出的方法论。把模糊的"学得好"拆成 4 个具体可观测的维度，每一维都有匹配的工具与练习。</p>
 
   <section class="dim">
-    <div class="dim-id">维度 01</div>
+    <div class="dim-id">[01.]</div>
     <div class="dim-name">学得快</div>
     <div class="dim-tag">提效学习时间，释放创造力</div>
     <div class="dim-body">
@@ -75,7 +77,7 @@ section.dim:last-of-type{border-bottom:none}
   </section>
 
   <section class="dim">
-    <div class="dim-id">维度 02</div>
+    <div class="dim-id">[02.]</div>
     <div class="dim-name">学得准</div>
     <div class="dim-tag">定制专属 AI 学习路径提分</div>
     <div class="dim-body">
@@ -85,7 +87,7 @@ section.dim:last-of-type{border-bottom:none}
   </section>
 
   <section class="dim">
-    <div class="dim-id">维度 03</div>
+    <div class="dim-id">[03.]</div>
     <div class="dim-name">思维好</div>
     <div class="dim-tag">思维启发式 AI 陪练</div>
     <div class="dim-body">
@@ -95,7 +97,7 @@ section.dim:last-of-type{border-bottom:none}
   </section>
 
   <section class="dim">
-    <div class="dim-id">维度 04</div>
+    <div class="dim-id">[04.]</div>
     <div class="dim-name">有产出</div>
     <div class="dim-tag">真实项目与商业化探索</div>
     <div class="dim-body">

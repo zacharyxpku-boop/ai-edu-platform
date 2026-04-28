@@ -60,10 +60,17 @@
     /* WRAP + INTRO */
     .wrap{max-width:1200px;margin:0 auto;padding:0 40px}
     @media(max-width:720px){.wrap{padding:0 24px}}
-    .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin:64px 0 20px;letter-spacing:0.01em}
-    h1.page{font-family:var(--font-serif-sc);font-size:48px;font-weight:500;letter-spacing:0.02em;line-height:1.2;margin-bottom:14px;color:var(--text-primary)}
-    @media(max-width:720px){h1.page{font-size:32px}}
-    .page-lede{font-size:15px;color:var(--text-secondary);margin-bottom:48px;max-width:680px;line-height:1.8}
+    .wrap{padding-top:120px;padding-bottom:96px}
+    @media(max-width:768px){.wrap{padding-top:64px;padding-bottom:64px}}
+    .eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin:0 0 20px;letter-spacing:0.01em}
+    h1.page{font-family:var(--font-serif-sc);font-weight:500;font-size:clamp(36px,5vw,56px);letter-spacing:0.02em;line-height:1.18;color:var(--text-primary);margin-bottom:24px}
+    @media(max-width:768px){h1.page{font-size:32px}}
+    .page-lede{font-size:15px;color:var(--text-secondary);margin-bottom:48px;max-width:640px;line-height:1.8}
+    .eyebrow-en{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:20px}
+    .switcher{margin-top:96px}
+    @media(max-width:768px){.switcher{margin-top:64px}}
+    .recos-sec{margin-top:96px}
+    @media(max-width:768px){.recos-sec{margin-top:64px}}
 
     /* STATS — 4 inline tiles, neutral */
     .stats{margin-top:8px}
@@ -159,9 +166,9 @@
     .promo-h{font-size:14px;font-weight:500;margin-bottom:4px;color:var(--ink)}
     .promo-p{font-size:12px;color:var(--ink-2)}
     .promo-btn{
-        padding:9px 18px;border-radius:6px;border:none;font:500 13px var(--font);
-        cursor:pointer;color:#fff;background:var(--ink);transition:background .15s}
-    .promo-btn:hover{background:#000}
+        padding:14px 28px;border-radius:4px;border:none;font:500 14px var(--font);letter-spacing:0.04em;
+        cursor:pointer;color:#fff;background:var(--accent-primary);transition:background .15s}
+    .promo-btn:hover{background:var(--accent-hover)}
 
     /* MOBILE TABS — cleaner */
     .mtabs{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;
@@ -283,6 +290,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <!-- 学得快 -->
 <div class="dim on" id="d-fast">
+    <div class="eyebrow-en">[Speed.]</div>
     <div class="dim-head">
         <h2 class="dim-title">学得快</h2>
         <span class="dim-tag">效率维度 · <b>6 工具</b></span>
@@ -345,6 +353,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <!-- 学得准 -->
 <div class="dim" id="d-precise">
+    <div class="eyebrow-en">[Precision.]</div>
     <div class="dim-head">
         <h2 class="dim-title">学得准</h2>
         <span class="dim-tag">精准维度 · <b>3 工具</b></span>
@@ -383,6 +392,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <!-- 提升能力 -->
 <div class="dim" id="d-ability">
+    <div class="eyebrow-en">[Mastery.]</div>
     <div class="dim-head">
         <h2 class="dim-title">提升能力</h2>
         <span class="dim-tag">思维维度 · <b>4 工具</b></span>
@@ -429,6 +439,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <!-- 有产出 -->
 <div class="dim" id="d-output">
+    <div class="eyebrow-en">[Output.]</div>
     <div class="dim-head">
         <h2 class="dim-title">有产出</h2>
         <span class="dim-tag">创造维度 · <b>3 工具</b></span>
