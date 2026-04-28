@@ -728,6 +728,16 @@ const history = [];
 
 // P1-D 学习模式：默认 explain（讲题），切换会改 send body 的 mode 字段 + 输入框 placeholder
 let currentMode = 'explain';
+
+// 同点追问计数器（防 AI 死板苏格拉底把孩子问烦）
+// 学生在当前 KP 上回应「不会/不知道/还是不顺」累计次数，≥3 触发后端切给答案模式
+// 切 KP / 学生在做题（非回避表达）→ 衰减
+let sameKpStuckCount = 0;
+const STUCK_KEYWORDS = ['不会', '不知道', '还是不顺', '没懂', '不太懂', '看不懂', '想不出来', '我都说了不会', '能不能直接说', '别问了', '烦不烦'];
+function detectStuckSignal(msg) {
+    if (!msg) return false;
+    return STUCK_KEYWORDS.some(k => msg.includes(k));
+}
 const MODE_HINT = {
     explain: { ph: '说说你想学什么，或者卡在哪一步…', sys: '你刚切到讲题模式 · 直接说题目或卡点' },
     recall: { ph: '今天课上学了啥？挑一道你做的题给我讲讲…', sys: '🎙️ 切到下课讲一讲 · 老师假装没去上课，你给老师讲今天学的。讲清楚说明你真懂了；卡的地方就是该补的地方（费曼学习法）' },
@@ -973,6 +983,14 @@ async function send(message) {
     if (!message || !message.trim()) return;
     if (welcomeBlock) welcomeBlock.style.display = 'none';
     const isPasted = pasteState.flagged && message.length >= PASTE_THRESHOLD;
+
+    // 同点追问计数：表达「不会/烦」→ +1；正常做题 → 衰减但不归零（防误清）
+    if (detectStuckSignal(message)) {
+        sameKpStuckCount += 1;
+    } else {
+        sameKpStuckCount = Math.max(0, sameKpStuckCount - 1);
+    }
+
     addBubble('student', message);
     history.push({ role: 'user', content: message });
     input.value = '';
@@ -999,6 +1017,7 @@ async function send(message) {
                 mode: currentMode,  // P1-D 学习模式
                 prompt_version: 'v3',  // 家庭学习运营官版（学校互补 + 苏格拉底+费曼）
                 client_hour: new Date().getHours(),  // 让 AI 根据放学时段决定开场（17-19 点起「下课讲讲」话头）
+                same_kp_stuck_count: sameKpStuckCount,  // 同点追问计数 ≥3 → 后端切给答案模式（防苏格拉底死板把孩子问烦）
             }),
         });
         if (!resp.ok) {

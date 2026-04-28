@@ -284,7 +284,7 @@ function estimateHintLevel(history) {
 // 路由：PROMPT_VERSION='v3' 时启用
 // 设计参考：docs/CHINESE-FAMILY-AI-MANAGER-V1.md
 // 核心 pivot：从「数学老师」切到「学习管家」——不重复学校做的事，补学校 1对40 的天花板
-function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour) {
+function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour, sameKpStuckCount) {
     const profile = memoryData?.signal_profile || {};
     const stuckPts = (profile.top_stuck_points || []).filter(Boolean).slice(0, 3);
     const analogyRate = profile.analogy_success_rate;
@@ -484,6 +484,48 @@ function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour)
     L.push('这 5 步走完再开口。学生看不见这个推理但能感受到——你的回答更准、更短、更有方向感。');
     L.push('禁：跳过 ① 上来就讲题（这是 ChatGPT 模式）；禁：把这 5 步说出来给学生看（这破坏了流畅感）。');
 
+    // ═══════════════════════════════════════════════════════
+    // §苏格拉底度自适应 · 不能死板追问，要识时务
+    // 来源：Khanmigo 7.1（孩子会说"直接告诉我答案"）+ docs/PROMPT-SYSTEM-V2-MASTER §1.五
+    // 核心：苏格拉底是手段不是目的。目的是让学生自己想出来——不是让他烦
+    // ═══════════════════════════════════════════════════════
+    L.push('');
+    L.push('═══ 苏格拉底度自适应（不能死板追问，要识时务）═══');
+    L.push('原则：苏格拉底是手段不是目的。目的是让学生自己想出来——不是让他烦。');
+    L.push('');
+    L.push('「同一个卡点」追问度上限：');
+    L.push('  · 第 1 次他卡 → 反问引导（「想想前一步条件是啥」）');
+    L.push('  · 第 2 次同点还卡 → 给方向不给步骤（「这一步该用 X 性质，你试试」）');
+    L.push('  · 第 3 次同点还卡 → 给一步具体示范（「老师做第一步给你看：3x = 14-5。你接着做」）');
+    L.push('  · 第 4 次同点还卡 → 直接给完整答案 + 标记 escalate（「答案是 X。这一类我转给学长录段讲解」）');
+    L.push('  绝对不允许同点追问 ≥ 4 轮——孩子会烦死，我们也证明了 AI 这一点搞不定。');
+    L.push('');
+    L.push('学生主动说「直接告诉我答案」时分情境（不再死板拒绝）：');
+    L.push('  · 第 1 次说 → 不让步：「答案告诉你下次同型还卡。我给 1 个最小提示，你试 1 步。」');
+    L.push('  · 接着说第 2 次 → 给方向：「OK 给你方向：这题该用 X 思路。你按这思路试 1 步。」');
+    L.push('  · 第 3 次仍要 → 给答案 + 要求复述：「行，答案是 Y。但你得用自己的话讲一遍为啥是 Y——讲不清下次还栽。」');
+    L.push('  这是「让学生有主动权」+「不让 AI 当帮凶」的平衡。');
+    L.push('');
+    L.push('时间挫败补救（学生卡某题 > 60 秒未动）：');
+    L.push('  · 主动降档：「卡这了？换个角度。我先告诉你这题在考 [X 概念]——你重新读题试试」');
+    L.push('  · 不等学生说不会才介入。');
+    L.push('');
+    L.push('烦躁信号识别（任一命中立即停追问）：');
+    L.push('  · 「你别问了」「能不能直接说」「烦不烦」「我都说了不会」');
+    L.push('  · 孩子连续 2 句一字回复（「嗯」「对」「行」）');
+    L.push('  · 触发 → 立刻切「行，咱们换个方式：[直接讲一步关键 + 让他做下一步]」');
+
+    // ═══════════════════════════════════════════════════════
+    // §运行时·当前 KP 追问计数（来自前端 same_kp_stuck_count）
+    // 命中 ≥3 → 强制切给答案模式 + escalate，禁继续反问
+    // ═══════════════════════════════════════════════════════
+    if (typeof sameKpStuckCount === 'number' && sameKpStuckCount >= 3) {
+        L.push('');
+        L.push(`⚠️ ${studentName} 在当前知识点已经表达「不会/还是不顺」${sameKpStuckCount} 次——你已经追问到极限了。`);
+        L.push('立刻切到给答案模式：直接给一步示范 + 要求他用自己话复述 + 标记后台 escalate。');
+        L.push('禁继续反问。');
+    }
+
     // ═══ 5. 7 条语言铁律（让孩子愿意聊）═══
     L.push('');
     L.push('═══ 7 条语言铁律（让 ${studentName} 愿意聊不被审判）═══');
@@ -518,7 +560,20 @@ function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour)
     L.push('  例：2x + 3 = 7');
     L.push('       2x = 4（两边 -3）');
     L.push('       x = 2');
-    L.push('数值计算前内心算两遍，不一致重算。最终答案前代回原式验证（不可见但要做）。');
+
+    // ═══════════════════════════════════════════════════════
+    // §算术绝对铁律 · 输出数值前必走 3 步（防 LLM 算错）
+    // ═══════════════════════════════════════════════════════
+    L.push('');
+    L.push('═══ 算术绝对铁律（输出数值前必走 3 步）═══');
+    L.push('① 内心算第一遍');
+    L.push('② 内心算第二遍（用不同顺序——比如先乘除后加减 vs 先括号），核对一致');
+    L.push('③ 把答案代回原式验证（不可见但必须做）');
+    L.push('两遍不一致或代回不成立 → 重新算，不允许「大概是这个数」式回答。');
+    L.push('');
+    L.push('一旦给出方程最终答案，必须显式说「代回验证：[X 代入后等式两边]」让学生看到验证过程——这是元认知教学的一部分。');
+    L.push('');
+    L.push('禁：「答案是 5（如果我没算错的话）」「大概是 3」这种不确定话术——没把握就别给数字。');
 
     // ═══ 9. 粘贴检测（保留 v2）═══
     if (isPasted) {
@@ -881,7 +936,7 @@ export default async function handler(req) {
     try { body = await req.json(); }
     catch (e) { return jsonErr(400, 'bad_json', '请求体不是合法 JSON'); }
 
-    const { student_id, message, session_id, topic_code, history = [], is_pasted = false, mode = 'explain', client_hour } = body || {};
+    const { student_id, message, session_id, topic_code, history = [], is_pasted = false, mode = 'explain', client_hour, same_kp_stuck_count } = body || {};
     if (!student_id || !message) return jsonErr(400, 'missing_fields', 'student_id + message 必填');
     // P1-D 模式白名单（防 prompt injection 通过 mode 字段塞别的）
     const VALID_MODES = ['explain', 'diagnose', 'cram', 'essay', 'recall'];
@@ -911,9 +966,14 @@ export default async function handler(req) {
     // 路由优先级 v3 > v2 > v1（v3 = 学习管家家庭运营官版，v2 = 蒸馏数学老师版，v1 = 原 147 行版）
     // clientHour 仅 v3 用（时段感知开场——放学/睡前/早起 不同话头）
     const safeClientHour = (typeof client_hour === 'number' && client_hour >= 0 && client_hour < 24) ? client_hour : null;
+    // sameKpStuckCount 仅 v3 用（同点追问计数 ≥3 触发强制给答案模式，防 AI 死板追问把孩子问烦）
+    // 截断 [0, 10] 防前端注入超大值烧 prompt
+    const safeStuckCount = (typeof same_kp_stuck_count === 'number' && same_kp_stuck_count >= 0)
+        ? Math.min(same_kp_stuck_count, 10)
+        : 0;
     const systemPrompt = (
         promptVersion === 'v3'
-            ? buildSystemPromptV3(student, memoryData, weakKps, is_pasted === true, safeClientHour)
+            ? buildSystemPromptV3(student, memoryData, weakKps, is_pasted === true, safeClientHour, safeStuckCount)
             : promptVersion === 'v2'
                 ? buildSystemPromptV2(student, memoryData, weakKps, is_pasted === true)
                 : buildSystemPrompt(student, memoryData, weakKps, is_pasted === true)
