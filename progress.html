@@ -716,7 +716,7 @@ function generateShareImage() {
     // 顶部墨色条
     ctx.fillStyle = '#1A1A1A';
     ctx.fillRect(0, 0, W, 96);
-    ctx.fillStyle = '#D85A30';
+    ctx.fillStyle = '#0F4F3D';
     ctx.fillRect(0, 96, W, 3);
 
     // 品牌
@@ -751,7 +751,7 @@ function generateShareImage() {
     ctx.fill();
     var pct = Math.max(0.02, Math.min(1, (s.xp - s.levelFloor) / Math.max(1, s.levelCap - s.levelFloor)));
     if (s.level >= 10) pct = 1;
-    ctx.fillStyle = '#D85A30';
+    ctx.fillStyle = '#0F4F3D';
     roundRect(ctx, barX, barY, barW * pct, barH, 3);
     ctx.fill();
     ctx.fillStyle = '#999';
