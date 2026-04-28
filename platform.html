@@ -4,59 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>自研平台 · 数据底座 · 匹配引擎 | 原点智学</title>
-<meta name="description" content="原点智学的自研壁垒：56 本教材章节抽取管道、反链匹配引擎、DeepSeek 生题管道、全栈游戏化系统。所有数字实时来自 manifest，可验证。">
-<meta name="theme-color" content="#F5A623">
+<meta name="description" content="原点智学的自研壁垒：教材章节抽取管道、章节匹配引擎、DeepSeek 生题管道、BM25 浏览器内检索。所有数字实时来自 manifest，可验证。">
+<meta name="theme-color" content="#D85A30">
+<meta name="ydzx-page" content="platform">
 <link rel="canonical" href="https://www.yuandianzhixue.com/platform.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='6'/><circle cx='50' cy='50' r='14' fill='%23D85A30'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
-  --bdr:#E4E4E7;--bdr2:#D4D4D8;
-  --amber:#F5A623;--amber-bg:#FFFBF0;
+  /* spec primary */
+  --primary:#D85A30;
+  --ink:#1A1A1A; --ink-2:#666; --ink-3:#999; --ink-4:#BBB;
+  --bg:#FFF; --bg-2:#F7F6F2; --bg-3:#EFEEE8;
+  --border:rgba(0,0,0,0.08); --border-strong:rgba(0,0,0,0.16);
+  --pain-bg:#FCEBEB; --pain-ink:#791F1F;
+  --ok-bg:#E1F5EE; --ok-ink:#085041;
+  /* legacy aliases — 保留 data-viz 编码 (产品矩阵 8 类 + 引擎 4 类) */
+  --card:#fff;
+  --ink2:#3F3F46;--ink3:#666;--ink4:#999;
+  --bdr:rgba(0,0,0,0.08);--bdr2:rgba(0,0,0,0.16);
+  --amber:#D85A30; --amber-bg:#FAEEDA;
   --emerald:#059669;--emerald-bg:#ECFDF5;
   --violet:#7C3AED;--violet-bg:#F5F3FF;
   --slate:#334155;--slate-bg:#F1F5F9;
   --red:#DC2626;--red-bg:#FEF2F2;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --font:'Noto Sans SC',system-ui,sans-serif;
-  --r:10px;
+  --r:8px;
 }
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);font-size:14px;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 
-.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.82);backdrop-filter:blur(24px) saturate(200%);border-bottom:1px solid var(--bdr)}
-.nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-.nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-.nav-brand svg{width:24px;height:24px}
-.nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500}
+/* NAV — home aligned 4-item */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);border-bottom:0.5px solid var(--border)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;height:60px;gap:8px}
+@media(max-width:720px){.nav-in{padding:0 20px}}
+.brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;margin-right:auto;color:var(--ink);text-decoration:none}
+.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+.nav-links{display:flex;gap:4px}
+.nav-a{padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--ink-2);font-size:13px;font-weight:400;transition:all .12s}
 .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-.nav-a.on{color:var(--amber);background:var(--amber-bg)}
+.nav-a.on{color:var(--ink);font-weight:500;background:none}
+.nav-a.on::after{content:'·';color:var(--primary);margin-left:4px;font-weight:700}
+.nav-set{padding:6px 12px;border-radius:6px;border:0.5px solid var(--border);background:none;font:400 13px var(--font);color:var(--ink-2);cursor:pointer}
+.nav-set:hover{color:var(--ink);border-color:var(--border-strong)}
+@media(max-width:780px){.nav-links{display:none}}
 
-/* hero */
-.hero{max-width:1120px;margin:36px auto 0;padding:0 20px}
-.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
-.tag{font-size:11px;padding:4px 10px;border-radius:100px;background:var(--slate-bg);color:var(--slate);font-weight:600;letter-spacing:.3px}
-.tag.e{background:var(--emerald-bg);color:var(--emerald)}
-.tag.v{background:var(--violet-bg);color:var(--violet)}
-h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-height:1.15}
-.subh{margin-top:14px;max-width:720px;color:var(--ink2);font-size:16px;line-height:1.7}
+/* HERO */
+.hero{max-width:1120px;margin:36px auto 0;padding:0 32px}
+@media(max-width:720px){.hero{padding:0 20px}}
+.eyebrow{font-size:12px;color:var(--ink-3);letter-spacing:.5px;margin-bottom:8px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 0}
+.tag{font-size:11px;padding:4px 10px;border-radius:4px;background:var(--bg-2);color:var(--ink-2);font-weight:500;letter-spacing:.3px;border:0.5px solid var(--border)}
+.tag.e{background:var(--ok-bg);color:var(--ok-ink);border-color:transparent}
+.tag.v{background:var(--bg-2);color:var(--ink);border-color:var(--border-strong)}
+h1{font-size:clamp(26px,4vw,38px);font-weight:500;letter-spacing:-.4px;line-height:1.2}
+.subh{margin-top:14px;max-width:720px;color:var(--ink-2);font-size:14px;line-height:1.7}
 
 /* stats */
-.stats{max-width:1120px;margin:36px auto 0;padding:0 20px}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden}
-.stat{background:var(--card);padding:20px 16px}
-.stat-n{font-size:32px;font-weight:900;letter-spacing:-1.2px;line-height:1;font-variant-numeric:tabular-nums}
-.stat-l{font-size:12px;color:var(--ink3);margin-top:6px;font-weight:500}
-.stat-note{font-size:10px;color:var(--ink4);margin-top:4px;font-family:var(--mono)}
-@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr)}.stat-n{font-size:24px}}
+.stats{max-width:1120px;margin:32px auto 0;padding:0 32px}
+@media(max-width:720px){.stats{padding:0 20px}}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:8px;overflow:hidden}
+.stat{background:#fff;padding:20px 18px}
+.stat-n{font-size:28px;font-weight:500;letter-spacing:-.4px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat-l{font-size:12px;color:var(--ink-3);margin-top:6px;font-weight:400}
+.stat-note{font-size:10px;color:var(--ink-4);margin-top:4px;font-family:var(--mono);letter-spacing:.2px}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr)}.stat-n{font-size:22px}}
 
 /* section */
-.sec{max-width:1120px;margin:56px auto 0;padding:0 20px}
-.sec-h{font-size:22px;font-weight:900;letter-spacing:-.4px;margin-bottom:6px}
-.sec-s{font-size:13px;color:var(--ink3);margin-bottom:20px}
+.sec{max-width:1120px;margin:56px auto 0;padding:0 32px}
+@media(max-width:720px){.sec{padding:0 20px}}
+.sec-h{font-size:18px;font-weight:500;letter-spacing:-.2px;margin-bottom:6px;color:var(--ink)}
+.sec-s{font-size:13px;color:var(--ink-2);margin-bottom:20px;max-width:720px;line-height:1.7}
 
 /* matrix grid */
 .matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -126,28 +149,26 @@ h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:-1px;line-heigh
 
 <nav class="nav">
   <div class="nav-in">
-    <a href="/" class="nav-brand">
-      <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#B0B0B0"/><stop offset="100%" stop-color="#404040"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
-      原点智学
-    </a>
-    <a href="/quiz.html" class="nav-a">每日一题</a>
-    <a href="/search.html" class="nav-a">查询</a>
-    <a href="/study-tools.html" class="nav-a">工具</a>
-    <a href="/platform.html" class="nav-a on">平台</a>
-    <a href="/eval.html" class="nav-a">基准</a>
-    <a href="/about.html" class="nav-a">关于</a>
-    <a href="/assistant.html" class="nav-a">课程</a>
+    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
+    <div class="nav-links">
+      <a href="/study-tools.html" class="nav-a">免费工具</a>
+      <a href="/paths.html" class="nav-a">学科教材</a>
+      <a href="/products/compare.html" class="nav-a">课程产品</a>
+      <a href="/progress.html" class="nav-a">成长档案</a>
+    </div>
+    <button class="nav-set" onclick="location.href='/settings.html'">设置</button>
   </div>
 </nav>
 
 <section class="hero">
+  <div class="eyebrow">自研壁垒 · 教材 / 引擎 / 模型</div>
+  <h1>不是把 LLM 套一层壳</h1>
+  <p class="subh">我们自建教材抽章管道、章节匹配引擎、章节到练习题的生成管道，所有数据资产可下载可校验。下面的数字由前端实时读 manifest 得出，刷新即更新。</p>
   <div class="tag-row">
     <span class="tag">自研数据底座</span>
     <span class="tag e">开源管道</span>
     <span class="tag v">章节匹配引擎 v1.2</span>
   </div>
-  <h1>原点自研平台 · 教材 / 引擎 / 模型</h1>
-  <p class="subh">不是把 LLM 套一层壳。我们自建教材抽章管道、章节匹配引擎、章节到练习题的生成管道，所有数据资产可下载可校验。下面的数字由前端实时读 manifest 得出，刷新即更新。</p>
 </section>
 
 <section class="stats">
@@ -601,7 +622,7 @@ function renderCoverageMap(books, q1, q2){
 
 function renderScorecard(rep){
   const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
-  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const SUBJ_EMOJI = { math:'', physics:'', chemistry:'', biology:'', chinese:'', english:'', history:'', geography:'', politics:'', moral:'' };
   const rateEl = document.getElementById('sc-rate');
   const metaEl = document.getElementById('sc-meta');
   const engEl = document.getElementById('sc-eng');
@@ -621,7 +642,7 @@ function renderScorecard(rep){
     const good = v.rate >= 0.95;
     const bg = perfect ? '#14532D' : (good ? '#166534' : (v.rate >= 0.85 ? '#854D0E' : '#991B1B'));
     const tag = perfect ? '满分' : (good ? '达标' : (v.rate >= 0.85 ? '需打磨' : '补数据'));
-    const emo = SUBJ_EMOJI[k] || '•';
+    const emo = SUBJ_EMOJI[k] || '';
     const zh = SUBJ_ZH[k] || k;
     return '<div style="background:#FAFAF9;border:1px solid var(--bdr);border-radius:10px;padding:12px 14px">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
@@ -636,7 +657,7 @@ function renderScorecard(rep){
 
 function renderEnsembleHero(rep){
   const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
-  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const SUBJ_EMOJI = { math:'', physics:'', chemistry:'', biology:'', chinese:'', english:'', history:'', geography:'', politics:'', moral:'' };
   const r1 = rep.recall_at_1 || {};
   const head = document.getElementById('ens-headline');
   if (head) head.innerHTML = (r1.ensemble * 100).toFixed(1) + '<span style="font-size:18px;color:#94A3B8;font-weight:600;margin-left:6px">% recall@1</span>';
@@ -656,7 +677,7 @@ function renderEnsembleHero(rep){
     const br = (v.bm25_rate * 100).toFixed(0);
     const lift = (v.ens_rate - Math.max(v.rules_rate, v.bm25_rate)) * 100;
     const liftStr = lift > 0 ? ('+' + lift.toFixed(0)) : lift.toFixed(0);
-    const emo = SUBJ_EMOJI[k] || '•';
+    const emo = SUBJ_EMOJI[k] || '';
     const zh = SUBJ_ZH[k] || k;
     return '<div style="background:rgba(15,23,42,0.6);border:1px solid #1E293B;border-radius:8px;padding:10px 12px">' +
       '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">' +
@@ -673,7 +694,7 @@ function renderEnsembleHero(rep){
 
 function renderBM25Scorecard(rep){
   const SUBJ_ZH = { math:'数学', physics:'物理', chemistry:'化学', biology:'生物', chinese:'语文', english:'英语', history:'历史', geography:'地理', politics:'思政', moral:'道法' };
-  const SUBJ_EMOJI = { math:'📐', physics:'⚙️', chemistry:'🧪', biology:'🌱', chinese:'📖', english:'🔤', history:'📜', geography:'🌍', politics:'⚖️', moral:'🤝' };
+  const SUBJ_EMOJI = { math:'', physics:'', chemistry:'', biology:'', chinese:'', english:'', history:'', geography:'', politics:'', moral:'' };
   const rateEl = document.getElementById('bsc-rate');
   const metaEl = document.getElementById('bsc-meta');
   const engEl = document.getElementById('bsc-eng');
@@ -696,7 +717,7 @@ function renderBM25Scorecard(rep){
     const ok = v.rate_at_5 >= 0.85;
     const bg = perfect ? '#0C4A6E' : (good ? '#075985' : (ok ? '#854D0E' : '#991B1B'));
     const tag = perfect ? '强势' : (good ? '稳' : (ok ? '及格' : '弱'));
-    const emo = SUBJ_EMOJI[k] || '•';
+    const emo = SUBJ_EMOJI[k] || '';
     const zh = SUBJ_ZH[k] || k;
     return '<div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:12px 14px">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
@@ -874,7 +895,7 @@ window.runEnsemble = async function() {
                     '<a href="' + it.url + '" target="_blank" style="display:inline-block;font-size:11px;color:#0C4A6E;font-weight:700;text-decoration:none">→ 打开教材</a>' +
                 '</div>';
             }).join('') +
-            '<div style="font-size:11px;color:var(--ink3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--bdr)">📊 ' + (data.eval_anchor && data.eval_anchor.note || '') + '</div>';
+            '<div style="font-size:11px;color:var(--ink3);margin-top:10px;padding-top:10px;border-top:1px dashed var(--bdr)">' + (data.eval_anchor && data.eval_anchor.note || '') + '</div>';
     } catch (e) {
         out.innerHTML = '<div style="color:#991B1B;font-size:13px">错误：' + (e.message || e) + '</div>';
     }
