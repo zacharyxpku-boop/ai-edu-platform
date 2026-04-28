@@ -42,10 +42,10 @@ body{
     font-size:15px;
 }
 
-/* ─── App shell · 3 栏 ─── */
+/* ─── App shell · 2 栏（删了学科树左栏 · 我们不是学科目录是学习管家）─── */
 .app{
     display:grid;
-    grid-template-columns:260px 1fr 300px;
+    grid-template-columns:1fr 320px;
     grid-template-rows:auto 1fr;
     height:100vh;
     overflow:hidden;
@@ -91,50 +91,7 @@ body{
 .mobile-toggle{display:none;background:none;border:1px solid var(--bdr);width:36px;height:36px;border-radius:8px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink-soft)}
 .mobile-toggle svg{width:18px;height:18px}
 
-/* ─── Left rail · 学科树 ─── */
-.rail-l{
-    background:var(--side);
-    border-right:1px solid var(--bdr);
-    overflow-y:auto;
-    padding:18px 14px 80px;
-}
-.rail-l h3{
-    font-size:0.7rem;font-weight:700;color:var(--ink-fade);
-    letter-spacing:1.5px;text-transform:uppercase;
-    margin:8px 6px 10px;
-}
-.subj{margin-bottom:10px}
-.subj-row{
-    display:flex;align-items:center;gap:8px;padding:10px 10px;
-    border-radius:10px;cursor:pointer;
-    font-size:0.92rem;font-weight:600;color:var(--ink);
-    transition:background 0.15s;
-}
-.subj-row:hover{background:var(--bdr-soft)}
-.subj-row.locked{color:var(--ink-fade);cursor:not-allowed}
-.subj-row.locked:hover{background:transparent}
-.subj-row .em{font-size:1.1rem}
-.subj-row .lock{margin-left:auto;font-size:0.7rem;color:var(--ink-fade)}
-.subj-row .arr{margin-left:auto;font-size:0.75rem;color:var(--ink-mute);transition:transform 0.2s}
-.subj-row.open .arr{transform:rotate(90deg)}
-.kps{padding:2px 0 6px 8px;display:none}
-.subj.open .kps{display:block}
-.kp{
-    display:flex;align-items:center;gap:8px;padding:8px 10px;
-    border-radius:8px;cursor:pointer;
-    font-size:0.86rem;color:var(--ink-soft);
-    transition:all 0.12s;border-left:2px solid transparent;
-}
-.kp:hover{background:var(--orange-bg);color:var(--ink)}
-.kp.active{background:var(--orange-bg);color:var(--orange);border-left-color:var(--orange);font-weight:700}
-.kp.done{color:var(--ink-mute)}
-.kp .ic{
-    width:18px;height:18px;border-radius:50%;flex-shrink:0;
-    border:1.5px solid var(--bdr-strong);background:var(--side);
-    display:flex;align-items:center;justify-content:center;font-size:10px;
-}
-.kp.active .ic{background:var(--orange);border-color:var(--orange);color:#fff}
-.kp.done .ic{background:var(--green);border-color:var(--green);color:#fff}
+/* 学科树 CSS 已删（.rail-l / .subj / .kp 不再需要——产品定位是学习管家不是学科目录）*/
 
 /* ─── Center · 对话主区 ─── */
 .center{
@@ -366,13 +323,6 @@ body{
 
 @media (max-width:1023px){
     .app{grid-template-columns:1fr 280px}
-    .rail-l{
-        position:fixed;left:0;top:0;bottom:0;width:260px;
-        z-index:90;transform:translateX(-100%);
-        transition:transform 0.25s;
-    }
-    .rail-l.open{transform:translateX(0)}
-    .mobile-toggle{display:flex}
 }
 @media (max-width:767px){
     .app{grid-template-columns:1fr}
@@ -402,9 +352,6 @@ body{
 <div class="app">
     <header class="app-header">
         <div class="header-row">
-            <button class="mobile-toggle" id="mob-l-toggle" aria-label="学科树">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            </button>
             <a href="/" class="header-back" aria-label="回到首页">← 首页</a>
             <div class="tutor-id">
                 <div class="av">墨</div>
@@ -465,41 +412,7 @@ body{
     }
     </style>
 
-    <!-- 左：学科树（P0-C 初一全册 10 章铺满）-->
-    <aside class="rail-l" id="rail-l">
-        <h3>初一数学 · 全册</h3>
-        <div id="subj-math-tree"></div>
-
-        <h3 style="margin-top:18px">其他学科</h3>
-        <div class="subj">
-            <div class="subj-row locked">
-                <span class="em">🧪</span><span>物理 · 初二</span>
-                <span class="lock">🔒 内测开</span>
-            </div>
-        </div>
-        <div class="subj">
-            <div class="subj-row locked">
-                <span class="em">🌍</span><span>英语 · 初一</span>
-                <span class="lock">🔒 内测开</span>
-            </div>
-        </div>
-        <div class="subj">
-            <div class="subj-row locked">
-                <span class="em">📖</span><span>语文 · 初一</span>
-                <span class="lock">🔒 内测开</span>
-            </div>
-        </div>
-
-        <h3 style="margin-top:20px">老师能做什么</h3>
-        <div style="font-size:0.78rem;color:var(--ink-mute);line-height:1.7;padding:0 6px">
-            · 直接回答你卡的那一步<br>
-            · 给提示让你自己迈一步<br>
-            · 不会就追问思路，不直接报答案<br>
-            · 累了说一声，不挽留
-        </div>
-    </aside>
-
-    <!-- 中：对话主区 -->
+    <!-- 中：对话主区（之前左侧学科树已删 · 不是学科目录是学习管家）-->
     <main class="center">
         <div class="chat" id="chat">
             <div class="welcome" id="welcome-block">
@@ -687,7 +600,7 @@ const sendBtn = document.getElementById('send-btn');
 const inputRow = document.getElementById('input-row');
 const welcomeBlock = document.getElementById('welcome-block');
 const pasteWarn = document.getElementById('paste-warn');
-const railL = document.getElementById('rail-l');
+// railL 已删（学科树左栏移除）
 const railR = document.getElementById('rail-r');
 const overlay = document.getElementById('rail-overlay');
 const history = [];
@@ -916,40 +829,16 @@ document.querySelectorAll('.quick button').forEach(btn => {
     btn.addEventListener('click', () => send(btn.dataset.q));
 });
 
-// 学科树点击
-document.querySelectorAll('.subj-row:not(.locked)').forEach(row => {
-    row.addEventListener('click', () => {
-        row.parentElement.classList.toggle('open');
-    });
-});
-document.querySelectorAll('.kp').forEach(kp => {
-    kp.addEventListener('click', () => {
-        document.querySelectorAll('.kp').forEach(k => k.classList.remove('active'));
-        kp.classList.add('active');
-        const code = kp.dataset.kp;
-        const name = KP_NAME_HINT[code] || code;
-        document.getElementById('now-kp').textContent = name;
-        addSystemHint(`📍 切到「${name}」 · 直接说卡哪儿`);
-        input.focus();
-        if (window.innerWidth < 1024) closeRails();
-    });
-});
-
-// 移动端抽屉
+// 移动端右栏抽屉（左栏已删，只剩右栏切换）
 function closeRails() {
-    railL.classList.remove('open');
-    railR.classList.remove('open');
-    overlay.classList.remove('show');
+    if (railR) railR.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
 }
-document.getElementById('mob-l-toggle')?.addEventListener('click', () => {
-    railL.classList.add('open');
-    overlay.classList.add('show');
-});
 document.getElementById('mob-r-toggle')?.addEventListener('click', () => {
-    railR.classList.add('open');
-    overlay.classList.add('show');
+    if (railR) railR.classList.add('open');
+    if (overlay) overlay.classList.add('show');
 });
-overlay.addEventListener('click', closeRails);
+overlay?.addEventListener('click', closeRails);
 
 // 启动 hint
 if (IS_DEMO_USER) {
@@ -1175,115 +1064,6 @@ async function loadEscalateHistory() {
     } catch (e) { /* silent */ }
 }
 loadEscalateHistory();
-
-// ─── 左栏初一数学全册 10 章树（P0-C 铺满）───
-// 数据 hardcode（避免冷启动 fetch 卡 UX）；后续可改 fetch /api/knowledge-tree
-const GRADE7_MATH_TREE = [
-    { ch: 1, name: '有理数', kps: [
-        ['math.7.ch1.kp1', '正数与负数'],
-        ['math.7.ch1.kp2', '数轴'],
-        ['math.7.ch1.kp3', '绝对值与相反数'],
-        ['math.7.ch1.kp4', '有理数加减法'],
-        ['math.7.ch1.kp5', '有理数乘除与乘方'],
-    ]},
-    { ch: 2, name: '整式的加减', kps: [
-        ['math.7.ch2.kp1', '单项式与多项式'],
-        ['math.7.ch2.kp2', '整式概念与次数'],
-        ['math.7.ch2.kp3', '合并同类项'],
-        ['math.7.ch2.kp4', '去括号与添括号'],
-    ]},
-    { ch: 3, name: '一元一次方程', open: true, kps: [
-        ['math.7.ch3.kp1', '一元一次方程概念'],
-        ['math.7.ch3.kp2', '等式性质'],
-        ['math.7.ch3.kp3', '解方程·移项'],
-        ['math.7.ch3.kp4', '解方程·去分母'],
-        ['math.7.ch3.kp5', '应用题·行程'],
-        ['math.7.ch3.kp6', '应用题·工程'],
-        ['math.7.ch3.kp7', '应用题·浓度'],
-    ]},
-    { ch: 4, name: '几何图形初步', kps: [
-        ['math.7.ch4.kp1', '立体图形与平面图形'],
-        ['math.7.ch4.kp2', '直线·射线·线段'],
-        ['math.7.ch4.kp3', '角的概念与表示'],
-        ['math.7.ch4.kp4', '角度的度量与计算'],
-        ['math.7.ch4.kp5', '余角·补角·对顶角'],
-    ]},
-    { ch: 5, name: '相交线与平行线', kps: [
-        ['math.7.ch5.kp1', '相交线与邻补角'],
-        ['math.7.ch5.kp2', '同位角·内错角·同旁内角'],
-        ['math.7.ch5.kp3', '平行线的判定'],
-        ['math.7.ch5.kp4', '平行线的性质'],
-        ['math.7.ch5.kp5', '平移'],
-    ]},
-    { ch: 6, name: '实数', kps: [
-        ['math.7.ch6.kp1', '平方根·算术平方根'],
-        ['math.7.ch6.kp2', '立方根'],
-        ['math.7.ch6.kp3', '实数概念与分类'],
-    ]},
-    { ch: 7, name: '平面直角坐标系', kps: [
-        ['math.7.ch7.kp1', '有序数对·坐标系建立'],
-        ['math.7.ch7.kp2', '点的坐标·象限'],
-        ['math.7.ch7.kp3', '坐标变换·平移'],
-    ]},
-    { ch: 8, name: '二元一次方程组', kps: [
-        ['math.7.ch8.kp1', '二元一次方程组概念'],
-        ['math.7.ch8.kp2', '代入消元法'],
-        ['math.7.ch8.kp3', '加减消元法'],
-        ['math.7.ch8.kp4', '方程组应用题'],
-    ]},
-    { ch: 9, name: '不等式与不等式组', kps: [
-        ['math.7.ch9.kp1', '不等式概念与性质'],
-        ['math.7.ch9.kp2', '一元一次不等式'],
-        ['math.7.ch9.kp3', '不等式解集·数轴表示'],
-        ['math.7.ch9.kp4', '一元一次不等式组'],
-    ]},
-    { ch: 10, name: '数据的收集整理', kps: [
-        ['math.7.ch10.kp1', '统计调查'],
-        ['math.7.ch10.kp2', '直方图'],
-        ['math.7.ch10.kp3', '从数据谈起'],
-    ]},
-];
-
-function renderMathTree() {
-    const wrap = document.getElementById('subj-math-tree');
-    if (!wrap) return;
-    const html = GRADE7_MATH_TREE.map(c => {
-        const kpsHtml = c.kps.map(([code, name]) => {
-            const isCurrent = code === TOPIC_CODE;
-            return `<div class="kp${isCurrent ? ' active' : ''}" data-kp="${code}">
-                <span class="ic">${isCurrent ? '●' : ''}</span><span>${name}</span>
-            </div>`;
-        }).join('');
-        return `<div class="subj${c.open || c.ch === parseInt((TOPIC_CODE.match(/ch(\d+)/) || [])[1]) ? ' open' : ''}" data-subj="math-ch${c.ch}">
-            <div class="subj-row">
-                <span class="em">${c.ch <= 5 ? '📚' : '📖'}</span>
-                <span>第 ${c.ch} 章 · ${c.name}</span>
-                <span class="arr">▶</span>
-            </div>
-            <div class="kps">${kpsHtml}</div>
-        </div>`;
-    }).join('');
-    wrap.innerHTML = html;
-
-    // 重新绑定章节折叠 + KP 点击事件（被 innerHTML 替换覆盖）
-    wrap.querySelectorAll('.subj-row').forEach(row => {
-        row.addEventListener('click', () => row.parentElement.classList.toggle('open'));
-    });
-    wrap.querySelectorAll('.kp').forEach(kp => {
-        kp.addEventListener('click', (e) => {
-            e.stopPropagation();
-            wrap.querySelectorAll('.kp').forEach(k => k.classList.remove('active'));
-            kp.classList.add('active');
-            const code = kp.dataset.kp;
-            const name = kp.querySelector('span:last-child').textContent;
-            document.getElementById('now-kp').textContent = name;
-            addSystemHint(`📍 切到「${name}」 · 直接说卡哪儿`);
-            input.focus();
-            if (window.innerWidth < 1024) closeRails();
-        });
-    });
-}
-renderMathTree();
 
 // ─── 右栏接真数据 · loadKpStates ───
 // 替换 hardcode 0.62 / 明天 19:00 / 移项忘记变号 3 次 这些字面量
