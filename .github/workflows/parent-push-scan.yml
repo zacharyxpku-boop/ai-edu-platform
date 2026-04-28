@@ -1,0 +1,43 @@
+# 家长 push 通知扫描 · 每小时跑一次
+# 4 类触发器：emotion_signals / escalation_overdue / weekly_brief / monthly_summary / crisis
+# 落档：docs/PROMPT-SYSTEM-V2-MASTER.md §3 内容隔离 C 类必须上报家长
+#
+# 你不用配——这个文件 push 到 main 后 GitHub 自动按 schedule 跑。
+# 唯一要做的：在 repo Settings → Secrets and variables → Actions 加一个 secret：
+#   ADMIN_TOKEN = （你 Vercel 里那个 ADMIN_TOKEN env 一样的值）
+
+name: parent-push-scan
+
+on:
+  schedule:
+    # 每小时第 5 分钟跑（避开整点峰值）· UTC 时间
+    - cron: "5 * * * *"
+  workflow_dispatch:  # 也允许在 GitHub UI 上手动触发（debug 用）
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger parent-push-scan endpoint
+        env:
+          PROD_HOST: https://yuandianzhixue.com
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+        run: |
+          set -e
+          echo "🔔 调 parent-push-scan endpoint..."
+          RESP=$(curl -sS -w "\n__HTTP_CODE__%{http_code}" \
+            -X POST "$PROD_HOST/api/cron-parent-push-scan" \
+            -H "Content-Type: application/json" \
+            -H "X-Admin-Token: $ADMIN_TOKEN" \
+            -d '{}')
+          CODE=$(echo "$RESP" | grep -o '__HTTP_CODE__[0-9]*' | grep -o '[0-9]*')
+          BODY=$(echo "$RESP" | sed 's/__HTTP_CODE__[0-9]*//')
+          echo "HTTP $CODE"
+          echo "$BODY" | head -c 800
+          if [ "$CODE" != "200" ]; then
+            echo "::error::Scan endpoint returned non-200: $CODE"
+            exit 1
+          fi
+          echo ""
+          echo "✅ 扫描完成"
