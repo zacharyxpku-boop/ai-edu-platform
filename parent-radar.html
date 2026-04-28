@@ -230,6 +230,55 @@ h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 800; }
         <div class="updated" id="updated-at">数据更新于 —</div>
     </header>
 
+    <!-- P0-3 · 今日给妈妈的话（30 秒看懂版） -->
+    <section class="brief-panel" id="brief-panel" style="display:none">
+        <div class="brief-tag">📨 今日给妈妈的话</div>
+        <div class="brief-headline" id="brief-headline">读取中…</div>
+        <div class="brief-focus" id="brief-focus" style="display:none"></div>
+        <div class="brief-note" id="brief-note" style="display:none"></div>
+        <div class="brief-period">
+            <button class="brief-tab active" data-period="morning" id="brief-tab-morning">今晨简报</button>
+            <button class="brief-tab" data-period="weekly" id="brief-tab-weekly">本周回顾</button>
+        </div>
+    </section>
+    <style>
+    .brief-panel {
+        margin: 18px auto 0; max-width: 100%;
+        background: linear-gradient(135deg,#FFF5F1,#FFFBF0);
+        border: 1px solid #F5A623; border-radius: 12px;
+        padding: 16px 20px; position: relative;
+    }
+    .brief-tag {
+        display:inline-block; font-size:0.72rem; color:#E8590C;
+        background:rgba(232,89,12,0.10); padding:3px 10px; border-radius:100px;
+        font-weight:700; letter-spacing:0.3px; margin-bottom:8px;
+    }
+    .brief-headline {
+        font-size: 1.08rem; font-weight: 800; line-height: 1.5;
+        color: #18181B; margin-bottom: 6px; letter-spacing: -0.2px;
+    }
+    .brief-focus {
+        font-size: 0.92rem; color: #3F3F46; line-height: 1.55;
+        padding: 6px 0; border-top: 1px dashed rgba(245,166,35,0.30); margin-top: 8px;
+    }
+    .brief-focus::before { content:'🎯 '; }
+    .brief-note {
+        font-size: 0.86rem; color: #92400E; line-height: 1.55;
+        background: rgba(245,166,35,0.10); padding: 8px 12px; border-radius: 8px;
+        margin-top: 8px; border-left: 3px solid #F5A623;
+    }
+    .brief-note::before { content:'⚠️ '; }
+    .brief-period { display:flex; gap:6px; margin-top:12px; }
+    .brief-tab {
+        font-family: inherit; font-size: 0.78rem; font-weight: 600;
+        padding: 5px 12px; border: 1px solid rgba(232,89,12,0.30);
+        background: transparent; color: #E8590C; border-radius: 100px;
+        cursor: pointer; transition: all 0.12s;
+    }
+    .brief-tab.active { background:#E8590C; color:#fff; border-color:#E8590C; }
+    .brief-tab:hover:not(.active) { background:rgba(232,89,12,0.08); }
+    </style>
+
     <!-- 30 秒看懂三件 -->
     <section class="glance">
         <div class="glance-card strong">
@@ -673,6 +722,48 @@ function renderProfile(payload) {
     document.getElementById('profile-panel').style.display = 'block';
 }
 
+// =========== 今日给妈妈的话（P0-3 brief panel）===========
+async function loadParentBrief(period = 'morning') {
+    const panel = document.getElementById('brief-panel');
+    const headlineEl = document.getElementById('brief-headline');
+    const focusEl = document.getElementById('brief-focus');
+    const noteEl = document.getElementById('brief-note');
+    if (!panel) return;
+    panel.style.display = 'block';
+    headlineEl.textContent = '读取中…';
+    focusEl.style.display = 'none';
+    noteEl.style.display = 'none';
+    try {
+        const r = await fetch(`/api/parent-brief?student_id=${encodeURIComponent(STUDENT_ID)}&period=${period}`);
+        if (!r.ok) {
+            headlineEl.textContent = '简报暂时读不出来 · 一会再试';
+            return;
+        }
+        const data = await r.json();
+        if (!data.ok) {
+            headlineEl.textContent = data.message || '简报数据格式异常';
+            return;
+        }
+        headlineEl.textContent = data.headline || '今天还没有数据';
+        if (data.today_focus) {
+            focusEl.textContent = data.today_focus;
+            focusEl.style.display = 'block';
+        }
+        if (data.parent_note) {
+            noteEl.textContent = data.parent_note;
+            noteEl.style.display = 'block';
+        }
+    } catch (e) {
+        headlineEl.textContent = '网络异常 · 简报暂不可用';
+    }
+}
+document.querySelectorAll('.brief-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.brief-tab').forEach(b => b.classList.toggle('active', b === btn));
+        loadParentBrief(btn.dataset.period);
+    });
+});
+
 // =========== 最近对话面板（P0-B Khanmigo 差距补强）===========
 function escapeHtmlRd(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -739,6 +830,7 @@ async function boot() {
     renderProfile(profile);
     renderFsrsPanel(fsrs);
     loadRecentDialogues();  // P0-B：最近对话历史
+    loadParentBrief('morning');  // P0-3：今日给妈妈的话
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);
     document.getElementById('share-btn').addEventListener('click', () => openShare(data.all_kcs));
