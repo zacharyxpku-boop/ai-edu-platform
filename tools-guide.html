@@ -5,37 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>原点AI学伴 — 苏格拉底式AI学习伙伴</title>
     <meta name="description" content="原点AI学伴：不给答案的AI学习助手。苏格拉底对话引擎，引导孩子自己思考。每周成长报告，作品输出助手，原点成长档案。">
-    <meta name="theme-color" content="#F5A623">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
+    <meta name="theme-color" content="#0F4F3D">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
     <meta property="og:image" content="https://www.yuandianzhixue.com/og-cover.png">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
     <link rel="canonical" href="https://www.yuandianzhixue.com/tools-guide.html">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
     <link rel="stylesheet" href="src/theme.css">
     <style>
+        /* ===== v2 token override (local, follows theme.css) ===== */
+        :root {
+            --accent-primary:#0F4F3D; --accent-hover:#0A3D2E; --accent-warm:#B85C2E;
+            --bg-primary:#FAF7F0; --text-primary:#1A1A1A;
+            --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
+            --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+            /* override theme.css */
+            --bg:#FAF7F0; --bg-card:#FFFFFF;
+            --ink:#1A1A1A;
+            --cta:#0F4F3D; --cta-hover:#0A3D2E;
+            --amber:#B85C2E; --amber-bright:#B85C2E; --amber-bg:#FAF1E8;
+            /* legacy tokens used by this page (fall-throughs from older theme) */
+            --c-origin:#0F4F3D;
+            --c-warm-white:#1A1A1A;
+            --c-warm-gray:#6B7280;
+            --c-warm-dim:#9CA3AF;
+            --c-ink-border:rgba(15,79,61,0.12);
+            --grad-hero:linear-gradient(180deg,#FAF7F0 0%,#F3EDE4 100%);
+            --grad-section:#FFFFFF;
+            --font-heading:"Noto Serif SC",ui-serif,Georgia,serif;
+            --fs-hero:clamp(32px,5vw,48px);
+            --fs-h3:1.2rem;
+            --fs-body:15px;
+            --fs-small:14px;
+            --fs-caption:12px;
+            --sp-xs:6px; --sp-sm:10px; --sp-md:16px; --sp-lg:24px; --sp-xl:40px; --sp-section:64px;
+            --r-md:8px; --r-lg:12px;
+        }
+        body { background:var(--bg-primary); color:var(--text-primary); font-size:15px; line-height:1.7; font-feature-settings:"palt" 1; font-family:"Inter","Noto Sans SC",system-ui,sans-serif; }
+        h1,h2,h3 { font-family:var(--font-serif-sc); font-weight:500; letter-spacing:0.02em; color:var(--text-primary); }
+
         .page-hero { padding: 120px 24px 60px; text-align: center; background: var(--grad-hero); }
-        .page-hero h1 { font-family: var(--font-heading); font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); }
+        .page-hero h1 { font-family: var(--font-serif-sc); font-weight:500; letter-spacing:0.02em; font-size: var(--fs-hero); margin: var(--sp-lg) 0 var(--sp-md); color:var(--text-primary); }
+        .page-hero p { color:var(--c-warm-gray); }
         .page-section { padding: var(--sp-section) 0; }
         .page-section:nth-child(even) { background: var(--grad-section); }
         .page-content { max-width: 1120px; margin: 0 auto; padding: 0 var(--sp-lg); }
         .features { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-lg); margin-top: var(--sp-xl); }
-        .feature { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); border-top: 3px solid var(--c-origin); }
+        .feature { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); border-top: 3px solid var(--accent-primary); }
         .feature-icon { font-size: 1.5rem; margin-bottom: var(--sp-sm); }
-        .feature h3 { margin-bottom: var(--sp-xs); }
-        .feature-sub { color: var(--c-origin); font-size: var(--fs-small); margin-bottom: var(--sp-sm); }
+        .feature h3 { margin-bottom: var(--sp-xs); color:var(--text-primary); }
+        .feature-sub { color: var(--accent-primary); font-size: var(--fs-small); margin-bottom: var(--sp-sm); font-family:var(--font-serif-en); font-style:italic; }
         .feature p { color: var(--c-warm-gray); font-size: var(--fs-small); }
         .tiers-pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-lg); margin-top: var(--sp-xl); }
-        .tier-card { background: rgba(22,33,62,0.6); border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); text-align: center; }
-        .tier-card.featured { border-color: rgba(233,77,53,0.4); }
-        .tier-name { font-family: var(--font-heading); font-size: var(--fs-h3); margin-bottom: var(--sp-xs); }
-        .tier-price { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 900; color: var(--c-origin); margin-bottom: var(--sp-xs); }
+        .tier-card { background: #FFFFFF; border: 1px solid var(--c-ink-border); border-radius: var(--r-lg); padding: var(--sp-lg); text-align: center; }
+        .tier-card.featured { border-color: rgba(15,79,61,0.4); }
+        .tier-name { font-family: var(--font-serif-sc); font-weight:500; font-size: var(--fs-h3); margin-bottom: var(--sp-xs); color:var(--text-primary); }
+        .tier-price { font-family: var(--font-serif-sc); font-size: 1.8rem; font-weight: 600; color: var(--accent-primary); margin-bottom: var(--sp-xs); }
         .tier-period { color: var(--c-warm-dim); font-size: var(--fs-caption); margin-bottom: var(--sp-md); }
         .tier-features { list-style: none; padding: 0; text-align: left; }
         .tier-features li { padding: var(--sp-xs) 0; color: var(--c-warm-gray); font-size: var(--fs-small); padding-left: 16px; position: relative; }
-        .tier-features li::before { content: '·'; position: absolute; left: 0; color: var(--c-origin); font-weight: 900; }
-        .principle-box { max-width: 720px; margin: var(--sp-xl) auto 0; padding: var(--sp-lg); background: rgba(233,77,53,0.04); border-left: 3px solid var(--c-origin); border-radius: 0 var(--r-md) var(--r-md) 0; }
-        .principle-box h3 { margin-bottom: var(--sp-sm); }
+        .tier-features li::before { content: '·'; position: absolute; left: 0; color: var(--accent-primary); font-weight: 700; }
+        .principle-box { max-width: 720px; margin: var(--sp-xl) auto 0; padding: var(--sp-lg); background: rgba(15,79,61,0.04); border-left: 3px solid var(--accent-primary); border-radius: 0 var(--r-md) var(--r-md) 0; }
+        .principle-box h3 { margin-bottom: var(--sp-sm); color:var(--text-primary); }
         .principle-box p { color: var(--c-warm-gray); font-size: var(--fs-small); }
         @media (max-width: 767px) { .features, .tiers-pricing { grid-template-columns: 1fr; } }
     </style>
@@ -74,7 +106,7 @@
     </section>
 
     <div style="max-width:900px;margin:0 auto;padding:24px 24px 0">
-        <div style="background:rgba(233,77,53,0.08);border:1px solid rgba(233,77,53,0.2);padding:20px 28px;border-radius:12px;text-align:center;color:var(--c-warm-white);font-size:var(--fs-body);line-height:1.8">
+        <div style="background:rgba(15,79,61,0.06);border:1px solid rgba(15,79,61,0.18);padding:20px 28px;border-radius:12px;text-align:center;color:var(--text-primary);font-size:var(--fs-body);line-height:1.8">
             🚧 原点AI学伴正在开发中，预计2026年下半年上线。目前您可以免费体验我们的<a href="tools/learning-profile.html" style="color:var(--c-origin);text-decoration:underline">AI学习画像测评</a>，或加入<a href="membership.html" style="color:var(--c-origin);text-decoration:underline">家长社群</a>获取每周AI学习建议。
         </div>
     </div>

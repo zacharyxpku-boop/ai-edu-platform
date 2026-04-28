@@ -3,44 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F4F3D">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
 <title>原点 · 4 周学习成果报告</title>
 <meta name="description" content="孩子 4 周内测期间的真实学习数据：掌握度变化、攻克知识点、错题改善">
 <style>
 :root {
-    --c-ink: #1A1A2E;
-    --c-ink-light: #16213E;
-    --c-ink-surface: #0F3460;
-    --c-paper: #FAF8F4;
-    --c-text: #2A2438;
-    --c-text-soft: #5A5366;
-    --c-text-dim: #8A8499;
-    --c-origin: #E94D35;
-    --c-origin-soft: #FF6B4A;
+    /* v2 design tokens（米白底+墨绿+砖红）*/
+    --accent-primary: #0F4F3D;
+    --accent-hover: #0A3D2E;
+    --accent-warm: #B85C2E;
+    --bg-primary: #FAF7F0;
+    --text-primary: #1A1A1A;
+    --font-serif-sc: "Noto Serif SC", ui-serif, Georgia, serif;
+    --font-serif-en: "Instrument Serif", ui-serif, Georgia, serif;
+
+    /* legacy 名字保留，值改写为 v2 米白底语义 */
+    --c-ink: #FAF7F0;            /* 主背景：米白（原 #1A1A2E dark navy 反转）*/
+    --c-ink-light: #FFFFFF;      /* 次背景：白（原 #16213E）*/
+    --c-ink-surface: #F4F1EC;    /* 第三层（原 #0F3460）*/
+    --c-paper: #FAF7F0;          /* 报告页底：米白 */
+    --c-text: #1A1A1A;           /* 主字色 */
+    --c-text-soft: #4A4A47;      /* 次字色 */
+    --c-text-dim: #7A7570;       /* 辅助 */
+    --c-origin: #0F4F3D;         /* 强调：墨绿（原橙 #0F4F3D）*/
+    --c-origin-soft: #0F4F3D;    /* 软强调（原 #FF6B4A）*/
     --c-success: #2D9F6F;
-    --c-warning: #D4A843;
+    --c-warning: #B85C2E;        /* 警告：砖红（原 amber #D4A843）*/
     --c-error: #C94040;
-    --c-line: #E8E2D8;
+    --c-line: rgba(26,26,26,0.08);
     --c-mono: "DM Mono", "Cascadia Mono", "Courier New", monospace;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--c-paper);
-    color: var(--c-text);
-    line-height: 1.65;
+    font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+h1, h2, h3 { font-family: var(--font-serif-sc); font-weight: 500; }
+h1 { letter-spacing: 0.02em; }
 
 .page {
     max-width: 760px;
     margin: 0 auto;
     background: white;
-    box-shadow: 0 0 24px rgba(42,36,56,0.06);
+    box-shadow: 0 0 24px rgba(26,26,26,0.04);
 }
 
-/* 封面 */
+/* 封面（保留 dark cover 的视觉份量，改 dark navy → 墨绿）*/
 .cover {
-    background: linear-gradient(155deg, var(--c-ink) 0%, var(--c-ink-light) 60%, var(--c-origin) 200%);
+    background: linear-gradient(155deg, #0F4F3D 0%, #0A3D2E 60%, #B85C2E 200%);
     color: white;
     padding: 56px 36px 48px;
     position: relative;
@@ -51,7 +67,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     position: absolute;
     top: -60px; right: -60px;
     width: 240px; height: 240px;
-    background: radial-gradient(circle, rgba(233,77,53,0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(184,92,46,0.40) 0%, transparent 70%);
     border-radius: 50%;
 }
 .cover .brand {
@@ -108,7 +124,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     font-family: var(--c-mono);
     color: var(--c-origin);
     font-size: 0.78rem;
-    background: rgba(233,77,53,0.12);
+    background: rgba(15,79,61,0.10);
     padding: 2px 8px;
     border-radius: 4px;
 }
@@ -159,10 +175,10 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     color: var(--c-text-soft);
 }
 .radar-box .label-row .date { font-family: var(--c-mono); font-weight: 600; color: var(--c-text); }
-.radar-grid line, .radar-grid polygon { stroke: rgba(138,132,153,0.25); fill: none; }
+.radar-grid line, .radar-grid polygon { stroke: rgba(26,26,26,0.12); fill: none; }
 .radar-axis-label { font-size: 9px; fill: var(--c-text-dim); text-anchor: middle; }
-.radar-shape-before { fill: rgba(212,168,67,0.15); stroke: var(--c-warning); stroke-width: 2; }
-.radar-shape-after  { fill: rgba(45,159,111,0.18); stroke: var(--c-success); stroke-width: 2; }
+.radar-shape-before { fill: rgba(184,92,46,0.15); stroke: var(--c-warning); stroke-width: 2; }
+.radar-shape-after  { fill: rgba(15,79,61,0.18); stroke: var(--c-origin); stroke-width: 2; }
 
 /* 进步知识点 list */
 .progress-list { margin-top: 12px; }
@@ -180,7 +196,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .progress-row .before { font-family: var(--c-mono); color: var(--c-text-dim); text-align: right; font-size: 0.85rem; }
 .progress-row .arrow {
     height: 6px;
-    background: linear-gradient(90deg, var(--c-warning), var(--c-success));
+    background: linear-gradient(90deg, var(--c-warning), var(--c-origin));
     border-radius: 100px;
     position: relative;
 }
@@ -189,12 +205,12 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     position: absolute;
     right: -4px; top: -2px;
     border: 5px solid transparent;
-    border-left-color: var(--c-success);
+    border-left-color: var(--c-origin);
 }
 .progress-row .delta {
     font-family: var(--c-mono);
     font-weight: 700;
-    color: var(--c-success);
+    color: var(--c-origin);
     text-align: right;
 }
 
@@ -213,7 +229,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
 /* 横向对比 */
 .benchmark {
-    background: linear-gradient(135deg, rgba(233,77,53,0.06), rgba(255,107,74,0.04));
+    background: linear-gradient(135deg, rgba(15,79,61,0.06), rgba(184,92,46,0.04));
     border-left: 3px solid var(--c-origin);
     padding: 18px 20px;
     border-radius: 0 8px 8px 0;
@@ -237,7 +253,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .benchmark .ranking {
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px dashed rgba(233,77,53,0.3);
+    border-top: 1px dashed rgba(15,79,61,0.30);
     text-align: center;
 }
 .benchmark .ranking .num {
@@ -249,9 +265,9 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 }
 .benchmark .ranking .text { font-size: 0.85rem; color: var(--c-text-soft); margin-top: 4px; }
 
-/* 推荐 */
+/* 推荐（dark navy → 墨绿，保留 dark 强调段落）*/
 .recommendation {
-    background: var(--c-ink);
+    background: #0F4F3D;
     color: white;
     padding: 28px 32px;
     border-radius: 12px;
@@ -264,13 +280,13 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     position: absolute;
     bottom: -40px; left: -40px;
     width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(233,77,53,0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(184,92,46,0.40) 0%, transparent 70%);
     border-radius: 50%;
 }
 .recommendation h3 {
     font-size: 1.05rem;
     margin-bottom: 10px;
-    color: var(--c-origin-soft);
+    color: #FAF7F0;
     position: relative;
     z-index: 1;
 }
@@ -291,14 +307,14 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     border: 1px solid rgba(255,255,255,0.15);
 }
 .opt-card .opt-title { font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 1rem; }
-.opt-card .opt-price { color: var(--c-origin-soft); font-family: var(--c-mono); font-size: 1.1rem; margin: 4px 0; }
+.opt-card .opt-price { color: #FAF7F0; font-family: var(--c-mono); font-size: 1.1rem; margin: 4px 0; opacity: 0.95; }
 .opt-card .opt-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
-.opt-card.recommended { border-color: var(--c-origin); box-shadow: 0 0 0 1px var(--c-origin); }
+.opt-card.recommended { border-color: #B85C2E; box-shadow: 0 0 0 1px #B85C2E; }
 .opt-card.recommended::before {
     content: '推荐';
     position: absolute;
     top: -10px; right: 12px;
-    background: var(--c-origin);
+    background: #B85C2E;
     color: white;
     padding: 2px 10px;
     border-radius: 100px;

@@ -3,45 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F4F3D">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
 <title>原点 25 分钟闭环 · 一元一次方程</title>
 <meta name="description" content="单知识点 25 分钟从入门到精通，原点 AI 私教学习闭环">
 <style>
 :root {
-    --c-ink: #1A1A2E;
-    --c-ink-light: #16213E;
-    --c-ink-surface: #0F3460;
-    --c-origin: #E94D35;
-    --c-origin-soft: #FF6B4A;
-    --c-origin-glow: rgba(233,77,53,0.15);
-    --c-warm-white: #F5F0EB;
-    --c-warm-gray: #B8B0A8;
-    --c-warm-dim: #7A7067;
-    --c-success: #2D9F6F;
-    --c-warning: #D4A843;
-    --c-error: #C94040;
+    /* v2 design tokens（米白底+墨绿+砖红，附加，不破坏 legacy）*/
+    --accent-primary: #0F4F3D;
+    --accent-hover: #0A3D2E;
+    --accent-warm: #B85C2E;
+    --bg-primary: #FAF7F0;
+    --text-primary: #1A1A1A;
+    --font-serif-sc: "Noto Serif SC", ui-serif, Georgia, serif;
+    --font-serif-en: "Instrument Serif", ui-serif, Georgia, serif;
+
+    /* legacy 名字保留，值改写为 v2 米白底语义（dark→light 反转）*/
+    --c-ink: #FAF7F0;            /* 主背景：米白（原 #1A1A2E dark navy 反转）*/
+    --c-ink-light: #FFFFFF;      /* 次背景/卡片：纯白（原 #16213E）*/
+    --c-ink-surface: #F4F1EC;    /* 略沉一档暖白：高亮区（原 #0F3460）*/
+    --c-origin: #0F4F3D;         /* 强调色：墨绿（原橙 #0F4F3D）*/
+    --c-origin-soft: #0F4F3D;    /* 软强调：墨绿（原橙 #FF6B4A）*/
+    --c-origin-glow: rgba(15,79,61,0.12);
+    --c-warm-white: #1A1A1A;     /* 主字色：墨黑（原浅米 #F5F0EB 反转为字色）*/
+    --c-warm-gray: #4A4A47;      /* 次字色 */
+    --c-warm-dim: #7A7570;       /* 辅助小字 */
+    --c-success: #2D9F6F;        /* 成功保留绿 */
+    --c-warning: #B85C2E;        /* 警告：砖红（原 amber #D4A843）*/
+    --c-error: #C94040;          /* 错误保留红 */
     --r-sm: 4px;
     --r-md: 8px;
     --r-lg: 12px;
-    --shadow-card: 0 1px 3px rgba(0,0,0,0.2);
-    --shadow-hover: 0 4px 12px rgba(0,0,0,0.3);
-    --shadow-cta: 0 4px 16px rgba(233,77,53,0.25);
+    --shadow-card: 0 1px 3px rgba(26,26,26,0.06);
+    --shadow-hover: 0 4px 12px rgba(26,26,26,0.10);
+    --shadow-cta: 0 4px 16px rgba(15,79,61,0.20);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-    font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-light) 100%);
-    color: var(--c-warm-white);
+    font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
+h1, h2, h3 { font-family: var(--font-serif-sc); font-weight: 500; }
+h1 { letter-spacing: 0.02em; }
 .container { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
 
 /* 头部 */
 .hero {
     text-align: center;
     padding: 32px 0 24px;
-    border-bottom: 1px solid rgba(184,176,168,0.15);
+    border-bottom: 1px solid rgba(26,26,26,0.08);
 }
 .hero .topic-tag {
     display: inline-block;
@@ -107,7 +123,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 /* 题卡 */
 .question-card {
     background: var(--c-ink-light);
-    border: 1px solid rgba(184,176,168,0.1);
+    border: 1px solid rgba(26,26,26,0.08);
     border-radius: var(--r-lg);
     padding: 28px 24px;
     margin-top: 24px;
@@ -137,8 +153,8 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .q-input-row label { color: var(--c-warm-gray); font-size: 0.95rem; }
 .q-input {
     flex: 1;
-    background: var(--c-ink);
-    border: 1px solid rgba(184,176,168,0.2);
+    background: #FFFFFF;
+    border: 1px solid rgba(26,26,26,0.12);
     color: var(--c-warm-white);
     padding: 10px 14px;
     font-size: 1rem;
@@ -179,7 +195,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .feedback.correct { background: rgba(45,159,111,0.1); border-color: var(--c-success); color: var(--c-warm-white); }
 .feedback.wrong { background: rgba(201,64,64,0.1); border-color: var(--c-error); color: var(--c-warm-white); }
 .feedback h4 { font-size: 0.95rem; margin-bottom: 6px; }
-.feedback .socratic { color: var(--c-warm-gray); font-size: 0.88rem; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(184,176,168,0.2); }
+.feedback .socratic { color: var(--c-warm-gray); font-size: 0.88rem; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(26,26,26,0.10); }
 .feedback .delta {
     display: inline-block;
     margin-left: 8px;
@@ -190,13 +206,13 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .feedback .ask-tutor-btn {
     display: inline-flex;align-items:center;gap:6px;
     margin-top: 10px;padding: 8px 14px;
-    background: linear-gradient(135deg,#E94D35,#FF8A6E);
+    background: linear-gradient(135deg,#0F4F3D,#0A3D2E);
     color: #fff;border: none;border-radius: 100px;
     font-size: 0.84rem;font-weight: 600;cursor: pointer;
     font-family: inherit;transition: transform 0.12s;
-    box-shadow: 0 2px 8px rgba(233,77,53,0.30);
+    box-shadow: 0 2px 8px rgba(15,79,61,0.30);
 }
-.feedback .ask-tutor-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(233,77,53,0.40); }
+.feedback .ask-tutor-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(15,79,61,0.40); }
 .feedback .ask-tutor-btn::before { content: "原"; display:inline-flex;align-items:center;justify-content:center;
     width: 18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.25);
     font-family:"Noto Serif SC",serif;font-weight:900;font-size:11px; }
@@ -205,7 +221,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .mini-tutor {
     position: fixed; right: 20px; bottom: 20px;
     width: 360px; height: 520px; max-height: 70vh;
-    background: #FAFAF7; color: #18181B;
+    background: #FAF7F0; color: #18181B;
     border-radius: 16px; overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08);
     display: none; flex-direction: column;
@@ -216,12 +232,12 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 @keyframes mtIn { from { opacity:0; transform: translateY(20px) scale(0.96);} to { opacity:1; transform: translateY(0) scale(1);} }
 .mini-tutor.open { display: flex; }
 .mt-head { display:flex;align-items:center;gap:10px;padding:14px 16px;
-    background: linear-gradient(135deg,#FFF5F1,#FFFBF0);border-bottom:1px solid #E7E5DF; }
+    background: linear-gradient(135deg,#F4F1EC,#FAF7F0);border-bottom:1px solid #E7E5DF; }
 .mt-av { width:32px;height:32px;border-radius:50%;
-    background:linear-gradient(135deg,#E94D35,#FF8A6E);
+    background:linear-gradient(135deg,#0F4F3D,#0A3D2E);
     color:#fff;display:flex;align-items:center;justify-content:center;
     font-family:"Noto Serif SC",serif;font-weight:900;font-size:0.9rem;
-    box-shadow: 0 2px 6px rgba(233,77,53,0.25); }
+    box-shadow: 0 2px 6px rgba(15,79,61,0.25); }
 .mt-title { flex:1; min-width:0; }
 .mt-title .nm { font-size:0.92rem;font-weight:700;color:#18181B;line-height:1.2; }
 .mt-title .ctx { font-size:0.72rem;color:#71717A;margin-top:2px;line-height:1.3;
@@ -237,13 +253,13 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .mt-bub.tutor { align-self:flex-start;background:#fff;border:1px solid #E7E5DF;
     padding:10px 13px;border-radius:4px 14px 14px 14px;font-size:0.88rem;line-height:1.65;
     color:#18181B;white-space:pre-wrap;word-break:break-word; }
-.mt-bub.student { align-self:flex-end;background:#E94D35;color:#fff;
+.mt-bub.student { align-self:flex-end;background:#0F4F3D;color:#fff;
     padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:0.88rem;line-height:1.55; }
 .mt-input-row { display:flex;gap:6px;padding:10px 12px;border-top:1px solid #E7E5DF;background:#fff; }
 .mt-input { flex:1;border:1px solid #D4D2CC;border-radius:18px;padding:8px 14px;
     font-size:0.88rem;outline:none;font-family:inherit;color:#18181B;background:#FBFAF6; }
-.mt-input:focus { border-color:#E94D35;background:#fff; }
-.mt-send { background:#E94D35;color:#fff;border:none;width:34px;height:34px;border-radius:50%;
+.mt-input:focus { border-color:#0F4F3D;background:#fff; }
+.mt-send { background:#0F4F3D;color:#fff;border:none;width:34px;height:34px;border-radius:50%;
     cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;
     transition:transform 0.12s; }
 .mt-send:hover { transform:scale(1.06); }
@@ -267,7 +283,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .btn-secondary {
     background: transparent;
     color: var(--c-warm-gray);
-    border: 1px solid rgba(184,176,168,0.25);
+    border: 1px solid rgba(26,26,26,0.12);
     padding: 8px 16px;
     border-radius: var(--r-md);
     cursor: pointer;
@@ -303,7 +319,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     z-index: 2;
     animation: medal-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.medal svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(233,77,53,0.6)); }
+.medal svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(15,79,61,0.45)); }
 .medal .star { fill: url(#medal-grad); animation: medal-spin 8s linear infinite; transform-origin: center; transform-box: fill-box; }
 .medal .core { fill: var(--c-origin); }
 .medal .label { fill: white; font-family: "Noto Serif SC", serif; font-weight: 800; }
@@ -317,25 +333,25 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     z-index: 1;
     pointer-events: none;
     background:
-        radial-gradient(circle at 20% 30%, rgba(255,107,74,0.18), transparent 30%),
-        radial-gradient(circle at 80% 60%, rgba(45,159,111,0.15), transparent 30%),
-        radial-gradient(circle at 50% 80%, rgba(212,168,67,0.15), transparent 35%);
+        radial-gradient(circle at 20% 30%, rgba(15,79,61,0.14), transparent 30%),
+        radial-gradient(circle at 80% 60%, rgba(45,159,111,0.12), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(184,92,46,0.12), transparent 35%);
     animation: fireworks-pulse 3s ease-in-out infinite;
 }
 @keyframes fireworks-pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
 .completion .actions-final { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; position: relative; z-index: 2; }
 .btn-flex {
-    background: rgba(255,255,255,0.08);
+    background: rgba(26,26,26,0.04);
     color: var(--c-warm-white);
-    border: 1px solid rgba(184,176,168,0.25);
+    border: 1px solid rgba(26,26,26,0.10);
     padding: 10px 18px;
     font-size: 0.9rem;
     border-radius: 8px;
     cursor: pointer;
     font-family: inherit;
 }
-.btn-flex:hover { background: rgba(255,255,255,0.12); }
+.btn-flex:hover { background: rgba(26,26,26,0.08); }
 
 /* 炫耀分享弹窗 */
 .brag-modal {
@@ -350,7 +366,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 }
 .brag-modal.show { display: flex; }
 .brag-card {
-    background: linear-gradient(165deg, #16213E 0%, #0F3460 50%, #E94D35 180%);
+    background: linear-gradient(165deg, #0F4F3D 0%, #0A3D2E 60%, #B85C2E 200%);
     border-radius: 16px;
     width: 100%;
     max-width: 320px;
@@ -367,7 +383,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     position: absolute;
     top: -60px; right: -60px;
     width: 220px; height: 220px;
-    background: radial-gradient(circle, rgba(233,77,53,0.5) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(184,92,46,0.45) 0%, transparent 70%);
     border-radius: 50%;
 }
 .brag-card::after {
@@ -375,13 +391,13 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     position: absolute;
     bottom: -80px; left: -40px;
     width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(212,168,67,0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(250,247,240,0.18) 0%, transparent 70%);
     border-radius: 50%;
 }
 .brag-card .top-row { display: flex; align-items: center; gap: 8px; position: relative; z-index: 2; }
 .brag-card .top-row .badge { font-family: "Noto Serif SC", serif; font-weight: 800; font-size: 0.92rem; opacity: 0.85; }
 .brag-card .center-block { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
-.brag-card .level-tag { font-family: "Noto Serif SC", serif; font-size: 1.05rem; color: #FFB68A; margin-bottom: 8px; }
+.brag-card .level-tag { font-family: "Noto Serif SC", serif; font-size: 1.05rem; color: #FAF7F0; opacity: 0.85; margin-bottom: 8px; }
 .brag-card .child { font-family: "Noto Serif SC", serif; font-size: 1.85rem; font-weight: 800; line-height: 1.2; }
 .brag-card .achievement { font-size: 1rem; line-height: 1.6; margin-top: 14px; opacity: 0.95; }
 .brag-card .meta-row { display: flex; gap: 14px; margin-top: 18px; position: relative; z-index: 2; }
@@ -400,7 +416,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
     cursor: pointer;
     font-family: inherit;
 }
-.brag-actions button.primary { background: white; color: #1A1A2E; font-weight: 700; }
+.brag-actions button.primary { background: white; color: #1A1A1A; font-weight: 700; }
 .brag-modal-close {
     position: absolute;
     top: 16px; right: 16px;
@@ -417,7 +433,8 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 .debug-log {
     margin-top: 32px;
     padding: 12px;
-    background: rgba(0,0,0,0.3);
+    background: rgba(26,26,26,0.04);
+    border: 1px solid rgba(26,26,26,0.08);
     border-radius: var(--r-md);
     font-family: "DM Mono", "Courier New", monospace;
     font-size: 0.78rem;
@@ -466,7 +483,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
 
     <section class="question-card" id="qcard">
         <!-- 「AI 记得你」记忆提示（fire-and-forget，无记忆时隐藏）-->
-        <div id="memory-hint" style="display:none; padding: 10px 12px; background: rgba(212,168,67,0.1); border-left: 3px solid var(--c-warning); border-radius: 4px; margin-bottom: 12px; font-size: 0.85rem; color: var(--c-warm-gray);">
+        <div id="memory-hint" style="display:none; padding: 10px 12px; background: rgba(184,92,46,0.10); border-left: 3px solid var(--c-warning); border-radius: 4px; margin-bottom: 12px; font-size: 0.85rem; color: var(--c-warm-gray);">
             <span style="color: var(--c-warning); font-weight: 600;">📌 我记得</span>
             <span id="memory-text"></span>
         </div>
@@ -489,8 +506,8 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
             <svg viewBox="0 0 96 96">
                 <defs>
                     <linearGradient id="medal-grad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#FF6B4A"/>
-                        <stop offset="100%" stop-color="#D4A843"/>
+                        <stop offset="0%" stop-color="#0F4F3D"/>
+                        <stop offset="100%" stop-color="#B85C2E"/>
                     </linearGradient>
                 </defs>
                 <polygon class="star" points="48,4 56,36 90,36 62,56 72,90 48,70 24,90 34,56 6,36 40,36"/>
@@ -533,7 +550,7 @@ h1, h2, h3 { font-family: "Noto Serif SC", serif; font-weight: 800; }
             <div class="footer">扫码 0 元试 4 周 · yuandian.cn</div>
         </div>
         <div style="display:flex;gap:10px;margin-top:14px;justify-content:center;">
-            <button id="copy-mom-btn" style="background:rgba(255,255,255,0.95);color:#0F3460;border:none;padding:10px 18px;border-radius:100px;font-weight:600;cursor:pointer;font-family:inherit;font-size:0.88rem;">📋 复制给妈妈看</button>
+            <button id="copy-mom-btn" style="background:rgba(255,255,255,0.95);color:#0F4F3D;border:none;padding:10px 18px;border-radius:100px;font-weight:600;cursor:pointer;font-family:inherit;font-size:0.88rem;">📋 复制给妈妈看</button>
         </div>
         <button class="brag-modal-close" onclick="document.getElementById('brag-modal').classList.remove('show')">×</button>
     </div>
@@ -686,7 +703,7 @@ function renderQuestion() {
             <div class="mcq-options" style="display:flex;flex-direction:column;gap:8px;width:100%;">
                 ${keys.map(k => `
                     <button class="mcq-opt" data-key="${escapeHtml(k)}"
-                        style="text-align:left;padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(212,168,67,0.3);border-radius:6px;color:inherit;cursor:pointer;font-size:0.95rem;font-family:inherit;">
+                        style="text-align:left;padding:10px 14px;background:rgba(26,26,26,0.04);border:1px solid rgba(184,92,46,0.30);border-radius:6px;color:inherit;cursor:pointer;font-size:0.95rem;font-family:inherit;">
                         <strong style="color:var(--c-warning);margin-right:8px;">${escapeHtml(k)}.</strong>${escapeHtml(opts[k])}
                     </button>
                 `).join('')}
@@ -696,8 +713,8 @@ function renderQuestion() {
             btn.addEventListener('click', () => {
                 const key = btn.getAttribute('data-key');
                 state._mcqPick = key;
-                inputRow.querySelectorAll('.mcq-opt').forEach(b => b.style.background = 'rgba(255,255,255,0.04)');
-                btn.style.background = 'rgba(212,168,67,0.2)';
+                inputRow.querySelectorAll('.mcq-opt').forEach(b => b.style.background = 'rgba(26,26,26,0.04)');
+                btn.style.background = 'rgba(184,92,46,0.18)';
                 onSubmit();  // 选完直接提交
             });
         });
@@ -1008,7 +1025,7 @@ function showFeedback(q, isCorrect, submitted, prev, now, diagnose) {
         el.className = 'feedback wrong';
         el.innerHTML = `
             <h4>这一步还差一点 <span class="delta" style="color:#C94040">${deltaText}</span></h4>
-            <div>你写的：<code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:3px;">${escapeHtml(submitted)}</code>，正确答案是 ${q.answer}。</div>
+            <div>你写的：<code style="background:rgba(26,26,26,0.06);padding:2px 6px;border-radius:3px;">${escapeHtml(submitted)}</code>，正确答案是 ${q.answer}。</div>
             <div class="socratic">${socraticBlock}</div>
             <button class="ask-tutor-btn" onclick="openMiniTutor(${q.id ? `'${q.id}'` : 'null'})">让老师讲讲这题</button>
         `;
@@ -1179,7 +1196,7 @@ function showCompletion() {
         document.getElementById('completion-h2').style.color = 'var(--c-warning)';
         document.getElementById('completion-text').textContent = '这一关还没破，错题进了你的复习库，明天再回来一次。';
         document.getElementById('medal').querySelector('text').textContent = lv.name;
-        document.getElementById('medal').querySelector('.core').setAttribute('fill', '#D4A843');
+        document.getElementById('medal').querySelector('.core').setAttribute('fill', '#B85C2E');
         document.getElementById('brag-trigger').style.display = 'none';
     } else {
         // 出师：备好分享卡数据
