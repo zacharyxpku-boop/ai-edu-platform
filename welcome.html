@@ -171,6 +171,28 @@ form.card{
   padding-top:24px;border-top:0.5px solid var(--border);
 }
 
+.consent{
+  display:flex;flex-direction:column;gap:10px;
+  padding:14px 16px;
+  background:var(--bg-2);
+  border-radius:6px;
+  margin-top:4px;
+}
+.consent label{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:12px;line-height:1.6;color:var(--ink-2);
+  cursor:pointer;
+}
+.consent input[type=checkbox]{
+  margin-top:3px;width:14px;height:14px;flex-shrink:0;
+  accent-color:var(--accent-primary);
+}
+.consent a{
+  color:var(--accent-primary);
+  border-bottom:0.5px solid var(--accent-primary);
+}
+.consent a:hover{opacity:0.8}
+
 .icon{width:14px;height:14px;display:inline-block;flex-shrink:0;stroke-width:2}
 </style>
 </head>
@@ -228,6 +250,17 @@ form.card{
       <div class="hint">用于匹配教材版本和题目难度</div>
     </div>
 
+    <div class="consent">
+      <label>
+        <input type="checkbox" id="consent-terms" required>
+        <span>我已阅读并同意 <a href="/terms" target="_blank">《服务协议》</a> 和 <a href="/privacy" target="_blank">《隐私政策》</a></span>
+      </label>
+      <label>
+        <input type="checkbox" id="consent-guardian" required>
+        <span>我已获得家长 / 监护人同意（未满 14 周岁必须勾选）</span>
+      </label>
+    </div>
+
     <button type="submit" class="cta" id="cta-btn">
       进入诊断
       <svg class="icon arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -281,7 +314,19 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('name').value.trim();
   const grade = document.getElementById('grade').value;
+  const consentTerms = document.getElementById('consent-terms').checked;
+  const consentGuardian = document.getElementById('consent-guardian').checked;
   if (!name || !grade) return;
+
+  // 合规校验：服务协议 + 监护人同意必须勾
+  if (!consentTerms) {
+    showError('请先阅读并同意《服务协议》和《隐私政策》');
+    return;
+  }
+  if (!consentGuardian) {
+    showError('未满 14 周岁须由家长 / 监护人同意后才能注册');
+    return;
+  }
 
   ctaBtn.disabled = true;
   ctaBtn.textContent = '正在创建…';
@@ -294,6 +339,15 @@ form.addEventListener('submit', async (e) => {
               : grade.startsWith('middle') ? 'middle'
               : 'high';
 
+  // 同意凭证（后端落库做合规审计）
+  const consent_v1 = {
+    terms: true,
+    guardian: true,
+    accepted_at: new Date().toISOString(),
+    user_agent: navigator.userAgent.slice(0, 200),
+    policy_version: 'v1.0-2026-04-28',
+  };
+
   try {
     const r = await fetch('/api/student-init', {
       method: 'POST',
@@ -302,6 +356,7 @@ form.addEventListener('submit', async (e) => {
         name, grade, stage,
         subjects: ['math'],
         cohort: 'self-onboard-' + new Date().toISOString().slice(0, 10),
+        consent_v1,
       }),
     });
     if (!r.ok) {
@@ -316,8 +371,8 @@ form.addEventListener('submit', async (e) => {
     localStorage.setItem('yd:my_grade', grade);
     localStorage.setItem('yd:my_recover_code', data.student_id.slice(-6).toUpperCase());
 
-    const next = data.next_url || `/mastery-loop?student_id=${encodeURIComponent(data.student_id)}&name=${encodeURIComponent(name)}`;
-    location.href = next;
+    // 漏斗 v1: student-init 成功后, 始终进 /diagnose (10 题 → AI 报告 → 微信 CTA)
+    setTimeout(() => { location.href = '/diagnose'; }, 200);
   } catch (e) {
     showError('网络异常：' + e.message);
     resetCta();
