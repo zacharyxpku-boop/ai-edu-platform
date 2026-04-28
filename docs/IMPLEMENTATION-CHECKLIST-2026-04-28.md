@@ -1,8 +1,8 @@
 # 实施验收清单 · 2026-04-28 prompt 体系 v2 全天落地
 
-**版本**：v0.9 草稿（待并行 agent 完成后升 v1.0）
+**版本**：v1.0 终稿（含并行 agent 的 T1-T7 + V3 mock 8 场景两个补丁）
 **受众**：团队成员（产品 / 工程 / 教研 / 运营）
-**用途**：让每个角色知道自己今天该 review 什么、该测什么。今天 94 个 commit 串起来一份验收图。
+**用途**：让每个角色知道自己今天该 review 什么、该测什么。今天 96 个 commit 串起来一份验收图。
 **对应设计源**：
 - `docs/PROMPT-SYSTEM-V2-MASTER.md` v2.0（5 部分体系单一权威来源）
 - `docs/CHINESE-FAMILY-AI-MANAGER-V1.md` v1.0（顶层定位三角形）
@@ -13,9 +13,18 @@
 
 ## 一、全天 commit 时间线（>=20 条核心 commit）
 
-按时间倒序，挑出与 prompt 体系 v2 / B 模式闭环 / UI v2 / observability 主线相关的 commit。完整 94 条 commit 见 `git log --since='2026-04-28 00:00'`。
+按时间倒序，挑出与 prompt 体系 v2 / B 模式闭环 / UI v2 / observability 主线相关的 commit。完整 96 条 commit 见 `git log --since='2026-04-28 00:00'`。
 
 ```
+14:39  1a28e60  feat(escalate)  T1-T7 自动判断 + 结构化工单 + crisis 特殊处理 ⭐ NEW
+                └ 影响：api/escalate.js（288 行扩展）+ db/migrations/0008_escalations_t1_t7.sql（50 行）
+                └ 验收：POST /api/escalate 不传 kind 时 auto-detect 路由 T1-T7；T6 强制 priority=1 + 注入热线
+                └ 自测：本地 9/9 T1-T7 路由 case 通过
+
+14:39  f1d3a08  docs(eval)   8 个 v3 mock 对话场景作为行为参照基准 ⭐ NEW
+                └ 影响：docs/V3-MOCK-DIALOGUES.md（361 行）
+                └ 验收：scripts/eval-tutor-prompt.py 接入 8 个 case → baseline 跑分
+
 14:37  4516b7e  feat(ui)     tutor.html 6 处改动对齐 PROMPT-SYSTEM-V2-MASTER §5
                 └ 影响：tutor.html（开场策略 / quick chip / 节奏点 / 错题→掌握度 / 呼叫学长降权 / 删「你还记得我吗」）
                 └ 验收：打开 tutor.html，对照 §5 表格 6 条逐项点过
@@ -199,21 +208,37 @@
 
 ### 模块 5 · §4 分诊触发器 T1-T7
 
-- **落地位置**：`api/tutor-chat.js` v3 prompt（已含 3 档分诊）+ `api/escalate.js`（已落表）+ 8ab3610（同型连错 3 次自动触发）
+- **落地位置**：`api/tutor-chat.js` v3 prompt（3 档分诊）+ `api/escalate.js` 288 行扩展（T1-T7 自动判断 + buildStructuredTicket）+ `db/migrations/0008_escalations_t1_t7.sql`
 - **设计来源**：`PROMPT-SYSTEM-V2-MASTER.md §4`（T1-T7 + 转交工单格式）
-- **实施 commit**：0c98e2c（P0-2 escalations 表 + 「呼叫清北」按钮 12:15）+ c10f2d0（P1-3 学长接班看板 12:38）+ 8ab3610（P1-4 同型连错 3 次自动 12:44）+ 4bd9231（P1-2 escalation.context 自动塞 dossier 12:33）
-- **状态**：T1-T2-T5（方法论失败 / 概念追问 / 情绪挫败）有路径；T3-T4-T6-T7 触发器代码层面待精化
+- **实施 commit**：
+  - 0c98e2c（12:15 P0-2 escalations 表 + 按钮）
+  - 4bd9231（12:33 P1-2 escalation.context 自动塞 dossier）
+  - c10f2d0（12:38 P1-3 学长接班看板）
+  - 8ab3610（12:44 P1-4 同型连错 3 次自动触发）
+  - **1a28e60（14:39 T1-T7 自动判断 + 结构化工单 + crisis 特殊处理）⭐ 并行 agent 收尾**
+- **状态**：完成（T1-T7 7 类全 ship；自动判断 + 结构化工单 + 危机分支齐活）
 - **验收方式**：
   ```bash
-  # 1) tutor.html 模拟 3 次同型错题 → escalation 自动落表
-  # 2) 访问 /mentor.html → 看到 escalation 队列
-  # 3) 学长接管 → tutor 端学生侧收到回复气泡
-  # SQL 查
-  select * from escalations order by created_at desc limit 10;
+  # 1) auto-detect — 不传 kind 时自动路由
+  curl -X POST $URL/api/escalate \
+    -H 'content-type: application/json' \
+    -d '{"student_id":"demo","message":"我想自杀"}'
+  # 期望：trigger=T6, priority=1, ETA=5min, 响应含 crisis_resources 字段（北京心理援助热线 010-82951332）
+
+  # 2) 结构化工单
+  curl -X POST $URL/api/escalate \
+    -H 'content-type: application/json' \
+    -d '{"student_id":"demo","message":"老师我两种方法都没听懂","history":[...]}'
+  # 期望：trigger=T1, ticket 字段按 §4 格式（学生标签/卡点/AI 已尝试/AI 判断/当下状态/历史/期望回复，≤500 字）
+
+  # 3) tutor.html 模拟连错 3 次同型 → escalation 自动落表
+  # 4) /mentor.html 看到队列 + 学长接管 → tutor 端收到回复气泡
+  # 5) SQL 查
+  select kind, priority, created_at from escalations order by created_at desc limit 10;
   ```
-- **待办**：
-  1. 转交工单结构化（T1-T7 自动判断 kind + 生成结构化工单）
-  2. 学长侧 AI 草稿（学长收到工单后系统给一份 v3 prompt 生成的回复草稿，5.5 内测期）
+- **作者自测**：本地 9/9 T1-T7 路由 case 通过
+- **优先级路由**：T6 危机 > T5 情绪 > T2 追问 > T1 方法论失败 > T4 规划 > T3 跨章 > T7 边界 > manual
+- **待办**：学长侧 AI 草稿端点（`api/mentor-reply-draft.js` 已存在但需要接 v3 prompt 生成 — 5.5 内测期）
 
 ### 附加 · §5 UI Mockup 6 处改动
 
@@ -260,10 +285,17 @@
 2. **录 1-2 个真孩子 30 分钟试用** — 视频 + 文字记录
    - 卡点 / 困惑 / 惊喜 / 厌烦点都标注时间戳
    - 重点观察：开场 30 秒孩子是不是被吸住 / 错题归因话术孩子是否听懂
-3. **跑 PROMPT_VERSION=v3 baseline eval**
+3. **跑 PROMPT_VERSION=v3 baseline eval**（基准已 ship）
    ```bash
-   # 准备 20 道初一数学错题样本，丢给 v3 prompt
-   # 评分维度：归因正确率 / 不直接给答案率 / 节奏感（开场+收尾完整）
+   # 已有：docs/V3-MOCK-DIALOGUES.md（361 行，8 个 v3 mock 对话场景作为行为参照基准）⭐ 今日 ship
+   # 直接接 scripts/eval-tutor-prompt.py 跑 8 case
+   PROMPT_VERSION=v3 python scripts/eval-tutor-prompt.py --cases docs/V3-MOCK-DIALOGUES.md
+   # 评分维度（每条对话都对照 v3 prompt §1 检查）：
+   #   - 开场公式 5 件齐 ([称呼]+[回顾]+[今天提议]+[预计时长]+[确认])
+   #   - 错题归因落 6 类之一（不允许「不仔细」）
+   #   - 不直接给完整答案
+   #   - 节奏感（收尾必给「今天就到这 / 不用再想 / 明天 X 点见」三选一）
+   #   - 疲态信号 → 先停学习再问状态
    # 对比 v2 baseline，目标：归因正确率 +20%
    ```
 4. **5.4 Playbook 7 分钟版彩排** — DEMO-DAY-5.4-PLAYBOOK.md
@@ -271,10 +303,16 @@
 
 ### 工程角色（明天可继续 P2-P3 长尾）
 
-1. **parent-brief.js 加 `?enrich=llm` 模式** — 5 段 LLM 周报（模块 3 待办）
-2. **escalate.js 转交工单结构化** — T1-T7 自动判断 kind + 工单格式落地（模块 5 待办）
-3. **学长侧 AI 草稿** — mentor.html 学长收到工单后系统给一份 v3 prompt 生成的回复草稿（5.5）
-4. **C 类危机信号通道** — T6 触发时多端 push（模块 4 待办）
+✅ **今日已完成**（不在明日 todo）：
+- ~~escalate.js 转交工单结构化 T1-T7~~ → 1a28e60 已 ship（模块 5）
+- ~~T6 危机分支~~ → 1a28e60 已含 crisis 特殊处理（priority=1 + ETA 5min + 注入热线）
+- ~~v3 mock 8 场景作为 baseline eval 基准~~ → f1d3a08 已 ship
+
+📋 **明日继续**：
+1. **parent-brief.js 加 `?enrich=llm` 模式** — 5 段 LLM 周报（模块 3 唯一待办）
+2. **mentor-reply-draft.js 接 v3 prompt** — 学长收到工单后系统给一份回复草稿（端点已建，逻辑待补，5.5 内测期）
+3. **db/migrations/0008 部署到生产环境** — 跑 supabase 迁移（escalation_kind_enum 新增 cross_chapter/crisis/out_of_scope 三个值）
+4. **C 类危机信号多端 push** — T6 触发时除了返回热线外，还需推家长 + 平台人工
 5. **lesson video 内容线**（P2）
 6. **安全护栏 / Stripe 订阅**（P3）
 
@@ -303,9 +341,10 @@
 |---|---|---|---|
 | Prompt 系统 | v1 散落 147 行，无结构 | v2 草稿 fork 成 3 文档 | **v3 主体 305 行 · 单一权威来源 · 5 部分体系闭环** |
 | 错题图谱 | 无 | 64 misconception 设计稿 | **/api/error-graph 端点 + parent-radar 自动归类视图** |
-| 学长侧 | 无 | escalations 表设计稿 | **/api/mentor-queue 看板 + AI 草稿 + 同型连错 3 次自动触发** |
+| 学长侧 | 无 | escalations 表设计稿 | **/api/mentor-queue 看板 + 同型连错 3 次自动触发 + T1-T7 自动判断 + 结构化工单** |
 | 妈妈周报 | 无 | 设计稿 5 段 | **/api/parent-brief deterministic 版 ship · LLM 5 段待加** |
 | AI 角色名 | 「清北学姐」 | 「清北哥哥姐姐」 | **「原小点」（统一）** |
+| eval 基准 | 无 | 无 | **docs/V3-MOCK-DIALOGUES.md 8 mock 场景 · 接 eval-tutor-prompt.py** |
 
 5 行表格，5 项硬指标全部从「有想法」推到「有代码」。
 
@@ -316,14 +355,14 @@
 写给「下次某个 session 接管这个项目的 AI 或人」：
 
 1. **这个项目是啥**：原点智学 = 中国家庭 AI 学习管家（不是数学老师），定位「学校做不到的那 30%」，AI 角色叫「**原小点**」，B 模式 = AI + 真人学长。
-2. **现在到哪**：5.4 demo 前最后冲刺，prompt 体系 v2 + UI v2 + B 模式闭环已 ship，94 个 commit 今天落了 5 个 P0-P1 模块。
-3. **接下来该看什么**：先读 `docs/PROMPT-SYSTEM-V2-MASTER.md`（设计源）+ `docs/CHINESE-FAMILY-AI-MANAGER-V1.md`（顶层定位）+ 本文件（实施状态）。然后跑 `git log --since='2026-04-28 00:00'`。
-4. **不要做什么**：不要再 fork 散 prompt 文档（PROMPT-V2-DRAFT 等已 deprecated）；不要把 AI 改回「数学老师」（已 pivot 到「学习管家」）；不要给 AI 加紫蓝渐变 / rounded-3xl（v2 视觉系统不允许）。
-5. **下一步动作**：明天工程做 4 件事 — parent-brief 加 `?enrich=llm` / escalate 工单结构化 / 学长 AI 草稿 / C 类危机通道。运营做 3 件 — 灌 demo 账号 / 录真孩子试用 / 跑 v3 baseline eval。
+2. **现在到哪**：5.4 demo 前最后冲刺，prompt 体系 v2 + UI v2 + B 模式闭环 + T1-T7 自动分诊已 ship，96 个 commit 今天落了 5 个 P0-P1 模块全部完成（仅妈妈周报 LLM 模式待加）。
+3. **接下来该看什么**：先读 `docs/PROMPT-SYSTEM-V2-MASTER.md`（设计源）+ `docs/CHINESE-FAMILY-AI-MANAGER-V1.md`（顶层定位）+ `docs/V3-MOCK-DIALOGUES.md`（8 mock 行为基准）+ 本文件（实施状态）。然后跑 `git log --since='2026-04-28 00:00'`。
+4. **不要做什么**：不要再 fork 散 prompt 文档（PROMPT-V2-DRAFT 等已 deprecated）；不要把 AI 改回「数学老师」（已 pivot 到「学习管家」）；不要给 AI 加紫蓝渐变 / rounded-3xl（v2 视觉系统不允许）；不要硬编码 escalation kind（用 escalate.js 的 detectTrigger() auto-detect）。
+5. **下一步动作**：明天工程做 4 件事 — parent-brief 加 `?enrich=llm` / mentor-reply-draft 接 v3 prompt / db migrations 0008 上生产 / C 类危机多端 push。运营做 3 件 — 灌 demo 账号 / 录真孩子试用 / 跑 v3 baseline eval（用 V3-MOCK-DIALOGUES.md 8 case）。
 
 ---
 
-**版本**：v0.9 草稿 · 2026-04-28 实施验收
+**版本**：v1.0 终稿 · 2026-04-28 实施验收
 **作用**：让团队 4 个角色 review 各自范围；为 5.4 demo 兜底
-**作者**：Zack（产品） + 阁主（落地实施）
-**下次更新**：等 4 个并行 agent 完成后升 v1.0
+**作者**：Zack（产品） + 阁主（落地实施） + 4 并行 agent（T1-T7 / V3 mock / UI 6 处 / v3 主体精修）
+**升级路径**：v0.9 草稿 → v1.0（补 1a28e60 T1-T7 收尾 + f1d3a08 V3 mock 8 场景）
