@@ -33,7 +33,8 @@
     /* 客服微信号 + 二维码图片路径
        真二维码: 把客服截图保存到项目根目录命名 wechat-qr.png 即生效 (Vercel 静态托管会自动 serve)
        fallback: 文件不存在时用下方占位 SVG */
-    var WECHAT_ID = '原点智学_Zack';
+    var WECHAT_NAME = '原点智学_Zack';   // 微信昵称 (展示给用户认人)
+    var WECHAT_ID = 'Orgin_AIedu';        // 微信号 (用于"添加朋友 → 搜索微信号")
     var WECHAT_QR_PNG = '/wechat-qr.jpg';
     var WECHAT_QR_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent([
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">',
@@ -172,8 +173,8 @@
             '  <div class="ywc-pane on" id="ywc-pane-qr" role="tabpanel">',
             '    <div class="ywc-qr-wrap">',
             '      <img class="ywc-qr-img" alt="原点智学客服微信" src="' + WECHAT_QR_PNG + '" onerror="this.onerror=null;this.src=\'' + WECHAT_QR_SVG + '\'" id="ywc-qr-img">',
-            '      <p class="ywc-qr-tip">长按 / 截图保存上图二维码<br>用微信扫一扫添加 <b>' + WECHAT_ID + '</b></p>',
-            '      <span class="ywc-qr-id" id="ywc-qr-id" title="点击复制">微信号 ' + WECHAT_ID + '</span>',
+            '      <p class="ywc-qr-tip">长按 / 截图保存上图二维码<br>用微信扫一扫添加 <b>' + WECHAT_NAME + '</b></p>',
+            '      <span class="ywc-qr-id" id="ywc-qr-id" title="点击复制微信号">微信号 ' + WECHAT_ID + ' · 点击复制</span>',
             '      <p class="ywc-fineprint">备注 <b>「咨询」</b> + 孩子年级，Zack 会优先回复</p>',
             '    </div>',
             '  </div>',
@@ -221,10 +222,10 @@
         document.getElementById('ywc-qr-id').addEventListener('click', function () {
             try {
                 navigator.clipboard.writeText(WECHAT_ID);
-                this.textContent = '已复制 · ' + WECHAT_ID;
+                this.textContent = '已复制 ' + WECHAT_ID + ' · 微信搜索添加';
                 setTimeout(function () {
-                    document.getElementById('ywc-qr-id').textContent = '微信号 ' + WECHAT_ID;
-                }, 1800);
+                    document.getElementById('ywc-qr-id').textContent = '微信号 ' + WECHAT_ID + ' · 点击复制';
+                }, 2200);
             } catch (e) {}
         });
 
