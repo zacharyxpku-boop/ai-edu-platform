@@ -1,4 +1,4 @@
-// 原点智学 · /api/escalate · 学生升级到清北攻坚队列
+// 原点智学 · /api/escalate · 学生升级到真人辅导队列
 //
 // POST 创建一条 escalation（学生显式呼叫 / AI prompt 检测后台触发 / mastery-loop 答错 3 次自动）
 // GET ?student_id=xxx 列学生自己的 escalation 历史（前端右栏「呼叫记录」用）
@@ -114,7 +114,7 @@ async function handleCreate(req) {
         ? Math.min(expected_response_minutes, 1440)
         : defaultETA;
 
-    // 拼弹药包：把当前 conversation 摘要 + 最近 attempts 一起塞进 context（让清北 30 秒入戏）
+    // 拼弹药包：把当前 conversation 摘要 + 最近 attempts 一起塞进 context（让学长 30 秒入戏）
     let enrichedContext = { ...safeContext };
     try {
         // 拉最近 5 条 attempts（如果端点存在）
@@ -171,11 +171,11 @@ async function handleCreate(req) {
 
 function kindMessage(kind, eta) {
     const map = {
-        concept: `已转给清北哥哥姐姐 · 概念性问题约 ${eta} 分钟内回你。等的时候可以做下一道题`,
-        emotion: `老师看见你了 · 这种感觉清北的姐姐比我懂得讲，约 ${eta} 分钟内联系你`,
-        streak_3_wrong: `这一类题咱多卡了几次 · 让清北哥哥录个 3 分钟讲解，约 ${eta} 分钟内发你`,
-        planning: `规划级问题让清北的哥哥姐姐回 · 约 ${eta} 分钟（他们要先看你的档案）`,
-        manual: `已发出 · 清北哥哥姐姐约 ${eta} 分钟内联系你 · 等的时候做点别的`,
+        concept: `已转给学长学姐 · 概念性问题约 ${eta} 分钟内回你。等的时候可以做下一道题`,
+        emotion: `老师看见你了 · 这种感觉学姐比我懂得讲，约 ${eta} 分钟内联系你`,
+        streak_3_wrong: `这一类题咱多卡了几次 · 让学长录个 3 分钟讲解，约 ${eta} 分钟内发你`,
+        planning: `规划级问题让学长姐姐回 · 约 ${eta} 分钟（他们要先看你的档案）`,
+        manual: `已发出 · 学长学姐约 ${eta} 分钟内联系你 · 等的时候做点别的`,
     };
     return map[kind] || `已发出 · 约 ${eta} 分钟内有人回你`;
 }

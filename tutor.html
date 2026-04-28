@@ -564,12 +564,12 @@ body{
             <div class="mentor-row">
                 <div class="mentor-av">清</div>
                 <div class="mentor-info">
-                    <div class="mentor-name">清北哥哥姐姐</div>
+                    <div class="mentor-name">学长学姐</div>
                     <div class="mentor-sub">概念题 / 情绪 / 长程规划</div>
                 </div>
             </div>
             <div class="mentor-eta" id="mentor-eta">平均 30 分钟内回你</div>
-            <button class="mentor-btn" id="call-mentor-btn">呼叫清北攻坚 →</button>
+            <button class="mentor-btn" id="call-mentor-btn">呼叫学长攻坚 →</button>
             <div class="mentor-recent" id="mentor-recent" style="display:none"></div>
         </div>
 
@@ -980,7 +980,7 @@ if (TOPIC_CODE && TOPIC_CODE !== 'math.7.ch3.kp3') {
 })();
 input.focus();
 
-// ─── 呼叫清北哥哥（P0 第二件 escalation）─────────
+// ─── 呼叫学长（P0 第二件 escalation）─────────
 const KIND_LABELS = {
     concept: { em: '🧠', label: '概念性问题' },
     emotion: { em: '💙', label: '情绪/状态' },
@@ -997,14 +997,14 @@ function openEscalateDialog(presetKind = 'manual') {
         overlay.className = 'esc-overlay';
         overlay.innerHTML = `
             <div class="esc-panel">
-                <h3>呼叫清北哥哥姐姐</h3>
+                <h3>呼叫学长学姐</h3>
                 <p class="esc-sub">他们 30 分钟内异步回。等的时候你可以接着做别的题。</p>
                 <div class="esc-kind-row" id="esc-kind-row">
                     ${Object.entries(KIND_LABELS).map(([k, v]) =>
                         `<button class="esc-kind" data-kind="${k}"><span class="em">${v.em}</span>${v.label}</button>`
                     ).join('')}
                 </div>
-                <textarea class="esc-textarea" id="esc-msg" placeholder="说说你卡在哪儿，越具体清北哥哥越能帮你（贴题、贴你写的过程都行）..."></textarea>
+                <textarea class="esc-textarea" id="esc-msg" placeholder="说说你卡在哪儿，越具体学长越能帮你（贴题、贴你写的过程都行）..."></textarea>
                 <div class="esc-actions">
                     <button class="esc-btn cancel" id="esc-cancel">取消</button>
                     <button class="esc-btn submit" id="esc-submit">发出 →</button>
@@ -1045,7 +1045,7 @@ function openEscalateDialog(presetKind = 'manual') {
                         kind: selectedKind,
                         student_message: msg,
                         topic_code: TOPIC_CODE,
-                        ai_summary: `${NAME} 在「${KP_NAME_HINT[TOPIC_CODE] || TOPIC_CODE}」呼叫清北 · ${KIND_LABELS[selectedKind].label}`,
+                        ai_summary: `${NAME} 在「${KP_NAME_HINT[TOPIC_CODE] || TOPIC_CODE}」呼叫学长 · ${KIND_LABELS[selectedKind].label}`,
                         context: {
                             recent_chat_summary: history.slice(-4).map(h => h.role + ': ' + (h.content || '').slice(0, 150)).join('\n'),
                             current_kp: TOPIC_CODE,
@@ -1054,7 +1054,7 @@ function openEscalateDialog(presetKind = 'manual') {
                 });
                 const data = await r.json();
                 if (data.ok) {
-                    addSystemHint(data.message || '已发出，等清北哥哥姐姐回你');
+                    addSystemHint(data.message || '已发出，等学长学姐回你');
                     overlay.classList.remove('show');
                     textarea.value = '';
                     submitBtn.textContent = '发出 →';
