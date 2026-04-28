@@ -1,8 +1,8 @@
 # 实施验收清单 · 2026-04-28 prompt 体系 v2 全天落地
 
-**版本**：v1.0 终稿（含并行 agent 的 T1-T7 + V3 mock 8 场景两个补丁）
+**版本**：v1.1 终稿（含并行 agent 4 项补丁：T1-T7 / V3 mock / parent-brief LLM / mentor AI 草稿）
 **受众**：团队成员（产品 / 工程 / 教研 / 运营）
-**用途**：让每个角色知道自己今天该 review 什么、该测什么。今天 96 个 commit 串起来一份验收图。
+**用途**：让每个角色知道自己今天该 review 什么、该测什么。今天 98 个 commit 串起来一份验收图。
 **对应设计源**：
 - `docs/PROMPT-SYSTEM-V2-MASTER.md` v2.0（5 部分体系单一权威来源）
 - `docs/CHINESE-FAMILY-AI-MANAGER-V1.md` v1.0（顶层定位三角形）
@@ -13,9 +13,19 @@
 
 ## 一、全天 commit 时间线（>=20 条核心 commit）
 
-按时间倒序，挑出与 prompt 体系 v2 / B 模式闭环 / UI v2 / observability 主线相关的 commit。完整 96 条 commit 见 `git log --since='2026-04-28 00:00'`。
+按时间倒序，挑出与 prompt 体系 v2 / B 模式闭环 / UI v2 / observability 主线相关的 commit。完整 98 条 commit 见 `git log --since='2026-04-28 00:00'`。
 
 ```
+14:46  31e90af  feat(parent-brief)  加 ?enrich=llm 五段结构模式 · 按 §2 PROMPT-SYSTEM-V2 生成 ⭐ NEW
+                └ 影响：api/parent-brief.js（DeepSeek 生成 5 段周报 + 三层兜底）
+                └ 验收：curl '/api/parent-brief?student_id=demo&enrich=llm' 返回 5 段；响应头 X-Brief-Engine: llm
+                └ 兜底：DEEPSEEK 未配 / LLM 失败 / JSON schema 不全 → 全 fallback deterministic + warning，不抛 503
+
+14:42  310b313  feat(mentor)  AI 草稿端点 + 学长侧「AI 给一份草稿」按钮 · 单单 5min→1min ⭐ NEW
+                └ 影响：api/mentor-reply-draft.js（DeepSeek 接 v3 prompt 元规则 + 3 段结构）+ mentor.html 按钮
+                └ 验收：mentor.html 接到工单 → 点「AI 给一份草稿」 → 拿到 100-300 字回复草稿（学长口吻、不是客服腔）
+                └ 强制：草稿必须基于 dossier（mastery / weak_kps / mistake_top / 兴趣锚点 / 认知风格）
+
 14:39  1a28e60  feat(escalate)  T1-T7 自动判断 + 结构化工单 + crisis 特殊处理 ⭐ NEW
                 └ 影响：api/escalate.js（288 行扩展）+ db/migrations/0008_escalations_t1_t7.sql（50 行）
                 └ 验收：POST /api/escalate 不传 kind 时 auto-detect 路由 T1-T7；T6 强制 priority=1 + 注入热线
@@ -181,17 +191,27 @@
 
 ### 模块 3 · §2 家长视角周报
 
-- **落地位置**：`api/parent-brief.js`（晨间简报）+ parent-radar.html「今日给妈妈的话」
+- **落地位置**：`api/parent-brief.js`（晨间简报 deterministic + LLM 5 段两模式）+ parent-radar.html「今日给妈妈的话」
 - **设计来源**：`PROMPT-SYSTEM-V2-MASTER.md §2`（5 段固定结构）
-- **实施 commit**：22fe60d（P0-3 妈妈晨间简报 12:23）+ a2d8de8（00:31 加最近对话历史）+ 1419dfc（12:29 错题图谱给家长用）
-- **状态**：deterministic 版完成；LLM 5 段结构待加 `?enrich=llm`
+- **实施 commit**：
+  - 22fe60d（12:23 P0-3 deterministic 晨间简报）
+  - a2d8de8（00:31 加最近对话历史）
+  - 1419dfc（12:29 错题图谱给家长用）
+  - **31e90af（14:46 加 ?enrich=llm 五段结构模式）⭐ 并行 agent 收尾**
+- **状态**：完成（deterministic + LLM 双模式 ship；三层兜底）
 - **验收方式**：
   ```bash
+  # deterministic（默认，向后兼容）
   curl '$URL/api/parent-brief?student_id=demo'
-  # 当前返回：3 行 deterministic 简报（昨晚练量 + 今日复习 + 情绪提示）
-  # 期望（待办）：?enrich=llm=true 返回 5 段结构（一句话总结 / 进步看板 / 错题归因画像 / 话术建议 / 下周重点）
+  # 返回：3 行简报（昨晚练量 + 今日复习 + 情绪提示）
+
+  # LLM 5 段（新增）
+  curl '$URL/api/parent-brief?student_id=demo&enrich=llm'
+  # 返回：headline / 进步看板 / 错题归因 / 话术建议（可以说 / 别说）/ 下周重点
+  # 响应头 X-Brief-Engine: llm （或 deterministic-fallback 如果 LLM 失败）
   ```
-- **待办**：parent-brief.js 加 `?enrich=llm` 模式 → 调 DeepSeek 生成 5 段（建议明天）
+- **兜底机制**：DEEPSEEK 未配 / LLM 调用失败 / JSON schema 不全 → 全 fallback deterministic + warning，不抛 503
+- **待办**：无
 
 ### 模块 4 · §3 内容隔离规则（A/B/C 三类）
 
@@ -238,7 +258,8 @@
   ```
 - **作者自测**：本地 9/9 T1-T7 路由 case 通过
 - **优先级路由**：T6 危机 > T5 情绪 > T2 追问 > T1 方法论失败 > T4 规划 > T3 跨章 > T7 边界 > manual
-- **待办**：学长侧 AI 草稿端点（`api/mentor-reply-draft.js` 已存在但需要接 v3 prompt 生成 — 5.5 内测期）
+- **学长侧 AI 草稿（关联模块）**：310b313（14:42）已 ship `api/mentor-reply-draft.js` + mentor.html 按钮，DeepSeek 接 v3 prompt 元规则 + 3 段结构（点破本质 / 具体示范 / 学生接手），强制基于 dossier，学长口吻 100-300 字
+- **待办**：无（5.5 内测期可继续打磨草稿质量与学长接受率）
 
 ### 附加 · §5 UI Mockup 6 处改动
 
@@ -307,14 +328,15 @@
 - ~~escalate.js 转交工单结构化 T1-T7~~ → 1a28e60 已 ship（模块 5）
 - ~~T6 危机分支~~ → 1a28e60 已含 crisis 特殊处理（priority=1 + ETA 5min + 注入热线）
 - ~~v3 mock 8 场景作为 baseline eval 基准~~ → f1d3a08 已 ship
+- ~~parent-brief.js `?enrich=llm` 5 段 LLM 周报~~ → 31e90af 已 ship（含三层兜底）
+- ~~mentor-reply-draft.js 接 v3 prompt~~ → 310b313 已 ship（学长侧「AI 给一份草稿」按钮）
 
 📋 **明日继续**：
-1. **parent-brief.js 加 `?enrich=llm` 模式** — 5 段 LLM 周报（模块 3 唯一待办）
-2. **mentor-reply-draft.js 接 v3 prompt** — 学长收到工单后系统给一份回复草稿（端点已建，逻辑待补，5.5 内测期）
-3. **db/migrations/0008 部署到生产环境** — 跑 supabase 迁移（escalation_kind_enum 新增 cross_chapter/crisis/out_of_scope 三个值）
-4. **C 类危机信号多端 push** — T6 触发时除了返回热线外，还需推家长 + 平台人工
-5. **lesson video 内容线**（P2）
-6. **安全护栏 / Stripe 订阅**（P3）
+1. **db/migrations/0008 部署到生产环境** — 跑 supabase 迁移（escalation_kind_enum 新增 cross_chapter/crisis/out_of_scope 三个值）— 前置条件，否则 1a28e60 在 prod 报错
+2. **C 类危机信号多端 push** — T6 触发时除了返回热线外，还需推家长（短信 / push）+ 平台人工
+3. **打磨 mentor-reply-draft 草稿质量** — 灰度学长接受率，调 prompt（5.5 内测期）
+4. **lesson video 内容线**（P2）
+5. **安全护栏 / Stripe 订阅**（P3）
 
 ---
 
@@ -341,8 +363,8 @@
 |---|---|---|---|
 | Prompt 系统 | v1 散落 147 行，无结构 | v2 草稿 fork 成 3 文档 | **v3 主体 305 行 · 单一权威来源 · 5 部分体系闭环** |
 | 错题图谱 | 无 | 64 misconception 设计稿 | **/api/error-graph 端点 + parent-radar 自动归类视图** |
-| 学长侧 | 无 | escalations 表设计稿 | **/api/mentor-queue 看板 + 同型连错 3 次自动触发 + T1-T7 自动判断 + 结构化工单** |
-| 妈妈周报 | 无 | 设计稿 5 段 | **/api/parent-brief deterministic 版 ship · LLM 5 段待加** |
+| 学长侧 | 无 | escalations 表设计稿 | **/api/mentor-queue 看板 + 同型连错 3 次自动触发 + T1-T7 自动判断 + 结构化工单 + AI 草稿端点** |
+| 妈妈周报 | 无 | 设计稿 5 段 | **/api/parent-brief 双模式 · deterministic + LLM 5 段（三层兜底）** |
 | AI 角色名 | 「清北学姐」 | 「清北哥哥姐姐」 | **「原小点」（统一）** |
 | eval 基准 | 无 | 无 | **docs/V3-MOCK-DIALOGUES.md 8 mock 场景 · 接 eval-tutor-prompt.py** |
 
@@ -355,14 +377,14 @@
 写给「下次某个 session 接管这个项目的 AI 或人」：
 
 1. **这个项目是啥**：原点智学 = 中国家庭 AI 学习管家（不是数学老师），定位「学校做不到的那 30%」，AI 角色叫「**原小点**」，B 模式 = AI + 真人学长。
-2. **现在到哪**：5.4 demo 前最后冲刺，prompt 体系 v2 + UI v2 + B 模式闭环 + T1-T7 自动分诊已 ship，96 个 commit 今天落了 5 个 P0-P1 模块全部完成（仅妈妈周报 LLM 模式待加）。
+2. **现在到哪**：5.4 demo 前最后冲刺，prompt 体系 v2 + UI v2 + B 模式闭环 + T1-T7 自动分诊 + 妈妈周报 LLM + 学长 AI 草稿全 ship，98 个 commit 今天落了 5 个 P0-P1 模块全部完成。
 3. **接下来该看什么**：先读 `docs/PROMPT-SYSTEM-V2-MASTER.md`（设计源）+ `docs/CHINESE-FAMILY-AI-MANAGER-V1.md`（顶层定位）+ `docs/V3-MOCK-DIALOGUES.md`（8 mock 行为基准）+ 本文件（实施状态）。然后跑 `git log --since='2026-04-28 00:00'`。
 4. **不要做什么**：不要再 fork 散 prompt 文档（PROMPT-V2-DRAFT 等已 deprecated）；不要把 AI 改回「数学老师」（已 pivot 到「学习管家」）；不要给 AI 加紫蓝渐变 / rounded-3xl（v2 视觉系统不允许）；不要硬编码 escalation kind（用 escalate.js 的 detectTrigger() auto-detect）。
-5. **下一步动作**：明天工程做 4 件事 — parent-brief 加 `?enrich=llm` / mentor-reply-draft 接 v3 prompt / db migrations 0008 上生产 / C 类危机多端 push。运营做 3 件 — 灌 demo 账号 / 录真孩子试用 / 跑 v3 baseline eval（用 V3-MOCK-DIALOGUES.md 8 case）。
+5. **下一步动作**：明天工程做 3 件事 — db migrations 0008 上生产（前置阻塞） / C 类危机多端 push / 打磨 mentor-reply-draft 草稿质量。运营做 3 件 — 灌 demo 账号 / 录真孩子试用 / 跑 v3 baseline eval（用 V3-MOCK-DIALOGUES.md 8 case）。
 
 ---
 
-**版本**：v1.0 终稿 · 2026-04-28 实施验收
+**版本**：v1.1 终稿 · 2026-04-28 实施验收
 **作用**：让团队 4 个角色 review 各自范围；为 5.4 demo 兜底
-**作者**：Zack（产品） + 阁主（落地实施） + 4 并行 agent（T1-T7 / V3 mock / UI 6 处 / v3 主体精修）
-**升级路径**：v0.9 草稿 → v1.0（补 1a28e60 T1-T7 收尾 + f1d3a08 V3 mock 8 场景）
+**作者**：Zack（产品） + 阁主（落地实施） + 4 并行 agent（T1-T7 / V3 mock 8 场景 / parent-brief LLM / mentor AI 草稿 + UI 6 处 / v3 主体精修）
+**升级路径**：v0.9 草稿 → v1.0（补 1a28e60 T1-T7 + f1d3a08 V3 mock）→ v1.1（补 31e90af parent-brief LLM + 310b313 mentor-reply-draft）
