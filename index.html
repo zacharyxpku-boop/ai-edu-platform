@@ -1,976 +1,647 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>原点智学 · AI 私教 · 这位老师记得你 | 中国高考体系一对一应试 AI 老师</title>
-    <meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比奏效、什么情绪的一对一 AI 私教。中国课标对齐 + 跨会话学情指纹 + 单点提分 0.4-0.5 SD。">
-    <meta property="og:title" content="原点智学 · AI 私教 · 这位老师记得你">
-    <meta property="og:description" content="中国高考体系下的一对一 AI 私教 · 跨会话记忆 + 6 字段学情指纹 + 64 类错题归因 · 不是 Khanmigo 70 万人共用一个 GPT-4，是这一个孩子的专属老师">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.yuandianzhixue.com/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#F5A623">
-    <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-    <link rel="canonical" href="https://www.yuandianzhixue.com/">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='100' y2='100'><stop offset='0%25' stop-color='%23B0B0B0'/><stop offset='100%25' stop-color='%23404040'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/><rect x='45' y='12' width='10' height='76' rx='5' fill='%23fff' opacity='0.9'/></svg>">
-    <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{
-        --bg:#FAFAF7;--card:#fff;--ink:#18181B;--ink2:#3F3F46;--ink3:#71717A;--ink4:#A1A1AA;
-        --bdr:#E4E4E7;--bdr2:#D4D4D8;
-        --amber:#F5A623;--amber-bg:#FFFBF0;
-        --fast:#E8590C;--fast-bg:#FFF7ED;--fast-wash:rgba(232,89,12,0.04);
-        --precise:#2563EB;--precise-bg:#EFF6FF;--precise-wash:rgba(37,99,235,0.04);
-        --ability:#7C3AED;--ability-bg:#F5F3FF;--ability-wash:rgba(124,58,237,0.04);
-        --output:#059669;--output-bg:#ECFDF5;--output-wash:rgba(5,150,105,0.04);
-        --font:'Noto Sans SC',system-ui,sans-serif;
-        --r:10px;
-        --current-color:var(--fast);
-        --current-wash:var(--fast-wash);
-        --current-bg:var(--fast-bg);
-    }
-    html{scroll-behavior:smooth}
-    body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;
-        -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;
-        transition:background .5s ease}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>原点智学 · 清北方法论 + AI 私教</title>
+<meta name="description" content="先看清孩子的问题，再决定怎么学。3 分钟 AI 诊断生成 13 维度知识漏洞地图，免费。">
+<meta name="ydzx-page" content="home">
+<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Sans+SC:wght@400;500&display=swap">
+<style>
+:root{
+  --primary:#D85A30;
+  --primary-hover:#B84A24;
+  --ink:#1A1A1A;
+  --ink-2:#666666;
+  --ink-3:#999999;
+  --bg:#FFFFFF;
+  --bg-2:#F7F6F2;
+  --border:rgba(0,0,0,0.08);
+  --border-strong:rgba(0,0,0,0.16);
 
-    /* grain */
-    body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.02;
-        background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* pain pill colors (低饱和) */
+  --pain-amber-bg:#FAEEDA;
+  --pain-amber-text:#854F0B;
+  --pain-red-bg:#FCEBEB;
+  --pain-red-text:#791F1F;
+  --pain-green-bg:#E1F5EE;
+  --pain-green-text:#085041;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.6;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
 
-    /* atmospheric orb */
-    .orb{position:fixed;width:800px;height:800px;border-radius:50%;pointer-events:none;z-index:0;
-        top:-200px;right:-200px;
-        background:radial-gradient(circle,var(--current-wash) 0%,transparent 70%);
-        transition:background .6s ease;filter:blur(40px)}
+/* ─── 顶部导航 ─── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:var(--bg);
+  border-bottom:0.5px solid var(--border);
+  height:60px;
+}
+.nav-in{
+  max-width:1200px;margin:0 auto;height:100%;
+  padding:0 32px;display:flex;align-items:center;gap:32px;
+}
+.brand{
+  display:flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:500;color:var(--ink);
+}
+.brand-dot{width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;display:inline-block;position:relative}
+.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--primary);border-radius:50%;transform:translate(-50%,-50%)}
+.nav-links{display:flex;gap:28px;flex:1;justify-content:center}
+.nav-links a{font-size:13px;color:var(--ink-2);transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-login{font-size:13px;color:var(--ink-2);transition:color .15s}
+.nav-login:hover{color:var(--ink)}
+.nav-toggle{display:none;background:none;border:0.5px solid var(--border);width:36px;height:36px;border-radius:6px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink)}
+@media (max-width:768px){
+  .nav-in{padding:0 20px;gap:0}
+  .nav-links,.nav-login{display:none}
+  .nav-toggle{display:flex;margin-left:auto}
+  .nav-toggle.active + .nav-mobile{display:flex}
+  .nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:var(--bg);border-bottom:0.5px solid var(--border);flex-direction:column;padding:8px 20px 16px}
+  .nav-mobile a{padding:12px 0;font-size:14px;color:var(--ink);border-bottom:0.5px solid var(--border)}
+  .nav-mobile a:last-child{border-bottom:none}
+}
 
-    /* ===== NAV ===== */
-    .nav{position:sticky;top:0;z-index:100;
-        background:rgba(250,250,247,0.82);
-        backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);
-        border-bottom:1px solid var(--bdr)}
-    .nav-in{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:8px}
-    .nav-brand{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;margin-right:auto}
-    .nav-brand svg{width:24px;height:24px;flex-shrink:0}
-    .nav-a{padding:5px 10px;border-radius:7px;text-decoration:none;color:var(--ink3);font-size:13px;font-weight:500;transition:all .12s}
-    .nav-a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
-    .nav-a.on{color:var(--amber);background:var(--amber-bg)}
-    .nav-set{background:none;border:1px solid var(--bdr);padding:5px 12px;border-radius:7px;font-size:12px;color:var(--ink3);cursor:pointer;font-family:var(--font);transition:all .12s}
-    .nav-set:hover{border-color:var(--bdr2);color:var(--ink)}
-    @media(max-width:767px){.nav-links-wrap{display:none}}
-    .nav-links-wrap{display:flex;gap:2px}
+/* shell */
+.page{padding-top:60px}
+.section{padding:80px 32px}
+.section-inner{max-width:1200px;margin:0 auto}
+@media (max-width:768px){
+  .section{padding:48px 20px}
+}
 
-    /* ===== STATS ===== */
-    .stats{max-width:1120px;margin:24px auto 0;padding:0 20px}
-    .stats-row{display:flex;gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden}
-    .stat{flex:1;background:var(--card);padding:16px 12px;text-align:center}
-    .stat-n{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;
-        font-variant-numeric:tabular-nums;color:var(--ink)}
-    .stat-l{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
-    @media(max-width:500px){.stat-n{font-size:20px}.stat{padding:12px 8px}}
+/* small label 小标签 */
+.eyebrow{
+  font-size:12px;color:var(--ink-3);letter-spacing:.4px;
+  margin-bottom:16px;font-weight:400;
+}
 
-    /* ===== DIMENSION SWITCHER ===== */
-    .switcher{max-width:1120px;margin:28px auto 0;padding:0 20px}
-    .sw-row{display:flex;gap:6px}
-    .sw-btn{
-        flex:1;padding:14px 8px;border:none;border-radius:var(--r);cursor:pointer;
-        font-family:var(--font);font-size:13px;font-weight:700;
-        background:var(--card);color:var(--ink3);border:1.5px solid var(--bdr);
-        transition:all .25s;position:relative;overflow:hidden;
-    }
-    .sw-btn::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-        background:var(--c);transform:scaleX(0);transition:transform .25s;border-radius:0 0 var(--r) var(--r)}
-    .sw-btn:hover{border-color:var(--bdr2);color:var(--ink)}
-    .sw-btn.on{color:var(--c);border-color:var(--c);background:var(--cbg)}
-    .sw-btn.on::before{transform:scaleX(1)}
-    .sw-num{display:block;font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:2px;
-        transition:color .25s}
-    .sw-btn.on .sw-num{color:var(--c)}
-    @media(max-width:600px){.sw-row{flex-wrap:wrap}.sw-btn{flex:1 1 45%}}
+/* ─── Hero ─── */
+.hero{padding:120px 32px;text-align:center}
+@media (max-width:768px){.hero{padding:64px 20px}}
+.hero h1{
+  font-size:48px;font-weight:500;line-height:1.2;letter-spacing:-1px;color:var(--ink);
+  margin-bottom:20px;
+}
+.hero h1 span{display:block}
+@media (max-width:768px){.hero h1{font-size:32px;letter-spacing:-.5px}}
+.hero-sub{
+  font-size:14px;color:var(--ink-2);
+  margin-bottom:36px;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:24px;
+  margin-bottom:24px;flex-wrap:wrap;justify-content:center;
+}
+.cta-primary{
+  background:var(--ink);color:var(--bg);
+  padding:12px 24px;border-radius:6px;border:none;cursor:pointer;
+  font-family:inherit;font-size:14px;font-weight:500;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:background .15s,transform .1s;
+  min-height:44px;
+}
+.cta-primary:hover{background:#000}
+.cta-primary:active{transform:scale(.98)}
+.cta-secondary{
+  font-size:13px;color:var(--ink-2);
+  transition:color .15s;
+}
+.cta-secondary:hover{color:var(--ink);text-decoration:underline}
+.hero-trust{
+  font-size:12px;color:var(--ink-3);
+  margin-top:8px;
+}
 
-    /* ===== CONTENT ===== */
-    .content{max-width:1120px;margin:32px auto 0;padding:0 20px 100px;position:relative;z-index:1}
-    .dim{display:none;animation:dimIn .4s ease both}
-    .dim.on{display:block}
-    @keyframes dimIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* ─── 4 维方法论 ─── */
+.section-head-center{text-align:center;margin-bottom:48px}
+.section-head-center h2{
+  font-size:24px;font-weight:500;color:var(--ink);
+  letter-spacing:-.3px;
+}
+@media (max-width:768px){.section-head-center h2{font-size:20px}}
 
-    .dim-head{margin-bottom:24px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-    .dim-title{font-size:clamp(24px,4vw,32px);font-weight:900;letter-spacing:-0.5px}
-    .dim-tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.3px}
+.dim-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+}
+@media (max-width:768px){.dim-grid{grid-template-columns:repeat(2,1fr)}}
+.dim-card{
+  background:var(--bg-2);
+  border-radius:8px;padding:20px;
+  display:flex;flex-direction:column;gap:6px;
+  min-height:128px;
+  transition:transform .15s;
+}
+.dim-card:hover{transform:translateY(-2px)}
+.dim-id{font-size:11px;color:var(--ink-3);letter-spacing:.5px}
+.dim-title{font-size:16px;font-weight:500;color:var(--ink)}
+.dim-desc{font-size:12px;color:var(--ink-2);margin-top:2px}
 
-    /* ===== TOOL CARDS ===== */
-    .tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    @media(min-width:768px){.tgrid{grid-template-columns:repeat(2,1fr);gap:14px}}
+.section-foot-center{text-align:center;margin-top:32px}
+.text-link{
+  font-size:13px;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:4px;
+  transition:color .15s;
+}
+.text-link:hover{color:var(--ink)}
 
-    .tc{
-        background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);
-        padding:0;text-decoration:none;color:inherit;display:flex;
-        transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
-    }
-    .tc-bar{width:4px;flex-shrink:0;transition:width .22s;border-radius:var(--r) 0 0 var(--r)}
-    .tc:hover .tc-bar{width:6px}
-    .tc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    .tc-body{padding:18px 16px;flex:1;min-width:0}
-    .tc-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-    .tc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;font-weight:800}
-    .tc-name{font-size:15px;font-weight:700;letter-spacing:-0.2px}
-    .tc-desc{font-size:13px;color:var(--ink3);line-height:1.6}
-    .tc-arrow{margin-top:8px;font-size:12px;font-weight:600;opacity:0;transform:translateX(-4px);transition:all .2s}
-    .tc:hover .tc-arrow{opacity:1;transform:translateX(0)}
+/* ─── 免费工具 ─── */
+.section-head-row{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:32px;gap:24px;flex-wrap:wrap;
+}
+.section-head-row h2{
+  font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-.3px;
+}
+@media (max-width:768px){.section-head-row h2{font-size:20px}}
 
-    /* card stagger */
-    .tc{animation:cardIn .35s ease both}
-    .tc:nth-child(1){animation-delay:0s}
-    .tc:nth-child(2){animation-delay:.06s}
-    .tc:nth-child(3){animation-delay:.12s}
-    .tc:nth-child(4){animation-delay:.18s}
-    @keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.tools-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+@media (max-width:768px){.tools-grid{grid-template-columns:1fr}}
+.tool-card{
+  background:var(--bg);
+  border:0.5px solid var(--border);
+  border-radius:8px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  cursor:pointer;
+  transition:border-color .15s,transform .15s;
+  min-height:140px;
+}
+.tool-card:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+.pain-pill{
+  align-self:flex-start;
+  padding:2px 8px;border-radius:4px;
+  font-size:11px;font-weight:400;
+}
+.tool-title{font-size:16px;font-weight:500;color:var(--ink)}
+.tool-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
 
-    /* course promo */
-    .promo{margin-top:20px;padding:20px 24px;border-radius:var(--r);
-        display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-        border:1px dashed var(--bdr2);background:rgba(255,255,255,.6)}
-    .promo-text{flex:1;min-width:200px}
-    .promo-h{font-size:14px;font-weight:700;margin-bottom:2px}
-    .promo-p{font-size:12px;color:var(--ink3)}
-    .promo-btn{
-        padding:8px 20px;border-radius:7px;border:none;font-size:13px;font-weight:600;
-        cursor:pointer;font-family:var(--font);color:#fff;transition:opacity .15s}
-    .promo-btn:hover{opacity:.88}
+/* ─── 三档定价 ─── */
+.pricing-section{
+  background:var(--bg-2);
+  padding:80px 32px;
+}
+@media (max-width:768px){.pricing-section{padding:48px 20px}}
 
-    /* ===== MOBILE TABS ===== */
-    .mtabs{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;
-        background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-        border-top:1px solid var(--bdr);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
-    .mtabs-in{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
-    .mt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;
-        border-radius:8px;text-decoration:none;font-size:10px;font-weight:600;
-        color:var(--ink4);transition:all .15s;border:none;background:none;cursor:pointer;font-family:var(--font)}
-    .mt svg{width:20px;height:20px}
-    .mt.on{color:var(--ink);background:rgba(0,0,0,.04)}
-    @media(max-width:767px){.mtabs{display:block}.content{padding-bottom:120px}.switcher{display:none}}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  align-items:start;
+}
+@media (max-width:1024px){.pricing-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
 
-    /* ===== FOOTER ===== */
-    .foot{border-top:1px solid var(--bdr);padding:20px;text-align:center;
-        font-size:11px;color:var(--ink4);position:relative;z-index:1}
-    </style>
+.price-card{
+  background:var(--bg);border:0.5px solid var(--border);
+  border-radius:8px;padding:24px;
+  position:relative;
+  transition:transform .15s,border-color .15s;
+}
+.price-card.flagship{border:2px solid var(--primary)}
+.price-card:hover{transform:translateY(-2px)}
+.price-badge{
+  position:absolute;top:-10px;left:24px;
+  background:var(--primary);color:#fff;
+  padding:4px 10px;border-radius:4px;
+  font-size:11px;font-weight:500;
+  white-space:nowrap;
+}
+.price-tier{
+  font-size:12px;color:var(--ink-3);
+  margin-bottom:8px;letter-spacing:.3px;
+}
+.price-name{
+  font-size:16px;font-weight:500;color:var(--ink);
+  margin-bottom:16px;line-height:1.4;
+}
+.price-num{
+  font-size:32px;font-weight:500;color:var(--ink);
+  line-height:1;
+}
+@media (max-width:768px){.price-num{font-size:28px}}
+.price-num .price-currency{font-size:16px;font-weight:400;color:var(--ink-2);margin-right:2px}
+.price-period{
+  font-size:12px;color:var(--ink-2);
+  margin-top:8px;padding-bottom:16px;
+  border-bottom:0.5px solid var(--border);
+}
+.price-features{
+  list-style:none;padding:0;margin:16px 0 0;
+  display:flex;flex-direction:column;gap:8px;
+}
+.price-features li{
+  font-size:13px;color:var(--ink);line-height:1.6;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.price-features li::before{
+  content:'';display:inline-block;flex-shrink:0;
+  width:14px;height:14px;margin-top:4px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+}
+.price-card.flagship .price-features li::before{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23D85A30' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* ─── 信任数据带 ─── */
+.trust-bar{
+  border-top:0.5px solid var(--border);
+  padding:48px 32px;
+}
+@media (max-width:768px){.trust-bar{padding:32px 20px}}
+.trust-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  text-align:center;
+}
+@media (max-width:768px){.trust-grid{grid-template-columns:repeat(2,1fr);gap:32px 16px}}
+.trust-num{
+  font-size:28px;font-weight:500;color:var(--ink);
+  line-height:1;margin-bottom:8px;
+}
+.trust-label{font-size:12px;color:var(--ink-3)}
+
+/* ─── Footer ─── */
+.footer{
+  border-top:0.5px solid var(--border);
+  padding:48px 32px 24px;
+  background:var(--bg);
+}
+@media (max-width:768px){.footer{padding:32px 20px 16px}}
+.footer-in{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1.5fr 2fr 1fr;gap:32px;
+  margin-bottom:32px;
+}
+@media (max-width:768px){.footer-in{grid-template-columns:1fr;gap:24px}}
+.footer-brand .brand{margin-bottom:8px}
+.footer-slogan{font-size:12px;color:var(--ink-3)}
+.footer-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:768px){.footer-cols{grid-template-columns:repeat(3,1fr);gap:16px}}
+.footer-col h4{
+  font-size:12px;font-weight:500;color:var(--ink);
+  margin-bottom:12px;
+}
+.footer-col a{
+  display:block;font-size:12px;color:var(--ink-2);
+  padding:4px 0;transition:color .15s;
+}
+.footer-col a:hover{color:var(--ink)}
+.footer-contact{font-size:12px;color:var(--ink-2);line-height:1.8}
+.footer-qr{
+  width:80px;height:80px;background:var(--bg-2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--ink-3);
+  margin-top:8px;border:0.5px solid var(--border);
+}
+.footer-bottom{
+  max-width:1200px;margin:0 auto;
+  padding-top:16px;border-top:0.5px solid var(--border);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  font-size:11px;color:var(--ink-3);
+}
+
+/* lucide icon size baseline */
+.icon{width:14px;height:14px;display:inline-block;flex-shrink:0;stroke-width:2}
+</style>
 </head>
 <body>
 
-<div class="orb" id="orb"></div>
-
-<!-- NAV -->
-<nav class="nav"><div class="nav-in">
-    <a href="/" class="nav-brand">
-        <svg viewBox="0 0 26 26" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="26" y2="26"><stop offset="0%" stop-color="#E94D35"/><stop offset="100%" stop-color="#C2410C"/></linearGradient></defs><circle cx="13" cy="13" r="12" fill="url(#lg)"/><rect x="12" y="3" width="2.5" height="20" rx="1.25" fill="#fff" opacity="0.9"/></svg>
-        原点智学 · AI 私教
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="brand">
+      <span class="brand-dot"></span>
+      <span>原点智学</span>
     </a>
-    <div class="nav-links-wrap">
-        <a href="/start" class="nav-a">找老师做题</a>
-        <a href="/tutor" class="nav-a">跟老师聊聊</a>
-        <a href="/radar" class="nav-a">妈妈视角</a>
-        <a href="quiz.html" class="nav-a">每日一题</a>
-        <a href="paths.html" class="nav-a">学习路径</a>
-        <a href="errors.html" class="nav-a">错题本</a>
-        <a href="tools/global-picks.html" class="nav-a">全球精选</a>
-        <a href="progress.html" class="nav-a">成长档案</a>
-        <a href="membership.html" class="nav-a">会员</a>
-        <a href="assistant.html" class="nav-a">少年营</a>
-        <a href="articles.html" class="nav-a">研究院</a>
+    <div class="nav-links">
+      <a href="/#tools">免费工具</a>
+      <a href="/paths">学科教材</a>
+      <a href="/#pricing">课程产品</a>
+      <a href="/progress">成长档案</a>
     </div>
-    <button class="nav-set" onclick="location.href='settings.html'">API 设置</button>
-</div></nav>
+    <a href="/welcome" class="nav-login">登录</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="菜单">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-mobile" id="nav-mobile">
+    <a href="/#tools">免费工具</a>
+    <a href="/paths">学科教材</a>
+    <a href="/#pricing">课程产品</a>
+    <a href="/progress">成长档案</a>
+    <a href="/welcome">登录</a>
+  </div>
+</nav>
 
-<!-- 第一次来：30 秒轻注册 -->
-<div style="max-width:1120px;margin:18px auto 0;padding:0 20px" id="welcome-banner-wrap">
-<a href="/welcome" id="welcome-banner" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(110deg,#FFF5EE,#FFFBF0);border:1px solid #F5A623;border-radius:10px;text-decoration:none;color:#18181B">
-    <div style="font-size:20px">👋</div>
-    <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:700;color:#C2410C;margin-bottom:2px">第一次来？30 秒让老师记住你</div>
-        <div style="font-size:11px;color:#71717A">不要邮箱不要手机号 · 只问昵称和年级 · 后续打开自动认人</div>
+<main class="page">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="eyebrow">原点智学 · 清北方法论 + AI 私教</div>
+    <h1>
+      <span>先看清孩子的问题</span>
+      <span>再决定怎么学</span>
+    </h1>
+    <div class="hero-sub">3 分钟 AI 诊断 · 13 维度知识漏洞地图 · 完全免费</div>
+    <div class="hero-cta">
+      <button class="cta-primary" id="cta-diagnose" type="button">
+        开始 3 分钟诊断
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <a href="/progress" class="cta-secondary">已诊断过？查看我的报告</a>
     </div>
-    <div style="font-size:13px;color:#C2410C;font-weight:700">→</div>
-</a>
-</div>
-<script>
-// 已经认过的用户隐藏 welcome banner
-if (localStorage.getItem('yd:my_student_id')) {
-    var _b = document.getElementById('welcome-banner-wrap');
-    if (_b) _b.style.display = 'none';
-}
-</script>
+    <div class="hero-trust">已为 <span id="stat-diagnosed">12,840</span> 位同学生成诊断报告 · 平均找出 <span id="stat-gaps">4.2</span> 个知识漏洞</div>
+  </section>
 
-<!-- AI 私教 PoC 入口（5.4 Demo Day 二维码落地点） -->
-<div style="max-width:1120px;margin:10px auto 0;padding:0 20px">
-<div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px">
-    <a href="/start" style="display:flex;flex-direction:column;justify-content:center;padding:18px 22px;background:linear-gradient(135deg,#0F3460,#16213E);border-radius:12px;text-decoration:none;color:#F5F0EB;transition:transform .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-        <div style="font-size:11px;color:#FF6B4A;font-weight:700;letter-spacing:1px;margin-bottom:4px">AI 私教 · 学生入口</div>
-        <div style="font-size:18px;font-weight:800;margin-bottom:3px">25 分钟出师一道题 →</div>
-        <div style="font-size:12px;color:rgba(245,240,235,.7)">BKT 实时调难度 · 错题 64 类归因 · 出师生成晒图金句</div>
-    </a>
-    <a href="/tutor" style="display:flex;flex-direction:column;justify-content:center;padding:18px 20px;background:#FFFBF0;border:1px solid #F5A623;border-radius:12px;text-decoration:none;color:#18181B" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" style="transition:transform .15s">
-        <div style="font-size:11px;color:#C2410C;font-weight:700;letter-spacing:1px;margin-bottom:4px">一对一私教对话</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:3px">老师记得你 →</div>
-        <div style="font-size:12px;color:#71717A">跨会话记忆 · 6 字段学情指纹</div>
-    </a>
-    <a href="/radar" style="display:flex;flex-direction:column;justify-content:center;padding:18px 20px;background:#ECFDF5;border:1px solid #059669;border-radius:12px;text-decoration:none;color:#18181B" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" style="transition:transform .15s">
-        <div style="font-size:11px;color:#059669;font-weight:700;letter-spacing:1px;margin-bottom:4px">家长视角</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:3px">妈妈雷达 →</div>
-        <div style="font-size:12px;color:#71717A">认知风格 · 兴趣锚点 · 复习清单</div>
-    </a>
-</div>
-</div>
-
-<!-- KA-STYLE · 三身份分流 hero（学习者 / 家长 / 走深者） -->
-<section id="ka-roles" style="max-width:1120px;margin:24px auto 0;padding:0 20px">
-    <div style="text-align:center;margin-bottom:20px">
-        <div style="font-size:11px;font-weight:700;color:#71717A;letter-spacing:1.5px;margin-bottom:6px">原 点 智 学 · 中 国 K12 高 考 学 习 引 擎</div>
-        <h2 style="font-size:clamp(22px,3.4vw,30px);font-weight:900;letter-spacing:-.6px;line-height:1.2;color:#18181B">免费工具学得透 · 想要陪跑选课程</h2>
-        <p style="font-size:13px;color:#52525B;margin-top:8px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7">一句话：<b>课内提分 + AI 能力 + 升学产出训练</b>。先用免费的 18 个 AI 工具 + 56 本教材原文 + 错题本，深度需要再聊课程。</p>
+  <!-- 4 维方法论 -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-head-center">
+        <div class="eyebrow">原点方法论 · 4 维成长模型</div>
+        <h2>不只是分数，看清孩子的全貌</h2>
+      </div>
+      <div class="dim-grid" id="dim-grid"></div>
+      <div class="section-foot-center">
+        <a href="/methodology" class="text-link">
+          了解 4 维成长模型
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
     </div>
-    <div class="ka-roles-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-        <a href="quiz.html" class="ka-role" style="display:block;padding:18px 20px;background:#FFFBF0;border:1px solid #F5A623;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
-            <div style="font-size:11px;color:#92400E;font-weight:700;letter-spacing:1px;margin-bottom:6px">我是学生</div>
-            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">立即试一道题</div>
-            <div style="font-size:12px;color:#57534E;line-height:1.55">挂教材的 943 道随机刷一道 · 做完跳原文 · FSRS 错题自动排队</div>
-            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#C2410C">开始刷题 →</div>
-        </a>
-        <a href="progress.html" class="ka-role" style="display:block;padding:18px 20px;background:#F0F9FF;border:1px solid #0EA5E9;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
-            <div style="font-size:11px;color:#0C4A6E;font-weight:700;letter-spacing:1px;margin-bottom:6px">我是家长</div>
-            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">看孩子学得怎么样</div>
-            <div style="font-size:12px;color:#3F3F46;line-height:1.55">读 / 练 / 错 / 讲四维体检 · 周对比 · 错题在涨在降一目了然</div>
-            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#0369A1">打开档案 →</div>
-        </a>
-        <a href="assistant.html" class="ka-role" style="display:block;padding:18px 20px;background:#F5F3FF;border:1px solid #7C3AED;border-radius:12px;text-decoration:none;color:inherit;transition:.15s;border-top-width:4px">
-            <div style="font-size:11px;color:#5B21B6;font-weight:700;letter-spacing:1px;margin-bottom:6px">想走深一点</div>
-            <div style="font-size:16px;font-weight:800;color:#18181B;margin-bottom:4px">少年营 + 12 周陪跑课</div>
-            <div style="font-size:12px;color:#3F3F46;line-height:1.55">3 天阿里参访 · Demo Day 路演 · 创始人亲授 · ¥99/月起</div>
-            <div style="margin-top:10px;font-size:12px;font-weight:700;color:#5B21B6">看课程 →</div>
-        </a>
-    </div>
-</section>
+  </section>
 
-<!-- 顶部个性化 banner (today-recos.pickUpNext 4 档逻辑选一张) -->
-<div style="max-width:1120px;margin:18px auto 0;padding:0 20px"><div id="upnext-banner-mount"></div></div>
-
-<!-- WHAT'S NEW · 横滑更新带 -->
-<section style="max-width:1120px;margin:14px auto 0;padding:0 20px">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
-        <h3 style="font-size:13px;font-weight:800;color:#52525B;letter-spacing:.5px;margin:0">本周新增 · KA 化第一波</h3>
-        <a href="/docs/KA-LOCALIZE-MILESTONE-v1.md" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整里程碑 →</a>
-    </div>
-    <div class="wn-band" style="display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:2px 2px 12px;-webkit-overflow-scrolling:touch">
-        <a href="subjects/math.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#EFF6FF 0%,#fff 100%);border:1px solid #BFDBFE;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#1D4ED8">📚 内容入口</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">8 学科枢纽页</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">数学 / 物理 / 化学 / 生物 / 语文 / 历史 / 地理 / 政治 全亮</div>
-        </a>
-        <a href="paths.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#F0FDF4 0%,#fff 100%);border:1px solid #86EFAC;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#15803D">🗺️ 进度地图</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">章节方块 4 阶色阶</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">未碰 / 读过 / 读+练 / 已掌握 + 错题红 + 冲关金圈</div>
-        </a>
-        <a href="errors.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FEF3C7 0%,#fff 100%);border:1px solid #FCD34D;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#92400E">🎯 主动出击</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">考前冲关 5 题</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">同章节攒 5 道全对解锁徽章 +20 XP</div>
-        </a>
-        <a href="progress.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FFFBEB 0%,#fff 100%);border:1px solid #FBBF24;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#B45309">🏆 战利品</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">奖章墙 + 单关分享</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">每关一张琥珀奖章 · 走 share-kit 一键转朋友圈</div>
-        </a>
-        <a href="subjects/math.html#parent-mount" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FEF2F2 0%,#fff 100%);border:1px solid #FCA5A5;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#991B1B">💌 家长视图</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">一眼读懂 + 微信简报</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">4 档状态 + 反虎妈建议 + 一键复制</div>
-        </a>
-        <a href="paths.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#FFF7ED 0%,#fff 100%);border:1px solid #FDBA74;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#9A3412">🔥 retention</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">连续学习天数条</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">5 档火苗 + 今日动作 + 历史最佳全站可见</div>
-        </a>
-        <a href="quiz.html" class="wn-card" style="flex:0 0 auto;width:230px;scroll-snap-align:start;background:linear-gradient(135deg,#F5F3FF 0%,#fff 100%);border:1px solid #C4B5FD;border-radius:12px;padding:14px;text-decoration:none;color:inherit;transition:.15s">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.5px;color:#5B21B6">🌟 反 dopamine</div>
-            <div style="font-size:13px;font-weight:800;color:#18181B;margin:4px 0 2px">10 连对收工提示</div>
-            <div style="font-size:11px;color:#52525B;line-height:1.5">quiz 顶部胶囊 · 满 10 主动劝退节奏</div>
-        </a>
-    </div>
-</section>
-<style>
-.wn-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px -8px rgba(0,0,0,.12)}
-.wn-band::-webkit-scrollbar{height:5px}
-.wn-band::-webkit-scrollbar-track{background:transparent}
-.wn-band::-webkit-scrollbar-thumb{background:#E4E4E7;border-radius:100px}
-.wn-band::-webkit-scrollbar-thumb:hover{background:#A1A1AA}
-</style>
-
-<!-- KA-STYLE · 中国 K12 学科入口 grid -->
-<section id="ka-subjects" style="max-width:1120px;margin:18px auto 0;padding:0 20px">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
-        <h3 style="font-size:15px;font-weight:800;color:#18181B;letter-spacing:.3px">按学科直接进 · 9 大科目 56 本教材 284 章</h3>
-        <a href="tools/textbook-browser" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整教材库 →</a>
-    </div>
-    <div class="ka-subj-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">
-        <a href="subjects/math.html" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #2563EB">
-            <span style="font-size:22px;line-height:1">∑</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">数学</span><span style="font-size:11px;color:#71717A">11 本 · 高考必考 · 已上线</span></span>
-        </a>
-        <a href="subjects/physics.html" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #7C3AED">
-            <span style="font-size:22px;line-height:1">⚛</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">物理</span><span style="font-size:11px;color:#71717A">9 本 · 理综 · 已上线</span></span>
-        </a>
-        <a href="subjects/chemistry.html" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #059669">
-            <span style="font-size:22px;line-height:1">⚗</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">化学</span><span style="font-size:11px;color:#71717A">4 本 · 理综 · 已上线</span></span>
-        </a>
-        <a href="subjects/?key=biology" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #16A34A">
-            <span style="font-size:22px;line-height:1">🧬</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">生物</span><span style="font-size:11px;color:#71717A">4 本 · 理综 · 已上线</span></span>
-        </a>
-        <a href="subjects/chinese.html" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #DC2626">
-            <span style="font-size:22px;line-height:1">文</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">语文</span><span style="font-size:11px;color:#71717A">6 本 · 高考必考 · 已上线</span></span>
-        </a>
-        <a href="subjects/?key=history" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #92400E">
-            <span style="font-size:22px;line-height:1">史</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">历史</span><span style="font-size:11px;color:#71717A">8 本 · 文综 · 已上线</span></span>
-        </a>
-        <a href="subjects/?key=geography" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #0D9488">
-            <span style="font-size:22px;line-height:1">地</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">地理</span><span style="font-size:11px;color:#71717A">8 本 · 文综 · 已上线</span></span>
-        </a>
-        <a href="subjects/?key=politics" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:inherit;transition:.15s;border-left:3px solid #EA580C">
-            <span style="font-size:22px;line-height:1">政</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#18181B">政治</span><span style="font-size:11px;color:#71717A">6 本 · 文综 · 已上线</span></span>
-        </a>
-        <a href="quiz.html?subject=english" class="ka-subj" style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#FAFAFA;border:1px solid #E4E4E7;border-radius:10px;text-decoration:none;color:#71717A;transition:.15s;border-left:3px solid #0891B2;opacity:.78" title="人教版 七下 / 八下 PDF 已收, 正文 OCR pipeline 进行中">
-            <span style="font-size:22px;line-height:1">A</span>
-            <span style="flex:1"><span style="display:block;font-size:14px;font-weight:700;color:#52525B">英语</span><span style="font-size:11px;color:#A1A1AA">PDF 已收 · 正文 OCR 中</span></span>
-        </a>
-    </div>
-    <p style="font-size:11px;color:#A1A1AA;margin-top:8px;text-align:center;line-height:1.6">本科目数实时来自 <a href="/data/extracted/manifest.json" style="color:#A1A1AA;text-decoration:underline">manifest.json</a> · 高考 9 大科目 全 K12 学段覆盖</p>
-</section>
-
-<style>
-.ka-role:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.06)}
-.ka-subj:hover{border-color:#A1A1AA;background:#FAFAFA}
-@media(max-width:680px){.ka-roles-grid{grid-template-columns:1fr !important}}
-</style>
-
-<!-- DAILY CHALLENGE -->
-<div style="max-width:1120px;margin:16px auto 0;padding:0 20px">
-<div id="daily-ch" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#fff;border:1px dashed #F5A623;border-radius:10px">
-    <div id="dc-emoji" style="font-size:24px">🎯</div>
-    <div style="flex:1;min-width:0">
-        <div style="font-size:11px;color:#A1A1AA;font-weight:500;margin-bottom:2px;letter-spacing:.5px">今日试玩挑战 · <span id="dc-streak" style="color:#E8590C">连续 0 天</span></div>
-        <div id="dc-line" style="font-size:14px;font-weight:700;color:#18181B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">3 分钟生成你的 AI 学习画像</div>
-    </div>
-    <button id="dc-swap" title="换一个" style="background:none;border:1px solid #E4E4E7;border-radius:7px;padding:6px 9px;font-size:11px;color:#71717A;cursor:pointer;font-family:inherit">↻</button>
-    <a id="dc-go" href="tools/learning-profile.html" style="padding:7px 14px;background:#18181B;color:#fff;border-radius:7px;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap">开始 →</a>
-</div>
-</div>
-
-<!-- PROMO CARDS -->
-<div style="max-width:1120px;margin:10px auto 0;padding:0 20px">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-    <a href="tools/global-picks.html" style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#FFFBF0;border:1px solid #F5A623;border-radius:10px;text-decoration:none;color:inherit;transition:transform .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-        <div style="font-size:26px">🌍</div>
-        <div style="flex:1;min-width:0">
-            <div style="font-size:14px;font-weight:800;margin-bottom:2px">全球AI工具精选</div>
-            <div style="font-size:11px;color:#6B7280">Khanmigo · Brilliant · Grammarly 等60+</div>
+  <!-- 免费工具 -->
+  <section class="section" id="tools">
+    <div class="section-inner">
+      <div class="section-head-row">
+        <div>
+          <div class="eyebrow">免费工具集 · 完全免费使用</div>
+          <h2>先用免费工具，把基础打透</h2>
         </div>
-        <div style="font-size:14px;color:#C2410C">→</div>
-    </a>
-    <a href="membership.html" style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:linear-gradient(135deg,#1C1C1E,#27272A);border-radius:10px;text-decoration:none;color:#fff;transition:transform .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-        <div style="font-size:26px">🔥</div>
-        <div style="flex:1;min-width:0">
-            <div style="font-size:14px;font-weight:800;margin-bottom:2px;color:#fff">前100名半价 · ¥99/月起</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.5)">原点会员 · 一站式用上全球工具</div>
-        </div>
-        <div style="font-size:14px;color:#F5A623">→</div>
-    </a>
-</div>
-</div>
-
-<!-- STATS -->
-<div class="stats"><div class="stats-row">
-    <div class="stat"><div class="stat-n" id="s-use">0</div><div class="stat-l">累计使用</div></div>
-    <div class="stat"><div class="stat-n" id="s-err">0</div><div class="stat-l">错题攻克</div></div>
-    <div class="stat"><div class="stat-n" id="s-fey">0</div><div class="stat-l">费曼通过</div></div>
-    <div class="stat"><div class="stat-n" id="s-str">0</div><div class="stat-l">连续天数</div></div>
-</div></div>
-
-<!-- MOAT ROW · 自研平台成绩单 -->
-<div style="max-width:1120px;margin:14px auto 0;padding:0 20px">
-<a href="eval.html" id="moat-row" style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:linear-gradient(110deg,#0F172A 0%,#1E293B 100%);border-radius:10px;text-decoration:none;color:#fff;position:relative;overflow:hidden">
-    <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:#FCD34D;text-transform:uppercase">自研模型</div>
-    <div style="flex:1;min-width:0;font-size:12.5px;color:#E5E7EB;line-height:1.5" id="moat-row-text">
-        <b style="color:#fff" id="moat-books">—</b> 本教材 ·
-        <b style="color:#fff" id="moat-ch">—</b> 章 OCR ·
-        <b style="color:#fff" id="moat-q">—</b> 题 ·
-        <b style="color:#FCD34D" id="moat-rate">—</b> 反链命中 ·
-        <b style="color:#86EFAC" id="moat-ens">—</b> ensemble r@1（843 题盲跑）
+        <a href="/tools/global-picks" class="text-link">
+          查看全部 <span id="stat-tools-inline">18</span> 个工具
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="tools-grid" id="tools-grid"></div>
     </div>
-    <div style="font-size:12px;color:#FCD34D;font-weight:700;white-space:nowrap">看战绩 →</div>
-</a>
-</div>
+  </section>
 
-<!-- 今日推荐 3 件事（共享 today-recos.js） -->
-<section id="recos-sec" style="max-width:1120px;margin:14px auto 0;padding:0 20px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;padding:0 4px">
-        <h3 style="font-size:15px;font-weight:800;letter-spacing:.3px;color:var(--ink)">今日推荐 · <span style="color:#71717A;font-weight:500;font-size:12px">从你的学习数据反推 3 件最值得做的</span></h3>
-        <a href="progress.html" style="font-size:11px;color:#A1A1AA;text-decoration:none">完整诊断 →</a>
+  <!-- 三档定价 -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-inner">
+      <div class="section-head-center">
+        <div class="eyebrow">免费工具用透了，想要陪跑提分</div>
+        <h2>三档陪跑方案 · 按家庭节奏选</h2>
+      </div>
+      <div class="pricing-grid" id="pricing-grid"></div>
+      <div class="section-foot-center">
+        <a href="/products/compare" class="text-link">
+          三档对比与升级路径
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
     </div>
-    <div id="recos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px"></div>
-</section>
+  </section>
 
-<script>
-(async function(){
-    try {
-        var [mf, qc, qg, rep, ens] = await Promise.all([
-            fetch('/data/extracted/manifest.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
-            fetch('/src/curriculum/seed-questions.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
-            fetch('/src/curriculum/seed-questions-generated.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
-            fetch('/src/curriculum/reverse-link-report.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
-            fetch('/src/models/ensemble-recall-report.json').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
-        ]);
-        var books = (mf&&mf.books)||[];
-        var ch = books.reduce(function(a,b){return a+((b.chapters||[]).length);},0);
-        var qs = ((qc&&qc.questions)||[]).length + ((qg&&qg.questions)||[]).length;
-        document.getElementById('moat-books').textContent = books.length;
-        document.getElementById('moat-ch').textContent = ch;
-        document.getElementById('moat-q').textContent = qs;
-        document.getElementById('moat-rate').textContent = rep ? (rep.match_rate*100).toFixed(1) + '%' : '—';
-        var ensEl = document.getElementById('moat-ens');
-        if (ensEl) ensEl.textContent = ens ? (ens.recall_at_1.ensemble*100).toFixed(1) + '%' : '—';
-    } catch(e){}
-})();
-</script>
-
-<!-- DIMENSION SWITCHER -->
-<div class="switcher"><div class="sw-row">
-    <button class="sw-btn on" data-d="fast" style="--c:var(--fast);--cbg:var(--fast-bg)" onclick="switchDim('fast')">
-        <span class="sw-num">01</span>学得快
-    </button>
-    <button class="sw-btn" data-d="precise" style="--c:var(--precise);--cbg:var(--precise-bg)" onclick="switchDim('precise')">
-        <span class="sw-num">02</span>学得准
-    </button>
-    <button class="sw-btn" data-d="ability" style="--c:var(--ability);--cbg:var(--ability-bg)" onclick="switchDim('ability')">
-        <span class="sw-num">03</span>提升能力
-    </button>
-    <button class="sw-btn" data-d="output" style="--c:var(--output);--cbg:var(--output-bg)" onclick="switchDim('output')">
-        <span class="sw-num">04</span>有产出
-    </button>
-</div></div>
-
-<!-- CONTENT -->
-<div class="content">
-
-<!-- 学得快 -->
-<div class="dim on" id="d-fast">
-    <div class="dim-head">
-        <h2 class="dim-title">学得快</h2>
-        <span class="dim-tag" style="background:var(--fast-bg);color:var(--fast)">效率维度 · 6 工具</span>
+  <!-- 信任数据带 -->
+  <section class="trust-bar">
+    <div class="trust-grid">
+      <div>
+        <div class="trust-num"><span id="stat-students">3000</span>+</div>
+        <div class="trust-label">陪跑学生</div>
+      </div>
+      <div>
+        <div class="trust-num"><span id="stat-years">7</span> 年</div>
+        <div class="trust-label">实战打磨</div>
+      </div>
+      <div>
+        <div class="trust-num"><span id="stat-textbooks">56</span> 本</div>
+        <div class="trust-label">教材原文</div>
+      </div>
+      <div>
+        <div class="trust-num"><span id="stat-tools">18</span> 个</div>
+        <div class="trust-label">AI 免费工具</div>
+      </div>
     </div>
-    <div class="tgrid">
-        <a href="tools/exam-diagnosis.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">诊</div>
-                    <div class="tc-name">考试诊断</div>
-                </div>
-                <p class="tc-desc">上传成绩和错题，AI从13个维度找到你的知识漏洞</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始诊断 →</div>
-            </div>
-        </a>
-        <a href="tools/study-plan.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">计</div>
-                    <div class="tc-name">学习计划</div>
-                </div>
-                <p class="tc-desc">基于诊断结果，生成每日任务清单和时间分配</p>
-                <div class="tc-arrow" style="color:var(--fast)">制定计划 →</div>
-            </div>
-        </a>
-        <a href="tools/error-practice.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">练</div>
-                    <div class="tc-name">错题专练</div>
-                </div>
-                <p class="tc-desc">针对薄弱知识点，AI生成同类题目强化训练</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始练习 →</div>
-            </div>
-        </a>
-        <a href="tools/exam-generator.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">卷</div>
-                    <div class="tc-name">AI出卷</div>
-                </div>
-                <p class="tc-desc">选科目章节难度，AI生成完整模拟试卷</p>
-                <div class="tc-arrow" style="color:var(--fast)">生成试卷 →</div>
-            </div>
-        </a>
-        <a href="tools/knowledge-arcade.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">玩</div>
-                    <div class="tc-name">知识游乐场</div>
-                </div>
-                <p class="tc-desc">打地鼠/消消乐/贪吃蛇/推箱子四种玩法，AI按知识点出题</p>
-                <div class="tc-arrow" style="color:var(--fast)">开始玩 →</div>
-            </div>
-        </a>
-        <a href="tools/textbook-browser.html" class="tc">
-            <div class="tc-bar" style="background:var(--fast)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--fast-bg);color:var(--fast)">典</div>
-                    <div class="tc-name">教材原文库</div>
-                </div>
-                <p class="tc-desc">人教 / 统编版初高中 56 本 284 章全覆盖，扫描件 RapidOCR 干净抽取</p>
-                <div class="tc-arrow" style="color:var(--fast)">查教材 →</div>
-            </div>
-        </a>
-    </div>
-    <div class="promo">
-        <div class="promo-text"><div class="promo-h">想系统掌握高效学习法？</div><p class="promo-p">智元成长课 · 12周从认知到产出</p></div>
-        <button class="promo-btn" style="background:var(--fast)" onclick="location.href='assistant.html'">了解课程</button>
-    </div>
-</div>
+  </section>
 
-<!-- 学得准 -->
-<div class="dim" id="d-precise">
-    <div class="dim-head">
-        <h2 class="dim-title">学得准</h2>
-        <span class="dim-tag" style="background:var(--precise-bg);color:var(--precise)">精准维度 · 3 工具</span>
-    </div>
-    <div class="tgrid">
-        <a href="tools/error-mastery.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">析</div>
-                    <div class="tc-name">错题举一反三</div>
-                </div>
-                <p class="tc-desc">五重错因分析，从一道错题拆出本质，生成变式题</p>
-                <div class="tc-arrow" style="color:var(--precise)">分析错题 →</div>
-            </div>
-        </a>
-        <a href="tools/knowledge-explain.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">解</div>
-                    <div class="tc-name">知识点讲解</div>
-                </div>
-                <p class="tc-desc">苏格拉底式引导，不给答案，逼你自己想通</p>
-                <div class="tc-arrow" style="color:var(--precise)">开始学习 →</div>
-            </div>
-        </a>
-        <a href="tools/knowledge-visual.html" class="tc">
-            <div class="tc-bar" style="background:var(--precise)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--precise-bg);color:var(--precise)">图</div>
-                    <div class="tc-name">知识可视化</div>
-                </div>
-                <p class="tc-desc">数理化生知识树，点击生成流程图和结构图</p>
-                <div class="tc-arrow" style="color:var(--precise)">探索知识树 →</div>
-            </div>
-        </a>
-    </div>
-    <div class="promo">
-        <div class="promo-text"><div class="promo-h">想掌握科学记忆法？</div><p class="promo-p">智元成长课教你建立知识网络</p></div>
-        <button class="promo-btn" style="background:var(--precise)" onclick="location.href='assistant.html'">了解课程</button>
-    </div>
-</div>
+</main>
 
-<!-- 提升能力 -->
-<div class="dim" id="d-ability">
-    <div class="dim-head">
-        <h2 class="dim-title">提升能力</h2>
-        <span class="dim-tag" style="background:var(--ability-bg);color:var(--ability)">思维维度 · 4 工具</span>
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-in">
+    <div class="footer-brand">
+      <a href="/" class="brand">
+        <span class="brand-dot"></span>
+        <span>原点智学</span>
+      </a>
+      <div class="footer-slogan">清北方法论 + AI 私教</div>
     </div>
-    <div class="tgrid">
-        <a href="tools/feynman-verify.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">验</div>
-                    <div class="tc-name">费曼验证</div>
-                </div>
-                <p class="tc-desc">你来教AI，AI追问盲区，通过=真正掌握</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始教AI →</div>
-            </div>
-        </a>
-        <a href="tools/reading-rewriter.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">读</div>
-                    <div class="tc-name">阅读改写</div>
-                </div>
-                <p class="tc-desc">文言文/英文原著改写成你能读懂的版本</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始改写 →</div>
-            </div>
-        </a>
-        <a href="tools/music-appreciation.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">听</div>
-                    <div class="tc-name">音乐欣赏</div>
-                </div>
-                <p class="tc-desc">AI拆解曲式结构、和声、乐器，教你真正听懂音乐</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始聆听 →</div>
-            </div>
-        </a>
-        <a href="tools/art-thinking.html" class="tc">
-            <div class="tc-bar" style="background:var(--ability)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--ability-bg);color:var(--ability)">观</div>
-                    <div class="tc-name">美术思维</div>
-                </div>
-                <p class="tc-desc">AI不评判好坏，用追问引导你观察构图光影色彩</p>
-                <div class="tc-arrow" style="color:var(--ability)">开始观察 →</div>
-            </div>
-        </a>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>产品</h4>
+        <a href="/#pricing">清北 4 对 1 陪跑</a>
+        <a href="/assistant">少年营 · 线下研学</a>
+        <a href="/#pricing">线上系统课</a>
+        <a href="/welcome">免费诊断</a>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <a href="/paths">学科教材</a>
+        <a href="/quiz">每日一题</a>
+        <a href="/errors">错题本</a>
+        <a href="/progress">成长档案</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于我们</h4>
+        <a href="/about">公司简介</a>
+        <a href="/articles">研究院 · 技术博客</a>
+        <a href="/eval">教材匹配引擎</a>
+        <a href="mailto:business@yuandianzhixue.com">商务联系</a>
+      </div>
     </div>
-    <div class="promo">
-        <div class="promo-text"><div class="promo-h">想全面提升思维能力？</div><p class="promo-p">智元成长课覆盖批判性思维+创造力训练</p></div>
-        <button class="promo-btn" style="background:var(--ability)" onclick="location.href='assistant.html'">了解课程</button>
-    </div>
-</div>
-
-<!-- 有产出 -->
-<div class="dim" id="d-output">
-    <div class="dim-head">
-        <h2 class="dim-title">有产出</h2>
-        <span class="dim-tag" style="background:var(--output-bg);color:var(--output)">创造维度 · 3 工具</span>
-    </div>
-    <div class="tgrid">
-        <a href="tools/essay-grading.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">文</div>
-                    <div class="tc-name">AI作文批改</div>
-                </div>
-                <p class="tc-desc">五维度打分+逐段批注+优化范文对照</p>
-                <div class="tc-arrow" style="color:var(--output)">批改作文 →</div>
-            </div>
-        </a>
-        <a href="tools/note-enhancer.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">笔</div>
-                    <div class="tc-name">笔记增强器</div>
-                </div>
-                <p class="tc-desc">AI补全遗漏、生成思维导图和间隔复习闪卡</p>
-                <div class="tc-arrow" style="color:var(--output)">增强笔记 →</div>
-            </div>
-        </a>
-        <a href="tools/learning-profile.html" class="tc">
-            <div class="tc-bar" style="background:var(--output)"></div>
-            <div class="tc-body">
-                <div class="tc-top">
-                    <div class="tc-icon" style="background:var(--output-bg);color:var(--output)">档</div>
-                    <div class="tc-name">学习档案</div>
-                </div>
-                <p class="tc-desc">能力雷达图+成就记录+可分享学习周报</p>
-                <div class="tc-arrow" style="color:var(--output)">查看档案 →</div>
-            </div>
-        </a>
-    </div>
-    <div class="promo">
-        <div class="promo-text"><div class="promo-h">想让孩子带走一份AI作品？</div><p class="promo-p">智元成长课 · 每期结课产出一份完整项目</p></div>
-        <button class="promo-btn" style="background:var(--output)" onclick="location.href='assistant.html'">了解课程</button>
-    </div>
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<div class="foot">© 2026 原点智学 · AI是教练，不是替代者</div>
-
-<!-- MOBILE TABS -->
-<div class="mtabs"><div class="mtabs-in">
-    <button class="mt on" onclick="switchDim('fast')" data-d="fast">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        学得快
-    </button>
-    <button class="mt" onclick="switchDim('precise')" data-d="precise">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        学得准
-    </button>
-    <button class="mt" onclick="switchDim('ability')" data-d="ability">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 4 12.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3A7 7 0 0 1 12 2z"/><path d="M10 21h4"/></svg>
-        提升能力
-    </button>
-    <button class="mt" onclick="switchDim('output')" data-d="output">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        有产出
-    </button>
-</div></div>
-
-<script>
-var dims={fast:{color:'#E8590C',wash:'rgba(232,89,12,0.06)'},precise:{color:'#2563EB',wash:'rgba(37,99,235,0.06)'},ability:{color:'#7C3AED',wash:'rgba(124,58,237,0.06)'},output:{color:'#059669',wash:'rgba(5,150,105,0.06)'}};
-var cur='fast';
-
-function switchDim(d){
-    if(d===cur)return;cur=d;
-    // dims
-    document.querySelectorAll('.dim').forEach(function(el){el.classList.remove('on')});
-    document.getElementById('d-'+d).classList.add('on');
-    // desktop buttons
-    document.querySelectorAll('.sw-btn').forEach(function(b){b.classList.toggle('on',b.dataset.d===d)});
-    // mobile tabs
-    document.querySelectorAll('.mt').forEach(function(b){b.classList.toggle('on',b.dataset.d===d)});
-    // orb color
-    var o=document.getElementById('orb');
-    o.style.background='radial-gradient(circle,'+dims[d].wash+' 0%,transparent 70%)';
-    // re-trigger card animations
-    document.querySelectorAll('#d-'+d+' .tc').forEach(function(c,i){
-        c.style.animation='none';c.offsetHeight;
-        c.style.animation='cardIn .35s ease both';c.style.animationDelay=(i*0.06)+'s';
-    });
-}
-
-// Stats
-(function(){
-    try{
-        var logs=JSON.parse(localStorage.getItem('yuandian_usage_logs')||'[]');
-        var errs=JSON.parse(localStorage.getItem('yuandian_errors_mastered')||'[]');
-        var fey=JSON.parse(localStorage.getItem('yuandian_feynman_passed')||'[]');
-        anim('s-use',logs.length);anim('s-err',errs.length);anim('s-fey',fey.length);
-        anim('s-str',streak(logs));
-    }catch(e){}
-    function anim(id,t){
-        var el=document.getElementById(id);if(!t){el.textContent='0';return}
-        var c=0,s=Math.max(1,Math.floor(t/15));
-        var ti=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(ti)}el.textContent=c},25);
-    }
-    function streak(l){
-        if(!l.length)return 0;
-        var ds=[...new Set(l.map(function(x){return new Date(x.timestamp).toDateString()}))].sort(function(a,b){return new Date(b)-new Date(a)});
-        var t=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();
-        if(ds[0]!==t&&ds[0]!==y)return 0;
-        var s=1,d=new Date(ds[0]);
-        for(var i=1;i<ds.length;i++){d=new Date(d.getTime()-864e5);if(ds[i]===d.toDateString())s++;else break}
-        return s;
-    }
-})();
-
-// Daily Challenge rotator
-(function(){
-    var pool=[
-        {e:'🎯',t:'3 分钟生成你的 AI 学习画像',h:'tools/learning-profile.html'},
-        {e:'📝',t:'1 分钟生成本章模拟卷，按弱项出题',h:'tools/exam-generator.html'},
-        {e:'✍️',t:'作文上传 · AI 按高考 5 维度打分',h:'tools/essay-grading.html'},
-        {e:'🧠',t:'费曼验证：讲给 AI 听，看你真懂了没',h:'tools/feynman-verify.html'},
-        {e:'🩻',t:'拍一张试卷 · AI 做错题归因 + 3 道变式',h:'tools/exam-diagnosis.html'},
-        {e:'🎮',t:'知识街机：5 款游戏边玩边记知识点',h:'tools/knowledge-arcade.html'},
-        {e:'🗺️',t:'输入考试日期 · 生成每日学习计划',h:'tools/study-plan.html'},
-        {e:'🔁',t:'错题 → AI 出 3 道同类变式，立刻练透',h:'tools/error-practice.html'},
-        {e:'💡',t:'知识点秒讲：从生活例子 → 考试用法',h:'tools/knowledge-explain.html'},
-        {e:'🗂️',t:'笔记一键升级：要点 / 思维导图 / 闪卡',h:'tools/note-enhancer.html'},
-        {e:'📖',t:'阅读难 → AI 三档难度改写，读到懂',h:'tools/reading-rewriter.html'},
-        {e:'🌍',t:'看看全球 60+ 款 AI 学习工具都在做什么',h:'tools/global-picks.html'}
-    ];
-    var KEY='ydzx_dc_idx', DAY='ydzx_dc_day', STR='ydzx_dc_streak';
-    var today=new Date().toDateString();
-    var idx=parseInt(localStorage.getItem(KEY)||'-1',10);
-    var lastDay=localStorage.getItem(DAY);
-    if(idx<0||lastDay!==today){
-        // pick next based on day-of-year for stable rotation
-        var doy=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/864e5);
-        idx=doy%pool.length;
-        localStorage.setItem(KEY,String(idx));
-        localStorage.setItem(DAY,today);
-    }
-    function render(){
-        var it=pool[idx];
-        var em=document.getElementById('dc-emoji');
-        var ln=document.getElementById('dc-line');
-        var go=document.getElementById('dc-go');
-        if(em)em.textContent=it.e;
-        if(ln)ln.textContent=it.t;
-        if(go)go.href=it.h+'?utm_source=home&utm_medium=daily&utm_campaign=challenge';
-    }
-    render();
-    // streak badge mirrors existing s-str but from a simpler signal: days visited
-    try{
-        var visited=JSON.parse(localStorage.getItem('ydzx_dc_visits')||'[]');
-        if(!visited.includes(today)){visited.push(today);}
-        visited=visited.slice(-60);
-        localStorage.setItem('ydzx_dc_visits',JSON.stringify(visited));
-        var s=1,d=new Date();
-        for(var i=0;i<30;i++){
-            var k=new Date(d.getTime()-i*864e5).toDateString();
-            if(i===0){if(!visited.includes(k))break;continue}
-            if(visited.includes(k))s++;else break;
-        }
-        var el=document.getElementById('dc-streak');
-        if(el&&visited.length>0)el.textContent='连续 '+s+' 天';
-    }catch(e){}
-    // swap button
-    var sw=document.getElementById('dc-swap');
-    if(sw)sw.onclick=function(){
-        idx=(idx+1)%pool.length;
-        localStorage.setItem(KEY,String(idx));
-        render();
-    };
-})();
-</script>
-<!-- 浮动分享 FAB -->
-<button id="ydz-fab-share" data-track="fab_share" aria-label="发给朋友"
-  style="position:fixed;right:18px;bottom:18px;z-index:90;background:#18181B;color:#fff;border:none;border-radius:100px;padding:12px 18px;font-family:'Noto Sans SC',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.22);display:flex;align-items:center;gap:8px;transition:transform .18s">
-  <span style="font-size:16px">↗</span>发给一起鸡娃的朋友
-</button>
-<script>
-(function(){
-  var btn=document.getElementById('ydz-fab-share'); if(!btn) return;
-  btn.addEventListener('mouseenter',function(){ btn.style.transform='translateY(-2px)'; });
-  btn.addEventListener('mouseleave',function(){ btn.style.transform='translateY(0)'; });
-  // 滚动 200px 后才显示，避免遮挡首屏
-  btn.style.opacity='0'; btn.style.pointerEvents='none';
-  btn.style.transition='opacity .25s, transform .18s';
-  window.addEventListener('scroll',function(){
-    var on = window.scrollY > 200;
-    btn.style.opacity = on?'1':'0';
-    btn.style.pointerEvents = on?'auto':'none';
-  },{passive:true});
-  btn.addEventListener('click', async function(){
-    var url = 'https://www.yuandianzhixue.com/?utm_source=share_link&utm_medium=friend&utm_campaign=home_fab';
-    var text = '这个网站有 家庭版 AI 提分教练（不用注册），孩子能直接用。还可以装到手机桌面。';
-    try { if (window.YdzxTrack) window.YdzxTrack.send('share_click',{from:'home_fab'}); } catch(e){}
-    if (navigator.share) {
-      try {
-        await navigator.share({ title:'原点智学 · 家庭版 AI 提分教练', text:text, url:url });
-        try { if (window.YdzxTrack) window.YdzxTrack.send('share_done',{from:'home_fab',ok:1}); } catch(e){}
-        return;
-      } catch(e) { /* 用户取消，回落复制 */ }
-    }
-    try {
-      await navigator.clipboard.writeText(text + ' ' + url);
-      toast('✓ 复制了，粘贴发给朋友');
-      try { if (window.YdzxTrack) window.YdzxTrack.send('share_done',{from:'home_fab',ok:1,mode:'copy'}); } catch(e){}
-    } catch(e) {
-      prompt('复制下面这段发给朋友：', text + ' ' + url);
-    }
-  });
-  function toast(msg){
-    var t=document.createElement('div');
-    t.textContent=msg;
-    t.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#18181B;color:#fff;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:600;z-index:10000;box-shadow:0 10px 24px rgba(0,0,0,.25);font-family:\"Noto Sans SC\",system-ui,sans-serif';
-    document.body.appendChild(t);
-    setTimeout(function(){ t.style.opacity='0'; t.style.transition='opacity .25s'; },1600);
-    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); },2000);
-  }
-})();
-</script>
-
-<!-- 首访 onboarding：一问直达工具 -->
-<div id="ob-modal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(24,24,27,.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#fff;border-radius:14px;max-width:460px;width:100%;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.3);font-family:'Noto Sans SC',system-ui,sans-serif;color:#18181B">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
-      <div style="font-size:11px;font-weight:700;color:#F5A623;letter-spacing:.5px">欢迎 · 30 秒自测</div>
-      <button id="ob-close" style="border:none;background:transparent;font-size:22px;color:#A1A1AA;cursor:pointer;line-height:1;padding:0" aria-label="关闭">×</button>
-    </div>
-    <h3 style="font-size:20px;font-weight:900;margin:4px 0 6px;line-height:1.3">你家孩子，现在最让你头疼的是哪件？</h3>
-    <p style="font-size:12px;color:#71717A;margin-bottom:18px">选一个，直接跳到对应的工具或指南。不收集任何信息。</p>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="ob-pick" data-pick="plan" data-go="tools/learning-profile.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
-        <span style="display:block;font-size:15px">📅 作业拖拉 / 时间管理差</span>
-        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 生成孩子的学习画像，给出本周计划</span>
-      </button>
-      <button class="ob-pick" data-pick="prompt" data-go="prompts.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
-        <span style="display:block;font-size:15px">🧠 孩子不会用 AI / 只会百度式提问</span>
-        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 打开 Prompt 训练场，3 道题练手</span>
-      </button>
-      <button class="ob-pick" data-pick="read" data-go="articles.html" style="text-align:left;background:#FFFBF0;border:1px solid #F5A62344;padding:14px 16px;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#18181B">
-        <span style="display:block;font-size:15px">📖 我自己先不懂 AI，不知从哪开始</span>
-        <span style="display:block;font-size:12px;color:#71717A;font-weight:400;margin-top:3px">→ 今晚就能做的 5 件事 + 实操指南</span>
-      </button>
-      <button class="ob-pick" data-pick="skip" style="text-align:left;background:transparent;border:none;padding:6px 0;font-family:inherit;font-size:12px;cursor:pointer;color:#A1A1AA">先自己逛逛 →</button>
+    <div>
+      <h4 style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:12px">联系我们</h4>
+      <div class="footer-contact">
+        business@yuandianzhixue.com<br>
+        公众号「原点AI学堂」
+      </div>
+      <div class="footer-qr">公众号二维码</div>
     </div>
   </div>
-</div>
+  <div class="footer-bottom">
+    <div>© 2026 原点智学</div>
+    <div>让孩子站在 AI 的肩膀上学习、创造、看见未来</div>
+  </div>
+</footer>
+
 <script>
-(function(){
-  var KEY='ydzx_ob_seen';
-  try { if (localStorage.getItem(KEY)==='1') return; } catch(e){}
-  // 延迟 1.2s，避免第一屏还没看就弹
-  setTimeout(function(){
-    var m=document.getElementById('ob-modal'); if(!m) return;
-    m.style.display='flex'; document.body.style.overflow='hidden';
-    try { if (window.YdzxTrack) window.YdzxTrack.send('onboarding_shown'); } catch(e){}
-  }, 1200);
-  function close(){
-    var m=document.getElementById('ob-modal'); if(!m) return;
-    m.style.display='none'; document.body.style.overflow='';
-    try { localStorage.setItem(KEY,'1'); } catch(e){}
-  }
-  document.getElementById('ob-close').onclick=close;
-  document.getElementById('ob-modal').addEventListener('click',function(e){ if(e.target.id==='ob-modal') close(); });
-  var btns=document.querySelectorAll('.ob-pick');
-  for (var i=0;i<btns.length;i++){
-    btns[i].addEventListener('click',function(){
-      var pick=this.getAttribute('data-pick');
-      var go=this.getAttribute('data-go');
-      try { if (window.YdzxTrack) window.YdzxTrack.send('onboarding_pick',{pick:pick}); } catch(e){}
-      close();
-      if (go) location.href=go;
-    });
-  }
-})();
-</script>
-<script src="/src/analytics.js" defer></script>
-<script src="/src/pwa.js" defer></script>
-<script src="/src/learning-store.js"></script>
-<script src="/src/gamification.js"></script>
-<script src="/src/gamification-hud.js"></script>
-<script src="/src/today-recos.js"></script>
-<script src="/src/track.js"></script>
-<script>
-window.addEventListener('DOMContentLoaded', function(){
-    if (window.TodayRecos) {
-        window.TodayRecos.render(document.getElementById('recos-grid'));
-        if (window.TodayRecos.renderUpNextBanner) window.TodayRecos.renderUpNextBanner('#upnext-banner-mount');
-    }
-    // 9 学科 grid 卡片点击埋点
-    document.querySelectorAll('#ka-subjects .ka-subj').forEach(function(a){
-        a.addEventListener('click', function(){
-            // 从 href 抽 subject key
-            var href = a.getAttribute('href') || '';
-            var m = href.match(/(?:subject=|subjects\/(?:\?key=)?)([a-z]+)/i);
-            var subject = m ? m[1].replace('.html','') : 'unknown';
-            if (window.YDZX_TRACK) YDZX_TRACK.event('home_subject_click', { subject: subject, href: href });
-        });
-    });
-    // What's New 7 卡 点击埋点
-    document.querySelectorAll('.wn-band .wn-card').forEach(function(a, i){
-        a.addEventListener('click', function(){
-            var t = a.querySelector('div:nth-child(2)') || a;
-            var label = (t.textContent || '').trim().slice(0, 16);
-            if (window.YDZX_TRACK) YDZX_TRACK.event('whatsnew_click', { idx: i, label: label, href: a.getAttribute('href') });
-        });
-    });
+// ─── Mock 常量（首页用）───
+const STATS = {
+  diagnosedStudents: 12840,
+  avgGapsFound: 4.2,
+  totalStudents: 3000,
+  yearsOperating: 7,
+  textbooks: 56,
+  freeTools: 18,
+};
+
+const DIMENSIONS = [
+  { id: '01', name: '学得快', desc: '提效学习时间，释放创造力' },
+  { id: '02', name: '学得准', desc: '定制专属 AI 学习路径提分' },
+  { id: '03', name: '思维好', desc: '思维启发式 AI 陪练' },
+  { id: '04', name: '有产出', desc: '真实项目与商业化探索' },
+];
+
+const FREE_TOOLS_HIGHLIGHT = [
+  {
+    pain: '读不懂？',
+    painBg: 'var(--pain-amber-bg)', painText: 'var(--pain-amber-text)',
+    title: '阅读三档难度改写',
+    desc: '把课文/题目改写成你能读懂的版本，再回头看原文。',
+    href: '/tools/visual-textbook',
+  },
+  {
+    pain: '错题多？',
+    painBg: 'var(--pain-red-bg)', painText: 'var(--pain-red-text)',
+    title: 'AI 错题专练',
+    desc: '针对薄弱知识点，AI 生成同类题强化训练。',
+    href: '/errors',
+  },
+  {
+    pain: '缺方法？',
+    painBg: 'var(--pain-green-bg)', painText: 'var(--pain-green-text)',
+    title: '教材原文 · 56 本',
+    desc: '9 大科目教材原文检索，章节卡住时直接跳到对应那一页。',
+    href: '/paths',
+  },
+];
+
+const PRODUCTS = [
+  {
+    id: 'qingbei', tier: 'flagship',
+    badge: '旗舰 · 限额 4 人/期',
+    label: '清北联盟 4 对 1 陪跑',
+    name: '清北联盟 4 对 1 陪跑',
+    price: 6980,
+    period: '3 个月全程陪跑',
+    features: [
+      '4 位清北导师 1v1',
+      '每日定制学习规划',
+      '24h 答疑 + 情绪陪伴',
+      '诊断—练—测—评闭环',
+    ],
+  },
+  {
+    id: 'camp', tier: 'standard',
+    label: '少年营 · 线下研学',
+    name: '少年营 · 线下研学',
+    price: 4980,
+    period: '3 天 2 夜 · 沉浸体验',
+    features: [
+      '创始人亲授方法论',
+      '清北学长面对面',
+      '阿里参访 + Demo Day',
+      '形成作品集与产出',
+    ],
+  },
+  {
+    id: 'online', tier: 'entry',
+    label: '线上系统课 + 家长社群',
+    name: '线上系统课 + 家长社群',
+    price: 2499,
+    period: '入门首选 · 自主节奏',
+    features: [
+      '4 维方法论系统课',
+      '家长社群每周答疑',
+      '错题本 + 学习路径',
+      'AI 工具会员权益',
+    ],
+  },
+];
+
+// ─── 渲染 ───
+function escHtml(s){ return String(s||'').replace(/[<>&"]/g, c=>({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
+
+// stats
+document.getElementById('stat-diagnosed').textContent = STATS.diagnosedStudents.toLocaleString();
+document.getElementById('stat-gaps').textContent = STATS.avgGapsFound;
+document.getElementById('stat-students').textContent = STATS.totalStudents;
+document.getElementById('stat-years').textContent = STATS.yearsOperating;
+document.getElementById('stat-textbooks').textContent = STATS.textbooks;
+document.getElementById('stat-tools').textContent = STATS.freeTools;
+document.getElementById('stat-tools-inline').textContent = STATS.freeTools;
+
+// dimensions
+document.getElementById('dim-grid').innerHTML = DIMENSIONS.map(d => `
+  <div class="dim-card">
+    <div class="dim-id">维度 ${d.id}</div>
+    <div class="dim-title">${escHtml(d.name)}</div>
+    <div class="dim-desc">${escHtml(d.desc)}</div>
+  </div>
+`).join('');
+
+// tools
+document.getElementById('tools-grid').innerHTML = FREE_TOOLS_HIGHLIGHT.map(t => `
+  <a class="tool-card" href="${t.href}" data-tool="${escHtml(t.title)}">
+    <span class="pain-pill" style="background:${t.painBg};color:${t.painText}">${escHtml(t.pain)}</span>
+    <div class="tool-title">${escHtml(t.title)}</div>
+    <div class="tool-desc">${escHtml(t.desc)}</div>
+  </a>
+`).join('');
+
+// pricing
+document.getElementById('pricing-grid').innerHTML = PRODUCTS.map(p => `
+  <div class="price-card ${p.tier==='flagship'?'flagship':''}">
+    ${p.badge ? `<span class="price-badge">${escHtml(p.badge)}</span>` : ''}
+    <div class="price-tier">${escHtml(p.label)}</div>
+    <div class="price-num"><span class="price-currency">¥</span>${p.price.toLocaleString()}</div>
+    <div class="price-period">${escHtml(p.period)}</div>
+    <ul class="price-features">
+      ${p.features.map(f => `<li>${escHtml(f)}</li>`).join('')}
+    </ul>
+  </div>
+`).join('');
+
+// 诊断 CTA
+document.getElementById('cta-diagnose').addEventListener('click', () => {
+  console.log('CTA: diagnose start');
+  if (window.YDZX_TRACK) YDZX_TRACK.event('hero_diagnose_click', { source: 'home_hero' });
+  // 占位: 后续接真诊断流; 现在直接跳 welcome 让用户填年级
+  setTimeout(() => { location.href = '/welcome'; }, 60);
+});
+
+// 工具卡点击埋点
+document.querySelectorAll('.tool-card').forEach(c => {
+  c.addEventListener('click', () => {
+    if (window.YDZX_TRACK) YDZX_TRACK.event('home_tool_click', { tool: c.dataset.tool });
+  });
+});
+
+// 定价卡点击埋点 (虽然现在是静态卡, 标 click on the card)
+document.querySelectorAll('.price-card').forEach(c => {
+  c.addEventListener('click', () => {
+    const name = (c.querySelector('.price-tier') || {}).textContent || '';
+    if (window.YDZX_TRACK) YDZX_TRACK.event('home_pricing_click', { tier: name.trim() });
+  });
+});
+
+// 移动 nav 切换
+document.getElementById('nav-toggle').addEventListener('click', function(){
+  this.classList.toggle('active');
 });
 </script>
+<script src="/src/track.js"></script>
 </body>
 </html>
