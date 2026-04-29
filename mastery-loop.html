@@ -1124,6 +1124,9 @@ async function sendMiniTutor() {
                 message: ctxPrefix + msg,
                 topic_code: TOPIC_CODE,
                 history: window.MT.history.slice(0, -1),
+                mode: 'explain',
+                prompt_version: 'v3',
+                client_hour: new Date().getHours(),
             }),
         });
         if (!resp.ok) {

@@ -394,6 +394,7 @@
     <script src="../src/api-manager.js"></script>
     <script src="../src/learning-store.js"></script>
     <script src="../src/report-generator.js"></script>
+    <script src="../src/learning-priority.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="../src/gamification.js"></script>
     <script src="../src/gamification-hud.js"></script>
@@ -866,8 +867,8 @@
                     renderReport(result);
 
                     // 保存到本地
-                    if (window.LearningStore) {
-                        window.LearningStore.saveDiagnosis({
+            if (window.LearningStore) {
+                window.LearningStore.saveDiagnosis({
                             grade: grade,
                             subject: subject,
                             score: score,
@@ -876,11 +877,26 @@
                             examName: examName,
                             errors: errors,
                             result: result,
-                            timestamp: Date.now()
-                        });
-                    }
-                    // 游戏化埋点
-                    if (window.GAME) {
+                    timestamp: Date.now()
+                });
+            }
+            if (window.YDZX_PRIORITY) {
+                var priorityState = window.YDZX_PRIORITY.buildAssessment({
+                    source: 'exam-diagnosis',
+                    stage: stage,
+                    grade: grade,
+                    subject: subject,
+                    version: version,
+                    score: score,
+                    totalScore: totalScore,
+                    errors: errors,
+                    examText: userMsg,
+                    minutes: 35
+                });
+                renderHomeworkBridge(priorityState);
+            }
+            // 游戏化埋点
+            if (window.GAME) {
                         window.GAME.addXP(50, '完成考试诊断 · ' + subject);
                         window.GAME.unlockBadge('first_diagnosis');
                         var recs = (window.LearningStore && window.LearningStore.getDiagnosisRecords()) || [];
@@ -963,6 +979,29 @@
             result.suggestions.map(function(s) { return '<li>' + s + '</li>'; }).join('') +
             '</ol>';
         document.getElementById('suggestions').innerHTML = sugHtml;
+    }
+
+    function escapeHtml(s) {
+        return String(s || '').replace(/[&<>"']/g, function(c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+        });
+    }
+
+    function renderHomeworkBridge(state) {
+        if (!state || !state.homework_plan) return;
+        var plan = state.homework_plan;
+        var html = '<div class="suggestions" style="margin-top:16px;background:#F8EFE8;border-color:rgba(184,92,46,0.25)">' +
+            '<h3 style="color:#B85C2E">▦ 今晚作业怎么取舍</h3>' +
+            '<p style="color:#4A4A47;margin-bottom:10px">已同步到家长雷达。建议先完成命中弱点的 40-50%，机械重复和已掌握区可以少做。</p>' +
+            '<ol>' +
+            plan.must_do.slice(0, 4).map(function(item) { return '<li>必须做：' + escapeHtml(item.text) + '</li>'; }).join('') +
+            '</ol>' +
+            '<div class="btn-group" style="margin-top:12px">' +
+            '<a class="btn-primary" href="../tutor.html?mode=homework">把今晚作业发给原小点 →</a>' +
+            '<a class="btn-secondary" href="../parent-radar.html">家长看雷达 →</a>' +
+            '</div>' +
+            '</div>';
+        document.getElementById('suggestions').insertAdjacentHTML('beforeend', html);
     }
 
     // toggle 上次叠加

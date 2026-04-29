@@ -484,6 +484,9 @@ body{
             <button class="mode-chip" data-mode="diagnose" aria-label="错题归因">
                 <span class="mode-em">🔍</span><span>错题归因</span>
             </button>
+            <button class="mode-chip" data-mode="homework" aria-label="作业分诊">
+                <span class="mode-em">▦</span><span>作业分诊</span>
+            </button>
             <button class="mode-chip" data-mode="cram" aria-label="考前突击">
                 <span class="mode-em">⏰</span><span>考前突击</span>
             </button>
@@ -574,6 +577,19 @@ body{
             </ul>
         </div>
 
+        <h3>今晚作业取舍</h3>
+        <div class="panel homework-triage-card">
+            <div class="triage-title">我只辅导必须做和关键错因</div>
+            <p class="triage-copy">把作业清单或试卷识别文字贴进来。原小点先按雷达弱点分三类，再只陪孩子攻克“必须做”和反复错的根因。</p>
+            <textarea id="homework-triage-input" class="triage-input" rows="5" placeholder="例：数学方程基础 8 道；应用题 4 道；语文阅读 1 篇；英语单词抄写 3 遍"></textarea>
+            <div class="triage-actions">
+                <input id="homework-file" class="triage-file" type="file" accept="image/*,.pdf" aria-label="上传作业或试卷照片">
+                <button class="mentor-btn" id="triage-btn" type="button">生成三类作业</button>
+            </div>
+            <div class="triage-note" id="triage-file-note">小程序版会直接接微信拍照/OCR；网页 MVP 先支持粘贴识别文字。</div>
+            <div class="triage-result" id="triage-result"></div>
+        </div>
+
         <h3>下次复习</h3>
         <div class="review-row" id="next-review">
             <span>📅</span>
@@ -630,6 +646,26 @@ body{
     .mentor-recent .item { display:flex;justify-content:space-between;padding:4px 0; }
     .mentor-recent .pending { color:#F59E0B; }
     .mentor-recent .resolved { color:#15803D; }
+    .homework-triage-card{background:#fff;border-color:rgba(15,79,61,0.16)}
+    .triage-title{font-size:0.92rem;font-weight:800;color:var(--ink);line-height:1.35}
+    .triage-copy{font-size:0.76rem;color:var(--ink-mute);line-height:1.55;margin:5px 0 10px}
+    .triage-input{
+        width:100%;resize:vertical;min-height:92px;border:1px solid var(--bdr);
+        border-radius:8px;background:#FAF7F0;color:var(--ink);
+        padding:9px 10px;font-family:inherit;font-size:0.78rem;line-height:1.55;
+    }
+    .triage-input:focus{outline:none;border-color:var(--orange)}
+    .triage-actions{display:grid;grid-template-columns:1fr;gap:8px;margin-top:9px}
+    .triage-file{font-size:0.74rem;color:var(--ink-mute);max-width:100%}
+    .triage-note{font-size:0.7rem;color:var(--ink-mute);line-height:1.45;margin-top:7px}
+    .triage-result{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    .triage-bucket{border:1px solid var(--bdr);border-radius:8px;background:#FAF7F0;padding:9px}
+    .triage-bucket.must{border-color:rgba(184,92,46,0.35);background:#F8EFE8}
+    .triage-bucket.flex{border-color:rgba(15,79,61,0.24);background:#EEF4F0}
+    .triage-bucket.skip{background:#F4F1EC}
+    .triage-bucket h4{font-size:0.76rem;margin:0 0 5px;color:var(--ink);display:flex;justify-content:space-between;gap:8px}
+    .triage-bucket ul{margin:0;padding-left:16px;color:var(--ink-soft);font-size:0.74rem;line-height:1.55}
+    .triage-bucket li{margin:2px 0}
 
     /* escalate dialog */
     .esc-overlay {
@@ -674,6 +710,7 @@ body{
     <div class="rail-overlay" id="rail-overlay"></div>
 </div>
 
+<script src="/src/learning-priority.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
 const _urlSid = params.get('student_id');
@@ -752,6 +789,7 @@ const MODE_HINT = {
     explain: { ph: '说说你想学什么，或者卡在哪一步…', sys: '你刚切到讲题模式 · 直接说题目或卡点' },
     recall: { ph: '今天课上学了啥？挑一道你做的题给我讲讲…', sys: '🎙️ 切到下课讲一讲 · 老师假装没去上课，你给老师讲今天学的。讲清楚说明你真懂了；卡的地方就是该补的地方（费曼学习法）' },
     diagnose: { ph: '把你的错题贴过来，老师 64 类归因找根因…', sys: '🔍 切到错题归因 · 贴上你刚错的那道，老师会找出错在哪一步、为什么错、下次怎么避免' },
+    homework: { ph: '把今晚作业清单贴过来，我先帮你分必须做/可跳过…', sys: '▦ 切到作业分诊 · 先看孩子雷达弱点，再决定今晚哪些必须做、哪些可以跳过；接下来我只辅导必须做和关键错因，不替你写作业' },
     cram: { ph: '说考试时间和范围，比如「下周三月考，第 1-3 章」…', sys: '⏰ 切到考前突击 · 告诉我考试时间 + 范围，老师按 BKT 推算给你 5-7 天计划' },
     essay: { ph: '把你的作文粘过来（不要怕脏，老师不评分只指方向）…', sys: '✍️ 切到作文批改 · 粘进来一段，老师会标 3 个具体可改的点，不空泛说「立意好」' },
 };
@@ -769,6 +807,9 @@ function switchMode(mode) {
 document.querySelectorAll('.mode-chip').forEach(chip => {
     chip.addEventListener('click', () => switchMode(chip.dataset.mode));
 });
+if (params.get('mode') && MODE_HINT[params.get('mode')]) {
+    switchMode(params.get('mode'));
+}
 
 // 顶部副标题
 if (NAME && NAME !== '同学') {
@@ -778,6 +819,53 @@ if (NAME && NAME !== '同学') {
 const radarHref = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;
 document.getElementById('hero-to-radar').href = radarHref;
 document.getElementById('cta-radar').href = radarHref;
+
+function escapeTriageHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function renderTriageBucket(title, items, cls, ratio) {
+    const safeItems = (items || []).slice(0, 6);
+    return `
+        <div class="triage-bucket ${cls}">
+            <h4><span>${title}</span><span>${ratio}</span></h4>
+            <ul>${safeItems.map(item => `<li>${escapeTriageHtml(item.text || item)}</li>`).join('')}</ul>
+        </div>
+    `;
+}
+
+function renderHomeworkTriage(plan) {
+    const box = document.getElementById('triage-result');
+    if (!box || !plan) return;
+    box.innerHTML =
+        renderTriageBucket('必须做', plan.must_do, 'must', '40-50%') +
+        renderTriageBucket('灵活选', plan.flexible, 'flex', '20-30%') +
+        renderTriageBucket('可以跳过', plan.can_skip, 'skip', '20-30%');
+}
+
+function runHomeworkTriage() {
+    if (!window.YDZX_PRIORITY) return;
+    const inputEl = document.getElementById('homework-triage-input');
+    const state = window.YDZX_PRIORITY.loadState(STUDENT_ID);
+    const text = inputEl.value.trim();
+    const plan = window.YDZX_PRIORITY.classifyHomework(text, state.weak_points || [], 35);
+    state.homework_plan = plan;
+    state.source = text ? 'tutor_homework_triage' : state.source;
+    window.YDZX_PRIORITY.saveState(state, STUDENT_ID);
+    renderHomeworkTriage(plan);
+    addSystemHint('▦ 已按雷达弱点生成今晚作业三分类 · 家长雷达页也会同步看到');
+}
+
+document.getElementById('triage-btn')?.addEventListener('click', runHomeworkTriage);
+document.getElementById('homework-file')?.addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    const note = document.getElementById('triage-file-note');
+    if (!file || !note) return;
+    note.textContent = `已选择「${file.name}」。网页端暂不直接 OCR，请先把识别文字贴到上方；小程序版会接微信拍照识别。`;
+});
+if (window.YDZX_PRIORITY) {
+    renderHomeworkTriage(window.YDZX_PRIORITY.loadState(STUDENT_ID).homework_plan);
+}
 
 // 右上角隐私入口 · 让孩子任何时候能改三态档位
 document.getElementById('open-privacy')?.addEventListener('click', () => {

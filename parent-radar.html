@@ -370,6 +370,46 @@ h1 { letter-spacing: 0.02em; }
         </div>
     </section>
 
+    <section class="miniapp-brief">
+        <div>
+            <div class="miniapp-kicker">Story 3 · 家长雷达</div>
+            <h2>测评/上传 → 雷达弱点 → 作业三分类</h2>
+            <p>这不是 tools，也不是 tutor，而是家长端能讲清楚的第三个故事：用 20-30 分钟测试、成绩和试卷/作业上传交叉验证，形成弱点雷达，再把每晚作业分成必须做、灵活选、可以跳过。</p>
+        </div>
+        <a href="/tutor?mode=homework" class="miniapp-link">去分诊今晚作业 →</a>
+    </section>
+    <style>
+    .miniapp-brief {
+        display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+        margin: 6px 0 18px;padding:18px 20px;
+        background:#FFFFFF;border:1px solid rgba(15,79,61,0.18);border-left:3px solid #0F4F3D;
+        border-radius:12px;
+    }
+    .miniapp-kicker{font-size:0.72rem;color:#0F4F3D;font-weight:800;margin-bottom:4px}
+    .miniapp-brief h2{font-size:1.04rem;margin-bottom:4px;color:#1A1A1A}
+    .miniapp-brief p{font-size:0.88rem;color:#4A4A47;line-height:1.65}
+    .miniapp-link{
+        white-space:nowrap;background:#0F4F3D;color:#fff;text-decoration:none;
+        padding:10px 14px;border-radius:8px;font-size:0.86rem;font-weight:700;
+    }
+    @media(max-width:720px){.miniapp-brief{grid-template-columns:1fr}.miniapp-link{text-align:center}}
+    </style>
+
+    <div class="panel" id="homework-priority-panel" style="display:none;border-left:3px solid #B85C2E;padding:16px 20px;margin-top:16px;background:#fff;border-radius:8px;">
+        <h2 style="font-size:1rem;margin-bottom:6px;">今晚作业优先级</h2>
+        <p style="color:var(--c-warm-gray);font-size:0.84rem;line-height:1.6;margin-bottom:12px;">来自孩子/家长在私教页粘贴的作业清单。原小点后续只辅导“必须做”和“关键错因”，不平均用力。</p>
+        <div id="homework-priority-list" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div>
+    </div>
+    <style>
+    @media(max-width:720px){#homework-priority-list{grid-template-columns:1fr!important}}
+    .hp-bucket{border:1px solid rgba(26,26,26,0.08);border-radius:9px;padding:10px;background:#FAF7F0}
+    .hp-bucket.must{background:#F8EFE8;border-color:rgba(184,92,46,0.28)}
+    .hp-bucket.flex{background:#EEF4F0;border-color:rgba(15,79,61,0.22)}
+    .hp-bucket.skip{background:#F4F1EC}
+    .hp-bucket h3{font-size:0.82rem;margin-bottom:6px;color:#1A1A1A}
+    .hp-bucket ul{padding-left:16px;margin:0;color:#4A4A47;font-size:0.78rem;line-height:1.55}
+    </style>
+
     <!-- 主体雷达 + 弱项 -->
     <div class="main-grid">
         <div class="panel">
@@ -497,6 +537,7 @@ h1 { letter-spacing: 0.02em; }
     <button class="share-modal-close" onclick="document.getElementById('share-modal').classList.remove('show')">×</button>
 </div>
 
+<script src="/src/learning-priority.js"></script>
 <script>
 // =========== 配置 ===========
 // 跨页身份桥：URL > localStorage > demo UUID
@@ -642,6 +683,27 @@ function tierFor(m) {
 
 function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function renderHomeworkPriority() {
+    if (!window.YDZX_PRIORITY) return;
+    const state = window.YDZX_PRIORITY.loadState(STUDENT_ID);
+    const plan = state && state.homework_plan;
+    if (!plan) return;
+    const panel = document.getElementById('homework-priority-panel');
+    const list = document.getElementById('homework-priority-list');
+    if (!panel || !list) return;
+    const bucket = (title, items, cls) => `
+        <div class="hp-bucket ${cls}">
+            <h3>${title}</h3>
+            <ul>${(items || []).slice(0, 5).map(item => `<li>${escapeHtml(item.text || item)}</li>`).join('')}</ul>
+        </div>
+    `;
+    list.innerHTML =
+        bucket('必须做 40-50%', plan.must_do, 'must') +
+        bucket('灵活选 20-30%', plan.flexible, 'flex') +
+        bucket('可以跳过 20-30%', plan.can_skip, 'skip');
+    panel.style.display = 'block';
 }
 
 // =========== Glance + Action ===========
@@ -1018,6 +1080,7 @@ async function boot() {
     updateGlance(data.all_kcs);
     renderLatestQuote();
     renderProfile(profile);
+    renderHomeworkPriority();
     renderFsrsPanel(fsrs);
     loadRecentDialogues();  // P0-B：最近对话历史
     loadParentBrief('morning');  // P0-3：今日给妈妈的话

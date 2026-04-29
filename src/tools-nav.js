@@ -22,7 +22,10 @@ const TOOLS_CONFIG = {
     ],
     '成长区': [
         { name: '学习档案', file: 'learning-profile.html', icon: '📊' },
-        { name: '笔记增强器', file: 'note-enhancer.html', icon: '📔' }
+        { name: '笔记增强器', file: 'note-enhancer.html', icon: '📔' },
+        { name: '教材浏览器', file: 'textbook-browser.html', icon: '📚' },
+        { name: '知识游乐场', file: 'knowledge-arcade.html', icon: '🎮' },
+        { name: '全球工具精选', file: 'global-picks.html', icon: '🌐' }
     ]
 };
 
@@ -94,3 +97,52 @@ function renderQuickNav(currentToolFile) {
     html += '</div>';
     quickNavEl.innerHTML = html;
 }
+
+// 多个工具页已有 hamburger onclick，但旧版没有实现函数。
+// 这里集中注入一个轻量移动菜单，避免每个工具页各自复制。
+function ensureMobileNav() {
+    if (document.getElementById('tools-mobile-nav')) return;
+    const css = document.createElement('style');
+    css.textContent = `
+        .tools-mobile-nav-mask{position:fixed;inset:0;background:rgba(26,26,26,.42);z-index:999;display:none}
+        .tools-mobile-nav-mask.show{display:block}
+        .tools-mobile-nav-panel{position:fixed;top:0;right:0;width:min(84vw,360px);height:100dvh;background:#FAF7F0;border-left:1px solid rgba(26,26,26,.10);box-shadow:0 24px 60px rgba(26,26,26,.20);padding:18px;overflow:auto;transform:translateX(100%);transition:transform .18s ease-out}
+        .tools-mobile-nav-mask.show .tools-mobile-nav-panel{transform:translateX(0)}
+        .tmn-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+        .tmn-title{font-weight:800;color:#1A1A1A}
+        .tmn-close{border:1px solid rgba(26,26,26,.12);background:#fff;border-radius:8px;padding:6px 10px;color:#4A4A47}
+        .tmn-cat{font-size:12px;font-weight:800;color:#0F4F3D;margin:14px 0 6px}
+        .tmn-link{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;color:#1A1A1A;text-decoration:none;font-size:14px}
+        .tmn-link:hover,.tmn-link.active{background:#E8EFE9;color:#0F4F3D}
+    `;
+    document.head.appendChild(css);
+
+    const mask = document.createElement('div');
+    mask.id = 'tools-mobile-nav';
+    mask.className = 'tools-mobile-nav-mask';
+    let html = '<div class="tools-mobile-nav-panel" role="dialog" aria-label="工具导航"><div class="tmn-head"><div class="tmn-title">原点工具箱</div><button class="tmn-close" type="button">关闭</button></div>';
+    const current = location.pathname.split('/').pop() || '';
+    Object.entries(TOOLS_CONFIG).forEach(([cat, tools]) => {
+        html += `<div class="tmn-cat">${cat}</div>`;
+        tools.forEach(tool => {
+            const active = tool.file === current ? ' active' : '';
+            html += `<a class="tmn-link${active}" href="${tool.file}"><span>${tool.icon}</span><span>${tool.name}</span></a>`;
+        });
+    });
+    html += '</div>';
+    mask.innerHTML = html;
+    document.body.appendChild(mask);
+    mask.addEventListener('click', e => {
+        if (e.target === mask || e.target.classList.contains('tmn-close')) {
+            mask.classList.remove('show');
+        }
+    });
+}
+
+function toggleMobileNav() {
+    ensureMobileNav();
+    document.getElementById('tools-mobile-nav').classList.toggle('show');
+}
+
+window.toggleMobileNav = toggleMobileNav;
+document.addEventListener('DOMContentLoaded', ensureMobileNav);

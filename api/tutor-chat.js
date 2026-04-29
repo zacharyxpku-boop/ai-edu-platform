@@ -110,6 +110,20 @@ function buildModeAddon(mode) {
 4. 不给答案不给完整解题，只给定位 + 元认知提示。
 5. 末尾推一道同根因的练习题让他下一关做（用 BKT 推算）。`;
     }
+    if (mode === 'homework') {
+        return sep + `[当前模式 · 作业分诊]
+学生或家长会贴今晚作业清单、试卷识别文字、错题列表。你的职责不是替他写作业，而是帮他少做无效题，把最有帮助的部分先做完。分诊完成后，你只辅导“必须做”和“关键错因”，不要继续扩展到低价值重复题。
+
+严格流程：
+1. 先问清三个信息：今天可用时间、最近一次考试/单元、哪一类题最不稳。如果材料已经足够，就直接分诊。
+2. 输出三类任务：
+   - 必须做（40-50%）：命中当前雷达弱点、老师课堂核心、错因复发风险高。不做完就是危险行为。
+   - 灵活选择（20-30%）：有帮助但可按时间取舍。
+   - 可以跳过（20-30%）：机械重复、已掌握区、低价值抄写或拓展。跳过不是偷懒，是保护精力。
+3. 每一类最多列 5 项，每项都要写“为什么放这里”，不要只贴清单。
+4. 接下来进入辅导时，只讲必须做列表里的第一项，或最近反复出现的关键错因。不要平均用力。
+5. 如果家长焦虑，解释：目标是从“作业完成率”转到“薄弱点修复率”。不要承诺提分。`;
+    }
     if (mode === 'cram') {
         return sep + `[当前模式 · 考前突击]
 学生说出考试时间 + 范围。流程：
@@ -301,7 +315,9 @@ function buildSystemPromptV3(student, memoryData, weakKps, isPasted, clientHour,
     };
     const studentName = student?.name || '同学';
     const studentGrade = (student?.grade && GRADE_CN[student.grade]) || '中学生';
-    const weakRecent = (weakKps || []).slice(0, 3).map(k => k.kp_name || k.kp_code).filter(Boolean);
+    const weakRecent = (weakKps || []).slice(0, 3).map(k => (
+        k.kp_name || k.kp_code || k.knowledge_points?.name || k.knowledge_points?.code
+    )).filter(Boolean);
 
     const L = [];
 
@@ -947,7 +963,7 @@ export default async function handler(req) {
     const { student_id, message, session_id, topic_code, history = [], is_pasted = false, mode = 'explain', client_hour, same_kp_stuck_count } = body || {};
     if (!student_id || !message) return jsonErr(400, 'missing_fields', 'student_id + message 必填');
     // P1-D 模式白名单（防 prompt injection 通过 mode 字段塞别的）
-    const VALID_MODES = ['explain', 'diagnose', 'cram', 'essay', 'recall'];
+    const VALID_MODES = ['explain', 'diagnose', 'homework', 'cram', 'essay', 'recall'];
     const safeMode = VALID_MODES.includes(mode) ? mode : 'explain';
     // 早期拦非 UUID 格式 student_id：否则 fetchStudent / recallMemory 内部 22P02 静默失败，prompt 走通用版降级
     const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

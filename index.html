@@ -623,6 +623,17 @@ img{max-width:100%;display:block}
     transition: transform 0.3s;
 }
 .visual-card:hover { transform: translateY(-2px); }
+.mvp-flow{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin:18px 0 16px;max-width:560px;
+}
+.mvp-step{
+  background:#fff;border:1px solid var(--border-default);border-radius:8px;
+  padding:10px 11px;min-height:86px;
+}
+.mvp-step b{display:block;font-size:12px;color:var(--accent-primary);margin-bottom:5px}
+.mvp-step span{display:block;font-size:12px;line-height:1.5;color:var(--text-secondary)}
+@media(max-width:720px){.mvp-flow{grid-template-columns:1fr}.mvp-step{min-height:0}}
 .chat-card { transform: rotate(-1.2deg); }
 .chat-card .vc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .chat-card .vc-av {
@@ -811,21 +822,26 @@ img{max-width:100%;display:block}
 <section class="hero-v3" id="hero-v3">
   <div class="hero-v3-in with-mascot">
     <div class="hero-v3-text">
-      <div class="hero-tag">AI 学习管家</div>
-      <h1 class="hero-h1">学校老师顾不到的<br>那 <span class="hl-underline">30%<svg class="hl-stroke" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 Q 20 2, 40 5 T 80 4 Q 92 3, 98 1"/></svg></span>，<span class="hl">原小点</span>替你管</h1>
-      <p class="hero-sub">先看清孩子的 13 维度学习状态, 再决定<span class="hl-underline delay-2">怎么学<svg class="hl-stroke" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 6 Q 25 1, 50 5 T 95 2"/></svg></span></p>
-      <div class="hero-cta-row">
-        <a href="/welcome" class="hero-cta-primary">30 秒认识原小点 <span class="arrow-inline">→</span></a>
-        <a href="/parent-radar" class="hero-cta-secondary">家长视角先看一眼</a>
+      <div class="hero-tag">小程序前身 · 三条可讲的产品故事</div>
+      <h1 class="hero-h1">工具、私教、雷达<br>先各自讲清楚，再合成<span class="hl">一个闭环</span></h1>
+      <p class="hero-sub">面向小学 4-6 年级到初一衔接。`tools` 给家长低门槛体验，`tutor` 让原小点盯住必须做和关键错因，`测评/上传→雷达→作业三分类` 形成小程序主链路。</p>
+      <div class="mvp-flow" aria-label="原点三条产品故事">
+        <div class="mvp-step"><b>Story 1 · tools</b><span>免费工具箱：测评、错题、计划、讲解，先让家长觉得靠谱</span></div>
+        <div class="mvp-step"><b>Story 2 · tutor</b><span>原小点私教：不替写作业，只辅导必须做和关键错因</span></div>
+        <div class="mvp-step"><b>Story 3 · radar</b><span>上传试卷/作业后，家长看到雷达弱点和三类作业取舍</span></div>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:#8A8780;letter-spacing:0.02em">13 维度漏洞地图 · GPT-4o 实时生成 · 完全免费</div>
+      <div class="hero-cta-row">
+        <a href="/study-tools" class="hero-cta-primary">看 tools 故事 <span class="arrow-inline">→</span></a>
+        <a href="/tutor?mode=homework" class="hero-cta-secondary">看 tutor 故事</a>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:#8A8780;letter-spacing:0.02em">小程序主闭环：测评/试卷/作业上传 → 雷达弱点 → 作业三分类 → 原小点只辅导必须做和关键错因</div>
       <div style="margin-top:18px">
-        <a class="link-secondary" href="/report">已诊断过 · 查看我的报告</a>
+        <a class="link-secondary" href="/tools/exam-diagnosis">从测评/试卷上传开始 →</a>
       </div>
       <div class="hero-trust">
-        <span>· Bloom 2-Sigma · BKT · FSRS-4.5 ·</span>
-        <span>· 单 KP 4 周 0.3 → 0.7 提升 ·</span>
-        <span>· 错题本周清零率 ≥ 80% ·</span>
+        <span>· 适合小学中高年级长期陪跑 ·</span>
+        <span>· 初一初二做方法升级验证 ·</span>
+        <span>· 不做初三冲刺承诺 ·</span>
       </div>
     </div>
     <div class="mascot-wrap" aria-hidden="true">
@@ -869,11 +885,11 @@ img{max-width:100%;display:block}
     <div class="hero-v3-visual">
       <div class="visual-card chat-card">
         <div class="vc-head"><span class="vc-av">原</span><span class="vc-name">原小点</span></div>
-        <div class="vc-msg">小米，回来啦。你昨天卡的"移项变号"我记着，今天先用 3 道题暖一下，再上新的。大概 20 分钟，开始吗？</div>
+        <div class="vc-msg">我只陪你做两类：今天必须做的题，和反复错的关键错因。其他低价值重复题，先放后面。</div>
       </div>
       <div class="visual-card brief-card">
-        <div class="bc-tag">📨 今日给妈妈的话</div>
-        <div class="bc-body">昨晚 25 分钟 · 3 对 1 错 · 错的「移项变号」自己想出来了。今天 16:00 该练「分式去分母」。</div>
+        <div class="bc-tag">家长雷达</div>
+        <div class="bc-body">试卷/作业上传后，雷达显示“审题建模”和“迁移应用”最弱。今晚必须做 7 道，灵活选 4 道，可跳过 5 道。</div>
       </div>
     </div>
   </div>
