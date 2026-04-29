@@ -168,9 +168,9 @@ function getPositioning() {
   return {
     primary_segment: '小学 4-6 年级，可前置到 3-5 年级',
     validation_segment: '初一初二方法升级验证',
-    not_for: '初三短期冲刺和保证提分承诺',
+    not_for: '初三短期冲刺和固定结果承诺',
     promise: '不替孩子写作业；先判断今晚哪些值得做，再把关键错因讲清楚、练到位、复盘出来。',
-    miniapp_loop: '测评/试卷/作业录入 -> 雷达弱点 -> 作业三分类 -> 原小点只辅导必须做和关键错因'
+    miniapp_loop: '测评/试卷/作业录入 -> 雷达弱点 -> 作业三分类 -> 原小点只引导高优先级任务和关键错因'
   };
 }
 

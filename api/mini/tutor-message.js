@@ -1,4 +1,4 @@
-// 原点智学 · 小程序非流式私教端点
+// 原点智学 · 小程序非流式学习陪练端点
 // POST /api/mini/tutor-message { mode, message, context }
 // 不读 service_role，不接受 student_id 作为授权边界；小程序生产版再接微信 session 归属校验。
 
@@ -49,12 +49,30 @@ function localReply(message, context = {}) {
     return `先锁定「${selected}」。它和「${weak}」有关。你先别算答案，用一句话写：题目给了哪些条件，真正问的是什么？`;
 }
 
+function localSafetyCheck(content) {
+    const text = String(content || '').toLowerCase();
+    const blocked = [
+        'suicide', 'kill myself', 'self harm',
+        '自杀', '轻生', '割腕', '跳楼',
+        '代写', '帮我写完', '直接给答案'
+    ];
+    const hit = blocked.find((word) => text.includes(word));
+    if (!hit) return { ok: true };
+    if (['代写', '帮我写完', '直接给答案'].includes(hit)) {
+        return { ok: true, homework_boundary: true };
+    }
+    return {
+        ok: false,
+        reply: '这个内容我不能继续展开。请先告诉家长或老师，如果你现在很难受，优先联系身边可信的大人。'
+    };
+}
+
 function buildPrompt(mode, context = {}) {
     const weak = (context.weak_points || []).map((item) => `${item.name}:${item.reason || ''}`).join('；') || '暂无雷达，先按审题和关键错因处理';
     const selected = context.selected_homework?.text || '未指定，默认从必须做第一项开始';
     return [
         '你是原点智学小程序里的原小点，面向小学高年级到初一初二学生。',
-        '你的定位：只辅导“必须做”和“关键错因”，不做通用闲聊，不替孩子写作业，不直接给完整答案。',
+        '你的定位：只引导高优先级任务和关键错因，不做通用闲聊，不替孩子写作业，不直接给完整答案。',
         '说话短、具体、像家教老师。每次最多 120 字。',
         '如果学生要答案，拒绝代写，并要求他说出自己的第一步。',
         '如果材料足够，先定位关键错因，再给一个最小提示。',
@@ -84,6 +102,17 @@ export default async function handler(req) {
     const context = body.context || {};
     if (!message) return json({ ok: false, error: 'missing_message', message: 'message 必填' }, 400);
 
+    const safety = localSafetyCheck(message);
+    if (!safety.ok) {
+        return json({
+            ok: true,
+            mode,
+            reply: safety.reply,
+            safety_blocked: true,
+            engine_version: 'mini-tutor-message-v1.1'
+        });
+    }
+
     const key = env.deepseek();
     if (!key) {
         return json({
@@ -91,7 +120,7 @@ export default async function handler(req) {
             mode,
             reply: localReply(message, context),
             fallback: true,
-            engine_version: 'mini-tutor-message-v1.0'
+            engine_version: 'mini-tutor-message-v1.1'
         });
     }
 
@@ -120,7 +149,7 @@ export default async function handler(req) {
                 reply: localReply(message, context),
                 fallback: true,
                 upstream_status: upstream.status,
-                engine_version: 'mini-tutor-message-v1.0'
+                engine_version: 'mini-tutor-message-v1.1'
             });
         }
         const data = await upstream.json();
@@ -130,7 +159,7 @@ export default async function handler(req) {
             mode,
             reply,
             fallback: false,
-            engine_version: 'mini-tutor-message-v1.0'
+            engine_version: 'mini-tutor-message-v1.1'
         });
     } catch (error) {
         return json({
@@ -138,7 +167,7 @@ export default async function handler(req) {
             mode,
             reply: localReply(message, context),
             fallback: true,
-            engine_version: 'mini-tutor-message-v1.0'
+            engine_version: 'mini-tutor-message-v1.1'
         });
     }
 }

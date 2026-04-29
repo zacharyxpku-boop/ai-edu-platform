@@ -25,9 +25,9 @@ Page({
       },
       {
         key: 'tutor',
-        name: '原小点私教',
-        desc: '只辅导必须做和关键错因，不替孩子写答案。',
-        action: '去辅导',
+        name: '原小点陪练',
+        desc: '只引导高优先级任务和关键错因，不替孩子写答案。',
+        action: '去陪练',
         tab: true,
         path: '/pages/tutor/tutor'
       }

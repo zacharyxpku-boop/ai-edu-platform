@@ -12,7 +12,7 @@
 - `pages/diagnosis`：成绩 + 错题描述 + 作业清单生成能力雷达。
 - `pages/upload`：作业照片留档 + 手动清单录入，不承诺 OCR。
 - `pages/radar`：雷达弱点 + 作业三分类。
-- `pages/tutor`：原小点只辅导“必须做”和“关键错因”。
+- `pages/tutor`：原小点只引导高优先级任务和关键错因。
 - `pages/profile/legal`：家长授权、隐私、协议、未成年人保护入口。
 - `api/mini/session`：小程序会话初始化；配置微信 AppID/AppSecret 后可换 openid。
 - `api/mini/tutor-message`：非流式私教对话，适配 `wx.request`。
@@ -36,7 +36,12 @@
 - 有 AI 对话时，必须补内容安全：文本 `msgSecCheck`，图片上线前再补图片安全检测。
 - 完整隐私政策、用户协议、AI 生成内容标识、未成年人保护说明需要替换当前简版文案。
 - 不做保证提分、最好、第一、精准攻克等绝对化承诺。
-- OCR 当前不实现；上线文案只能写“拍照留档 + 手动录入”。
+- 自动图片识别当前不实现；上线文案只能写“拍照留档 + 手动录入”。
+
+## 低成本上架材料
+
+- 最低成本上架作战表：[MINIAPP-LOW-COST-LAUNCH-WARROOM.md](./MINIAPP-LOW-COST-LAUNCH-WARROOM.md)
+- 审核后台复制粘贴材料：[MINIAPP-REVIEW-COPY-PASTE.md](./MINIAPP-REVIEW-COPY-PASTE.md)
 
 ## 设计自评
 

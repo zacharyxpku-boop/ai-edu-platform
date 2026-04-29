@@ -10,12 +10,12 @@
   <view class="hero panel">
     <view class="eyebrow">今晚学习决策台</view>
     <view class="title-xl">先判断哪些值得做。</view>
-    <view class="body hero-copy">根据测评、试卷和作业清单，原小点只陪孩子处理必须做和关键错因。</view>
+    <view class="body hero-copy">根据测评、试卷和作业清单，原小点只陪孩子处理高优先级任务和关键错因。</view>
     <view class="hero-actions">
       <button class="primary-button" bindtap="goUpload">录入今晚作业</button>
       <button class="secondary-button" bindtap="goDiagnosis">做一次测评</button>
     </view>
-    <view class="ai-label">AI 辅助生成建议；不替孩子写答案，不承诺保证提分。</view>
+    <view class="ai-label">AI 辅助生成建议；不替孩子写答案，不承诺固定学习结果。</view>
   </view>
 
   <view class="section panel">
@@ -73,7 +73,7 @@
       <view class="step-index">3</view>
       <view>
         <view class="step-title">原小点负责关键错因</view>
-        <view class="muted">不做通用聊天，不替写作业，只辅导必须做。</view>
+        <view class="muted">不做通用聊天，不替写作业，只引导高优先级任务。</view>
       </view>
     </view>
   </view>

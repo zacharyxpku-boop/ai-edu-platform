@@ -22,7 +22,7 @@ Page({
     const messages = storage.get(storage.KEYS.tutorMessages, null) || [
       {
         role: 'assistant',
-        text: '我只辅导必须做和关键错因，不替你写作业。把题目、你的步骤，或今晚第一项必须做发来。'
+        text: '我只处理高优先级任务和关键错因，不替你写作业。把题目、你的步骤，或今晚第一项任务发来。'
       }
     ];
     this.setData({ selected, messages });
@@ -76,7 +76,7 @@ Page({
     const messages = [
       {
         role: 'assistant',
-        text: '清空了。我们继续按规则来：只处理必须做和关键错因。'
+        text: '清空了。我们继续按规则来：只处理高优先级任务和关键错因。'
       }
     ];
     storage.set(storage.KEYS.tutorMessages, messages);

@@ -9,6 +9,7 @@
     "pages/upload/upload",
     "pages/legal/legal"
   ],
+  "__usePrivacyCheck__": true,
   "window": {
     "navigationBarTitleText": "\u539f\u70b9\u667a\u5b66",
     "navigationBarBackgroundColor": "#FAF7F0",

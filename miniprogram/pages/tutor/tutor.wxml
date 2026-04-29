@@ -3,7 +3,7 @@
     <view class="between">
       <view>
         <view class="eyebrow">YUAN XIAODIAN</view>
-        <view class="title-lg">只辅导必须做和关键错因。</view>
+        <view class="title-lg">只处理高优先级任务和关键错因。</view>
       </view>
       <button class="clear-btn" bindtap="clearChat">清空</button>
     </view>

@@ -1,5 +1,6 @@
 const priority = require('../../utils/learning-priority');
 const storage = require('../../utils/storage');
+const privacy = require('../../utils/privacy');
 
 Page({
   data: {
@@ -17,26 +18,28 @@ Page({
   },
 
   chooseImage() {
-    const onSuccess = (res) => {
-      const files = res.tempFiles || (res.tempFilePaths || []).map((path) => ({ tempFilePath: path }));
-      this.setData({
-        imagePaths: files.map((item) => item.tempFilePath).filter(Boolean).slice(0, 4)
-      });
-    };
-    if (wx.chooseMedia) {
-      wx.chooseMedia({
-        count: 4,
-        mediaType: ['image'],
-        sourceType: ['album', 'camera'],
-        success: onSuccess
-      });
-    } else {
-      wx.chooseImage({
-        count: 4,
-        sourceType: ['album', 'camera'],
-        success: onSuccess
-      });
-    }
+    privacy.requirePrivacy('照片留档').then(() => {
+      const onSuccess = (res) => {
+        const files = res.tempFiles || (res.tempFilePaths || []).map((path) => ({ tempFilePath: path }));
+        this.setData({
+          imagePaths: files.map((item) => item.tempFilePath).filter(Boolean).slice(0, 4)
+        });
+      };
+      if (wx.chooseMedia) {
+        wx.chooseMedia({
+          count: 4,
+          mediaType: ['image'],
+          sourceType: ['album', 'camera'],
+          success: onSuccess
+        });
+      } else {
+        wx.chooseImage({
+          count: 4,
+          sourceType: ['album', 'camera'],
+          success: onSuccess
+        });
+      }
+    }).catch(() => {});
   },
 
   onInput(event) {
