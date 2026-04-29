@@ -2,21 +2,21 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <title>原点智学｜自研产品技术路线与架构图谱</title>
+  <title>原点智学｜自研产品技术路线与底层架构图谱 V2</title>
   <style>
     :root {
-      --paper: #fbf7ef;
-      --panel: #fffdf8;
-      --ink: #18221d;
-      --muted: #665f55;
-      --line: #dfd3c2;
+      --paper: #f7f0e4;
+      --paper-2: #fffaf1;
+      --ink: #111713;
+      --muted: #5d635d;
+      --line: #d8cbb7;
+      --deep: #10231c;
       --green: #0f4f3d;
-      --green-soft: #e4eee8;
-      --brick: #b85c2e;
-      --brick-soft: #f3dfd2;
-      --gold: #c7973d;
-      --blue: #355b8c;
-      --shadow: 0 18px 45px rgba(24, 34, 29, 0.08);
+      --lime: #c7dc60;
+      --amber: #d49b31;
+      --coral: #cf613b;
+      --blue: #2f6f91;
+      --shadow: 0 22px 60px rgba(14, 31, 25, 0.13);
     }
 
     * { box-sizing: border-box; }
@@ -24,55 +24,65 @@
     body {
       margin: 0;
       color: var(--ink);
-      background: #e9e1d3;
-      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
-      line-height: 1.55;
+      background: #d8cfbf;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Source Han Sans SC", sans-serif;
+      line-height: 1.5;
     }
+
+    h1, h2, h3, p { margin: 0; }
 
     .page {
       width: 1123px;
       height: 794px;
       margin: 0 auto;
-      padding: 46px 58px;
+      padding: 42px 54px 52px;
       position: relative;
       overflow: hidden;
-      background: var(--paper);
+      background:
+        linear-gradient(90deg, rgba(15, 79, 61, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(15, 79, 61, 0.05) 1px, transparent 1px),
+        var(--paper);
+      background-size: 34px 34px;
       page-break-after: always;
     }
 
-    .page::before {
-      content: "";
-      position: absolute;
-      inset: 22px;
-      border: 1px solid rgba(15, 79, 61, 0.16);
-      pointer-events: none;
+    .page.dark {
+      color: #fffaf1;
+      background:
+        radial-gradient(circle at 84% 15%, rgba(199, 220, 96, 0.18), transparent 25%),
+        radial-gradient(circle at 10% 84%, rgba(207, 97, 59, 0.20), transparent 22%),
+        linear-gradient(90deg, rgba(255, 250, 241, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(255, 250, 241, 0.05) 1px, transparent 1px),
+        #0f1d17;
+      background-size: auto, auto, 34px 34px, 34px 34px, auto;
     }
 
     .topline {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 28px;
+      gap: 22px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      margin-bottom: 28px;
     }
 
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 13px;
+      gap: 12px;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0;
     }
 
     .mark {
       width: 30px;
       height: 30px;
-      border: 3px solid var(--green);
+      border: 3px solid currentColor;
       border-radius: 50%;
       position: relative;
+      display: inline-block;
     }
 
     .mark::after {
@@ -80,7 +90,7 @@
       width: 9px;
       height: 9px;
       border-radius: 50%;
-      background: var(--brick);
+      background: var(--coral);
       position: absolute;
       left: 8px;
       top: 8px;
@@ -93,371 +103,581 @@
       padding: 0 13px;
       border-radius: 999px;
       color: var(--green);
-      background: var(--green-soft);
+      background: rgba(199, 220, 96, 0.27);
+      border: 1px solid rgba(15, 79, 61, 0.12);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
+      white-space: nowrap;
     }
 
-    h1, h2, h3, p { margin: 0; }
+    .dark .tag {
+      color: var(--lime);
+      background: rgba(199, 220, 96, 0.12);
+      border-color: rgba(199, 220, 96, 0.25);
+    }
 
     h1 {
-      max-width: 820px;
-      font-size: 58px;
-      line-height: 1.05;
+      max-width: 900px;
+      font-size: 60px;
+      line-height: 1.02;
+      font-weight: 950;
       letter-spacing: 0;
-      font-weight: 900;
+      position: relative;
+      z-index: 2;
     }
 
     h2 {
-      font-size: 36px;
-      line-height: 1.12;
+      font-size: 38px;
+      line-height: 1.1;
+      font-weight: 950;
       letter-spacing: 0;
-      font-weight: 900;
+      position: relative;
+      z-index: 2;
     }
 
     h3 {
       font-size: 20px;
-      line-height: 1.25;
-      font-weight: 900;
+      line-height: 1.24;
+      font-weight: 930;
+      letter-spacing: 0;
     }
 
     .subtitle {
-      max-width: 810px;
-      margin-top: 22px;
+      max-width: 860px;
+      margin-top: 18px;
       color: var(--muted);
-      font-size: 22px;
-      line-height: 1.62;
+      font-size: 20px;
+      line-height: 1.58;
+      position: relative;
+      z-index: 2;
     }
+
+    .dark .subtitle { color: rgba(255, 250, 241, 0.72); }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.05fr 0.95fr;
       gap: 28px;
-      margin-top: 38px;
+      margin-top: 34px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 26px;
+    .thesis {
+      min-height: 250px;
+      padding: 30px 32px;
+      border-left: 8px solid var(--lime);
+      border-radius: 20px;
+      background: rgba(255, 250, 241, 0.08);
       box-shadow: var(--shadow);
     }
 
-    .quote {
-      padding: 28px;
-      border-left: 7px solid var(--brick);
-      background: #fff8f1;
+    .thesis .line {
+      font-size: 30px;
+      line-height: 1.34;
+      font-weight: 950;
+      margin-bottom: 20px;
+    }
+
+    .thesis p {
+      color: rgba(255, 250, 241, 0.76);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .signal {
+      min-height: 116px;
+      padding: 18px;
       border-radius: 18px;
-      font-size: 26px;
-      line-height: 1.48;
-      font-weight: 900;
+      background: rgba(255, 250, 241, 0.95);
+      color: var(--ink);
+      border: 1px solid rgba(255, 250, 241, 0.45);
     }
 
-    .plain-list {
-      display: grid;
-      gap: 13px;
-      margin-top: 18px;
-    }
-
-    .plain-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .dot {
-      flex: 0 0 10px;
-      width: 10px;
-      height: 10px;
-      margin-top: 9px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .metric {
-      padding: 19px;
-      border-radius: 16px;
-      background: #f2ebdf;
-      border: 1px solid #e4d7c4;
-    }
-
-    .metric b {
+    .signal b {
       display: block;
       color: var(--green);
-      font-size: 28px;
+      font-size: 32px;
       line-height: 1;
-      margin-bottom: 9px;
+      margin-bottom: 10px;
     }
 
-    .metric span {
+    .signal span {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.35;
+      line-height: 1.38;
     }
 
     .footer {
       position: absolute;
-      left: 58px;
-      right: 58px;
-      bottom: 28px;
+      left: 54px;
+      right: 54px;
+      bottom: 24px;
       display: flex;
       justify-content: space-between;
-      color: #8a8173;
+      color: rgba(17, 23, 19, 0.45);
       font-size: 12px;
-      z-index: 2;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
-      margin-top: 30px;
-    }
-
-    .flow-card {
-      min-height: 166px;
-      padding: 18px;
-      border-radius: 18px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      position: relative;
-    }
-
-    .flow-card::after {
-      content: "→";
-      position: absolute;
-      right: -18px;
-      top: 62px;
-      color: var(--brick);
-      font-size: 28px;
-      font-weight: 900;
       z-index: 3;
     }
 
-    .flow-card:last-child::after { display: none; }
+    .dark .footer { color: rgba(255, 250, 241, 0.44); }
 
-    .num {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      color: #fffdf8;
-      background: var(--green);
-      font-size: 15px;
-      font-weight: 900;
-      margin-bottom: 14px;
-    }
-
-    .flow-card p {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 14.5px;
-      line-height: 1.48;
-    }
-
-    .triage {
+    .story-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
-      margin-top: 28px;
+      margin-top: 30px;
     }
 
-    .bucket {
-      padding: 23px;
-      min-height: 146px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-    }
-
-    .bucket strong {
-      display: block;
-      font-size: 26px;
-      margin-bottom: 8px;
-    }
-
-    .bucket.must { background: var(--brick-soft); }
-    .bucket.flex { background: var(--green-soft); }
-    .bucket.skip { background: #eee6da; }
-
-    .arch {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 18px;
-      margin-top: 28px;
-    }
-
-    .layer {
-      min-height: 430px;
+    .story-card {
+      min-height: 310px;
       padding: 24px;
-      border-radius: 20px;
-      background: var(--panel);
+      border-radius: 22px;
+      background: var(--paper-2);
       border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 8px;
+      background: var(--green);
+    }
+
+    .story-card:nth-child(2)::before { background: var(--coral); }
+    .story-card:nth-child(3)::before { background: var(--blue); }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 950;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .story-card:nth-child(2) .eyebrow { color: var(--coral); }
+    .story-card:nth-child(3) .eyebrow { color: var(--blue); }
+
+    .story-card p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .loop-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .loop-step {
+      min-height: 88px;
+      padding: 13px;
+      border-radius: 16px;
+      color: #fffaf1;
+      background: var(--deep);
+      position: relative;
+    }
+
+    .loop-step::after {
+      content: "→";
+      position: absolute;
+      right: -16px;
+      top: 27px;
+      color: var(--coral);
+      font-size: 26px;
+      font-weight: 900;
+      z-index: 4;
+    }
+
+    .loop-step:last-child::after { display: none; }
+    .loop-step b { display: block; font-size: 14px; margin-bottom: 6px; }
+    .loop-step span { color: rgba(255, 250, 241, 0.72); font-size: 12px; line-height: 1.32; }
+
+    .tools-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    .tool-value {
+      padding: 28px;
+      border-radius: 24px;
+      background: var(--deep);
+      color: #fffaf1;
+      min-height: 492px;
       box-shadow: var(--shadow);
     }
 
-    .layer-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .tool-value h3 {
+      font-size: 28px;
       margin-bottom: 18px;
     }
 
-    .layer-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: var(--green);
+    .tool-value p {
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 17px;
+      line-height: 1.62;
+      margin-bottom: 18px;
     }
 
-    .layer:nth-child(2) .layer-icon { background: var(--brick); }
-    .layer:nth-child(3) .layer-icon { background: var(--blue); }
-
-    .chip-list {
-      display: flex;
-      flex-direction: column;
+    .mini-metric {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+      margin-top: 24px;
+    }
+
+    .mini-metric div {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255, 250, 241, 0.08);
+      border: 1px solid rgba(255, 250, 241, 0.12);
+    }
+
+    .mini-metric b {
+      display: block;
+      color: var(--lime);
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .tool-groups {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .tool-group {
+      min-height: 153px;
+      padding: 17px;
+      border-radius: 18px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+    }
+
+    .tool-group h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
     }
 
     .chip {
-      padding: 13px 14px;
-      border-radius: 13px;
-      color: var(--muted);
-      background: #f4ecdf;
-      border: 1px solid #e5d7c4;
-      font-size: 15.5px;
-      line-height: 1.36;
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(15, 79, 61, 0.08);
+      font-size: 12.5px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .chip b {
-      color: var(--ink);
+    .architecture {
+      margin-top: 26px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .arch-row {
+      display: grid;
+      grid-template-columns: 190px 1fr 230px;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .arch-label {
+      padding: 16px;
+      border-radius: 16px;
+      color: #fffaf1;
+      background: var(--green);
+      font-weight: 950;
+      display: grid;
+      align-content: center;
+    }
+
+    .arch-label span {
       display: block;
-      margin-bottom: 2px;
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 12px;
+      margin-top: 6px;
+      font-weight: 700;
     }
 
-    .mind {
+    .arch-core {
+      padding: 15px;
+      border-radius: 16px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-content: center;
+    }
+
+    .arch-core .chip {
+      border-radius: 10px;
+      background: #eef4e0;
+    }
+
+    .arch-proof {
+      padding: 15px;
+      border-radius: 16px;
+      color: var(--muted);
+      background: #efe5d5;
+      border: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .flywheel {
+      margin-top: 28px;
       position: relative;
-      height: 575px;
-      margin-top: 22px;
+      height: 505px;
     }
 
-    .center {
+    .fly-center {
       position: absolute;
-      left: 398px;
-      top: 194px;
-      width: 210px;
-      height: 160px;
+      left: 379px;
+      top: 142px;
+      width: 260px;
+      height: 206px;
+      border-radius: 32px;
+      background: var(--deep);
+      color: #fffaf1;
       display: grid;
       place-items: center;
       text-align: center;
-      color: #fffdf8;
-      background: var(--green);
-      border-radius: 28px;
-      padding: 22px;
-      font-size: 27px;
+      padding: 28px;
+      font-size: 30px;
       line-height: 1.22;
-      font-weight: 900;
-      box-shadow: var(--shadow);
-      z-index: 5;
-    }
-
-    .branch {
-      position: absolute;
-      width: 245px;
-      padding: 18px;
-      border-radius: 18px;
-      background: var(--panel);
-      border: 1px solid var(--line);
+      font-weight: 950;
       box-shadow: var(--shadow);
       z-index: 4;
     }
 
-    .branch h3 { color: var(--green); margin-bottom: 8px; }
-    .branch p { color: var(--muted); font-size: 14.5px; line-height: 1.45; }
-
-    .b1 { left: 64px; top: 26px; }
-    .b2 { left: 382px; top: 0; }
-    .b3 { right: 64px; top: 26px; }
-    .b4 { left: 64px; bottom: 34px; }
-    .b5 { left: 382px; bottom: 0; }
-    .b6 { right: 64px; bottom: 34px; }
-
-    .connector {
+    .fly-card {
       position: absolute;
-      height: 2px;
-      background: rgba(15, 79, 61, 0.25);
+      width: 245px;
+      min-height: 126px;
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      z-index: 3;
+    }
+
+    .fly-card h3 { font-size: 18px; color: var(--green); margin-bottom: 8px; }
+    .fly-card p { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .f1 { left: 38px; top: 18px; }
+    .f2 { left: 386px; top: 0; }
+    .f3 { right: 38px; top: 18px; }
+    .f4 { left: 110px; bottom: 16px; }
+    .f5 { right: 110px; bottom: 16px; }
+
+    .wire {
+      position: absolute;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(15, 79, 61, 0.22);
       transform-origin: left center;
       z-index: 1;
     }
 
-    .c1 { width: 280px; left: 278px; top: 136px; transform: rotate(28deg); }
-    .c2 { width: 190px; left: 500px; top: 164px; transform: rotate(90deg); }
-    .c3 { width: 280px; left: 564px; top: 136px; transform: rotate(152deg); }
-    .c4 { width: 280px; left: 278px; bottom: 136px; transform: rotate(-28deg); }
-    .c5 { width: 190px; left: 500px; bottom: 164px; transform: rotate(90deg); }
-    .c6 { width: 280px; left: 564px; bottom: 136px; transform: rotate(-152deg); }
+    .w1 { width: 260px; left: 258px; top: 105px; transform: rotate(17deg); }
+    .w2 { width: 260px; right: 258px; top: 105px; transform: rotate(163deg); }
+    .w3 { width: 250px; left: 260px; bottom: 105px; transform: rotate(-19deg); }
+    .w4 { width: 250px; right: 260px; bottom: 105px; transform: rotate(199deg); }
+    .w5 { width: 180px; left: 507px; top: 120px; transform: rotate(90deg); }
 
     .roadmap {
+      margin-top: 28px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 30px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
     }
 
     .stage {
-      min-height: 292px;
-      padding: 22px;
-      border-radius: 18px;
-      background: var(--panel);
+      min-height: 420px;
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: var(--paper-2);
       border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
     }
 
-    .stage .tag { margin-bottom: 16px; }
-    .stage p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+    .stage::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 7px;
+      background: var(--green);
+    }
+
+    .stage:nth-child(2)::before { background: var(--amber); }
+    .stage:nth-child(3)::before { background: var(--coral); }
+    .stage:nth-child(4)::before { background: var(--blue); }
+    .stage:nth-child(5)::before { background: var(--lime); }
+    .stage:nth-child(6)::before { background: var(--deep); }
+
+    .stage b {
+      display: block;
+      color: var(--green);
+      font-size: 15px;
+      margin-bottom: 12px;
+      margin-top: 2px;
+    }
+
+    .stage h3 {
+      font-size: 18px;
+      min-height: 44px;
+    }
+
+    .stage p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13.6px;
+      line-height: 1.5;
+    }
+
+    .mindmap {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .mind-col {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mind-node {
+      padding: 17px;
+      border-radius: 18px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 30px rgba(14, 31, 25, 0.07);
+    }
+
+    .mind-node h3 {
+      color: var(--green);
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .mind-node p {
+      color: var(--muted);
+      font-size: 13.6px;
+      line-height: 1.45;
+    }
+
+    .hub {
+      min-height: 360px;
+      border-radius: 34px;
+      background: var(--deep);
+      color: #fffaf1;
+      padding: 36px 32px;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .hub::before,
+    .hub::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 68px;
+      background: rgba(199, 220, 96, 0.42);
+    }
+
+    .hub::before { top: -70px; }
+    .hub::after { bottom: -70px; }
+
+    .hub h3 {
+      font-size: 37px;
+      line-height: 1.14;
+      margin-bottom: 18px;
+    }
+
+    .hub p {
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .moat-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
 
     .moat {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 26px;
-    }
-
-    .moat-card {
+      min-height: 240px;
       padding: 22px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: #fffdf8;
+      border-radius: 22px;
+      background: rgba(255, 250, 241, 0.95);
+      border: 1px solid rgba(255, 250, 241, 0.4);
+      color: var(--ink);
     }
 
-    .moat-card p {
-      color: var(--muted);
-      margin-top: 8px;
-      font-size: 15.5px;
+    .moat b {
+      display: block;
+      color: var(--green);
+      font-size: 32px;
+      margin-bottom: 12px;
     }
 
-    .small-note {
-      margin-top: 20px;
-      padding: 18px 20px;
-      border-radius: 16px;
-      color: var(--muted);
-      background: #efe6d8;
-      font-size: 15px;
+    .moat h3 { font-size: 19px; margin-bottom: 10px; }
+    .moat p { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+    .closing {
+      margin-top: 28px;
+      padding: 26px 30px;
+      border-radius: 24px;
+      background: rgba(199, 220, 96, 0.14);
+      border: 1px solid rgba(199, 220, 96, 0.28);
+      color: rgba(255, 250, 241, 0.86);
+      font-size: 24px;
+      line-height: 1.42;
+      font-weight: 900;
     }
 
     @page { size: A4 landscape; margin: 0; }
+
     @media print {
       body { background: white; }
       .page { margin: 0; box-shadow: none; }
@@ -465,221 +685,345 @@
   </style>
 </head>
 <body>
-  <section class="page">
+  <section class="page dark">
     <div class="topline">
       <div class="brand"><span class="mark"></span>原点智学</div>
-      <span class="tag">投资人技术路线简版｜2026</span>
+      <span class="tag">投资人技术路线图谱 V2 · 2026</span>
     </div>
-    <h1>不是“AI 答案机”，而是家庭学习决策系统</h1>
+    <h1>家庭学习决策操作系统，而不是又一个 AI 答案工具</h1>
     <p class="subtitle">
-      原点智学围绕中国 K12 家庭每天晚上最真实的场景：作业太多、弱点不清、家长不知道该让孩子先做什么。我们用测评、作业清单、错因记录和 AI 陪练，把“平均用力”变成“基于数据的取舍与修复”。
+      原点智学切入的是中国 K12 家庭每天晚上的高频痛点：作业太多、弱点不清、家长不知道今晚该取舍什么。我们的系统把 Tools、Tutor、雷达测评和小程序连接成一个闭环，让孩子先做最有价值的任务，再由原小点只陪练关键错因。
     </p>
 
     <div class="hero-grid">
-      <div>
-        <div class="quote">先判断今晚哪些值得做，再让原小点只处理关键错因。</div>
-        <div class="metrics">
-          <div class="metric"><b>1 个</b><span>高频入口：家庭晚间作业决策</span></div>
-          <div class="metric"><b>3 类</b><span>必须做、灵活选、可以跳过</span></div>
-          <div class="metric"><b>5 步</b><span>测评 → 雷达 → 取舍 → 陪练 → 反馈</span></div>
-        </div>
+      <div class="thesis">
+        <div class="line">投资人要记住一句话：我们不替孩子写作业，我们替家庭做学习优先级决策。</div>
+        <p>大模型只是语言和引导层；真正的公司资产来自工具入口、知识图谱、错因结构、作业三分类、学生长期画像和家长信任。</p>
       </div>
-      <div class="panel">
-        <h3>投资人应该先理解的事</h3>
-        <div class="plain-list">
-          <div class="plain-item"><span class="dot"></span><span>家长不是缺工具，是缺“今晚怎么安排”的确定感。</span></div>
-          <div class="plain-item"><span class="dot"></span><span>孩子不是需要 AI 直接给答案，而是需要在关键一步被扶一下。</span></div>
-          <div class="plain-item"><span class="dot"></span><span>数据不是从大模型来，而是从真实测评、错题、作业取舍和对话里沉淀。</span></div>
-          <div class="plain-item"><span class="dot"></span><span>微信小程序是低成本承接入口，官网和内容负责获客，小程序负责留存和转化。</span></div>
-        </div>
+      <div class="signal-grid">
+        <div class="signal"><b>18</b><span>个学习工具页面，覆盖诊断、错题、知识解释、作文、计划和 AI 素养。</span></div>
+        <div class="signal"><b>39</b><span>个 API 函数，已覆盖诊断、BKT、FSRS、记忆、家长简报、内容安全等。</span></div>
+        <div class="signal"><b>8</b><span>个小程序页面，形成今日、工具、原小点、雷达、我的五个核心入口。</span></div>
+        <div class="signal"><b>13</b><span>个数据库迁移，包含学习状态、对话、向量、留存、监护人同意等基础设施。</span></div>
       </div>
     </div>
 
-    <div class="footer"><span>Yuandian AI Learning System</span><span>01 / 05</span></div>
+    <div class="footer"><span>Yuandian AI Learning System</span><span>01 / 08</span></div>
   </section>
 
   <section class="page">
     <div class="topline">
-      <div class="brand"><span class="mark"></span>产品闭环</div>
-      <span class="tag">从工具到陪练的数据飞轮</span>
+      <div class="brand"><span class="mark"></span>三套可讲的故事</div>
+      <span class="tag">Tools · Tutor · Radar</span>
     </div>
-    <h2>每天可重复的核心闭环</h2>
-    <p class="subtitle">我们不把产品做成“功能超市”。首版只保留能产生连续数据和真实价值的闭环。</p>
+    <h2>不是功能堆叠，而是三个入口指向同一个学习决策引擎</h2>
+    <p class="subtitle">对外可以分三条线讲，对内必须合成一个闭环：工具负责低成本获客和问题采样，Tutor 负责关键错因修复，测评/雷达/作业三分类负责每日决策。</p>
 
-    <div class="flow">
-      <div class="flow-card">
-        <div class="num">1</div>
-        <h3>测评/试卷/作业录入</h3>
-        <p>用户手动输入成绩、错题描述、作业清单；照片先做本地留档，不承诺自动识别。</p>
+    <div class="story-grid">
+      <div class="story-card">
+        <div class="eyebrow">Story 1 · Tools</div>
+        <h3>工具矩阵是流量入口，也是学习问题的采样器</h3>
+        <p>考试诊断、错题练习、知识解释、作文批改、学习计划等工具满足即时需求。每一次使用都可以沉淀孩子“在哪里卡住、需要什么帮助、家长愿意为什么付费”。</p>
       </div>
-      <div class="flow-card">
-        <div class="num">2</div>
-        <h3>生成能力雷达</h3>
-        <p>把学习问题拆成概念、计算、审题、迁移、表达、负荷六个维度。</p>
+      <div class="story-card">
+        <div class="eyebrow">Story 2 · Tutor</div>
+        <h3>原小点不是聊天机器人，而是关键错因陪练</h3>
+        <p>原小点只围绕必须做任务和关键错因工作：先问思路，识别卡点，再给最小提示。它的价值不在“回答更多”，而在“让孩子少走弯路”。</p>
       </div>
-      <div class="flow-card">
-        <div class="num">3</div>
-        <h3>作业三分类</h3>
-        <p>让孩子先做最有价值的部分，而不是把精力平均摊在所有题上。</p>
-      </div>
-      <div class="flow-card">
-        <div class="num">4</div>
-        <h3>原小点思路陪练</h3>
-        <p>只处理高优先级任务和关键错因；先问思路，再给最小提示。</p>
-      </div>
-      <div class="flow-card">
-        <div class="num">5</div>
-        <h3>家长看反馈</h3>
-        <p>家长看到的是弱点、取舍和进步证据，不默认读取孩子完整对话。</p>
+      <div class="story-card">
+        <div class="eyebrow">Story 3 · Radar</div>
+        <h3>雷达和作业三分类把焦虑变成可执行安排</h3>
+        <p>测评、成绩、错题和作业清单交叉验证，形成能力雷达；系统把今晚作业拆成必须做、灵活选、可以跳过，让家庭从“全做完”走向“先做对”。</p>
       </div>
     </div>
 
-    <div class="triage">
-      <div class="bucket must">
-        <strong>必须做 40-50%</strong>
-        <p>命中当前弱点、老师课堂核心、近期反复错。不做完会拖累后续学习。</p>
-      </div>
-      <div class="bucket flex">
-        <strong>灵活选择 20-30%</strong>
-        <p>有帮助，但可根据今晚时间和精力取舍，避免过度消耗。</p>
-      </div>
-      <div class="bucket skip">
-        <strong>可以跳过 20-30%</strong>
-        <p>机械重复、已掌握、低收益任务。跳过不是偷懒，是保护精力。</p>
-      </div>
+    <div class="loop-strip">
+      <div class="loop-step"><b>输入</b><span>测评、试卷、错题、作业、对话</span></div>
+      <div class="loop-step"><b>诊断</b><span>知识点、错因、掌握度、负荷</span></div>
+      <div class="loop-step"><b>决策</b><span>必须做、灵活选、可以跳过</span></div>
+      <div class="loop-step"><b>陪练</b><span>原小点只处理关键错因</span></div>
+      <div class="loop-step"><b>反馈</b><span>家长简报、复习队列、学生画像</span></div>
     </div>
 
-    <div class="footer"><span>Product Loop</span><span>02 / 05</span></div>
+    <div class="footer"><span>Product Narrative</span><span>02 / 08</span></div>
   </section>
 
   <section class="page">
     <div class="topline">
-      <div class="brand"><span class="mark"></span>技术架构</div>
-      <span class="tag">轻量上架，重资产沉淀</span>
+      <div class="brand"><span class="mark"></span>Tools 矩阵</div>
+      <span class="tag">低成本获客 · 需求验证 · 数据入口</span>
     </div>
-    <h2>三层架构：入口轻，算法可演进，数据可沉淀</h2>
-    <p class="subtitle">首版用最低成本跑通真实用户闭环；长期价值来自学习数据、错因数据和对话记忆，而不是页面数量。</p>
+    <h2>Tools 不是边角料，是原点智学的前置分发网络</h2>
+    <p class="subtitle">投资人看到 Tools，要看到两层价值：第一层是 SEO/社群/小程序里的低成本入口；第二层是把用户问题结构化成后续 Tutor 和雷达能消费的数据。</p>
 
-    <div class="arch">
-      <div class="layer">
-        <div class="layer-title"><span class="layer-icon"></span><h3>用户入口层</h3></div>
-        <div class="chip-list">
-          <div class="chip"><b>官网</b>承接内容、工具、品牌和留资。</div>
-          <div class="chip"><b>微信小程序</b>承接高频使用：今日决策、工具、雷达、原小点。</div>
-          <div class="chip"><b>家长端</b>看弱点、作业取舍和进步证据。</div>
-          <div class="chip"><b>运营端</b>看留资、数据和内测反馈。</div>
+    <div class="tools-layout">
+      <div class="tool-value">
+        <h3>为什么 Tools 对商业化关键</h3>
+        <p>单一 AI Tutor 很难冷启动，因为家长还不知道孩子的问题是什么。工具矩阵先接住具体场景：试卷分析、错题复盘、知识讲解、作文反馈、学习计划。</p>
+        <p>当工具识别出孩子的薄弱点，系统再自然推荐雷达诊断、原小点陪练和家长端反馈，转化路径更短，信任成本更低。</p>
+        <div class="mini-metric">
+          <div><b>入口</b><span>内容和搜索带来的免费流量</span></div>
+          <div><b>采样</b><span>学习任务和错因的结构化输入</span></div>
+          <div><b>转化</b><span>从一次工具使用进入长期画像</span></div>
+          <div><b>扩展</b><span>可做第三方 AI 工具推荐和合作</span></div>
         </div>
       </div>
-      <div class="layer">
-        <div class="layer-title"><span class="layer-icon"></span><h3>学习智能层</h3></div>
-        <div class="chip-list">
-          <div class="chip"><b>作业优先级算法</b>将任务拆成必须做、灵活选、可跳过。</div>
-          <div class="chip"><b>错因诊断</b>把错误归因到概念、审题、迁移、表达等维度。</div>
-          <div class="chip"><b>AI 陪练</b>服务端调用模型，拒绝代写，给最小提示。</div>
-          <div class="chip"><b>掌握度与复习</b>BKT / FSRS 为后续个性化推荐提供基础。</div>
+
+      <div class="tool-groups">
+        <div class="tool-group">
+          <h3>诊断评估</h3>
+          <div class="chips">
+            <span class="chip">exam-diagnosis</span><span class="chip">learning-profile</span><span class="chip">scoring-breakdown</span>
+          </div>
         </div>
-      </div>
-      <div class="layer">
-        <div class="layer-title"><span class="layer-icon"></span><h3>数据资产层</h3></div>
-        <div class="chip-list">
-          <div class="chip"><b>Supabase/Postgres</b>学生状态、错题、对话、复习状态。</div>
-          <div class="chip"><b>知识图谱</b>按学科、年级、章节组织知识点。</div>
-          <div class="chip"><b>对话记忆</b>沉淀孩子常见卡点、学习风格和兴趣线索。</div>
-          <div class="chip"><b>安全合规</b>小程序隐私授权、内容预检、服务端模型调用。</div>
+        <div class="tool-group">
+          <h3>错题修复</h3>
+          <div class="chips">
+            <span class="chip">error-mastery</span><span class="chip">error-practice</span><span class="chip">feynman-verify</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <h3>知识理解</h3>
+          <div class="chips">
+            <span class="chip">knowledge-explain</span><span class="chip">knowledge-visual</span><span class="chip">textbook-browser</span><span class="chip">knowledge-arcade</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <h3>学习生产力</h3>
+          <div class="chips">
+            <span class="chip">study-plan</span><span class="chip">note-enhancer</span><span class="chip">essay-grading</span><span class="chip">exam-generator</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <h3>表达与素养</h3>
+          <div class="chips">
+            <span class="chip">reading-rewriter</span><span class="chip">art-thinking</span><span class="chip">music-appreciation</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <h3>全球 AI 工具导航</h3>
+          <div class="chips">
+            <span class="chip">global-picks</span><span class="chip">tools-guide</span><span class="chip">study-tools</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="footer"><span>Architecture</span><span>03 / 05</span></div>
+    <div class="footer"><span>Tools Layer</span><span>03 / 08</span></div>
   </section>
 
   <section class="page">
     <div class="topline">
-      <div class="brand"><span class="mark"></span>思维导图</div>
-      <span class="tag">投资人版，一眼看懂</span>
+      <div class="brand"><span class="mark"></span>底层智能架构</div>
+      <span class="tag">从页面产品到学习基础设施</span>
     </div>
-    <h2>原点智学的自研系统图谱</h2>
+    <h2>真正的技术路线：输入标准化、诊断引擎、模型编排、数据资产</h2>
+    <p class="subtitle">这不是“前端套一个大模型”。底层已经拆成多层：用户入口层、学习智能层、模型路由层、数据资产层、安全合规层。每层都可以独立演进。</p>
 
-    <div class="mind">
-      <div class="connector c1"></div><div class="connector c2"></div><div class="connector c3"></div>
-      <div class="connector c4"></div><div class="connector c5"></div><div class="connector c6"></div>
-
-      <div class="center">AI 学习<br>决策系统</div>
-      <div class="branch b1">
-        <h3>用户痛点</h3>
-        <p>作业多、弱点不清、家长无法判断今晚该做什么。</p>
+    <div class="architecture">
+      <div class="arch-row">
+        <div class="arch-label">输入层<span>用户真实学习现场</span></div>
+        <div class="arch-core">
+          <span class="chip">测评题</span><span class="chip">试卷成绩</span><span class="chip">错题描述</span><span class="chip">作业清单</span><span class="chip">Tutor 对话</span><span class="chip">家长反馈</span>
+        </div>
+        <div class="arch-proof">当前小程序已有 diagnosis、upload、tools、tutor、radar 页面；首版先手动录入，OCR 后置。</div>
       </div>
-      <div class="branch b2">
-        <h3>核心产品</h3>
-        <p>测评/作业录入、能力雷达、作业三分类、原小点陪练。</p>
+      <div class="arch-row">
+        <div class="arch-label">学习智能层<span>教育逻辑和算法</span></div>
+        <div class="arch-core">
+          <span class="chip">知识图谱</span><span class="chip">64 类错因</span><span class="chip">BKT 掌握度</span><span class="chip">FSRS 复习</span><span class="chip">IRT 难度</span><span class="chip">BM25 召回</span><span class="chip">NCDM 代理</span>
+        </div>
+        <div class="arch-proof">对应 api/bkt、fsrs、mistake-graph、knowledge-tree、chapter-match、mastery-proxy 等模块。</div>
       </div>
-      <div class="branch b3">
-        <h3>AI 角色</h3>
-        <p>不是答案机，而是只围绕关键错因给最小提示的思路陪练。</p>
+      <div class="arch-row">
+        <div class="arch-label">模型编排层<span>AI 只做擅长的事</span></div>
+        <div class="arch-core">
+          <span class="chip">llm-route</span><span class="chip">tutor-chat</span><span class="chip">retrieve</span><span class="chip">openai-diagnose</span><span class="chip">moderation</span><span class="chip">mini content-check</span>
+        </div>
+        <div class="arch-proof">服务端代理保护密钥；内容安全和审核口径前置，降低小程序上架风险。</div>
       </div>
-      <div class="branch b4">
-        <h3>技术内核</h3>
-        <p>知识图谱、错因诊断、掌握度估计、间隔复习、对话记忆。</p>
+      <div class="arch-row">
+        <div class="arch-label">数据资产层<span>越用越懂孩子</span></div>
+        <div class="arch-core">
+          <span class="chip">Supabase Postgres</span><span class="chip">pgvector</span><span class="chip">dialogue embeddings</span><span class="chip">student memory</span><span class="chip">retention policy</span><span class="chip">guardian consent</span>
+        </div>
+        <div class="arch-proof">13 个迁移已覆盖学习状态、对话向量、家长推送、留存和监护人同意。</div>
       </div>
-      <div class="branch b5">
-        <h3>数据飞轮</h3>
-        <p>测评、错题、作业取舍、对话反馈持续生成个人学习画像。</p>
-      </div>
-      <div class="branch b6">
-        <h3>商业落地</h3>
-        <p>官网获客，小程序留存，家长留资，内测验证后扩展付费服务。</p>
+      <div class="arch-row">
+        <div class="arch-label">输出层<span>让家庭今晚能行动</span></div>
+        <div class="arch-core">
+          <span class="chip">能力雷达</span><span class="chip">作业三分类</span><span class="chip">必须做陪练</span><span class="chip">家长简报</span><span class="chip">复习队列</span><span class="chip">运营看板</span>
+        </div>
+        <div class="arch-proof">输出不是“答案”，而是优先级、错因、建议和进步证据。</div>
       </div>
     </div>
 
-    <div class="footer"><span>Mind Map</span><span>04 / 05</span></div>
+    <div class="footer"><span>Architecture Stack</span><span>04 / 08</span></div>
   </section>
 
   <section class="page">
     <div class="topline">
-      <div class="brand"><span class="mark"></span>路线与壁垒</div>
-      <span class="tag">Now / Next / Later</span>
+      <div class="brand"><span class="mark"></span>数据飞轮</div>
+      <span class="tag">越用越个性化，越个性化越难替代</span>
     </div>
-    <h2>从小程序 MVP 到学习数据资产</h2>
+    <h2>壁垒不是模型本身，而是家庭学习现场产生的连续数据</h2>
+    <p class="subtitle">大模型能力会越来越普惠，原点智学要沉淀的是“同一个孩子长期使用后的个人学习画像”：弱点轨迹、错因模式、作业取舍偏好、提示敏感度、复习节奏和家长反馈。</p>
+
+    <div class="flywheel">
+      <div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div><div class="wire w5"></div>
+      <div class="fly-center">学生长期画像<br>Learning Graph</div>
+      <div class="fly-card f1">
+        <h3>1. 多入口采样</h3>
+        <p>工具、测评、错题、作业、Tutor 对话同时提供学习证据。</p>
+      </div>
+      <div class="fly-card f2">
+        <h3>2. 结构化诊断</h3>
+        <p>把碎片输入映射到知识点、错因、掌握度、负荷和学习习惯。</p>
+      </div>
+      <div class="fly-card f3">
+        <h3>3. 每日优先级</h3>
+        <p>系统决定今晚必须做什么、什么可以跳过、原小点陪练哪里。</p>
+      </div>
+      <div class="fly-card f4">
+        <h3>4. 结果回流</h3>
+        <p>做题结果、对话表现、家长反馈进入下一轮推荐和复习。</p>
+      </div>
+      <div class="fly-card f5">
+        <h3>5. 信任加深</h3>
+        <p>家长看到孩子不是“更累”，而是更会取舍、更会复盘。</p>
+      </div>
+    </div>
+
+    <div class="footer"><span>Data Flywheel</span><span>05 / 08</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="mark"></span>技术路线</div>
+      <span class="tag">从低成本小程序到学习数据资产</span>
+    </div>
+    <h2>先用最小成本验证高频闭环，再逐步加重智能和商业化</h2>
+    <p class="subtitle">路线重点不是一上来做满 OCR、支付和复杂资质，而是先证明家长每天愿意打开、孩子愿意继续用、作业三分类确实能减少无效消耗。</p>
 
     <div class="roadmap">
       <div class="stage">
-        <span class="tag">Now</span>
-        <h3>低成本上架</h3>
-        <p>原生微信小程序、官网 API、小程序审核材料、一键预检脚本。首版不做支付、不做 OCR、不碰复杂教育资质。</p>
+        <b>0 · 已有资产</b>
+        <h3>官网 + Tools + API</h3>
+        <p>现有官网、18 个工具、39 个 API、知识库、题库样本、父母端页面和管理端，已经能承接获客与演示。</p>
       </div>
       <div class="stage">
-        <span class="tag">Next</span>
-        <h3>真实用户验证</h3>
-        <p>验证家长是否每天打开、孩子是否愿意继续做、作业三分类是否真的减少无效消耗。</p>
+        <b>1 · 小程序 MVP</b>
+        <h3>最小上架闭环</h3>
+        <p>今日、工具、原小点、雷达、我的五个入口。首版不做支付、不做 OCR、不碰 Apple ID，只跑通手动录入和学习建议。</p>
       </div>
       <div class="stage">
-        <span class="tag">Data</span>
-        <h3>沉淀学习画像</h3>
-        <p>形成孩子的弱点轨迹、错因库、作业选择偏好、对话记忆和复习节奏。</p>
+        <b>2 · 数据闭环</b>
+        <h3>学生画像与家长反馈</h3>
+        <p>接入微信登录、家长绑定、内容安全、学生记忆、家长简报和留存观察，验证真实家庭是否复用。</p>
       </div>
       <div class="stage">
-        <span class="tag">Scale</span>
-        <h3>扩展商业化</h3>
-        <p>接入微信登录、家长绑定、官方内容安全、OCR/试卷识别、付费服务和线下/社群转化。</p>
+        <b>3 · 智能增强</b>
+        <h3>试卷/作业识别</h3>
+        <p>在闭环成立后再接 OCR 和自动题目结构化，把照片变成错因、知识点和作业优先级输入。</p>
+      </div>
+      <div class="stage">
+        <b>4 · 付费转化</b>
+        <h3>订阅与服务包</h3>
+        <p>先做家长愿意付费的诊断报告、陪练包、周计划和社群服务，再补支付与会员体系。</p>
+      </div>
+      <div class="stage">
+        <b>5 · 平台化</b>
+        <h3>工具生态与内容资产</h3>
+        <p>扩展学科、题库、教材、第三方 AI 工具推荐、渠道合作和线下/社群转化，形成家庭学习入口。</p>
       </div>
     </div>
 
-    <div class="moat">
-      <div class="moat-card">
-        <h3>为什么不是大模型套壳</h3>
-        <p>大模型负责语言和引导，但系统价值来自学习流程设计、错因结构、作业优先级和长期数据沉淀。</p>
+    <div class="footer"><span>Technical Roadmap</span><span>06 / 08</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="mark"></span>投资人可读思维导图</div>
+      <span class="tag">一眼看懂业务、技术、数据、商业化</span>
+    </div>
+    <h2>原点智学系统图谱：六条线汇入一个家庭学习决策引擎</h2>
+
+    <div class="mindmap">
+      <div class="mind-col">
+        <div class="mind-node">
+          <h3>获客面</h3>
+          <p>官网内容、工具矩阵、公众号/社群、小程序分享，低成本触达家长。</p>
+        </div>
+        <div class="mind-node">
+          <h3>学习面</h3>
+          <p>知识解释、错题修复、考试诊断、作文反馈、学习计划，承接即时需求。</p>
+        </div>
+        <div class="mind-node">
+          <h3>家长面</h3>
+          <p>能力雷达、作业三分类、家长简报和进步证据，解决“今晚怎么安排”。</p>
+        </div>
       </div>
-      <div class="moat-card">
-        <h3>为什么有壁垒</h3>
-        <p>同一个孩子长期使用后，会沉淀专属弱点、错因、节奏和家长反馈，形成可复用的数据资产。</p>
+
+      <div class="hub">
+        <h3>家庭学习<br>决策引擎</h3>
+        <p>把测评、错题、作业、对话和反馈合成每日优先级，让孩子少做无效功，多修关键错因。</p>
+      </div>
+
+      <div class="mind-col">
+        <div class="mind-node">
+          <h3>智能层</h3>
+          <p>知识图谱、错因诊断、BKT/FSRS/IRT、检索召回、模型路由和内容安全。</p>
+        </div>
+        <div class="mind-node">
+          <h3>数据层</h3>
+          <p>学生状态、题目尝试、对话记忆、向量检索、复习状态、家长授权和留存策略。</p>
+        </div>
+        <div class="mind-node">
+          <h3>商业化</h3>
+          <p>小程序留存、诊断报告、陪练订阅、周计划服务、工具合作与内容分发。</p>
+        </div>
       </div>
     </div>
 
-    <div class="small-note">
-      当前阶段的核心目标：不是一次性做全功能教育平台，而是用微信小程序跑通“每天晚上帮家长和孩子做学习取舍”的高频闭环。
+    <div class="footer"><span>Mind Map</span><span>07 / 08</span></div>
+  </section>
+
+  <section class="page dark">
+    <div class="topline">
+      <div class="brand"><span class="mark"></span>为什么值得投</div>
+      <span class="tag">Wedge · Moat · Expansion</span>
+    </div>
+    <h2>从免费工具入口，走向家庭学习决策 OS</h2>
+    <p class="subtitle">这条路线的性感之处，不是“我们也有 AI Tutor”，而是从一个高频、焦虑、付费意愿明确的家庭场景切入，并把每次学习行为沉淀成下次决策的燃料。</p>
+
+    <div class="moat-grid">
+      <div class="moat">
+        <b>01</b>
+        <h3>高频刚需入口</h3>
+        <p>作业、错题、考试、家长焦虑每天发生，比单次课程购买更容易形成使用习惯。</p>
+      </div>
+      <div class="moat">
+        <b>02</b>
+        <h3>不是答案替代，而是决策替代</h3>
+        <p>避开“AI 写作业”的信任风险，定位在学习优先级、错因修复和家长反馈。</p>
+      </div>
+      <div class="moat">
+        <b>03</b>
+        <h3>工具矩阵降低获客成本</h3>
+        <p>18 个工具能承接搜索、内容、社群和小程序分享，把单点需求导入长期画像。</p>
+      </div>
+      <div class="moat">
+        <b>04</b>
+        <h3>数据资产随使用复利</h3>
+        <p>同一个孩子越用，系统越懂他的弱点、错因、节奏和家长偏好，迁移成本越高。</p>
+      </div>
     </div>
 
-    <div class="footer"><span>Roadmap & Moat</span><span>05 / 05</span></div>
+    <div class="closing">
+      原点智学的终局不是“一个会聊天的老师”，而是中国家庭的学习调度层：知道孩子哪里弱、今晚先做什么、做错后怎么修、家长该看到什么。
+    </div>
+
+    <div class="footer"><span>Investor Takeaway</span><span>08 / 08</span></div>
   </section>
 </body>
 </html>
