@@ -22,6 +22,16 @@
 
 ## 账号与后台配置
 
+### 先讲清楚：不是 Apple ID
+
+微信小程序需要的是微信公众平台给每个小程序生成的 `AppID`，不是 Apple ID。
+
+- `AppID`：小程序项目身份证，开发者工具上传、体验版、审核、发布都需要它。
+- `AppSecret`：服务端换取用户 `openid` 时才需要。首版可以先不配，当前代码会降级成本地体验模式。
+- Apple ID：不需要。除非未来做独立 iOS App，否则和小程序上架无关。
+
+最低成本结论：先拿 `AppID`，把 `project.config.json` 的 `touristappid` 换掉；`AppSecret` 后面要做真实登录/家长绑定时再配。
+
 1. 注册微信小程序账号。
 2. 有企业/个体工商户主体时优先用主体账号；没有资质时先用能提交的工具类路径验证 MVP。
 3. 修改 `miniprogram/project.config.json`：
