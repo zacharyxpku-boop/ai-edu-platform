@@ -1,0 +1,19 @@
+.legal-line {
+  display: flex;
+  gap: 16rpx;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #E8E1D5;
+}
+
+.legal-line:last-child {
+  border-bottom: 0;
+}
+
+.dot {
+  flex: 0 0 14rpx;
+  width: 14rpx;
+  height: 14rpx;
+  margin-top: 16rpx;
+  background: #0F4F3D;
+  border-radius: 50%;
+}

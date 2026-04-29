@@ -1,0 +1,31 @@
+<view class="tutor-page safe-bottom">
+  <view class="scope panel">
+    <view class="between">
+      <view>
+        <view class="eyebrow">YUAN XIAODIAN</view>
+        <view class="title-lg">只辅导必须做和关键错因。</view>
+      </view>
+      <button class="clear-btn" bindtap="clearChat">清空</button>
+    </view>
+    <view class="body scope-copy">不会替孩子写答案。会先问思路，再给最小提示，让孩子自己跨过关键一步。</view>
+    <view class="selected" wx:if="{{selected}}">
+      <view class="muted">当前锁定</view>
+      <view class="selected-text">{{selected.text}}</view>
+    </view>
+    <button class="secondary-button quick-btn" bindtap="quickStart">从第一项必须做开始</button>
+  </view>
+
+  <scroll-view class="chat" scroll-y>
+    <view class="message {{item.role}}" wx:for="{{messages}}" wx:key="index">
+      <view class="bubble">{{item.text}}</view>
+    </view>
+    <view class="message assistant" wx:if="{{loading}}">
+      <view class="bubble">我在拆关键错因，先等我一句。</view>
+    </view>
+  </scroll-view>
+
+  <view class="composer">
+    <textarea class="composer-input" value="{{input}}" bindinput="onInput" placeholder="贴题目、步骤或作业项。不要只发“给答案”。" />
+    <button class="send-btn" bindtap="send">发送</button>
+  </view>
+</view>

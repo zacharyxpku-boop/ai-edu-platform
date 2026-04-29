@@ -1,0 +1,45 @@
+<view class="page safe-bottom">
+  <view class="eyebrow">ASSESSMENT</view>
+  <view class="title-xl">10 分钟定位弱点。</view>
+  <view class="body intro">MVP 先验证人教版主流题型：成绩、错题描述和作业清单交叉判断。</view>
+
+  <view class="section panel stack">
+    <view class="field">
+      <view class="label">年级</view>
+      <picker range="{{gradeOptions}}" bindchange="onGradeChange">
+        <view class="picker-box">{{form.grade}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <view class="label">学科</view>
+      <picker range="{{subjectOptions}}" bindchange="onSubjectChange">
+        <view class="picker-box">{{form.subject}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <view class="label">本次成绩</view>
+      <view class="score-row">
+        <input class="input" type="number" value="{{form.score}}" data-field="score" bindinput="onInput" />
+        <view class="score-sep">/</view>
+        <input class="input" type="number" value="{{form.totalScore}}" data-field="totalScore" bindinput="onInput" />
+      </view>
+    </view>
+    <view class="field">
+      <view class="label">今晚可用时间</view>
+      <input class="input" type="number" value="{{form.minutes}}" data-field="minutes" bindinput="onInput" />
+      <view class="muted">单位：分钟。系统会按时间做取舍。</view>
+    </view>
+    <view class="field">
+      <view class="label">错题/试卷描述</view>
+      <textarea class="textarea" value="{{form.examText}}" data-field="examText" bindinput="onInput" placeholder="例：应用题读题慢，方程移项经常变号，压轴题没有思路。" />
+    </view>
+    <view class="field">
+      <view class="label">今晚作业清单</view>
+      <textarea class="textarea" value="{{form.homeworkText}}" data-field="homeworkText" bindinput="onInput" placeholder="每行一项：数学方程基础题 8 道；应用题 4 道；整理错题。" />
+    </view>
+  </view>
+
+  <view class="submit-bar">
+    <button class="primary-button" bindtap="submit">生成雷达与作业三分类</button>
+  </view>
+</view>

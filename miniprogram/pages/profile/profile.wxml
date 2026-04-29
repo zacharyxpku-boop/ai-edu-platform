@@ -1,0 +1,53 @@
+<view class="page safe-bottom">
+  <view class="eyebrow">PROFILE</view>
+  <view class="title-xl">上线前，先把合规入口放对。</view>
+
+  <view class="section panel stack">
+    <view class="title-md">孩子学习档案</view>
+    <view class="field">
+      <view class="label">昵称</view>
+      <input class="input" value="{{profile.name}}" data-field="name" bindinput="onProfileInput" placeholder="可不填真实姓名" />
+    </view>
+    <view class="field">
+      <view class="label">年级</view>
+      <input class="input" value="{{profile.grade}}" data-field="grade" bindinput="onProfileInput" />
+    </view>
+    <view class="field">
+      <view class="label">主学科</view>
+      <input class="input" value="{{profile.subject}}" data-field="subject" bindinput="onProfileInput" />
+    </view>
+  </view>
+
+  <view class="section panel-quiet">
+    <view class="between">
+      <view>
+        <view class="title-md">家长授权</view>
+        <view class="muted">未成年人使用需要家长知情；孩子完整对话默认不展示给家长。</view>
+      </view>
+      <switch checked="{{consent}}" bindchange="onConsent" color="#0F4F3D" />
+    </view>
+  </view>
+
+  <view class="section panel stack">
+    <view class="title-md">咨询/内测报名</view>
+    <view class="field">
+      <view class="label">家长称呼</view>
+      <input class="input" value="{{lead.name}}" data-field="name" bindinput="onLeadInput" placeholder="例：张女士" />
+    </view>
+    <view class="field">
+      <view class="label">手机号</view>
+      <input class="input" type="number" value="{{lead.phone}}" data-field="phone" bindinput="onLeadInput" placeholder="用于回访，不公开展示" />
+    </view>
+    <view class="field">
+      <view class="label">孩子情况</view>
+      <input class="input" value="{{lead.kid}}" data-field="kid" bindinput="onLeadInput" placeholder="例：五年级，数学应用题卡住" />
+    </view>
+    <button class="primary-button" bindtap="submitLead" loading="{{sending}}">提交咨询</button>
+  </view>
+
+  <view class="section legal-list">
+    <button class="legal-item" data-type="privacy" bindtap="openLegal">隐私政策</button>
+    <button class="legal-item" data-type="terms" bindtap="openLegal">用户协议</button>
+    <button class="legal-item" data-type="minor" bindtap="openLegal">未成年人保护</button>
+  </view>
+</view>

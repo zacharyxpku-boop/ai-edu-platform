@@ -1,0 +1,88 @@
+<view class="page safe-bottom">
+  <view class="eyebrow">RADAR</view>
+  <view class="title-xl">先看今晚最该补什么。</view>
+
+  <view class="section panel">
+    <view class="between">
+      <view>
+        <view class="title-md">当前最影响的弱点</view>
+        <view class="muted">{{state.grade}} · {{state.subject}} · {{state.textbook_version}}</view>
+      </view>
+      <button class="text-link" bindtap="goUpload">更新作业</button>
+    </view>
+    <view class="weak-list">
+      <view class="weak-card" wx:for="{{weakPoints}}" wx:key="key">
+        <view class="between">
+          <view class="weak-name">{{item.name}}</view>
+          <view class="score">{{item.score}}</view>
+        </view>
+        <view class="bar">
+          <view class="bar-fill warn" style="width: {{item.score}}%;"></view>
+        </view>
+        <view class="muted reason">{{item.reason}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel radar-panel">
+    <view class="title-md">能力雷达</view>
+    <canvas canvas-id="radarCanvas" class="radar-canvas"></canvas>
+    <view class="axis-list">
+      <view class="axis-item" wx:for="{{axes}}" wx:key="key">
+        <view class="between">
+          <view>{{item.name}}</view>
+          <view>{{item.score}}</view>
+        </view>
+        <view class="bar"><view class="bar-fill" style="width: {{item.score}}%;"></view></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section bucket bucket-must">
+    <view class="bucket-head">
+      <view>
+        <view class="title-md">必须做</view>
+        <view class="muted">命中弱点、课堂核心、近期反复错。</view>
+      </view>
+      <view class="pill-warm pill">{{plan.must_do.length}} 项</view>
+    </view>
+    <view class="bucket-list">
+      <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">
+        <view class="homework-text">{{item.text}}</view>
+        <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section bucket">
+    <view class="bucket-head">
+      <view>
+        <view class="title-md">灵活选择</view>
+        <view class="muted">有帮助，但可以看今晚精力。</view>
+      </view>
+      <view class="pill">{{plan.flexible.length}} 项</view>
+    </view>
+    <view class="bucket-list">
+      <view class="homework-item" wx:for="{{plan.flexible}}" wx:key="id" data-bucket="flexible" data-index="{{index}}" bindtap="selectHomework">
+        <view class="homework-text">{{item.text}}</view>
+        <view class="muted">{{item.reason}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section bucket bucket-skip">
+    <view class="bucket-head">
+      <view>
+        <view class="title-md">可以跳过</view>
+        <view class="muted">机械重复或低收益，跳过是保护精力。</view>
+      </view>
+      <view class="pill">{{plan.can_skip.length}} 项</view>
+    </view>
+    <view class="bucket-list">
+      <view class="homework-item" wx:for="{{plan.can_skip}}" wx:key="id">
+        <view class="homework-text">{{item.text}}</view>
+        <view class="muted">{{item.reason}}</view>
+      </view>
+    </view>
+  </view>
+</view>

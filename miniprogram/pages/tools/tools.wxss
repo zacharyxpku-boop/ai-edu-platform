@@ -1,0 +1,39 @@
+.intro {
+  margin-top: 20rpx;
+}
+
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.tool-card {
+  padding: 28rpx;
+}
+
+.tool-name {
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.tool-desc {
+  margin-top: 12rpx;
+}
+
+.tool-key {
+  flex: 0 0 54rpx;
+  width: 54rpx;
+  height: 54rpx;
+  color: #0F4F3D;
+  background: #E8EFE9;
+  border-radius: 50%;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 54rpx;
+  text-align: center;
+}
+
+.tool-action {
+  margin-top: 24rpx;
+}

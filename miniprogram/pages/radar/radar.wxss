@@ -1,0 +1,94 @@
+.text-link {
+  color: #0F4F3D;
+  font-size: 25rpx;
+  font-weight: 800;
+}
+
+.weak-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.weak-card {
+  padding: 22rpx;
+  background: #F7F1E8;
+  border-radius: 14rpx;
+}
+
+.weak-name {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.reason {
+  margin-top: 12rpx;
+}
+
+.radar-panel {
+  overflow: hidden;
+}
+
+.radar-canvas {
+  display: block;
+  width: 600rpx;
+  height: 600rpx;
+  margin: 0 auto;
+}
+
+.axis-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.axis-item {
+  color: #4A463E;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.bucket {
+  padding: 28rpx;
+  background: #FFFDF8;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 16rpx;
+}
+
+.bucket-must {
+  border-color: #E2B9A0;
+}
+
+.bucket-skip {
+  background: #F3EEE4;
+}
+
+.bucket-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.bucket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.homework-item {
+  padding: 20rpx;
+  background: #FFFFFF;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 14rpx;
+}
+
+.homework-text {
+  margin-bottom: 8rpx;
+  color: #1A1A1A;
+  font-size: 27rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}

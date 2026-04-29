@@ -1,0 +1,31 @@
+<view class="page safe-bottom">
+  <view class="eyebrow">HOMEWORK</view>
+  <view class="title-xl">今晚作业怎么取舍？</view>
+  <view class="body intro">OCR 先不上。可以拍照留档，但请手动录入题号、错题或作业清单。</view>
+
+  <view class="section panel stack">
+    <view class="notice">
+      <view class="notice-title">MVP 规则</view>
+      <view class="muted">诊断依据来自文字录入；照片只作为本地记录，不上传识别。</view>
+    </view>
+
+    <button class="ghost-button" bindtap="chooseImage">选择照片留档</button>
+    <view class="image-list" wx:if="{{imagePaths.length}}">
+      <image class="thumb" mode="aspectFill" wx:for="{{imagePaths}}" wx:key="*this" src="{{item}}" />
+    </view>
+
+    <view class="field">
+      <view class="label">今晚可用时间</view>
+      <input class="input" type="number" value="{{minutes}}" bindinput="onMinutes" />
+    </view>
+
+    <view class="field">
+      <view class="label">作业清单</view>
+      <textarea class="textarea" value="{{homeworkText}}" bindinput="onInput" placeholder="例：数学方程基础题 8 道；应用题 4 道；英语单词抄写 3 遍；整理错题。" />
+    </view>
+  </view>
+
+  <view class="submit-bar">
+    <button class="primary-button" bindtap="submit">生成必须做/可跳过/灵活选</button>
+  </view>
+</view>

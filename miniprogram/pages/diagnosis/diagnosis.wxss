@@ -1,0 +1,26 @@
+.intro {
+  margin-top: 20rpx;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.score-row .input {
+  flex: 1;
+}
+
+.score-sep {
+  color: #8A8377;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.submit-bar {
+  position: sticky;
+  bottom: 24rpx;
+  margin-top: 30rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}

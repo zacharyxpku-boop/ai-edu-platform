@@ -1,0 +1,80 @@
+<view class="page home-page safe-bottom">
+  <view class="brand-row">
+    <view class="brand-mark"></view>
+    <view>
+      <view class="brand-name">原点智学</view>
+      <view class="muted">小程序 MVP</view>
+    </view>
+  </view>
+
+  <view class="hero panel">
+    <view class="eyebrow">今晚学习决策台</view>
+    <view class="title-xl">先判断哪些值得做。</view>
+    <view class="body hero-copy">根据测评、试卷和作业清单，原小点只陪孩子处理必须做和关键错因。</view>
+    <view class="hero-actions">
+      <button class="primary-button" bindtap="goUpload">录入今晚作业</button>
+      <button class="secondary-button" bindtap="goDiagnosis">做一次测评</button>
+    </view>
+    <view class="ai-label">AI 辅助生成建议；不替孩子写答案，不承诺保证提分。</view>
+  </view>
+
+  <view class="section panel">
+    <view class="between">
+      <view>
+        <view class="title-md">今日结论</view>
+        <view class="muted">更新于 {{updatedText}}</view>
+      </view>
+      <button class="text-link" bindtap="goRadar">看雷达</button>
+    </view>
+
+    <view class="weak-list">
+      <view class="weak-item" wx:for="{{weakPoints}}" wx:key="key">
+        <view>
+          <view class="weak-name">{{item.name}}</view>
+          <view class="muted">{{item.reason}}</view>
+        </view>
+        <view class="score">{{item.score}}</view>
+      </view>
+    </view>
+
+    <view class="triage-strip">
+      <view class="triage-stat danger">
+        <view class="stat-num">{{stats.must}}</view>
+        <view class="stat-label">必须做</view>
+      </view>
+      <view class="triage-stat">
+        <view class="stat-num">{{stats.flexible}}</view>
+        <view class="stat-label">灵活选</view>
+      </view>
+      <view class="triage-stat quiet">
+        <view class="stat-num">{{stats.skip}}</view>
+        <view class="stat-label">可跳过</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section loop panel-quiet">
+    <view class="title-md">三条主线</view>
+    <view class="loop-step">
+      <view class="step-index">1</view>
+      <view>
+        <view class="step-title">工具先建立信任</view>
+        <view class="muted">测评、错因、计划先给家长一个能用的入口。</view>
+      </view>
+    </view>
+    <view class="loop-step">
+      <view class="step-index">2</view>
+      <view>
+        <view class="step-title">雷达给出取舍</view>
+        <view class="muted">弱点不是越多越好，今晚只抓最影响的两三处。</view>
+      </view>
+    </view>
+    <view class="loop-step">
+      <view class="step-index">3</view>
+      <view>
+        <view class="step-title">原小点负责关键错因</view>
+        <view class="muted">不做通用聊天，不替写作业，只辅导必须做。</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,149 @@
+.home-page {
+  padding-top: 26rpx;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  margin-bottom: 26rpx;
+}
+
+.brand-mark {
+  width: 44rpx;
+  height: 44rpx;
+  border: 4rpx solid #0F4F3D;
+  border-radius: 50%;
+  position: relative;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  left: 12rpx;
+  top: 12rpx;
+  width: 12rpx;
+  height: 12rpx;
+  background: #B85C2E;
+  border-radius: 50%;
+}
+
+.brand-name {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.hero {
+  padding: 36rpx 32rpx 30rpx;
+}
+
+.hero-copy {
+  margin-top: 22rpx;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.hero-actions .primary-button {
+  flex: 1.2;
+}
+
+.hero-actions .secondary-button {
+  flex: 1;
+}
+
+.text-link {
+  color: #0F4F3D;
+  font-size: 25rpx;
+  font-weight: 800;
+}
+
+.weak-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 26rpx;
+}
+
+.weak-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18rpx;
+  padding: 22rpx;
+  background: #F7F1E8;
+  border-radius: 14rpx;
+}
+
+.weak-name {
+  margin-bottom: 6rpx;
+  font-size: 29rpx;
+  font-weight: 900;
+}
+
+.triage-strip {
+  display: flex;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.triage-stat {
+  flex: 1;
+  padding: 20rpx 12rpx;
+  text-align: center;
+  background: #E8EFE9;
+  border-radius: 14rpx;
+}
+
+.triage-stat.danger {
+  background: #F5E8DF;
+}
+
+.triage-stat.quiet {
+  background: #EFEAE1;
+}
+
+.stat-num {
+  font-size: 42rpx;
+  font-weight: 900;
+}
+
+.stat-label {
+  margin-top: 6rpx;
+  color: #625B50;
+  font-size: 23rpx;
+  font-weight: 800;
+}
+
+.loop {
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.loop-step {
+  display: flex;
+  gap: 18rpx;
+}
+
+.step-index {
+  flex: 0 0 44rpx;
+  width: 44rpx;
+  height: 44rpx;
+  color: #FFFDF8;
+  background: #0F4F3D;
+  border-radius: 50%;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 44rpx;
+  text-align: center;
+}
+
+.step-title {
+  margin-bottom: 5rpx;
+  font-size: 28rpx;
+  font-weight: 900;
+}

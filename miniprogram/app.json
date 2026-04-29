@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/tools/tools",
+    "pages/tutor/tutor",
+    "pages/radar/radar",
+    "pages/profile/profile",
+    "pages/diagnosis/diagnosis",
+    "pages/upload/upload",
+    "pages/legal/legal"
+  ],
+  "window": {
+    "navigationBarTitleText": "\u539f\u70b9\u667a\u5b66",
+    "navigationBarBackgroundColor": "#FAF7F0",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FAF7F0",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#7B756B",
+    "selectedColor": "#0F4F3D",
+    "backgroundColor": "#FFFDF8",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "\u4eca\u65e5"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "\u5de5\u5177"
+      },
+      {
+        "pagePath": "pages/tutor/tutor",
+        "text": "\u539f\u5c0f\u70b9"
+      },
+      {
+        "pagePath": "pages/radar/radar",
+        "text": "\u96f7\u8fbe"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "\u6211\u7684"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

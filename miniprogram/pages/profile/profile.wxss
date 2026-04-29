@@ -1,0 +1,23 @@
+.legal-list {
+  overflow: hidden;
+  background: #FFFDF8;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 16rpx;
+}
+
+.legal-item {
+  display: block;
+  width: 100%;
+  min-height: 90rpx;
+  padding: 0 28rpx;
+  color: #1A1A1A;
+  border-bottom: 1rpx solid #E8E1D5;
+  font-size: 28rpx;
+  font-weight: 800;
+  line-height: 90rpx;
+  text-align: left;
+}
+
+.legal-item:last-child {
+  border-bottom: 0;
+}

@@ -1,0 +1,35 @@
+.intro {
+  margin-top: 20rpx;
+}
+
+.notice {
+  padding: 22rpx;
+  background: #F5E8DF;
+  border-radius: 14rpx;
+}
+
+.notice-title {
+  margin-bottom: 8rpx;
+  color: #8B3A1F;
+  font-weight: 900;
+}
+
+.image-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.thumb {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 14rpx;
+  background: #EFEAE1;
+}
+
+.submit-bar {
+  position: sticky;
+  bottom: 24rpx;
+  margin-top: 30rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}

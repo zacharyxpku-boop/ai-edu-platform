@@ -1,0 +1,14 @@
+<view class="page safe-bottom">
+  <view class="eyebrow">LEGAL</view>
+  <view class="title-xl">{{title}}</view>
+  <view class="section panel">
+    <view class="legal-line" wx:for="{{items}}" wx:key="index">
+      <view class="dot"></view>
+      <view class="body">{{item}}</view>
+    </view>
+  </view>
+  <view class="section panel-quiet">
+    <view class="title-md">审核前待补</view>
+    <view class="body">正式提交微信审核前，需要把这里替换为完整版本的隐私政策、用户协议、AI 生成内容标识、内容安全和家长授权说明。</view>
+  </view>
+</view>
