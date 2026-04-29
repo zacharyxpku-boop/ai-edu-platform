@@ -2,6 +2,8 @@
 
 目标不是“把网站搬进小程序”，而是用最小成本让微信审核能过、家长能用、后续可迭代。
 
+最快入口：先看 [MINIAPP-OPEN-ME-FIRST.md](./MINIAPP-OPEN-ME-FIRST.md)。
+
 ## 最低成本路线
 
 ### 推荐路线：工具型 MVP 先上架

@@ -16,7 +16,9 @@
     "test:links": "node scripts/check-static-links.cjs",
     "test:track": "node scripts/test-track.cjs",
     "test:streak": "node scripts/test-streak-bar.cjs",
-    "test:recos": "node scripts/test-today-recos.cjs"
+    "test:recos": "node scripts/test-today-recos.cjs",
+    "miniapp:check": "node scripts/miniapp-launch-assistant.cjs",
+    "miniapp:appid": "node scripts/miniapp-launch-assistant.cjs --appid"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
