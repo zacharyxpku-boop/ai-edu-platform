@@ -293,7 +293,7 @@ h1 { letter-spacing: 0.02em; }
     .brief-tab:hover:not(.active) { background:rgba(15,79,61,0.08); }
     </style>
 
-    <!-- P0-4 · 本章进度（线性 7 站，Khanmigo 5.4 教训：Course Mastery > Knowledge Map） -->
+<!-- P0-4 · 本章进度（线性 7 站，比复杂图谱更好懂） -->
     <section class="course-progress" id="course-progress" style="display:none">
         <div class="cp-head">
             <h3>📍 本章进度 · 一元一次方程</h3>
@@ -1016,7 +1016,7 @@ async function loadCourseProgress() {
     } catch (e) { /* silent */ }
 }
 
-// =========== 最近对话面板（P0-B Khanmigo 差距补强）===========
+// =========== 最近对话面板（P0-B 家长信任补强）===========
 function escapeHtmlRd(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 async function loadRecentDialogues({ limit = 20, days = 7 } = {}) {
@@ -1084,7 +1084,7 @@ async function boot() {
     renderFsrsPanel(fsrs);
     loadRecentDialogues();  // P0-B：最近对话历史
     loadParentBrief('morning');  // P0-3：今日给妈妈的话
-    loadCourseProgress();         // P0-4：本章进度（线性 7 站，Khanmigo 5.4 教训）
+loadCourseProgress();         // P0-4：本章进度（线性 7 站）
     loadMistakeGraph(7);          // P1-1：错题图谱（按 64 misconception 归类）
     const rec = pickRecommendation(data.all_kcs);
     updateAction(rec);

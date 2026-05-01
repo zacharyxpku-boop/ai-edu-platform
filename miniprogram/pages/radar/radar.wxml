@@ -2,6 +2,7 @@
   <view class="eyebrow">RADAR</view>
   <view class="title-xl">雷达不是展示，是取舍。</view>
   <view class="body intro">先看最危险弱点，再决定哪些作业今晚必须做。</view>
+  <view class="ai-note">{{aiNotice}}</view>
 
   <view class="section panel">
     <view class="between">
@@ -39,6 +40,20 @@
     </view>
   </view>
 
+  <view class="section panel weekly-panel" wx:if="{{weekly}}">
+    <view class="eyebrow">WEEKLY REVIEW</view>
+    <view class="title-md">{{weekly.headline}}</view>
+    <view class="muted">{{weekly.load.advice || weekly.load_advice}}</view>
+    <view class="weekly-script">{{weekly.parent_script}}</view>
+    <view class="weekly-focus" wx:if="{{weekly.focus.length}}">
+      <view class="mini-label">本周先看这几项</view>
+      <view class="focus-item" wx:for="{{weekly.focus}}" wx:key="text">
+        {{item.text || item}}
+      </view>
+    </view>
+    <view class="ai-note small">{{weekly.ai_notice}}</view>
+  </view>
+
   <view class="section bucket bucket-must">
     <view class="bucket-head">
       <view>
@@ -51,6 +66,10 @@
       <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">
         <view class="homework-text">{{item.text}}</view>
         <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟 · 点一下让原小点带做</view>
+        <view class="tag-row" wx:if="{{item.evidence.tags.length}}">
+          <text class="e-tag" wx:for="{{item.evidence.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="decision" wx:if="{{item.evidence.decision}}">{{item.evidence.decision}}</view>
       </view>
     </view>
     <button class="primary-button start-must" bindtap="startFirstMust">从第一项必须做开始</button>

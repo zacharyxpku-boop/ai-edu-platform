@@ -8,6 +8,61 @@
   margin-top: 18rpx;
 }
 
+.ai-note {
+  display: inline-flex;
+  margin-top: 18rpx;
+  padding: 10rpx 14rpx;
+  background: #F3EEE4;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 10rpx;
+  color: #625B50;
+  font-size: 22rpx;
+  line-height: 1.45;
+}
+
+.ai-note.small {
+  margin-top: 16rpx;
+  font-size: 20rpx;
+}
+
+.weekly-panel {
+  border-color: #C9D8CE;
+}
+
+.weekly-script {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  background: #F1F7F3;
+  border-left: 6rpx solid #0F4F3D;
+  border-radius: 10rpx;
+  color: #163A2D;
+  font-size: 26rpx;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.weekly-focus {
+  margin-top: 18rpx;
+}
+
+.mini-label {
+  margin-bottom: 10rpx;
+  color: #625B50;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.focus-item {
+  margin-top: 8rpx;
+  padding: 14rpx;
+  background: #FFFFFF;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 10rpx;
+  color: #26231D;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
 .weak-list {
   display: flex;
   flex-direction: column;
@@ -93,6 +148,30 @@
   margin-bottom: 8rpx;
   color: #1A1A1A;
   font-size: 27rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
+.e-tag {
+  padding: 6rpx 10rpx;
+  background: #F3EEE4;
+  border-radius: 999rpx;
+  color: #625B50;
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
+.decision {
+  margin-top: 10rpx;
+  color: #0F4F3D;
+  font-size: 23rpx;
   font-weight: 900;
   line-height: 1.45;
 }

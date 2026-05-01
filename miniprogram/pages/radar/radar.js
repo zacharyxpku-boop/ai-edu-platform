@@ -1,10 +1,14 @@
 const storage = require('../../utils/storage');
+const api = require('../../utils/api');
+const priority = require('../../utils/learning-priority');
 
 Page({
   data: {
     state: null,
     axes: [],
     weakPoints: [],
+    weekly: null,
+    aiNotice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
     plan: {
       must_do: [],
       flexible: [],
@@ -19,9 +23,28 @@ Page({
       state,
       axes: state.axes || [],
       weakPoints: state.weak_points || [],
+      weekly: state.weekly_review || priority.buildWeeklyReview(state.axes || [], state.weak_points || [], plan),
+      aiNotice: state.ai_notice || 'AI 辅助生成，供家长决策参考，不替代老师判断。',
       plan
     });
     setTimeout(() => this.drawRadar(), 80);
+    this.refreshWeekly(state, plan);
+  },
+
+  refreshWeekly(state, plan) {
+    if (!state || !plan) return;
+    api.buildWeekly({
+      axes: state.axes || [],
+      weak_points: state.weak_points || [],
+      homework_plan: plan,
+      grade: state.grade,
+      subject: state.subject
+    }).then((weekly) => {
+      if (!weekly || weekly.ok === false) return;
+      const merged = Object.assign({}, state, { weekly_review: weekly });
+      storage.saveState(merged);
+      this.setData({ weekly });
+    }).catch(() => {});
   },
 
   drawRadar() {

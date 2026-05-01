@@ -1,115 +1,147 @@
 # 技术架构
 
-> 原点 AI 私教 · 应试提分 AI 私教
-> 单一目标：把分数提上去。任何不为这个目标服务的特性，砍。
+> 原点智学 · 家庭学习决策系统
 
-## 三层架构
+目标不是做一个通用聊天老师，而是把家庭晚间学习变成可判断、可取舍、可复盘的闭环。
+
+## 总体架构
 
 ```mermaid
 flowchart TB
-  subgraph 应用层 [应用层 · apps/web]
-    UI[学生端 · 答题界面]
-    PARENT[家长端 · 报告 + 周报]
-    OPS[运营后台 · 题库审核]
+  subgraph Input["输入层"]
+    SCORE["测评成绩"]
+    ERRORS["错题/试卷文字"]
+    HOMEWORK["作业清单"]
+    TIME["今晚可用时间"]
   end
 
-  subgraph 教学策略层 [教学策略层 · packages/tutor-engine]
-    BKT[Mastery 引擎<br/>BKT 改造版]
-    SEL[选题策略<br/>ZPD + 错题 + SRS]
-    SOC[苏格拉底对话<br/>不直给答案]
-    LLM[LLM 适配层<br/>DeepSeek/Qwen]
+  subgraph Decision["学习决策层"]
+    RADAR["六维弱点雷达"]
+    PRIORITY["作业价值排序"]
+    WEEKLY["家长周复盘"]
   end
 
-  subgraph 数据层 [数据层 · packages/db + packages/curriculum]
-    SCHEMA[Drizzle Schema<br/>6 张核心表]
-    KG[知识点本体<br/>学科×年级×章节]
-    BANK[题库<br/>GAOKAO-Bench/E-EVAL]
-    SUPA[(Supabase<br/>Postgres + Auth + Storage)]
+  subgraph Execution["执行层"]
+    MUST["必须做任务"]
+    CAUSE["关键错因"]
+    TUTOR["原小点最小提示"]
   end
 
-  UI --> SOC
-  UI --> SEL
-  PARENT --> BKT
-  OPS --> BANK
+  subgraph Surfaces["产品形态"]
+    WEB["官网/工具页"]
+    MINI["微信小程序"]
+    PARENT["家长端雷达"]
+  end
 
-  SEL --> BKT
-  SOC --> LLM
-  BKT --> SCHEMA
-
-  SCHEMA --> SUPA
-  KG --> SUPA
-  BANK --> SUPA
-
-  LLM -.->|外部| DEEPSEEK[DeepSeek API]
-  LLM -.->|外部| QWEN[Qwen / 通义千问]
+  SCORE --> RADAR
+  ERRORS --> RADAR
+  HOMEWORK --> PRIORITY
+  TIME --> PRIORITY
+  RADAR --> PRIORITY
+  PRIORITY --> MUST
+  RADAR --> CAUSE
+  MUST --> TUTOR
+  CAUSE --> TUTOR
+  PRIORITY --> WEEKLY
+  RADAR --> WEEKLY
+  WEB --> Decision
+  MINI --> Decision
+  PARENT --> WEEKLY
 ```
 
-## 调用链：一次答题完整链路
+## 核心链路
 
 ```mermaid
 sequenceDiagram
-  participant S as 学生端
-  participant API as Next.js API
-  participant SEL as Selector
-  participant BKT as BKT Engine
-  participant LLM as LLM Adapter
-  participant DB as Supabase
+  participant U as 家长/学生
+  participant MP as 小程序
+  participant API as Vercel Edge API
+  participant Engine as 学习决策引擎
+  participant Tutor as 原小点
 
-  S->>API: POST /api/session/next-question
-  API->>DB: 读 mastery_state where userId=X
-  API->>SEL: selectNext(candidates)
-  SEL-->>API: 推荐题 Q42
-  API-->>S: 返回 Q42
-
-  S->>API: POST /api/session/answer { qId, userAnswer }
-  API->>DB: 写 attempts
-  API->>BKT: updateBkt(state, obs)
-  BKT-->>API: 新 pKnown
-  API->>DB: upsert mastery_state
-
-  alt 学生答错或求助
-    S->>API: POST /api/socratic/turn
-    API->>LLM: callLlm(socratic messages)
-    LLM-->>API: 引导性提问
-    API-->>S: 返回 tutor turn
-  end
+  U->>MP: 输入成绩、错题、作业、时间
+  MP->>API: POST /api/mini/priority
+  API->>Engine: 生成雷达和作业三分类
+  Engine-->>API: axes + weak_points + homework_plan
+  API-->>MP: 返回决策结果
+  U->>MP: 点击“必须做”
+  MP->>API: POST /api/mini/content-check
+  MP->>Tutor: 带 selected_homework + weak_points
+  Tutor-->>MP: 只给思路和关键错因提示
+  MP->>API: POST /api/mini/weekly
+  API-->>MP: 家长周复盘
 ```
 
-## 8 件套壳清单 — 上层产品如何对接
+## 服务端接口
 
-「8 件套壳」指 8 个面向不同用户场景的轻量上层包装，全部复用同一套教学引擎：
-
-| 套壳 | 入口 | 用户 | 核心 hook | 数据流 |
-|---|---|---|---|---|
-| 1. **应试通** | `/student/practice` | K12 学生 | `selectNext` + `socratic` | mastery → selector → llm |
-| 2. **错题本** | `/student/wrongbook` | K12 学生 | `attempts where result='incorrect'` | DB 直读 |
-| 3. **每日 5 题** | `/student/daily` | K12 学生 | 选 5 题命中 ZPD 黄金区 | selector with `topK=5` |
-| 4. **周报** | `/parent/weekly` | 家长 | mastery delta + 错题热区 | DB 聚合 |
-| 5. **冲刺模考** | `/student/mock-exam` | 高三 | 真题套卷 + 时间限制 | DB + timer |
-| 6. **知识点闯关** | `/student/quest` | 初中 | 按 ontology 树解锁 | curriculum + mastery |
-| 7. **拍照求解** | `/student/snap` | K12 学生 | OCR + 苏格拉底 | Qwen-vl + socratic |
-| 8. **教研后台** | `/ops/curriculum` | 内部 | ontology 编辑 + 题库审 | DB 直写 |
-
-## 技术决策（详见 DECISIONS.md）
-
-- **Next.js 14 App Router + RSC**：服务端拉数据，前端只渲染，省一层 BFF
-- **Supabase**：auth + Postgres + Storage 一把抓，省运维
-- **Drizzle ORM**：强类型 + SQL-first，迁移可读
-- **BullMQ 暂不引入**：MVP 没有长跑任务，等 OCR/批改场景再加
-- **pnpm workspaces**：monorepo 标配，比 turbo 轻
-
-## 性能预算
-
-| 路径 | 目标 | 兜底 |
+| 接口 | 作用 | 当前原则 |
 |---|---|---|
-| 选下一题 | < 80ms | DB 索引 + Redis cache mastery |
-| BKT 更新 | < 20ms | 纯计算 + 单条 upsert |
-| 苏格拉底 1 轮 | < 3s | 流式响应 + 短 prompt |
-| GAOKAO 评测单题 | < 8s | 不在用户路径，离线跑 |
+| `POST /api/mini/session` | 小程序会话 | 支持低成本本地体验，后续可接真实 openid |
+| `POST /api/mini/priority` | 雷达与作业三分类 | 返回分数、弱点、任务优先级、解释证据 |
+| `POST /api/mini/content-check` | 内容安全前置检查 | 阻断代写、直接答案、自伤等风险 |
+| `POST /api/mini/tutor-message` | 原小点执行端 | 不代写，只做必须做任务和关键错因 |
+| `POST /api/mini/weekly` | 家长周复盘 | 输出本周重点、负担判断、家长话术 |
 
-## 安全底线
+## 决策引擎
 
-- 所有 LLM 调用**仅从服务端**发出，浏览器不触碰 API key
-- Supabase RLS 默认开启，每张表都有「用户只能读自己的数据」策略
-- 家长查孩子数据走显式授权链：`users.parent_id` 指向才放行
-- 题目原文 / 答案 / 学生作答 全部加密存储（Supabase 默认 AES-256）
+首版采用可解释规则引擎：
+
+1. 成绩折算为基础能力分。
+2. 错题和作业文字命中六维关键词。
+3. 六维雷达按命中弱点扣分。
+4. 作业按错题复盘、基础题、应用题、机械重复、当前弱点等因素排序。
+5. 输出“必须做 / 灵活选择 / 可以跳过”，并附上证据链。
+
+这不是最终壁垒。真正壁垒应逐步沉淀为：
+
+- 学生弱点画像。
+- 错因 taxonomy。
+- 作业价值排序数据。
+- 家长复盘留存数据。
+- 主流教材知识图谱。
+
+## 小程序架构
+
+```text
+miniprogram/
+  pages/home        今日入口
+  pages/tools       诊断入口
+  pages/upload      作业/试卷录入
+  pages/radar       家长雷达 + 三分类 + 周复盘
+  pages/tutor       原小点执行端
+  pages/profile     家长资料和内测咨询
+  pages/legal       隐私、协议、未成年人保护
+  utils/api.js      小程序 API 封装
+  utils/storage.js  本地状态
+```
+
+## 合规底线
+
+- AI 内容必须明确为辅助建议。
+- 不承诺固定学习结果。
+- 不提供作业代写或考试作弊。
+- 未成年人使用需家长或监护人同意。
+- 相册/摄像头仅按用途说明收集，不默认上传用于识别。
+- 首版不接支付，降低审核和合规复杂度。
+
+## 部署与验证
+
+```bash
+npm run miniapp:fullcheck
+npm run miniapp:fullcheck -- --remote
+```
+
+远端检查覆盖：
+
+- `https://yuandianzhixue.com`
+- `/api/mini/session`
+- `/api/mini/priority`
+- `/api/mini/content-check`
+
+## 当前阶段判断
+
+当前是“可上架验证”的产品，不是规模化增长阶段。下一阶段的关键不是堆功能，而是拿 20 个真实家庭样本校准三件事：
+
+1. 雷达弱点是否符合家长和孩子体感。
+2. 必须做任务是否真的减少无效作业。
+3. 周复盘是否能带来连续使用。

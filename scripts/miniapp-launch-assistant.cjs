@@ -162,6 +162,12 @@ async function main() {
     check(priority.ok, `/api/mini/priority 可用`, `/api/mini/priority 不可用：${priority.status}`, results);
     const content = await postJson(`${REQUEST_DOMAIN}/api/mini/content-check`, { content: 'math homework' });
     check(content.ok, `/api/mini/content-check 可用`, `/api/mini/content-check 不可用：${content.status}`, results);
+    const weekly = await postJson(`${REQUEST_DOMAIN}/api/mini/weekly`, {
+      axes: [{ key: 'reading', name: '审题建模', score: 56 }],
+      weak_points: [{ key: 'reading', name: '审题建模', score: 56 }],
+      homework_plan: { must_do: [{ text: '应用题 4 道', reason: '命中当前弱点', minutes: 12 }], flexible: [], can_skip: [] }
+    });
+    check(weekly.ok, `/api/mini/weekly 可用`, `/api/mini/weekly 不可用：${weekly.status}`, results);
     const site = await get(REQUEST_DOMAIN);
     check(site.ok, `${REQUEST_DOMAIN} 可访问`, `${REQUEST_DOMAIN} 不可访问：${site.status}`, results);
   }

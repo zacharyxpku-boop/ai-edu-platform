@@ -30,6 +30,7 @@ async function main() {
   const priorityHandler = await loadApi('api/mini/priority.js');
   const contentHandler = await loadApi('api/mini/content-check.js');
   const tutorHandler = await loadApi('api/mini/tutor-message.js');
+  const weeklyHandler = await loadApi('api/mini/weekly.js');
 
   const session = await post(sessionHandler, { code: 'demo', profile: { grade: '五年级' } });
   assert.strictEqual(session.status, 200, 'session status');
@@ -52,7 +53,22 @@ async function main() {
   assert.strictEqual(priority.json.ok, true, 'priority ok');
   assert.ok(Array.isArray(priority.json.axes) && priority.json.axes.length === 6, 'six radar axes');
   assert.ok(priority.json.homework_plan.must_do.length >= 1, 'must-do homework generated');
+  assert.ok(priority.json.homework_plan.must_do[0].evidence, 'must-do evidence generated');
+  assert.ok(priority.json.weekly_review && priority.json.weekly_review.ai_notice, 'weekly review generated');
+  assert.ok(priority.json.ai_notice, 'ai notice generated');
   assert.ok(priority.json.engine_version, 'priority engine version');
+
+  const weekly = await post(weeklyHandler, {
+    axes: priority.json.axes,
+    weak_points: priority.json.weak_points,
+    homework_plan: priority.json.homework_plan,
+    grade: priority.json.grade,
+    subject: priority.json.subject
+  }, { 'x-mini-session': session.json.session_id });
+  assert.strictEqual(weekly.status, 200, 'weekly status');
+  assert.strictEqual(weekly.json.ok, true, 'weekly ok');
+  assert.ok(weekly.json.headline, 'weekly headline');
+  assert.ok(weekly.json.ai_notice, 'weekly ai notice');
 
   const safe = await post(contentHandler, { content: '我想练一道应用题' });
   assert.strictEqual(safe.status, 200, 'content safe status');
@@ -83,9 +99,11 @@ async function main() {
   const diagnosis = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/diagnosis/diagnosis.js'), 'utf8');
   const upload = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/upload/upload.js'), 'utf8');
   const tutorPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.js'), 'utf8');
+  const radarPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.js'), 'utf8');
   assert.ok(diagnosis.includes('api.buildPriority'), 'diagnosis uses server priority');
   assert.ok(upload.includes('api.buildPriority'), 'upload uses server priority');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
+  assert.ok(radarPage.includes('api.buildWeekly'), 'radar uses server weekly review');
 
   console.log('All miniapp production hardening checks pass.');
 }

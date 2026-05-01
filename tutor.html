@@ -102,7 +102,7 @@ body{
 .rhythm-dots .rhythm-text{margin-left:4px;}
 .rhythm-dots .rhythm-text b{color:var(--orange);font-weight:700;}
 @media(max-width:767px){.rhythm-dots{display:none;}}
-/* Hint Level Badge · Khanmigo 5.2 元认知意识 · 让孩子看到 AI 当前用哪一档帮助 */
+/* Hint Level Badge · 让孩子看到 AI 当前用哪一档帮助 */
 .hint-level-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bdr-soft);border-radius:100px;font-size:0.72rem;color:var(--ink-mute);cursor:help;}
 .hint-level-badge .hl-dot{width:5px;height:5px;border-radius:50%;background:var(--bdr-strong);}
 .hint-level-badge .hl-dot.on{background:var(--orange);}
@@ -110,7 +110,7 @@ body{
 .hint-level-badge .hl-dot.strong{background:#C94040;}
 .hint-level-badge .hl-text{margin-left:3px;font-weight:600;}
 @media(max-width:767px){.hint-level-badge{display:none;}}
-/* Mini Progress · Khanmigo 5.4 教训：线性 Course Mastery 比 Knowledge Map 更好懂 */
+/* Mini Progress · 线性进度比复杂图谱更好懂 */
 .mini-progress{display:flex;align-items:center;gap:8px;font-size:0.74rem;color:var(--ink-mute);padding:5px 10px;background:var(--bdr-soft);border-radius:100px;cursor:help;}
 .mini-progress .mp-text{font-weight:600;color:var(--ink-mute);}
 .mini-progress .mp-text b{color:var(--orange);font-weight:700;}
@@ -727,7 +727,7 @@ const NAME = _urlName || _lsName || '同学';
 const SESSION_ID = crypto.randomUUID ? crypto.randomUUID() : null;
 const IS_DEMO_USER = STUDENT_ID === '00000000-0000-0000-0000-000000000001';
 
-// ── Hint Level Badge 控制 · Khanmigo 5.2 元认知 ──
+// ── Hint Level Badge 控制 ──
 // 后端 X-Hint-Level 响应头来 'light'|'medium'|'strong'，前端点亮顶部小标识
 window.setHintLevel = function(level) {
     const badge = document.getElementById('hint-level-badge');
@@ -1520,7 +1520,7 @@ async function loadKpStates() {
             weakEl.textContent = `还有 ${summary.weak + summary.active} 处要练`;
         }
 
-        // 6. Mini Progress · 本章 7 站（Khanmigo 5.4 教训：线性 > 图谱）
+// 6. Mini Progress · 本章 7 站（线性 > 图谱）
         const ch3 = data.states.filter(s => /^math\.7\.ch3\.kp\d+$/.test(s.code))
                                 .sort((a, b) => a.code.localeCompare(b.code, 'en', { numeric: true }));
         const mpText = document.getElementById('mp-text');

@@ -29,6 +29,8 @@ const TARGETS = [
   'docs/MINIAPP-OPEN-ME-FIRST.md',
   'docs/MINIAPP-MVP-SHIP.md',
   'docs/MINIAPP-PRODUCTION-HARDENING.md',
+  'docs/ARCHITECTURE.md',
+  'README.md',
   'miniprogram/project.config.json',
   'package.json',
 ];
@@ -56,6 +58,7 @@ const FORBIDDEN = [
   { pattern: /首版不做自动图片识别|不做自动图片识别/g, reason: '审核材料应说明当前数据用途，不强调未实现能力' },
   { pattern: /审核前待补/g, reason: '审核材料和小程序内不应暴露待补状态' },
   { pattern: /陪练/g, reason: '公开口径统一为原小点执行端或思路提示，避免辅导敏感表达' },
+  { pattern: /AI 私教|应试提分|高考 AI 提分|Khanmigo|Khan Academy/g, reason: '当前对外叙事统一为家庭学习决策系统，不再讲旧平台定位' },
 ];
 
 let failures = 0;
