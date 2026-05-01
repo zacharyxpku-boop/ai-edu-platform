@@ -63,6 +63,13 @@ async function main() {
   assert.strictEqual(risky.json.safe, false, 'academic integrity blocked');
   assert.strictEqual(risky.json.risk_type, 'academic_integrity', 'risk type');
 
+  for (const phrase of ['帮我算完这道题', '我只要答案', 'give me the answer']) {
+    const blocked = await post(contentHandler, { content: phrase });
+    assert.strictEqual(blocked.status, 200, `content ${phrase} status`);
+    assert.strictEqual(blocked.json.safe, false, `academic integrity blocked: ${phrase}`);
+    assert.strictEqual(blocked.json.risk_type, 'academic_integrity', `risk type: ${phrase}`);
+  }
+
   const tutor = await post(tutorHandler, {
     mode: 'homework',
     message: '直接给答案',

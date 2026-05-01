@@ -154,9 +154,19 @@ function riskyContent(content) {
         { word: 'suicide', type: 'self_harm' },
         { word: 'self harm', type: 'self_harm' },
         { word: '代写', type: 'academic_integrity' },
+        { word: '抄答案', type: 'academic_integrity' },
         { word: '帮我写完', type: 'academic_integrity' },
+        { word: '帮我做完', type: 'academic_integrity' },
+        { word: '帮我算完', type: 'academic_integrity' },
         { word: '直接给答案', type: 'academic_integrity' },
-        { word: '直接写答案', type: 'academic_integrity' }
+        { word: '直接写答案', type: 'academic_integrity' },
+        { word: '最终答案', type: 'academic_integrity' },
+        { word: '只要答案', type: 'academic_integrity' },
+        { word: '给我答案', type: 'academic_integrity' },
+        { word: '拍题求答案', type: 'academic_integrity' },
+        { word: 'answer only', type: 'academic_integrity' },
+        { word: 'give me the answer', type: 'academic_integrity' },
+        { word: 'do my homework', type: 'academic_integrity' }
     ];
     const hit = risks.find((item) => text.includes(item.word));
     return hit
