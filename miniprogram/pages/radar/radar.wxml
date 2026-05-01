@@ -44,6 +44,13 @@
     <view class="eyebrow">WEEKLY REVIEW</view>
     <view class="title-md">{{weekly.headline}}</view>
     <view class="muted">{{weekly.load.advice || weekly.load_advice}}</view>
+    <view class="calibration-strip" wx:if="{{feedbackSummary}}">
+      <view>
+        <view class="mini-label">家庭校准</view>
+        <view class="muted">{{feedbackSummary.label}} · 准 {{feedbackSummary.accurate}} · 待校准 {{feedbackSummary.off}}</view>
+      </view>
+      <view class="calibration-dot"></view>
+    </view>
     <view class="weekly-script">{{weekly.parent_script}}</view>
     <view class="weekly-focus" wx:if="{{weekly.focus.length}}">
       <view class="mini-label">本周先看这几项</view>
@@ -63,13 +70,19 @@
       <view class="pill-warm pill">{{plan.must_do.length}} 项</view>
     </view>
     <view class="bucket-list">
-      <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">
+      <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id">
         <view class="homework-text">{{item.text}}</view>
         <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟 · 点一下让原小点带做</view>
         <view class="tag-row" wx:if="{{item.evidence.tags.length}}">
           <text class="e-tag" wx:for="{{item.evidence.tags}}" wx:key="*this">{{item}}</text>
         </view>
         <view class="decision" wx:if="{{item.evidence.decision}}">{{item.evidence.decision}}</view>
+        <view class="homework-actions">
+          <button class="mini-action primary" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">去原小点</button>
+          <button class="mini-action" data-bucket="must_do" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
+          <button class="mini-action ghost" data-bucket="must_do" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
+        </view>
+        <view class="feedback-note" wx:if="{{feedbackStatusMust[index]}}">{{feedbackStatusMust[index]}}</view>
       </view>
     </view>
     <button class="primary-button start-must" bindtap="startFirstMust">从第一项必须做开始</button>
@@ -84,9 +97,15 @@
       <view class="pill">{{plan.flexible.length}} 项</view>
     </view>
     <view class="bucket-list">
-      <view class="homework-item" wx:for="{{plan.flexible}}" wx:key="id" data-bucket="flexible" data-index="{{index}}" bindtap="selectHomework">
+      <view class="homework-item" wx:for="{{plan.flexible}}" wx:key="id">
         <view class="homework-text">{{item.text}}</view>
         <view class="muted">{{item.reason}}</view>
+        <view class="homework-actions compact">
+          <button class="mini-action primary" data-bucket="flexible" data-index="{{index}}" bindtap="selectHomework">辅导</button>
+          <button class="mini-action" data-bucket="flexible" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
+          <button class="mini-action ghost" data-bucket="flexible" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
+        </view>
+        <view class="feedback-note" wx:if="{{feedbackStatusFlexible[index]}}">{{feedbackStatusFlexible[index]}}</view>
       </view>
     </view>
   </view>
@@ -103,6 +122,11 @@
       <view class="homework-item" wx:for="{{plan.can_skip}}" wx:key="id">
         <view class="homework-text">{{item.text}}</view>
         <view class="muted">{{item.reason}}</view>
+        <view class="homework-actions compact">
+          <button class="mini-action" data-bucket="can_skip" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
+          <button class="mini-action ghost" data-bucket="can_skip" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
+        </view>
+        <view class="feedback-note" wx:if="{{feedbackStatusSkip[index]}}">{{feedbackStatusSkip[index]}}</view>
       </view>
     </view>
   </view>

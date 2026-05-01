@@ -111,6 +111,16 @@ function buildWeekly(payload) {
   });
 }
 
+function submitFeedback(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/feedback', {
+    method: 'POST',
+    data: payload || {},
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 12000
+  });
+}
+
 function submitLead(payload) {
   return request('/api/lead', {
     method: 'POST',
@@ -126,6 +136,7 @@ module.exports = {
   initSession,
   buildPriority,
   buildWeekly,
+  submitFeedback,
   checkContent,
   sendTutorMessage,
   submitLead

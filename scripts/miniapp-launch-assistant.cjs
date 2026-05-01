@@ -144,6 +144,7 @@ async function main() {
   const hit = risky.find((word) => publicText.includes(word));
   check(!hit, '前台高风险承诺词未命中', `前台仍含高风险词：${hit}`, results);
   check(publicText.includes('api.buildPriority'), '测评/作业主流程已接服务端优先级接口', '测评/作业主流程未接入服务端优先级接口', results);
+  check(publicText.includes('api.submitFeedback'), 'family feedback calibration wired', 'family feedback calibration missing', results);
   check(publicText.includes('api.checkContent'), '原小点已接内容安全前置检查', '原小点未接入内容安全前置检查', results);
 
   check(true, `微信后台 request 合法域名只需配置：${REQUEST_DOMAIN}`, 'request 合法域名未明确', results);
@@ -168,6 +169,14 @@ async function main() {
       homework_plan: { must_do: [{ text: '应用题 4 道', reason: '命中当前弱点', minutes: 12 }], flexible: [], can_skip: [] }
     });
     check(weekly.ok, `/api/mini/weekly 可用`, `/api/mini/weekly 不可用：${weekly.status}`, results);
+    const feedback = await postJson(`${REQUEST_DOMAIN}/api/mini/feedback`, {
+      kind: 'homework_priority',
+      target_id: 'remote_hw_1',
+      rating: 'accurate',
+      bucket: 'must_do',
+      reason: 'remote_smoke'
+    });
+    check(feedback.ok, `/api/mini/feedback available`, `/api/mini/feedback unavailable: ${feedback.status}`, results);
     const site = await get(REQUEST_DOMAIN);
     check(site.ok, `${REQUEST_DOMAIN} 可访问`, `${REQUEST_DOMAIN} 不可访问：${site.status}`, results);
   }

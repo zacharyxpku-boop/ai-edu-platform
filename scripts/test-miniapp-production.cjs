@@ -31,6 +31,7 @@ async function main() {
   const contentHandler = await loadApi('api/mini/content-check.js');
   const tutorHandler = await loadApi('api/mini/tutor-message.js');
   const weeklyHandler = await loadApi('api/mini/weekly.js');
+  const feedbackHandler = await loadApi('api/mini/feedback.js');
 
   const session = await post(sessionHandler, { code: 'demo', profile: { grade: '五年级' } });
   assert.strictEqual(session.status, 200, 'session status');
@@ -70,6 +71,25 @@ async function main() {
   assert.ok(weekly.json.headline, 'weekly headline');
   assert.ok(weekly.json.ai_notice, 'weekly ai notice');
 
+  const feedback = await post(feedbackHandler, {
+    kind: 'homework_priority',
+    target_id: priority.json.homework_plan.must_do[0].id,
+    rating: 'off',
+    bucket: 'must_do',
+    reason: 'family_marked_off',
+    item_text: priority.json.homework_plan.must_do[0].text,
+    state_summary: {
+      grade: priority.json.grade,
+      subject: priority.json.subject,
+      weak_points: priority.json.weak_points
+    }
+  }, { 'x-mini-session': session.json.session_id });
+  assert.strictEqual(feedback.status, 200, 'feedback status');
+  assert.strictEqual(feedback.json.ok, true, 'feedback ok');
+  assert.ok(feedback.json.feedback_id, 'feedback id');
+  assert.strictEqual(feedback.json.feedback.rating, 'off', 'feedback rating normalized');
+  assert.ok(feedback.json.learning_signal, 'feedback learning signal');
+
   const safe = await post(contentHandler, { content: '我想练一道应用题' });
   assert.strictEqual(safe.status, 200, 'content safe status');
   assert.strictEqual(safe.json.safe, true, 'safe content allowed');
@@ -100,10 +120,13 @@ async function main() {
   const upload = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/upload/upload.js'), 'utf8');
   const tutorPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.js'), 'utf8');
   const radarPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.js'), 'utf8');
+  const radarWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.wxml'), 'utf8');
   assert.ok(diagnosis.includes('api.buildPriority'), 'diagnosis uses server priority');
   assert.ok(upload.includes('api.buildPriority'), 'upload uses server priority');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
   assert.ok(radarPage.includes('api.buildWeekly'), 'radar uses server weekly review');
+  assert.ok(radarPage.includes('api.submitFeedback'), 'radar submits family feedback');
+  assert.ok(radarWxml.includes('markFeedback'), 'radar exposes feedback controls');
 
   console.log('All miniapp production hardening checks pass.');
 }

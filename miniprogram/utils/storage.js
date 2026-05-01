@@ -7,7 +7,8 @@ const KEYS = {
   profile: 'ydzx.profile.v1',
   consent: 'ydzx.guardian.consent.v1',
   session: 'ydzx.mini.session.v1',
-  tutorMessages: 'ydzx.tutor.messages.v1'
+  tutorMessages: 'ydzx.tutor.messages.v1',
+  feedback: 'ydzx.feedback.v1'
 };
 
 function get(key, fallback) {
@@ -44,7 +45,8 @@ function clearLearningData() {
     KEYS.profile,
     KEYS.consent,
     KEYS.tutorMessages,
-    KEYS.session
+    KEYS.session,
+    KEYS.feedback
   ].forEach(remove);
 }
 
@@ -69,6 +71,31 @@ function saveProfile(profile) {
   return set(KEYS.profile, profile || {});
 }
 
+function loadFeedback() {
+  const list = get(KEYS.feedback, []);
+  return Array.isArray(list) ? list : [];
+}
+
+function appendFeedback(item) {
+  const next = [Object.assign({ created_at: new Date().toISOString() }, item || {})]
+    .concat(loadFeedback())
+    .slice(0, 80);
+  set(KEYS.feedback, next);
+  return next;
+}
+
+function feedbackSummary() {
+  const list = loadFeedback();
+  const accurate = list.filter((item) => item.rating === 'accurate').length;
+  const off = list.filter((item) => item.rating === 'off').length;
+  return {
+    total: list.length,
+    accurate,
+    off,
+    label: list.length ? `已记录 ${list.length} 条校准` : '还没有校准记录'
+  };
+}
+
 module.exports = {
   KEYS,
   get,
@@ -78,5 +105,8 @@ module.exports = {
   loadState,
   saveState,
   loadProfile,
-  saveProfile
+  saveProfile,
+  loadFeedback,
+  appendFeedback,
+  feedbackSummary
 };

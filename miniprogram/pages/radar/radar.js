@@ -8,6 +8,11 @@ Page({
     axes: [],
     weakPoints: [],
     weekly: null,
+    feedbackSummary: null,
+    feedbackStatus: {},
+    feedbackStatusMust: [],
+    feedbackStatusFlexible: [],
+    feedbackStatusSkip: [],
     aiNotice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
     plan: {
       must_do: [],
@@ -24,6 +29,7 @@ Page({
       axes: state.axes || [],
       weakPoints: state.weak_points || [],
       weekly: state.weekly_review || priority.buildWeeklyReview(state.axes || [], state.weak_points || [], plan),
+      feedbackSummary: storage.feedbackSummary(),
       aiNotice: state.ai_notice || 'AI 辅助生成，供家长决策参考，不替代老师判断。',
       plan
     });
@@ -113,6 +119,62 @@ Page({
     storage.set(storage.KEYS.selectedHomework, item);
     storage.set(storage.KEYS.selectedHomeworkSource, bucket);
     wx.switchTab({ url: '/pages/tutor/tutor' });
+  },
+
+  markFeedback(event) {
+    const bucket = event.currentTarget.dataset.bucket;
+    const index = Number(event.currentTarget.dataset.index);
+    const rating = event.currentTarget.dataset.rating;
+    const list = (this.data.plan && this.data.plan[bucket]) || [];
+    const item = list[index];
+    if (!item || !rating) return;
+
+    const feedback = {
+      kind: 'homework_priority',
+      target_id: item.id || `${bucket}_${index}`,
+      rating,
+      bucket,
+      reason: rating === 'accurate' ? 'family_confirmed' : 'family_marked_off',
+      item_text: item.text || '',
+      state_summary: {
+        grade: this.data.state && this.data.state.grade,
+        subject: this.data.state && this.data.state.subject,
+        weak_points: this.data.weakPoints || []
+      }
+    };
+    const nextList = storage.appendFeedback(feedback);
+    const key = `${bucket}_${index}`;
+    const statusListKey = bucket === 'must_do'
+      ? 'feedbackStatusMust'
+      : bucket === 'flexible'
+        ? 'feedbackStatusFlexible'
+        : 'feedbackStatusSkip';
+    const localStatus = rating === 'accurate' ? '已记录：判断准' : '已记录：需要校准';
+    this.setData({
+      [`feedbackStatus.${key}`]: localStatus,
+      [`${statusListKey}[${index}]`]: localStatus,
+      feedbackSummary: {
+        total: nextList.length,
+        accurate: nextList.filter((fb) => fb.rating === 'accurate').length,
+        off: nextList.filter((fb) => fb.rating === 'off').length,
+        label: `已记录 ${nextList.length} 条校准`
+      }
+    });
+
+    api.submitFeedback(feedback).then((result) => {
+      if (!result || result.ok === false) return;
+      const syncedStatus = rating === 'accurate' ? '已同步：判断准' : '已同步：需要校准';
+      this.setData({
+        [`feedbackStatus.${key}`]: syncedStatus,
+        [`${statusListKey}[${index}]`]: syncedStatus
+      });
+    }).catch(() => {
+      const offlineStatus = '已本地记录，联网后再同步';
+      this.setData({
+        [`feedbackStatus.${key}`]: offlineStatus,
+        [`${statusListKey}[${index}]`]: offlineStatus
+      });
+    });
   },
 
   startFirstMust() {
