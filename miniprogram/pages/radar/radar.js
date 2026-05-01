@@ -136,6 +136,9 @@ Page({
       bucket,
       reason: rating === 'accurate' ? 'family_confirmed' : 'family_marked_off',
       item_text: item.text || '',
+      calibration_key: item.evidence && item.evidence.calibration_key,
+      priority_vector: item.priority_vector || {},
+      misconception_tags: (item.evidence && item.evidence.misconception_tags) || [],
       state_summary: {
         grade: this.data.state && this.data.state.grade,
         subject: this.data.state && this.data.state.subject,

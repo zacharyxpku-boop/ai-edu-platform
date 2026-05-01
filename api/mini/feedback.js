@@ -41,6 +41,9 @@ function normalizeFeedback(body = {}) {
         bucket: ALLOWED_BUCKETS.has(bucket) ? bucket : '',
         reason: clean(body.reason || '', 160),
         item_text: clean(body.item_text || body.itemText || '', 180),
+        calibration_key: clean(body.calibration_key || body.calibrationKey || body.evidence?.calibration_key || '', 120),
+        priority_vector: typeof body.priority_vector === 'object' && body.priority_vector ? body.priority_vector : {},
+        misconception_tags: shortList(body.misconception_tags || body.misconceptionTags || body.evidence?.misconception_tags, 8),
         state_summary: {
             grade: clean(summary.grade || '', 20),
             subject: clean(summary.subject || '', 20),
@@ -51,9 +54,12 @@ function normalizeFeedback(body = {}) {
 
 function learningSignal(feedback) {
     const positive = feedback.rating === 'accurate';
+    const target = feedback.calibration_key || feedback.bucket || feedback.kind;
     return {
         calibration_weight: positive ? 1 : -1,
         product_signal: positive ? 'keep_current_rule' : 'needs_rule_review',
+        target,
+        usable_for_ranking: Boolean(feedback.calibration_key || Object.keys(feedback.priority_vector || {}).length),
         next_use: positive
             ? '继续强化当前分类依据。'
             : '下次排序时降低同类证据权重，并优先观察家长补充原因。'
@@ -104,6 +110,11 @@ export default async function handler(req) {
         received_at: receivedAt,
         feedback,
         learning_signal: learningSignal(feedback),
+        dataset_contract: {
+            table: 'family_priority_feedback',
+            primary_keys: ['feedback_id', 'target_id', 'calibration_key'],
+            future_join_keys: ['session_id', 'student_id', 'homework_item_id', 'misconception_id']
+        },
         ai_notice: '该反馈用于改进排序依据，不作为学习结果承诺。',
         engine_version: 'mini-feedback-v1.0'
     });

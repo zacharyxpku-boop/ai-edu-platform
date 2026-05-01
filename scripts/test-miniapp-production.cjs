@@ -55,6 +55,9 @@ async function main() {
   assert.ok(Array.isArray(priority.json.axes) && priority.json.axes.length === 6, 'six radar axes');
   assert.ok(priority.json.homework_plan.must_do.length >= 1, 'must-do homework generated');
   assert.ok(priority.json.homework_plan.must_do[0].evidence, 'must-do evidence generated');
+  assert.ok(Array.isArray(priority.json.misconception_profile), 'misconception profile generated');
+  assert.ok(priority.json.homework_plan.must_do[0].priority_vector, 'priority vector generated');
+  assert.ok(priority.json.homework_plan.must_do[0].evidence.calibration_key, 'calibration key generated');
   assert.ok(priority.json.weekly_review && priority.json.weekly_review.ai_notice, 'weekly review generated');
   assert.ok(priority.json.ai_notice, 'ai notice generated');
   assert.ok(priority.json.engine_version, 'priority engine version');
@@ -78,6 +81,9 @@ async function main() {
     bucket: 'must_do',
     reason: 'family_marked_off',
     item_text: priority.json.homework_plan.must_do[0].text,
+    calibration_key: priority.json.homework_plan.must_do[0].evidence.calibration_key,
+    priority_vector: priority.json.homework_plan.must_do[0].priority_vector,
+    misconception_tags: priority.json.homework_plan.must_do[0].evidence.misconception_tags,
     state_summary: {
       grade: priority.json.grade,
       subject: priority.json.subject,
@@ -89,6 +95,8 @@ async function main() {
   assert.ok(feedback.json.feedback_id, 'feedback id');
   assert.strictEqual(feedback.json.feedback.rating, 'off', 'feedback rating normalized');
   assert.ok(feedback.json.learning_signal, 'feedback learning signal');
+  assert.ok(feedback.json.learning_signal.usable_for_ranking, 'feedback usable for ranking');
+  assert.ok(feedback.json.dataset_contract, 'feedback dataset contract');
 
   const safe = await post(contentHandler, { content: '我想练一道应用题' });
   assert.strictEqual(safe.status, 200, 'content safe status');
@@ -109,21 +117,41 @@ async function main() {
   const tutor = await post(tutorHandler, {
     mode: 'homework',
     message: '直接给答案',
-    context: { selected_homework: { text: '应用题 4 道' }, weak_points: [{ name: '审题建模' }] }
+    context: {
+      coach_step: 'write_first_step',
+      selected_homework: {
+        text: '应用题 4 道',
+        reason: '先保住最有帮助的任务',
+        evidence: {
+          calibration_key: 'modeling:task',
+          misconception_tags: [{ axis: 'modeling', label: '审题跳步' }]
+        }
+      },
+      weak_points: [{ name: '审题建模' }]
+    }
   }, { 'x-mini-session': session.json.session_id });
   assert.strictEqual(tutor.status, 200, 'tutor status');
   assert.strictEqual(tutor.json.ok, true, 'tutor ok');
   assert.strictEqual(tutor.json.homework_boundary, true, 'tutor homework boundary');
   assert.ok(/不能|不/.test(tutor.json.reply), 'tutor refuses direct answer');
+  assert.strictEqual(tutor.json.coach_step, 'write_first_step', 'tutor step');
+  assert.ok(tutor.json.next_action, 'tutor next action');
+  assert.ok(tutor.json.mastery_signal, 'tutor mastery signal');
+  assert.ok(Array.isArray(tutor.json.misconception_tags), 'tutor misconception tags');
 
   const diagnosis = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/diagnosis/diagnosis.js'), 'utf8');
   const upload = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/upload/upload.js'), 'utf8');
   const tutorPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.js'), 'utf8');
+  const tutorWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.wxml'), 'utf8');
   const radarPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.js'), 'utf8');
   const radarWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.wxml'), 'utf8');
   assert.ok(diagnosis.includes('api.buildPriority'), 'diagnosis uses server priority');
   assert.ok(upload.includes('api.buildPriority'), 'upload uses server priority');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
+  assert.ok(tutorPage.includes('coach_step'), 'tutor consumes structured coach step');
+  assert.ok(tutorPage.includes('QUICK_ACTIONS'), 'tutor has mastery quick actions');
+  assert.ok(tutorWxml.includes('掌握循环'), 'tutor renders mastery loop');
+  assert.ok(tutorWxml.includes('sendQuick'), 'tutor exposes mastery quick buttons');
   assert.ok(radarPage.includes('api.buildWeekly'), 'radar uses server weekly review');
   assert.ok(radarPage.includes('api.submitFeedback'), 'radar submits family feedback');
   assert.ok(radarWxml.includes('markFeedback'), 'radar exposes feedback controls');

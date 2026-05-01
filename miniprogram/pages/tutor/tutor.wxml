@@ -7,12 +7,63 @@
       </view>
       <button class="clear-btn" bindtap="clearChat">清空</button>
     </view>
-    <view class="body scope-copy">原小点承接雷达页的第一项必须做：先问思路，再给最小提示，让孩子自己跨过关键一步。</view>
+
+    <view class="body scope-copy">原小点只处理必须做任务和关键错因，先问思路，再给最小提示。</view>
+
     <view class="selected" wx:if="{{selected}}">
-      <view class="muted">当前锁定</view>
-      <view class="selected-text">{{selected.text}}</view>
+      <view class="selected-head">
+        <view>
+          <view class="muted">当前锁定</view>
+          <view class="selected-text">{{selected.text}}</view>
+        </view>
+        <button class="secondary-button quick-btn-inline" bindtap="quickStart">重新锁定</button>
+      </view>
+
+      <view class="selected-reason" wx:if="{{selected.reason}}">{{selected.reason}}</view>
+
+      <view class="signal-row" wx:if="{{selectedEvidence && selectedEvidence.weak_point}}">
+        <view class="signal-chip">弱点：{{selectedEvidence.weak_point.name}}</view>
+        <view class="signal-chip" wx:if="{{selectedEvidence.calibration_key}}">校准键：{{selectedEvidence.calibration_key}}</view>
+      </view>
+
+      <view class="tag-row" wx:if="{{misconceptionTags.length}}">
+        <view class="tag-chip" wx:for="{{misconceptionTags}}" wx:key="index">{{item.label || item.axis}}</view>
+      </view>
     </view>
+
     <button class="secondary-button quick-btn" bindtap="quickStart">锁定第一项必须做</button>
+  </view>
+
+  <view class="coach-bar panel">
+    <view class="coach-head">
+      <view class="coach-title">掌握循环</view>
+      <view class="coach-step">{{coachStepLabel}}</view>
+    </view>
+    <scroll-view class="step-scroll" scroll-x enable-flex>
+      <view class="step-row">
+        <button
+          wx:for="{{quickActions}}"
+          wx:key="id"
+          class="step-btn {{activeStep === item.id ? 'step-btn-active' : ''}}"
+          data-step="{{item.id}}"
+          bindtap="pickStep"
+        >{{item.label}}</button>
+      </view>
+    </scroll-view>
+    <view class="next-action">下一步：{{nextAction}}</view>
+    <view class="mastery-box" wx:if="{{masterySignal}}">
+      <view class="mastery-status">{{masterySignal.status}}</view>
+      <view class="mastery-text">{{masterySignal.evidence_needed}}</view>
+    </view>
+    <view class="quick-row">
+      <button
+        wx:for="{{quickActions}}"
+        wx:key="id"
+        class="ghost-btn"
+        data-step="{{item.id}}"
+        bindtap="sendQuick"
+      >{{item.label}}</button>
+    </view>
   </view>
 
   <scroll-view class="chat" scroll-y>
