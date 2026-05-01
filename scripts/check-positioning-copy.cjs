@@ -26,6 +26,10 @@ const TARGETS = [
   'miniprogram/pages/legal/legal.js',
   'docs/MINIAPP-REVIEW-COPY-PASTE.md',
   'docs/MINIAPP-LOW-COST-LAUNCH-WARROOM.md',
+  'docs/MINIAPP-OPEN-ME-FIRST.md',
+  'docs/MINIAPP-MVP-SHIP.md',
+  'docs/MINIAPP-PRODUCTION-HARDENING.md',
+  'miniprogram/project.config.json',
   'package.json',
 ];
 
