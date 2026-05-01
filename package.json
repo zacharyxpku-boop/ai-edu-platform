@@ -19,7 +19,9 @@
     "test:recos": "node scripts/test-today-recos.cjs",
     "test:miniapp-prod": "node scripts/test-miniapp-production.cjs",
     "miniapp:check": "node scripts/miniapp-launch-assistant.cjs",
-    "miniapp:appid": "node scripts/miniapp-launch-assistant.cjs --appid"
+    "miniapp:appid": "node scripts/miniapp-launch-assistant.cjs --appid",
+    "miniapp:review": "node scripts/miniapp-review-pack.cjs",
+    "miniapp:fullcheck": "node scripts/miniapp-fullcheck.cjs"
   },
   "devDependencies": {
     "http-server": "^14.1.1"

@@ -43,10 +43,22 @@ docs/MINIAPP-REVIEW-COPY-PASTE.md
 npm run miniapp:check
 ```
 
+提审前总检查：
+
+```bash
+npm run miniapp:fullcheck
+```
+
+生成可复制的审核材料：
+
+```bash
+npm run miniapp:review
+```
+
 连生产接口也一起检查：
 
 ```bash
-npm run miniapp:check -- --remote
+npm run miniapp:fullcheck -- --remote
 ```
 
 ## AppSecret 要不要

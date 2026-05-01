@@ -180,8 +180,9 @@ async function main() {
   console.log('1. 微信公众平台拿 AppID');
   console.log('2. 运行：npm run miniapp:appid -- wx你的AppID');
   console.log(`3. 微信后台 request 合法域名填：${REQUEST_DOMAIN}`);
-  console.log('4. 微信开发者工具导入 miniprogram/，上传体验版');
-  console.log('5. 复制 docs/MINIAPP-REVIEW-COPY-PASTE.md 的材料提交审核\n');
+  console.log('4. 运行：npm run miniapp:fullcheck');
+  console.log('5. 微信开发者工具导入 miniprogram/，上传体验版');
+  console.log('6. 运行：npm run miniapp:review，复制输出材料提交审核\n');
 
   if (failed.length) process.exit(1);
 }
