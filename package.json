@@ -1,7 +1,7 @@
 {
   "name": "yuandian-ai-tutor",
   "version": "1.1.0",
-  "description": "原点智学 AI 私教 · 中国高考体系下的一对一应试 AI 老师 · 跨会话记忆 + 6 字段学情指纹 + 64 类错题归因",
+  "description": "原点智学家庭学习决策系统 · 测评/作业录入 + 雷达弱点 + 作业三分类 + 原小点执行端 + 家长复盘",
   "type": "module",
   "private": true,
   "homepage": "https://yuandianzhixue.com",
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "http-server . -p 3000 -c-1",
-    "test": "node scripts/observability-dry-run.cjs && node scripts/check-static-links.cjs && node scripts/test-track.cjs && node scripts/test-streak-bar.cjs && node scripts/test-today-recos.cjs",
+    "test": "node scripts/observability-dry-run.cjs && node scripts/check-static-links.cjs && node scripts/check-positioning-copy.cjs && node scripts/test-track.cjs && node scripts/test-streak-bar.cjs && node scripts/test-today-recos.cjs",
     "test:obs": "node scripts/observability-dry-run.cjs",
     "test:links": "node scripts/check-static-links.cjs",
     "test:track": "node scripts/test-track.cjs",

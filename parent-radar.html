@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#0F4F3D">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
-<title>原点 · 孩子能力雷达图 · 30 秒看懂</title>
-<meta name="description" content="家长端：孩子在每个知识点上的真实掌握度，弱在哪强在哪一目了然">
+<title>原点 · 家长学习决策台</title>
+<meta name="description" content="家长端把孩子弱点雷达、作业三分类、原小点执行结果放在一起，帮助家庭决定今晚该做什么、跳过什么。">
 <style>
 :root {
     /* v2 design tokens（米白底+墨绿+砖红）*/
@@ -236,7 +236,7 @@ h1 { letter-spacing: 0.02em; }
 
     <header class="hero" style="position:relative;">
         <a href="/" style="position:absolute;left:0;top:4px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">← 首页</a>
-        <a href="#" id="hero-to-tutor" style="position:absolute;right:0;top:4px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">私教对话 →</a>
+        <a href="#" id="hero-to-tutor" style="position:absolute;right:0;top:4px;color:var(--c-warm-gray);text-decoration:none;font-size:0.82rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">让原小点执行今晚必须做 →</a>
         <div class="child-meta">
             <h1 id="child-name">小米同学</h1>
             <span class="subtitle">初一 · 数学</span>
@@ -372,9 +372,9 @@ h1 { letter-spacing: 0.02em; }
 
     <section class="miniapp-brief">
         <div>
-            <div class="miniapp-kicker">Story 3 · 家长雷达</div>
+            <div class="miniapp-kicker">家长学习决策台</div>
             <h2>测评/上传 → 雷达弱点 → 作业三分类</h2>
-            <p>这不是 tools，也不是 tutor，而是家长端能讲清楚的第三个故事：用 20-30 分钟测试、成绩和试卷/作业上传交叉验证，形成弱点雷达，再把每晚作业分成必须做、灵活选、可以跳过。</p>
+            <p>用 20-30 分钟测试、成绩和试卷/作业上传交叉验证，形成弱点雷达；再把每晚作业分成必须做、灵活选、可以跳过。家长看到的是取舍依据，不是泛泛报告。</p>
         </div>
         <a href="/tutor?mode=homework" class="miniapp-link">去分诊今晚作业 →</a>
     </section>
@@ -397,7 +397,7 @@ h1 { letter-spacing: 0.02em; }
 
     <div class="panel" id="homework-priority-panel" style="display:none;border-left:3px solid #B85C2E;padding:16px 20px;margin-top:16px;background:#fff;border-radius:8px;">
         <h2 style="font-size:1rem;margin-bottom:6px;">今晚作业优先级</h2>
-        <p style="color:var(--c-warm-gray);font-size:0.84rem;line-height:1.6;margin-bottom:12px;">来自孩子/家长在私教页粘贴的作业清单。原小点后续只辅导“必须做”和“关键错因”，不平均用力。</p>
+        <p style="color:var(--c-warm-gray);font-size:0.84rem;line-height:1.6;margin-bottom:12px;">来自孩子/家长在执行端粘贴的作业清单。原小点后续只辅导“必须做”和“关键错因”，不平均用力。</p>
         <div id="homework-priority-list" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;"></div>
     </div>
     <style>
@@ -519,7 +519,7 @@ h1 { letter-spacing: 0.02em; }
 <!-- 分享卡片弹窗 -->
 <div class="share-modal" id="share-modal">
     <div class="share-card" id="share-card">
-        <div class="brand">原点 AI 私教</div>
+        <div class="brand">原点智学 · 家长决策台</div>
         <div class="child-name" id="share-child">小米同学</div>
         <div class="quote" id="share-quote">这周攻克了 3 个知识点。</div>
         <div class="stat-row">
@@ -1038,7 +1038,7 @@ async function loadRecentDialogues({ limit = 20, days = 7 } = {}) {
             return;
         }
         if (data.dialogues.length === 0) {
-            list.innerHTML = '<div style="color:var(--c-warm-dim);font-size:0.84rem;line-height:1.6;">最近 ' + data.window_days + ' 天还没和老师聊过。<br>让孩子打开 <a href="/tutor.html" style="color:var(--c-origin-soft);">私教页</a> 问个问题，这里就有内容了。</div>';
+            list.innerHTML = '<div style="color:var(--c-warm-dim);font-size:0.84rem;line-height:1.6;">最近 ' + data.window_days + ' 天还没有执行记录。<br>让孩子打开 <a href="/tutor.html?mode=homework" style="color:var(--c-origin-soft);">原小点执行端</a> 做一次作业分诊，这里就有内容了。</div>';
             panel.style.display = 'block';
             return;
         }

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>原点 AI 私教 · 原小点</title>
-<meta name="description" content="不是 ChatGPT 包壳，是真正记得你卡过哪、用什么类比、什么情绪的一对一私教">
+<title>原小点 · 按雷达弱点执行今晚作业</title>
+<meta name="description" content="原小点是家庭学习决策系统的孩子执行端，只辅导必须做任务和关键错因，不替孩子写作业。">
 <meta name="theme-color" content="#0F4F3D">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
@@ -445,7 +445,7 @@ body{
             <div class="tutor-id">
                 <div class="av">原</div>
                 <div class="nm">
-                    <h1 id="tutor-title">原小点 · 你的私教</h1>
+                    <h1 id="tutor-title">原小点 · 孩子执行端</h1>
                     <div class="sub"><span id="b-memory">读取记忆中…</span> · <span id="b-weak">看你最近卡哪</span></div>
                 </div>
             </div>
@@ -468,7 +468,7 @@ body{
                 <span class="mp-dots" id="mp-dots"></span>
             </div>
             <button class="header-privacy" id="open-privacy" aria-label="隐私设置">🔒 隐私</button>
-            <a href="/radar" class="header-radar" id="hero-to-radar">家长周报 →</a>
+            <a href="/radar" class="header-radar" id="hero-to-radar">家长复盘 →</a>
             <button class="mobile-r-toggle" id="mob-r-toggle" aria-label="学习进度">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg>
             </button>
@@ -813,7 +813,7 @@ if (params.get('mode') && MODE_HINT[params.get('mode')]) {
 
 // 顶部副标题
 if (NAME && NAME !== '同学') {
-    document.getElementById('tutor-title').textContent = `原小点 · ${NAME} 的私教`;
+    document.getElementById('tutor-title').textContent = `原小点 · ${NAME} 的执行端`;
 }
 // 雷达带身份
 const radarHref = `/radar?student_id=${encodeURIComponent(STUDENT_ID)}&name=${encodeURIComponent(NAME)}`;

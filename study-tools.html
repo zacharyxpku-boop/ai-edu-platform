@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>免费工具 · 16 件 AI 学习工具 | 原点智学</title>
-    <meta name="description" content="16 件 AI 学习工具按学得快·学得准·提升能力·有产出四个维度陈列，免登录即用。">
+    <title>免费诊断入口 · 原点智学家庭学习决策系统</title>
+    <meta name="description" content="用 16 个轻量工具先定位孩子的薄弱点，再进入雷达弱点、作业三分类和原小点执行辅导。">
     <meta name="theme-color" content="#0F4F3D">
     <meta name="ydzx-page" content="study-tools">
     <link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
@@ -195,9 +195,9 @@
 <nav class="nav"><div class="nav-in">
     <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
     <div class="nav-links">
-        <a href="study-tools.html" class="nav-a on">免费工具</a>
-        <a href="/tutor" class="nav-a">AI 私教</a>
-        <a href="products/compare.html" class="nav-a">课程产品</a>
+        <a href="study-tools.html" class="nav-a on">免费诊断</a>
+        <a href="/tutor" class="nav-a">孩子执行</a>
+        <a href="/radar" class="nav-a">家长雷达</a>
         <a href="progress.html" class="nav-a">成长档案</a>
     </div>
     <button class="nav-set" onclick="location.href='settings.html'">设置</button>
@@ -206,8 +206,8 @@
 <div class="wrap">
 
 <div class="eyebrow">[Tools.]</div>
-<h1 class="page">16 件 AI 学习工具<br>免登录即用</h1>
-<p class="page-lede">按学得快、学得准、提升能力、有产出四个维度陈列。先随便点一个用，再决定要不要进系统课。</p>
+<h1 class="page">先免费诊断<br>再决定今晚做什么</h1>
+<p class="page-lede">这些工具不是独立玩具，而是家庭学习决策系统的入口：先用成绩、错题、知识点和输出任务抓到薄弱点，再进入雷达弱点、作业三分类和原小点执行辅导。</p>
 
 <!-- STATS -->
 <div class="stats">
@@ -227,8 +227,8 @@
     <div class="row">
         <div class="badge">自研</div>
         <div class="body">
-            <div class="title">原点自研平台 · 教材 / 引擎 / 模型</div>
-            <div id="platform-banner-stats" class="stats-line">加载中 · 章节匹配引擎 v1.2 · 章→题生成管道</div>
+            <div class="title">原点自研底座 · 教材 / 知识图谱 / 作业决策</div>
+            <div id="platform-banner-stats" class="stats-line">加载中 · 章节匹配引擎 v1.2 · 弱点→作业三分类</div>
         </div>
         <div class="cta">看壁垒 →</div>
     </div>
@@ -268,7 +268,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <!-- DIMENSION SWITCHER -->
 <div class="switcher">
-    <div class="switcher-h">按维度浏览</div>
+    <div class="switcher-h">按诊断目标浏览</div>
     <div class="sw-row">
         <button class="sw-btn on" data-d="fast" onclick="switchDim('fast')">
             <span class="sw-num">01</span>学得快
@@ -346,8 +346,8 @@ window.addEventListener('DOMContentLoaded', function(){
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想系统掌握高效学习法</div><p class="promo-p">智元成长课 · 12 周从认知到产出</p></div>
-        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
+        <div class="promo-text"><div class="promo-h">下一步：把效率问题落到今晚作业</div><p class="promo-p">用雷达弱点生成必须做、灵活选、可以跳过三类任务。</p></div>
+        <button class="promo-btn" onclick="location.href='/tutor?mode=homework'">生成今晚决策</button>
     </div>
 </div>
 
@@ -385,8 +385,8 @@ window.addEventListener('DOMContentLoaded', function(){
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想掌握科学记忆法</div><p class="promo-p">智元成长课教你建立知识网络</p></div>
-        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
+        <div class="promo-text"><div class="promo-h">下一步：把错因交给原小点</div><p class="promo-p">孩子只需要带着必须做题目和关键错因进入执行端。</p></div>
+        <button class="promo-btn" onclick="location.href='/tutor?mode=diagnose'">分析关键错因</button>
     </div>
 </div>
 
@@ -432,8 +432,8 @@ window.addEventListener('DOMContentLoaded', function(){
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想全面提升思维能力</div><p class="promo-p">智元成长课覆盖批判性思维 + 创造力训练</p></div>
-        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
+        <div class="promo-text"><div class="promo-h">下一步：看能力雷达的真实短板</div><p class="promo-p">家长不看泛泛总结，只看薄弱点、风险项和今晚取舍。</p></div>
+        <button class="promo-btn" onclick="location.href='/radar'">查看家长雷达</button>
     </div>
 </div>
 
@@ -471,8 +471,8 @@ window.addEventListener('DOMContentLoaded', function(){
         </a>
     </div>
     <div class="promo">
-        <div class="promo-text"><div class="promo-h">想让孩子带走一份 AI 作品</div><p class="promo-p">智元成长课 · 每期结课产出一份完整项目</p></div>
-        <button class="promo-btn" onclick="location.href='products/compare.html'">看课程方案</button>
+        <div class="promo-text"><div class="promo-h">下一步：沉淀成孩子成长档案</div><p class="promo-p">把输出、错题、掌握度和每晚决策连成连续记录。</p></div>
+        <button class="promo-btn" onclick="location.href='progress.html'">查看成长档案</button>
     </div>
 </div>
 
