@@ -131,7 +131,8 @@ async function main() {
   const docs = [
     'docs/MINIAPP-LOW-COST-LAUNCH-WARROOM.md',
     'docs/MINIAPP-REVIEW-COPY-PASTE.md',
-    'docs/MINIAPP-MVP-SHIP.md'
+    'docs/MINIAPP-MVP-SHIP.md',
+    'docs/MINIAPP-PRODUCTION-HARDENING.md'
   ];
   docs.forEach((file) => {
     check(fs.existsSync(path.join(ROOT, file)), `${file} 已准备`, `缺少 ${file}`, results);
@@ -142,6 +143,8 @@ async function main() {
   const risky = ['保证提分', '行业第一', '全国第一', '最好', '精准攻克', '自动识别图片', '直接 OCR'];
   const hit = risky.find((word) => publicText.includes(word));
   check(!hit, '前台高风险承诺词未命中', `前台仍含高风险词：${hit}`, results);
+  check(publicText.includes('api.buildPriority'), '测评/作业主流程已接服务端优先级接口', '测评/作业主流程未接入服务端优先级接口', results);
+  check(publicText.includes('api.checkContent'), '原小点已接内容安全前置检查', '原小点未接入内容安全前置检查', results);
 
   check(true, `微信后台 request 合法域名只需配置：${REQUEST_DOMAIN}`, 'request 合法域名未明确', results);
   check(true, '首版不需要 uploadFile/downloadFile 合法域名', '首版不应开放上传/下载域名', results);

@@ -69,5 +69,20 @@ Page({
   openLegal(event) {
     const type = event.currentTarget.dataset.type || 'privacy';
     wx.navigateTo({ url: `/pages/legal/legal?type=${type}` });
+  },
+
+  clearLocalData() {
+    wx.showModal({
+      title: '清除本地学习数据',
+      content: '将清除本机的雷达、作业分类、会话和临时选择，不影响已主动提交的咨询信息。',
+      confirmText: '清除',
+      confirmColor: '#B85C2E',
+      success: (res) => {
+        if (!res.confirm) return;
+        storage.clearLearningData();
+        this.setData({ consent: false });
+        wx.showToast({ title: '已清除', icon: 'success' });
+      }
+    });
   }
 });

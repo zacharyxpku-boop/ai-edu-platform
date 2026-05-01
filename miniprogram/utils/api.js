@@ -81,6 +81,26 @@ function sendTutorMessage(payload) {
   });
 }
 
+function buildPriority(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/priority', {
+    method: 'POST',
+    data: payload || {},
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 20000
+  });
+}
+
+function checkContent(content) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/content-check', {
+    method: 'POST',
+    data: { content },
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 12000
+  });
+}
+
 function submitLead(payload) {
   return request('/api/lead', {
     method: 'POST',
@@ -94,6 +114,8 @@ function submitLead(payload) {
 module.exports = {
   request,
   initSession,
+  buildPriority,
+  checkContent,
   sendTutorMessage,
   submitLead
 };

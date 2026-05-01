@@ -9,6 +9,13 @@ function fallbackReply(text, selected) {
   return `先抓「${target}」。别整套摊开，我们只看第一步：题目给了哪些已知条件？你先用自己的话写一句。`;
 }
 
+function safetyReply(result, input, selected) {
+  if (result && result.risk_type === 'self_harm') {
+    return '这个内容我不能继续展开。请先告诉家长或老师；如果你现在很难受，优先联系身边可信的大人或当地紧急支持渠道。';
+  }
+  return fallbackReply(input, selected);
+}
+
 Page({
   data: {
     input: '',
@@ -50,17 +57,24 @@ Page({
     const messages = this.data.messages.concat([{ role: 'user', text: input }]);
     this.setData({ messages, input: '', loading: true });
 
-    api.sendTutorMessage({
-      mode: 'homework',
-      message: input,
-      context: {
-        selected_homework: selected,
-        weak_points: state.weak_points || [],
-        homework_plan: state.homework_plan || null
+    api.checkContent(input).then((check) => {
+      if (check && check.safe === false) {
+        this.appendAssistant(safetyReply(check, input, selected));
+        return null;
       }
-    }).then((res) => {
-      const reply = (res && res.reply) || fallbackReply(input, selected);
-      this.appendAssistant(reply);
+      return api.sendTutorMessage({
+        mode: 'homework',
+        message: input,
+        context: {
+          selected_homework: selected,
+          weak_points: state.weak_points || [],
+          homework_plan: state.homework_plan || null
+        }
+      }).then((res) => {
+        const reply = (res && res.reply) || fallbackReply(input, selected);
+        this.appendAssistant(reply);
+        return null;
+      });
     }).catch(() => {
       this.appendAssistant(fallbackReply(input, selected));
     });

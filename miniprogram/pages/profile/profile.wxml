@@ -50,4 +50,10 @@
     <button class="legal-item" data-type="terms" bindtap="openLegal">用户协议</button>
     <button class="legal-item" data-type="minor" bindtap="openLegal">未成年人保护</button>
   </view>
+
+  <view class="section panel-quiet stack">
+    <view class="title-md">数据控制</view>
+    <view class="muted">可清除本机保存的学习档案、雷达、作业分类和原小点会话。</view>
+    <button class="ghost-button danger-button" bindtap="clearLocalData">清除本地学习数据</button>
+  </view>
 </view>

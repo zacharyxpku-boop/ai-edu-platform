@@ -27,6 +27,25 @@ function set(key, value) {
   return value;
 }
 
+function remove(key) {
+  try {
+    wx.removeStorageSync(key);
+  } catch (error) {
+    // Ignore storage cleanup failures.
+  }
+}
+
+function clearLearningData() {
+  [
+    KEYS.state,
+    KEYS.selectedHomework,
+    KEYS.profile,
+    KEYS.consent,
+    KEYS.tutorMessages,
+    KEYS.session
+  ].forEach(remove);
+}
+
 function loadState() {
   return get(KEYS.state, null) || priority.makeDemoState();
 }
@@ -52,6 +71,8 @@ module.exports = {
   KEYS,
   get,
   set,
+  remove,
+  clearLearningData,
   loadState,
   saveState,
   loadProfile,

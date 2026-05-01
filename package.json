@@ -17,6 +17,7 @@
     "test:track": "node scripts/test-track.cjs",
     "test:streak": "node scripts/test-streak-bar.cjs",
     "test:recos": "node scripts/test-today-recos.cjs",
+    "test:miniapp-prod": "node scripts/test-miniapp-production.cjs",
     "miniapp:check": "node scripts/miniapp-launch-assistant.cjs",
     "miniapp:appid": "node scripts/miniapp-launch-assistant.cjs --appid"
   },

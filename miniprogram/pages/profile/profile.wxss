@@ -21,3 +21,8 @@
 .legal-item:last-child {
   border-bottom: 0;
 }
+
+.danger-button {
+  color: #8B3A1F;
+  border-color: #E7B9A2;
+}

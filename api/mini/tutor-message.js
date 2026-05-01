@@ -1,78 +1,67 @@
 // 原点智学 · 小程序非流式学习陪练端点
 // POST /api/mini/tutor-message { mode, message, context }
-// 不读 service_role，不接受 student_id 作为授权边界；小程序生产版再接微信 session 归属校验。
-
+// 不读 service_role，不接受 student_id 作为授权边界；生产归属以 x-mini-session 为准。
 import { env } from '../_env.js';
+import {
+    clean,
+    clientIp,
+    json,
+    rateLimit,
+    readJson,
+    riskyContent,
+    sessionSecret,
+    verifySession
+} from './_shared.js';
 
 export const config = { runtime: 'edge' };
 
 const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
-const ipBucket = new Map();
-
-function json(data, status = 200) {
-    return new Response(JSON.stringify(data), {
-        status,
-        headers: {
-            'content-type': 'application/json; charset=utf-8',
-            'cache-control': 'no-store',
-            'access-control-allow-origin': '*',
-            'access-control-allow-methods': 'POST, OPTIONS',
-            'access-control-allow-headers': 'content-type,x-mini-session'
-        }
-    });
-}
-
-function clean(s, max = 1200) {
-    if (typeof s !== 'string') return '';
-    return s.trim().replace(/\u0000/g, '').slice(0, max);
-}
-
-function rateLimit(ip) {
-    const day = new Date().toISOString().slice(0, 10);
-    const key = `${ip}|${day}`;
-    const count = (ipBucket.get(key) || 0) + 1;
-    ipBucket.set(key, count);
-    if (ipBucket.size > 4000) {
-        for (const item of ipBucket.keys()) {
-            if (!item.endsWith(`|${day}`)) ipBucket.delete(item);
-        }
-    }
-    return count <= 40;
-}
 
 function localReply(message, context = {}) {
-    const selected = context.selected_homework?.text || '第一项必须做';
-    if (/答案|代写|直接写|帮我写/.test(message)) {
+    const selected = clean(context.selected_homework?.text || '第一项必须做', 120);
+    const risk = riskyContent(message);
+    if (!risk.safe && risk.type === 'academic_integrity') {
         return '我不能替你写答案。把你已经想到的第一步发来，我只给最小提示。';
     }
-    const weak = (context.weak_points || []).map((item) => item.name).filter(Boolean).slice(0, 2).join('、') || '审题建模';
+    const weak = (context.weak_points || [])
+        .map((item) => clean(item.name || '', 20))
+        .filter(Boolean)
+        .slice(0, 2)
+        .join('、') || '审题建模';
     return `先锁定「${selected}」。它和「${weak}」有关。你先别算答案，用一句话写：题目给了哪些条件，真正问的是什么？`;
 }
 
-function localSafetyCheck(content) {
-    const text = String(content || '').toLowerCase();
-    const blocked = [
-        'suicide', 'kill myself', 'self harm',
-        '自杀', '轻生', '割腕', '跳楼',
-        '代写', '帮我写完', '直接给答案'
-    ];
-    const hit = blocked.find((word) => text.includes(word));
-    if (!hit) return { ok: true };
-    if (['代写', '帮我写完', '直接给答案'].includes(hit)) {
-        return { ok: true, homework_boundary: true };
-    }
+function selfHarmReply() {
+    return '这个内容我不能继续展开。请先告诉家长或老师；如果你现在很难受，优先联系身边可信的大人或当地紧急支持渠道。';
+}
+
+function normalizeContext(context = {}) {
     return {
-        ok: false,
-        reply: '这个内容我不能继续展开。请先告诉家长或老师，如果你现在很难受，优先联系身边可信的大人。'
+        selected_homework: context.selected_homework ? {
+            id: clean(context.selected_homework.id || '', 40),
+            text: clean(context.selected_homework.text || '', 240),
+            reason: clean(context.selected_homework.reason || '', 160)
+        } : null,
+        weak_points: Array.isArray(context.weak_points)
+            ? context.weak_points.slice(0, 4).map((item) => ({
+                key: clean(item.key || '', 30),
+                name: clean(item.name || '', 30),
+                score: Number(item.score) || 0,
+                reason: clean(item.reason || '', 180)
+            }))
+            : [],
+        homework_plan: context.homework_plan ? { present: true } : null
     };
 }
 
 function buildPrompt(mode, context = {}) {
-    const weak = (context.weak_points || []).map((item) => `${item.name}:${item.reason || ''}`).join('；') || '暂无雷达，先按审题和关键错因处理';
+    const weak = (context.weak_points || [])
+        .map((item) => `${item.name}:${item.reason || ''}`)
+        .join('；') || '暂无雷达，先按审题和关键错因处理';
     const selected = context.selected_homework?.text || '未指定，默认从必须做第一项开始';
     return [
         '你是原点智学小程序里的原小点，面向小学高年级到初一初二学生。',
-        '你的定位：只引导高优先级任务和关键错因，不做通用闲聊，不替孩子写作业，不直接给完整答案。',
+        '定位：只引导高优先级任务和关键错因，不做通用闲聊，不替孩子写作业，不直接给完整答案。',
         '说话短、具体、像家教老师。每次最多 120 字。',
         '如果学生要答案，拒绝代写，并要求他说出自己的第一步。',
         '如果材料足够，先定位关键错因，再给一个最小提示。',
@@ -86,30 +75,44 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
 
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
-        || req.headers.get('x-real-ip')
-        || 'unknown';
-    if (!rateLimit(ip)) {
+    const ip = clientIp(req);
+    const limited = rateLimit(`mini:tutor:${ip}`, 50);
+    if (!limited.ok) {
         return json({ ok: false, error: 'rate_limited', message: '今天对话次数较多，先休息一下。' }, 429);
     }
 
+    const envObj = (typeof process !== 'undefined' && process.env) || {};
+    const sessionId = req.headers.get('x-mini-session') || '';
+    const session = sessionId
+        ? await verifySession(sessionId, sessionSecret(envObj))
+        : { ok: true, mode: 'anonymous' };
+    if (!session.ok) return json({ ok: false, error: 'bad_session', message: '小程序会话无效，请重新进入页面' }, 401);
+
     let body = {};
-    try { body = await req.json(); }
-    catch (error) { return json({ ok: false, error: 'bad_json', message: '请求体不是合法 JSON' }, 400); }
+    try {
+        body = await readJson(req, 24 * 1024);
+    } catch (error) {
+        return json({
+            ok: false,
+            error: error.message === 'payload_too_large' ? 'payload_too_large' : 'bad_json',
+            message: error.message === 'payload_too_large' ? '请求体过大' : '请求体不是合法 JSON'
+        }, error.status || 400);
+    }
 
     const mode = ['homework', 'diagnose', 'explain'].includes(body.mode) ? body.mode : 'homework';
     const message = clean(body.message, 1200);
-    const context = body.context || {};
+    const context = normalizeContext(body.context || {});
     if (!message) return json({ ok: false, error: 'missing_message', message: 'message 必填' }, 400);
 
-    const safety = localSafetyCheck(message);
-    if (!safety.ok) {
+    const safety = riskyContent(message);
+    if (!safety.safe) {
         return json({
             ok: true,
             mode,
-            reply: safety.reply,
-            safety_blocked: true,
-            engine_version: 'mini-tutor-message-v1.1'
+            reply: safety.type === 'self_harm' ? selfHarmReply() : localReply(message, context),
+            safety_blocked: safety.type === 'self_harm',
+            homework_boundary: safety.type === 'academic_integrity',
+            engine_version: 'mini-tutor-message-v1.2'
         });
     }
 
@@ -120,7 +123,7 @@ export default async function handler(req) {
             mode,
             reply: localReply(message, context),
             fallback: true,
-            engine_version: 'mini-tutor-message-v1.1'
+            engine_version: 'mini-tutor-message-v1.2'
         });
     }
 
@@ -149,7 +152,7 @@ export default async function handler(req) {
                 reply: localReply(message, context),
                 fallback: true,
                 upstream_status: upstream.status,
-                engine_version: 'mini-tutor-message-v1.1'
+                engine_version: 'mini-tutor-message-v1.2'
             });
         }
         const data = await upstream.json();
@@ -159,7 +162,7 @@ export default async function handler(req) {
             mode,
             reply,
             fallback: false,
-            engine_version: 'mini-tutor-message-v1.1'
+            engine_version: 'mini-tutor-message-v1.2'
         });
     } catch (error) {
         return json({
@@ -167,7 +170,7 @@ export default async function handler(req) {
             mode,
             reply: localReply(message, context),
             fallback: true,
-            engine_version: 'mini-tutor-message-v1.1'
+            engine_version: 'mini-tutor-message-v1.2'
         });
     }
 }
