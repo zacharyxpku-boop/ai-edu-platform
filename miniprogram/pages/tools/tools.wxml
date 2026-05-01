@@ -1,7 +1,7 @@
 <view class="page safe-bottom">
-  <view class="eyebrow">TOOLS</view>
-  <view class="title-xl">工具不是越多越好。</view>
-  <view class="body intro">首版只保留能讲完整闭环的四件事：测评、录入、雷达、私教。</view>
+  <view class="eyebrow">DIAGNOSIS</view>
+  <view class="title-xl">先诊断，再取舍。</view>
+  <view class="body intro">这里保留能讲完整闭环的四件事：测评、录入、家长雷达、原小点执行。</view>
 
   <view class="section tool-list">
     <view class="tool-card panel" wx:for="{{tools}}" wx:key="key">
@@ -17,7 +17,7 @@
   </view>
 
   <view class="section panel-quiet">
-    <view class="title-md">不上 OCR 的处理</view>
-    <view class="body">当前版本可以选择图片留档，但不会承诺自动识别。真正参与诊断的是你录入的题号、错题、分数和作业清单。</view>
+    <view class="title-md">照片只做留档</view>
+    <view class="body">为保证结果可信，当前诊断依据来自你录入的题号、错题、分数和作业清单。照片仅保存在本机，方便家长回看。</view>
   </view>
 </view>

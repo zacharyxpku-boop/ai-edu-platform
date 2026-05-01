@@ -1,7 +1,7 @@
 <view class="page safe-bottom">
   <view class="eyebrow">HOMEWORK</view>
   <view class="title-xl">把今晚作业变成三类。</view>
-  <view class="body intro">先不做 OCR。请手动录入题号、错题或作业清单，系统会结合雷达弱点判断哪些必须做。</view>
+  <view class="body intro">请手动录入题号、错题或作业清单，系统会结合雷达弱点判断哪些必须做。</view>
 
   <view class="section panel stack">
     <view class="notice">

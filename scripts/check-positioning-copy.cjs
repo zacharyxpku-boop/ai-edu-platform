@@ -12,6 +12,16 @@ const TARGETS = [
   'tutor.html',
   'parent-radar.html',
   'src/wechat-cta.js',
+  'miniprogram/app.json',
+  'miniprogram/pages/home/home.wxml',
+  'miniprogram/pages/tools/tools.wxml',
+  'miniprogram/pages/tools/tools.js',
+  'miniprogram/pages/tools/tools.json',
+  'miniprogram/pages/tutor/tutor.wxml',
+  'miniprogram/pages/radar/radar.wxml',
+  'miniprogram/pages/diagnosis/diagnosis.wxml',
+  'miniprogram/pages/upload/upload.wxml',
+  'miniprogram/pages/profile/profile.wxml',
   'package.json',
 ];
 
@@ -31,6 +41,10 @@ const FORBIDDEN = [
   { pattern: /全家会员/g, reason: '当前公开漏斗不应混入旧会员售卖' },
   { pattern: /保证提分/g, reason: '避免高风险教育承诺' },
   { pattern: /提分承诺/g, reason: '避免高风险教育承诺' },
+  { pattern: /小程序\s*MVP|MVP\s*先|人教版\s*MVP/g, reason: '用户可见文案不应显得半成品' },
+  { pattern: /首版只保留/g, reason: '用户可见文案不应显得半成品' },
+  { pattern: />\s*TOOLS\s*</g, reason: '公开入口应讲诊断/决策，不讲工具仓库' },
+  { pattern: /不上\s*OCR|先不做\s*OCR/g, reason: '用户可见文案不应强调未实现能力' },
 ];
 
 let failures = 0;

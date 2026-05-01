@@ -1,7 +1,7 @@
 <view class="page safe-bottom">
   <view class="eyebrow">ASSESSMENT</view>
   <view class="title-xl">10 分钟定位弱点。</view>
-  <view class="body intro">MVP 先验证人教版主流题型：成绩、错题描述和作业清单交叉判断。</view>
+  <view class="body intro">先覆盖人教版主流题型：成绩、错题描述和作业清单交叉判断。</view>
 
   <view class="section panel stack">
     <view class="field">

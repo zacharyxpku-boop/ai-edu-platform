@@ -25,9 +25,9 @@ Page({
       },
       {
         key: 'tutor',
-        name: '原小点陪练',
+        name: '原小点执行端',
         desc: '只引导高优先级任务和关键错因，不替孩子写答案。',
-        action: '去陪练',
+        action: '开始执行',
         tab: true,
         path: '/pages/tutor/tutor'
       }
