@@ -8,7 +8,7 @@
     </view>
   </view>
   <view class="section panel-quiet">
-    <view class="title-md">审核前待补</view>
-    <view class="body">正式提交微信审核前，需要把这里替换为完整版本的隐私政策、用户协议、AI 生成内容标识、内容安全和家长授权说明。</view>
+    <view class="title-md">AI 辅助说明</view>
+    <view class="body">原点智学只提供学习建议、作业优先级和思路提示；不替代学校教学、老师判断或家长监护，不提供作业代写服务。</view>
   </view>
 </view>

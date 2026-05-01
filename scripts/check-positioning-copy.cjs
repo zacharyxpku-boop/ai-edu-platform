@@ -22,6 +22,10 @@ const TARGETS = [
   'miniprogram/pages/diagnosis/diagnosis.wxml',
   'miniprogram/pages/upload/upload.wxml',
   'miniprogram/pages/profile/profile.wxml',
+  'miniprogram/pages/legal/legal.wxml',
+  'miniprogram/pages/legal/legal.js',
+  'docs/MINIAPP-REVIEW-COPY-PASTE.md',
+  'docs/MINIAPP-LOW-COST-LAUNCH-WARROOM.md',
   'package.json',
 ];
 
@@ -45,6 +49,8 @@ const FORBIDDEN = [
   { pattern: /首版只保留/g, reason: '用户可见文案不应显得半成品' },
   { pattern: />\s*TOOLS\s*</g, reason: '公开入口应讲诊断/决策，不讲工具仓库' },
   { pattern: /不上\s*OCR|先不做\s*OCR/g, reason: '用户可见文案不应强调未实现能力' },
+  { pattern: /审核前待补/g, reason: '审核材料和小程序内不应暴露待补状态' },
+  { pattern: /陪练/g, reason: '公开口径统一为原小点执行端或思路提示，避免辅导敏感表达' },
 ];
 
 let failures = 0;
