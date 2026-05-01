@@ -1,12 +1,12 @@
 <view class="page safe-bottom">
   <view class="eyebrow">HOMEWORK</view>
-  <view class="title-xl">今晚作业怎么取舍？</view>
-  <view class="body intro">OCR 先不上。可以拍照留档，但请手动录入题号、错题或作业清单。</view>
+  <view class="title-xl">把今晚作业变成三类。</view>
+  <view class="body intro">先不做 OCR。请手动录入题号、错题或作业清单，系统会结合雷达弱点判断哪些必须做。</view>
 
   <view class="section panel stack">
     <view class="notice">
-      <view class="notice-title">MVP 规则</view>
-      <view class="muted">诊断依据来自文字录入；照片只作为本地记录，不上传识别。</view>
+      <view class="notice-title">录入越具体，取舍越可信</view>
+      <view class="muted">建议写清题型、数量、老师要求和孩子卡住的位置。照片只做本地留档，不上传识别。</view>
     </view>
 
     <button class="ghost-button" bindtap="chooseImage">选择照片留档</button>
@@ -17,6 +17,7 @@
     <view class="field">
       <view class="label">今晚可用时间</view>
       <input class="input" type="number" value="{{minutes}}" bindinput="onMinutes" />
+      <view class="muted">系统会按时间把作业分成必须做、灵活选择、可以跳过。</view>
     </view>
 
     <view class="field">
@@ -26,6 +27,6 @@
   </view>
 
   <view class="submit-bar">
-    <button class="primary-button" bindtap="submit">生成必须做/可跳过/灵活选</button>
+    <button class="primary-button" bindtap="submit">基于当前弱点生成作业三分类</button>
   </view>
 </view>

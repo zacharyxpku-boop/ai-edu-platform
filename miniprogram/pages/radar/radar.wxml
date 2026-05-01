@@ -1,6 +1,7 @@
 <view class="page safe-bottom">
   <view class="eyebrow">RADAR</view>
-  <view class="title-xl">先看今晚最该补什么。</view>
+  <view class="title-xl">雷达不是展示，是取舍。</view>
+  <view class="body intro">先看最危险弱点，再决定哪些作业今晚必须做。</view>
 
   <view class="section panel">
     <view class="between">
@@ -42,23 +43,24 @@
     <view class="bucket-head">
       <view>
         <view class="title-md">必须做</view>
-        <view class="muted">命中弱点、课堂核心、近期反复错。</view>
+        <view class="muted">优先点这里的任务进入原小点，先拆关键错因。</view>
       </view>
       <view class="pill-warm pill">{{plan.must_do.length}} 项</view>
     </view>
     <view class="bucket-list">
       <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">
         <view class="homework-text">{{item.text}}</view>
-        <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟</view>
+        <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟 · 点一下让原小点带做</view>
       </view>
     </view>
+    <button class="primary-button start-must" bindtap="startFirstMust">从第一项必须做开始</button>
   </view>
 
   <view class="section bucket">
     <view class="bucket-head">
       <view>
         <view class="title-md">灵活选择</view>
-        <view class="muted">有帮助，但可以看今晚精力。</view>
+        <view class="muted">有帮助，但可以看今晚精力；有余力再进入原小点。</view>
       </view>
       <view class="pill">{{plan.flexible.length}} 项</view>
     </view>
@@ -74,7 +76,7 @@
     <view class="bucket-head">
       <view>
         <view class="title-md">可以跳过</view>
-        <view class="muted">机械重复或低收益，跳过是保护精力。</view>
+        <view class="muted">机械重复或低收益，今晚不进入辅导。</view>
       </view>
       <view class="pill">{{plan.can_skip.length}} 项</view>
     </view>

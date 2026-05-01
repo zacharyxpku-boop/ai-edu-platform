@@ -88,6 +88,18 @@ Page({
     const item = list[index];
     if (!item) return;
     storage.set(storage.KEYS.selectedHomework, item);
+    storage.set(storage.KEYS.selectedHomeworkSource, bucket);
+    wx.switchTab({ url: '/pages/tutor/tutor' });
+  },
+
+  startFirstMust() {
+    const item = (this.data.plan.must_do || [])[0];
+    if (!item) {
+      wx.navigateTo({ url: '/pages/upload/upload' });
+      return;
+    }
+    storage.set(storage.KEYS.selectedHomework, item);
+    storage.set(storage.KEYS.selectedHomeworkSource, 'radar_first_must');
     wx.switchTab({ url: '/pages/tutor/tutor' });
   },
 

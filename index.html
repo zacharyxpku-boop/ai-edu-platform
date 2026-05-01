@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>原点智学 · 清北方法论 + AI 私教，提分不只刷题</title>
-<meta name="description" content="先用 3 分钟 AI 诊断看清孩子的知识漏洞，再决定怎么学。4 维方法论 · 18 件免费工具 · 三档陪跑可选。">
+<title>原点智学 · 家庭学习决策系统，先判断今晚该做什么</title>
+<meta name="description" content="原点智学把测评、试卷/作业、错题和孩子对话合在一起，告诉家长今晚哪些必须做、哪些可以跳过、为什么。">
 <meta name="theme-color" content="#0F4F3D">
 <meta name="ydzx-page" content="home">
 <link rel="canonical" href="https://www.yuandianzhixue.com/">
@@ -806,12 +806,12 @@ img{max-width:100%;display:block}
       <span class="brand-name">原点智学</span>
     </a>
     <div class="nav-links">
-      <a href="/study-tools" class="nav-a">免费工具</a>
-      <a href="/tutor" class="nav-a">AI 私教</a>
-      <a href="/products/compare" class="nav-a">课程产品</a>
+      <a href="/parent-radar" class="nav-a">学习决策</a>
+      <a href="/tutor" class="nav-a">孩子执行</a>
+      <a href="/study-tools" class="nav-a">免费诊断</a>
       <a href="/progress" class="nav-a">成长档案</a>
     </div>
-    <button class="nav-cta" onclick="document.getElementById('cta-diagnose').click()">开始免费诊断</button>
+    <button class="nav-cta" onclick="document.getElementById('cta-diagnose').click()">生成今晚决策</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="菜单">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
@@ -822,26 +822,26 @@ img{max-width:100%;display:block}
 <section class="hero-v3" id="hero-v3">
   <div class="hero-v3-in with-mascot">
     <div class="hero-v3-text">
-      <div class="hero-tag">小程序前身 · 三条可讲的产品故事</div>
-      <h1 class="hero-h1">工具、私教、雷达<br>先各自讲清楚，再合成<span class="hl">一个闭环</span></h1>
-      <p class="hero-sub">面向小学 4-6 年级到初一衔接。`tools` 给家长低门槛体验，`tutor` 让原小点盯住必须做和关键错因，`测评/上传→雷达→作业三分类` 形成小程序主链路。</p>
-      <div class="mvp-flow" aria-label="原点三条产品故事">
-        <div class="mvp-step"><b>Story 1 · tools</b><span>免费工具箱：测评、错题、计划、讲解，先让家长觉得靠谱</span></div>
-        <div class="mvp-step"><b>Story 2 · tutor</b><span>原小点私教：不替写作业，只辅导必须做和关键错因</span></div>
-        <div class="mvp-step"><b>Story 3 · radar</b><span>上传试卷/作业后，家长看到雷达弱点和三类作业取舍</span></div>
+      <div class="hero-tag">家庭学习决策系统 · 小学 4-6 到初一衔接</div>
+      <h1 class="hero-h1">今晚该做什么，<br>不再靠<span class="hl">家长硬猜</span></h1>
+      <p class="hero-sub">把测评、试卷/作业、错题和孩子对话合在一起，先判断弱点，再把作业分成“必须做、灵活选择、可以跳过”。原小点只带孩子处理必须做和关键错因。</p>
+      <div class="mvp-flow" aria-label="原点家庭学习决策闭环">
+        <div class="mvp-step"><b>1 · 录入</b><span>测评/试卷/作业清单，先把今晚任务说清楚</span></div>
+        <div class="mvp-step"><b>2 · 决策</b><span>雷达定位弱点，作业自动三分类</span></div>
+        <div class="mvp-step"><b>3 · 执行</b><span>原小点只辅导必须做和关键错因</span></div>
       </div>
       <div class="hero-cta-row">
-        <a href="/study-tools" class="hero-cta-primary">看 tools 故事 <span class="arrow-inline">→</span></a>
-        <a href="/tutor?mode=homework" class="hero-cta-secondary">看 tutor 故事</a>
+        <a href="/tools/exam-diagnosis" class="hero-cta-primary">生成今晚学习决策 <span class="arrow-inline">→</span></a>
+        <a href="/tutor?mode=homework" class="hero-cta-secondary">让孩子按方案开始练</a>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:#8A8780;letter-spacing:0.02em">小程序主闭环：测评/试卷/作业上传 → 雷达弱点 → 作业三分类 → 原小点只辅导必须做和关键错因</div>
+      <div style="margin-top:14px;font-size:12px;color:#8A8780;letter-spacing:0.02em">产品闭环：测评/试卷/作业录入 → 雷达弱点 → 作业三分类 → 原小点执行 → 家长复盘</div>
       <div style="margin-top:18px">
-        <a class="link-secondary" href="/tools/exam-diagnosis">从测评/试卷上传开始 →</a>
+        <a class="link-secondary" href="/parent-radar">查看家庭学习决策台 →</a>
       </div>
       <div class="hero-trust">
         <span>· 适合小学中高年级长期陪跑 ·</span>
-        <span>· 初一初二做方法升级验证 ·</span>
-        <span>· 不做初三冲刺承诺 ·</span>
+        <span>· 先解决作业过载和弱点不清 ·</span>
+        <span>· 不替写作业，不承诺固定结果 ·</span>
       </div>
     </div>
     <div class="mascot-wrap" aria-hidden="true">
@@ -888,8 +888,8 @@ img{max-width:100%;display:block}
         <div class="vc-msg">我只陪你做两类：今天必须做的题，和反复错的关键错因。其他低价值重复题，先放后面。</div>
       </div>
       <div class="visual-card brief-card">
-        <div class="bc-tag">家长雷达</div>
-        <div class="bc-body">试卷/作业上传后，雷达显示“审题建模”和“迁移应用”最弱。今晚必须做 7 道，灵活选 4 道，可跳过 5 道。</div>
+        <div class="bc-tag">今晚决策</div>
+        <div class="bc-body">雷达显示“审题建模”和“迁移应用”最弱。今晚必须做 7 道，灵活选择 4 道，可以跳过 5 道。</div>
       </div>
     </div>
   </div>
@@ -1160,7 +1160,7 @@ img{max-width:100%;display:block}
     <div class="foot-top">
       <div>
         <div class="foot-brand-name">原点智学</div>
-        <div class="foot-brand-tag">清北方法论 · AI 私教</div>
+        <div class="foot-brand-tag">家庭学习决策系统 · 原小点执行</div>
       </div>
       <div class="foot-col">
         <div class="foot-col-h">产品</div>
@@ -1200,10 +1200,10 @@ const STATS = {
 };
 
 const DIMENSIONS = [
-  { id: '01', name: '学得快', desc: '提效学习时间，释放创造力' },
-  { id: '02', name: '学得准', desc: '定制专属 AI 学习路径提分' },
-  { id: '03', name: '思维好', desc: '思维启发式 AI 陪练' },
-  { id: '04', name: '有产出', desc: '真实项目与商业化探索' },
+  { id: '01', name: '看弱点', desc: '用测评、试卷和错题先定位最影响今晚效率的知识漏洞' },
+  { id: '02', name: '做取舍', desc: '把作业拆成必须做、灵活选择、可以跳过，保护孩子精力' },
+  { id: '03', name: '带执行', desc: '原小点只围绕必须做和关键错因给最小提示，不替写答案' },
+  { id: '04', name: '给家长', desc: '沉淀雷达、错因和复盘，让家长知道为什么这样安排' },
 ];
 
 const FREE_TOOLS_HIGHLIGHT = [

@@ -84,6 +84,39 @@
   font-weight: 900;
 }
 
+.decision-card,
+.empty-decision {
+  margin-top: 22rpx;
+  padding: 24rpx;
+  background: #F5E8DF;
+  border: 1rpx solid #E2B9A0;
+  border-radius: 14rpx;
+}
+
+.empty-decision {
+  background: #F7F1E8;
+  border-color: #E4D9C8;
+}
+
+.decision-label {
+  color: #8B3A1F;
+  font-size: 23rpx;
+  font-weight: 900;
+}
+
+.decision-title {
+  margin: 8rpx 0 10rpx;
+  color: #1A1A1A;
+  font-size: 31rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.decision-action {
+  margin-top: 18rpx;
+  min-height: 78rpx;
+}
+
 .triage-strip {
   display: flex;
   gap: 14rpx;

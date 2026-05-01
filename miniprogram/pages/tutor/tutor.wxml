@@ -3,16 +3,16 @@
     <view class="between">
       <view>
         <view class="eyebrow">YUAN XIAODIAN</view>
-        <view class="title-lg">只处理高优先级任务和关键错因。</view>
+        <view class="title-lg">只带必须做，不替写答案。</view>
       </view>
       <button class="clear-btn" bindtap="clearChat">清空</button>
     </view>
-    <view class="body scope-copy">不会替孩子写答案。会先问思路，再给最小提示，让孩子自己跨过关键一步。</view>
+    <view class="body scope-copy">原小点承接雷达页的第一项必须做：先问思路，再给最小提示，让孩子自己跨过关键一步。</view>
     <view class="selected" wx:if="{{selected}}">
       <view class="muted">当前锁定</view>
       <view class="selected-text">{{selected.text}}</view>
     </view>
-    <button class="secondary-button quick-btn" bindtap="quickStart">从第一项必须做开始</button>
+    <button class="secondary-button quick-btn" bindtap="quickStart">锁定第一项必须做</button>
   </view>
 
   <scroll-view class="chat" scroll-y>

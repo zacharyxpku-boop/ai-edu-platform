@@ -17,8 +17,8 @@
     window.__ydzxWechatCta = true;
 
     var CHANNEL_LABEL = {
-        'hero-diagnose': '原点智学诊断咨询',
-        'hero-cta': '原点智学课程咨询',
+        'hero-diagnose': '先看今晚该做什么',
+        'hero-cta': '发作业清单，做一次今晚取舍',
         'pricing-online': '线上系统课咨询 ¥2,499',
         'pricing-camp': '少年营报名 ¥4,980',
         'pricing-flagship': '清北 4 对 1 陪跑 ¥6,980 (限 4 人/期)',
@@ -26,8 +26,8 @@
         'platform-engine': '原点自研技术深度沟通',
         'membership-basic': '会员入会 ¥99/月',
         'membership-family': '全家会员 ¥299/月',
-        'tools-promo': '系统课方案咨询',
-        'final-cta': '原点智学咨询',
+        'tools-promo': '用一次免费诊断看今晚优先级',
+        'final-cta': '原点家庭学习决策咨询',
     };
 
     /* 客服微信号 + 二维码图片路径
@@ -163,8 +163,8 @@
             '  <button class="ywc-close" aria-label="关闭" id="ywc-close">×</button>',
             '  <div class="ywc-head">',
             '    <div class="ywc-eyebrow" id="ywc-eyebrow">[Connect.]</div>',
-            '    <h2 class="ywc-title" id="ywc-title">加客服微信，1v1 帮你看孩子情况</h2>',
-            '    <p class="ywc-sub" id="ywc-sub">不卖课先聊清楚是否合适。前 100 名锁早鸟价。</p>',
+            '    <h2 class="ywc-title" id="ywc-title">先看今晚该做什么</h2>',
+            '    <p class="ywc-sub" id="ywc-sub">发一张试卷/作业清单，先帮你做一次“必须做、灵活选择、可以跳过”的取舍。</p>',
             '  </div>',
             '  <div class="ywc-tabs" role="tablist">',
             '    <button class="ywc-tab on" data-pane="qr" id="ywc-tab-qr" role="tab">扫码加微信</button>',
@@ -173,9 +173,9 @@
             '  <div class="ywc-pane on" id="ywc-pane-qr" role="tabpanel">',
             '    <div class="ywc-qr-wrap">',
             '      <img class="ywc-qr-img" alt="原点智学客服微信" src="' + WECHAT_QR_PNG + '" onerror="this.onerror=null;this.src=\'' + WECHAT_QR_SVG + '\'" id="ywc-qr-img">',
-            '      <p class="ywc-qr-tip">长按 / 截图保存上图二维码<br>用微信扫一扫添加 <b>' + WECHAT_NAME + '</b></p>',
+            '      <p class="ywc-qr-tip">长按 / 截图保存上图二维码<br>把试卷/作业清单发给 <b>' + WECHAT_NAME + '</b></p>',
             '      <span class="ywc-qr-id" id="ywc-qr-id" title="点击复制微信号">微信号 ' + WECHAT_ID + ' · 点击复制</span>',
-            '      <p class="ywc-fineprint">备注 <b>「咨询」</b> + 孩子年级，Zack 会优先回复</p>',
+            '      <p class="ywc-fineprint">备注 <b>「作业取舍」</b> + 孩子年级，Zack 会优先回复</p>',
             '    </div>',
             '  </div>',
             '  <div class="ywc-pane" id="ywc-pane-phone" role="tabpanel">',

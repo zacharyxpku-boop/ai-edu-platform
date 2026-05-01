@@ -3,6 +3,7 @@ const priority = require('./learning-priority');
 const KEYS = {
   state: 'ydzx.priority.state.v1',
   selectedHomework: 'ydzx.selected.homework.v1',
+  selectedHomeworkSource: 'ydzx.selected.homework.source.v1',
   profile: 'ydzx.profile.v1',
   consent: 'ydzx.guardian.consent.v1',
   session: 'ydzx.mini.session.v1',
@@ -39,6 +40,7 @@ function clearLearningData() {
   [
     KEYS.state,
     KEYS.selectedHomework,
+    KEYS.selectedHomeworkSource,
     KEYS.profile,
     KEYS.consent,
     KEYS.tutorMessages,

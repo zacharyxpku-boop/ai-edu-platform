@@ -8,12 +8,12 @@
   </view>
 
   <view class="hero panel">
-    <view class="eyebrow">今晚学习决策台</view>
-    <view class="title-xl">先判断哪些值得做。</view>
-    <view class="body hero-copy">根据测评、试卷和作业清单，原小点只陪孩子处理高优先级任务和关键错因。</view>
+    <view class="eyebrow">今晚作业决策台</view>
+    <view class="title-xl">先决定做什么，再让孩子开写。</view>
+    <view class="body hero-copy">输入测评、试卷错因或作业清单，系统先给弱点雷达和三分类；原小点只辅导“必须做”和关键错因。</view>
     <view class="hero-actions">
-      <button class="primary-button" bindtap="goUpload">录入今晚作业</button>
-      <button class="secondary-button" bindtap="goDiagnosis">做一次测评</button>
+      <button class="primary-button" bindtap="goUpload">录入作业</button>
+      <button class="secondary-button" bindtap="goDiagnosis">测一次弱点</button>
     </view>
     <view class="ai-label">AI 辅助生成建议；不替孩子写答案，不承诺固定学习结果。</view>
   </view>
@@ -21,7 +21,7 @@
   <view class="section panel">
     <view class="between">
       <view>
-        <view class="title-md">今日结论</view>
+        <view class="title-md">{{isDemo ? '示例结论' : '今日结论'}}</view>
         <view class="muted">更新于 {{updatedText}}</view>
       </view>
       <button class="text-link" bindtap="goRadar">看雷达</button>
@@ -35,6 +35,19 @@
         </view>
         <view class="score">{{item.score}}</view>
       </view>
+    </view>
+
+    <view class="decision-card" wx:if="{{topMust}}">
+      <view class="decision-label">{{isDemo ? '示例：今晚先做' : '今晚先做'}}</view>
+      <view class="decision-title">{{topMust.text}}</view>
+      <view class="muted">{{topMust.reason}} · 约 {{topMust.minutes}} 分钟</view>
+      <button class="primary-button decision-action" bindtap="startTopMust">让原小点带做</button>
+    </view>
+
+    <view class="empty-decision" wx:else>
+      <view class="decision-label">还缺作业清单</view>
+      <view class="muted">先录入今晚作业，系统会把任务分成必须做、灵活选择、可以跳过。</view>
+      <button class="secondary-button decision-action" bindtap="goUpload">现在录入</button>
     </view>
 
     <view class="triage-strip">
@@ -54,26 +67,26 @@
   </view>
 
   <view class="section loop panel-quiet">
-    <view class="title-md">三条主线</view>
+    <view class="title-md">一个闭环</view>
     <view class="loop-step">
       <view class="step-index">1</view>
       <view>
-        <view class="step-title">工具先建立信任</view>
-        <view class="muted">测评、错因、计划先给家长一个能用的入口。</view>
+        <view class="step-title">录入测评/试卷/作业</view>
+        <view class="muted">不用 OCR 也能跑通，先用文字把题号、错因和作业清单说清楚。</view>
       </view>
     </view>
     <view class="loop-step">
       <view class="step-index">2</view>
       <view>
-        <view class="step-title">雷达给出取舍</view>
+        <view class="step-title">雷达决定优先级</view>
         <view class="muted">弱点不是越多越好，今晚只抓最影响的两三处。</view>
       </view>
     </view>
     <view class="loop-step">
       <view class="step-index">3</view>
       <view>
-        <view class="step-title">原小点负责关键错因</view>
-        <view class="muted">不做通用聊天，不替写作业，只引导高优先级任务。</view>
+        <view class="step-title">原小点只带必须做</view>
+        <view class="muted">不做通用聊天，不替写作业，只用最小提示攻关键错因。</view>
       </view>
     </view>
   </view>

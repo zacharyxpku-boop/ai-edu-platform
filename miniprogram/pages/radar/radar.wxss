@@ -4,6 +4,10 @@
   font-weight: 800;
 }
 
+.intro {
+  margin-top: 18rpx;
+}
+
 .weak-list {
   display: flex;
   flex-direction: column;
@@ -91,4 +95,8 @@
   font-size: 27rpx;
   font-weight: 900;
   line-height: 1.45;
+}
+
+.start-must {
+  margin-top: 22rpx;
 }
