@@ -605,7 +605,15 @@ function run() {
   assert(homeJs.includes('buildPathRouter'), 'home page builds user path router');
   assert(homeJs.includes('buildReturnLoop'), 'home page builds 7-day return loop');
   assert(homeJs.includes('learningModules.buildAdaptivePath'), 'home page connects study cockpit recommendation');
-  assert(homeWxml.includes('TODAY COMMAND CENTER'), 'home page exposes command center');
+  assert(homeJs.includes('buildGameHero'), 'home page builds gamified challenge hero');
+  assert(homeJs.includes('buildMissionCards'), 'home page builds Gizmo-style mission cards');
+  assert(homeJs.includes('buildContentEntry'), 'home page builds AI learning pack entry');
+  assert(homeJs.includes('buildParentSnapshot'), 'home page builds parent evidence snapshot');
+  assert(homeWxml.includes('开始今日学习挑战') || homeWxml.includes('gameHero.title'), 'home page exposes challenge-first hero');
+  assert(homeWxml.includes('生命值'), 'home page exposes lives');
+  assert(homeWxml.includes('AI 学习包'), 'home page exposes AI study pack entry');
+  assert(homeWxml.includes('missionCards'), 'home page renders mission cards');
+  assert(homeWxml.includes('showInternalPanels'), 'home page keeps internal cockpit behind a toggle');
   assert(homeWxml.includes('PATH ROUTER'), 'home page exposes path router');
   assert(homeWxml.includes('7-DAY RETURN LOOP'), 'home page exposes return loop');
   assert(homeWxml.includes('TONIGHT SPRINT'), 'home page exposes tonight sprint');
@@ -615,7 +623,7 @@ function run() {
   assert(homeWxml.includes('5-MIN INVESTOR TOUR'), 'home page exposes 5-minute investor tour');
   assert(homeWxml.includes('PRODUCT RUNWAY'), 'home page exposes product runway executive brief');
   assert(homeWxml.includes('quick-dock'), 'home page exposes sticky quick dock');
-  assert(homeWxml.includes('todayActions'), 'home page renders actionable next moves');
+  assert(homeJs.includes('todayActions'), 'home page still computes actionable next moves');
   assert(homeWxml.includes('STUDY COCKPIT'), 'home page links cockpit');
   assert(homeWxml.includes('Spaced review and quiz'), 'home page exposes review and quiz loop');
   const diagnosisJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'diagnosis', 'diagnosis.js'), 'utf8');

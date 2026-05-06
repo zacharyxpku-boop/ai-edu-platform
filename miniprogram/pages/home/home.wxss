@@ -1,5 +1,6 @@
 .home-page {
-  padding-top: 26rpx;
+  padding-top: 22rpx;
+  background: #F6F3EA;
 }
 
 .brand-row {
@@ -31,6 +32,382 @@
 .brand-name {
   font-size: 30rpx;
   font-weight: 900;
+}
+
+.game-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 34rpx 30rpx 30rpx;
+  color: #FFFDF8;
+  background: #10271F;
+  border: 1rpx solid #183B30;
+  border-radius: 30rpx;
+  box-shadow: 0 22rpx 48rpx rgba(16, 39, 31, 0.18);
+}
+
+.game-hero::after {
+  content: "";
+  position: absolute;
+  right: -84rpx;
+  top: -74rpx;
+  width: 260rpx;
+  height: 260rpx;
+  border: 36rpx solid rgba(247, 183, 51, 0.18);
+  border-radius: 50%;
+}
+
+.game-topline,
+.game-actions,
+.game-status,
+.section-head,
+.mission-head,
+.parent-metric-row {
+  display: flex;
+  align-items: center;
+}
+
+.game-topline {
+  position: relative;
+  z-index: 1;
+  justify-content: space-between;
+  gap: 14rpx;
+}
+
+.season-pill,
+.goal-pill {
+  min-height: 44rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  display: inline-flex;
+  align-items: center;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.season-pill {
+  color: #10271F;
+  background: #F7B733;
+}
+
+.goal-pill {
+  color: #DDECE5;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.game-title {
+  position: relative;
+  z-index: 1;
+  max-width: 560rpx;
+  margin-top: 34rpx;
+  font-size: 56rpx;
+  font-weight: 900;
+  line-height: 1.06;
+}
+
+.game-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 18rpx;
+  color: #DDECE5;
+  font-size: 27rpx;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.game-status {
+  position: relative;
+  z-index: 1;
+  gap: 12rpx;
+  margin-top: 28rpx;
+}
+
+.status-card {
+  flex: 1;
+  min-width: 0;
+  padding: 18rpx 16rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1rpx solid rgba(255, 255, 255, 0.12);
+  border-radius: 18rpx;
+}
+
+.status-value {
+  color: #FFFDF8;
+  font-size: 32rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.status-label {
+  margin-top: 8rpx;
+  color: #AFC8BE;
+  font-size: 21rpx;
+  font-weight: 800;
+}
+
+.heart-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  min-height: 34rpx;
+}
+
+.life-dot {
+  width: 18rpx;
+  height: 18rpx;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+}
+
+.life-dot.alive {
+  background: #F76F45;
+  box-shadow: 0 0 0 5rpx rgba(247, 111, 69, 0.16);
+}
+
+.level-track {
+  position: relative;
+  z-index: 1;
+  height: 14rpx;
+  margin-top: 18rpx;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999rpx;
+}
+
+.level-fill {
+  height: 100%;
+  background: #F7B733;
+  border-radius: 999rpx;
+}
+
+.challenge-card {
+  position: relative;
+  z-index: 1;
+  margin-top: 22rpx;
+  padding: 24rpx;
+  background: #FFFDF8;
+  border-radius: 22rpx;
+  color: #1A1A1A;
+}
+
+.challenge-label {
+  color: #B85C2E;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.challenge-title {
+  margin-top: 8rpx;
+  font-size: 30rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.challenge-meta {
+  margin-top: 10rpx;
+  color: #625B50;
+  font-size: 23rpx;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.game-actions {
+  position: relative;
+  z-index: 1;
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.start-button,
+.pack-button {
+  min-height: 92rpx;
+  border-radius: 18rpx;
+  font-size: 29rpx;
+  font-weight: 900;
+}
+
+.start-button {
+  flex: 1.35;
+  color: #10271F;
+  background: #F7B733;
+}
+
+.pack-button {
+  flex: 1;
+  color: #FFFDF8;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1rpx solid rgba(255, 255, 255, 0.16);
+}
+
+.game-note {
+  position: relative;
+  z-index: 1;
+  color: #AFC8BE;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.mission-card {
+  min-width: 0;
+  min-height: 226rpx;
+  padding: 20rpx 18rpx;
+  background: #FFFDF8;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 20rpx;
+  text-align: left;
+}
+
+.mission-card.hot {
+  background: #FFF2DF;
+  border-color: #F0D2A3;
+}
+
+.mission-card.dark {
+  color: #FFFDF8;
+  background: #172D38;
+  border-color: #172D38;
+}
+
+.mission-card.dark .mission-body,
+.mission-card.dark .mission-label {
+  color: #BED2D7;
+}
+
+.mission-head {
+  justify-content: space-between;
+  gap: 10rpx;
+}
+
+.mission-label {
+  color: #625B50;
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.mission-value {
+  color: #0F4F3D;
+  font-size: 26rpx;
+  font-weight: 900;
+}
+
+.mission-card.dark .mission-value {
+  color: #F7B733;
+}
+
+.mission-title {
+  margin-top: 20rpx;
+  color: inherit;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.mission-body {
+  margin-top: 10rpx;
+  color: #625B50;
+  font-size: 21rpx;
+  font-weight: 800;
+  line-height: 1.42;
+}
+
+.content-factory-home,
+.parent-snapshot {
+  padding: 28rpx;
+  background: #FFFDF8;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 24rpx;
+  box-shadow: 0 10rpx 30rpx rgba(26, 26, 26, 0.04);
+}
+
+.content-factory-home {
+  background: #FDF8EE;
+}
+
+.section-head {
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.mini-link {
+  min-width: 104rpx;
+  min-height: 58rpx;
+  padding: 0 20rpx;
+  color: #0F4F3D;
+  background: #E8EFE9;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.factory-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.factory-mini-card {
+  min-width: 0;
+  padding: 18rpx 14rpx;
+  background: #FFFFFF;
+  border: 1rpx solid #E8E1D5;
+  border-radius: 16rpx;
+}
+
+.factory-mini-value {
+  color: #B85C2E;
+  font-size: 30rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.factory-mini-label,
+.parent-metric-label {
+  margin-top: 8rpx;
+  color: #1A1A1A;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.factory-mini-body {
+  margin-top: 8rpx;
+  color: #625B50;
+  font-size: 20rpx;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.parent-metric-row {
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.parent-metric {
+  flex: 1;
+  min-width: 0;
+  padding: 18rpx 14rpx;
+  background: #F7F1E8;
+  border-radius: 16rpx;
+}
+
+.parent-metric-value {
+  color: #0F4F3D;
+  font-size: 28rpx;
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.more-toggle .ghost-button {
+  min-height: 72rpx;
+  color: #625B50;
+  background: transparent;
+  border-style: dashed;
 }
 
 .hero {

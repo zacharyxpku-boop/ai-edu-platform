@@ -2,38 +2,53 @@
   <view class="brand-row">
     <view class="brand-mark"></view>
     <view>
-      <view class="brand-name">YuanDian AI Study</view>
-      <view class="muted">Family learning decision system</view>
+      <view class="brand-name">原点学伴</view>
+      <view class="muted">AI 学习包 · 复习闯关 · 家长证据</view>
     </view>
   </view>
 
-  <view class="hero panel">
-    <view class="eyebrow">TODAY COMMAND CENTER</view>
-    <view class="title-xl">Decide the next useful task before the child starts.</view>
-    <view class="body hero-copy">Use homework triage, parent radar, Yuan Xiao Dian tutor, spaced review, quiz and repair as one nightly loop.</view>
+  <view class="game-hero" wx:if="{{gameHero}}">
+    <view class="game-topline">
+      <view class="season-pill">{{gameHero.tier}} Season</view>
+      <view class="goal-pill">{{gameHero.goalText}}</view>
+    </view>
+    <view class="game-title">{{gameHero.title}}</view>
+    <view class="game-subtitle">{{gameHero.subtitle}}</view>
 
-    <view class="today-actions">
-      <view
-        class="action-card {{item.primary ? 'primary-action' : ''}}"
-        wx:for="{{todayActions}}"
-        wx:key="id"
-        data-action="{{item.action}}"
-        bindtap="runTodayAction"
-      >
-        <view class="action-top">
-          <view class="action-title">{{item.title}}</view>
-          <view class="action-meta">{{item.meta}}</view>
+    <view class="game-status">
+      <view class="status-card lives-card">
+        <view class="status-label">生命值</view>
+        <view class="heart-row">
+          <view class="life-dot {{item.alive ? 'alive' : ''}}" wx:for="{{gameHero.hearts}}" wx:key="id"></view>
         </view>
-        <view class="action-desc">{{item.desc}}</view>
+      </view>
+      <view class="status-card">
+        <view class="status-value">{{gameHero.streak}}</view>
+        <view class="status-label">连续天</view>
+      </view>
+      <view class="status-card">
+        <view class="status-value">Lv.{{gameHero.level}}</view>
+        <view class="status-label">{{gameHero.xp}} XP</view>
       </view>
     </view>
 
-    <view class="hero-actions">
-      <button class="primary-button" bindtap="goUpload">Enter homework</button>
-      <button class="secondary-button" bindtap="goDiagnosis">Diagnose</button>
+    <view class="level-track">
+      <view class="level-fill" style="width: {{gameHero.levelProgress}}%;"></view>
     </view>
-    <button class="review-sample" bindtap="goReviewSample">Try a 30-second sample flow</button>
-    <view class="ai-label">AI-assisted suggestions only. The product does not write homework answers or replace teacher/parent judgment.</view>
+
+    <view class="challenge-card">
+      <view>
+        <view class="challenge-label">今日任务</view>
+        <view class="challenge-title">{{gameHero.challengeText}}</view>
+        <view class="challenge-meta">{{gameHero.nextMeta}} · {{gameHero.due}} 张待复习 · {{gameHero.quiz}} 张测验</view>
+      </view>
+    </view>
+
+    <view class="game-actions">
+      <button class="start-button" data-action="{{gameHero.primaryAction}}" bindtap="runTodayAction">{{gameHero.primaryLabel}}</button>
+      <button class="pack-button" data-action="{{gameHero.secondaryAction}}" bindtap="runTodayAction">{{gameHero.secondaryLabel}}</button>
+    </view>
+    <view class="ai-label game-note">AI 只做学习建议和思路引导，不代写作业，不替代老师或家长判断。</view>
   </view>
 
   <view class="quick-dock" wx:if="{{quickDock.length}}">
@@ -43,6 +58,57 @@
     </button>
   </view>
 
+  <view class="mission-grid" wx:if="{{missionCards.length}}">
+    <button class="mission-card {{item.tone}}" wx:for="{{missionCards}}" wx:key="id" data-action="{{item.action}}" bindtap="runTodayAction">
+      <view class="mission-head">
+        <view class="mission-label">{{item.label}}</view>
+        <view class="mission-value">{{item.value}}</view>
+      </view>
+      <view class="mission-title">{{item.title}}</view>
+      <view class="mission-body">{{item.body}}</view>
+    </button>
+  </view>
+
+  <view class="section content-factory-home" wx:if="{{contentEntry}}">
+    <view class="section-head">
+      <view>
+        <view class="eyebrow">CONTENT FACTORY</view>
+        <view class="title-md">{{contentEntry.title}}</view>
+      </view>
+      <button class="mini-link" bindtap="goTools">生成</button>
+    </view>
+    <view class="body">{{contentEntry.label}}</view>
+    <view class="factory-mini-grid">
+      <view class="factory-mini-card" wx:for="{{contentEntry.cards}}" wx:key="id">
+        <view class="factory-mini-value">{{item.value}}</view>
+        <view class="factory-mini-label">{{item.label}}</view>
+        <view class="factory-mini-body">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section parent-snapshot" wx:if="{{parentSnapshot}}">
+    <view class="section-head">
+      <view>
+        <view class="eyebrow">PARENT VIEW</view>
+        <view class="title-md">{{parentSnapshot.title}}</view>
+      </view>
+      <button class="mini-link" bindtap="goRadar">查看</button>
+    </view>
+    <view class="body">{{parentSnapshot.body}}</view>
+    <view class="parent-metric-row">
+      <view class="parent-metric" wx:for="{{parentSnapshot.metrics}}" wx:key="label">
+        <view class="parent-metric-value">{{item.value}}</view>
+        <view class="parent-metric-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section more-toggle">
+    <button class="ghost-button" bindtap="toggleInternalPanels">{{showInternalPanels ? '收起内部看板' : '查看完整能力看板'}}</button>
+  </view>
+
+  <block wx:if="{{showInternalPanels}}">
   <view class="section panel executive-brief" wx:if="{{executiveBrief}}">
     <view class="between">
       <view>
@@ -348,4 +414,5 @@
       </view>
     </view>
   </view>
+  </block>
 </view>

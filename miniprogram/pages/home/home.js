@@ -29,6 +29,11 @@ Page({
     tonightSprint: null,
     parentHandoff: null,
     quickDock: [],
+    gameHero: null,
+    missionCards: [],
+    contentEntry: null,
+    parentSnapshot: null,
+    showInternalPanels: false,
     updatedText: ''
   },
 
@@ -96,8 +101,116 @@ Page({
       tonightSprint: this.buildTonightSprint(topMust, reviewSummary, modulePath),
       parentHandoff: this.buildParentHandoff(topMust, reviewSummary, state),
       quickDock: this.buildQuickDock(topMust, reviewSummary, modulePath),
+      gameHero: this.buildGameHero(topMust, reviewSummary, modulePath),
+      missionCards: this.buildMissionCards(topMust, reviewSummary, modulePath),
+      contentEntry: this.buildContentEntry(modulePath, reviewSummary),
+      parentSnapshot: this.buildParentSnapshot(state, topMust, reviewSummary, thinkingSummary),
       updatedText: state.updated_at ? state.updated_at.slice(5, 16).replace('T', ' ') : 'just now'
     });
+  },
+
+  buildGameHero(topMust, reviewSummary, modulePath) {
+    const loop = reviewSummary.loop || {};
+    const progress = reviewSummary.progress || {};
+    const goal = reviewSummary.goal || {};
+    const quiz = reviewSummary.quiz || {};
+    const season = reviewSummary.season || {};
+    const challenge = reviewSummary.challenge || {};
+    const currentModule = modulePath && modulePath.current ? modulePath.current : null;
+    const hasTask = !!topMust;
+    const lives = Number(loop.lives || 5);
+    const maxLives = Number(loop.maxLives || 5);
+    return {
+      title: hasTask ? '开始今日学习挑战' : '把学习材料变成挑战',
+      subtitle: hasTask
+        ? topMust.text
+        : '粘贴作业、笔记或错题，生成知识卡、测验、复习计划和原小点提示。',
+      primaryLabel: hasTask ? '开始挑战' : '生成学习包',
+      primaryAction: hasTask ? 'startTopMust' : 'goTools',
+      secondaryLabel: hasTask ? '先做 5 分钟复习' : '录入今晚作业',
+      secondaryAction: hasTask ? 'goReview' : 'goUpload',
+      streak: Number(loop.currentStreak || reviewSummary.streak || 0),
+      lives,
+      maxLives,
+      hearts: Array.from({ length: maxLives }, (_, index) => ({
+        id: `life_${index}`,
+        alive: index < lives
+      })),
+      xp: Number(progress.xp || 0),
+      level: Number(progress.level || 1),
+      levelProgress: Number(progress.progress || 0),
+      tier: season.tier || 'Bronze',
+      due: Number(reviewSummary.due || 0),
+      quiz: Number(quiz.count || 0),
+      goalText: goal.completed >= goal.target
+        ? '今日目标已完成'
+        : `今日进度 ${goal.completed || 0}/${goal.target || 5}`,
+      challengeText: challenge.title || (currentModule ? currentModule.title : '完成一轮：学习卡 -> 测验 -> 修复错因'),
+      nextMeta: hasTask ? `${topMust.minutes || 10} 分钟` : '约 3 分钟生成'
+    };
+  },
+
+  buildMissionCards(topMust, reviewSummary, modulePath) {
+    const quiz = reviewSummary.quiz || {};
+    const currentModule = modulePath && modulePath.current ? modulePath.current : null;
+    return [
+      {
+        id: 'challenge',
+        label: '今日挑战',
+        title: topMust ? '先攻克必须做任务' : '先生成一个学习包',
+        body: topMust ? topMust.text : '粘贴材料后，系统会拆成卡片、测验和复习计划。',
+        value: topMust ? `${topMust.minutes || 10}m` : 'NEW',
+        action: topMust ? 'startTopMust' : 'goTools',
+        tone: 'hot'
+      },
+      {
+        id: 'review',
+        label: '记忆训练',
+        title: '5 分钟复习闯关',
+        body: `${reviewSummary.due || 0} 张到期，${quiz.count || 0} 张测验卡。错了会自动进修复。`,
+        value: `${reviewSummary.due || 0}`,
+        action: 'goReview',
+        tone: 'calm'
+      },
+      {
+        id: 'pack',
+        label: 'AI 学习包',
+        title: currentModule ? currentModule.title : '把任意材料变成卡片',
+        body: currentModule ? currentModule.scene : '支持作业、笔记、错题和课堂重点，先做本地预览。',
+        value: currentModule ? currentModule.score : 'AI',
+        action: 'goTools',
+        tone: 'dark'
+      }
+    ];
+  },
+
+  buildContentEntry(modulePath, reviewSummary) {
+    const currentModule = modulePath && modulePath.current ? modulePath.current : null;
+    return {
+      title: 'AI 内容工厂',
+      label: '粘贴任何学习材料，直接产出学习卡、闭卷测验、错因修复和 7 天复习计划。',
+      cards: [
+        { id: 'input', value: '1', label: '粘贴材料', body: '作业、笔记、PPT 要点、错题说明' },
+        { id: 'pack', value: currentModule ? currentModule.score : 'AI', label: '生成学习包', body: currentModule ? currentModule.title : '知识卡 + 测验 + 原小点提示' },
+        { id: 'loop', value: reviewSummary.maturity ? reviewSummary.maturity.overall : 0, label: '进入复习循环', body: '每天自动回访最该复习的内容' }
+      ]
+    };
+  },
+
+  buildParentSnapshot(state, topMust, reviewSummary, thinkingSummary) {
+    const weak = ((state && state.weak_points) || [])[0] || {};
+    const thinking = thinkingSummary || {};
+    return {
+      title: '家长只看结果和证据',
+      body: topMust
+        ? `今晚优先看：${topMust.text}`
+        : '孩子先完成挑战，家长再看弱点、错因和复习证据。',
+      metrics: [
+        { label: '当前弱点', value: weak.name || '待诊断' },
+        { label: '复习资产', value: reviewSummary.total || 0 },
+        { label: '思考凭证', value: thinking.total || 0 }
+      ]
+    };
   },
 
   buildPathRouter() {
@@ -455,6 +568,10 @@ Page({
   runPath(event) {
     const action = event.currentTarget.dataset.action;
     if (action && typeof this[action] === 'function') this[action]();
+  },
+
+  toggleInternalPanels() {
+    this.setData({ showInternalPanels: !this.data.showInternalPanels });
   },
 
   goUpload() {
