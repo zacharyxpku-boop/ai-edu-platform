@@ -121,6 +121,16 @@ function submitFeedback(payload) {
   });
 }
 
+function submitEvent(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/feedback', {
+    method: 'POST',
+    data: Object.assign({ kind: 'learning_event' }, payload || {}),
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 12000
+  });
+}
+
 function submitLead(payload) {
   return request('/api/lead', {
     method: 'POST',
@@ -131,13 +141,57 @@ function submitLead(payload) {
   });
 }
 
+function buildContentCards(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/content-engine', {
+    method: 'POST',
+    data: payload || {},
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 30000
+  });
+}
+
+function pushSyncMutations(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/mini/sync', {
+    method: 'POST',
+    data: payload || {},
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 20000
+  });
+}
+
+function flushLocalSyncQueue() {
+  const queue = storage.loadSyncQueue ? storage.loadSyncQueue() : [];
+  const pending = queue.filter((item) => item.status === 'pending').slice(0, 80);
+  if (!pending.length) {
+    return Promise.resolve({ ok: true, pushed: 0, mode: 'empty' });
+  }
+  const identity = storage.loadClientIdentity ? storage.loadClientIdentity() : {};
+  return pushSyncMutations({
+    identity,
+    mutations: pending,
+    cursor: storage.loadSyncState ? storage.loadSyncState().cursor : ''
+  }).then((result) => {
+    if (storage.markSyncAttempt) storage.markSyncAttempt({ ok: true });
+    return result;
+  }).catch((error) => {
+    if (storage.markSyncAttempt) storage.markSyncAttempt({ ok: false, error: error.message || 'sync_failed' });
+    return { ok: false, error: error.message || 'sync_failed', pushed: 0 };
+  });
+}
+
 module.exports = {
   request,
   initSession,
   buildPriority,
   buildWeekly,
   submitFeedback,
+  submitEvent,
   checkContent,
   sendTutorMessage,
-  submitLead
+  submitLead,
+  buildContentCards,
+  pushSyncMutations,
+  flushLocalSyncQueue
 };

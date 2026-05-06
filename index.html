@@ -3,1354 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>原点智学 · 家庭学习决策系统，先判断今晚该做什么</title>
-<meta name="description" content="原点智学把测评、试卷/作业、错题和孩子对话合在一起，告诉家长今晚哪些必须做、哪些可以跳过、为什么。">
-<meta name="theme-color" content="#0F4F3D">
+<title>原点学伴｜家庭晚间学习效率工具</title>
+<meta name="description" content="原点学伴面向家庭晚间学习场景，支持作业录入、弱点雷达、作业优先级分类、思路引导、复习卡和家长周报。">
+<meta name="theme-color" content="#F97316">
 <meta name="ydzx-page" content="home">
 <link rel="canonical" href="https://www.yuandianzhixue.com/">
-<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
-
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/miniapp-logo-kid.png">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* 基底 */
-  --bg-primary:#FAF7F0;
-  --bg-secondary:#F2EEE3;
-  --bg-elevated:#FFFFFF;
-
-  /* 文字 */
-  --text-primary:#1A1A1A;
-  --text-secondary:#4A4A47;
-  --text-tertiary:#8A8780;
-  --text-muted:#B8B5AC;
-
-  /* 主色 · 学院深绿 */
-  --accent-primary:#0F4F3D;
-  --accent-hover:#0A3D2E;
-  --accent-light:#E8EFE9;
-
-  /* 暖色 · 砖红（旗舰款专用） */
-  --accent-warm:#B85C2E;
-  --accent-warm-light:#F5E8DF;
-
-  /* 边框 */
-  --border-subtle:rgba(26,26,26,0.06);
-  --border-default:rgba(26,26,26,0.10);
-  --border-strong:rgba(26,26,26,0.20);
-
-  /* 痛点 pill 三色 */
-  --pain-amber-bg:#F5E8DF; --pain-amber-text:#B85C2E;
-  --pain-red-bg:#EFE3DD; --pain-red-text:#8B3A1F;
-  --pain-green-bg:#E8EFE9; --pain-green-text:#0F4F3D;
-
-  /* 字体 */
-  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,"Songti SC",STSong,serif;
-  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
-  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
+  --bg:#fffaf2;
+  --paper:#ffffff;
+  --ink:#1f2420;
+  --muted:#667067;
+  --line:#eadfce;
+  --green:#0f4f3d;
+  --green-2:#e6f2ed;
+  --orange:#f97316;
+  --orange-2:#fff0dd;
+  --gold:#f7b733;
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:var(--font-sans-sc);
-  font-size:15px;
-  line-height:1.7;
-  color:var(--text-primary);
-  background:var(--bg-primary);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  font-feature-settings:"palt" 1;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(249,115,22,.13), transparent 28%),
+    radial-gradient(circle at 82% 8%, rgba(15,79,61,.12), transparent 30%),
+    linear-gradient(180deg,#fffaf2 0%,#f7f0e6 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  line-height:1.65;
 }
 a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer}
-img{max-width:100%;display:block}
-
-/* ─── NAV ─── */
+button{font:inherit}
 .nav{
-  position:sticky;top:0;z-index:50;
-  background:rgba(250,247,240,0.92);
-  backdrop-filter:blur(12px);
-  border-bottom:0.5px solid var(--border-subtle);
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid rgba(234,223,206,.78);
+  background:rgba(255,250,242,.88);
+  backdrop-filter:blur(14px);
 }
-.nav-in{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;height:68px;gap:8px}
-@media(max-width:768px){.nav-in{padding:0 24px;height:60px}}
-.brand{display:flex;align-items:center;gap:10px;margin-right:auto;color:var(--text-primary);font-size:15px;font-weight:500}
-.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative;flex-shrink:0}
-.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
-.brand-name{letter-spacing:0.04em}
-.nav-links{display:flex;gap:4px;align-items:center}
-.nav-a{padding:7px 12px;color:var(--text-secondary);font-size:14px;font-weight:400;transition:color 200ms ease;letter-spacing:0.02em}
-.nav-a:hover{color:var(--text-primary)}
-.nav-cta{
-  margin-left:8px;padding:8px 18px;
-  background:var(--accent-primary);color:var(--bg-primary);
-  border:none;border-radius:4px;
-  font:500 13px var(--font-sans-sc);letter-spacing:0.04em;
-  transition:background 200ms ease,transform 200ms ease;
-}
-.nav-cta:hover{background:var(--accent-hover);transform:translateY(-1px)}
-.nav-toggle{display:none;background:none;border:none;color:var(--text-primary)}
-@media(max-width:768px){
-  .nav-links{display:none}
-  .nav-toggle{display:block;padding:8px}
-  .nav-cta{display:none}
-  .nav.open .nav-links{display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:var(--bg-primary);padding:16px 24px;border-bottom:0.5px solid var(--border-subtle);gap:0}
-  .nav.open .nav-a{padding:14px 0;border-bottom:0.5px solid var(--border-subtle)}
-}
-
-/* ─── 通用版式 ─── */
-.container{max-width:1200px;margin:0 auto;padding:0 40px}
-@media(max-width:768px){.container{padding:0 24px}}
-.tight{max-width:800px;margin:0 auto}
-
-.eyebrow-en{
-  font-family:var(--font-serif-en);
-  font-style:italic;
-  font-size:14px;
-  color:var(--accent-primary);
-  letter-spacing:0.01em;
-  margin-bottom:20px;
-}
-
-.section-h2{
-  font-family:var(--font-serif-sc);
-  font-weight:500;
-  font-size:32px;
-  letter-spacing:0.01em;
-  line-height:1.3;
-  color:var(--text-primary);
-}
-@media(max-width:768px){.section-h2{font-size:24px}}
-
-.section-lede{
-  margin-top:18px;
-  font-size:15px;
-  line-height:1.8;
-  color:var(--text-secondary);
-  max-width:640px;
-}
-
-/* ─── HERO ─── */
-.hero{padding:160px 40px 120px;text-align:center}
-@media(max-width:768px){.hero{padding:96px 24px 64px}}
-.hero-eyebrow{
-  font-family:var(--font-serif-en);font-style:italic;
-  font-size:14px;color:var(--accent-primary);
-  letter-spacing:0.02em;
-}
-.hero-h1{
-  font-family:var(--font-serif-sc);
-  font-weight:500;
-  font-size:64px;
-  line-height:1.15;
-  letter-spacing:0.02em;
-  color:var(--text-primary);
-  margin-top:32px;
-  max-width:880px;
-  margin-left:auto;
-  margin-right:auto;
-}
-@media(max-width:768px){.hero-h1{font-size:44px;line-height:1.2}}
-.hero-h1 br+span{display:block}
-.hero-sub{
-  margin-top:48px;
-  font-size:15px;
-  font-weight:400;
-  line-height:1.8;
-  color:var(--text-secondary);
-  letter-spacing:0.02em;
-}
-@media(max-width:768px){.hero-sub{font-size:14px;margin-top:32px}}
-.hero-cta-row{
-  margin-top:56px;
-  display:flex;justify-content:center;align-items:center;gap:32px;
-  flex-wrap:wrap;
-}
-.btn-primary{
-  padding:14px 28px;
-  background:var(--accent-primary);
-  color:var(--bg-primary);
-  border:none;border-radius:4px;
-  font:500 15px var(--font-sans-sc);
-  letter-spacing:0.04em;
-  transition:background 200ms ease,transform 200ms ease;
-}
-.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px)}
-.btn-primary:active{transform:scale(0.98);transition:all 100ms}
-.btn-primary .arrow{margin-left:6px;display:inline-block}
-.link-secondary{
-  font-size:13px;color:var(--text-secondary);
-  border-bottom:0.5px solid var(--border-default);
-  padding-bottom:2px;
-  transition:color 200ms ease,border-color 200ms ease;
-}
-.link-secondary:hover{color:var(--text-primary);border-color:var(--border-strong)}
-.hero-proof{
-  margin-top:80px;
-  font-size:12px;font-weight:300;
-  color:var(--text-muted);
-  letter-spacing:0.06em;
-}
-@media(max-width:768px){.hero-proof{margin-top:48px}}
-.hero-proof .num{
-  font-family:var(--font-en);
-  font-weight:400;
-  font-feature-settings:"tnum" 1;
-}
-
-/* ─── SECTION 通用 ─── */
-.section{padding:120px 0}
-@media(max-width:768px){.section{padding:64px 0}}
-.section.alt{background:var(--bg-secondary)}
-
-/* ─── 4 维方法论 ─── */
-.dim-head{text-align:center;margin-bottom:64px}
-.dim-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-  max-width:1100px;
+.nav-inner{
+  max-width:1120px;
+  height:68px;
   margin:0 auto;
-}
-@media(max-width:900px){.dim-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.dim-grid{grid-template-columns:1fr}}
-.dim-card{
-  background:var(--bg-elevated);
-  border:0.5px solid var(--border-subtle);
-  border-radius:8px;
-  padding:36px 28px 32px;
-  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
-}
-.dim-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
-.dim-id{
-  font-family:var(--font-en);
-  font-size:11px;
-  font-weight:400;
-  color:var(--text-tertiary);
-  letter-spacing:0.12em;
-  margin-bottom:14px;
-}
-.dim-title{
-  font-family:var(--font-serif-sc);
-  font-weight:500;
-  font-size:20px;
-  letter-spacing:0.02em;
-  margin-bottom:12px;
-  color:var(--text-primary);
-}
-.dim-desc{
-  font-size:14px;
-  font-weight:300;
-  line-height:1.7;
-  color:var(--text-secondary);
-}
-
-/* ─── 免费工具 3 张 ─── */
-.tools-head{text-align:center;margin-bottom:64px}
-.tools-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  max-width:1100px;margin:0 auto;
-}
-@media(max-width:900px){.tools-grid{grid-template-columns:1fr}}
-.tool-card{
-  display:block;
-  background:var(--bg-elevated);
-  border:0.5px solid var(--border-subtle);
-  border-radius:8px;
-  padding:32px 28px;
-  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
-  color:inherit;
-}
-.tool-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
-.pain-pill{
-  display:inline-block;
-  padding:3px 10px;
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:0.02em;
-  border-radius:3px;
-  margin-bottom:16px;
-}
-.tool-title{
-  font-family:var(--font-serif-sc);
-  font-weight:500;
-  font-size:18px;
-  letter-spacing:0.02em;
-  margin-bottom:10px;
-  color:var(--text-primary);
-}
-.tool-desc{
-  font-size:14px;
-  font-weight:300;
-  line-height:1.75;
-  color:var(--text-secondary);
-}
-.tools-foot{
-  margin-top:48px;
-  text-align:center;
-  font-size:13px;
-  color:var(--text-tertiary);
-}
-.tools-foot a{
-  color:var(--text-secondary);
-  border-bottom:0.5px solid var(--border-default);
-  padding-bottom:1px;
-  transition:color 200ms ease;
-}
-.tools-foot a:hover{color:var(--accent-primary);border-color:var(--accent-primary)}
-
-/* ─── 三档定价 ─── */
-.pricing-head{text-align:center;margin-bottom:64px}
-.pricing-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  max-width:1100px;margin:0 auto;
-}
-@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}}
-.price-card{
-  position:relative;
-  background:var(--bg-elevated);
-  border:0.5px solid var(--border-subtle);
-  border-radius:8px;
-  padding:36px 28px 32px;
-  transition:border-color 250ms cubic-bezier(0.4,0,0.2,1),transform 250ms cubic-bezier(0.4,0,0.2,1);
-}
-.price-card:hover{border-color:var(--border-default);transform:translateY(-2px)}
-.price-card.flagship{
-  border:1.5px solid var(--accent-warm);
-}
-.price-card.flagship:hover{border-color:var(--accent-warm)}
-.price-badge{
-  position:absolute;top:-12px;left:24px;
-  background:var(--accent-warm);
-  color:#fff;
-  padding:4px 12px;
-  border-radius:2px;
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:0.05em;
-}
-.price-tier{
-  font-family:var(--font-en);
-  font-size:11px;
-  font-weight:400;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  color:var(--text-tertiary);
-  margin-bottom:14px;
-}
-.price-card.flagship .price-tier{color:var(--accent-warm)}
-.price-name{
-  font-family:var(--font-serif-sc);
-  font-weight:500;
-  font-size:20px;
-  letter-spacing:0.02em;
-  color:var(--text-primary);
-  margin-bottom:18px;
-  line-height:1.4;
-}
-.price-num{
-  font-family:var(--font-en);
-  font-feature-settings:"tnum" 1;
-  font-weight:400;
-  font-size:42px;
-  letter-spacing:-0.02em;
-  color:var(--text-primary);
-  line-height:1;
-}
-.price-currency{
-  font-size:20px;
-  color:var(--text-tertiary);
-  margin-right:4px;
-  vertical-align:5px;
-}
-.price-period{
-  margin-top:10px;
-  font-size:13px;
-  font-weight:300;
-  color:var(--text-tertiary);
-}
-.price-features{
-  list-style:none;
-  margin-top:24px;
-  padding-top:24px;
-  border-top:0.5px solid var(--border-subtle);
-  display:flex;flex-direction:column;gap:10px;
-}
-.price-features li{
-  font-size:14px;
-  font-weight:400;
-  color:var(--text-secondary);
-  padding-left:18px;
-  position:relative;
-  line-height:1.6;
-}
-.price-features li::before{
-  content:'';
-  position:absolute;left:0;top:9px;
-  width:8px;height:8px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238A8780' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M3 8l3.5 3.5L13 5'/%3E%3C/svg%3E") no-repeat center / contain;
-}
-.pricing-foot{
-  margin-top:48px;text-align:center;font-size:13px;color:var(--text-tertiary);
-}
-.pricing-foot a{
-  color:var(--text-secondary);
-  border-bottom:0.5px solid var(--border-default);
-  padding-bottom:1px;
-  transition:color 200ms ease;
-}
-.pricing-foot a:hover{color:var(--accent-primary);border-color:var(--accent-primary)}
-
-/* ─── 信任带 · 杂志页码式 ─── */
-.trust{padding:96px 40px}
-@media(max-width:768px){.trust{padding:64px 24px}}
-.trust-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  max-width:1100px;margin:0 auto;
-}
-@media(max-width:768px){.trust-grid{grid-template-columns:repeat(2,1fr);gap:32px 0}}
-.trust-cell{
-  text-align:center;
-  border-left:0.5px solid var(--border-subtle);
-  padding:0 24px;
-}
-.trust-cell:first-child{border-left:none}
-@media(max-width:768px){
-  .trust-cell{border-left:none}
-  .trust-cell:nth-child(odd){border-left:none}
-}
-.trust-num{
-  font-family:var(--font-en);
-  font-feature-settings:"tnum" 1;
-  font-weight:400;
-  font-size:60px;
-  letter-spacing:-0.02em;
-  color:var(--text-primary);
-  line-height:1;
-}
-@media(max-width:768px){.trust-num{font-size:42px}}
-.trust-label{
-  margin-top:12px;
-  font-size:13px;
-  font-weight:300;
-  letter-spacing:0.05em;
-  color:var(--text-tertiary);
-}
-
-/* ─── FOOTER ─── */
-.foot{
-  padding:96px 40px 56px;
-  border-top:0.5px solid var(--border-subtle);
-}
-@media(max-width:768px){.foot{padding:64px 24px 40px}}
-.foot-in{max-width:1200px;margin:0 auto}
-.foot-top{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:48px;
-  margin-bottom:64px;
-}
-@media(max-width:768px){.foot-top{grid-template-columns:1fr 1fr;gap:32px}}
-.foot-brand-name{
-  font-family:var(--font-serif-sc);
-  font-size:18px;font-weight:500;
-  color:var(--text-primary);
-  margin-bottom:8px;
-  letter-spacing:0.04em;
-}
-.foot-brand-tag{
-  font-size:13px;
-  color:var(--text-tertiary);
-  font-weight:300;
-}
-.foot-col-h{
-  font-family:var(--font-serif-sc);
-  font-size:16px;
-  font-weight:500;
-  color:var(--text-primary);
-  margin-bottom:18px;
-  letter-spacing:0.02em;
-}
-.foot-col a{
-  display:block;
-  padding:6px 0;
-  font-size:13px;
-  color:var(--text-secondary);
-  transition:color 200ms ease;
-}
-.foot-col a:hover{color:var(--accent-primary)}
-.foot-bottom{
-  padding-top:32px;
-  border-top:0.5px solid var(--border-subtle);
+  padding:0 28px;
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  flex-wrap:wrap;
-  gap:16px;
-  font-size:12px;
-  color:var(--text-muted);
-  font-weight:300;
+  gap:20px;
 }
-
-/* ─── 入场动画 ─── */
-.fade-up{opacity:0;transform:translateY(20px);transition:opacity 600ms ease-out,transform 600ms ease-out}
-.fade-up.in{opacity:1;transform:translateY(0)}
-.stagger>*{opacity:0;transform:translateY(20px);transition:opacity 600ms ease-out,transform 600ms ease-out}
-.stagger.in>*{opacity:1;transform:translateY(0)}
-.stagger.in>*:nth-child(1){transition-delay:0ms}
-.stagger.in>*:nth-child(2){transition-delay:80ms}
-.stagger.in>*:nth-child(3){transition-delay:160ms}
-.stagger.in>*:nth-child(4){transition-delay:240ms}
-@media(prefers-reduced-motion:reduce){
-  .fade-up,.stagger>*{opacity:1;transform:none;transition:none}
-}
-
-/* ─── Hero v3 · AI 学习管家叙事（round 3 brand pivot） ─── */
-.hero-v3 {
-    max-width: 1120px;
-    margin: 30px auto 18px;
-    padding: 0 20px;
-}
-.hero-v3-in {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 36px;
-    align-items: center;
-}
-@media (max-width: 768px) {
-    .hero-v3-in { grid-template-columns: 1fr; gap: 24px; }
-    .hero-v3 { margin: 18px auto 12px; }
-}
-.hero-tag {
-    display: inline-block;
-    padding: 4px 12px;
-    background: var(--orange-bg, #FFF5F1);
-    color: var(--orange, #E94D35);
-    font-size: 0.78rem;
-    font-weight: 700;
-    border-radius: 100px;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-}
-.hero-v3 .hero-h1 {
-    font-size: clamp(28px, 4.2vw, 42px);
-    font-weight: 900;
-    letter-spacing: -1px;
-    line-height: 1.25;
-    margin-bottom: 14px;
-    color: var(--ink, #18181B);
-    text-align: left;
-}
-.hero-v3 .hero-h1 .hl {
-    background: linear-gradient(180deg, transparent 60%, rgba(233,77,53,0.30) 60%);
-    padding: 0 4px;
-    color: var(--ink, #18181B);
-    display: inline;
-}
-.hero-v3 .hero-sub {
-    font-size: 0.98rem;
-    color: var(--ink2, #3F3F46);
-    line-height: 1.65;
-    margin-bottom: 22px;
-    margin-top: 0;
-    max-width: 540px;
-    text-align: left;
-}
-.hero-v3 .hero-cta-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
-.hero-cta-primary {
-    background: var(--ink, #18181B);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.94rem;
-    font-weight: 700;
-    transition: all 0.15s;
-    box-shadow: 0 4px 14px rgba(24,24,27,0.18);
-    display: inline-block;
-}
-.hero-cta-primary:hover {
-    background: var(--orange, #E94D35);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(233,77,53,0.30);
-}
-.hero-cta-secondary {
-    background: transparent;
-    color: var(--ink2, #3F3F46);
-    border: 1px solid var(--bdr, #E4E4E7);
-    padding: 12px 22px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.94rem;
-    font-weight: 600;
-    transition: all 0.15s;
-    display: inline-block;
-}
-.hero-cta-secondary:hover { background: var(--bg, #FAFAF7); }
-.hero-trust {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-    font-size: 0.74rem;
-    color: var(--ink4, #A1A1AA);
-    line-height: 1.5;
-}
-
-/* visual cards · 双卡片演示「学生侧 + 妈妈侧」并列 */
-.hero-v3-visual {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    perspective: 1200px;
-}
-.visual-card {
-    background: #fff;
-    border: 1px solid var(--bdr, #E4E4E7);
-    border-radius: 14px;
-    padding: 16px 18px;
-    box-shadow: 0 4px 14px rgba(24,24,27,0.06);
-    transition: transform 0.3s;
-}
-.visual-card:hover { transform: translateY(-2px); }
-.mvp-flow{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
-  margin:18px 0 16px;max-width:560px;
-}
-.mvp-step{
-  background:#fff;border:1px solid var(--border-default);border-radius:8px;
-  padding:10px 11px;min-height:86px;
-}
-.mvp-step b{display:block;font-size:12px;color:var(--accent-primary);margin-bottom:5px}
-.mvp-step span{display:block;font-size:12px;line-height:1.5;color:var(--text-secondary)}
-@media(max-width:720px){.mvp-flow{grid-template-columns:1fr}.mvp-step{min-height:0}}
-.chat-card { transform: rotate(-1.2deg); }
-.chat-card .vc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.chat-card .vc-av {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--orange, #E94D35), #FF8A6E);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Noto Serif SC", serif; font-weight: 900; font-size: 0.92rem;
-}
-.chat-card .vc-name {
-    font-size: 0.86rem; font-weight: 700; color: var(--ink, #18181B);
-}
-.chat-card .vc-msg {
-    background: #FBFAF6; padding: 10px 14px; border-radius: 4px 12px 12px 12px;
-    font-size: 0.88rem; line-height: 1.65; color: var(--ink, #18181B);
-}
-.brief-card {
-    background: linear-gradient(135deg, #FFF5EE, #FFFBF0);
-    border: 1px solid #F5A623;
-    transform: rotate(1deg);
-}
-.brief-card .bc-tag {
-    display: inline-block;
-    background: rgba(232,89,12,0.10);
-    color: #E8590C;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 100px;
-    margin-bottom: 8px;
-}
-.brief-card .bc-body {
-    font-size: 0.86rem;
-    line-height: 1.6;
-    color: var(--ink, #18181B);
-    font-weight: 500;
-}
-
-/* ─── 卡通温度感（v2.1 warmth pass） ─── */
-
-/* A. 原小点吉祥物 */
-.mascot-wrap{
-  display:flex;align-items:center;justify-content:center;
-  width:240px;height:240px;
+.brand{display:flex;align-items:center;gap:12px;font-weight:900}
+.brand img{width:36px;height:36px;border-radius:12px;box-shadow:0 8px 22px rgba(249,115,22,.18)}
+.brand span{letter-spacing:.04em}
+.nav-links{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:14px;font-weight:700}
+.nav-cta{padding:9px 16px;border-radius:999px;background:var(--green);color:#fffaf2}
+.hero{
+  max-width:1120px;
   margin:0 auto;
+  padding:86px 28px 54px;
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
+  gap:48px;
+  align-items:center;
 }
-.mascot{
-  width:240px;height:240px;
-  animation:mascot-float 3s ease-in-out infinite;
-  transform-origin:50% 80%;
-  transition:transform 200ms ease;
-  cursor:default;
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border:1px solid rgba(249,115,22,.22);
+  border-radius:999px;
+  background:rgba(255,255,255,.68);
+  color:#9b4a10;
+  font-size:13px;
+  font-weight:900;
 }
-.mascot:hover{ animation-play-state:paused; transform:rotate(-4deg) }
-@keyframes mascot-float{
-  0%,100%{ transform:translateY(0) }
-  50%{ transform:translateY(-6px) }
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--orange)}
+h1{
+  margin-top:24px;
+  max-width:760px;
+  font-size:58px;
+  line-height:1.08;
+  letter-spacing:-.01em;
 }
-@media(max-width:768px){ .mascot-wrap{ display:none } }
-@media(prefers-reduced-motion:reduce){
-  .mascot{ animation:none }
+.hero-sub{
+  margin-top:26px;
+  max-width:650px;
+  color:#4a514b;
+  font-size:19px;
 }
-
-/* hero v3 grid 改造让位给吉祥物（仅桌面） */
-@media(min-width:769px){
-  .hero-v3-in.with-mascot{
-    grid-template-columns:1.05fr 0.55fr 0.9fr;
-  }
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{
+  min-height:48px;
+  padding:0 22px;
+  border:1px solid transparent;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
 }
-
-/* B. 手绘下划线 */
-.hl-underline{ position:relative; display:inline-block; }
-.hl-underline svg.hl-stroke{
-  position:absolute; left:0; right:0; bottom:-6px;
-  width:100%; height:10px;
-  overflow:visible;
-  pointer-events:none;
+.btn-primary{background:var(--green);color:#fffaf2;box-shadow:0 12px 24px rgba(15,79,61,.18)}
+.btn-secondary{background:#fff;border-color:var(--line);color:var(--ink)}
+.proof-row{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:34px;
 }
-.hl-underline svg.hl-stroke path{
-  fill:none;
-  stroke:var(--accent-primary);
-  stroke-width:3;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  stroke-dasharray:240;
-  stroke-dashoffset:240;
-  animation:hl-draw 900ms cubic-bezier(0.4,0,0.2,1) forwards;
-  animation-delay:1s;
+.proof{
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.66);
 }
-.hl-underline.delay-2 svg.hl-stroke path{ animation-delay:1.4s }
-@keyframes hl-draw{
-  to{ stroke-dashoffset:0 }
+.proof b{display:block;color:var(--green);font-size:22px;line-height:1}
+.proof span{display:block;margin-top:8px;color:var(--muted);font-size:13px;font-weight:800}
+.phone-card{
+  position:relative;
+  padding:22px;
+  border:1px solid rgba(234,223,206,.9);
+  border-radius:32px;
+  background:linear-gradient(180deg,#ffffff 0%,#fff7ed 100%);
+  box-shadow:0 28px 70px rgba(55,41,26,.16);
+  overflow:hidden;
 }
-@media(prefers-reduced-motion:reduce){
-  .hl-underline svg.hl-stroke path{ stroke-dashoffset:0; animation:none }
+.phone-card::before{
+  content:"";
+  position:absolute;
+  inset:auto -80px -80px auto;
+  width:190px;height:190px;
+  border-radius:50%;
+  background:rgba(249,115,22,.14);
 }
-
-/* C. 学员故事头像 (轮廓简笔画) */
-.story-avatar.sketch{
-  width:64px;height:64px;
-  background:transparent;color:inherit;
-  font-size:0;
-  transition:transform 200ms cubic-bezier(0.34,1.56,0.64,1);
+.app-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.app-head img{width:48px;height:48px;border-radius:16px}
+.app-head strong{display:block;font-size:18px}
+.app-head span{display:block;color:var(--muted);font-size:13px;font-weight:800}
+.mini-screen{
+  position:relative;
+  padding:18px;
+  border:1px solid #f0dfc9;
+  border-radius:22px;
+  background:#fffaf2;
 }
-.story-avatar.sketch svg{ width:64px;height:64px;display:block }
-.story:hover .story-avatar.sketch{ transform:scale(1.05) }
-@media(max-width:720px){
-  .story-avatar.sketch{ width:56px;height:56px }
-  .story-avatar.sketch svg{ width:56px;height:56px }
+.screen-title{font-weight:900;font-size:20px}
+.screen-muted{margin-top:4px;color:var(--muted);font-size:13px;font-weight:700}
+.task-list{display:grid;gap:10px;margin-top:16px}
+.task{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid #f1e3d0;
 }
-
-/* D. 4 维方法论卡 hover 弹性升级 */
-.dim-card{
-  transition:border-color 350ms cubic-bezier(0.34,1.56,0.64,1),
-             transform   350ms cubic-bezier(0.34,1.56,0.64,1);
+.tag{
+  flex:0 0 auto;
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--orange-2);
+  color:#af4b0b;
+  font-size:12px;
+  font-weight:900;
 }
-.dim-card:hover{ transform:translateY(-10px) }
-.dim-card .dim-id{ transition:color 350ms ease }
-.dim-card:hover .dim-id{ color:var(--accent-primary) }
-
-/* E. CTA micro-interaction (作用于通用 .btn-primary 与 hero 主 CTA) */
-.btn-primary{
-  transition:background 200ms ease,
-             transform 200ms cubic-bezier(0.34,1.56,0.64,1),
-             box-shadow 220ms ease;
+.task p{font-size:14px;font-weight:800}
+.radar{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:var(--green-2);
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:14px;
+  align-items:center;
 }
-.btn-primary:hover{
-  transform:translateY(-1px);
-  box-shadow:0 4px 14px rgba(15,79,61,0.25);
+.radar-shape{
+  width:72px;height:72px;border-radius:50%;
+  background:conic-gradient(from 40deg,var(--green) 0 64%,rgba(15,79,61,.18) 64% 100%);
+  position:relative;
 }
-.btn-primary:active{ transform:scale(0.97); transition:transform 100ms }
-.btn-primary .arrow{
-  display:inline-block;
-  transition:transform 220ms cubic-bezier(0.34,1.56,0.64,1);
+.radar-shape::after{
+  content:"";
+  position:absolute;
+  inset:18px;
+  border-radius:50%;
+  background:#fffaf2;
 }
-.btn-primary:hover .arrow{ transform:translateX(4px) }
-
-.hero-cta-primary{
-  transition:background 0.15s ease,
-             transform 220ms cubic-bezier(0.34,1.56,0.64,1),
-             box-shadow 220ms ease;
+.radar b{display:block;font-size:15px}
+.radar span{display:block;color:#53665c;font-size:13px;font-weight:700}
+.section{max-width:1120px;margin:0 auto;padding:58px 28px}
+.section h2{font-size:34px;line-height:1.2}
+.section-lede{max-width:720px;margin-top:12px;color:var(--muted);font-size:17px}
+.flow{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:12px;
+  margin-top:28px;
 }
-.hero-cta-primary:hover{ transform:translateY(-1px) }
-.hero-cta-primary:active{ transform:scale(0.97); transition:transform 100ms }
-.hero-cta-primary .arrow-inline{
-  display:inline-block;
-  transition:transform 220ms cubic-bezier(0.34,1.56,0.64,1);
+.step{
+  min-height:142px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.72);
 }
-.hero-cta-primary:hover .arrow-inline{ transform:translateX(4px) }
-
-/* F. 信任带数字滚动入场 */
-.trust-num{
-  transition:transform 1.2s ease-out, opacity 1.2s ease-out;
-  will-change:transform,opacity;
+.step-num{color:var(--orange);font-weight:900;font-size:13px}
+.step h3{margin-top:10px;font-size:17px}
+.step p{margin-top:8px;color:var(--muted);font-size:13px;font-weight:700}
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:28px;
 }
-.trust-grid:not(.in) .trust-num{ transform:translateY(14px) scale(0.92); opacity:0 }
-.trust-grid.in .trust-num{ transform:translateY(0) scale(1); opacity:1 }
-@media(prefers-reduced-motion:reduce){
-  .trust-num{ transition:none }
-  .trust-grid:not(.in) .trust-num{ transform:none; opacity:1 }
+.panel{
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#fff;
+}
+.panel h3{font-size:22px}
+.panel ul{margin-top:16px;display:grid;gap:10px;list-style:none}
+.panel li{padding-left:22px;position:relative;color:#4a514b;font-weight:750}
+.panel li::before{content:"";position:absolute;left:0;top:.72em;width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.notice{
+  margin-top:26px;
+  padding:18px 20px;
+  border-radius:18px;
+  background:#f4efe4;
+  color:#5b5144;
+  font-size:14px;
+  font-weight:800;
+}
+.footer{
+  margin-top:40px;
+  padding:34px 28px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:62px}
+  h1{font-size:42px}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .split{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero{padding-left:20px;padding-right:20px}
+  .proof-row{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
-<nav class="nav" id="nav">
-  <div class="nav-in">
-    <a href="/" class="brand">
-      <span class="brand-dot"></span>
-      <span class="brand-name">原点智学</span>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <img src="/assets/miniapp-logo-kid.png" alt="原点学伴图标">
+      <span>原点学伴</span>
     </a>
     <div class="nav-links">
-      <a href="/parent-radar" class="nav-a">学习决策</a>
-      <a href="/tutor" class="nav-a">孩子执行</a>
-      <a href="/study-tools" class="nav-a">免费诊断</a>
-      <a href="/progress" class="nav-a">成长档案</a>
+      <a href="#flow">学习闭环</a>
+      <a href="#parents">家长价值</a>
+      <a href="#launch">小程序</a>
+      <a class="nav-cta" href="#launch">准备内测</a>
     </div>
-    <button class="nav-cta" onclick="document.getElementById('cta-diagnose').click()">生成今晚决策</button>
-    <button class="nav-toggle" id="nav-toggle" aria-label="菜单">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
   </div>
 </nav>
 
-<!-- HERO v3 · AI 学习管家叙事（round 3 brand pivot） -->
-<section class="hero-v3" id="hero-v3">
-  <div class="hero-v3-in with-mascot">
-    <div class="hero-v3-text">
-      <div class="hero-tag">家庭学习决策系统 · 小学 4-6 到初一衔接</div>
-      <h1 class="hero-h1">今晚该做什么，<br>不再靠<span class="hl">家长硬猜</span></h1>
-      <p class="hero-sub">把测评、试卷/作业、错题和孩子对话合在一起，先判断弱点，再把作业分成“必须做、灵活选择、可以跳过”。原小点只带孩子处理必须做和关键错因。</p>
-      <div class="mvp-flow" aria-label="原点家庭学习决策闭环">
-        <div class="mvp-step"><b>1 · 录入</b><span>测评/试卷/作业清单，先把今晚任务说清楚</span></div>
-        <div class="mvp-step"><b>2 · 决策</b><span>雷达定位弱点，作业自动三分类</span></div>
-        <div class="mvp-step"><b>3 · 执行</b><span>原小点只辅导必须做和关键错因</span></div>
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">原点智学旗下家庭学习效率工具</div>
+      <h1>先判断今晚最值得做什么，再让孩子把关键错因真正留下来。</h1>
+      <p class="hero-sub">原点学伴面向家庭晚间学习场景，把作业录入、弱点雷达、作业三分类、思路引导、复习卡和家长周报收进一个小程序闭环。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#flow">查看产品闭环</a>
+        <a class="btn btn-secondary" href="/docs/MINIAPP-V0.9-LAUNCH-RUNBOOK.md">上架 Runbook</a>
       </div>
-      <div class="hero-cta-row">
-        <a href="/tools/exam-diagnosis" class="hero-cta-primary">生成今晚学习决策 <span class="arrow-inline">→</span></a>
-        <a href="/tutor?mode=homework" class="hero-cta-secondary">让孩子按方案开始练</a>
-      </div>
-      <div style="margin-top:14px;font-size:12px;color:#8A8780;letter-spacing:0.02em">产品闭环：测评/试卷/作业录入 → 雷达弱点 → 作业三分类 → 原小点执行 → 家长复盘</div>
-      <div style="margin-top:18px">
-        <a class="link-secondary" href="/parent-radar">查看家庭学习决策台 →</a>
-      </div>
-      <div class="hero-trust">
-        <span>· 适合小学中高年级长期陪跑 ·</span>
-        <span>· 先解决作业过载和弱点不清 ·</span>
-        <span>· 不替写作业，不承诺固定结果 ·</span>
+      <div class="proof-row" aria-label="产品边界">
+        <div class="proof"><b>不代写</b><span>只做思路引导和最小提示</span></div>
+        <div class="proof"><b>不卖课</b><span>首版定位为学习效率工具</span></div>
+        <div class="proof"><b>不承诺提分</b><span>用真实内测验证长期价值</span></div>
       </div>
     </div>
-    <div class="mascot-wrap" aria-hidden="true">
-      <svg class="mascot" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-        <!-- 米白色圆肚子小动物 · 原小点 -->
-        <!-- 耳朵 -->
-        <ellipse cx="78" cy="74" rx="20" ry="22" fill="#F2EEE3" stroke="#0F4F3D" stroke-width="3"/>
-        <ellipse cx="78" cy="74" rx="9" ry="11" fill="#0F4F3D" opacity="0.85"/>
-        <ellipse cx="162" cy="74" rx="20" ry="22" fill="#F2EEE3" stroke="#0F4F3D" stroke-width="3"/>
-        <ellipse cx="162" cy="74" rx="9" ry="11" fill="#0F4F3D" opacity="0.85"/>
-        <!-- 圆肚子身体 -->
-        <ellipse cx="120" cy="170" rx="68" ry="56" fill="#FAF7F0" stroke="#0F4F3D" stroke-width="3"/>
-        <!-- 头 -->
-        <circle cx="120" cy="108" r="58" fill="#FAF7F0" stroke="#0F4F3D" stroke-width="3"/>
-        <!-- 眼睛黑底（panda 风） -->
-        <ellipse cx="98" cy="106" rx="14" ry="15" fill="#1A1A1A"/>
-        <ellipse cx="142" cy="106" rx="14" ry="15" fill="#1A1A1A"/>
-        <!-- 圆框眼镜（墨绿描边） -->
-        <circle cx="98" cy="106" r="18" fill="none" stroke="#0F4F3D" stroke-width="2.5"/>
-        <circle cx="142" cy="106" r="18" fill="none" stroke="#0F4F3D" stroke-width="2.5"/>
-        <path d="M116 106 L124 106" stroke="#0F4F3D" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- 镜片高光 -->
-        <circle cx="93" cy="101" r="3.2" fill="#FAF7F0"/>
-        <circle cx="137" cy="101" r="3.2" fill="#FAF7F0"/>
-        <!-- 鼻子 -->
-        <path d="M116 124 Q120 128 124 124" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
-        <!-- 微笑半张嘴 -->
-        <path d="M108 134 Q120 146 132 134" fill="#B85C2E" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- 砖红色小书 -->
-        <rect x="72" y="170" width="96" height="46" rx="3" fill="#B85C2E" stroke="#1A1A1A" stroke-width="2.5"/>
-        <line x1="120" y1="172" x2="120" y2="214" stroke="#1A1A1A" stroke-width="1.5" opacity="0.5"/>
-        <line x1="84" y1="184" x2="110" y2="184" stroke="#FAF7F0" stroke-width="1.5" opacity="0.7"/>
-        <line x1="84" y1="192" x2="106" y2="192" stroke="#FAF7F0" stroke-width="1.5" opacity="0.7"/>
-        <line x1="130" y1="184" x2="156" y2="184" stroke="#FAF7F0" stroke-width="1.5" opacity="0.7"/>
-        <line x1="130" y1="192" x2="152" y2="192" stroke="#FAF7F0" stroke-width="1.5" opacity="0.7"/>
-        <!-- 抱书的小爪子 -->
-        <ellipse cx="68" cy="180" rx="12" ry="9" fill="#FAF7F0" stroke="#0F4F3D" stroke-width="2.5"/>
-        <ellipse cx="172" cy="180" rx="12" ry="9" fill="#FAF7F0" stroke="#0F4F3D" stroke-width="2.5"/>
-      </svg>
-    </div>
-    <div class="hero-v3-visual">
-      <div class="visual-card chat-card">
-        <div class="vc-head"><span class="vc-av">原</span><span class="vc-name">原小点</span></div>
-        <div class="vc-msg">我只陪你做两类：今天必须做的题，和反复错的关键错因。其他低价值重复题，先放后面。</div>
-      </div>
-      <div class="visual-card brief-card">
-        <div class="bc-tag">今晚决策</div>
-        <div class="bc-body">雷达显示“审题建模”和“迁移应用”最弱。今晚必须做 7 道，灵活选择 4 道，可以跳过 5 道。</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 隐藏旧 hero 残留兼容钩子 -->
-<button id="cta-diagnose" data-legacy-hero style="display:none" aria-hidden="true"></button>
-
-<!-- 4 维方法论 -->
-<section class="section alt" id="method">
-  <div class="container">
-    <div class="dim-head fade-up">
-      <div class="eyebrow-en">[Method.]</div>
-      <h2 class="section-h2">不只是分数<br>看清孩子的全貌</h2>
-      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
-        7 年陪跑 3000+ 学生沉淀出的方法论。把模糊的「学得好」拆成 4 个具体可观测的维度，每一维都有匹配的工具与练习。
-      </p>
-    </div>
-    <div class="dim-grid stagger" id="dim-grid"></div>
-  </div>
-</section>
-
-<!-- 免费工具 -->
-<section class="section" id="tools">
-  <div class="container">
-    <div class="tools-head fade-up">
-      <div class="eyebrow-en">[Tools.]</div>
-      <h2 class="section-h2">先用免费工具<br>把基础打透</h2>
-      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
-        18 件 AI 学习工具按学得快 · 学得准 · 提升能力 · 有产出四个维度陈列，免登录即用。下面是高频入口三件。
-      </p>
-    </div>
-    <div class="tools-grid stagger" id="tools-grid"></div>
-    <div class="tools-foot fade-up">
-      想看全部 <span class="num" id="stat-tools-inline">18</span> 件 · <a href="/study-tools">进工具箱 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- 三档定价 -->
-<section class="section alt" id="pricing">
-  <div class="container">
-    <div class="pricing-head fade-up">
-      <div class="eyebrow-en">[Programs.]</div>
-      <h2 class="section-h2">三档陪跑方案<br>按家庭节奏选</h2>
-      <p class="section-lede" style="margin-left:auto;margin-right:auto;text-align:left;max-width:640px">
-        不是越贵越好。先看清孩子当前最需要的是什么，再决定投入哪一档。
-      </p>
-    </div>
-    <div class="pricing-grid stagger" id="pricing-grid"></div>
-    <div class="pricing-foot fade-up">
-      不知道选哪档 · <a href="/products/compare">看完整对比 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- 学员故事 · 编辑式三段 -->
-<style>
-.stories-head{text-align:left;margin-bottom:56px;max-width:720px}
-.stories-list{display:flex;flex-direction:column;gap:48px;max-width:1040px;margin:0 auto}
-.story{
-  display:grid;grid-template-columns:120px 1fr;gap:36px;align-items:start;
-  padding-top:48px;border-top:0.5px solid var(--border-default);
-}
-.story:first-child{border-top:0.5px solid var(--border-strong)}
-.story-avatar{
-  width:96px;height:96px;border-radius:50%;
-  background:var(--accent-primary);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-serif-sc);font-weight:500;font-size:38px;letter-spacing:0.04em;
-  flex-shrink:0;
-}
-.story-meta{
-  display:flex;flex-wrap:wrap;gap:10px 18px;
-  font-family:var(--font-en);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--text-tertiary);margin-bottom:16px;
-}
-.story-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--text-muted);align-self:center}
-.story-h3{
-  font-family:var(--font-serif-sc);font-weight:500;font-size:22px;line-height:1.4;
-  color:var(--text-primary);margin-bottom:18px;letter-spacing:0.01em;
-}
-.story-ba{
-  display:grid;grid-template-columns:1fr 1fr;gap:0;
-  border:0.5px solid var(--border-default);border-radius:6px;overflow:hidden;
-  margin-bottom:20px;
-}
-.story-ba > div{padding:16px 18px;font-size:13px;line-height:1.7;color:var(--text-secondary)}
-.story-ba .before{background:var(--bg-secondary);border-right:0.5px solid var(--border-default)}
-.story-ba .after{background:var(--accent-light)}
-.story-ba .ba-label{
-  display:block;font-family:var(--font-en);font-size:10px;letter-spacing:0.14em;
-  text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px;
-}
-.story-quote{
-  font-family:var(--font-serif-sc);font-style:normal;
-  font-size:15px;line-height:1.85;color:var(--text-primary);
-  padding-left:16px;border-left:2px solid var(--accent-primary);
-  margin-bottom:20px;
-}
-.story-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:13px;color:var(--accent-primary);
-  border-bottom:0.5px solid var(--accent-primary);padding-bottom:2px;
-  background:none;border-top:none;border-left:none;border-right:none;
-  cursor:pointer;font-family:inherit;
-  transition:opacity .15s;
-}
-.story-cta:hover{opacity:0.7}
-@media(max-width:720px){
-  .story{grid-template-columns:1fr;gap:20px}
-  .story-avatar{width:72px;height:72px;font-size:30px}
-  .story-ba{grid-template-columns:1fr}
-  .story-ba .before{border-right:none;border-bottom:0.5px solid var(--border-default)}
-}
-</style>
-<section class="section" id="stories">
-  <div class="container">
-    <div class="stories-head fade-up">
-      <div class="eyebrow-en">[Stories.]</div>
-      <h2 class="section-h2">不止 3000 个<br>但这 3 个最有代表性</h2>
-      <p class="section-lede">
-        每个孩子的卡点不一样, 路径也不一样。下面三段是从去年陪跑名单里挑的, 都同意公开姓氏 + 故事。看看哪一段最像你家孩子。
-      </p>
-    </div>
-
-    <div class="stories-list">
-
-      <article class="story fade-up">
-        <div class="story-avatar sketch" aria-label="张同学头像">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="30" r="20" fill="#FAF7F0" stroke="#0F4F3D" stroke-width="2"/>
-            <path d="M16 26 Q22 12 38 14 Q48 16 50 28" fill="none" stroke="#0F4F3D" stroke-width="2" stroke-linecap="round"/>
-            <path d="M22 24 Q24 22 28 24" fill="none" stroke="#0F4F3D" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="25" cy="30" r="1.6" fill="#0F4F3D"/>
-            <circle cx="39" cy="30" r="1.6" fill="#0F4F3D"/>
-            <path d="M27 38 Q32 42 37 38" fill="none" stroke="#0F4F3D" stroke-width="2" stroke-linecap="round"/>
-            <path d="M14 56 Q22 48 32 48 Q42 48 50 56" fill="none" stroke="#0F4F3D" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
+    <aside class="phone-card" aria-label="小程序预览">
+      <div class="app-head">
+        <img src="/assets/miniapp-logo-kid.png" alt="">
         <div>
-          <div class="story-meta">
-            <span>张同学 · 初二</span><span class="dot"></span>
-            <span>线上系统课 · 2 个月</span><span class="dot"></span>
-            <span>数学</span>
-          </div>
-          <h3 class="story-h3">从「看到压轴题就放弃」, 到自己做出最后一道大题</h3>
-          <div class="story-ba">
-            <div class="before">
-              <span class="ba-label">Before</span>
-              数学常年 70 分以下, 看到压轴题就放弃, 错题本写一半就懒得抄。
-            </div>
-            <div class="after">
-              <span class="ba-label">After</span>
-              3 个月后期末数学 92 分, 自己做出最后一道大题, 主动跟妈妈讲解题思路。
-            </div>
-          </div>
-          <p class="story-quote">
-            「之前我们也报过两个网课, 都听不进去。原小点不一样, 它知道孩子卡在哪, 不会从头讲。她现在每天晚饭后自己打开练 20 分钟, 不用催。」 —— 张妈妈
-          </p>
-          <button class="story-cta" data-wechat-cta="hero-cta">看孩子能不能这样 · 加微信咨询 →</button>
+          <strong>原点学伴</strong>
+          <span>今晚作业决策中心</span>
         </div>
-      </article>
-
-      <article class="story fade-up">
-        <div class="story-avatar sketch" aria-label="李同学头像">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="30" r="20" fill="#FAF7F0" stroke="#B85C2E" stroke-width="2"/>
-            <path d="M14 24 Q18 10 32 10 Q46 10 50 26 Q44 18 32 18 Q22 18 14 24Z" fill="#B85C2E" stroke="#B85C2E" stroke-width="2" stroke-linejoin="round"/>
-            <circle cx="25" cy="30" r="1.6" fill="#B85C2E"/>
-            <circle cx="39" cy="30" r="1.6" fill="#B85C2E"/>
-            <path d="M27 38 Q32 42 37 38" fill="none" stroke="#B85C2E" stroke-width="2" stroke-linecap="round"/>
-            <path d="M14 56 Q22 48 32 48 Q42 48 50 56" fill="none" stroke="#B85C2E" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div>
-          <div class="story-meta">
-            <span>李同学 · 初三</span><span class="dot"></span>
-            <span>少年营 · 3 天</span><span class="dot"></span>
-            <span>方法 + 习惯</span>
-          </div>
-          <h3 class="story-h3">3 天少年营, 把「学不进去」拆成 5 个具体动作</h3>
-          <div class="story-ba">
-            <div class="before">
-              <span class="ba-label">Before</span>
-              中考前 4 个月还在 480 分附近徘徊, 一坐书桌就刷手机, 妈妈一管就吵架。
-            </div>
-            <div class="after">
-              <span class="ba-label">After</span>
-              营后第 6 周模考 537 分, 每天用番茄钟自己规划 3 个学习段, 错题当晚归因。
-            </div>
-          </div>
-          <p class="story-quote">
-            「他不是笨, 是没被教过怎么学。3 天下来回家像换了个人, 不是鸡血那种, 是真的知道下一步该干嘛了。冲刺阶段我没再插手, 他自己跑下来的。」 —— 李爸爸
-          </p>
-          <button class="story-cta" data-wechat-cta="hero-cta">看孩子能不能这样 · 加微信咨询 →</button>
-        </div>
-      </article>
-
-      <article class="story fade-up">
-        <div class="story-avatar sketch" aria-label="陈同学头像">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="30" r="20" fill="#FAF7F0" stroke="#4A4A47" stroke-width="2"/>
-            <path d="M16 28 Q18 14 30 12 Q44 10 50 24" fill="none" stroke="#4A4A47" stroke-width="2" stroke-linecap="round"/>
-            <path d="M40 16 Q46 18 49 26" fill="none" stroke="#4A4A47" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="25" cy="30" r="1.6" fill="#4A4A47"/>
-            <circle cx="39" cy="30" r="1.6" fill="#4A4A47"/>
-            <path d="M27 38 Q32 42 37 38" fill="none" stroke="#4A4A47" stroke-width="2" stroke-linecap="round"/>
-            <path d="M14 56 Q22 48 32 48 Q42 48 50 56" fill="none" stroke="#4A4A47" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div>
-          <div class="story-meta">
-            <span>陈同学 · 高一</span><span class="dot"></span>
-            <span>家长复盘 + 原小点执行 · 12 周</span><span class="dot"></span>
-            <span>数学弱点 + 作业取舍</span>
-          </div>
-          <h3 class="story-h3">12 周复盘，家里终于知道每晚该取舍什么</h3>
-          <div class="story-ba">
-            <div class="before">
-              <span class="ba-label">Before</span>
-              高一作业量突然变大，孩子每天做到很晚，家长只知道“都很重要”，但不知道哪些题真正击中弱点。
-            </div>
-            <div class="after">
-              <span class="ba-label">After</span>
-              每周用雷达看弱点，每晚把作业分成必须做、灵活选、可以跳过；原小点只盯必须做和关键错因。
-            </div>
-          </div>
-          <p class="story-quote">
-            「以前我们只会催他快点写完。现在先看哪些作业值得做，哪些可以放一放，家里争吵少了很多。最有价值的是错因被记录下来，下次不会又从零开始。」 —— 陈妈妈
-          </p>
-          <button class="story-cta" data-wechat-cta="hero-cta">先做一次今晚取舍 · 加微信咨询 →</button>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- 信任带 · 杂志页码式 -->
-<section class="trust">
-  <div class="fade-up" style="text-align:center;margin-bottom:48px">
-    <div class="eyebrow-en">[Numbers.]</div>
-  </div>
-  <div class="trust-grid stagger">
-    <div class="trust-cell">
-      <div class="trust-num"><span id="stat-students">3,000</span>+</div>
-      <div class="trust-label">陪跑学生</div>
-    </div>
-    <div class="trust-cell">
-      <div class="trust-num" id="stat-years">7</div>
-      <div class="trust-label">实战年份</div>
-    </div>
-    <div class="trust-cell">
-      <div class="trust-num" id="stat-textbooks">56</div>
-      <div class="trust-label">教材原文</div>
-    </div>
-    <div class="trust-cell">
-      <div class="trust-num" id="stat-tools">18</div>
-      <div class="trust-label">AI 工具</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="foot-in">
-    <div class="foot-top">
-      <div>
-        <div class="foot-brand-name">原点智学</div>
-        <div class="foot-brand-tag">家庭学习决策系统 · 原小点执行</div>
       </div>
-      <div class="foot-col">
-        <div class="foot-col-h">产品</div>
-        <a href="/products/compare">线上系统课</a>
-        <a href="/assistant">少年营</a>
-        <a href="/products/compare">清北陪跑</a>
+      <div class="mini-screen">
+        <div class="screen-title">今晚先做这些</div>
+        <div class="screen-muted">根据作业、错题和弱点生成优先级</div>
+        <div class="task-list">
+          <div class="task"><span class="tag">必须做</span><p>应用题 4 道：先找数量关系，再写第一步。</p></div>
+          <div class="task"><span class="tag">可跳过</span><p>重复抄写类任务：时间紧时降低优先级。</p></div>
+          <div class="task"><span class="tag">复习卡</span><p>把今天的错因变成明天 5 分钟复习。</p></div>
+        </div>
+        <div class="radar">
+          <div class="radar-shape"></div>
+          <div>
+            <b>当前弱点：审题建模</b>
+            <span>家长可见，孩子可执行。</span>
+          </div>
+        </div>
       </div>
-      <div class="foot-col">
-        <div class="foot-col-h">工具</div>
-        <a href="/errors">AI 错题专练</a>
-        <a href="/tools/reading-rewriter">阅读改写</a>
-        <a href="/paths">教材原文库</a>
+    </aside>
+  </section>
+
+  <section class="section" id="flow">
+    <h2>当前主线：小程序优先的家庭学习闭环</h2>
+    <p class="section-lede">它不是泛聊天工具，也不是题库站。核心是帮助家庭决定今晚怎么用力，并把关键错因沉淀成可复习资产。</p>
+    <div class="flow">
+      <div class="step"><div class="step-num">01</div><h3>录入</h3><p>手动输入作业、错题、测评结果。</p></div>
+      <div class="step"><div class="step-num">02</div><h3>雷达</h3><p>形成当前弱点和能力风险视图。</p></div>
+      <div class="step"><div class="step-num">03</div><h3>三分类</h3><p>必须做、可跳过、灵活选择。</p></div>
+      <div class="step"><div class="step-num">04</div><h3>原小点</h3><p>只辅导必须做和关键错因。</p></div>
+      <div class="step"><div class="step-num">05</div><h3>复习卡</h3><p>把错因进入长期复习调度。</p></div>
+      <div class="step"><div class="step-num">06</div><h3>周报</h3><p>给家长看得懂的学习证据。</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="parents">
+    <h2>给家长的是判断力，给孩子的是可执行路径。</h2>
+    <div class="split">
+      <div class="panel">
+        <h3>家长端</h3>
+        <ul>
+          <li>知道今晚哪些作业最值得盯。</li>
+          <li>看到弱点雷达和每周复盘证据。</li>
+          <li>用反馈校准系统，而不是平均用力。</li>
+        </ul>
       </div>
-      <div class="foot-col">
-        <div class="foot-col-h">关于</div>
-        <a href="/about">关于我们</a>
-        <a href="/articles">研究院</a>
-        <a href="/membership">联系方式</a>
+      <div class="panel">
+        <h3>孩子端</h3>
+        <ul>
+          <li>只进入关键任务，减少低价值消耗。</li>
+          <li>先说条件、第一步和错因，不直接拿答案。</li>
+          <li>每天用短复习卡保护记忆。</li>
+        </ul>
       </div>
     </div>
-    <div class="foot-bottom">
-      <span>© 2026 原点智学</span>
-      <span>让孩子站在 AI 的肩膀上学习、创造、看见未来</span>
+    <div class="notice">当前阶段以小程序体验版、10 家庭内测和审核通过为目标；真实 AI API、云同步、长期提分证据会在 AppID、环境变量和真实使用数据到位后继续生产化。</div>
+  </section>
+
+  <section class="section" id="launch">
+    <h2>上架状态</h2>
+    <p class="section-lede">代码和材料已经进入 v0.9 收尾状态。正式上传仍需要真实微信 AppID 和微信后台 request 合法域名配置。</p>
+    <div class="split">
+      <div class="panel">
+        <h3>推荐填写</h3>
+        <ul>
+          <li>小程序名称：原点学伴</li>
+          <li>服务类目：工具 -> 信息查询</li>
+          <li>介绍：家庭晚间学习效率工具</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>审核边界</h3>
+        <ul>
+          <li>不提供作业代写。</li>
+          <li>不销售课程或学科培训。</li>
+          <li>不承诺固定学习结果。</li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </section>
+</main>
+
+<footer class="footer">
+  原点智学 · 原点学伴 v0.9 · 家庭学习效率工具
 </footer>
-
-<script>
-// ─── Mock 常量（首页用）───
-const STATS = {
-  diagnosedStudents: 12840,
-  avgGapsFound: 4.2,
-  totalStudents: 3000,
-  yearsOperating: 7,
-  textbooks: 56,
-  freeTools: 18,
-};
-
-const DIMENSIONS = [
-  { id: '01', name: '看弱点', desc: '用测评、试卷和错题先定位最影响今晚效率的知识漏洞' },
-  { id: '02', name: '做取舍', desc: '把作业拆成必须做、灵活选择、可以跳过，保护孩子精力' },
-  { id: '03', name: '带执行', desc: '原小点只围绕必须做和关键错因给最小提示，不替写答案' },
-  { id: '04', name: '给家长', desc: '沉淀雷达、错因和复盘，让家长知道为什么这样安排' },
-];
-
-const FREE_TOOLS_HIGHLIGHT = [
-  {
-    pain: '读不懂？',
-    painBg: 'var(--pain-amber-bg)', painText: 'var(--pain-amber-text)',
-    title: '阅读三档难度改写',
-    desc: '把课文 / 题目改写成你能读懂的版本，再回头看原文。',
-    href: '/tools/reading-rewriter',
-  },
-  {
-    pain: '错题多？',
-    painBg: 'var(--pain-red-bg)', painText: 'var(--pain-red-text)',
-    title: 'AI 错题专练',
-    desc: '针对薄弱知识点，AI 生成同类题强化训练。',
-    href: '/errors',
-  },
-  {
-    pain: '缺方法？',
-    painBg: 'var(--pain-green-bg)', painText: 'var(--pain-green-text)',
-    title: '教材原文 · 56 本',
-    desc: '9 大科目教材原文检索，章节卡住时直接跳到对应那一页。',
-    href: '/paths',
-  },
-];
-
-const PRODUCTS = [
-  {
-    id: 'qingbei', tier: 'flagship',
-    badge: '旗舰 · 限额 4 人/期',
-    label: 'Flagship',
-    name: '清北联盟 4 对 1 陪跑',
-    price: 6980,
-    period: '3 个月全程陪跑',
-    features: [
-      '4 位清北导师 1v1',
-      '每日定制学习规划',
-      '24h 答疑 + 情绪陪伴',
-      '诊断 — 练 — 测 — 评 闭环',
-    ],
-  },
-  {
-    id: 'camp', tier: 'standard',
-    label: 'Camp',
-    name: '少年营 · 线下研学',
-    price: 4980,
-    period: '3 天 2 夜 · 沉浸体验',
-    features: [
-      '创始人亲授方法论',
-      '清北学长面对面',
-      '阿里参访 + Demo Day',
-      '形成作品集与产出',
-    ],
-  },
-  {
-    id: 'online', tier: 'entry',
-    label: 'Online',
-    name: '线上系统课 + 家长社群',
-    price: 2499,
-    period: '入门首选 · 自主节奏',
-    features: [
-      '4 维方法论系统课',
-      '家长社群每周答疑',
-      '错题本 + 学习路径',
-      'AI 工具会员权益',
-    ],
-  },
-];
-
-// ─── 渲染 ───
-function escHtml(s){ return String(s||'').replace(/[<>&"]/g, c=>({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
-
-// hero v3 pivot 后 stat-diagnosed / stat-gaps 节点已移除，统一用安全赋值兼容残留钩子
-function setStat(id, val){ var el = document.getElementById(id); if (el) el.textContent = val; }
-setStat('stat-diagnosed', STATS.diagnosedStudents.toLocaleString());
-setStat('stat-gaps', STATS.avgGapsFound);
-setStat('stat-students', STATS.totalStudents.toLocaleString());
-setStat('stat-years', STATS.yearsOperating);
-setStat('stat-textbooks', STATS.textbooks);
-setStat('stat-tools', STATS.freeTools);
-setStat('stat-tools-inline', STATS.freeTools);
-
-document.getElementById('dim-grid').innerHTML = DIMENSIONS.map(d => `
-  <div class="dim-card">
-    <div class="dim-id">${d.id}</div>
-    <div class="dim-title">${escHtml(d.name)}</div>
-    <div class="dim-desc">${escHtml(d.desc)}</div>
-  </div>
-`).join('');
-
-document.getElementById('tools-grid').innerHTML = FREE_TOOLS_HIGHLIGHT.map(t => `
-  <a class="tool-card" href="${t.href}" data-tool="${escHtml(t.title)}">
-    <span class="pain-pill" style="background:${t.painBg};color:${t.painText}">${escHtml(t.pain)}</span>
-    <div class="tool-title">${escHtml(t.title)}</div>
-    <div class="tool-desc">${escHtml(t.desc)}</div>
-  </a>
-`).join('');
-
-document.getElementById('pricing-grid').innerHTML = PRODUCTS.map(p => `
-  <div class="price-card ${p.tier==='flagship'?'flagship':''}">
-    ${p.badge ? `<span class="price-badge">${escHtml(p.badge)}</span>` : ''}
-    <div class="price-tier">${escHtml(p.label)}</div>
-    <div class="price-name">${escHtml(p.name)}</div>
-    <div class="price-num"><span class="price-currency">¥</span>${p.price.toLocaleString()}</div>
-    <div class="price-period">${escHtml(p.period)}</div>
-    <ul class="price-features">
-      ${p.features.map(f => `<li>${escHtml(f)}</li>`).join('')}
-    </ul>
-  </div>
-`).join('');
-
-// 诊断 CTA
-document.getElementById('cta-diagnose').addEventListener('click', () => {
-  if (window.YDZX_TRACK) YDZX_TRACK.event('hero_diagnose_click', { source: 'home_hero' });
-  setTimeout(() => { location.href = '/welcome'; }, 60);
-});
-
-// 工具卡点击埋点
-document.querySelectorAll('.tool-card').forEach(c => {
-  c.addEventListener('click', () => {
-    if (window.YDZX_TRACK) YDZX_TRACK.event('home_tool_click', { tool: c.dataset.tool });
-  });
-});
-
-// 定价卡点击埋点
-document.querySelectorAll('.price-card').forEach(c => {
-  c.addEventListener('click', () => {
-    const name = (c.querySelector('.price-name') || {}).textContent || '';
-    if (window.YDZX_TRACK) YDZX_TRACK.event('home_pricing_click', { tier: name.trim() });
-  });
-});
-
-// 移动 nav 切换
-document.getElementById('nav-toggle').addEventListener('click', function(){
-  document.getElementById('nav').classList.toggle('open');
-});
-
-// ─── 入场动画 (IntersectionObserver) ───
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  });
-},{ rootMargin: '0px 0px -100px 0px', threshold: 0.05 });
-document.querySelectorAll('.fade-up,.stagger').forEach(el => io.observe(el));
-</script>
-<script src="/src/wechat-cta.js" defer></script>
-<script src="/src/sticky-wechat.js" defer></script>
-<script src="/src/track.js"></script>
 </body>
 </html>

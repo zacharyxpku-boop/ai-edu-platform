@@ -18,6 +18,181 @@
   margin-top: 14rpx;
 }
 
+.thinking-receipt {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  background: #fff8ed;
+  border: 1rpx solid #e9d2aa;
+  border-radius: 14rpx;
+}
+
+.receipt-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14rpx;
+}
+
+.receipt-label {
+  margin-top: 8rpx;
+  color: #4a4033;
+  font-size: 23rpx;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.receipt-score {
+  flex: 0 0 auto;
+  width: 72rpx;
+  height: 72rpx;
+  color: #fffdf8;
+  background: #8b3a1f;
+  border-radius: 50%;
+  font-size: 27rpx;
+  font-weight: 900;
+  line-height: 72rpx;
+  text-align: center;
+}
+
+.receipt-focus {
+  margin-top: 14rpx;
+  color: #1a1a1a;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.receipt-status,
+.receipt-share {
+  margin-top: 12rpx;
+  color: #8b3a1f;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.receipt-check {
+  min-width: 0;
+  padding: 14rpx;
+  background: #fffdf8;
+  border: 1rpx solid #e8e1d5;
+  border-radius: 12rpx;
+}
+
+.receipt-check.done {
+  background: #eef8f3;
+  border-color: #95c1b2;
+}
+
+.receipt-check-label {
+  margin-bottom: 6rpx;
+  color: #0f4f3d;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.coach-console {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  background: #f5fbf8;
+  border: 1rpx solid #cfe0d8;
+  border-radius: 14rpx;
+}
+
+.coach-console-label {
+  margin-top: 8rpx;
+  color: #2d2a26;
+  font-size: 23rpx;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.coach-console-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14rpx;
+  margin-top: 14rpx;
+}
+
+.console-kicker {
+  color: #625b50;
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.console-focus {
+  margin-top: 6rpx;
+  color: #0f4f3d;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.console-risk {
+  flex: 0 0 auto;
+  min-width: 88rpx;
+  padding: 8rpx 12rpx;
+  color: #8b3a1f;
+  background: #fff8ed;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  font-weight: 900;
+  text-align: center;
+}
+
+.console-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.console-cell {
+  min-width: 0;
+  padding: 14rpx;
+  background: #fffdf8;
+  border: 1rpx solid #e8e1d5;
+  border-radius: 12rpx;
+}
+
+.console-value {
+  margin-top: 6rpx;
+  color: #1a1a1a;
+  font-size: 23rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.console-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.console-flow-card {
+  padding: 14rpx;
+  background: #fffdf8;
+  border: 1rpx solid #e8e1d5;
+  border-radius: 12rpx;
+}
+
+.console-flow-title {
+  margin-bottom: 6rpx;
+  color: #0f4f3d;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
 .selected {
   margin-top: 20rpx;
   padding: 18rpx;
@@ -58,7 +233,6 @@
 
 .signal-chip,
 .tag-chip,
-.ghost-btn,
 .step-btn {
   min-height: 56rpx;
   padding: 0 18rpx;
@@ -161,8 +335,85 @@
 }
 
 .ghost-btn {
-  color: #0f4f3d;
+  flex: 1 1 210rpx;
+  min-height: 88rpx;
+  padding: 14rpx 16rpx;
   background: #eef5f2;
+  border-radius: 12rpx;
+  text-align: left;
+}
+
+.ghost-title {
+  color: #0f4f3d;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.ghost-desc {
+  margin-top: 6rpx;
+  color: #625b50;
+  font-size: 20rpx;
+  line-height: 1.35;
+}
+
+.pedagogy-panel {
+  margin-bottom: 18rpx;
+  padding: 18rpx;
+  background: #f5fbf8;
+  border: 1rpx solid #cfe0d8;
+  border-radius: 14rpx;
+}
+
+.risk-panel {
+  background: #fff8ed;
+  border-color: #e9d2aa;
+}
+
+.pedagogy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.pedagogy-card {
+  padding: 14rpx;
+  background: #fffdf8;
+  border: 1rpx solid #e8e1d5;
+  border-radius: 12rpx;
+}
+
+.pedagogy-title {
+  color: #0f4f3d;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.guardrail-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.guardrail-pill {
+  padding: 8rpx 12rpx;
+  color: #51362b;
+  background: #fffdf8;
+  border: 1rpx solid #e8e1d5;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.teacher-view,
+.risk-level {
+  margin-top: 12rpx;
+  color: #8b3a1f;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 1.45;
 }
 
 .chat {

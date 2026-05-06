@@ -1,0 +1,113 @@
+<view class="page safe-bottom module-page" wx:if="{{module}}">
+  <view class="panel hero">
+    <view class="eyebrow">{{module.subject}} / {{module.type}}</view>
+    <view class="title-xl">{{module.title}}</view>
+    <view class="body hero-copy">{{module.scene}}</view>
+    <view class="hero-meta">
+      <view class="meta-pill">{{module.grade}}</view>
+      <view class="meta-pill">{{module.minutes}} min</view>
+      <view class="meta-pill">{{module.nextAction.label || 'session'}}</view>
+    </view>
+  </view>
+
+  <view class="section panel session-panel">
+    <view class="between">
+      <view>
+        <view class="eyebrow">MODULE SESSION</view>
+        <view class="title-md">Use this method now</view>
+      </view>
+      <button class="text-link" bindtap="startModule">Tutor</button>
+    </view>
+    <view class="step-tabs">
+      <button
+        wx:for="{{sessionSteps}}"
+        wx:key="id"
+        class="step-tab {{activeStep === item.id ? 'active' : ''}}"
+        data-step="{{item.id}}"
+        bindtap="setStep"
+      >{{index + 1}}</button>
+    </view>
+    <view class="session-step" wx:for="{{sessionSteps}}" wx:key="id" wx:if="{{activeStep === item.id}}">
+      <view class="session-title">{{item.title}}</view>
+      <view class="body">{{item.desc}}</view>
+      <view class="evidence-box">
+        <view class="evidence-label">Evidence to capture</view>
+        <view class="body">{{item.evidence}}</view>
+      </view>
+    </view>
+    <textarea class="evidence-input" value="{{evidenceText}}" bindinput="onEvidenceInput" placeholder="Write one sentence of evidence: first step, trap, corrected expression, or parent check." />
+    <view class="session-actions">
+      <button class="primary-button session-btn" bindtap="startModule">Start with tutor</button>
+      <button class="secondary-button session-btn" bindtap="completeAndReview">Complete + review</button>
+    </view>
+    <view class="session-status" wx:if="{{sessionStatus}}">
+      <view class="session-title">Done</view>
+      <view class="body">{{sessionStatus.evidence}}</view>
+      <view class="muted">{{sessionStatus.next}}</view>
+    </view>
+  </view>
+
+  <view class="section panel-quiet">
+    <view class="title-md">Mastery standard</view>
+    <view class="body">{{module.mastery}}</view>
+    <view class="divider"></view>
+    <view class="title-md">Parent check tonight</view>
+    <view class="body">{{module.parentScript}}</view>
+  </view>
+
+  <view class="section panel review-pack-panel">
+    <view class="between">
+      <view>
+        <view class="eyebrow">CONTENT ENGINE</view>
+        <view class="title-md">Turn method into cards</view>
+      </view>
+      <view class="meta-pill">concept / step / trap / cloze</view>
+    </view>
+    <view class="review-stats" wx:if="{{reviewStats}}">
+      <view class="review-stat">
+        <view class="review-num">{{reviewStats.cards}}</view>
+        <view class="review-label">cards</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{reviewStats.due}}</view>
+        <view class="review-label">due</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{reviewStats.leech}}</view>
+        <view class="review-label">repair</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{reviewStats.mastered}}</view>
+        <view class="review-label">mastered</view>
+      </view>
+    </view>
+    <view class="preview-list" wx:if="{{reviewPreview.length}}">
+      <view class="preview-card" wx:for="{{reviewPreview}}" wx:key="id">
+        <view class="preview-title">{{item.question}}</view>
+        <view class="muted">{{item.cardType}} / Q{{item.quality}} / {{item.reason}}</view>
+      </view>
+    </view>
+    <view class="review-pack-actions">
+      <button class="secondary-button review-pack-btn" bindtap="addReviewPack">Add review pack</button>
+      <button class="ghost-button review-pack-btn" bindtap="goReview">Open review</button>
+    </view>
+    <view class="feedback-text" wx:if="{{reviewPackStatus}}">{{reviewPackStatus}}</view>
+  </view>
+
+  <view class="section panel feedback-panel">
+    <view class="title-md">Does this fit right now?</view>
+    <view class="body">This feedback improves future module recommendations. It judges the fit, not the child.</view>
+    <input class="input feedback-reason" value="{{feedbackReason}}" bindinput="onReasonInput" placeholder="Optional: why it fits or not" />
+    <view class="feedback-actions">
+      <button class="feedback-btn useful" data-rating="useful" bindtap="markModule">Useful now</button>
+      <button class="feedback-btn" data-rating="not_useful" bindtap="markModule">Not now</button>
+    </view>
+    <view class="feedback-text" wx:if="{{feedbackText}}">{{feedbackText}}</view>
+  </view>
+
+  <view class="section panel">
+    <view class="title-md">Tutor launch prompt</view>
+    <view class="prompt-box">{{module.tutorPrompt}}</view>
+    <button class="primary-button start-btn" bindtap="startModule">Start tutor</button>
+  </view>
+</view>

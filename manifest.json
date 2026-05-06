@@ -1,26 +1,38 @@
 {
-  "name": "原点智学 · AI 私教 · 这位老师记得你",
-  "short_name": "原点 AI 私教",
-  "description": "中国高考体系下的一对一 AI 私教 · 不是 ChatGPT · 跨会话记忆 + 学情指纹 + 中国课标对齐 · 单点提分目标 0.4-0.5 SD",
-  "start_url": "/start?utm_source=pwa",
+  "name": "原点学伴",
+  "short_name": "原点学伴",
+  "description": "面向家庭晚间学习场景的学习效率工具，支持作业录入、弱点雷达、作业优先级分类、思路引导、复习卡和家长周报。",
+  "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FAFAF7",
-  "theme_color": "#F5A623",
+  "background_color": "#fffaf2",
+  "theme_color": "#f97316",
   "lang": "zh-CN",
   "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='g' x1='0' y1='0' x2='512' y2='512'><stop offset='0%25' stop-color='%23F5A623'/><stop offset='100%25' stop-color='%23C2410C'/></linearGradient></defs><rect width='512' height='512' rx='96' fill='url(%23g)'/><rect x='236' y='64' width='40' height='384' rx='20' fill='%23FAFAF7' opacity='0.95'/><circle cx='256' cy='256' r='28' fill='%2318181B'/></svg>",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/assets/miniapp-logo-kid.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "shortcuts": [
-    { "name": "找老师做题",   "url": "/start",                "description": "25 分钟单知识点闭环 · BKT 实时调难度" },
-    { "name": "跟老师聊聊",   "url": "/tutor",                "description": "记得你卡过哪的一对一私教对话" },
-    { "name": "妈妈视角",     "url": "/radar",                "description": "雷达图 + 学习指纹 + 今日金句" }
+    {
+      "name": "录入今晚作业",
+      "url": "/diagnose.html",
+      "description": "录入作业、错题或测评结果，生成今晚优先级。"
+    },
+    {
+      "name": "查看弱点雷达",
+      "url": "/parent-radar.html",
+      "description": "查看家庭学习弱点和作业三分类。"
+    },
+    {
+      "name": "进入原小点",
+      "url": "/tutor.html",
+      "description": "围绕必须做任务进行思路引导。"
+    }
   ]
 }

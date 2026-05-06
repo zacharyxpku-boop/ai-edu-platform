@@ -10,6 +10,62 @@
 
     <view class="body scope-copy">原小点只处理必须做任务和关键错因，先问思路，再给最小提示。</view>
 
+    <view class="thinking-receipt" wx:if="{{thinkingReceipt}}">
+      <view class="receipt-head">
+        <view>
+          <view class="answer-label">THINKING RECEIPT</view>
+          <view class="receipt-label">{{thinkingReceipt.label}}</view>
+        </view>
+        <view class="receipt-score">{{thinkingReceipt.score}}</view>
+      </view>
+      <view class="receipt-focus">{{thinkingReceipt.focus}}</view>
+      <view class="receipt-status">{{thinkingReceipt.status}}</view>
+      <view class="receipt-grid">
+        <view class="receipt-check {{item.done ? 'done' : ''}}" wx:for="{{thinkingReceipt.checks}}" wx:key="id">
+          <view class="receipt-check-label">{{item.label}}</view>
+          <view class="muted">{{item.detail}}</view>
+        </view>
+      </view>
+      <view class="receipt-share">{{thinkingReceipt.shareLine}}</view>
+    </view>
+
+    <view class="coach-console" wx:if="{{coachConsole}}">
+      <view class="answer-label">SOCRATIC COACH CONSOLE</view>
+      <view class="coach-console-label">{{coachConsole.label}}</view>
+      <view class="coach-console-main">
+        <view>
+          <view class="console-kicker">Focus</view>
+          <view class="console-focus">{{coachConsole.focus}}</view>
+        </view>
+        <view class="console-risk">{{coachConsole.risk}}</view>
+      </view>
+      <view class="console-grid">
+        <view class="console-cell">
+          <view class="console-kicker">Wrong cause</view>
+          <view class="console-value">{{coachConsole.wrongCause}}</view>
+        </view>
+        <view class="console-cell">
+          <view class="console-kicker">Now</view>
+          <view class="console-value">{{coachConsole.currentAction}}</view>
+          <view class="muted">{{coachConsole.actionDesc}}</view>
+        </view>
+        <view class="console-cell">
+          <view class="console-kicker">Mastery</view>
+          <view class="console-value">{{coachConsole.masteryStatus}}</view>
+        </view>
+        <view class="console-cell">
+          <view class="console-kicker">Evidence</view>
+          <view class="console-value">{{coachConsole.evidence}}</view>
+        </view>
+      </view>
+      <view class="console-flow">
+        <view class="console-flow-card" wx:for="{{coachConsole.cards}}" wx:key="id">
+          <view class="console-flow-title">{{item.title}}</view>
+          <view class="muted">{{item.body}}</view>
+        </view>
+      </view>
+    </view>
+
     <view class="selected" wx:if="{{selected}}">
       <view class="selected-head">
         <view>
@@ -35,6 +91,25 @@
   </view>
 
   <view class="coach-bar panel">
+    <view class="pedagogy-panel" wx:if="{{pedagogy}}">
+      <view class="answer-label">TUTOR PEDAGOGY LAYER</view>
+      <view class="body">{{pedagogy.label}}</view>
+      <view class="pedagogy-grid">
+        <view class="pedagogy-card" wx:for="{{pedagogy.ladder}}" wx:key="id">
+          <view class="pedagogy-title">{{item.title}}</view>
+          <view class="muted">{{item.desc}}</view>
+        </view>
+      </view>
+      <view class="guardrail-row">
+        <view class="guardrail-pill" wx:for="{{pedagogy.guardrails}}" wx:key="*this">{{item}}</view>
+      </view>
+      <view class="teacher-view">{{pedagogy.teacherView}}</view>
+    </view>
+    <view class="pedagogy-panel risk-panel" wx:if="{{pasteRisk}}">
+      <view class="answer-label">COPY-PASTE RISK GATE</view>
+      <view class="body">{{pasteRisk.label}}</view>
+      <view class="risk-level">{{pasteRisk.level}}</view>
+    </view>
     <view class="coach-head">
       <view class="coach-title">掌握循环</view>
       <view class="coach-step">{{coachStepLabel}}</view>
@@ -62,7 +137,10 @@
         class="ghost-btn"
         data-step="{{item.id}}"
         bindtap="sendQuick"
-      >{{item.label}}</button>
+      >
+        <view class="ghost-title">{{item.label}}</view>
+        <view class="ghost-desc">{{item.desc}}</view>
+      </button>
     </view>
   </view>
 

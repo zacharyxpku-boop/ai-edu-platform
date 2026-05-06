@@ -33,6 +33,13 @@ if (process.argv.includes('--remote')) {
   });
 }
 
+if (process.argv.includes('--upload-ready')) {
+  checks[1] = {
+    name: '小程序上传前 AppID 门禁',
+    command: [process.execPath, ['scripts/miniapp-launch-assistant.cjs', '--upload-ready']]
+  };
+}
+
 function run(name, command, args) {
   console.log(`\n========== ${name} ==========\n`);
   const result = spawnSync(command, args, {

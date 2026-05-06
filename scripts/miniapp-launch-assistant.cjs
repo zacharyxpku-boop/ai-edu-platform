@@ -117,7 +117,13 @@ async function main() {
   const activeAppId = privateConfig?.appid || projectConfig.appid || '';
 
   check(fs.existsSync(MINI), 'miniprogram/ 已存在', '缺少 miniprogram/ 目录', results);
-  check(true, activeAppId && activeAppId !== 'touristappid' ? `AppID 已配置：${activeAppId}` : 'AppID 未填不阻塞本地预检；拿到后运行 npm run miniapp:appid -- wx...', '', results);
+  const requireAppId = hasFlag('--require-appid') || hasFlag('--upload-ready');
+  check(
+    !requireAppId || (activeAppId && activeAppId !== 'touristappid'),
+    activeAppId && activeAppId !== 'touristappid' ? `AppID 已配置：${activeAppId}` : 'AppID 未填不阻塞本地预检；拿到后运行 npm run miniapp:appid -- wx...',
+    '上传/提审前必须配置真实 AppID：npm run miniapp:appid -- wx你的AppID',
+    results
+  );
   check(appJson.__usePrivacyCheck__ === true, '隐私授权开关已开启', 'app.json 缺少 __usePrivacyCheck__', results);
   check(Array.isArray(appJson.pages) && appJson.pages.length >= 5, '小程序页面已声明', 'app.json pages 不完整', results);
 

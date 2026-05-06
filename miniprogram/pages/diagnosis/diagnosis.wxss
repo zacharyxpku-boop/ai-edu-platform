@@ -2,6 +2,66 @@
   margin-top: 20rpx;
 }
 
+.snap-panel {
+  border-color: #CFE0D8;
+  background: #FCFDF9;
+}
+
+.snap-score {
+  flex: 0 0 auto;
+  width: 74rpx;
+  height: 74rpx;
+  color: #FFFDF8;
+  background: #0F4F3D;
+  border-radius: 50%;
+  font-size: 28rpx;
+  font-weight: 900;
+  line-height: 74rpx;
+  text-align: center;
+}
+
+.signal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.signal-pill {
+  padding: 8rpx 12rpx;
+  color: #0F4F3D;
+  background: #EAF5EE;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+  font-weight: 900;
+}
+
+.snap-textarea {
+  min-height: 112rpx;
+}
+
+.snap-result {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  background: #FFF7E9;
+  border-left: 6rpx solid #B87924;
+  border-radius: 10rpx;
+}
+
+.snap-result-title {
+  color: #5D421A;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.snap-result-body {
+  margin-top: 8rpx;
+  color: #4A4033;
+  font-size: 23rpx;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .score-row {
   display: flex;
   align-items: center;

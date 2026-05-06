@@ -1,6 +1,64 @@
 <view class="page safe-bottom">
   <view class="eyebrow">PROFILE</view>
-  <view class="title-xl">上线前，先把合规入口放对。</view>
+  <view class="title-xl">把学习档案、同步和合规入口放稳。</view>
+
+  <view class="section panel parent-report" wx:if="{{parentReport}}">
+    <view class="between parent-report-head">
+      <view>
+        <view class="title-md">PARENT WEEKLY REPORT</view>
+        <view class="muted">{{parentReport.label}}</view>
+      </view>
+      <view class="parent-score">
+        <view class="parent-score-num">{{parentReport.proofScore}}</view>
+        <view class="parent-score-label">proof</view>
+      </view>
+    </view>
+    <view class="parent-highlight">{{parentReport.shareLine}}</view>
+    <view class="proof-grid">
+      <view class="proof-card" wx:for="{{parentReport.proofCards}}" wx:key="id">
+        <view class="proof-value">{{item.value}}</view>
+        <view class="proof-label">{{item.label}}</view>
+        <view class="proof-note">{{item.note}}</view>
+      </view>
+    </view>
+    <view class="thinking-ledger" wx:if="{{thinkingSummary}}">
+      <view class="title-sm parent-subtitle">THINKING PROOF LEDGER</view>
+      <view class="muted">{{thinkingSummary.label}}</view>
+      <view class="ledger-grid">
+        <view class="ledger-card">
+          <view class="ledger-value">{{thinkingSummary.avgScore}}</view>
+          <view class="ledger-label">Average proof</view>
+        </view>
+        <view class="ledger-card">
+          <view class="ledger-value">{{thinkingSummary.total}}</view>
+          <view class="ledger-label">Receipts</view>
+        </view>
+        <view class="ledger-card">
+          <view class="ledger-value">{{thinkingSummary.proofSentence}}</view>
+          <view class="ledger-label">Proof sentence</view>
+        </view>
+        <view class="ledger-card">
+          <view class="ledger-value">{{thinkingSummary.answerCopyAvoided}}</view>
+          <view class="ledger-label">Safe turns</view>
+        </view>
+      </view>
+    </view>
+    <view class="title-sm parent-subtitle">FAMILY LEARNING ASSET CENTER</view>
+    <view class="asset-list">
+      <view class="asset-row" wx:for="{{parentReport.assets}}" wx:key="id">
+        <view class="asset-label">{{item.label}}</view>
+        <view class="asset-value">{{item.value}}</view>
+      </view>
+    </view>
+    <view class="parent-highlight parent-moat">{{parentReport.moatLine}}</view>
+    <view class="title-sm parent-subtitle">NEXT FAMILY ACTIONS</view>
+    <view class="parent-actions">
+      <button class="action-chip" wx:for="{{parentReport.nextActions}}" wx:key="id" data-action="{{item.action}}" bindtap="runParentReportAction">
+        <view class="action-chip-label">{{item.label}}</view>
+        <view class="action-chip-detail">{{item.detail}}</view>
+      </button>
+    </view>
+  </view>
 
   <view class="section panel stack">
     <view class="title-md">孩子学习档案</view>
@@ -18,6 +76,243 @@
     </view>
   </view>
 
+  <view class="section panel sync-panel">
+    <view class="between">
+      <view>
+        <view class="title-md">账号与同步</view>
+        <view class="muted">{{identity.auth_mode || 'local'}} · {{identity.client_id}}</view>
+      </view>
+      <view class="profile-badge">{{syncSummary.pending || 0}} 待同步</view>
+    </view>
+    <view class="module-stats">
+      <view class="module-stat">
+        <view class="module-num">{{loopSummary.lives}}/{{loopSummary.maxLives}}</view>
+        <view class="module-label">生命值</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{reviewSummary.streak}}</view>
+        <view class="module-label">连续天数</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{loopSummary.longestStreak}}</view>
+        <view class="module-label">最长连续</view>
+      </view>
+    </view>
+    <view class="sync-diagnostics" wx:if="{{syncDiagnostics}}">
+      <view class="muted">{{syncSummary.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">seq {{syncDiagnostics.localSeq}}</view>
+        <view class="queue-pill">pending {{syncDiagnostics.pending}}</view>
+        <view class="queue-pill">types {{syncDiagnostics.byType.length}}</view>
+        <view class="queue-pill">dedupe {{syncDiagnostics.duplicates}}</view>
+      </view>
+    </view>
+    <view class="sync-actions">
+      <button class="secondary-button sync-btn" bindtap="initSession" loading="{{syncing}}">{{loginText}}</button>
+      <button class="ghost-button sync-btn" bindtap="syncNow" loading="{{syncing}}">立即同步</button>
+    </view>
+  </view>
+
+  <view class="section panel sync-readiness" wx:if="{{syncReadiness}}">
+    <view class="between">
+      <view>
+        <view class="title-md">SYNC READINESS</view>
+        <view class="muted">{{syncReadiness.label}}</view>
+      </view>
+      <view class="profile-badge">{{syncReadiness.score}}</view>
+    </view>
+    <view class="sync-ready-list">
+      <view class="sync-ready-card" wx:for="{{syncReadiness.items}}" wx:key="id">
+        <view class="sync-ready-top">
+          <view class="sync-ready-label">{{item.label}}</view>
+          <view class="sync-ready-state {{item.ready ? 'ready-on' : 'ready-off'}}">{{item.ready ? 'READY' : 'PENDING'}}</view>
+        </view>
+        <view class="muted">{{item.detail}}</view>
+      </view>
+    </view>
+    <view class="sync-ready-next">{{syncReadiness.next}}</view>
+  </view>
+
+  <view class="section panel commercial-panel" wx:if="{{commercializationPlan}}">
+    <view class="between">
+      <view>
+        <view class="title-md">COMMERCIAL ENTRY</view>
+        <view class="muted">{{commercializationPlan.label}}</view>
+      </view>
+      <view class="profile-badge">{{commercializationPlan.score}}</view>
+    </view>
+    <view class="tier-list">
+      <view class="tier-card" wx:for="{{commercializationPlan.tiers}}" wx:key="id">
+        <view class="tier-top">
+          <view class="tier-name">{{item.name}}</view>
+          <view class="tier-price">{{item.price}}</view>
+        </view>
+        <view class="muted">{{item.promise}}</view>
+        <view class="tier-cta">{{item.cta}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel pilot-panel" wx:if="{{pilotSop}}">
+    <view class="between">
+      <view>
+        <view class="title-md">10-FAMILY PILOT SOP</view>
+        <view class="muted">{{pilotSop.label}}</view>
+      </view>
+      <view class="profile-badge">{{pilotSop.score}}</view>
+    </view>
+    <view class="pilot-steps">
+      <view class="pilot-step" wx:for="{{pilotSop.steps}}" wx:key="id">
+        <view class="pilot-day">{{item.day}}</view>
+        <view>
+          <view class="pilot-title">{{item.title}}</view>
+          <view class="muted">{{item.body}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="pilot-metrics">
+      <view class="pilot-metric" wx:for="{{pilotSop.metrics}}" wx:key="id">
+        <view class="pilot-metric-value">{{item.value}}</view>
+        <view class="pilot-metric-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel pilot-evidence-panel" wx:if="{{pilotSummary}}">
+    <view class="between">
+      <view>
+        <view class="title-md">PILOT EVIDENCE LOG</view>
+        <view class="muted">{{pilotSummary.label}}</view>
+      </view>
+      <view class="profile-badge">{{pilotSummary.total}}</view>
+    </view>
+    <view class="proof-grid">
+      <view class="proof-card">
+        <view class="proof-value">{{pilotSummary.minutesSaved}}</view>
+        <view class="proof-label">Minutes saved</view>
+        <view class="proof-note">{{pilotSummary.avgMinutesSaved}} avg per night</view>
+      </view>
+      <view class="proof-card">
+        <view class="proof-value">{{pilotSummary.avgConfidence}}</view>
+        <view class="proof-label">Parent confidence</view>
+        <view class="proof-note">Average after one family loop</view>
+      </view>
+      <view class="proof-card">
+        <view class="proof-value">{{pilotSummary.returnRate}}%</view>
+        <view class="proof-label">Review return</view>
+        <view class="proof-note">{{pilotSummary.reviewReturned}} nights came back for review</view>
+      </view>
+      <view class="proof-card">
+        <view class="proof-value">{{pilotSummary.answerBlocks}}</view>
+        <view class="proof-label">Answer blocks</view>
+        <view class="proof-note">Counts anti-copy-answer interventions</view>
+      </view>
+    </view>
+    <view class="stack">
+      <view class="title-sm parent-subtitle">LOG ONE FAMILY NIGHT</view>
+      <view class="field">
+        <view class="label">Family</view>
+        <input class="input" value="{{pilotForm.family}}" data-field="family" bindinput="onPilotInput" placeholder="Family A / Grade 5 math" />
+      </view>
+      <view class="field">
+        <view class="label">Minutes saved</view>
+        <input class="input" type="number" value="{{pilotForm.minutes_saved}}" data-field="minutes_saved" bindinput="onPilotInput" />
+      </view>
+      <view class="field">
+        <view class="label">Parent confidence (1-5)</view>
+        <input class="input" type="number" value="{{pilotForm.confidence}}" data-field="confidence" bindinput="onPilotInput" />
+      </view>
+      <view class="field">
+        <view class="label">Answer blocks</view>
+        <input class="input" type="number" value="{{pilotForm.answer_blocks}}" data-field="answer_blocks" bindinput="onPilotInput" />
+      </view>
+      <view class="field switch-field">
+        <view>
+          <view class="label">Returned to review next day</view>
+          <view class="muted">Did the child actually come back for spaced review?</view>
+        </view>
+        <switch checked="{{pilotForm.review_returned}}" data-field="review_returned" bindchange="onPilotSwitch" color="#0F4F3D" />
+      </view>
+      <view class="field">
+        <view class="label">Notes</view>
+        <textarea class="textarea" value="{{pilotForm.note}}" data-field="note" maxlength="300" auto-height bindinput="onPilotInput" placeholder="What felt better, what still broke, what the parent said." />
+      </view>
+      <button class="primary-button" bindtap="submitPilotRun">Save pilot evidence</button>
+    </view>
+  </view>
+
+  <view class="section panel launch-checklist" wx:if="{{launchChecklist}}">
+    <view class="between">
+      <view>
+        <view class="title-md">MINIAPP PRODUCTION CHECKLIST</view>
+        <view class="muted">{{launchChecklist.label}}</view>
+      </view>
+      <view class="profile-badge">{{launchChecklist.score}}</view>
+    </view>
+    <view class="launch-check-list">
+      <view class="launch-check-card" wx:for="{{launchChecklist.items}}" wx:key="id">
+        <view class="launch-check-top">
+          <view class="launch-check-label">{{item.label}}</view>
+          <view class="launch-check-state {{item.done ? 'ready-on' : 'ready-off'}}">{{item.done ? 'DONE' : 'BLOCKED'}}</view>
+        </view>
+        <view class="launch-check-owner">{{item.owner}}</view>
+        <view class="muted">{{item.note}}</view>
+      </view>
+    </view>
+    <view class="sync-ready-next">{{launchChecklist.next}}</view>
+  </view>
+
+  <view class="section panel flywheel-panel" wx:if="{{dataFlywheel}}">
+    <view class="between">
+      <view>
+        <view class="title-md">DATA FLYWHEEL</view>
+        <view class="muted">{{dataFlywheel.label}}</view>
+      </view>
+      <view class="profile-badge">{{dataFlywheel.moatScore}}</view>
+    </view>
+    <view class="launch-check-list">
+      <view class="launch-check-card" wx:for="{{dataFlywheel.assets}}" wx:key="id">
+        <view class="launch-check-top">
+          <view class="launch-check-label">{{item.label}}</view>
+          <view class="launch-check-state ready-on">{{item.value}}</view>
+        </view>
+        <view class="launch-check-owner">{{item.source}}</view>
+      </view>
+    </view>
+    <view class="signal-list">
+      <view class="signal-item" wx:for="{{dataFlywheel.loop}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section panel flywheel-panel" wx:if="{{flywheelCoach}}">
+    <view class="title-md">FLYWHEEL COACH</view>
+    <view class="muted">{{flywheelCoach.label}}</view>
+    <view class="tier-list">
+      <view class="tier-card" wx:for="{{flywheelCoach.actions}}" wx:key="id">
+        <view class="tier-top">
+          <view class="tier-name">{{item.title}}</view>
+          <view class="tier-price">{{item.priority}}</view>
+        </view>
+        <view class="muted">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel benchmark-panel" wx:if="{{benchmarkPosition}}">
+    <view class="title-md">COMPETITOR PARITY MAP</view>
+    <view class="muted">{{benchmarkPosition.label}}</view>
+    <view class="tier-list">
+      <view class="tier-card" wx:for="{{benchmarkPosition.rows}}" wx:key="id">
+        <view class="tier-top">
+          <view class="tier-name">{{item.name}}</view>
+          <view class="tier-price">{{item.score}}</view>
+        </view>
+        <view class="tier-cta">{{item.strength}}</view>
+        <view class="muted">{{item.gap}}</view>
+      </view>
+    </view>
+  </view>
+
   <view class="section panel-quiet">
     <view class="between">
       <view>
@@ -28,8 +323,92 @@
     </view>
   </view>
 
+  <view class="section panel module-summary" wx:if="{{moduleSummary}}">
+    <view class="title-md">学习模块使用</view>
+    <view class="muted">{{moduleSummary.label}}</view>
+    <view class="module-stats">
+      <view class="module-stat">
+        <view class="module-num">{{moduleSummary.viewed}}</view>
+        <view class="module-label">浏览</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{moduleSummary.started}}</view>
+        <view class="module-label">开始</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{moduleSummary.completed}}</view>
+        <view class="module-label">完成</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel module-summary" wx:if="{{tutorSummary}}">
+    <view class="title-md">原小点执行信号</view>
+    <view class="muted">{{tutorSummary.label}}</view>
+    <view class="module-stats">
+      <view class="module-stat">
+        <view class="module-num">{{tutorSummary.completed}}</view>
+        <view class="module-label">掌握证据</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{tutorSummary.blocked}}</view>
+        <view class="module-label">拒答拦截</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{tutorSummary.moduleRuns}}</view>
+        <view class="module-label">模块执行</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel review-summary" wx:if="{{reviewSummary}}">
+    <view class="title-md">原点复习</view>
+    <view class="muted">{{reviewSummary.label}}</view>
+    <view class="module-stats">
+      <view class="module-stat">
+        <view class="module-num">{{reviewSummary.total}}</view>
+        <view class="module-label">复习卡</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{reviewSummary.accuracy}}%</view>
+        <view class="module-label">今日掌握</view>
+      </view>
+      <view class="module-stat">
+        <view class="module-num">{{reviewSummary.leeches}}</view>
+        <view class="module-label">顽固错因</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel calibration-profile" wx:if="{{calibrationProfile}}">
+    <view class="between">
+      <view>
+        <view class="title-md">家庭校准画像</view>
+        <view class="muted">{{calibrationProfile.label}}</view>
+      </view>
+      <view class="profile-badge">{{calibrationProfile.modules.topSubject || profile.subject || '学习'}}</view>
+    </view>
+    <view class="calibration-grid">
+      <view class="calibration-cell">
+        <view class="module-num">{{calibrationProfile.homework.accuracyRate}}%</view>
+        <view class="module-label">作业判断准度</view>
+      </view>
+      <view class="calibration-cell">
+        <view class="module-num">{{calibrationProfile.modules.fitRate}}%</view>
+        <view class="module-label">模块适配度</view>
+      </view>
+      <view class="calibration-cell">
+        <view class="module-num">{{calibrationProfile.modules.completionRate}}%</view>
+        <view class="module-label">完成闭环率</view>
+      </view>
+    </view>
+    <view class="signal-list" wx:if="{{calibrationProfile.signals.length}}">
+      <view class="signal-item" wx:for="{{calibrationProfile.signals}}" wx:key="*this">{{item}}</view>
+    </view>
+  </view>
+
   <view class="section panel stack">
-    <view class="title-md">咨询/内测报名</view>
+    <view class="title-md">咨询 / 内测报名</view>
     <view class="field">
       <view class="label">家长称呼</view>
       <input class="input" value="{{lead.name}}" data-field="name" bindinput="onLeadInput" placeholder="例：张女士" />
@@ -53,7 +432,7 @@
 
   <view class="section panel-quiet stack">
     <view class="title-md">数据控制</view>
-    <view class="muted">可清除本机保存的学习档案、雷达、作业分类和原小点会话。</view>
+    <view class="muted">可清除本机保存的学习档案、雷达、作业分类、复习卡和原小点会话。</view>
     <button class="ghost-button danger-button" bindtap="clearLocalData">清除本地学习数据</button>
   </view>
 </view>

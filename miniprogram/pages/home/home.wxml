@@ -2,29 +2,198 @@
   <view class="brand-row">
     <view class="brand-mark"></view>
     <view>
-      <view class="brand-name">原点智学</view>
-      <view class="muted">家庭学习决策系统</view>
+      <view class="brand-name">YuanDian AI Study</view>
+      <view class="muted">Family learning decision system</view>
     </view>
   </view>
 
   <view class="hero panel">
-    <view class="eyebrow">今晚作业决策台</view>
-    <view class="title-xl">先决定做什么，再让孩子开写。</view>
-    <view class="body hero-copy">输入测评、试卷错因或作业清单，系统先给弱点雷达和三分类；原小点只辅导“必须做”和关键错因。</view>
-    <view class="hero-actions">
-      <button class="primary-button" bindtap="goUpload">录入作业</button>
-      <button class="secondary-button" bindtap="goDiagnosis">测一次弱点</button>
+    <view class="eyebrow">TODAY COMMAND CENTER</view>
+    <view class="title-xl">Decide the next useful task before the child starts.</view>
+    <view class="body hero-copy">Use homework triage, parent radar, Yuan Xiao Dian tutor, spaced review, quiz and repair as one nightly loop.</view>
+
+    <view class="today-actions">
+      <view
+        class="action-card {{item.primary ? 'primary-action' : ''}}"
+        wx:for="{{todayActions}}"
+        wx:key="id"
+        data-action="{{item.action}}"
+        bindtap="runTodayAction"
+      >
+        <view class="action-top">
+          <view class="action-title">{{item.title}}</view>
+          <view class="action-meta">{{item.meta}}</view>
+        </view>
+        <view class="action-desc">{{item.desc}}</view>
+      </view>
     </view>
-    <view class="ai-label">AI 辅助生成建议；不替孩子写答案，不承诺固定学习结果。</view>
+
+    <view class="hero-actions">
+      <button class="primary-button" bindtap="goUpload">Enter homework</button>
+      <button class="secondary-button" bindtap="goDiagnosis">Diagnose</button>
+    </view>
+    <button class="review-sample" bindtap="goReviewSample">Try a 30-second sample flow</button>
+    <view class="ai-label">AI-assisted suggestions only. The product does not write homework answers or replace teacher/parent judgment.</view>
+  </view>
+
+  <view class="quick-dock" wx:if="{{quickDock.length}}">
+    <button class="quick-dock-item" wx:for="{{quickDock}}" wx:key="id" data-action="{{item.action}}" bindtap="runTodayAction">
+      <view class="quick-dock-label">{{item.label}}</view>
+      <view class="quick-dock-meta">{{item.meta}}</view>
+    </button>
+  </view>
+
+  <view class="section panel executive-brief" wx:if="{{executiveBrief}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">PRODUCT RUNWAY</view>
+        <view class="title-md">{{executiveBrief.title}}</view>
+      </view>
+      <view class="brief-score">{{executiveBrief.northStar}}</view>
+    </view>
+    <view class="body">{{executiveBrief.label}}</view>
+    <view class="brief-grid">
+      <view class="brief-card" wx:for="{{executiveBrief.cards}}" wx:key="id">
+        <view class="brief-value">{{item.value}}</view>
+        <view class="brief-label">{{item.label}}</view>
+        <view class="brief-body">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel path-router-panel" wx:if="{{pathRouter.length}}">
+    <view class="eyebrow">PATH ROUTER</view>
+    <view class="title-md">Choose the right first screen.</view>
+    <view class="body">Parents need confidence, children need one next step, investors need the whole loop.</view>
+    <view class="first-path">
+      <view class="path-card {{item.id === 'parent' ? 'path-main' : ''}}" wx:for="{{pathRouter}}" wx:key="id">
+        <view class="path-kicker">{{item.role}}</view>
+        <view class="path-title">{{item.promise}}</view>
+        <button class="secondary-button path-btn" data-action="{{item.action}}" bindtap="runPath">{{item.label}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel-quiet return-panel" wx:if="{{returnLoop}}">
+    <view class="eyebrow">7-DAY RETURN LOOP</view>
+    <view class="title-md">{{returnLoop.title}}</view>
+    <view class="body">{{returnLoop.label}}</view>
+    <view class="return-list">
+      <view class="return-item" wx:for="{{returnLoop.days}}" wx:key="day">
+        <view>
+          <view class="return-day">{{item.day}}</view>
+          <view class="muted">{{item.task}}</view>
+        </view>
+        <view class="return-value">{{item.value}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel sprint-panel" wx:if="{{tonightSprint}}">
+    <view class="eyebrow">TONIGHT SPRINT</view>
+    <view class="title-md">{{tonightSprint.title}}</view>
+    <view class="body">{{tonightSprint.label}}</view>
+    <view class="sprint-list">
+      <view class="sprint-card" wx:for="{{tonightSprint.steps}}" wx:key="id">
+        <view class="sprint-head">
+          <view>
+            <view class="sprint-kicker">{{item.kicker}}</view>
+            <view class="sprint-title">{{item.title}}</view>
+          </view>
+          <view class="sprint-proof">{{item.proof}}</view>
+        </view>
+        <view class="muted sprint-desc">{{item.desc}}</view>
+        <button class="secondary-button sprint-btn" data-action="{{item.action}}" bindtap="runTodayAction">{{item.cta}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel-quiet handoff-panel" wx:if="{{parentHandoff}}">
+    <view class="eyebrow">PARENT HANDOFF</view>
+    <view class="title-md">{{parentHandoff.title}}</view>
+    <view class="body">{{parentHandoff.label}}</view>
+    <view class="handoff-list">
+      <view class="handoff-card {{item.tone}}" wx:for="{{parentHandoff.cards}}" wx:key="id">
+        <view class="handoff-title">{{item.title}}</view>
+        <view class="muted">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel demo-panel" wx:if="{{demoStory}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">INVESTOR DEMO MODE</view>
+        <view class="title-md">{{demoStory.title}}</view>
+      </view>
+      <button class="secondary-button demo-btn" bindtap="installDemoMode">Run demo</button>
+    </view>
+    <view class="body">{{demoStory.label}}</view>
+    <view class="demo-step-list">
+      <view class="demo-step" wx:for="{{demoStory.steps}}" wx:key="*this">
+        <view class="demo-dot">{{index + 1}}</view>
+        <view class="muted">{{item}}</view>
+      </view>
+    </view>
+    <view class="proof-strip">
+      <view class="proof-stat" wx:for="{{demoStory.scores}}" wx:key="label">
+        <view class="proof-num">{{item.value}}</view>
+        <view class="proof-name">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel demo-replay-panel" wx:if="{{demoReplay}}">
+    <view class="eyebrow">DEMO REPLAY</view>
+    <view class="title-md">{{demoReplay.title}}</view>
+    <view class="body">{{demoReplay.label}}</view>
+    <view class="replay-grid">
+      <view class="replay-card" wx:for="{{demoReplay.cards}}" wx:key="id">
+        <view class="replay-value">{{item.value}}</view>
+        <view class="replay-title">{{item.title}}</view>
+        <view class="replay-body">{{item.body}}</view>
+      </view>
+    </view>
+    <view class="replay-share">{{demoReplay.shareLine}}</view>
+    <view class="replay-actions">
+      <button class="replay-button" wx:for="{{demoReplay.actions}}" wx:key="id" data-action="{{item.action}}" bindtap="runTodayAction">{{item.label}}</button>
+    </view>
+  </view>
+
+  <view class="section panel investor-tour-panel" wx:if="{{investorTour}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">5-MIN INVESTOR TOUR</view>
+        <view class="title-md">{{investorTour.title}}</view>
+      </view>
+      <view class="tour-score">{{investorTour.moatScore}}</view>
+    </view>
+    <view class="body">{{investorTour.label}}</view>
+    <view class="tour-metrics">
+      <view class="tour-metric" wx:for="{{investorTour.metrics}}" wx:key="label">
+        <view class="tour-num">{{item.value}}</view>
+        <view class="tour-name">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="tour-list">
+      <view class="tour-step" wx:for="{{investorTour.steps}}" wx:key="id">
+        <view class="tour-time">{{item.minute}}</view>
+        <view class="tour-content">
+          <view class="tour-title">{{item.title}}</view>
+          <view class="tour-body">{{item.body}}</view>
+          <button class="secondary-button tour-btn" data-action="{{item.action}}" bindtap="runTodayAction">{{item.cta}}</button>
+        </view>
+      </view>
+    </view>
   </view>
 
   <view class="section panel">
     <view class="between">
       <view>
-        <view class="title-md">{{isDemo ? '示例结论' : '今日结论'}}</view>
-        <view class="muted">更新于 {{updatedText}}</view>
+        <view class="title-md">{{isDemo ? 'Sample decision' : 'Today decision'}}</view>
+        <view class="muted">Updated {{updatedText}}</view>
       </view>
-      <button class="text-link" bindtap="goRadar">看雷达</button>
+      <button class="text-link" bindtap="goRadar">Radar</button>
     </view>
 
     <view class="weak-list">
@@ -38,55 +207,144 @@
     </view>
 
     <view class="decision-card" wx:if="{{topMust}}">
-      <view class="decision-label">{{isDemo ? '示例：今晚先做' : '今晚先做'}}</view>
+      <view class="decision-label">Must do first</view>
       <view class="decision-title">{{topMust.text}}</view>
-      <view class="muted">{{topMust.reason}} · 约 {{topMust.minutes}} 分钟</view>
-      <button class="primary-button decision-action" bindtap="startTopMust">让原小点带做</button>
+      <view class="muted">{{topMust.reason}} / about {{topMust.minutes}} min</view>
+      <view class="proof-card" wx:if="{{topMustProof}}">
+        <view class="proof-row">
+          <view class="proof-label">Why this matters</view>
+          <view class="proof-value">{{topMustProof.weak}}</view>
+        </view>
+        <view class="proof-decision">{{topMustProof.decision}}</view>
+        <view class="tag-row" wx:if="{{topMustProof.tags.length}}">
+          <text class="proof-tag" wx:for="{{topMustProof.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+      <button class="primary-button decision-action" bindtap="startTopMust">Start tutor</button>
     </view>
 
     <view class="empty-decision" wx:else>
-      <view class="decision-label">还缺作业清单</view>
-      <view class="muted">先录入今晚作业，系统会把任务分成必须做、灵活选择、可以跳过。</view>
-      <button class="secondary-button decision-action" bindtap="goUpload">现在录入</button>
+      <view class="decision-label">No homework list yet</view>
+      <view class="muted">Enter tonight homework first. The system will split it into must-do, flexible and can-skip tasks.</view>
+      <button class="secondary-button decision-action" bindtap="goUpload">Enter now</button>
     </view>
 
     <view class="triage-strip">
       <view class="triage-stat danger">
         <view class="stat-num">{{stats.must}}</view>
-        <view class="stat-label">必须做</view>
+        <view class="stat-label">must</view>
       </view>
       <view class="triage-stat">
         <view class="stat-num">{{stats.flexible}}</view>
-        <view class="stat-label">灵活选</view>
+        <view class="stat-label">flexible</view>
       </view>
       <view class="triage-stat quiet">
         <view class="stat-num">{{stats.skip}}</view>
-        <view class="stat-label">可跳过</view>
+        <view class="stat-label">skip</view>
+      </view>
+    </view>
+
+    <view class="proof-strip">
+      <view class="proof-stat" wx:for="{{proofStats}}" wx:key="label">
+        <view class="proof-num">{{item.value}}</view>
+        <view class="proof-name">{{item.label}}</view>
       </view>
     </view>
   </view>
 
+  <view class="section cockpit-panel panel-quiet" wx:if="{{cockpit}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">STUDY COCKPIT</view>
+        <view class="title-md">{{cockpit.title}}</view>
+      </view>
+      <button class="text-link" bindtap="goTools">Open</button>
+    </view>
+    <view class="body">{{cockpit.reason}}</view>
+    <view class="cockpit-metrics">
+      <view class="cockpit-metric">
+        <view class="cockpit-num">{{cockpit.score}}</view>
+        <view class="cockpit-name">module fit</view>
+      </view>
+      <view class="cockpit-metric">
+        <view class="cockpit-num">{{cockpit.maturity}}</view>
+        <view class="cockpit-name">north star</view>
+      </view>
+      <view class="cockpit-metric">
+        <view class="cockpit-num">{{cockpit.benchmark}}</view>
+        <view class="cockpit-name">benchmark</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel review-panel" wx:if="{{reviewSummary}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">REVIEW</view>
+        <view class="title-md">Spaced review and quiz</view>
+      </view>
+      <button class="text-link" bindtap="goReview">Open</button>
+    </view>
+    <view class="body review-copy">Real weak points, tutor signals and learning modules become daily review cards, quiz questions and repair drills.</view>
+    <view class="proof-strip review-proof">
+      <view class="proof-stat">
+        <view class="proof-num">{{reviewSummary.due}}</view>
+        <view class="proof-name">due</view>
+      </view>
+      <view class="proof-stat">
+        <view class="proof-num">{{reviewSummary.quiz.count}}</view>
+        <view class="proof-name">quiz</view>
+      </view>
+      <view class="proof-stat">
+        <view class="proof-num">{{reviewSummary.mastered}}</view>
+        <view class="proof-name">mastered</view>
+      </view>
+    </view>
+    <view class="proof-strip review-proof" wx:if="{{loopSummary}}">
+      <view class="proof-stat">
+        <view class="proof-num">{{loopSummary.lives}} / {{loopSummary.maxLives}}</view>
+        <view class="proof-name">lives</view>
+      </view>
+      <view class="proof-stat">
+        <view class="proof-num">{{loopSummary.longestStreak}}</view>
+        <view class="proof-name">best streak</view>
+      </view>
+      <view class="proof-stat">
+        <view class="proof-num">{{syncSummary.pending || 0}}</view>
+        <view class="proof-name">sync queue</view>
+      </view>
+    </view>
+    <button class="primary-button review-action" bindtap="goReview">Start 5-minute review</button>
+  </view>
+
   <view class="section loop panel-quiet">
-    <view class="title-md">一个闭环</view>
+    <view class="title-md">One nightly loop</view>
     <view class="loop-step">
       <view class="step-index">1</view>
       <view>
-        <view class="step-title">录入测评/试卷/作业</view>
-        <view class="muted">不用 OCR 也能跑通，先用文字把题号、错因和作业清单说清楚。</view>
+        <view class="step-title">Enter homework or weak points</view>
+        <view class="muted">Text input is enough to run the current loop.</view>
       </view>
     </view>
     <view class="loop-step">
       <view class="step-index">2</view>
       <view>
-        <view class="step-title">雷达决定优先级</view>
-        <view class="muted">弱点不是越多越好，今晚只抓最影响的两三处。</view>
+        <view class="step-title">Parent radar chooses priority</view>
+        <view class="muted">Only a few high-value tasks should be pushed tonight.</view>
       </view>
     </view>
     <view class="loop-step">
       <view class="step-index">3</view>
       <view>
-        <view class="step-title">原小点只带必须做</view>
-        <view class="muted">不做通用聊天，不替写作业，只用最小提示攻关键错因。</view>
+        <view class="step-title">Tutor handles must-do and key wrong causes</view>
+        <view class="muted">The tutor gives minimum hints, not direct homework answers.</view>
+      </view>
+    </view>
+    <view class="loop-step">
+      <view class="step-index">4</view>
+      <view>
+        <view class="step-title">Review locks in repeated mistakes</view>
+        <view class="muted">Cards, quiz and repair drills keep the weak point from repeating.</view>
       </view>
     </view>
   </view>

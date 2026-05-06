@@ -1,0 +1,875 @@
+<view class="page safe-bottom review-page">
+  <view class="eyebrow">REVIEW ENGINE</view>
+  <view class="title-xl">每天 5 分钟，压住反复错因</view>
+  <view class="body intro">复习卡来自雷达弱点、必须做作业、原小点执行和学习模块记录，只复习真正影响提分的内容。</view>
+
+  <view class="section panel review-playbook" wx:if="{{reviewPlaybook}}">
+    <view class="playbook-head">
+      <view>
+        <view class="answer-label">DAILY REVIEW PLAYBOOK</view>
+        <view class="title-md">{{reviewPlaybook.title}}</view>
+      </view>
+      <view class="playbook-score">{{reviewPlaybook.moat.score}}</view>
+    </view>
+    <view class="body">{{reviewPlaybook.label}}</view>
+    <view class="playbook-primary">
+      <view>
+        <view class="playbook-primary-title">{{reviewPlaybook.primary.title}}</view>
+        <view class="muted">{{reviewPlaybook.primary.meta}}</view>
+      </view>
+      <button class="primary-button playbook-primary-btn" data-action="{{reviewPlaybook.primary.action}}" bindtap="runPlaybookAction">Start</button>
+    </view>
+    <view class="playbook-stats">
+      <view class="playbook-stat" wx:for="{{reviewPlaybook.stats}}" wx:key="label">
+        <view class="playbook-num">{{item.value}}</view>
+        <view class="playbook-label">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="playbook-actions">
+      <view class="playbook-action" wx:for="{{reviewPlaybook.actions}}" wx:key="id">
+        <view>
+          <view class="playbook-action-title">{{item.title}}</view>
+          <view class="muted">{{item.desc}}</view>
+        </view>
+        <button class="secondary-button playbook-action-btn" data-action="{{item.action}}" bindtap="runPlaybookAction">{{item.cta}}</button>
+      </view>
+    </view>
+    <view class="playbook-moat">
+      <view class="playbook-moat-title">{{reviewPlaybook.moat.title}}</view>
+      <view class="muted">{{reviewPlaybook.moat.label}}</view>
+    </view>
+  </view>
+
+  <view class="section panel challenge-card-panel" wx:if="{{challengeCard}}">
+    <view class="challenge-card-head">
+      <view>
+        <view class="answer-label">LOCAL CHALLENGE CARD</view>
+        <view class="title-md">{{challengeCard.title}}</view>
+      </view>
+      <view class="challenge-code">{{challengeCard.inviteCode}}</view>
+    </view>
+    <view class="body">{{challengeCard.label}}</view>
+    <view class="challenge-card-copy">{{challengeCard.headline}}</view>
+    <view class="challenge-card-stats">
+      <view class="challenge-card-stat" wx:for="{{challengeCard.stats}}" wx:key="id">
+        <view class="challenge-card-value">{{item.value}}</view>
+        <view class="challenge-card-label">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="challenge-prompt-list">
+      <view class="challenge-prompt" wx:for="{{challengeCard.prompts}}" wx:key="*this">{{item}}</view>
+    </view>
+    <button class="secondary-button challenge-copy-btn" bindtap="copyChallengeCard">Copy share text</button>
+  </view>
+
+  <view class="section panel summary-panel" wx:if="{{summary}}">
+    <view class="mission-center" wx:if="{{summary.dailyCenter}}">
+      <view class="progress-head">
+        <view>
+          <view class="answer-label">DAILY MISSION CENTER</view>
+          <view class="body">{{summary.dailyCenter.label}}</view>
+        </view>
+        <view class="maturity-score">{{summary.dailyCenter.primary.value}}</view>
+      </view>
+      <view class="mission-center-grid">
+        <view class="mission-center-card" wx:for="{{summary.dailyCenter.missions}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.meta}}</view>
+            </view>
+            <view class="maturity-value">{{item.value}}</view>
+          </view>
+          <button class="secondary-button mission-center-btn" data-action="{{item.action}}" bindtap="runMission">Start</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="between">
+      <view>
+        <view class="title-md">今日复习</view>
+        <view class="muted">{{summary.label}}</view>
+      </view>
+      <view class="progress-pill">{{progressText}}</view>
+    </view>
+
+    <view class="review-stats">
+      <view class="review-stat">
+        <view class="review-num">{{summary.reviewedToday}}</view>
+        <view class="review-label">今日完成</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{summary.accuracy}}%</view>
+        <view class="review-label">掌握率</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{summary.mastered}}</view>
+        <view class="review-label">稳定掌握</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{summary.loop.lives}} / {{summary.loop.maxLives}}</view>
+        <view class="review-label">生命值</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{summary.sync.pending}}</view>
+        <view class="review-label">待同步</view>
+      </view>
+      <view class="review-stat">
+        <view class="review-num">{{summary.streak}}</view>
+        <view class="review-label">连续天数</view>
+      </view>
+    </view>
+
+    <view class="queue-row" wx:if="{{summary.queue}}">
+      <view class="queue-pill">新卡 {{summary.queue.newCount}}</view>
+      <view class="queue-pill">学习中 {{summary.queue.learning}}</view>
+      <view class="queue-pill">复习 {{summary.queue.review}}</view>
+      <view class="queue-pill">到期 {{summary.queue.due}}</view>
+      <view class="queue-pill">暂停 {{summary.suspended}}</view>
+      <view class="queue-pill">延后 {{summary.queue.buried}}</view>
+    </view>
+
+    <view class="engine-status" wx:if="{{summary.contentEngine}}">
+      <view class="answer-label">内容引擎</view>
+      <view class="body">{{summary.contentEngine.label}}</view>
+      <view class="muted">Provider {{summary.contentEngine.provider}} · Core {{summary.contentEngine.coverage}}/{{summary.contentEngine.required}}</view>
+    </view>
+
+    <view class="maturity-panel" wx:if="{{summary.maturity}}">
+      <view class="progress-head">
+        <view>
+          <view class="answer-label">NORTH STAR 100</view>
+          <view class="body">{{summary.maturity.label}}</view>
+        </view>
+        <view class="maturity-score">{{summary.maturity.overall}}/{{summary.maturity.target}}</view>
+      </view>
+      <view class="goal-track">
+        <view class="goal-fill" style="width: {{summary.maturity.overall}}%;"></view>
+      </view>
+      <view class="repair-hint">{{summary.maturity.nextBet}}</view>
+      <view class="maturity-grid">
+        <view class="maturity-cell" wx:for="{{summary.maturity.dimensions}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view class="maturity-label">{{item.label}}</view>
+            <view class="maturity-value">{{item.score}}</view>
+          </view>
+          <view class="mini-track">
+            <view class="mini-fill" style="width: {{item.score}}%;"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="benchmark-panel" wx:if="{{summary.benchmark}}">
+      <view class="progress-head">
+        <view>
+          <view class="answer-label">GIZMO / ANKI BENCHMARK</view>
+          <view class="body">{{summary.benchmark.label}}</view>
+        </view>
+        <view class="maturity-score">{{summary.benchmark.average}}/100</view>
+      </view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.benchmark.products}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.name}}</view>
+              <view class="muted">{{item.target}}</view>
+            </view>
+            <view class="maturity-value">{{item.score}}</view>
+          </view>
+          <view class="mini-track">
+            <view class="mini-fill" style="width: {{item.score}}%;"></view>
+          </view>
+          <view class="repair-hint" wx:if="{{item.biggestGap}}">{{item.biggestGap.gap}}</view>
+        </view>
+      </view>
+      <view class="repair-action" wx:for="{{summary.benchmark.moonshot}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="progress-panel" wx:if="{{summary.progress}}">
+      <view class="progress-head">
+        <view>
+          <view class="answer-label">学习等级 Lv.{{summary.progress.level}}</view>
+          <view class="muted">{{summary.progress.xp}} XP · 稳定掌握 {{summary.progress.mastered}}</view>
+        </view>
+        <view class="progress-percent">{{summary.progress.progress}}%</view>
+      </view>
+      <view class="goal-track">
+        <view class="goal-fill" style="width: {{summary.progress.progress}}%;"></view>
+      </view>
+    </view>
+
+    <view class="challenge-panel" wx:if="{{summary.challenge}}">
+      <view class="answer-label">今日挑战</view>
+      <view class="body">{{summary.challenge.title}}</view>
+      <view class="muted">{{summary.challenge.current}}/{{summary.challenge.target}} · +{{summary.challenge.rewardXp}} XP</view>
+      <view class="goal-track">
+        <view class="goal-fill" style="width: {{summary.challenge.progress}}%;"></view>
+      </view>
+    </view>
+
+    <view class="comeback-panel" wx:if="{{summary.comeback}}">
+      <view class="answer-label">COMEBACK LOOP</view>
+      <view class="body">{{summary.comeback.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">missed {{summary.comeback.missedDays}}</view>
+        <view class="queue-pill">freeze {{summary.comeback.freezeAvailable}}</view>
+        <view class="queue-pill">sprint {{summary.comeback.sprintCards}}</view>
+      </view>
+      <view class="repair-action" wx:for="{{summary.comeback.plan}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="mission-panel" wx:if="{{summary.missions && summary.missions.length}}">
+      <view class="answer-label">今日任务板</view>
+      <view class="mission-list">
+        <view class="mission-item {{item.status === 'done' ? 'done' : ''}}" wx:for="{{summary.missions}}" wx:key="id">
+          <view class="mission-copy">
+            <view class="mission-title">{{item.title}}</view>
+            <view class="muted">{{item.current}}/{{item.target}}</view>
+          </view>
+          <view class="mission-progress">{{item.progress}}%</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="reward-panel" wx:if="{{summary.rewards && summary.rewards.length}}">
+      <view class="answer-label">奖励中心</view>
+      <view class="reward-list">
+        <view class="reward-item {{item.claimed ? 'claimed' : ''}}" wx:for="{{summary.rewards}}" wx:key="id">
+          <view class="reward-copy">
+            <view class="reward-title">{{item.title}}</view>
+            <view class="muted">{{item.hint}} · +{{item.xp}} XP</view>
+          </view>
+          <button class="secondary-button reward-btn" wx:if="{{item.canClaim}}" data-id="{{item.id}}" bindtap="claimReward">领取</button>
+          <view class="reward-state" wx:elif="{{item.claimed}}">已领</view>
+          <view class="reward-state" wx:else>未完成</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="achievement-row" wx:if="{{summary.achievements && summary.achievements.length}}">
+      <view class="achievement-pill {{item.unlocked ? 'unlocked' : ''}}" wx:for="{{summary.achievements}}" wx:key="id">
+        <view class="achievement-title">{{item.title}}</view>
+        <view class="achievement-hint">{{item.hint}}</view>
+      </view>
+    </view>
+
+    <view class="training-plan" wx:if="{{summary.trainingPlan && summary.trainingPlan.length}}">
+      <view class="answer-label">下一轮训练</view>
+      <view class="plan-item" wx:for="{{summary.trainingPlan}}" wx:key="mode">
+        <view class="plan-title">{{item.title}}</view>
+        <view class="muted">{{item.reason}}</view>
+      </view>
+    </view>
+
+    <view class="forecast-panel" wx:if="{{summary.forecast && summary.forecast.length}}">
+      <view class="answer-label">未来 7 天</view>
+      <view class="muted">{{summary.forecastAdvice.message}}</view>
+      <view class="forecast-grid">
+        <view class="forecast-cell" wx:for="{{summary.forecast}}" wx:key="day">
+          <view class="forecast-day">{{item.day.slice(5)}}</view>
+          <view class="forecast-due">{{item.due}}</view>
+          <view class="muted">顽固 {{item.leech}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="forecast-panel" wx:if="{{summary.workload}}">
+      <view class="answer-label">30-DAY LOAD</view>
+      <view class="muted">{{summary.workload.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">avg {{summary.workload.averageDue}}</view>
+        <view class="queue-pill">peak {{summary.workload.peakDue}}</view>
+        <view class="queue-pill">overload {{summary.workload.overloadedDays}}</view>
+        <view class="queue-pill">safe new {{summary.workload.safeNewCards}}</view>
+      </view>
+    </view>
+
+    <view class="forecast-panel" wx:if="{{summary.cramPlan}}">
+      <view class="answer-label">ANKI EXAM PLANNER</view>
+      <view class="muted">{{summary.cramPlan.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">90d avg {{summary.longWorkload.averageDue}}</view>
+        <view class="queue-pill">target {{summary.cramPlan.dailyTarget}}</view>
+        <view class="queue-pill">limit {{summary.cramPlan.safeDailyLimit}}</view>
+        <view class="queue-pill">risk {{summary.cramPlan.risk}}</view>
+      </view>
+      <view class="plan-item" wx:for="{{summary.cramPlan.phases}}" wx:key="id">
+        <view class="plan-title">{{item.id}}</view>
+        <view class="muted">{{item.days}} days · {{item.focus}}</view>
+      </view>
+    </view>
+
+    <view class="challenge-panel" wx:if="{{summary.quiz}}">
+      <view class="answer-label">GIZMO QUIZ PACK</view>
+      <view class="body">{{summary.quiz.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">quiz {{summary.quiz.count}}</view>
+        <view class="queue-pill">leech {{summary.quiz.leechCount}}</view>
+        <view class="queue-pill">mins {{summary.quiz.estimatedMinutes}}</view>
+      </view>
+      <view class="queue-row" wx:if="{{summary.quizLoop}}">
+        <view class="queue-pill">attempts {{summary.quizLoop.attempts}}</view>
+        <view class="queue-pill">acc {{summary.quizLoop.accuracy}}%</view>
+        <view class="queue-pill">repair {{summary.quizLoop.repairDrills}}</view>
+      </view>
+      <button class="secondary-button quiz-start-btn" wx:if="{{!quizRunning && summary.quiz.count}}" bindtap="startQuiz">Start quiz</button>
+      <view class="quiz-runner" wx:if="{{quizRunning && quizCurrent}}">
+        <view class="muted">Q{{quizIndex + 1}} / {{summary.quiz.count}} · {{quizCurrent.kind}}</view>
+        <view class="quiz-prompt">{{quizCurrent.prompt}}</view>
+        <button class="secondary-button quiz-start-btn" wx:if="{{!quizShowAnswer}}" bindtap="revealQuizAnswer">Show answer</button>
+        <view class="answer-box" wx:if="{{quizShowAnswer}}">
+          <view class="answer-label">Answer</view>
+          <view class="answer-text">{{quizCurrent.answer}}</view>
+          <view class="rating-row">
+            <button class="rating-btn again" data-correct="false" bindtap="answerQuiz">Miss</button>
+            <button class="rating-btn good" data-correct="true" bindtap="answerQuiz">Got it</button>
+          </view>
+        </view>
+      </view>
+      <view class="muted" wx:if="{{quizFeedback}}">Last quiz {{quizFeedback.correct}}/{{quizFeedback.count}}, repair +{{quizFeedback.repair_drills}}</view>
+    </view>
+
+    <view class="challenge-panel" wx:if="{{summary.deckLibrary && summary.deckLibrary.length}}">
+      <view class="answer-label">GIZMO DECK LIBRARY</view>
+      <view class="body">Local share-ready decks are grouped from real weak points, modules and imports.</view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.deckLibrary}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.label}}</view>
+            </view>
+            <view class="maturity-value">{{item.shareReady ? 'READY' : 'FIX'}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel game-panel" wx:if="{{summary.season}}">
+      <view class="answer-label">WEEKLY SEASON PASS</view>
+      <view class="game-head">
+        <view>
+          <view class="game-tier">{{summary.season.tier}}</view>
+          <view class="muted">{{summary.season.status}}</view>
+        </view>
+        <view class="maturity-score">{{summary.season.weekXp}}%</view>
+      </view>
+      <view class="goal-track">
+        <view class="goal-fill" style="width: {{summary.season.weekXp}}%;"></view>
+      </view>
+      <view class="queue-row">
+        <view class="queue-pill">lives {{summary.season.lives}}</view>
+        <view class="queue-pill">shield {{summary.season.streakShield}}</view>
+        <view class="queue-pill">{{summary.season.checkpoint}}</view>
+      </view>
+    </view>
+
+    <view class="challenge-panel hub-panel" wx:if="{{summary.studyHub}}">
+      <view class="answer-label">STUDY HUB</view>
+      <view class="body">{{summary.studyHub.label}}</view>
+      <view class="health-grid">
+        <view class="health-cell">
+          <view class="review-num">{{summary.studyHub.decksReady}}</view>
+          <view class="review-label">share ready</view>
+        </view>
+        <view class="health-cell">
+          <view class="review-num">{{summary.studyHub.repairReady}}</view>
+          <view class="review-label">repair queue</view>
+        </view>
+        <view class="health-cell">
+          <view class="review-num">{{summary.studyHub.cardsReady}}</view>
+          <view class="review-label">cards</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel template-panel" wx:if="{{summary.publicDeckTemplates && summary.publicDeckTemplates.length}}">
+      <view class="answer-label">PUBLIC DECK TEMPLATES</view>
+      <view class="body">Competitor-style deck discovery without fake community data: curated local templates can be imported now and upgraded to cloud decks later.</view>
+      <view class="template-deck-list">
+        <view class="template-deck-card" wx:for="{{summary.publicDeckTemplates}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.label}}</view>
+              <view class="muted">{{item.reason}}</view>
+            </view>
+            <view class="maturity-value">{{item.minutes}}m</view>
+          </view>
+          <button class="secondary-button template-import-btn" data-id="{{item.id}}" bindtap="importTemplateDeck">Import</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel fsrs-panel" wx:if="{{summary.fsrsCoach}}">
+      <view class="answer-label">FSRS COACH</view>
+      <view class="body">{{summary.fsrsCoach.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">target {{summary.fsrsCoach.desiredRetention}}%</view>
+        <view class="queue-pill">actual {{summary.fsrsCoach.actualRetention}}%</view>
+        <view class="queue-pill">new {{summary.fsrsCoach.safeNewCards}}</view>
+        <view class="queue-pill">{{summary.fsrsCoach.signal}}</view>
+      </view>
+    </view>
+
+    <view class="challenge-panel fsrs-panel" wx:if="{{summary.retentionLab}}">
+      <view class="answer-label">ANKI FSRS RETENTION LAB</view>
+      <view class="body">{{summary.retentionLab.label}}</view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.retentionLab.scenarios}}" wx:key="retention">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.retention}}% / {{item.label}}</view>
+              <view class="muted">{{item.risk}}</view>
+            </view>
+            <view class="maturity-value">{{item.dailyReviews}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel social-panel" wx:if="{{summary.socialChallenge}}">
+      <view class="answer-label">SOCIAL CHALLENGE SHELL</view>
+      <view class="body">{{summary.socialChallenge.label}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">{{summary.socialChallenge.mode}}</view>
+        <view class="queue-pill">{{summary.socialChallenge.inviteCode}}</view>
+      </view>
+      <view class="mission-list">
+        <view class="mission-item" wx:for="{{summary.socialChallenge.missions}}" wx:key="id">
+          <view class="mission-copy">
+            <view class="mission-title">{{item.title}}</view>
+            <view class="muted">{{item.prompt}}</view>
+          </view>
+          <view class="mission-progress">{{item.target}} {{item.metric}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel social-panel" wx:if="{{summary.gameEconomy}}">
+      <view class="answer-label">GIZMO GAME ECONOMY</view>
+      <view class="body">{{summary.gameEconomy.label}}</view>
+      <view class="mission-list">
+        <view class="mission-item" wx:for="{{summary.gameEconomy.quests}}" wx:key="id">
+          <view class="mission-copy">
+            <view class="mission-title">{{item.title}}</view>
+            <view class="muted">{{item.trigger}}</view>
+          </view>
+          <view class="mission-progress">{{item.reward}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel ladder-panel" wx:if="{{summary.difficultyLadder}}">
+      <view class="answer-label">DIFFICULTY LADDER</view>
+      <view class="body">{{summary.difficultyLadder.label}}</view>
+      <view class="ladder-list">
+        <view class="ladder-step {{item.ready ? 'ready' : ''}}" wx:for="{{summary.difficultyLadder.steps}}" wx:key="id">
+          <view class="ladder-dot"></view>
+          <view>
+            <view class="maturity-label">{{item.label}}</view>
+            <view class="muted">{{item.reason}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel template-panel" wx:if="{{summary.contentPipeline}}">
+      <view class="answer-label">MULTI-FORMAT CONTENT PIPELINE</view>
+      <view class="body">{{summary.contentPipeline.label}}</view>
+      <view class="template-deck-list">
+        <view class="template-deck-card" wx:for="{{summary.contentPipeline.channels}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.action}}</view>
+            </view>
+            <view class="maturity-value">{{item.status}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel maturity-panel" wx:if="{{summary.outcomeSimulator}}">
+      <view class="answer-label">LEARNING OUTCOME SIMULATOR</view>
+      <view class="body">{{summary.outcomeSimulator.label}}</view>
+      <view class="maturity-grid">
+        <view class="maturity-cell" wx:for="{{summary.outcomeSimulator.projected}}" wx:key="horizon">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.horizon}}</view>
+              <view class="muted">{{item.metric}}</view>
+            </view>
+            <view class="maturity-value">{{item.value}}</view>
+          </view>
+          <view class="muted">{{item.note}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel benchmark-panel" wx:if="{{summary.moatConsole}}">
+      <view class="answer-label">MOAT CONSOLE</view>
+      <view class="body">{{summary.moatConsole.label}}</view>
+      <view class="maturity-score">{{summary.moatConsole.average}}</view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.moatConsole.scores}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.evidence}}</view>
+            </view>
+            <view class="maturity-value">{{item.score}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel benchmark-panel" wx:if="{{summary.benchmarkArena}}">
+      <view class="answer-label">BENCHMARK ARENA</view>
+      <view class="body">{{summary.benchmarkArena.label}}</view>
+      <view class="maturity-score">{{summary.benchmarkArena.average}}</view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.benchmarkArena.products}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.gap}}</view>
+            </view>
+            <view class="maturity-value">{{item.score}}</view>
+          </view>
+          <view class="template-row">
+            <view class="template-pill" wx:for="{{item.wins}}" wx:key="*this">{{item}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel maturity-panel" wx:if="{{summary.syntheticCohort}}">
+      <view class="answer-label">SYNTHETIC COHORT LAB</view>
+      <view class="body">{{summary.syntheticCohort.label}}</view>
+      <view class="maturity-grid">
+        <view class="maturity-cell" wx:for="{{summary.syntheticCohort.cohorts}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.assumption}}</view>
+            </view>
+            <view class="maturity-value">{{item.retention}}</view>
+          </view>
+          <view class="queue-row">
+            <view class="queue-pill">clarity {{item.clarity}}</view>
+            <view class="queue-pill">fatigue {{item.fatigue}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel hub-panel" wx:if="{{summary.assetCompounding}}">
+      <view class="answer-label">ASSET COMPOUNDING MAP</view>
+      <view class="body">{{summary.assetCompounding.label}}</view>
+      <view class="maturity-score">{{summary.assetCompounding.score}}</view>
+      <view class="benchmark-list">
+        <view class="benchmark-card" wx:for="{{summary.assetCompounding.nodes}}" wx:key="id">
+          <view class="maturity-cell-top">
+            <view>
+              <view class="maturity-label">{{item.title}}</view>
+              <view class="muted">{{item.moat}}</view>
+            </view>
+            <view class="maturity-value">{{item.count}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="challenge-panel" wx:if="{{summary.maintenance && summary.maintenance.urgent && summary.maintenance.urgent.length}}">
+      <view class="answer-label">DECK MAINTENANCE</view>
+      <view class="body">{{summary.maintenance.label}}</view>
+      <view class="plan-item" wx:for="{{summary.maintenance.urgent}}" wx:key="id">
+        <view class="plan-title">{{item.title}} / {{item.count}}</view>
+        <view class="muted">{{item.reason}}</view>
+      </view>
+    </view>
+
+    <view class="leaderboard-panel" wx:if="{{summary.loop.leaderboard && summary.loop.leaderboard.length}}">
+      <view class="answer-label">学习排行榜</view>
+      <view class="leaderboard-list">
+        <view class="leaderboard-item" wx:for="{{summary.loop.leaderboard}}" wx:key="rank">
+          <view class="leaderboard-rank">#{{item.rank}}</view>
+          <view class="leaderboard-copy">
+            <view class="leaderboard-name">{{item.name}}</view>
+            <view class="muted">{{item.xp}} XP · 连续 {{item.streak}} 天</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel goal-panel" wx:if="{{summary.goal}}">
+    <view class="between">
+      <view class="goal-title">{{summary.goal.label}}</view>
+      <view class="goal-count">{{summary.goal.completed}}/{{summary.goal.target}}</view>
+    </view>
+    <view class="goal-track">
+      <view class="goal-fill" style="width: {{summary.goal.progress}}%;"></view>
+    </view>
+  </view>
+
+  <view class="section panel health-panel" wx:if="{{summary.health}}">
+    <view class="between">
+      <view>
+        <view class="title-md">牌组健康</view>
+        <view class="muted">{{summary.health.label}}</view>
+      </view>
+      <view class="health-status">{{summary.health.status}}</view>
+    </view>
+    <view class="health-grid">
+      <view class="health-cell">
+        <view class="review-num">{{summary.health.retention}}%</view>
+        <view class="review-label">近期保持</view>
+      </view>
+      <view class="health-cell">
+        <view class="review-num">{{summary.health.dueRatio}}%</view>
+        <view class="review-label">到期压力</view>
+      </view>
+      <view class="health-cell">
+        <view class="review-num">{{summary.health.leechCount}}</view>
+        <view class="review-label">顽固错因</view>
+      </view>
+    </view>
+    <view class="mode-row mode-row-6">
+      <button class="mode-btn {{sessionMode === 'smart' ? 'active' : ''}}" data-mode="smart" bindtap="setSessionMode">智能</button>
+      <button class="mode-btn {{sessionMode === 'weak' ? 'active' : ''}}" data-mode="weak" bindtap="setSessionMode">弱点</button>
+      <button class="mode-btn {{sessionMode === 'leech' ? 'active' : ''}}" data-mode="leech" bindtap="setSessionMode">顽固</button>
+      <button class="mode-btn {{sessionMode === 'new' ? 'active' : ''}}" data-mode="new" bindtap="setSessionMode">新卡</button>
+      <button class="mode-btn {{sessionMode === 'reverse' ? 'active' : ''}}" data-mode="reverse" bindtap="setSessionMode">反向</button>
+      <button class="mode-btn {{sessionMode === 'cloze' ? 'active' : ''}}" data-mode="cloze" bindtap="setSessionMode">填空</button>
+    </view>
+  </view>
+
+  <view class="next-step panel" wx:if="{{summary.nextStep}}">
+    <view class="answer-label">下一步</view>
+    <view class="body">{{summary.nextStep.message}}</view>
+  </view>
+
+  <view class="section panel source-panel" wx:if="{{summary.sources && summary.sources.length}}">
+    <view class="title-md">闭环来源</view>
+    <view class="body">把雷达、作业三分类、原小点、学习模块和导入内容汇成同一套长期记忆队列。</view>
+    <view class="source-grid">
+      <view class="source-cell" wx:for="{{summary.sources}}" wx:key="source">
+        <view class="source-title">{{item.source}}</view>
+        <view class="muted">卡片 {{item.total}} · 到期 {{item.due}} · 顽固 {{item.leech}} · 命中 {{item.accuracy}}%</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel source-panel" wx:if="{{summary.types && summary.types.length}}">
+    <view class="title-md">内容引擎结构</view>
+    <view class="type-grid">
+      <view class="type-cell" wx:for="{{summary.types}}" wx:key="type">
+        <view class="type-head">
+          <view class="type-name">{{item.label}}</view>
+          <view class="type-count">{{item.total}}</view>
+        </view>
+        <view class="muted">到期 {{item.due}} · 顽固 {{item.leech}} · 质量 {{item.avgQuality}}</view>
+      </view>
+    </view>
+    <view class="template-row" wx:if="{{summary.templates && summary.templates.length}}">
+      <view class="template-pill" wx:for="{{summary.templates}}" wx:key="template">{{item.label}} {{item.total}} / due {{item.due}}</view>
+    </view>
+  </view>
+
+  <view class="section panel quality-panel" wx:if="{{summary.qualityQueue && summary.qualityQueue.length}}">
+    <view class="title-md">质量修复队列</view>
+    <view class="body">低质量卡先进入修复队列，避免内容引擎制造“看似很多、实际没用”的卡。</view>
+    <view class="quality-list">
+      <view class="quality-item" wx:for="{{summary.qualityQueue}}" wx:key="id">
+        <view class="quality-copy">
+          <view class="browser-title">{{item.question}}</view>
+          <view class="repair-hint" wx:if="{{item.repairSuggestion}}">{{item.repairSuggestion}}</view>
+          <view class="repair-action" wx:for="{{item.repairActions}}" wx:key="*this">{{item}}</view>
+          <view class="muted">{{item.source}} · {{item.type}} · Q{{item.quality}} · {{item.reason}}</view>
+        </view>
+        <button class="secondary-button quality-fix-btn" data-note-id="{{item.noteId}}" bindtap="editQueueItem">修</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel settings-panel" wx:if="{{summary}}">
+    <view class="title-md">复习设置</view>
+    <view class="settings-row">
+      <view class="setting-field">
+        <view class="setting-label">每日上限</view>
+        <input class="setting-input" type="number" value="{{dailyLimit}}" data-field="dailyLimit" bindinput="onSettingInput" />
+      </view>
+      <view class="setting-field">
+        <view class="setting-label">目标记忆率</view>
+        <input class="setting-input" type="number" value="{{desiredRetention}}" data-field="desiredRetention" bindinput="onSettingInput" />
+      </view>
+    </view>
+    <button class="secondary-button settings-save" bindtap="saveSettings">保存复习设置</button>
+  </view>
+
+  <view class="section panel import-panel">
+    <view class="title-md">文本导入生成复习卡</view>
+    <view class="body">优先调用 AI 内容引擎把笔记、错因和题型总结转成 concept / step / trap / cloze 卡；失败时自动回退到本地规则引擎。</view>
+    <textarea class="import-input" value="{{importText}}" bindinput="onImportInput" placeholder="例：分数乘法: 先约分再相乘&#10;应用题步骤 -> 先找已知、未知和等量关系" />
+    <view class="content-engine-shell" wx:if="{{importPlan}}">
+      <view class="engine-shell-head">
+        <view>
+          <view class="answer-label">CONTENT ENGINE SHELL</view>
+          <view class="engine-status">{{importPlan.importLabel}}</view>
+        </view>
+        <view class="engine-score">{{importPlan.score}}</view>
+      </view>
+      <view class="engine-recommendation">{{importPlan.recommendation}}</view>
+      <view class="engine-coverage-grid">
+        <view class="engine-coverage-card {{item.ready ? 'ready' : ''}}" wx:for="{{importPlan.coreCoverage}}" wx:key="type">
+          <view class="engine-type">{{item.label}}</view>
+          <view class="engine-count">{{item.count}}</view>
+          <view class="engine-bar"><view class="engine-bar-fill" style="width: {{item.percent}}%;"></view></view>
+          <view class="muted">Q{{item.quality}}</view>
+        </view>
+      </view>
+      <view class="engine-band-row">
+        <view class="engine-band" wx:for="{{importPlan.qualityBands}}" wx:key="id">{{item.label}} {{item.count}}</view>
+      </view>
+      <view class="engine-actions">
+        <view class="repair-action" wx:for="{{importPlan.nextActions}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
+    <view class="preview-list" wx:if="{{importPreview.length}}">
+      <view class="answer-label">导入预览</view>
+      <view class="preview-item" wx:for="{{importPreview}}" wx:key="id">
+        <view class="preview-q">{{item.question}}</view>
+        <view class="muted">{{item.cardType || 'card'}} · {{item.reason || '内容卡'}} · Q{{item.quality}}</view>
+        <view class="muted">{{item.answer}}</view>
+      </view>
+    </view>
+    <button class="secondary-button import-btn" bindtap="importCards">导入到复习引擎</button>
+  </view>
+
+  <view class="section panel browser-panel">
+    <view class="title-md">卡片库</view>
+    <input class="browser-input" value="{{browserQuery}}" bindinput="onBrowserInput" placeholder="搜索题干、错因、来源" />
+    <view class="filter-row">
+      <button class="filter-btn {{browserStatus === 'all' ? 'active' : ''}}" data-status="all" bindtap="setBrowserStatus">全部</button>
+      <button class="filter-btn {{browserStatus === 'due' ? 'active' : ''}}" data-status="due" bindtap="setBrowserStatus">到期</button>
+      <button class="filter-btn {{browserStatus === 'leech' ? 'active' : ''}}" data-status="leech" bindtap="setBrowserStatus">顽固</button>
+      <button class="filter-btn {{browserStatus === 'mastered' ? 'active' : ''}}" data-status="mastered" bindtap="setBrowserStatus">掌握</button>
+      <button class="filter-btn {{browserStatus === 'suspended' ? 'active' : ''}}" data-status="suspended" bindtap="setBrowserStatus">暂停</button>
+      <button class="filter-btn {{browserStatus === 'buried' ? 'active' : ''}}" data-status="buried" bindtap="setBrowserStatus">延后</button>
+    </view>
+    <view class="filter-row" wx:if="{{summary.sources && summary.sources.length}}">
+      <button class="filter-btn {{browserSource === 'all' ? 'active' : ''}}" data-source="all" bindtap="setBrowserSource">全部来源</button>
+      <button class="filter-btn {{browserSource === item.source ? 'active' : ''}}" wx:for="{{summary.sources}}" wx:key="source" data-source="{{item.source}}" bindtap="setBrowserSource">{{item.source}}</button>
+    </view>
+    <view class="filter-row" wx:if="{{summary.types && summary.types.length}}">
+      <button class="filter-btn {{browserType === 'all' ? 'active' : ''}}" data-type="all" bindtap="setBrowserType">全部类型</button>
+      <button class="filter-btn {{browserType === item.type ? 'active' : ''}}" wx:for="{{summary.types}}" wx:key="type" data-type="{{item.type}}" bindtap="setBrowserType">{{item.label}}</button>
+    </view>
+    <view class="filter-row" wx:if="{{summary.templates && summary.templates.length}}">
+      <button class="filter-btn {{browserTemplate === 'all' ? 'active' : ''}}" data-template="all" bindtap="setBrowserTemplate">全部模板</button>
+      <button class="filter-btn {{browserTemplate === item.template ? 'active' : ''}}" wx:for="{{summary.templates}}" wx:key="template" data-template="{{item.template}}" bindtap="setBrowserTemplate">{{item.label}}</button>
+    </view>
+    <view class="browser-list">
+      <view class="browser-card" wx:for="{{browserCards}}" wx:key="id">
+        <view class="browser-title">{{item.question}}</view>
+        <view class="muted">{{item.subject || '复习'}} · {{item.type}} · {{item.template || 'qa'}} · {{item.source}} · {{item.state}} · Q{{item.quality}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel snapshot-panel">
+    <view class="title-md">多端快照</view>
+    <view class="body">云同步没有真实生产密钥时，先用本地同步队列和牌组快照保证可迁移、可恢复、可测试。</view>
+    <textarea class="snapshot-input" value="{{deckSnapshotText}}" bindinput="onSnapshotInput" placeholder="导出的牌组 JSON 会显示在这里，也可以粘贴另一端快照合并" />
+    <view class="snapshot-actions">
+      <button class="secondary-button snapshot-btn" bindtap="exportDeck">导出</button>
+      <button class="secondary-button snapshot-btn" bindtap="importDeckSnapshot">合并</button>
+    </view>
+  </view>
+
+  <view class="section card-stage" wx:if="{{current}}">
+    <view class="memory-card">
+      <view class="card-top">
+        <view class="card-type">{{current.type}} · {{current.template || 'qa'}}</view>
+        <view class="card-source">{{current.source}}</view>
+      </view>
+      <view class="card-question">{{current.question}}</view>
+      <view class="card-meta" wx:if="{{current.weakPoint || current.subject}}">{{current.subject || '复习'}} · {{current.weakPoint || '关键错因'}}</view>
+      <view class="quality-row">
+        <view class="quality-pill">质量 {{current.quality}}</view>
+        <view class="quality-pill" wx:if="{{current.leech}}">顽固错因</view>
+        <view class="quality-pill">S {{current.stability || 0}} · D {{current.difficulty || 5}}</view>
+      </view>
+      <view class="answer-box" wx:if="{{showAnswer}}">
+        <view class="answer-label">参考答案 / 复盘标准</view>
+        <view class="answer-text">{{current.answer}}</view>
+      </view>
+      <view class="edit-panel" wx:if="{{editOpen}}">
+        <view class="answer-label">编辑笔记</view>
+        <textarea class="edit-input" data-field="editQuestion" value="{{editQuestion}}" bindinput="onEditInput" placeholder="问题" />
+        <textarea class="edit-input" data-field="editAnswer" value="{{editAnswer}}" bindinput="onEditInput" placeholder="答案 / 复盘标准" />
+        <button class="secondary-button edit-save" bindtap="saveEdit">保存并同步派生卡</button>
+      </view>
+      <button class="primary-button reveal-btn" wx:if="{{!showAnswer}}" bindtap="reveal">看答案并自评</button>
+      <view class="rating-row" wx:else>
+        <button class="rating-btn again" data-rating="again" bindtap="rate">忘了</button>
+        <button class="rating-btn hard" data-rating="hard" bindtap="rate">吃力</button>
+        <button class="rating-btn good" data-rating="good" bindtap="rate">会了</button>
+        <button class="rating-btn easy" data-rating="easy" bindtap="rate">很稳</button>
+      </view>
+      <view class="edit-actions">
+        <button class="ghost-button mini-card-btn" bindtap="toggleEdit">{{editOpen ? '收起编辑' : '编辑笔记'}}</button>
+        <button class="ghost-button mini-card-btn" bindtap="suspendCurrent">暂停这张卡</button>
+      </view>
+      <button class="ghost-button tutor-btn" bindtap="goTutor">答错了，回原小点拆错因</button>
+    </view>
+  </view>
+
+  <view class="section panel done-panel" wx:if="{{done}}">
+    <view class="title-md">今日复习完成</view>
+    <view class="body">没有到期卡片时不加量，系统会把下一批关键错因按间隔排回来。</view>
+    <view class="done-feedback" wx:if="{{sessionFeedback}}">
+      <view class="answer-label">本轮反馈</view>
+      <view class="body">{{sessionFeedback.message}}</view>
+      <view class="queue-row">
+        <view class="queue-pill">XP +{{sessionFeedback.xpGained}}</view>
+        <view class="queue-pill">again {{sessionFeedback.againCount}}</view>
+        <view class="queue-pill">leech {{sessionFeedback.leechCount}}</view>
+        <view class="queue-pill">rewards {{sessionFeedback.claimableRewards}}</view>
+      </view>
+      <view class="repair-hint" wx:if="{{sessionFeedback.nextAction}}">{{sessionFeedback.nextAction.message}}</view>
+    </view>
+    <button class="secondary-button" bindtap="goUpload">录入新作业生成新卡</button>
+  </view>
+
+  <view class="section panel suspended-panel" wx:if="{{suspendedCards.length}}">
+    <view class="title-md">暂停卡片</view>
+    <view class="suspended-list">
+      <view class="suspended-item" wx:for="{{suspendedCards}}" wx:key="id">
+        <view>
+          <view class="suspended-title">{{item.question}}</view>
+          <view class="muted">{{item.source}} · {{item.type}}</view>
+        </view>
+        <button class="secondary-button resume-btn" data-id="{{item.id}}" bindtap="resumeCard">恢复</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel suspended-panel" wx:if="{{buriedCards.length}}">
+    <view class="title-md">今日延后卡</view>
+    <view class="suspended-list">
+      <view class="suspended-item" wx:for="{{buriedCards}}" wx:key="id">
+        <view>
+          <view class="suspended-title">{{item.question}}</view>
+          <view class="muted">{{item.source}} · {{item.template || 'qa'}} · 兄弟卡去重</view>
+        </view>
+        <button class="secondary-button resume-btn" data-id="{{item.id}}" bindtap="unburyCard">恢复</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="feedback-text" wx:if="{{feedbackText}}">{{feedbackText}}</view>
+</view>

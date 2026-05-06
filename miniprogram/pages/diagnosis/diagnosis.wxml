@@ -3,6 +3,40 @@
   <view class="title-xl">10 分钟定位弱点。</view>
   <view class="body intro">先覆盖人教版主流题型：成绩、错题描述和作业清单交叉判断。</view>
 
+  <view class="section panel snap-panel" wx:if="{{quickSnap}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">3-QUESTION WEAKNESS SNAP</view>
+        <view class="title-md">{{quickSnap.axisName}}</view>
+      </view>
+      <view class="snap-score">{{quickSnap.score}}</view>
+    </view>
+    <view class="body">{{quickSnap.headline}}</view>
+    <view class="signal-row">
+      <view class="signal-pill">{{form.subject}}</view>
+      <view class="signal-pill">{{form.grade}}</view>
+      <view class="signal-pill">first weak guess</view>
+    </view>
+
+    <view class="field">
+      <view class="label">问题 1：这道题先用到什么旧知识？</view>
+      <textarea class="textarea snap-textarea" value="{{form.snapPrerequisite}}" data-field="snapPrerequisite" bindinput="onInput" placeholder="例：先要知道等量关系、单位统一、或者什么公式。" />
+    </view>
+    <view class="field">
+      <view class="label">问题 2：如果现在开始做，第一步应该是什么？</view>
+      <textarea class="textarea snap-textarea" value="{{form.snapMethod}}" data-field="snapMethod" bindinput="onInput" placeholder="例：先圈已知和未知，再写等量关系；不要直接算。" />
+    </view>
+    <view class="field">
+      <view class="label">问题 3：如果我换一个条件，你还会做吗？</view>
+      <textarea class="textarea snap-textarea" value="{{form.snapTransfer}}" data-field="snapTransfer" bindinput="onInput" placeholder="例：一变式就不会、或者能说出应该先检查什么。" />
+    </view>
+
+    <view class="snap-result">
+      <view class="snap-result-title">Quick verdict</view>
+      <view class="snap-result-body">{{quickSnap.nextMove}}</view>
+    </view>
+  </view>
+
   <view class="section panel stack">
     <view class="field">
       <view class="label">年级</view>

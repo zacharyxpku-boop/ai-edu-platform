@@ -4,6 +4,38 @@
   <view class="body intro">先看最危险弱点，再决定哪些作业今晚必须做。</view>
   <view class="ai-note">{{aiNotice}}</view>
 
+  <view class="section panel decision-board" wx:if="{{decisionBoard}}">
+    <view class="eyebrow">TONIGHT DECISION BOARD</view>
+    <view class="title-md">{{decisionBoard.title}}</view>
+    <view class="body">{{decisionBoard.label}}</view>
+    <view class="decision-board-list">
+      <view class="decision-board-card" wx:for="{{decisionBoard.cards}}" wx:key="id">
+        <view class="between">
+          <view class="decision-board-title">{{item.title}}</view>
+          <view class="pill">{{item.meta}}</view>
+        </view>
+        <view class="muted decision-board-body">{{item.body}}</view>
+        <button class="secondary-button decision-board-btn" data-action="{{item.action}}" bindtap="runDecisionAction">{{item.cta}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel weakness-loop" wx:if="{{weaknessLoop}}">
+    <view class="eyebrow">WEAKNESS PROOF LOOP</view>
+    <view class="title-md">{{weaknessLoop.title}}</view>
+    <view class="body">{{weaknessLoop.label}}</view>
+    <view class="loop-grid">
+      <view class="loop-card" wx:for="{{weaknessLoop.cards}}" wx:key="id">
+        <view class="loop-value">{{item.value}}</view>
+        <view class="loop-title">{{item.title}}</view>
+        <view class="loop-note">{{item.note}}</view>
+      </view>
+    </view>
+    <view class="loop-actions">
+      <button class="action-chip" wx:for="{{weaknessLoop.actions}}" wx:key="id" data-action="{{item.action}}" bindtap="runDecisionAction">{{item.label}}</button>
+    </view>
+  </view>
+
   <view class="section panel">
     <view class="between">
       <view>
@@ -44,12 +76,50 @@
     <view class="eyebrow">WEEKLY REVIEW</view>
     <view class="title-md">{{weekly.headline}}</view>
     <view class="muted">{{weekly.load.advice || weekly.load_advice}}</view>
+    <view class="proof-grid">
+      <view class="proof-cell">
+        <view class="proof-value">{{proofSummary.mustMinutes}}</view>
+        <view class="proof-label">必须做分钟</view>
+      </view>
+      <view class="proof-cell">
+        <view class="proof-value">{{proofSummary.savedMinutes}}</view>
+        <view class="proof-label">预计释放分钟</view>
+      </view>
+      <view class="proof-cell">
+        <view class="proof-value">{{proofSummary.misconceptionCount}}</view>
+        <view class="proof-label">错因命中</view>
+      </view>
+      <view class="proof-cell">
+        <view class="proof-value">{{proofSummary.mustRate}}</view>
+        <view class="proof-label">必须做占比</view>
+      </view>
+    </view>
     <view class="calibration-strip" wx:if="{{feedbackSummary}}">
       <view>
         <view class="mini-label">家庭校准</view>
         <view class="muted">{{feedbackSummary.label}} · 准 {{feedbackSummary.accurate}} · 待校准 {{feedbackSummary.off}}</view>
       </view>
       <view class="calibration-dot"></view>
+    </view>
+    <view class="calibration-profile-mini" wx:if="{{calibrationProfile}}">
+      <view class="mini-label">画像信号</view>
+      <view class="calibration-mini-grid">
+        <view class="calibration-mini-cell">
+          <view class="calibration-mini-value">{{calibrationProfile.homework.accuracyRate}}%</view>
+          <view class="calibration-mini-label">作业准度</view>
+        </view>
+        <view class="calibration-mini-cell">
+          <view class="calibration-mini-value">{{calibrationProfile.modules.fitRate}}%</view>
+          <view class="calibration-mini-label">模块适配</view>
+        </view>
+        <view class="calibration-mini-cell">
+          <view class="calibration-mini-value">{{calibrationProfile.modules.completionRate}}%</view>
+          <view class="calibration-mini-label">完成闭环</view>
+        </view>
+      </view>
+      <view class="signal-chip-row" wx:if="{{calibrationProfile.signals.length}}">
+        <text class="signal-chip" wx:for="{{calibrationProfile.signals}}" wx:key="*this">{{item}}</text>
+      </view>
     </view>
     <view class="weekly-script">{{weekly.parent_script}}</view>
     <view class="weekly-focus" wx:if="{{weekly.focus.length}}">
@@ -59,6 +129,49 @@
       </view>
     </view>
     <view class="ai-note small">{{weekly.ai_notice}}</view>
+  </view>
+
+  <view class="section panel module-reco" wx:if="{{recommendedModules.length}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">MODULE RECOMMEND</view>
+        <view class="title-md">自适应学习路径</view>
+      </view>
+      <view class="pill">{{adaptivePath.stats.completed || 0}} 已闭环</view>
+    </view>
+    <view class="body module-copy">{{adaptivePath.headline || '根据当前雷达弱点、作业三分类和错因标签，优先推荐能进入原小点的短时训练。'}}</view>
+    <view class="adaptive-strip" wx:if="{{adaptivePath}}">
+      <view class="adaptive-cell">
+        <view class="adaptive-num">{{adaptivePath.stats.started}}</view>
+        <view class="adaptive-label">已开始</view>
+      </view>
+      <view class="adaptive-cell">
+        <view class="adaptive-num">{{adaptivePath.stats.completed}}</view>
+        <view class="adaptive-label">已完成</view>
+      </view>
+      <view class="adaptive-cell">
+        <view class="adaptive-num">{{adaptivePath.stats.reviewReady}}</view>
+        <view class="adaptive-label">待沉淀</view>
+      </view>
+    </view>
+    <view class="module-reco-list">
+      <view
+        class="module-reco-card"
+        wx:for="{{recommendedModules}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openModule"
+      >
+        <view class="module-reco-top">
+          <view class="module-reco-type">{{item.subject}} · {{item.type}}</view>
+          <view class="module-reco-score">{{item.score}}</view>
+        </view>
+        <view class="module-reco-title">{{item.title}}</view>
+        <view class="muted">{{item.recommendReason}}</view>
+        <view class="module-next-action">{{item.nextAction.label}} · {{item.nextAction.reason}}</view>
+        <view class="module-reco-proof">掌握标准：{{item.mastery}}</view>
+      </view>
+    </view>
   </view>
 
   <view class="section bucket bucket-must">
@@ -73,6 +186,11 @@
       <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id">
         <view class="homework-text">{{item.text}}</view>
         <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟 · 点一下让原小点带做</view>
+        <view class="evidence-card" wx:if="{{item.evidence}}">
+          <view class="evidence-title">判为必须做的依据</view>
+          <view class="evidence-line" wx:if="{{item.evidence.weak_point}}">命中弱点：{{item.evidence.weak_point.name}} {{item.evidence.weak_point.score}}</view>
+          <view class="evidence-line" wx:if="{{item.evidence.calibration_key}}">校准键：{{item.evidence.calibration_key}}</view>
+        </view>
         <view class="tag-row" wx:if="{{item.evidence.tags.length}}">
           <text class="e-tag" wx:for="{{item.evidence.tags}}" wx:key="*this">{{item}}</text>
         </view>

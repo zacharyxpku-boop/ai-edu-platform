@@ -1,7 +1,292 @@
-<view class="page safe-bottom">
-  <view class="eyebrow">DIAGNOSIS</view>
-  <view class="title-xl">先诊断，再取舍。</view>
-  <view class="body intro">这里保留能讲完整闭环的四件事：测评、录入、家长雷达、原小点执行。</view>
+<view class="page safe-bottom tools-page">
+  <view class="eyebrow">AI STUDY COCKPIT</view>
+  <view class="title-xl">Pick the next useful move.</view>
+  <view class="body intro">This page turns tools, tutor, radar, review cards and learning prompts into one usable learning board.</view>
+
+  <view class="section cockpit panel" wx:if="{{currentModule}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">NEXT BEST MODULE</view>
+        <view class="title-md">{{currentModule.title}}</view>
+      </view>
+      <view class="cockpit-score">{{currentModule.score}}</view>
+    </view>
+    <view class="body">{{currentModule.scene}}</view>
+    <view class="signal-row">
+      <view class="signal-pill">{{currentModule.subject}}</view>
+      <view class="signal-pill">{{currentModule.type}}</view>
+      <view class="signal-pill">{{currentModule.minutes}} min</view>
+      <view class="signal-pill">{{currentModule.nextAction.label}}</view>
+    </view>
+    <view class="cockpit-reason">{{cockpitMessage}}</view>
+    <view class="cockpit-actions">
+      <button class="primary-button cockpit-btn" bindtap="startCurrentModule">Start with tutor</button>
+      <button class="secondary-button cockpit-btn" bindtap="addCurrentReviewPack">Add review pack</button>
+    </view>
+  </view>
+
+  <view class="section panel review-dashboard" wx:if="{{reviewStats}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">GIZMO + ANKI LOOP</view>
+        <view class="title-md">Review, quiz, repair, repeat.</view>
+      </view>
+      <button class="text-link" bindtap="goReview">Open</button>
+    </view>
+    <view class="metric-grid">
+      <view class="metric-cell">
+        <view class="metric-num">{{reviewStats.due}}</view>
+        <view class="metric-label">due</view>
+      </view>
+      <view class="metric-cell">
+        <view class="metric-num">{{reviewStats.quiz}}</view>
+        <view class="metric-label">quiz cards</view>
+      </view>
+      <view class="metric-cell">
+        <view class="metric-num">{{reviewStats.quizAccuracy}}%</view>
+        <view class="metric-label">quiz acc</view>
+      </view>
+      <view class="metric-cell">
+        <view class="metric-num">{{reviewStats.maturity}}</view>
+        <view class="metric-label">north star</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel-quiet cram-panel" wx:if="{{cramPlan}}">
+    <view class="title-md">Exam mode</view>
+    <view class="body">{{cramPlan.label}}</view>
+    <view class="signal-row">
+      <view class="signal-pill">target {{cramPlan.dailyTarget}}/day</view>
+      <view class="signal-pill">limit {{cramPlan.safeDailyLimit}}</view>
+      <view class="signal-pill">risk {{cramPlan.risk}}</view>
+    </view>
+  </view>
+
+  <view class="section panel launch-pack-panel" wx:if="{{launchPlaybook}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">CUSTOMER-READY STUDY PACK</view>
+        <view class="title-md">{{launchPlaybook.title}}</view>
+      </view>
+      <view class="cockpit-score">{{launchPlaybook.score}}</view>
+    </view>
+    <view class="body">{{launchPlaybook.label}}</view>
+    <view class="launch-pack-grid">
+      <view class="launch-pack-card" wx:for="{{launchPlaybook.cards}}" wx:key="id">
+        <view class="launch-pack-top">
+          <view class="launch-pack-title">{{item.title}}</view>
+          <view class="launch-pack-metric">{{item.metric}}</view>
+        </view>
+        <view class="muted">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel automation-panel" wx:if="{{automationBoard}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">PRODUCTION AUTOMATION</view>
+        <view class="title-md">{{automationBoard.title}}</view>
+      </view>
+      <button class="text-link" bindtap="fillFactoryStudioSample">Demo input</button>
+    </view>
+    <view class="body">{{automationBoard.label}}</view>
+    <view class="launch-pack-grid">
+      <view class="launch-pack-card" wx:for="{{automationBoard.cards}}" wx:key="id">
+        <view class="launch-pack-top">
+          <view class="launch-pack-title">{{item.label}}</view>
+          <view class="launch-pack-metric">{{item.value}}</view>
+        </view>
+        <view class="muted">{{item.body}}</view>
+      </view>
+    </view>
+    <view class="revolution-promise">{{automationBoard.nextAction}}</view>
+  </view>
+
+  <view class="section panel revolution-panel" wx:if="{{revolutionBoard}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">AI LEARNING REVOLUTION BOARD</view>
+        <view class="title-md">{{revolutionBoard.title}}</view>
+      </view>
+      <view class="module-count">{{revolutionBoard.factoryReady}}</view>
+    </view>
+    <view class="body">{{revolutionBoard.label}}</view>
+    <view class="revolution-promise">{{revolutionBoard.promise}}</view>
+
+    <view class="snap-card">
+      <view class="snap-eyebrow">3-QUESTION WEAKNESS SNAP</view>
+      <view class="snap-body">{{revolutionBoard.quickDiagnostic.body}}</view>
+      <view class="signal-row">
+        <view class="signal-pill">{{revolutionBoard.quickDiagnostic.metric}}</view>
+        <view class="signal-pill">fast diagnosis</view>
+        <view class="signal-pill">routes to radar</view>
+      </view>
+    </view>
+
+    <view class="title-sm revolution-subtitle">MULTI-FORMAT LEARNING INPUTS</view>
+    <view class="revolution-grid">
+      <view class="revolution-card" wx:for="{{revolutionBoard.materialEngine}}" wx:key="id">
+        <view class="revolution-card-top">
+          <view class="revolution-card-title">{{item.name}}</view>
+          <view class="revolution-card-status">{{item.status}}</view>
+        </view>
+        <view class="muted">{{item.output}}</view>
+      </view>
+    </view>
+
+    <view class="title-sm revolution-subtitle">THINKING SAFETY LAYER</view>
+    <view class="safety-list">
+      <view class="safety-item" wx:for="{{revolutionBoard.antiDependence}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="title-sm revolution-subtitle">REFERENCE SCORECARD</view>
+    <view class="metric-grid revolution-metrics">
+      <view class="metric-cell" wx:for="{{revolutionBoard.scorecard}}" wx:key="id">
+        <view class="metric-num">{{item.value}}</view>
+        <view class="metric-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <view class="revolution-actions">
+      <button class="primary-button revolution-btn" wx:for="{{revolutionBoard.actions}}" wx:key="id" data-action="{{item.action}}" bindtap="runRevolutionAction">{{item.label}}</button>
+    </view>
+  </view>
+
+  <view class="section panel factory-panel" wx:if="{{factoryPacks && factoryPacks.length}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">AI CONTENT FACTORY</view>
+        <view class="title-md">Generate a usable study pack.</view>
+      </view>
+      <view class="module-count">{{factoryPacks.length}}</view>
+    </view>
+    <view class="body module-intro">Factory packs turn radar weakness, exam mode and parent check-ins into importable review cards and tutor prompts.</view>
+    <view class="factory-list">
+      <view class="factory-card" wx:for="{{factoryPacks}}" wx:key="id">
+        <view class="module-top">
+          <view class="module-type">{{item.subject}} / {{item.intent}}</view>
+          <view class="module-min">{{item.minutes}} min</view>
+        </view>
+        <view class="module-title">{{item.title}}</view>
+        <view class="muted module-scene">{{item.reason}}</view>
+        <view class="factory-prompt">{{item.prompt}}</view>
+        <button class="secondary-button factory-btn" data-id="{{item.id}}" bindtap="importFactoryPack">Import factory pack</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section panel studio-panel" wx:if="{{factoryStudioPlan}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">CONTENT FACTORY STUDIO</view>
+        <view class="title-md">{{factoryStudioPlan.title}}</view>
+      </view>
+      <view class="cockpit-score">{{factoryStudioPlan.score}}</view>
+    </view>
+    <view class="body">{{factoryStudioPlan.label}}</view>
+    <view class="signal-row">
+      <view class="signal-pill">{{factoryStudioPlan.type}}</view>
+      <view class="signal-pill">{{factoryStudioPlan.provider || 'local preview'}}</view>
+    </view>
+    <view class="filter-row studio-types">
+      <button class="filter-chip {{factoryStudioType === 'class_notes' ? 'filter-active' : ''}}" data-type="class_notes" bindtap="setFactoryStudioType">Notes</button>
+      <button class="filter-chip {{factoryStudioType === 'ppt' ? 'filter-active' : ''}}" data-type="ppt" bindtap="setFactoryStudioType">PPT</button>
+      <button class="filter-chip {{factoryStudioType === 'video' ? 'filter-active' : ''}}" data-type="video" bindtap="setFactoryStudioType">Video</button>
+      <button class="filter-chip {{factoryStudioType === 'wrong_cause' ? 'filter-active' : ''}}" data-type="wrong_cause" bindtap="setFactoryStudioType">Wrong cause</button>
+    </view>
+    <textarea
+      class="studio-input"
+      value="{{factoryStudioInput}}"
+      placeholder="Paste notes, PPT bullets, transcript, or wrong-cause summary."
+      maxlength="3000"
+      auto-height
+      bindinput="onFactoryStudioInput"
+    />
+    <view class="studio-actions">
+      <button class="secondary-button studio-btn" bindtap="fillFactoryStudioSample">Fill sample</button>
+      <button class="secondary-button studio-btn" bindtap="importFactoryStudioPreview">Import preview</button>
+      <button class="primary-button studio-btn" bindtap="runFactoryStudioRemote">Generate study pack</button>
+    </view>
+    <view class="studio-status">{{factoryStudioStatus}}</view>
+    <view class="studio-pack" wx:if="{{factoryStudioPlan.studyPack}}">
+      <view class="title-sm revolution-subtitle">STUDY PACK OUTPUT</view>
+      <view class="studio-pack-summary">{{factoryStudioPlan.studyPack.summary}}</view>
+      <view class="studio-pack-grid">
+        <view class="studio-pack-card" wx:for="{{factoryStudioPlan.studyPack.outputs}}" wx:key="id">
+          <view class="studio-pack-top">
+            <view class="studio-pack-title">{{item.title}}</view>
+            <view class="studio-pack-value">{{item.value}}</view>
+          </view>
+          <view class="muted">{{item.body}}</view>
+        </view>
+      </view>
+      <view class="studio-parent-line">{{factoryStudioPlan.studyPack.parentLine}}</view>
+    </view>
+    <view class="studio-gate" wx:if="{{factoryStudioPlan.qualityGate}}">
+      <view class="title-sm revolution-subtitle">CONTENT QUALITY GATE</view>
+      <view class="gate-head">
+        <view>
+          <view class="gate-title">{{factoryStudioPlan.qualityGate.title}}</view>
+          <view class="muted">{{factoryStudioPlan.qualityGate.label}}</view>
+        </view>
+        <view class="gate-score">{{factoryStudioPlan.qualityGate.score}}</view>
+      </view>
+      <view class="gate-grid">
+        <view class="gate-card" wx:for="{{factoryStudioPlan.qualityGate.checks}}" wx:key="id">
+          <view class="gate-card-top">
+            <view class="gate-label">{{item.label}}</view>
+            <view class="gate-state {{item.ready ? 'gate-on' : 'gate-off'}}">{{item.ready ? 'OK' : 'FIX'}}</view>
+          </view>
+          <view class="gate-value">{{item.value}}</view>
+        </view>
+      </view>
+      <view class="studio-parent-line">{{factoryStudioPlan.qualityGate.next}}</view>
+    </view>
+    <view class="title-sm revolution-subtitle">PREVIEW CARDS</view>
+    <view class="studio-preview-list">
+      <view class="studio-preview-card" wx:for="{{factoryStudioPlan.cards}}" wx:key="id">
+        <view class="studio-preview-top">
+          <view class="studio-preview-type">{{item.cardType}}</view>
+          <view class="studio-preview-quality">{{item.quality}}</view>
+        </view>
+        <view class="studio-preview-q">{{item.question}}</view>
+        <view class="studio-preview-a">{{item.answer}}</view>
+      </view>
+    </view>
+    <view class="title-sm revolution-subtitle">CORE COVERAGE</view>
+    <view class="metric-grid revolution-metrics">
+      <view class="metric-cell" wx:for="{{factoryStudioPlan.diagnostics}}" wx:key="type">
+        <view class="metric-num">{{item.count}}</view>
+        <view class="metric-label">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="revolution-promise">{{factoryStudioPlan.recommendation}}</view>
+  </view>
+
+  <view class="section panel-quiet" wx:if="{{deckLibrary.length}}">
+    <view class="title-md">Share-ready decks</view>
+    <view class="deck-list">
+      <view class="deck-row" wx:for="{{deckLibrary}}" wx:key="id">
+        <view>
+          <view class="deck-title">{{item.title}}</view>
+          <view class="muted">{{item.label}}</view>
+        </view>
+        <view class="deck-state">{{item.shareReady ? 'READY' : 'FIX'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section path-panel">
+    <view class="path-step" wx:for="{{pathSummary}}" wx:key="title">
+      <view class="path-index">{{index + 1}}</view>
+      <view>
+        <view class="path-title">{{item.title}}</view>
+        <view class="muted">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
 
   <view class="section tool-list">
     <view class="tool-card panel" wx:for="{{tools}}" wx:key="key">
@@ -16,8 +301,44 @@
     </view>
   </view>
 
-  <view class="section panel-quiet">
-    <view class="title-md">照片只做留档</view>
-    <view class="body">为保证结果可信，当前诊断依据来自你录入的题号、错题、分数和作业清单。照片仅保存在本机，方便家长回看。</view>
+  <view class="section module-section">
+    <view class="between">
+      <view>
+        <view class="eyebrow">MODULE LIBRARY</view>
+        <view class="title-md">Clickable AI learning methods</view>
+      </view>
+      <view class="module-count">{{visibleModules.length}}</view>
+    </view>
+    <view class="body module-intro">Each module can launch tutor mode and can also become spaced review cards.</view>
+
+    <scroll-view class="filter-scroll" scroll-x enable-flex>
+      <view class="filter-row">
+        <button
+          wx:for="{{moduleFilters}}"
+          wx:key="*this"
+          class="filter-chip {{activeFilter === item ? 'filter-active' : ''}}"
+          data-filter="{{item}}"
+          bindtap="setFilter"
+        >{{item}}</button>
+      </view>
+    </scroll-view>
+
+    <view class="module-list">
+      <view
+        class="module-card"
+        wx:for="{{visibleModules}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="openModule"
+      >
+        <view class="module-top">
+          <view class="module-type">{{item.subject}} / {{item.type}}</view>
+          <view class="module-min">{{item.minutes}} min</view>
+        </view>
+        <view class="module-title">{{item.title}}</view>
+        <view class="muted module-scene">{{item.scene}}</view>
+        <view class="module-proof">{{item.mastery}}</view>
+      </view>
+    </view>
   </view>
 </view>

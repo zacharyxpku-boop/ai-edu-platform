@@ -3,10 +3,47 @@
   <view class="title-xl">把今晚作业变成三类。</view>
   <view class="body intro">请手动录入题号、错题或作业清单，系统会结合雷达弱点判断哪些必须做。</view>
 
+  <view class="section panel upload-playbook" wx:if="{{uploadPlaybook}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">UPLOAD TO TRIAGE LOOP</view>
+        <view class="title-md">{{uploadPlaybook.title}}</view>
+      </view>
+      <view class="pill">{{previewPlan ? 'preview on' : 'waiting'}}</view>
+    </view>
+    <view class="body">{{uploadPlaybook.label}}</view>
+    <view class="proof-strip">
+      <view class="proof-stat" wx:for="{{uploadPlaybook.stats}}" wx:key="label">
+        <view class="proof-num">{{item.value}}</view>
+        <view class="proof-name">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="upload-playbook-list">
+      <view class="upload-playbook-card {{item.tone}}" wx:for="{{uploadPlaybook.cards}}" wx:key="id">
+        <view class="upload-playbook-title">{{item.title}}</view>
+        <view class="muted">{{item.body}}</view>
+      </view>
+    </view>
+  </view>
+
   <view class="section panel stack">
     <view class="notice">
       <view class="notice-title">录入越具体，取舍越可信</view>
       <view class="muted">建议写清题型、数量、老师要求和孩子卡住的位置。照片只做本地留档，不上传识别。</view>
+    </view>
+
+    <view class="sample-panel">
+      <view class="sample-title">不知道怎么写，就点一条样例</view>
+      <button class="review-fill" bindtap="fillReviewSample">一键填入审核/家长体验样例</button>
+      <view class="sample-list">
+        <button
+          class="sample-chip"
+          wx:for="{{examples}}"
+          wx:key="*this"
+          data-index="{{index}}"
+          bindtap="useExample"
+        >{{item}}</button>
+      </view>
     </view>
 
     <button class="ghost-button" bindtap="chooseImage">选择照片留档</button>
@@ -23,6 +60,68 @@
     <view class="field">
       <view class="label">作业清单</view>
       <textarea class="textarea" value="{{homeworkText}}" bindinput="onInput" placeholder="例：数学方程基础题 8 道；应用题 4 道；英语单词抄写 3 遍；整理错题。" />
+    </view>
+  </view>
+
+  <view class="section panel material-panel" wx:if="{{materialPreview}}">
+    <view class="between">
+      <view>
+        <view class="eyebrow">MATERIAL TO MEMORY ENGINE</view>
+        <view class="title-md">{{materialPreview.title}}</view>
+      </view>
+      <view class="pill">{{materialPreview.readiness}}</view>
+    </view>
+    <view class="body">{{materialPreview.label}}</view>
+    <view class="material-tabs">
+      <button class="material-tab {{materialType === 'class_notes' ? 'active' : ''}}" data-type="class_notes" bindtap="setMaterialType">Notes</button>
+      <button class="material-tab {{materialType === 'ppt' ? 'active' : ''}}" data-type="ppt" bindtap="setMaterialType">PPT</button>
+      <button class="material-tab {{materialType === 'video' ? 'active' : ''}}" data-type="video" bindtap="setMaterialType">Video</button>
+      <button class="material-tab {{materialType === 'handwriting' ? 'active' : ''}}" data-type="handwriting" bindtap="setMaterialType">Handwriting</button>
+    </view>
+    <button class="review-fill" bindtap="fillMaterialSample">填入学习材料样例</button>
+    <view class="field">
+      <view class="label">学习材料</view>
+      <textarea class="textarea material-textarea" value="{{materialText}}" bindinput="onMaterialInput" placeholder="粘贴课堂笔记、PPT 要点、视频 transcript 或手写整理。例：应用题步骤、常见陷阱、变式检查。" />
+    </view>
+    <view class="material-verdict">
+      <view class="mini-label">{{materialPreview.type}}</view>
+      <view class="material-verdict-text">{{materialPreview.nextAction}}</view>
+    </view>
+    <view class="material-card-list" wx:if="{{materialPreview.cards.length}}">
+      <view class="material-card" wx:for="{{materialPreview.cards}}" wx:key="id">
+        <view class="material-card-q">{{item.question}}</view>
+        <view class="muted">{{item.cardType || 'card'}} · Q{{item.quality}} · {{item.reason}}</view>
+      </view>
+    </view>
+    <button class="secondary-button material-import" bindtap="importMaterialPack">Import to review</button>
+  </view>
+
+  <view class="section panel preview-panel" wx:if="{{previewPlan}}">
+    <view class="between">
+      <view>
+        <view class="title-md">Tonight preview</view>
+        <view class="muted">{{previewPlan.rule}}</view>
+      </view>
+      <view class="pill">{{previewPlan.minutes_available}} min</view>
+    </view>
+    <view class="preview-grid">
+      <view class="preview-cell danger">
+        <view class="preview-num">{{previewPlan.must_do.length}}</view>
+        <view class="preview-label">must</view>
+      </view>
+      <view class="preview-cell">
+        <view class="preview-num">{{previewPlan.flexible.length}}</view>
+        <view class="preview-label">flexible</view>
+      </view>
+      <view class="preview-cell quiet">
+        <view class="preview-num">{{previewPlan.can_skip.length}}</view>
+        <view class="preview-label">skip</view>
+      </view>
+    </view>
+    <view class="preview-first" wx:if="{{previewPlan.must_do.length}}">
+      <view class="mini-label">First must-do</view>
+      <view class="preview-first-title">{{previewPlan.must_do[0].text}}</view>
+      <view class="muted">{{previewPlan.must_do[0].reason}}</view>
     </view>
   </view>
 

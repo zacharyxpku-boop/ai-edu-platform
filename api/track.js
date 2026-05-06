@@ -39,7 +39,7 @@ export default async function handler(req) {
         return new Response(JSON.stringify({ error: 'missing_event' }), { status: 400, headers: CORS });
     }
 
-    // 日志到 Vercel (可 tail)
+    // Production event log for lightweight analytics; keep this server-side log.
     console.log('[track]', JSON.stringify(evt));
 
     // 关键事件 → 飞书

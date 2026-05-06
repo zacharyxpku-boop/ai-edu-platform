@@ -1,6 +1,6 @@
-# 原点智学 · 文档索引
+# 原点学伴 · 文档索引
 
-当前对外叙事以“家庭学习决策系统”为准：测评/作业录入 -> 雷达弱点 -> 作业三分类 -> 原小点只处理必须做和关键错因 -> 家长周复盘。
+当前对外叙事以“小程序优先的家庭晚间学习效率工具”为准：作业/测评录入 -> 弱点雷达 -> 作业三分类 -> 原小点思路引导 -> 复习卡 -> 家长周报。
 
 ## 当前优先阅读
 
@@ -104,3 +104,13 @@
 - `v1.0-ka-wave` — 8 学科枢纽 + 错题冲关 + 战利品墙等基础铺设
 - `v1.1-experiment-wave` — 4 EXP 落地 + 实验赌桌文档
 - `v1.1.1-observability-hardened` — 5/4 demo deploy candidate（npm test + CI）
+# 当前推荐入口：v0.9 上架与内测收尾
+
+请优先阅读：
+
+- [V0.9-SHIP-INDEX.md](./V0.9-SHIP-INDEX.md)
+- [MINIAPP-V0.9-LAUNCH-RUNBOOK.md](./MINIAPP-V0.9-LAUNCH-RUNBOOK.md)
+- [10-FAMILY-PILOT-RUNBOOK.md](./10-FAMILY-PILOT-RUNBOOK.md)
+- [INVESTOR-DEMO-SCRIPT-V0.9.md](./INVESTOR-DEMO-SCRIPT-V0.9.md)
+
+旧文档保留为历史材料；对外审核、内测、融资演示以 v0.9 收尾文档为准。

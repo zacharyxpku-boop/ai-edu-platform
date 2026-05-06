@@ -2,12 +2,121 @@ const api = require('../../utils/api');
 const storage = require('../../utils/storage');
 
 const QUICK_ACTIONS = [
-  { id: 'read_problem', label: '读题' },
-  { id: 'find_conditions', label: '找条件' },
-  { id: 'write_first_step', label: '写第一步' },
-  { id: 'explain_misconception', label: '说错因' },
-  { id: 'review', label: '复盘' }
+  { id: 'read_problem', label: '读题', desc: '先说题目真正问什么' },
+  { id: 'find_conditions', label: '找条件', desc: '圈已知、未知和单位' },
+  { id: 'write_first_step', label: '写第一步', desc: '只写开头，不要答案' },
+  { id: 'explain_misconception', label: '说错因', desc: '说清卡在哪一步' },
+  { id: 'review', label: '复盘', desc: '总结下次先检查什么' }
 ];
+
+const PEDAGOGY_LADDER = [
+  { id: 'question', title: 'Question first', desc: 'Ask before telling.' },
+  { id: 'hint', title: 'Smallest hint', desc: 'Only unblock the next step.' },
+  { id: 'misconception', title: 'Wrong-cause lens', desc: 'Name the misconception, not just the mistake.' },
+  { id: 'reflection', title: 'Reflection', desc: 'End with one sentence the child can say back.' }
+];
+
+const TUTOR_GUARDRAILS = [
+  'No full answer substitution',
+  'Must-do homework only',
+  'Parent-visible reasoning',
+  'Copy-paste risk stays blocked'
+];
+
+function pedagogyPanel(selected, misconceptionTags, masterySignal) {
+  const misconception = (misconceptionTags || []).map((item) => item.label || item.axis).filter(Boolean).slice(0, 2);
+  const status = masterySignal && masterySignal.status ? masterySignal.status : 'needs_student_step';
+  return {
+    title: 'TUTOR PEDAGOGY LAYER',
+    status,
+    focus: selected && selected.text ? selected.text : 'First must-do item',
+    misconception: misconception.length ? misconception.join(' / ') : 'Clarify the wrong cause before solving',
+    ladder: PEDAGOGY_LADDER,
+    guardrails: TUTOR_GUARDRAILS,
+    teacherView: 'Visible to parents/teachers as: current step, wrong-cause status, next action.',
+    label: status === 'ready_for_parent_review'
+      ? 'The learner is ready to explain the wrong cause back to a parent.'
+      : status === 'blocked_answer_request'
+        ? 'The learner asked for the answer, so the tutor stays in boundary mode.'
+        : 'The tutor should ask, hint, diagnose, then reflect.'
+  };
+}
+
+function pasteRiskSignal(messages = []) {
+  const recentUser = (Array.isArray(messages) ? messages : [])
+    .filter((item) => item.role === 'user')
+    .slice(-3)
+    .map((item) => String(item.text || ''));
+  const longPaste = recentUser.some((text) => text.length >= 40);
+  const answerSeeking = recentUser.some((text) => /答案|直接|代写|帮我写|tell me the answer/i.test(text));
+  return {
+    title: 'COPY-PASTE RISK GATE',
+    level: longPaste && answerSeeking ? 'high' : longPaste ? 'watch' : 'low',
+    label: longPaste && answerSeeking
+      ? 'Long pasted text plus answer-seeking detected; keep tutor in boundary mode.'
+      : longPaste
+        ? 'Long pasted text detected; ask for the student first step before helping.'
+        : 'No obvious copy-paste shortcut behavior in the latest turns.'
+  };
+}
+
+function coachConsole(selected, misconceptionTags, masterySignal, pasteRisk, activeStep) {
+  const currentAction = QUICK_ACTIONS.find((item) => item.id === activeStep) || QUICK_ACTIONS[0];
+  const tags = (misconceptionTags || []).map((item) => item.label || item.axis || item.hint).filter(Boolean);
+  const mastery = masterySignal || {
+    status: 'needs_student_step',
+    evidence_needed: 'The child must give one first step before the tutor unlocks more help.'
+  };
+  return {
+    title: 'SOCRATIC COACH CONSOLE',
+    label: 'Ask first, hint small, name the wrong cause, then capture one proof sentence.',
+    focus: selected && selected.text ? selected.text : 'Lock the first must-do task first',
+    wrongCause: tags.length ? tags.slice(0, 2).join(' / ') : 'Waiting for wrong-cause evidence',
+    currentAction: currentAction.label,
+    actionDesc: currentAction.desc,
+    masteryStatus: mastery.status,
+    evidence: mastery.evidence_needed,
+    risk: pasteRisk ? pasteRisk.level : 'low',
+    cards: [
+      { id: 'ask', title: 'Ask first', body: 'The student states the task and the first move.' },
+      { id: 'hint', title: 'Hint small', body: 'The tutor only unlocks the next useful step.' },
+      { id: 'cause', title: 'Name cause', body: tags[0] || 'Clarify the misconception before solving.' },
+      { id: 'proof', title: 'Proof sentence', body: mastery.evidence_needed }
+    ]
+  };
+}
+
+function buildThinkingReceipt(messages = [], masterySignal, pasteRisk, activeStep, selected) {
+  const safeMessages = Array.isArray(messages) ? messages : [];
+  const userMessages = safeMessages.filter((item) => item.role === 'user');
+  const assistantMessages = safeMessages.filter((item) => item.role === 'assistant');
+  const studentFirst = userMessages.some((item) => String(item.text || '').length >= 8 && !/答案|直接|代写|帮我写/.test(String(item.text || '')));
+  const blockedAnswer = (masterySignal && masterySignal.status === 'blocked_answer_request')
+    || (pasteRisk && pasteRisk.level === 'high');
+  const namedWrongCause = safeMessages.some((item) => /错因|卡在|审题|建模|条件|单位|符号|第一步/.test(String(item.text || '')));
+  const proofSentence = masterySignal && masterySignal.status === 'ready_for_parent_review';
+  const score = Math.min(100,
+    36
+    + (studentFirst ? 18 : 0)
+    + (namedWrongCause ? 18 : 0)
+    + (!blockedAnswer ? 14 : 0)
+    + (proofSentence ? 14 : 0)
+  );
+  return {
+    title: 'THINKING RECEIPT',
+    label: 'A parent-visible proof that the child thought before help, named the wrong cause, and avoided answer-copy shortcuts.',
+    score,
+    focus: selected && selected.text ? selected.text : 'No must-do item locked yet',
+    status: proofSentence ? 'ready for parent review' : blockedAnswer ? 'answer shortcut blocked' : 'collecting thinking proof',
+    checks: [
+      { id: 'first', label: 'Student first thought', done: studentFirst, detail: studentFirst ? 'student produced a step or question' : 'still needs a first thought' },
+      { id: 'cause', label: 'Wrong cause named', done: namedWrongCause, detail: namedWrongCause ? 'wrong-cause language appeared' : 'ask for exact cause' },
+      { id: 'safe', label: 'Answer-copy avoided', done: !blockedAnswer, detail: blockedAnswer ? 'direct answer request was blocked' : 'no high-risk shortcut now' },
+      { id: 'proof', label: 'Proof sentence', done: proofSentence, detail: proofSentence ? 'ready to explain to parent' : 'needs one-sentence reflection' }
+    ],
+    shareLine: `Thinking proof ${score}/100: ${activeStep || 'read_problem'} / ${assistantMessages.length} tutor turns / ${userMessages.length} student turns.`
+  };
+}
 
 function normalizeTags(tags) {
   if (!Array.isArray(tags)) return [];
@@ -137,8 +246,14 @@ Page({
     nextAction: '先用一句话说清题目真正问什么。',
     masterySignal: null,
     quickActions: QUICK_ACTIONS,
-    messages: []
+    messages: [],
+    pedagogy: null,
+    pasteRisk: null,
+    coachConsole: null,
+    thinkingReceipt: null
   },
+
+  trackedMasteryStatus: '',
 
   onShow() {
     const state = storage.loadState();
@@ -161,13 +276,20 @@ Page({
       { role: 'assistant', text: intro }
     ];
 
+    const pasteRisk = pasteRiskSignal(messages);
+    const receipt = buildThinkingReceipt(messages, null, pasteRisk, this.data.activeStep, selected);
     this.setData({
       selected,
       selectedEvidence,
       weakPoints,
       misconceptionTags,
-      messages
+      messages,
+      pedagogy: pedagogyPanel(selected, misconceptionTags, null),
+      pasteRisk,
+      coachConsole: coachConsole(selected, misconceptionTags, null, pasteRisk, this.data.activeStep),
+      thinkingReceipt: receipt
     });
+    this.trackedMasteryStatus = '';
   },
 
   onInput(event) {
@@ -259,15 +381,33 @@ Page({
   appendAssistant(result) {
     const reply = result && result.reply ? result.reply : '先把你的第一步发来。';
     const next = this.data.messages.concat([{ role: 'assistant', text: reply }]);
+    const masterySignal = result && result.mastery_signal ? result.mastery_signal : null;
+    const coachStep = result && result.coach_step ? result.coach_step : this.data.activeStep;
     storage.set(storage.KEYS.tutorMessages, next.slice(-20));
+    const pasteRisk = pasteRiskSignal(next);
+    const receipt = buildThinkingReceipt(next, masterySignal, pasteRisk, coachStep, this.data.selected);
+    if (storage.appendThinkingReceipt) {
+      storage.appendThinkingReceipt(Object.assign({}, receipt, {
+        selected_id: this.data.selected && this.data.selected.id,
+        selected_text: this.data.selected && this.data.selected.text,
+        coach_step: coachStep,
+        mastery_status: masterySignal && masterySignal.status,
+        risk: pasteRisk.level
+      }));
+    }
     this.setData({
       messages: next,
       loading: false,
-      activeStep: result && result.coach_step ? result.coach_step : this.data.activeStep,
+      activeStep: coachStep,
       coachStepLabel: result && result.coach_step_label ? result.coach_step_label : this.data.coachStepLabel,
       nextAction: result && result.next_action ? result.next_action : this.data.nextAction,
-      masterySignal: result && result.mastery_signal ? result.mastery_signal : null
+      masterySignal,
+      pedagogy: pedagogyPanel(this.data.selected, this.data.misconceptionTags, masterySignal),
+      pasteRisk,
+      coachConsole: coachConsole(this.data.selected, this.data.misconceptionTags, masterySignal, pasteRisk, coachStep),
+      thinkingReceipt: receipt
     });
+    this.syncTutorSignal(masterySignal, coachStep);
   },
 
   clearChat() {
@@ -281,7 +421,26 @@ Page({
     this.setData({
       messages,
       masterySignal: null,
-      nextAction: '先用一句话说清题目真正问什么。'
+      nextAction: '先用一句话说清题目真正问什么。',
+      thinkingReceipt: buildThinkingReceipt(messages, null, pasteRiskSignal(messages), this.data.activeStep, this.data.selected)
     });
+  },
+
+  syncTutorSignal(masterySignal, coachStep) {
+    if (!masterySignal || !masterySignal.status) return;
+    if (this.trackedMasteryStatus === masterySignal.status) return;
+    this.trackedMasteryStatus = masterySignal.status;
+    const blocked = masterySignal.status === 'blocked_answer_request' || masterySignal.status === 'safety_redirect';
+    const eventName = masterySignal.status === 'ready_for_parent_review'
+      ? 'tutor_mastery_ready'
+      : blocked
+        ? 'tutor_blocked'
+        : 'tutor_progress';
+    const next = storage.trackTutorEvent(eventName, {
+      coach_step: coachStep,
+      mastery_status: masterySignal.status,
+      blocked
+    });
+    api.submitEvent(next[0]).catch(() => {});
   }
 });

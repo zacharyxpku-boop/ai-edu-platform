@@ -1,13 +1,13 @@
-# 原点智学
+# 原点学伴
 
-家庭学习决策系统：测评/作业录入 -> 雷达弱点 -> 作业三分类 -> 原小点只处理“必须做”和“关键错因” -> 家长周复盘。
+原点智学旗下的小程序优先产品。面向家庭晚间学习场景，把作业录入、弱点雷达、作业三分类、原小点思路引导、复习卡和家长周报收成一条轻量闭环。
 
 [![Stack](https://img.shields.io/badge/stack-HTML%20%2B%20MiniProgram%20%2B%20Vercel-18181B?style=flat-square)](#技术路线)
 [![Launch](https://img.shields.io/badge/miniapp-review%20ready-0F4F3D?style=flat-square)](./docs/MINIAPP-OPEN-ME-FIRST.md)
 
 ## 一句话
 
-原点智学不是让孩子多做题，而是帮家庭判断今晚哪些作业最值得做。
+原点学伴不是让孩子多做题，而是帮家庭判断今晚哪些作业最值得先做。
 
 ## 产品闭环
 
@@ -21,8 +21,8 @@
 
 | 模块 | 路径 | 作用 |
 |---|---|---|
-| 官网主叙事 | `index.html` | 对外讲清家庭学习决策系统 |
-| Tools/诊断入口 | `study-tools.html`, `tools-guide.html` | 解释工具矩阵和诊断流 |
+| 官网主叙事 | `index.html` | 对外讲清小程序优先的家庭晚间学习效率工具 |
+| 历史 Web 工具页 | `study-tools.html`, `tools-guide.html` | 历史资产，当前不作为小程序上架主入口 |
 | 原小点执行端 | `tutor.html`, `api/mini/tutor-message.js` | 只处理必须做任务和关键错因 |
 | 家长雷达 | `parent-radar.html`, `miniprogram/pages/radar` | 弱点雷达、作业三分类、周复盘 |
 | 小程序 | `miniprogram/` | 微信上架形态 |
