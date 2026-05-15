@@ -166,7 +166,13 @@ const allowedMiniPaths = [
 ].sort();
 assert.deepStrictEqual(activeMiniPaths, allowedMiniPaths, 'Miniapp client only calls current service-contract API surface');
 assert(!/\/api\/(?:log-dialogue|fsrs-|ingest-attempt|mastery-proxy|parent-push|student-init|ai-proxy|mentor-queue)/.test(miniApi), 'Miniapp client does not call legacy demo/server-only APIs');
-assert(miniApi.includes('localSession') && miniApi.includes('recognizeLearningReport') && miniApi.includes('catch(() => fallback())'), 'Miniapp client has local fallbacks for session and recognition failures');
+assert(
+  miniApi.includes('localSession')
+    && miniApi.includes('recognizeLearningReport')
+    && miniApi.includes("mode: 'client_local_draft'")
+    && miniApi.includes('confirmation_required: true'),
+  'Miniapp client has local fallbacks for session and recognition failures'
+);
 
 const activeApiDirs = ['api/mini', 'api/parent', 'api/review', 'api/report', 'api/decks', 'api/shop', 'api/quiz'];
 const missingContracts = activeApiDirs
