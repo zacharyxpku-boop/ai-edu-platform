@@ -21,6 +21,10 @@ push-*.log
 logcleanup.log
 .commit-msg.txt
 *.tmp.log
+.dev-server.*.log
+logs/
+tmp-attachments/
+tmp-ui-review/
 
 # WeChat DevTools local app id / private settings
 miniprogram/project.private.config.json
