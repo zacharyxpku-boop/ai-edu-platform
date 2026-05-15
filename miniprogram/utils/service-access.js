@@ -107,7 +107,7 @@ function buildWeeklySupportSummary(state = loadServiceAccessState()) {
   return {
     mode: 'local_service_notice',
     title: '本周第一步记录',
-    body: `最近记录里有 ${counts.vague} 次模糊、${counts.empty} 次空白。当前先用本地记录看趋势，深度服务需要正式配置后再开放。`,
+    body: `最近记录里有 ${counts.vague} 次模糊、${counts.empty} 次空白。当前先用本地记录看趋势，更深的连续复盘会在开通后显示。`,
     actionSuggestion: '今晚先固定只问一句：你第一步准备先看哪里？'
   };
 }
@@ -119,7 +119,7 @@ function buildServiceGate(featureId, state = loadServiceAccessState()) {
     title: weekly.title,
     body: weekly.body,
     actionSuggestion: weekly.actionSuggestion,
-    trustLine: '当前不展示支付入口；需要账号、存储和服务配置完成后再开放。',
+    trustLine: '当前只开放记录、复盘和轻练习；更深的连续服务开通后再显示。',
     benefits: [
       '完整历史和本周模式',
       '第二步、第三步脚手架',
