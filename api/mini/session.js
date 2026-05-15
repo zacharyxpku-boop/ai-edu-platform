@@ -72,11 +72,11 @@ export default async function handler(req) {
         service_contract: {
             mode: mode === 'wechat' ? 'wechat_session' : 'local_session',
             evidence_required: ['wx_login_code'],
-            action_required: mode === 'wechat' ? '' : 'wechat_appid_secret_configuration'
+            action_required: mode === 'wechat' ? '' : 'wechat_service_configuration'
         },
         openid_hash: payload.openid_hash,
         session_id: sessionId,
         expires_at: new Date(expiresAt).toISOString(),
-        message: mode === 'wechat' ? '微信会话已建立' : '本地会话已建立，完成 AppID/AppSecret 配置后启用真实登录'
+        message: mode === 'wechat' ? '微信会话已建立' : '本地会话已建立，完成小程序服务配置后启用微信会话'
     });
 }
