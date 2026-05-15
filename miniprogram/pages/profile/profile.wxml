@@ -292,7 +292,7 @@
           <view class="mine-section-kicker">给家里看的复盘</view>
           <view class="mine-section-heading">孩子今晚卡在哪</view>
         </view>
-        <view class="mine-section-tag" wx:if="{{parentReport}}">{{parentReport.proofLabel}}</view>
+        <view class="mine-section-tag" wx:if="{{parentReport}}">{{parentReport.recordStatusLabel}}</view>
       </view>
 
       <view class="parent-section-card family-diagnosis-card" wx:if="{{parentReport}}">
@@ -302,8 +302,8 @@
             <view class="diagnosis-title">{{parentReport.weakPoint}}</view>
           </view>
           <view class="diagnosis-score">
-            <text>{{parentReport.proofScore}}</text>
-            <text>清晰度</text>
+            <text>{{parentReport.recordStatus}}</text>
+            <text>记录状态</text>
           </view>
         </view>
 

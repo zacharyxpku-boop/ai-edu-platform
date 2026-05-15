@@ -69,6 +69,7 @@ const leadApi = read('api/lead.js');
 const miniEvent = read('api/mini/event.js');
 const miniSync = read('api/mini/sync.js');
 const parentChildStats = read('api/parent/child-stats.js');
+const serviceAccess = read('miniprogram/utils/service-access.js');
 
 assert(!profileJs.includes("require('../../utils/subscription-mock')"), 'Profile does not load mock subscription module');
 assert(!fs.existsSync(path.join(root, 'miniprogram/utils/subscription-mock.js')), 'Miniapp bundle no longer keeps a mock subscription module');
@@ -141,6 +142,9 @@ assert(/service_ready/.test(leadApi + profileJs), 'Lead submission exposes wheth
 assert(!/拍照出答案|自动识别答案|保证提分|注定|必然/.test(profileWxml + toolsJs + arcadeJs + learningReportRecognition + apiRecognition), 'Commercial shell avoids unsafe claims');
 assert(!/Gizmo|Khan|Khanmigo|Anki|parity|moat|moonshot|BENCHMARK|MOAT|学习证明|购买|兑换/.test(reviewCards + toolsJs + miniGame + parentChildStats), 'Commercial surface avoids competitor, internal strategy, proof, and transaction wording');
 assert(!/coins:\s*/.test(parentChildStats), 'Parent stats expose learning record points instead of coin currency');
+assert(!/parentReport\.proofScore|parentReport\.proofLabel|proofScore/.test(profileJs + profileWxml), 'Profile uses parent-facing record status instead of proof-score fields');
+assert(!/质量\s*\$\{score\s*\|\|\s*0\}\/100|质量\s*\d+\/100/.test(toolsJs + read('miniprogram/pages/tools/tools.wxml')), 'Tools explains generated material with readiness conditions instead of user-facing quality scores');
+assert(!/支付入口|账号、存储|服务配置|正式配置/.test(serviceAccess), 'Service access gate uses user-facing scope language instead of setup or payment terms');
 
 const activeMiniPaths = Array.from(miniApi.matchAll(/request\('([^']+)'/g)).map((match) => match[1]).sort();
 const allowedMiniPaths = [

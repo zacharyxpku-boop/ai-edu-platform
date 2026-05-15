@@ -651,6 +651,9 @@ Page({
     return {
       title: '关卡质量门',
       score: Math.min(100, Math.round((ready / checks.length) * 70) + Math.round((score || 0) * 0.3)),
+      readyCount: ready,
+      totalCount: checks.length,
+      statusLabel: ready >= 4 ? '可导入复习' : '继续补材料',
       label: ready >= 4
         ? '这套关卡可以导入复习，并生成本机学习记录。'
         : '材料还不够稳定，先别当成正式关卡。',
@@ -716,7 +719,7 @@ Page({
           body: '记录今晚学了什么、别怎么错、什么算掌握证据。'
         }
       ],
-      proofLine: `复盘摘要：这套关卡应帮助孩子讲清一个方法、说出一个卡点、完成一次小测，并进入间隔复习。质量 ${score || 0}/100。`
+      proofLine: `复盘摘要：这套关卡应帮助孩子讲清一个方法、说出一个卡点、完成一次小测，并进入间隔复习。已具备 ${cardCount ? Math.min(5, Math.max(1, Math.ceil(cardCount / 2))) : 0}/5 个导入条件。`
     };
   },
 

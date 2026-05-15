@@ -88,7 +88,7 @@ function buildParentReport(profile, reviewSummary, moduleSummary, tutorSummary, 
     + safeNumber(modules.completed, 0)
     + safeNumber(tutor.completed, 0)
     + safeNumber(thinking.total, 0);
-  const proofScore = Math.min(100, 52
+  const recordScore = Math.min(100, 52
     + Math.min(14, safeNumber(tutor.completed, 0) * 7)
     + Math.min(12, safeNumber(modules.completed, 0) * 6)
     + Math.min(12, Math.round(reviewAccuracy / 10))
@@ -96,19 +96,20 @@ function buildParentReport(profile, reviewSummary, moduleSummary, tutorSummary, 
     + Math.min(8, Math.round(safeNumber(thinking.avgScore, 0) / 13)));
   const label = todayFocus && todayFocus.title
     ? `当前重点：${issueName}。今晚建议：${todayFocus.recommendation || '先做 1 道同类题 + 1 道小变式'}。`
-    : proofScore >= 86
+    : recordScore >= 86
     ? '这周已经能看见孩子卡在哪、怎么改、下次先查什么。'
-    : proofScore >= 68
+    : recordScore >= 68
       ? '这套闭环已经开始起作用，但还需要更多复习和卡点记录。'
       : '今晚先做一项必须做、一轮卡点修复、一次短复习。';
+  const recordStatus = recordScore >= 86 ? '记录稳定' : recordScore >= 68 ? '正在形成' : '继续积累';
   const goal = parentGoal || {};
   const goalLine = goal.strategy ? `家庭目标：${goal.label}。${goal.strategy}` : '';
 
     return {
       title: `${profile && profile.name ? profile.name : '孩子'}本周学习记录`,
       label: goalLine ? `${label} ${goalLine}` : label,
-      proofScore,
-      proofLabel: proofScore >= 86 ? '稳定' : proofScore >= 68 ? '形成中' : '待积累',
+      recordStatus,
+      recordStatusLabel: recordStatus,
       weakPoint: issueName,
       sourceText: todayFocus && (todayFocus.sourceText || todayFocus.thought),
       parentHelp: '先让孩子说第一步，不要直接讲最终结果。',
@@ -117,7 +118,7 @@ function buildParentReport(profile, reviewSummary, moduleSummary, tutorSummary, 
       : `我能不能说清「${weakPoint}」为什么卡住、下次第一步先做什么？`,
     shareLine: `这周：完成 ${safeNumber(tutor.completed, 0)} 次关键点拨，沉淀 ${safeNumber(review.total, 0)} 张复习卡，留下 ${safeNumber(thinking.total, 0)} 条思路记录。`,
     recordLine: `我的学习记录 ${totalAssets} 项。作业、点拨、复习和卡点正在慢慢连起来。`,
-    proofCards: [
+    recordCards: [
       {
         id: 'must_do',
         value: safeNumber(tutor.completed, 0),
@@ -829,7 +830,7 @@ Page({
       calibrationProfile,
       parentGoal,
       parentReport,
-      parentProofCards: (parentReport.proofCards || []).filter((item) => item.id !== 'sync').slice(0, 4),
+      parentProofCards: (parentReport.recordCards || []).filter((item) => item.id !== 'sync').slice(0, 4),
       hasParentEvidence,
       profileEmptyGuide,
       parentTonightItems: this.buildParentTonightItems(state),
