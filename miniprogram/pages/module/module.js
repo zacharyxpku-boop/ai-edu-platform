@@ -8,19 +8,19 @@ function buildSessionSteps(item) {
   return [
     {
       id: 'setup',
-      title: 'Set the target',
+      title: '定今晚目标',
       desc: item.userInput,
-      evidence: 'Write the exact stuck point or task type.'
+      evidence: '写下卡住的题型或具体任务。'
     },
     {
       id: 'practice',
-      title: 'Run the method',
+      title: '做一小局',
       desc: item.aiTask,
-      evidence: 'Save one first step, one trap, and one corrected sentence or relation.'
+      evidence: '留下一个第一步、一个易错点和一句修正后的表达。'
     },
     {
       id: 'mastery',
-      title: 'Check mastery',
+      title: '留证据',
       desc: item.mastery,
       evidence: item.parentScript
     }
@@ -46,7 +46,7 @@ Page({
   onLoad(query = {}) {
     const item = modules.getModule(query.id);
     if (!item) {
-      wx.showToast({ title: 'Module not found', icon: 'none' });
+      wx.showToast({ title: '没有找到这个学习局', icon: 'none' });
       setTimeout(() => wx.navigateBack(), 500);
       return;
     }
@@ -86,10 +86,10 @@ Page({
     storage.set(storage.KEYS.tutorMessages, [
       {
         role: 'assistant',
-        text: `Start module: ${item.title}. ${item.tutorPrompt}`
+        text: `开始这个学习局：${item.title}。${item.tutorPrompt}`
       }
     ]);
-    wx.switchTab({ url: '/pages/tutor/tutor' });
+    wx.navigateTo({ url: '/pages/tutor/tutor' });
   },
 
   markModule(event) {
@@ -102,7 +102,7 @@ Page({
       source: this.data.source || 'direct',
       reason
     });
-    const text = rating === 'useful' ? 'Marked useful for current weak point.' : 'Marked not fitting right now.';
+    const text = rating === 'useful' ? '已标记：适合当前卡点' : '已标记：暂时不适合';
     this.setData({ feedbackText: text });
     wx.showToast({ title: text, icon: 'none' });
   },
@@ -120,14 +120,14 @@ Page({
       evidence
     });
     this.setData({
-      feedbackText: 'Module session completed.',
+      feedbackText: '这个学习局已完成。',
       sessionStatus: {
         completed: true,
-        evidence: evidence || 'No written evidence yet',
-        next: 'Add a review pack so this method returns in spaced review.'
+        evidence: evidence || '还没有写下证据',
+        next: '导入复习包，让这个方法之后继续出现。'
       }
     });
-    wx.showToast({ title: 'Completed', icon: 'success' });
+    wx.showToast({ title: '已完成', icon: 'success' });
   },
 
   addReviewPack() {
@@ -162,8 +162,12 @@ Page({
     this.addReviewPack();
   },
 
+  goHome() {
+    wx.switchTab({ url: '/pages/home/home' });
+  },
+
   goReview() {
-    wx.navigateTo({ url: '/pages/review/review' });
+    wx.switchTab({ url: '/pages/review/review' });
   },
 
   trackEvent(eventName, item, props = {}) {

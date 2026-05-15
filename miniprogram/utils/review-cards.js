@@ -1,4 +1,5 @@
 const storage = require('./storage');
+const gameLogic = require('./game-logic');
 
 const DAY = 24 * 60 * 60 * 1000;
 const RATING = { again: 1, hard: 2, good: 3, easy: 4 };
@@ -12,6 +13,58 @@ const FSRS_FACTOR = 19 / 81;
 const CONTENT_ENGINE_PROVIDERS = {
   local: 'rule_content_engine_v2',
   remote: 'remote_ai_content_engine_v1'
+};
+const WRONG_QUESTION_RE = /错题|订正|错因|卡住|不会|总错|做错|漏|粗心|单位|条件|等量关系|建模|符号|公式|审题/;
+const WRONG_CAUSE_BUCKETS = {
+  reading_conditions: {
+    label: '审题条件',
+    match: /审题|读题|题目问|条件|已知|关键词|问号|单位|漏看|看错/,
+    checkpoint: '先圈题目问什么、已知条件和单位。',
+    parentPrompt: '你第一步圈了哪些条件？',
+    practice: '做 1 道同类题，只圈条件和问题句，不急着算。'
+  },
+  modeling_relation: {
+    label: '关系建模',
+    match: /等量|关系|建模|列式|方程|未知数|数量关系|单位1|比例/,
+    checkpoint: '先写出两个量之间的关系，再列式。',
+    parentPrompt: '你找了哪两个量之间的关系？',
+    practice: '把题目里的两个关键量写成一句关系话。'
+  },
+  calculation_check: {
+    label: '计算检查',
+    match: /计算|口算|粗心|符号|进位|退位|小数点|约分|通分|检查/,
+    checkpoint: '先复算关键一步，再查符号和单位。',
+    parentPrompt: '你准备先检查哪一步计算？',
+    practice: '只复算上次错的那一步，再做 2 个同类小练。'
+  },
+  concept_gap: {
+    label: '概念断点',
+    match: /概念|定义|公式|原理|不会|不懂|混淆|知识点|规则/,
+    checkpoint: '先用自己的话说定义，再举一个小例子。',
+    parentPrompt: '这个概念你能用自己的话说一遍吗？',
+    practice: '先复述概念，再用一个最小例子检查。'
+  },
+  expression_planning: {
+    label: '表达组织',
+    match: /作文|写作|开头|结尾|提纲|句子|表达|论述|阅读理解|概括/,
+    checkpoint: '先写一句主干，再补理由或例子。',
+    parentPrompt: '你写的第一句是什么？',
+    practice: '只写开头一句和两个要点，不追求整篇。'
+  },
+  habit_focus: {
+    label: '习惯专注',
+    match: /专注|分心|拖拉|作业慢|坐不住|时间|疲劳|睡眠|情绪|焦虑/,
+    checkpoint: '先把任务缩到 15 分钟内的一小步。',
+    parentPrompt: '这 15 分钟你只做哪一小步？',
+    practice: '开一段静默专注，只完成一个可见动作。'
+  },
+  first_step: {
+    label: '第一步确认',
+    match: /第一步|先做|开始|卡住|没思路/,
+    checkpoint: '先说自己准备从哪里开始。',
+    parentPrompt: '你第一步先做了什么？',
+    practice: '把第一步写成一句话，再进入专注。'
+  }
 };
 const DEFAULT_DECK = {
   id: 'ydzx-core',
@@ -39,6 +92,44 @@ function normalizeText(text, max = 56) {
   return value.length > max ? `${value.slice(0, max)}...` : value;
 }
 
+function classifyWrongCause(input = {}) {
+  const text = typeof input === 'string'
+    ? input
+    : [
+        input.wrongCauseBucket,
+        input.weakPoint,
+        input.calibrationKey,
+        input.question,
+        input.answer,
+        input.context,
+        input.type,
+        input.subject
+      ].join(' ');
+  const explicit = input && input.wrongCauseBucket && WRONG_CAUSE_BUCKETS[input.wrongCauseBucket]
+    ? input.wrongCauseBucket
+    : '';
+  const key = explicit || Object.keys(WRONG_CAUSE_BUCKETS).find((id) => WRONG_CAUSE_BUCKETS[id].match.test(String(text || ''))) || 'first_step';
+  return Object.assign({ id: key }, WRONG_CAUSE_BUCKETS[key]);
+}
+
+function buildNextPracticePlan(input = {}) {
+  const cause = classifyWrongCause(input);
+  const subject = input.subject ? `${input.subject} · ` : '';
+  const source = normalizeText(input.question || input.weakPoint || input.context || '这类卡点', 36);
+  return {
+    wrongCauseBucket: cause.id,
+    wrongCauseLabel: cause.label,
+    checkpoint: cause.checkpoint,
+    parentPrompt: cause.parentPrompt,
+    nextPracticeText: `${subject}${source}：${cause.practice}`,
+    appRoute: cause.id === 'habit_focus'
+      ? '/pages/focus/focus'
+      : cause.id === 'expression_planning'
+        ? '/pages/tutor/tutor'
+        : '/pages/review/review'
+  };
+}
+
 function stableId(prefix, parts) {
   return `${prefix}_${parts.filter(Boolean).join('_')}`.replace(/[^a-zA-Z0-9_\u4e00-\u9fa5:-]/g, '_');
 }
@@ -57,6 +148,7 @@ function scoreQuality(fields) {
 }
 
 function makeNote(id, type, source, fields, meta = {}) {
+  const practicePlan = buildNextPracticePlan(Object.assign({}, fields || {}, meta || {}, { type, source }));
   const note = {
     id,
     type,
@@ -65,6 +157,11 @@ function makeNote(id, type, source, fields, meta = {}) {
     subject: meta.subject || '',
     weakPoint: meta.weakPoint || fields.weakPoint || '',
     calibrationKey: meta.calibrationKey || fields.calibrationKey || '',
+    wrongCauseBucket: meta.wrongCauseBucket || fields.wrongCauseBucket || practicePlan.wrongCauseBucket,
+    wrongCauseLabel: meta.wrongCauseLabel || fields.wrongCauseLabel || practicePlan.wrongCauseLabel,
+    nextPracticePlan: meta.nextPracticePlan || fields.nextPracticePlan || practicePlan,
+    checkpoint: meta.checkpoint || fields.checkpoint || practicePlan.checkpoint,
+    parentPrompt: meta.parentPrompt || fields.parentPrompt || practicePlan.parentPrompt,
     fields: {
       question: fields.question || '',
       answer: fields.answer || '',
@@ -90,6 +187,11 @@ function makeCard(note, template = 'qa') {
     subject: note.subject,
     weakPoint: note.weakPoint,
     calibrationKey: note.calibrationKey,
+    wrongCauseBucket: note.wrongCauseBucket,
+    wrongCauseLabel: note.wrongCauseLabel,
+    nextPracticePlan: note.nextPracticePlan,
+    checkpoint: note.checkpoint,
+    parentPrompt: note.parentPrompt,
     quality: note.quality,
     stability: 0,
     difficulty: 5,
@@ -167,7 +269,7 @@ function generatedFromState(state) {
       'weak_point',
       'radar',
       {
-        question: `这个弱点今天先检查什么：${weak.name}`,
+        question: `这个卡点今天先检查什么：${weak.name}`,
         answer: weak.reason || '先说清卡点，再进入题目。',
         weakPoint: weak.name,
         evidence: `score:${weak.score || ''}`
@@ -230,13 +332,13 @@ function generatedFromTutorSignals() {
           ? `这类题为什么不能直接要答案：${normalizeText(event.selected_text)}`
           : `复盘一句话：${normalizeText(event.selected_text)}`,
         answer: isBlocked
-          ? '先写自己的第一步或卡点，原小点只给最小提示。'
+          ? '先写自己的第一步或卡点，作业点拨只给最小提示。'
           : '说清本题错因和下次先检查哪一步。',
         context: event.selected_text,
-        weakPoint: event.mastery_status || '',
-        calibrationKey: event.source || ''
+        weakPoint: storage.formatInternalLabel ? storage.formatInternalLabel(event.mastery_status, '先说第一步') : '',
+        calibrationKey: storage.formatSourceLabel ? storage.formatSourceLabel(event.source, '作业点拨') : ''
       },
-      { calibrationKey: event.source || '' }
+      { calibrationKey: storage.formatSourceLabel ? storage.formatSourceLabel(event.source, '作业点拨') : '' }
     );
   });
 }
@@ -248,7 +350,7 @@ function generatedFromThinkingReceipts() {
     const missing = checks.filter((check) => !check.done).map((check) => check.label).filter(Boolean);
     const done = checks.filter((check) => check.done).map((check) => check.label).filter(Boolean);
     const answer = receipt.status === 'answer shortcut blocked'
-      ? '先写自己的第一步或卡点；原小点只能给最小提示，不能代写答案。'
+      ? '先写自己的第一步或卡点；作业点拨只能给最小提示，不能代写答案。'
       : (receipt.shareLine || `复述本题错因，并说明下次先检查哪一步。`);
     return makeNote(
       stableId('note_thinking', [receipt.id || receipt.created_at || index]),
@@ -260,10 +362,10 @@ function generatedFromThinkingReceipts() {
         context: missing.length
           ? `还要补：${missing.join('、')}`
           : `已完成：${done.join('、') || 'student first thought / wrong cause / safe help / proof sentence'}`,
-        weakPoint: receipt.mastery_status || receipt.status || '',
-        calibrationKey: receipt.coach_step || receipt.source || ''
+        weakPoint: storage.formatInternalLabel ? storage.formatInternalLabel(receipt.mastery_status || receipt.status, '思路记录') : (receipt.status || ''),
+        calibrationKey: storage.formatInternalLabel ? storage.formatInternalLabel(receipt.coach_step || receipt.source, '作业点拨') : ''
       },
-      { calibrationKey: receipt.coach_step || receipt.source || '' }
+      { calibrationKey: storage.formatInternalLabel ? storage.formatInternalLabel(receipt.coach_step || receipt.source, '作业点拨') : '' }
     );
   });
 }
@@ -692,6 +794,27 @@ function buildClozeCard(base, subject, index) {
   };
 }
 
+function transferPrompt(base) {
+  const text = `${base.question || ''} ${base.answer || ''} ${base.context || ''}`;
+  if (/单位|厘米|米|分钟|小时/.test(text)) return '换一个数字或单位，先统一单位再计算。';
+  if (/等量关系|方程|应用题|建模/.test(text)) return '换一个情境，先只写等量关系，不急着算。';
+  if (/符号|正负|移项|括号/.test(text)) return '换一组符号或括号，逐步说出为什么变号。';
+  if (/定义|概念|公式|性质/.test(text)) return '换一个例子，先判断能不能用这个定义或公式。';
+  return '换一个相似题，先说第一步和最容易错的检查点。';
+}
+
+function buildTransferCard(base, subject, index) {
+  const text = `${base.question || ''} ${base.answer || ''} ${base.context || ''}`;
+  if (!WRONG_QUESTION_RE.test(text) && !/应用|变式|迁移|例题|题/.test(text)) return null;
+  return {
+    id: stableId('import_transfer', [subject || 'general', index, base.question.slice(0, 12)]),
+    question: `举一反三：这类题换个条件时先做什么？${normalizeText(base.question, 24)}`,
+    answer: transferPrompt(base),
+    context: base.context,
+    cardType: 'transfer'
+  };
+}
+
 function contentEngine(rawText, options = {}) {
   const subject = options.subject || '';
   const weakPoint = options.weakPoint || '';
@@ -699,7 +822,7 @@ function contentEngine(rawText, options = {}) {
   const provider = options.provider || CONTENT_ENGINE_PROVIDERS.local;
   const cards = [];
   parseImportedText(rawText, subject).forEach((base, index) => {
-    [buildConceptCard(base, subject, index), buildStepCard(base, subject, index), buildTrapCard(base, subject, index), buildClozeCard(base, subject, index)]
+    [buildConceptCard(base, subject, index), buildStepCard(base, subject, index), buildTrapCard(base, subject, index), buildClozeCard(base, subject, index), buildTransferCard(base, subject, index)]
       .filter(Boolean)
       .forEach((item) => {
         const quality = scoreQuality({
@@ -723,7 +846,9 @@ function contentEngine(rawText, options = {}) {
               ? '步骤巩固'
               : item.cardType === 'cloze'
                 ? '关键词填空'
-                : '概念理解'
+                : item.cardType === 'transfer'
+                  ? '举一反三'
+                  : '概念理解'
         }));
       });
   });
@@ -744,6 +869,7 @@ function contentEnginePlan(rawText, options = {}) {
   const adapter = contentEngineAdapter(rawText, options);
   const cards = adapter.cards || [];
   const coreTypes = ['concept', 'step', 'trap', 'cloze'];
+  const extensionTypes = ['transfer'];
   const counts = {};
   const qualityByType = {};
   cards.forEach((card) => {
@@ -756,6 +882,20 @@ function contentEnginePlan(rawText, options = {}) {
     ? Math.round(cards.reduce((sum, card) => sum + Number(card.quality || 0), 0) / cards.length)
     : 0;
   const missingTypes = coreTypes.filter((type) => !counts[type]);
+  const extensionCoverage = extensionTypes.map((type) => {
+    const qualities = qualityByType[type] || [];
+    const typeQuality = qualities.length
+      ? Math.round(qualities.reduce((sum, value) => sum + value, 0) / qualities.length)
+      : 0;
+    return {
+      type,
+      label: type === 'transfer' ? '举一反三' : type.toUpperCase(),
+      count: Number(counts[type] || 0),
+      quality: typeQuality,
+      ready: Number(counts[type] || 0) > 0,
+      percent: Number(counts[type] || 0) > 0 ? Math.max(28, Math.min(100, typeQuality || 56)) : 12
+    };
+  });
   const coreCoverage = coreTypes.map((type) => {
     const qualities = qualityByType[type] || [];
     const typeQuality = qualities.length
@@ -795,12 +935,15 @@ function contentEnginePlan(rawText, options = {}) {
     avgQuality,
     ready,
     coreCoverage,
+    extensionCoverage,
+    transferCount: Number(counts.transfer || 0),
     missingTypes,
     qualityBands,
     recommendation,
     importLabel: ready ? 'IMPORT READY' : cards.length ? 'IMPORT WITH REPAIR' : 'WAITING FOR CONTENT',
     nextActions: [
       missingTypes.length ? `补齐 ${missingTypes.join(' / ')} 卡型` : '覆盖 concept / step / trap / cloze',
+      counts.transfer ? '已生成举一反三卡，可用于错题回访' : '如是错题，补一句错因会生成举一反三卡',
       avgQuality < 76 ? '导入后运行 repair queue' : '直接进入 daily mission',
       adapter.remoteReady ? '可切换远程 AI 增强' : '本地规则已可用，等待 API key 后增强'
     ]
@@ -819,20 +962,25 @@ function importTextToDeck(rawText, options = {}) {
   const current = ensureReviewDeck();
   const freshItems = imported.filter((item) => !hasDuplicateNote(current.notes, item));
   const extraNotes = freshItems.map((item, index) => makeNote(
-    stableId('note_import', [subject || '通用', item.cardType || 'card', canonicalQuestion(item.question).slice(0, 24), index]),
+    stableId('note_import', [item.subject || subject || '通用', item.cardType || 'card', canonicalQuestion(item.question).slice(0, 24), index]),
     item.cardType || 'imported_note',
     source,
     {
       question: item.question,
       answer: item.answer,
       context: item.context,
-      weakPoint: options.weakPoint || '',
-      calibrationKey: options.calibrationKey || ''
+      weakPoint: item.weakPoint || options.weakPoint || '',
+      calibrationKey: item.calibrationKey || options.calibrationKey || '',
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || '',
+      nextPracticePlan: item.nextPracticePlan || null,
+      checkpoint: item.checkpoint || '',
+      parentPrompt: item.parentPrompt || ''
     },
     {
-      subject,
-      weakPoint: options.weakPoint || '',
-      calibrationKey: options.calibrationKey || ''
+      subject: item.subject || subject,
+      weakPoint: item.weakPoint || options.weakPoint || '',
+      calibrationKey: item.calibrationKey || options.calibrationKey || '',
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || ''
     }
   ));
   const notes = mergeById(current.notes, extraNotes).slice(0, 200);
@@ -867,20 +1015,25 @@ function importGeneratedCards(imported, options = {}) {
   const current = ensureReviewDeck();
   const freshItems = list.filter((item) => !hasDuplicateNote(current.notes, item));
   const extraNotes = freshItems.map((item, index) => makeNote(
-    stableId('note_import', [subject || 'general', item.cardType || 'card', canonicalQuestion(item.question).slice(0, 24), index]),
+    stableId('note_import', [item.subject || subject || 'general', item.cardType || 'card', canonicalQuestion(item.question).slice(0, 24), index]),
     item.cardType || 'imported_note',
     source,
     {
       question: item.question,
       answer: item.answer,
       context: item.context,
-      weakPoint: options.weakPoint || '',
-      calibrationKey: options.calibrationKey || ''
+      weakPoint: item.weakPoint || options.weakPoint || '',
+      calibrationKey: item.calibrationKey || options.calibrationKey || '',
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || '',
+      nextPracticePlan: item.nextPracticePlan || null,
+      checkpoint: item.checkpoint || '',
+      parentPrompt: item.parentPrompt || ''
     },
     {
-      subject,
-      weakPoint: options.weakPoint || '',
-      calibrationKey: options.calibrationKey || ''
+      subject: item.subject || subject,
+      weakPoint: item.weakPoint || options.weakPoint || '',
+      calibrationKey: item.calibrationKey || options.calibrationKey || '',
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || ''
     }
   ));
   const notes = mergeById(current.notes, extraNotes).slice(0, 200);
@@ -1001,6 +1154,11 @@ function updateNote(noteId, patch = {}) {
       subject: patch.subject || note.subject,
       weakPoint: patch.weakPoint || note.weakPoint,
       calibrationKey: patch.calibrationKey || note.calibrationKey,
+      wrongCauseBucket: patch.wrongCauseBucket || note.wrongCauseBucket,
+      wrongCauseLabel: patch.wrongCauseLabel || note.wrongCauseLabel,
+      nextPracticePlan: patch.nextPracticePlan || note.nextPracticePlan,
+      checkpoint: patch.checkpoint || note.checkpoint,
+      parentPrompt: patch.parentPrompt || note.parentPrompt,
       fields: Object.assign({}, note.fields, {
         question: patch.question || note.fields.question,
         answer: patch.answer || note.fields.answer,
@@ -1038,6 +1196,11 @@ function updateNote(noteId, patch = {}) {
           subject: updated.subject,
           weakPoint: updated.weakPoint,
           calibrationKey: updated.calibrationKey,
+          wrongCauseBucket: updated.wrongCauseBucket,
+          wrongCauseLabel: updated.wrongCauseLabel,
+          nextPracticePlan: updated.nextPracticePlan,
+          checkpoint: updated.checkpoint,
+          parentPrompt: updated.parentPrompt,
           quality: updated.quality,
           type: updated.type,
           source: updated.source
@@ -1139,6 +1302,7 @@ function unburyCard(cardId) {
 function reviewCard(cardId, rating) {
   const { deck, cards } = ensureReviewDeck();
   let reviewed = null;
+  const gameBefore = storage.loadGameProfile ? storage.loadGameProfile() : {};
   const next = cards.map((item) => {
     if (item.id !== cardId) return item;
     reviewed = schedule(item, rating, new Date(), deck);
@@ -1149,10 +1313,29 @@ function reviewCard(cardId, rating) {
   if (reviewed) {
     const streak = reviewStreak();
     const loop = storage.updateReviewLoopForRating ? storage.updateReviewLoopForRating(rating, streak) : null;
+    const xpAction = rating === 'again'
+      ? 'review_again'
+      : rating === 'hard'
+        ? 'review_fuzzy'
+        : rating === 'easy'
+          ? 'review_easy'
+          : 'review_remembered';
+    const xpDelta = gameLogic.calculateXP(xpAction, gameLogic.streakMultiplier(gameBefore.streak || streak || 0));
+    const xpResult = storage.addGameXP ? storage.addGameXP(xpDelta, xpAction) : { profile: gameBefore, accepted: xpDelta };
+    const gameAfterXp = xpResult.profile || gameBefore;
+    const todayEvents = storage.loadReviewEvents ? storage.loadReviewEvents().filter((item) => String(item.created_at || '').slice(0, 10) === todayKey()) : [];
+    const nextGame = gameLogic.updateStreak(gameAfterXp, {
+      reviewedToday: todayEvents.length + 1,
+      now: new Date(),
+      threshold: 10
+    });
+    const gameSaved = storage.saveGameProfile ? storage.saveGameProfile(nextGame) : nextGame;
     storage.appendReviewEvent({
       card_id: cardId,
       note_id: reviewed.noteId,
       rating: reviewed.last_rating,
+      xp: xpResult.accepted === undefined ? xpDelta : xpResult.accepted,
+      xp_capped: !!xpResult.capped,
       stability: reviewed.stability,
       difficulty: reviewed.difficulty,
       retrievability: reviewed.retrievability,
@@ -1165,13 +1348,16 @@ function reviewCard(cardId, rating) {
       source: reviewed.source,
       type: reviewed.type,
       subject: reviewed.subject,
-      weakPoint: reviewed.weakPoint
+      weakPoint: reviewed.weakPoint,
+      game_streak: gameSaved.streak || 0,
+      coins: gameSaved.coins || 0
     });
     if (storage.appendSyncMutation) {
       storage.appendSyncMutation('review_card', {
         card_id: cardId,
         note_id: reviewed.noteId,
         rating: reviewed.last_rating,
+        xp: xpResult.accepted === undefined ? xpDelta : xpResult.accepted,
         due: reviewed.due,
         stability: reviewed.stability,
         difficulty: reviewed.difficulty,
@@ -1256,11 +1442,12 @@ function dailyGoalStatus(events, deck) {
 }
 
 function achievements(events, cards, deck) {
-  const streak = reviewStreak();
+  const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
+  const streak = Number(gameProfile.streak || reviewStreak() || 0);
   const goal = dailyGoalStatus(events, deck);
   const mastered = cards.filter((item) => Number(item.interval || 0) >= 7 && Number(item.lapses || 0) === 0).length;
   const leeches = cards.filter((item) => item.leech || Number(item.lapses || 0) >= 2).length;
-  return [
+  const builtIn = [
     {
       id: 'daily_goal',
       title: '今日闭环',
@@ -1284,12 +1471,20 @@ function achievements(events, cards, deck) {
     },
     {
       id: 'leech_watch',
-      title: '顽固错因雷达',
+      title: '反复错因提醒',
       unlocked: leeches > 0,
       progress: leeches > 0 ? 100 : 0,
       hint: leeches > 0 ? `已标记 ${leeches} 个反复错因` : '暂无反复错因'
     }
   ];
+  const gameAchievements = gameLogic.listAchievements(gameProfile.achievements || []).map((item) => ({
+    id: item.id,
+    title: item.title,
+    unlocked: item.unlocked,
+    progress: item.unlocked ? 100 : 0,
+    hint: item.description
+  }));
+  return builtIn.concat(gameAchievements);
 }
 
 function queueStats(cards) {
@@ -1560,6 +1755,24 @@ function finishQuizAttempt(results, options = {}) {
     missed_card_ids: misses.map((card) => card.id),
     missed_note_ids: misses.map((card) => card.noteId)
   };
+  const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
+  const recentQuiz = (gameProfile.recent_quiz_accuracy || []).concat([summary.accuracy]).slice(-6);
+  const achievementStats = {
+    achievements: gameProfile.achievements || [],
+    review_count: (storage.loadReviewEvents ? storage.loadReviewEvents() : []).filter((item) => item.rating).length,
+    correct_count: (storage.loadReviewEvents ? storage.loadReviewEvents() : []).filter((item) => ['good', 'easy'].includes(item.rating)).length + correct,
+    streak: gameProfile.streak || reviewStreak(),
+    recent_quiz_accuracy: recentQuiz,
+    completed_books: deckLibrary(storage.loadReviewNotes ? storage.loadReviewNotes() : [], storage.loadReviewCards ? storage.loadReviewCards() : []).filter((item) => item.shareReady && item.cards >= 20).length
+  };
+  const achievementResult = gameLogic.checkAndUnlockAchievements(achievementStats);
+  if (storage.saveGameProfile) {
+    storage.saveGameProfile(Object.assign({}, gameProfile, {
+      recent_quiz_accuracy: recentQuiz,
+      achievements: achievementResult.achievements,
+      coins: Number(gameProfile.coins || 0) + Number(achievementResult.coinsAwarded || 0)
+    }));
+  }
   storage.appendReviewEvent(summary);
   if (storage.appendSyncMutation) {
     storage.appendSyncMutation('review_quiz_attempt', {
@@ -1641,6 +1854,7 @@ function typeBreakdown(cards, notes) {
     step: 'Step',
     trap: 'Trap',
     cloze: 'Cloze',
+    transfer: '举一反三',
     weak_point: 'Weak',
     first_step: 'First step',
     misconception: 'Mistake',
@@ -1766,7 +1980,7 @@ function nextStep(summary) {
     return { mode: 'leech', message: '先清顽固错因，暂停扩张新卡' };
   }
   if (summary.health && summary.health.status === 'fragile') {
-    return { mode: 'weak', message: '先回到弱点卡，稳住保持率' };
+    return { mode: 'weak', message: '先回到卡点卡，稳住保持率' };
   }
   if (summary.goal && !summary.goal.achieved) {
     return { mode: 'smart', message: `还差 ${summary.goal.remaining} 张，先完成今日目标` };
@@ -1793,7 +2007,7 @@ function sessionFeedback(mode, reviewedCards) {
       : mode === 'leech'
         ? `本轮处理 ${leechCount} 张顽固错因，先把最难的压住`
         : againCount >= Math.max(2, Math.ceil(list.length / 2))
-          ? '本轮遗忘偏多，建议回到原小点或降低新卡'
+          ? '本轮遗忘偏多，建议回到作业点拨或降低新卡'
           : easyCount >= Math.max(2, Math.ceil(list.length / 2))
             ? '本轮状态较稳，可以逐步扩大覆盖面'
             : '本轮节奏正常，继续按目标推进'
@@ -1803,23 +2017,27 @@ function sessionFeedback(mode, reviewedCards) {
 function progressProfile(events, cards) {
   const reviewed = (events || []).filter((item) => item.rating);
   const loop = storage.loadReviewLoop ? storage.loadReviewLoop() : {};
-  const xp = reviewed.reduce((sum, item) => {
+  const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
+  const computedXp = reviewed.reduce((sum, item) => {
     const base = item.rating === 'easy' ? 16 : item.rating === 'good' ? 12 : item.rating === 'hard' ? 8 : 5;
-    return sum + base + (item.leech ? 4 : 0);
+    return sum + Number(item.xp || base + (item.leech ? 4 : 0));
   }, 0) + Number(loop.bonus_xp || 0);
-  const level = Math.max(1, Math.floor(Math.sqrt(xp / 24)) + 1);
-  const currentFloor = Math.pow(Math.max(0, level - 1), 2) * 24;
-  const nextFloor = Math.pow(level, 2) * 24;
-  const progress = nextFloor > currentFloor ? Math.round(((xp - currentFloor) / (nextFloor - currentFloor)) * 100) : 100;
+  const xp = Math.max(Number(gameProfile.xp || 0), computedXp);
+  const levelInfo = gameLogic.getLevel(xp);
   const wins = reviewed.filter((item) => ['good', 'easy'].includes(item.rating)).length;
   const mastered = (cards || []).filter((item) => Number(item.interval || 0) >= 7 && Number(item.lapses || 0) === 0).length;
   return {
     xp,
-    level,
-    progress: Math.max(0, Math.min(100, progress)),
+    coins: Number(gameProfile.coins || 0),
+    level: Math.max(1, levelInfo.level),
+    levelTitle: levelInfo.title,
+    nextLevelXp: levelInfo.nextLevelXp,
+    progress: Math.max(0, Math.min(100, levelInfo.progress)),
     wins,
     mastered,
-    streak: reviewStreak()
+    streak: Number(gameProfile.streak || reviewStreak() || 0),
+    bestStreak: Number(gameProfile.best_streak || 0),
+    inventoryCount: (gameProfile.inventory || []).length
   };
 }
 
@@ -1828,32 +2046,35 @@ function syncStatus() {
   const queue = storage.loadSyncQueue ? storage.loadSyncQueue() : [];
   const diagnostics = storage.syncDiagnostics ? storage.syncDiagnostics() : null;
   const pending = queue.filter((item) => item.status === 'pending').length;
+  const hasCloudSession = !!state.enabled && state.mode !== 'local_queue' && !!state.last_success_at && !state.last_error;
   return {
     mode: state.mode || 'local_queue',
     enabled: !!state.enabled,
     pending,
     lastSuccessAt: state.last_success_at || '',
     lastError: state.last_error || '',
-    readyForCloud: pending >= 0,
+    readyForCloud: hasCloudSession,
     diagnostics,
     label: diagnostics && diagnostics.pending
       ? diagnostics.label
-      : (state.last_error ? `Last sync error: ${state.last_error}` : 'Sync is locally production-ready.')
+      : (state.last_error ? `同步失败：${state.last_error}` : (hasCloudSession ? '多设备连续性已连接。' : '本地记录已就绪，完成账号和服务配置后可开启多设备连续性。'))
   };
 }
 
 function loopStatus(progress) {
   const loop = storage.loadReviewLoop ? storage.loadReviewLoop() : {};
   const profile = storage.loadProfile ? storage.loadProfile() : {};
-  const lives = Number(loop.lives || loop.max_lives || 5);
+  const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
+  const lives = Number(gameProfile.lives || loop.lives || loop.max_lives || 5);
   const maxLives = Number(loop.max_lives || 5);
   return {
     lives,
     maxLives,
     health: Math.round((lives / Math.max(1, maxLives)) * 100),
-    streakFreeze: Number(loop.streak_freeze || 0),
-    currentStreak: Number(loop.current_streak || (progress && progress.streak) || 0),
-    longestStreak: Number(loop.longest_streak || 0),
+    streakFreeze: Number(gameProfile.streak_freezes || loop.streak_freeze || 0),
+    currentStreak: Number(gameProfile.streak || loop.current_streak || (progress && progress.streak) || 0),
+    longestStreak: Number(gameProfile.best_streak || loop.longest_streak || 0),
+    coins: Number(gameProfile.coins || 0),
     leaderboard: storage.localLeaderboardSnapshot ? storage.localLeaderboardSnapshot(profile, progress || {}) : [],
     label: lives <= 1 ? 'Life low: focus on must-do and leech cards.' : 'Life loop healthy.'
   };
@@ -1913,15 +2134,22 @@ function repairSuggestion(note, cards) {
   const leech = relatedCards.some((card) => card.leech || Number(card.lapses || 0) >= 2);
   const question = String((note.fields && note.fields.question) || '');
   const answer = String((note.fields && note.fields.answer) || '');
+  const plan = buildNextPracticePlan(Object.assign({}, note || {}, note.fields || {}));
   const actions = [];
   if (!answer.trim()) actions.push('Add a concrete answer or first-step explanation.');
   if (question.trim().length < 12) actions.push('Rewrite the prompt so the learner knows what to recall.');
   if (answer.trim().length < 8) actions.push('Expand the answer with a rule, example, or trap reminder.');
   if (!(note.fields && note.fields.context)) actions.push('Add source context so the card stays grounded in real homework.');
   if (!note.weakPoint && !note.calibrationKey) actions.push('Attach a weak point or calibration key for path routing.');
+  actions.push(plan.nextPracticeText);
   if (leech) actions.push('Split this into a smaller step card before keeping the reverse card.');
   return {
     noteId: note.id,
+    wrongCauseBucket: plan.wrongCauseBucket,
+    wrongCauseLabel: plan.wrongCauseLabel,
+    checkpoint: plan.checkpoint,
+    parentPrompt: plan.parentPrompt,
+    nextPracticePlan: plan,
     suggestion: actions[0] || 'Refresh this card with a more specific prompt and answer.',
     actions: actions.slice(0, 3),
     leech
@@ -1948,6 +2176,11 @@ function repairDraft(note, cards) {
     context: contextBase || questionBase || answerBase,
     weakPoint: note.weakPoint || note.type || '',
     calibrationKey: note.calibrationKey || '',
+    wrongCauseBucket: repair.wrongCauseBucket,
+    wrongCauseLabel: repair.wrongCauseLabel,
+    nextPracticePlan: repair.nextPracticePlan,
+    checkpoint: repair.checkpoint,
+    parentPrompt: repair.parentPrompt,
     actions: repair.actions
   };
 }
@@ -1957,9 +2190,14 @@ function repairDrillItem(note, draft) {
   const drill = {
     id: stableId('repair_drill', [note.id, todayKey()]),
     question: `Repair drill: what is the first checkpoint for ${normalizeText(baseQuestion, 34)}?`,
-    answer: `Checkpoint: ${normalizeText(draft.answer, 90)}`,
+    answer: `Checkpoint: ${normalizeText(draft.checkpoint || draft.answer, 90)}`,
     context: draft.context || baseQuestion,
-    cardType: 'step'
+    cardType: 'step',
+    wrongCauseBucket: draft.wrongCauseBucket,
+    wrongCauseLabel: draft.wrongCauseLabel,
+    nextPracticePlan: draft.nextPracticePlan,
+    checkpoint: draft.checkpoint,
+    parentPrompt: draft.parentPrompt
   };
   return drill;
 }
@@ -1974,7 +2212,12 @@ function repairNote(noteId) {
     answer: draft.answer,
     context: draft.context,
     weakPoint: draft.weakPoint,
-    calibrationKey: draft.calibrationKey
+    calibrationKey: draft.calibrationKey,
+    wrongCauseBucket: draft.wrongCauseBucket,
+    wrongCauseLabel: draft.wrongCauseLabel,
+    nextPracticePlan: draft.nextPracticePlan,
+    checkpoint: draft.checkpoint,
+    parentPrompt: draft.parentPrompt
   });
   if (!updated) return { ok: false, reason: 'repair_failed' };
   const drillResult = importGeneratedCards([repairDrillItem(updated, draft)], {
@@ -2002,6 +2245,9 @@ function repairNote(noteId) {
     ok: true,
     updated,
     draft,
+    nextPracticePlan: draft.nextPracticePlan,
+    wrongCauseBucket: draft.wrongCauseBucket,
+    checkpoint: draft.checkpoint,
     drillImported: drillResult.imported || 0
   };
 }
@@ -2013,6 +2259,11 @@ function enhancedQualityQueue(notes, limit = 8) {
     const repair = repairSuggestion(note, cards);
     const draft = repairDraft(note, cards);
     return Object.assign({}, item, {
+      wrongCauseBucket: repair.wrongCauseBucket,
+      wrongCauseLabel: repair.wrongCauseLabel,
+      checkpoint: repair.checkpoint,
+      parentPrompt: repair.parentPrompt,
+      nextPracticePlan: repair.nextPracticePlan,
       repairSuggestion: repair.suggestion,
       repairActions: repair.actions,
       leech: repair.leech,
@@ -2045,7 +2296,7 @@ function userQualityQueue(notes, limit = 8) {
 function userNextStep(summary) {
   if (!summary) return { mode: 'smart', message: '先开始第一轮复习' };
   if (summary.health && summary.health.status === 'overloaded') return { mode: 'leech', message: '先清顽固错因，暂停扩张新卡' };
-  if (summary.health && summary.health.status === 'fragile') return { mode: 'weak', message: '先回到弱点卡，稳住保持率' };
+  if (summary.health && summary.health.status === 'fragile') return { mode: 'weak', message: '先回到卡点卡，稳住保持率' };
   if (summary.goal && !summary.goal.achieved) return { mode: 'smart', message: `还差 ${summary.goal.remaining} 张，先完成今日目标` };
   if (summary.queue && summary.queue.newCount >= 6) return { mode: 'new', message: '可以开一轮新卡，扩大知识覆盖' };
   return { mode: 'smart', message: '保持当前节奏，继续滚动复习' };
@@ -2076,10 +2327,52 @@ function userSessionFeedback(mode, reviewedCards) {
       : mode === 'leech'
         ? `本轮处理 ${leechCount} 张顽固错因，先把最难的压住`
         : againCount >= Math.max(2, Math.ceil(list.length / 2))
-          ? '本轮遗忘偏多，建议回到原小点或降低新卡'
+          ? '本轮遗忘偏多，建议回到作业点拨或降低新卡'
           : easyCount >= Math.max(2, Math.ceil(list.length / 2))
             ? '本轮状态较稳，可以逐步扩大覆盖面'
             : '本轮节奏正常，继续按目标推进'
+  };
+}
+
+function wrongCauseBreakdown(cards = [], notes = []) {
+  const counts = {};
+  const samples = {};
+  (cards || []).forEach((card) => {
+    const cause = classifyWrongCause(card);
+    counts[cause.id] = (counts[cause.id] || 0) + 1;
+    if (!samples[cause.id]) samples[cause.id] = card;
+  });
+  (notes || []).forEach((note) => {
+    const cause = classifyWrongCause(Object.assign({}, note, note.fields || {}));
+    counts[cause.id] = counts[cause.id] || 0;
+    if (!samples[cause.id]) samples[cause.id] = note;
+  });
+  const cardsByCause = Object.keys(counts).map((id) => {
+    const cause = WRONG_CAUSE_BUCKETS[id] || WRONG_CAUSE_BUCKETS.first_step;
+    const sample = samples[id] || {};
+    const plan = buildNextPracticePlan(Object.assign({}, sample, sample.fields || {}, { wrongCauseBucket: id }));
+    return {
+      id,
+      label: cause.label,
+      count: counts[id],
+      checkpoint: plan.checkpoint,
+      parentPrompt: plan.parentPrompt,
+      nextPracticeText: plan.nextPracticeText,
+      appRoute: plan.appRoute
+    };
+  }).sort((a, b) => b.count - a.count);
+  return {
+    total: cardsByCause.reduce((sum, item) => sum + item.count, 0),
+    cards: cardsByCause,
+    top: cardsByCause[0] || null,
+    nextPracticePlan: cardsByCause[0] ? {
+      wrongCauseBucket: cardsByCause[0].id,
+      wrongCauseLabel: cardsByCause[0].label,
+      checkpoint: cardsByCause[0].checkpoint,
+      parentPrompt: cardsByCause[0].parentPrompt,
+      nextPracticeText: cardsByCause[0].nextPracticeText,
+      appRoute: cardsByCause[0].appRoute
+    } : buildNextPracticePlan({ wrongCauseBucket: 'first_step' })
   };
 }
 
@@ -2213,21 +2506,21 @@ function rewardBoard(summary) {
       xp: Number(challenge.rewardXp || 0),
       lives: challenge.id === 'leech_clear' ? 1 : 0,
       streakFreeze: challenge.id === 'goal_run' ? 1 : 0,
-      hint: challenge.achieved ? '可以领取奖励' : `完成后可得 ${challenge.rewardXp} XP`
+      hint: challenge.achieved ? '完成记录已就绪' : `完成后会写入 ${challenge.rewardXp} 点练习记录`
     });
   }
   const goal = summary && summary.goal ? summary.goal : null;
   if (goal) {
     rewards.push({
       id: `goal:${todayKey()}`,
-      title: '今日目标奖励',
+      title: '今日目标记录',
       progress: goal.progress,
       ready: !!goal.achieved,
       claimed: !!claimed[`goal:${todayKey()}`],
       xp: 12,
       lives: 0,
       streakFreeze: 0,
-      hint: goal.achieved ? '完成今日复习可领取' : `还差 ${goal.remaining} 张`
+      hint: goal.achieved ? '今日复习已经记下' : `还差 ${goal.remaining} 张`
     });
   }
   return rewards.map((reward) => Object.assign({}, reward, {
@@ -2399,7 +2692,7 @@ function socialChallengeShell(summary) {
       title: 'Solo Focus Sprint',
       target: Math.max(3, Number((safe.deck && safe.deck.dailyLimit) || 5)),
       metric: 'cards',
-      reward: '+20 XP',
+      reward: '+20 练习记录',
       prompt: 'Finish the must-do review queue before adding new cards.'
     },
     {
@@ -2411,21 +2704,21 @@ function socialChallengeShell(summary) {
       prompt: 'Explain one key wrong cause in one sentence after review.'
     },
     {
-      id: 'squad_mock',
-      title: 'Study Squad Challenge',
+      id: 'local_quiz',
+      title: 'Local Quiz Checkpoint',
       target: Math.max(70, Number(fsrs.desiredRetention || 90) - 10),
       metric: 'quiz accuracy',
-      reward: 'rank boost',
-      prompt: 'Local preview now; becomes real friend challenge after login.'
+      reward: '+8 练习记录',
+      prompt: 'Complete a short quiz from real review cards.'
     }
   ];
   return {
-    title: 'SOCIAL CHALLENGE SHELL',
+    title: 'LOCAL CHALLENGE LOOP',
     mode: 'local_preview_cloud_ready',
-    inviteCode: stableId('squad', [todayKey(), season.tier || 'bronze']).slice(0, 18),
+    inviteCode: '',
     dailyPrompt: challenge.title || 'Finish today mission',
     missions,
-    label: 'Local challenge cards are ready; cloud login turns them into real friend challenges.'
+    label: 'Only local progress is shown until production cloud sync is configured.'
   };
 }
 
@@ -2445,11 +2738,11 @@ function retentionLab(summary) {
   }));
   const best = scenarios.find((item) => item.retention === desired) || scenarios[1];
   return {
-    title: 'ANKI FSRS RETENTION LAB',
+    title: '长期记忆负荷实验室',
     desiredRetention: desired,
     scenarios,
     best,
-    label: 'Modelled from Anki FSRS design: higher retention means shorter intervals and more daily reviews.'
+    label: '根据本机复习节奏估算：目标保持率越高，每日复习量通常越大。'
   };
 }
 
@@ -2461,10 +2754,10 @@ function contentPipeline(summary) {
     { id: 'wrong_cause', title: 'Wrong cause to cards', status: 'ready', mode: 'local', action: 'Use radar/upload/tutor evidence.' },
     { id: 'module', title: 'Module to deck', status: 'ready', mode: 'local', action: 'Import AI learning module packs.' },
     { id: 'template', title: 'Public template deck', status: 'ready', mode: 'local', action: 'Import curated template packs.' },
-    { id: 'quizlet_anki', title: 'Quizlet / Anki import', status: 'planned', mode: 'api', action: 'Needs parser/API/upload after launch.' },
-    { id: 'youtube', title: 'YouTube to flashcards', status: 'planned', mode: 'api', action: 'Needs transcript extraction and model key.' },
-    { id: 'pdf', title: 'PDF to flashcards', status: 'planned', mode: 'api', action: 'Needs file upload, OCR/parser and model key.' },
-    { id: 'ppt_photo', title: 'PPT / photo scan', status: 'planned', mode: 'api', action: 'Needs upload, OCR and content safety gate.' }
+    { id: 'external_import', title: '外部资料导入', status: 'requires_setup', mode: 'api', action: '需要配置解析服务、上传通道和家长确认流程后开放。' },
+    { id: 'youtube', title: 'Video to flashcards', status: 'requires_setup', mode: 'api', action: '需要配置字幕提取、内容安全和模型服务后开放。' },
+    { id: 'pdf', title: 'PDF to flashcards', status: 'requires_setup', mode: 'api', action: '需要配置文件上传、文档解析和家长确认流程后开放。' },
+    { id: 'ppt_photo', title: 'PPT / photo scan', status: 'requires_setup', mode: 'api', action: '需要配置上传、识别草稿和内容安全检查后开放。' }
   ];
   return {
     title: 'MULTI-FORMAT CONTENT PIPELINE',
@@ -2472,7 +2765,7 @@ function contentPipeline(summary) {
     total: channels.length,
     localReady: !!localReady,
     channels,
-    label: `${channels.filter((item) => item.status === 'ready').length}/${channels.length} channels are productized locally; API channels have clear launch hooks.`
+    label: `${channels.filter((item) => item.status === 'ready').length}/${channels.length} 个资料通道已支持本机生成；上传识别通道需配置服务后开放。`
   };
 }
 
@@ -2482,18 +2775,18 @@ function gameEconomy(summary) {
   const season = safe.season || {};
   const challenge = safe.socialChallenge || {};
   const quests = [
-    { id: 'daily', title: 'Daily 5-minute recall', reward: '+12 XP', trigger: 'finish daily goal', ready: !!safe.goal },
+    { id: 'daily', title: 'Daily 5-minute recall', reward: '+12 review points', trigger: 'finish daily goal', ready: !!safe.goal },
     { id: 'boss', title: 'Wrong-cause boss battle', reward: '+1 life', trigger: 'clear one leech or repair card', ready: Number(safe.leeches || 0) >= 0 },
-    { id: 'squad', title: 'Squad quiz night', reward: 'rank boost', trigger: 'complete local challenge shell', ready: !!challenge },
-    { id: 'season', title: 'Weekly season checkpoint', reward: 'tier progress', trigger: 'earn weekly XP', ready: !!season }
+    { id: 'quiz', title: 'Local quiz checkpoint', reward: '+8 review points', trigger: 'complete a real-card quiz', ready: !!challenge },
+    { id: 'season', title: 'Weekly season checkpoint', reward: 'tier progress', trigger: 'earn weekly review points', ready: !!season }
   ];
   return {
-    title: 'GIZMO GAME ECONOMY',
+    title: 'LOCAL GAME ECONOMY',
     lives: Number(loop.lives || 0),
     tier: season.tier || 'Bronze',
     quests,
     ready: quests.filter((item) => item.ready).length,
-    label: 'Game loop is designed as local-first: daily recall, repair boss, squad challenge, weekly season.'
+    label: 'Game loop is local-first: daily recall, repair boss, quiz checkpoint, weekly season.'
   };
 }
 
@@ -2520,54 +2813,54 @@ function outcomeSimulator(summary) {
   };
 }
 
-function moatConsole(summary) {
+function loopReadinessConsole(summary) {
   const safe = summary || {};
   const scores = [
     { id: 'loop', title: 'Learning loop', score: 100, evidence: 'diagnosis -> homework triage -> tutor -> review -> quiz -> repair -> factory packs' },
-    { id: 'memory', title: 'Anki-grade scheduler design', score: safe.retentionLab ? 96 : 88, evidence: 'FSRS-like scheduling, retention lab, workload/cram forecast' },
-    { id: 'content', title: 'Gizmo-grade content engine design', score: safe.contentPipeline ? 96 : 90, evidence: 'content engine plan, templates, factory packs, multi-format pipeline hooks' },
-    { id: 'game', title: 'Gizmo-grade game loop design', score: safe.gameEconomy ? 94 : 86, evidence: 'season pass, missions, rewards, lives, challenge shell, game economy' },
-    { id: 'family', title: 'China family moat', score: 98, evidence: 'parent radar, must-do only, wrong-cause repair, parent check-in pack' }
+    { id: 'memory', title: '长期复习调度', score: safe.retentionLab ? 96 : 88, evidence: '间隔复习、保持率实验、负荷和考前计划' },
+    { id: 'content', title: 'Content engine design', score: safe.contentPipeline ? 96 : 90, evidence: 'content engine plan, templates, factory packs, multi-format pipeline hooks' },
+    { id: 'game', title: '本机轻练习闭环', score: safe.gameEconomy ? 94 : 86, evidence: '每日任务、学习记录、状态恢复、小测节点' },
+    { id: 'family', title: '家庭作业协同', score: 98, evidence: '家长视角、今晚只做一步、错因修复、复盘话术' }
   ];
   return {
-    title: 'MOAT CONSOLE',
-    mode: 'reference_design_score',
+    title: '产品闭环成熟度',
+    mode: 'local_readiness_score',
     average: clampScore(scores.reduce((sum, item) => sum + item.score, 0) / scores.length),
     scores,
-    label: 'Scores describe productized reference design completeness; production proof still needs real usage data.'
+    label: '分数描述本机闭环完整度；真实效果仍需要持续使用数据验证。'
   };
 }
 
-function benchmarkArena(summary) {
+function loopCapabilityBoard(summary) {
   const safe = summary || {};
   const products = [
     {
-      id: 'gizmo',
-      title: 'Gizmo-style loop',
+      id: 'content_loop',
+      title: '资料生成与练习闭环',
       score: 97,
-      wins: ['AI content factory', 'quiz loop', 'template decks', 'season/challenge shell'],
-      gap: 'True friend graph and live shared decks need login/cloud.'
+      wins: ['AI content factory', 'quiz loop', 'template decks', 'local game loop'],
+      gap: '多人共享和跨设备连续性需要登录与持久化服务后开放。'
     },
     {
-      id: 'anki',
-      title: 'Anki-style memory',
+      id: 'memory_loop',
+      title: '长期记忆复习闭环',
       score: 96,
       wins: ['FSRS-like scheduler', 'retention lab', 'workload forecast', 'deck browser'],
-      gap: 'True FSRS optimization needs long review history.'
+      gap: '复习参数优化需要更长周期的真实复习记录。'
     },
     {
-      id: 'yuandian',
-      title: 'YuanDian family moat',
+      id: 'family_loop',
+      title: '家庭作业协同闭环',
       score: 99,
       wins: ['parent radar', 'must-do triage', 'wrong-cause repair', 'parent check-in pack'],
-      gap: 'Real cohort proof needs production usage.'
+      gap: '真实效果证明需要小范围连续使用样本。'
     }
   ];
   return {
-    title: 'BENCHMARK ARENA',
+    title: '闭环能力看板',
     products,
     average: clampScore(products.reduce((sum, item) => sum + item.score, 0) / products.length),
-    label: 'Reference-design parity is high; YuanDian differentiation is the Chinese family homework loop.'
+    label: '当前本机闭环已覆盖资料、复习、轻练习和家长复盘；生产证明依赖真实使用数据。'
   };
 }
 
@@ -2611,17 +2904,17 @@ function syntheticCohortLab(summary) {
 function assetCompoundingMap(summary) {
   const safe = summary || {};
   const nodes = [
-    { id: 'weakness', title: 'Weakness signal', count: Number((safe.sources || []).length || 0), moat: 'parent radar and homework evidence' },
-    { id: 'content', title: 'Learning assets', count: Number(safe.notes || 0), moat: 'cards, templates, factory packs and modules' },
-    { id: 'memory', title: 'Memory traces', count: Number(safe.total || 0), moat: 'FSRS state, due history and leech labels' },
-    { id: 'repair', title: 'Repair knowledge', count: Number((safe.qualityQueue || []).length + Number(safe.leeches || 0)), moat: 'wrong-cause repair and boss battles' },
-    { id: 'family', title: 'Family workflow', count: Number((safe.missions || []).length || 0), moat: 'must-do, parent check-in and no-overwork positioning' }
+    { id: 'weakness', title: '卡点信号', count: Number((safe.sources || []).length || 0), note: '家长观察和作业证据' },
+    { id: 'content', title: '学习资产', count: Number(safe.notes || 0), note: '卡片、模板、学习包和模块' },
+    { id: 'memory', title: '复习痕迹', count: Number(safe.total || 0), note: '间隔状态、到期记录和顽固错因标签' },
+    { id: 'repair', title: '修复线索', count: Number((safe.qualityQueue || []).length + Number(safe.leeches || 0)), note: '错因修复和针对性轻练习' },
+    { id: 'family', title: '家庭协同', count: Number((safe.missions || []).length || 0), note: '必做一步、家长复盘和不过量提醒' }
   ];
   return {
     title: 'ASSET COMPOUNDING MAP',
     nodes,
     score: clampScore(55 + nodes.filter((item) => item.count >= 1).length * 9),
-    label: 'Every session should leave reusable assets: weakness, card, schedule, repair rule, and parent workflow.'
+    label: '每次学习都应沉淀可复用资产：卡点、卡片、计划、修复线索和家长动作。'
   };
 }
 
@@ -2646,7 +2939,7 @@ function missionBoard(summary) {
   });
   board.push({
     id: 'mission_sync',
-    title: '把本地记录同步到云端协议',
+    title: '把本机记录接入账号连续性',
     current: summary.sync && summary.sync.pending === 0 ? 1 : 0,
     target: 1,
     progress: summary.sync && summary.sync.pending === 0 ? 100 : 0,
@@ -2723,7 +3016,7 @@ function maturityScore(summary) {
     },
     {
       id: 'memory_scheduler',
-      label: 'Anki/FSRS memory',
+      label: '长期记忆复习',
       score: clampScore(
         40
         + (safe.deck && safe.deck.fsrsVersion ? 15 : 0)
@@ -2739,7 +3032,7 @@ function maturityScore(summary) {
     },
     {
       id: 'content_engine',
-      label: 'Gizmo content engine',
+      label: '资料生成引擎',
       score: clampScore(
         25
         + (content.coverage / Math.max(1, content.required || 4)) * 35
@@ -2754,7 +3047,7 @@ function maturityScore(summary) {
     },
     {
       id: 'self_repair',
-      label: 'Self-repair moat',
+      label: '错因自修复',
       score: clampScore(
         30
         + (qualityQueue.some((item) => item.repairPreviewQuestion) ? 20 : 0)
@@ -2766,7 +3059,7 @@ function maturityScore(summary) {
     },
     {
       id: 'gamification',
-      label: 'Gizmo gamification',
+      label: '轻练习留存',
       score: clampScore(
         25
         + (safe.challenge ? 15 : 0)
@@ -2776,15 +3069,14 @@ function maturityScore(summary) {
         + (safe.season ? 10 : 0)
         + (safe.difficultyLadder && safe.difficultyLadder.readyCount >= 4 ? 8 : 0)
         + (safe.socialChallenge && safe.socialChallenge.missions && safe.socialChallenge.missions.length >= 3 ? 8 : 0)
-        + (loop.leaderboard && loop.leaderboard.length ? 10 : 0)
         + (loop.streakFreeze >= 0 ? 10 : 0)
         + (loop.lives > 0 ? 10 : 0)
       ),
-      gap: 'Need real friend/social challenge graph and live leaderboards.'
+      gap: '真实多人挑战和榜单需要登录与持久化服务后开放。'
     },
     {
       id: 'cloud_sync',
-      label: 'Cloud sync readiness',
+      label: '账号连续性准备度',
       score: clampScore(
         30
         + (diagnostics.schemaVersion ? 15 : 0)
@@ -2797,7 +3089,7 @@ function maturityScore(summary) {
     },
     {
       id: 'family_outcome',
-      label: 'China family outcome',
+      label: '家庭学习结果',
       score: clampScore(
         35
         + (sourceNames.includes('radar') ? 12 : 0)
@@ -2830,7 +3122,7 @@ function maturityScore(summary) {
     dimensions,
     weakest,
     label: overall >= 90
-      ? 'Near production-grade local moat.'
+      ? '本机闭环已接近可试用状态。'
       : overall >= 75
         ? 'Strong local prototype; production data will decide the next jump.'
         : 'Core loop exists; biggest lift is real AI/data/cloud integration.',
@@ -2853,7 +3145,7 @@ function scoreFeatures(features) {
   return clampScore((earned / total) * 100);
 }
 
-function competitorBenchmark(summary) {
+function commercialReadiness(summary) {
   const safe = summary || {};
   const sources = safe.sources || [];
   const sourceNames = sources.map((item) => item.source);
@@ -2875,68 +3167,69 @@ function competitorBenchmark(summary) {
   const hasGameLoop = !!safe.challenge && (safe.missions || []).length >= 3 && (safe.rewards || []).length > 0;
   const hasLeaderboard = loop.leaderboard && loop.leaderboard.length > 0;
   const hasSyncProtocol = sync.diagnostics && sync.diagnostics.schemaVersion;
-  const gizmoFeatures = [
+  const contentLoopFeatures = [
     featureHit(hasCoreCardTypes, 14, 'concept/step/trap/cloze card engine exists', 'Add reliable AI generation for every card type.'),
     featureHit(hasModulePack, 10, 'module content can become review packs', 'Convert more learning modules and prompts into instant decks.'),
     featureHit(hasRepair, 12, 'local repair engine can improve weak cards', 'Use model-backed rubric repair after API key.'),
     featureHit(hasQuizLoop, 10, 'quiz attempts feed memory scheduling and repair', 'Add timed tests and richer answer checking.'),
-    featureHit(hasGameLoop, 14, 'challenge/mission/reward loop exists', 'Add richer streak quests and seasonal challenges.'),
-    featureHit(hasLeaderboard, 8, 'local leaderboard shell exists', 'Add real friend/social leaderboard after login.'),
-    featureHit(false, 12, '', 'Add scan/photo/PDF/PPT/YouTube ingestion after upload/API setup.'),
+    featureHit(hasGameLoop, 14, 'challenge/mission/learning-record loop exists', 'Add richer streak quests and seasonal checkpoints.'),
+    featureHit(hasLeaderboard, 8, 'local progress snapshot exists', 'Keep multi-user ranking hidden until production login/cloud exist.'),
+    featureHit(false, 12, '', '外部材料接入需要先配置上传、解析和家长确认服务。'),
     featureHit(hasShareLibrary, 10, 'local share-ready deck library exists', 'Add shared/public deck library and community graph.'),
-    featureHit(hasTutorLoop || hasWeakLoop, 10, hasThinkingProof ? 'Chinese homework/radar/tutor/thinking-proof loop exists' : 'Chinese homework/radar/tutor loop exists', 'Collect more real study sessions for personalization.'),
+    featureHit(hasTutorLoop || hasWeakLoop, 10, hasThinkingProof ? 'homework/radar/tutor/thinking-proof loop exists' : 'homework/radar/tutor loop exists', 'Collect more real study sessions for personalization.'),
     featureHit(sync.readyForCloud, 10, 'sync protocol is cloud-ready', 'Connect authenticated production sync.')
   ];
-  const ankiFeatures = [
-    featureHit(safe.deck && safe.deck.fsrsVersion, 18, 'FSRS-like scheduling state is stored', 'Add optimized FSRS parameters from real review history.'),
+  const memoryLoopFeatures = [
+    featureHit(safe.deck && safe.deck.fsrsVersion, 18, 'spaced scheduling state is stored', 'Tune scheduling parameters from real review history.'),
     featureHit(typeof safe.deck.desiredRetention === 'number', 12, 'desired retention setting exists', 'Add per-subject/deck retention presets.'),
     featureHit(safe.longWorkload && safe.longWorkload.horizonDays >= 90 && safe.cramPlan, 10, '90-day workload simulator and exam cram mode exist', 'Tune the planner from real exam cohorts.'),
     featureHit(hasReverse && hasCloze, 12, 'reverse and cloze cards exist', 'Add richer note templates and card-type controls.'),
     featureHit((safe.queue && safe.queue.buried >= 0) && safe.suspended >= 0, 10, 'bury/suspend card controls exist', 'Add bulk browser operations and deck maintenance tools.'),
-    featureHit(safe.progress && safe.progress.mastered >= 0, 10, 'mastery and XP history exists', 'Add retention analytics over months.'),
+    featureHit(safe.progress && safe.progress.mastered >= 0, 10, 'mastery and practice history exists', 'Add retention analytics over months.'),
     featureHit(sync.readyForCloud, 10, 'sync protocol is cloud-ready', 'Add production multi-device conflict replay.'),
-    featureHit(false, 8, '', 'Add import/export compatibility with Anki package formats.'),
+    featureHit(false, 8, '', 'Add structured import/export for external learning materials.'),
     featureHit(false, 10, '', 'Add plugin/add-on style extension surface later.')
   ];
   const products = [
     {
-      id: 'gizmo',
-      name: 'Gizmo',
-      target: 'AI import + quizzes + social gamified learning',
-      score: scoreFeatures(gizmoFeatures),
-      features: gizmoFeatures,
-      biggestGap: gizmoFeatures.find((item) => !item.value && item.gap)
+      id: 'content_loop',
+      name: '资料到练习闭环',
+      target: '资料导入 + 小测 + 轻练习反馈',
+      score: scoreFeatures(contentLoopFeatures),
+      features: contentLoopFeatures,
+      biggestGap: contentLoopFeatures.find((item) => !item.value && item.gap)
     },
     {
-      id: 'anki',
-      name: 'Anki',
-      target: 'Long-term memory scheduler + mature deck control',
-      score: scoreFeatures(ankiFeatures),
-      features: ankiFeatures,
-      biggestGap: ankiFeatures.find((item) => !item.value && item.gap)
+      id: 'memory_loop',
+      name: '长期复习闭环',
+      target: '间隔复习 + 卡片管理 + 长期记录',
+      score: scoreFeatures(memoryLoopFeatures),
+      features: memoryLoopFeatures,
+      biggestGap: memoryLoopFeatures.find((item) => !item.value && item.gap)
     }
   ];
   const average = clampScore(products.reduce((sum, item) => sum + item.score, 0) / products.length);
-  const moonshot = [
-    'Gizmo parity: multi-format AI import, quiz mode, public decks, friend challenges.',
-    'Anki parity: optimized FSRS parameters, deep deck browser, long-horizon retention analytics.',
-    'YuanDian moat: Chinese homework triage, parent radar, must-do tutor, thinking-proof ledger, wrong-cause repair loop.'
+  const roadmap = [
+    '多格式资料接入、小测模式、共享学习包和生产可用的多人练习。',
+    '更精细的间隔复习参数、卡片管理和长期保持率分析。',
+    '家庭作业分诊、家长复盘、必做一步、思考证据和错因修复闭环。'
   ];
   return {
     average,
     products,
-    moonshot,
+    roadmap,
     label: average >= 90
-      ? 'Benchmark parity is close; production data becomes the main moat.'
+      ? '本机闭环完整度较高，下一步由真实使用数据验证。'
       : average >= 70
-        ? 'Core benchmark shape is visible; social/import/cloud depth remains.'
-        : 'Benchmark gap is still product-depth, not only launch configuration.'
+        ? '核心闭环已经可见，资料接入、多人和账号连续性仍需加深。'
+        : '当前差距主要是产品深度和真实服务接入，不只是上线配置。'
   };
 }
 
 function reviewSummary() {
   const { deck, cards, notes } = ensureReviewDeck();
   const events = storage.loadReviewEvents();
+  const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
   const today = todayKey();
   const todayEvents = events.filter((item) => String(item.created_at || '').slice(0, 10) === today);
   const goodToday = todayEvents.filter((item) => ['good', 'easy'].includes(item.rating)).length;
@@ -2968,6 +3261,7 @@ function reviewSummary() {
     queue: queueStats(cards),
     goal: dailyGoalStatus(events, deck),
     progress,
+    gameProfile,
     loop,
     sync,
     achievements: achievements(events, cards, deck),
@@ -2980,6 +3274,7 @@ function reviewSummary() {
     quiz: quizBuilder(cards, { limit: Math.min(8, Math.max(3, deck.dailyLimit || 5)) }),
     quizLoop,
     deckLibrary: deckLibrary(notes, cards, { limit: 6 }),
+    wrongCause: wrongCauseBreakdown(cards, notes),
     sources: sourceBreakdown(cards, events),
     types,
     templates,
@@ -3012,12 +3307,12 @@ function reviewSummary() {
   summary.contentPipeline = contentPipeline(summary);
   summary.gameEconomy = gameEconomy(summary);
   summary.outcomeSimulator = outcomeSimulator(summary);
-  summary.moatConsole = moatConsole(summary);
-  summary.benchmarkArena = benchmarkArena(summary);
+  summary.loopReadinessConsole = loopReadinessConsole(summary);
+  summary.loopCapabilityBoard = loopCapabilityBoard(summary);
   summary.syntheticCohort = syntheticCohortLab(summary);
   summary.assetCompounding = assetCompoundingMap(summary);
   summary.maturity = maturityScore(summary);
-  summary.benchmark = competitorBenchmark(summary);
+  summary.commercialReadiness = commercialReadiness(summary);
   return summary;
 }
 
@@ -3025,6 +3320,7 @@ module.exports = {
   DEFAULT_DECK,
   FSRS_STATE_VERSION,
   CONTENT_ENGINE_PROVIDERS,
+  WRONG_CAUSE_BUCKETS,
   ensureReviewDeck,
   dueCards,
   sessionCards,
@@ -3066,8 +3362,8 @@ module.exports = {
   contentPipeline,
   gameEconomy,
   outcomeSimulator,
-  moatConsole,
-  benchmarkArena,
+  loopReadinessConsole,
+  loopCapabilityBoard,
   syntheticCohortLab,
   assetCompoundingMap,
   deckMaintenancePlan,
@@ -3076,7 +3372,7 @@ module.exports = {
   claimReward,
   trainingPlan,
   maturityScore,
-  competitorBenchmark,
+  commercialReadiness,
   comebackPlan,
   missedReviewDays,
   achievements,
@@ -3105,6 +3401,9 @@ module.exports = {
   repairNote,
   userNextStep,
   userSessionFeedback,
+  classifyWrongCause,
+  buildNextPracticePlan,
+  wrongCauseBreakdown,
   noteCardTemplates,
   cardsFromNotes,
   todayKey

@@ -1,0 +1,30 @@
+<view class="light-page">
+  <view class="light-title">听写小助手</view>
+  <view class="light-subtitle">家长录入词语，小程序按顺序报；写完后先确认第一步。</view>
+  <textarea value="{{wordsText}}" bindinput="onWordsInput" placeholder="输入词语，用空格或顿号分开" />
+  <button bindtap="build">生成听写</button>
+  <view class="voice-card">
+    <view>{{voiceLine}}</view>
+    <view class="voice-actions">
+      <button bindtap="playCurrentWord">报这个词</button>
+      <button bindtap="nextWord">下一个</button>
+    </view>
+    <text>本地报读用轻提示音做节奏，不上传录音。</text>
+  </view>
+  <view wx:if="{{session}}">
+    <view wx:if="{{session.words.length}}">共 {{session.words.length}} 个词，当前第 {{currentIndex + 1}} 个。</view>
+    <view wx:else class="empty-card">还没有生成词语。先录入今晚要听写的词。</view>
+    <view>{{session.prompt}}</view>
+    <input value="{{firstStepText}}" bindinput="onFirstStepInput" placeholder="我先看了拼音 / 字形 / 意思" />
+    <button bindtap="submit">确认我的第一步</button>
+  </view>
+  <view wx:if="{{result}}">
+    已记录：{{result.event.childArticulatedStep}}
+  </view>
+  <view wx:if="{{transitionPrompt}}" class="transition-card">
+    <view>{{transitionPrompt.title}}</view>
+    <view>{{transitionPrompt.body}}</view>
+    <button bindtap="goCoreLoopFromDictation">{{transitionPrompt.acceptText}}</button>
+    <button bindtap="dismissDictationTransition">{{transitionPrompt.rejectText}}</button>
+  </view>
+</view>

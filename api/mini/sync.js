@@ -1,6 +1,6 @@
 import {
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -53,9 +53,10 @@ function normalizeMutations(list) {
 async function persistMutations(identity, mutations) {
     if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
         return {
-            mode: 'stateless_ack',
+            mode: 'local_receipt',
             persisted: 0,
             pending: mutations.length,
+            action_required: 'service_configuration',
             cursor: `local_${Date.now()}`
         };
     }
@@ -100,8 +101,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: 'Only POST is allowed.' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:sync:${ip}`, 160);
+    const limited = rateLimit(clientRateKey(req, 'mini:sync'), 160);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: 'Too many requests.' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
@@ -129,6 +129,7 @@ export default async function handler(req) {
             pending: result.pending,
             cursor: result.cursor,
             mode: result.mode,
+            action_required: result.action_required || '',
             identity,
             acknowledged: mutations.map((item) => item.mutation_id),
             engine_version: ENGINE_VERSION

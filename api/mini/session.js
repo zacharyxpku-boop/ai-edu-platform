@@ -1,10 +1,10 @@
 // 原点智学 · 小程序会话边界
 // POST /api/mini/session { code, profile? }
-// MVP 支持 demo；配置 WECHAT_APP_ID + WECHAT_APP_SECRET 后切换真实 openid。
+// 未配置微信凭据时返回本地会话；配置 WECHAT_APP_ID + WECHAT_APP_SECRET 后切换真实 openid。
 import {
     SESSION_MAX_AGE_MS,
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -18,8 +18,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:session:${ip}`, 80);
+    const limited = rateLimit(clientRateKey(req, 'mini:session'), 80);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试' }, 429);
 
     let body = {};
@@ -40,8 +39,8 @@ export default async function handler(req) {
     const profile = body.profile || {};
 
     let openid = '';
-    let mode = 'demo';
-    if (appid && secret && code && code !== 'demo') {
+    let mode = 'local';
+    if (appid && secret && code && code !== 'local') {
         try {
             const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${encodeURIComponent(appid)}&secret=${encodeURIComponent(secret)}&js_code=${encodeURIComponent(code)}&grant_type=authorization_code`;
             const upstream = await fetch(url, { method: 'GET' });
@@ -51,7 +50,7 @@ export default async function handler(req) {
                 mode = 'wechat';
             }
         } catch (error) {
-            mode = 'demo';
+            mode = 'local';
         }
     }
 
@@ -68,8 +67,16 @@ export default async function handler(req) {
     return json({
         ok: true,
         mode,
+        service_ready: mode === 'wechat',
+        persisted: false,
+        service_contract: {
+            mode: mode === 'wechat' ? 'wechat_session' : 'local_session',
+            evidence_required: ['wx_login_code'],
+            action_required: mode === 'wechat' ? '' : 'wechat_appid_secret_configuration'
+        },
+        openid_hash: payload.openid_hash,
         session_id: sessionId,
         expires_at: new Date(expiresAt).toISOString(),
-        message: mode === 'wechat' ? '微信会话已建立' : '本地体验模式，配置 AppID/AppSecret 后启用真实登录'
+        message: mode === 'wechat' ? '微信会话已建立' : '本地会话已建立，完成 AppID/AppSecret 配置后启用真实登录'
     });
 }

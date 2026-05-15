@@ -117,7 +117,7 @@
                 └ 影响：api/tutor-chat.js v3 prompt
                 └ 验收：tutor 输入「我今天上课老师讲了 XX」，AI 反问而非直接讲
 
-11:40  3d5c7a5  feat(prompt-v3)  家庭学习运营官版 — 从「数学老师」到「学习管家」核心 pivot
+11:40  3d5c7a5  feat(prompt-v3)  家庭学习运营官版 — 从「单学科老师」到「学习管家」核心 pivot
                 └ 影响：api/tutor-chat.js buildSystemPromptV3 全量重写（约 305 行）
                 └ 验收：env PROMPT_VERSION=v3 + curl chat 看 system 含「四件事循环 / 6 归因」
 
@@ -376,10 +376,10 @@
 
 写给「下次某个 session 接管这个项目的 AI 或人」：
 
-1. **这个项目是啥**：原点智学 = 中国家庭 AI 学习管家（不是数学老师），定位「学校做不到的那 30%」，AI 角色叫「**原小点**」，B 模式 = AI + 真人学长。
+1. **这个项目是啥**：原点智学 = 中国家庭 AI 学习管家（不是单学科老师），定位「学校统一任务后的家庭晚间学习路线」，AI 角色叫「**原小点**」，B 模式 = AI + 真人学长。
 2. **现在到哪**：5.4 demo 前最后冲刺，prompt 体系 v2 + UI v2 + B 模式闭环 + T1-T7 自动分诊 + 妈妈周报 LLM + 学长 AI 草稿全 ship，98 个 commit 今天落了 5 个 P0-P1 模块全部完成。
 3. **接下来该看什么**：先读 `docs/PROMPT-SYSTEM-V2-MASTER.md`（设计源）+ `docs/CHINESE-FAMILY-AI-MANAGER-V1.md`（顶层定位）+ `docs/V3-MOCK-DIALOGUES.md`（8 mock 行为基准）+ 本文件（实施状态）。然后跑 `git log --since='2026-04-28 00:00'`。
-4. **不要做什么**：不要再 fork 散 prompt 文档（PROMPT-V2-DRAFT 等已 deprecated）；不要把 AI 改回「数学老师」（已 pivot 到「学习管家」）；不要给 AI 加紫蓝渐变 / rounded-3xl（v2 视觉系统不允许）；不要硬编码 escalation kind（用 escalate.js 的 detectTrigger() auto-detect）。
+4. **不要做什么**：不要再 fork 散 prompt 文档（PROMPT-V2-DRAFT 等已 deprecated）；不要把 AI 改回「单学科老师」（已 pivot 到「学习管家」）；不要给 AI 加紫蓝渐变 / rounded-3xl（v2 视觉系统不允许）；不要硬编码 escalation kind（用 escalate.js 的 detectTrigger() auto-detect）。
 5. **下一步动作**：明天工程做 3 件事 — db migrations 0008 上生产（前置阻塞） / C 类危机多端 push / 打磨 mentor-reply-draft 草稿质量。运营做 3 件 — 灌 demo 账号 / 录真孩子试用 / 跑 v3 baseline eval（用 V3-MOCK-DIALOGUES.md 8 case）。
 
 ---

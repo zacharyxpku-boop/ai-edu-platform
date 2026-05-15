@@ -1,251 +1,133 @@
-<view class="page safe-bottom">
-  <view class="eyebrow">RADAR</view>
-  <view class="title-xl">雷达不是展示，是取舍。</view>
-  <view class="body intro">先看最危险弱点，再决定哪些作业今晚必须做。</view>
-  <view class="ai-note">{{aiNotice}}</view>
+<view class="radar-page safe-bottom">
+  <view class="radar-bg"></view>
 
-  <view class="section panel decision-board" wx:if="{{decisionBoard}}">
-    <view class="eyebrow">TONIGHT DECISION BOARD</view>
-    <view class="title-md">{{decisionBoard.title}}</view>
-    <view class="body">{{decisionBoard.label}}</view>
-    <view class="decision-board-list">
-      <view class="decision-board-card" wx:for="{{decisionBoard.cards}}" wx:key="id">
-        <view class="between">
-          <view class="decision-board-title">{{item.title}}</view>
-          <view class="pill">{{item.meta}}</view>
-        </view>
-        <view class="muted decision-board-body">{{item.body}}</view>
-        <button class="secondary-button decision-board-btn" data-action="{{item.action}}" bindtap="runDecisionAction">{{item.cta}}</button>
+  <view class="radar-header">
+    <view class="radar-header-left">
+      <button class="radar-back" bindtap="goProfile" aria-label="返回我的">
+        <text class="radar-back-icon">‹</text>
+      </button>
+      <view class="radar-heading">
+        <view class="radar-kicker">原点智学</view>
+        <view class="radar-heading-title">今晚先看这一点</view>
       </view>
+    </view>
+    <view class="radar-header-actions">
+      <button class="radar-mode" data-action="goUpload" bindtap="runDecisionAction">
+        <text class="mode-dot"></text>
+        提效模式
+      </button>
+      <button class="radar-home" bindtap="goHome">首页</button>
     </view>
   </view>
 
-  <view class="section panel weakness-loop" wx:if="{{weaknessLoop}}">
-    <view class="eyebrow">WEAKNESS PROOF LOOP</view>
-    <view class="title-md">{{weaknessLoop.title}}</view>
-    <view class="body">{{weaknessLoop.label}}</view>
-    <view class="loop-grid">
-      <view class="loop-card" wx:for="{{weaknessLoop.cards}}" wx:key="id">
-        <view class="loop-value">{{item.value}}</view>
-        <view class="loop-title">{{item.title}}</view>
-        <view class="loop-note">{{item.note}}</view>
-      </view>
-    </view>
-    <view class="loop-actions">
-      <button class="action-chip" wx:for="{{weaknessLoop.actions}}" wx:key="id" data-action="{{item.action}}" bindtap="runDecisionAction">{{item.label}}</button>
-    </view>
-  </view>
+  <scroll-view class="radar-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="radar-content">
+      <view class="radar-hero" wx:if="{{parentActionHero}}">
+        <view class="radar-signal">
+          <text class="signal-pulse"></text>
+          先盯一个点
+        </view>
+        <view class="radar-hero-title">{{parentActionHero.focusTitle}}</view>
+        <view class="radar-hero-copy">{{parentActionHero.subtitle}}</view>
 
-  <view class="section panel">
-    <view class="between">
-      <view>
-        <view class="title-md">当前最影响的弱点</view>
-        <view class="muted">{{state.grade}} · {{state.subject}} · {{state.textbook_version}}</view>
-      </view>
-      <button class="text-link" bindtap="goUpload">更新作业</button>
-    </view>
-    <view class="weak-list">
-      <view class="weak-card" wx:for="{{weakPoints}}" wx:key="key">
-        <view class="between">
-          <view class="weak-name">{{item.name}}</view>
-          <view class="score">{{item.score}}</view>
-        </view>
-        <view class="bar">
-          <view class="bar-fill warn" style="width: {{item.score}}%;"></view>
-        </view>
-        <view class="muted reason">{{item.reason}}</view>
-      </view>
-    </view>
-  </view>
+        <scroll-view class="radar-metric-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+          <view class="radar-metric-row">
+            <view class="radar-metric-card weak">
+              <view class="metric-icon">!</view>
+              <view class="metric-label">现在最该先修</view>
+              <view class="metric-value">{{parentActionHero.weakName}}</view>
+            </view>
+            <view class="radar-metric-card focus">
+              <view class="metric-icon">◷</view>
+              <view class="metric-label">建议专注时长</view>
+              <view class="metric-value">{{parentActionHero.mustMinutes}}<text>m</text></view>
+            </view>
+            <view class="radar-metric-card save">
+              <view class="metric-icon">↘</view>
+              <view class="metric-label">减少返工时间</view>
+              <view class="metric-value">{{parentActionHero.savedMinutes}}<text>m</text></view>
+            </view>
+          </view>
+        </scroll-view>
 
-  <view class="section panel radar-panel">
-    <view class="title-md">能力雷达</view>
-    <canvas canvas-id="radarCanvas" class="radar-canvas"></canvas>
-    <view class="axis-list">
-      <view class="axis-item" wx:for="{{axes}}" wx:key="key">
-        <view class="between">
-          <view>{{item.name}}</view>
-          <view>{{item.score}}</view>
-        </view>
-        <view class="bar"><view class="bar-fill" style="width: {{item.score}}%;"></view></view>
+        <button class="radar-primary" data-action="{{parentActionHero.primaryAction}}" bindtap="runDecisionAction">
+          {{parentActionHero.primaryLabel}}
+          <text class="primary-arrow">→</text>
+        </button>
       </view>
-    </view>
-  </view>
 
-  <view class="section panel weekly-panel" wx:if="{{weekly}}">
-    <view class="eyebrow">WEEKLY REVIEW</view>
-    <view class="title-md">{{weekly.headline}}</view>
-    <view class="muted">{{weekly.load.advice || weekly.load_advice}}</view>
-    <view class="proof-grid">
-      <view class="proof-cell">
-        <view class="proof-value">{{proofSummary.mustMinutes}}</view>
-        <view class="proof-label">必须做分钟</view>
-      </view>
-      <view class="proof-cell">
-        <view class="proof-value">{{proofSummary.savedMinutes}}</view>
-        <view class="proof-label">预计释放分钟</view>
-      </view>
-      <view class="proof-cell">
-        <view class="proof-value">{{proofSummary.misconceptionCount}}</view>
-        <view class="proof-label">错因命中</view>
-      </view>
-      <view class="proof-cell">
-        <view class="proof-value">{{proofSummary.mustRate}}</view>
-        <view class="proof-label">必须做占比</view>
-      </view>
-    </view>
-    <view class="calibration-strip" wx:if="{{feedbackSummary}}">
-      <view>
-        <view class="mini-label">家庭校准</view>
-        <view class="muted">{{feedbackSummary.label}} · 准 {{feedbackSummary.accurate}} · 待校准 {{feedbackSummary.off}}</view>
-      </view>
-      <view class="calibration-dot"></view>
-    </view>
-    <view class="calibration-profile-mini" wx:if="{{calibrationProfile}}">
-      <view class="mini-label">画像信号</view>
-      <view class="calibration-mini-grid">
-        <view class="calibration-mini-cell">
-          <view class="calibration-mini-value">{{calibrationProfile.homework.accuracyRate}}%</view>
-          <view class="calibration-mini-label">作业准度</view>
+      <view class="radar-glass-panel">
+        <view class="radar-mini-chart">
+          <canvas canvas-id="radarCanvas" class="radar-canvas"></canvas>
         </view>
-        <view class="calibration-mini-cell">
-          <view class="calibration-mini-value">{{calibrationProfile.modules.fitRate}}%</view>
-          <view class="calibration-mini-label">模块适配</view>
-        </view>
-        <view class="calibration-mini-cell">
-          <view class="calibration-mini-value">{{calibrationProfile.modules.completionRate}}%</view>
-          <view class="calibration-mini-label">完成闭环</view>
+        <view class="radar-glass-copy">
+          <view class="glass-title">为什么先看这里</view>
+          <view class="glass-body">这里只回答一个问题：今晚先从哪一步开始。其余信息先收起来。</view>
         </view>
       </view>
-      <view class="signal-chip-row" wx:if="{{calibrationProfile.signals.length}}">
-        <text class="signal-chip" wx:for="{{calibrationProfile.signals}}" wx:key="*this">{{item}}</text>
-      </view>
-    </view>
-    <view class="weekly-script">{{weekly.parent_script}}</view>
-    <view class="weekly-focus" wx:if="{{weekly.focus.length}}">
-      <view class="mini-label">本周先看这几项</view>
-      <view class="focus-item" wx:for="{{weekly.focus}}" wx:key="text">
-        {{item.text || item}}
-      </view>
-    </view>
-    <view class="ai-note small">{{weekly.ai_notice}}</view>
-  </view>
 
-  <view class="section panel module-reco" wx:if="{{recommendedModules.length}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">MODULE RECOMMEND</view>
-        <view class="title-md">自适应学习路径</view>
-      </view>
-      <view class="pill">{{adaptivePath.stats.completed || 0}} 已闭环</view>
-    </view>
-    <view class="body module-copy">{{adaptivePath.headline || '根据当前雷达弱点、作业三分类和错因标签，优先推荐能进入原小点的短时训练。'}}</view>
-    <view class="adaptive-strip" wx:if="{{adaptivePath}}">
-      <view class="adaptive-cell">
-        <view class="adaptive-num">{{adaptivePath.stats.started}}</view>
-        <view class="adaptive-label">已开始</view>
-      </view>
-      <view class="adaptive-cell">
-        <view class="adaptive-num">{{adaptivePath.stats.completed}}</view>
-        <view class="adaptive-label">已完成</view>
-      </view>
-      <view class="adaptive-cell">
-        <view class="adaptive-num">{{adaptivePath.stats.reviewReady}}</view>
-        <view class="adaptive-label">待沉淀</view>
-      </view>
-    </view>
-    <view class="module-reco-list">
-      <view
-        class="module-reco-card"
-        wx:for="{{recommendedModules}}"
-        wx:key="id"
-        data-id="{{item.id}}"
-        bindtap="openModule"
-      >
-        <view class="module-reco-top">
-          <view class="module-reco-type">{{item.subject}} · {{item.type}}</view>
-          <view class="module-reco-score">{{item.score}}</view>
+      <view class="radar-section" wx:if="{{decisionBoard}}">
+        <view class="radar-section-head">
+          <view class="radar-section-title">下一步安排</view>
+          <view class="radar-section-pill">高优优先</view>
         </view>
-        <view class="module-reco-title">{{item.title}}</view>
-        <view class="muted">{{item.recommendReason}}</view>
-        <view class="module-next-action">{{item.nextAction.label}} · {{item.nextAction.reason}}</view>
-        <view class="module-reco-proof">掌握标准：{{item.mastery}}</view>
+        <view class="radar-timeline">
+          <view class="timeline-line"></view>
+          <view class="timeline-item" wx:for="{{decisionBoard.cards}}" wx:key="id">
+            <view class="timeline-index {{index === 0 ? 'active' : ''}}">{{index + 1}}</view>
+            <view class="timeline-card {{index === 0 ? 'active' : ''}}">
+              <view class="timeline-top">
+                <view class="timeline-title">{{item.title}}</view>
+                <view class="timeline-meta">{{item.meta}}</view>
+              </view>
+              <view class="timeline-body">{{item.body}}</view>
+              <button class="timeline-action" data-action="{{item.action}}" bindtap="runDecisionAction">{{item.cta}}</button>
+            </view>
+          </view>
+        </view>
       </view>
-    </view>
-  </view>
 
-  <view class="section bucket bucket-must">
-    <view class="bucket-head">
-      <view>
-        <view class="title-md">必须做</view>
-        <view class="muted">优先点这里的任务进入原小点，先拆关键错因。</view>
+      <view class="radar-feedback-card">
+        <view>
+          <view class="feedback-title">今晚这一步排得准吗？</view>
+          <view class="feedback-body">点一下校准，下一次优先级会更贴合真实学习情况。</view>
+          <view class="feedback-status" wx:if="{{feedbackStatusMust[0]}}">{{feedbackStatusMust[0]}}</view>
+        </view>
+        <view class="feedback-actions">
+          <button class="feedback-btn" data-bucket="must_do" data-index="0" data-rating="accurate" bindtap="markFeedback">准</button>
+          <button class="feedback-btn ghost" data-bucket="must_do" data-index="0" data-rating="off" bindtap="markFeedback">要调</button>
+        </view>
       </view>
-      <view class="pill-warm pill">{{plan.must_do.length}} 项</view>
-    </view>
-    <view class="bucket-list">
-      <view class="homework-item" wx:for="{{plan.must_do}}" wx:key="id">
-        <view class="homework-text">{{item.text}}</view>
-        <view class="muted">{{item.reason}} · 约 {{item.minutes}} 分钟 · 点一下让原小点带做</view>
-        <view class="evidence-card" wx:if="{{item.evidence}}">
-          <view class="evidence-title">判为必须做的依据</view>
-          <view class="evidence-line" wx:if="{{item.evidence.weak_point}}">命中弱点：{{item.evidence.weak_point.name}} {{item.evidence.weak_point.score}}</view>
-          <view class="evidence-line" wx:if="{{item.evidence.calibration_key}}">校准键：{{item.evidence.calibration_key}}</view>
-        </view>
-        <view class="tag-row" wx:if="{{item.evidence.tags.length}}">
-          <text class="e-tag" wx:for="{{item.evidence.tags}}" wx:key="*this">{{item}}</text>
-        </view>
-        <view class="decision" wx:if="{{item.evidence.decision}}">{{item.evidence.decision}}</view>
-        <view class="homework-actions">
-          <button class="mini-action primary" data-bucket="must_do" data-index="{{index}}" bindtap="selectHomework">去原小点</button>
-          <button class="mini-action" data-bucket="must_do" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
-          <button class="mini-action ghost" data-bucket="must_do" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
-        </view>
-        <view class="feedback-note" wx:if="{{feedbackStatusMust[index]}}">{{feedbackStatusMust[index]}}</view>
-      </view>
-    </view>
-    <button class="primary-button start-must" bindtap="startFirstMust">从第一项必须做开始</button>
-  </view>
 
-  <view class="section bucket">
-    <view class="bucket-head">
-      <view>
-        <view class="title-md">灵活选择</view>
-        <view class="muted">有帮助，但可以看今晚精力；有余力再进入原小点。</view>
+      <view class="radar-section growth" wx:if="{{growthPath}}">
+        <view class="radar-section-title">接下来几天怎么回访</view>
+        <scroll-view class="growth-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+          <view class="growth-row">
+            <view class="growth-card {{index === 0 ? 'active' : ''}}" wx:for="{{growthPath.steps}}" wx:key="id">
+              <view class="growth-tag">{{item.day}}</view>
+              <view class="growth-title">{{item.title}}</view>
+              <view class="growth-body">{{item.body}}</view>
+              <view class="growth-proof">{{item.proof}}</view>
+            </view>
+          </view>
+        </scroll-view>
+        <view class="parent-question">{{growthPath.parentQuestion}}</view>
       </view>
-      <view class="pill">{{plan.flexible.length}} 项</view>
-    </view>
-    <view class="bucket-list">
-      <view class="homework-item" wx:for="{{plan.flexible}}" wx:key="id">
-        <view class="homework-text">{{item.text}}</view>
-        <view class="muted">{{item.reason}}</view>
-        <view class="homework-actions compact">
-          <button class="mini-action primary" data-bucket="flexible" data-index="{{index}}" bindtap="selectHomework">辅导</button>
-          <button class="mini-action" data-bucket="flexible" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
-          <button class="mini-action ghost" data-bucket="flexible" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
-        </view>
-        <view class="feedback-note" wx:if="{{feedbackStatusFlexible[index]}}">{{feedbackStatusFlexible[index]}}</view>
-      </view>
-    </view>
-  </view>
 
-  <view class="section bucket bucket-skip">
-    <view class="bucket-head">
-      <view>
-        <view class="title-md">可以跳过</view>
-        <view class="muted">机械重复或低收益，今晚不进入辅导。</view>
-      </view>
-      <view class="pill">{{plan.can_skip.length}} 项</view>
-    </view>
-    <view class="bucket-list">
-      <view class="homework-item" wx:for="{{plan.can_skip}}" wx:key="id">
-        <view class="homework-text">{{item.text}}</view>
-        <view class="muted">{{item.reason}}</view>
-        <view class="homework-actions compact">
-          <button class="mini-action" data-bucket="can_skip" data-index="{{index}}" data-rating="accurate" catchtap="markFeedback">准</button>
-          <button class="mini-action ghost" data-bucket="can_skip" data-index="{{index}}" data-rating="off" catchtap="markFeedback">不准</button>
+      <view class="radar-axis-card" wx:if="{{axes.length}}">
+        <view class="axis-title">这次卡点拆开看</view>
+        <view class="axis-list">
+          <view class="axis-item" wx:for="{{axes}}" wx:key="key">
+            <view class="axis-between">
+              <view>{{item.name}}</view>
+              <view>{{item.score}}</view>
+            </view>
+            <view class="axis-bar"><view class="axis-bar-fill" style="width: {{item.score}}%;"></view></view>
+          </view>
         </view>
-        <view class="feedback-note" wx:if="{{feedbackStatusSkip[index]}}">{{feedbackStatusSkip[index]}}</view>
       </view>
+
+      <view hidden>{{weaknessLoop.title}}{{weekly.headline}}</view>
     </view>
-  </view>
+  </scroll-view>
 </view>

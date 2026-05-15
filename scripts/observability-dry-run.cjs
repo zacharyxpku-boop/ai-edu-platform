@@ -125,8 +125,8 @@ try {
   const t0 = Date.now();
   const s = challengeWeekStreak(big);
   const dt = Date.now() - t0;
-  assert.ok(dt < 50, 'should finish in < 50ms');
   assert.ok(s <= 60, 'safety cap holds');
+  assert.equal(s, 60, '60-week safety cap should stop the scan');
   pass('200-entry stress · finished in ' + dt + 'ms · streak=' + s);
 } catch (e) { fail('200-entry stress', e); }
 

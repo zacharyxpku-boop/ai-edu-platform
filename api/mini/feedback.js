@@ -2,7 +2,7 @@
 // POST /api/mini/feedback { kind,target_id,rating,bucket,reason,state_summary }
 import {
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -62,7 +62,7 @@ function learningSignal(feedback) {
         usable_for_ranking: Boolean(feedback.calibration_key || Object.keys(feedback.priority_vector || {}).length),
         next_use: positive
             ? '继续强化当前分类依据。'
-            : '下次排序时降低同类证据权重，并优先观察家长补充原因。'
+            : '下次排序时降低同类证据权重，并优先观察补充原因。'
     };
 }
 
@@ -78,8 +78,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:feedback:${ip}`, 160);
+    const limited = rateLimit(clientRateKey(req, 'mini:feedback'), 160);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
@@ -105,12 +104,14 @@ export default async function handler(req) {
     const receivedAt = new Date().toISOString();
     return json({
         ok: true,
-        source: 'server-feedback-contract',
+        source: 'local_feedback_receipt',
+        persisted: false,
+        action_required: 'service_configuration',
         feedback_id: `fb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
         received_at: receivedAt,
         feedback,
         learning_signal: learningSignal(feedback),
-        dataset_contract: {
+        service_contract: {
             table: 'family_priority_feedback',
             primary_keys: ['feedback_id', 'target_id', 'calibration_key'],
             future_join_keys: ['session_id', 'student_id', 'homework_item_id', 'misconception_id']

@@ -1,344 +1,144 @@
-<view class="page safe-bottom tools-page">
-  <view class="eyebrow">AI STUDY COCKPIT</view>
-  <view class="title-xl">Pick the next useful move.</view>
-  <view class="body intro">This page turns tools, tutor, radar, review cards and learning prompts into one usable learning board.</view>
-
-  <view class="section cockpit panel" wx:if="{{currentModule}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">NEXT BEST MODULE</view>
-        <view class="title-md">{{currentModule.title}}</view>
-      </view>
-      <view class="cockpit-score">{{currentModule.score}}</view>
-    </view>
-    <view class="body">{{currentModule.scene}}</view>
-    <view class="signal-row">
-      <view class="signal-pill">{{currentModule.subject}}</view>
-      <view class="signal-pill">{{currentModule.type}}</view>
-      <view class="signal-pill">{{currentModule.minutes}} min</view>
-      <view class="signal-pill">{{currentModule.nextAction.label}}</view>
-    </view>
-    <view class="cockpit-reason">{{cockpitMessage}}</view>
-    <view class="cockpit-actions">
-      <button class="primary-button cockpit-btn" bindtap="startCurrentModule">Start with tutor</button>
-      <button class="secondary-button cockpit-btn" bindtap="addCurrentReviewPack">Add review pack</button>
-    </view>
+<view class="arcade-page">
+  <view class="page-positioning tools-positioning">
+    <view class="positioning-kicker">轻回访与练习</view>
+    <view class="positioning-title">回看昨天那一步，再把错题和材料变成可练的小卡</view>
+    <view class="positioning-flow">轻练习不是工具箱：先接回访，再进游戏；错的卡会回到复习队列。</view>
   </view>
+  <view class="arcade-bg arcade-bg-dots"></view>
+  <view class="arcade-glow gold"></view>
+  <view class="arcade-glow green"></view>
 
-  <view class="section panel review-dashboard" wx:if="{{reviewStats}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">GIZMO + ANKI LOOP</view>
-        <view class="title-md">Review, quiz, repair, repeat.</view>
-      </view>
-      <button class="text-link" bindtap="goReview">Open</button>
-    </view>
-    <view class="metric-grid">
-      <view class="metric-cell">
-        <view class="metric-num">{{reviewStats.due}}</view>
-        <view class="metric-label">due</view>
-      </view>
-      <view class="metric-cell">
-        <view class="metric-num">{{reviewStats.quiz}}</view>
-        <view class="metric-label">quiz cards</view>
-      </view>
-      <view class="metric-cell">
-        <view class="metric-num">{{reviewStats.quizAccuracy}}%</view>
-        <view class="metric-label">quiz acc</view>
-      </view>
-      <view class="metric-cell">
-        <view class="metric-num">{{reviewStats.maturity}}</view>
-        <view class="metric-label">north star</view>
+  <view class="arcade-header">
+    <view>
+      <view class="arcade-title">轻回访</view>
+      <view class="arcade-subtitle">
+        <view class="arcade-subdot"></view>
+        <text>修过的卡点，轻轻回访一下</text>
       </view>
     </view>
   </view>
 
-  <view class="section panel-quiet cram-panel" wx:if="{{cramPlan}}">
-    <view class="title-md">Exam mode</view>
-    <view class="body">{{cramPlan.label}}</view>
-    <view class="signal-row">
-      <view class="signal-pill">target {{cramPlan.dailyTarget}}/day</view>
-      <view class="signal-pill">limit {{cramPlan.safeDailyLimit}}</view>
-      <view class="signal-pill">risk {{cramPlan.risk}}</view>
-    </view>
-  </view>
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="arcade-scroll">
+    <view class="rc14-tools-first-screen">
+    <view class="route-note top-route-note">{{toolsViewModel.routePill}}</view>
+    <view class="companion-route-strip">{{toolsViewModel.companionStrip}}</view>
+    <view class="arcade-main-title">{{toolsViewModel.title}}</view>
+    <view class="arcade-main-subtitle">{{toolsViewModel.subtitle}}</view>
 
-  <view class="section panel launch-pack-panel" wx:if="{{launchPlaybook}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">CUSTOMER-READY STUDY PACK</view>
-        <view class="title-md">{{launchPlaybook.title}}</view>
+    <view class="rc14-main-card">
+    <view class="focus-review-entry rc-focus-review" wx:if="{{toolsViewModel.primaryCard.hasReviewCard}}" bindtap="goReview">
+      <view class="focus-review-dot"></view>
+      <view class="focus-review-copy">
+        <view class="focus-review-title">{{toolsViewModel.primaryCard.title}}</view>
+        <view class="focus-review-body">{{toolsViewModel.primaryCard.body}}</view>
       </view>
-      <view class="cockpit-score">{{launchPlaybook.score}}</view>
+      <view class="focus-review-arrow">{{toolsViewModel.primaryCta.text}}</view>
     </view>
-    <view class="body">{{launchPlaybook.label}}</view>
-    <view class="launch-pack-grid">
-      <view class="launch-pack-card" wx:for="{{launchPlaybook.cards}}" wx:key="id">
-        <view class="launch-pack-top">
-          <view class="launch-pack-title">{{item.title}}</view>
-          <view class="launch-pack-metric">{{item.metric}}</view>
-        </view>
-        <view class="muted">{{item.body}}</view>
+    <view class="focus-review-entry rc-focus-review empty-review-card" wx:else>
+      <view class="focus-review-dot"></view>
+      <view class="focus-review-copy">
+        <view class="focus-review-title">{{toolsViewModel.primaryCard.title}}</view>
+        <view class="focus-review-body">{{toolsViewModel.primaryCard.body}}</view>
       </view>
+      <view class="focus-review-arrow" bindtap="goArcade">{{toolsViewModel.primaryCta.text}}</view>
     </view>
-  </view>
-
-  <view class="section panel automation-panel" wx:if="{{automationBoard}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">PRODUCTION AUTOMATION</view>
-        <view class="title-md">{{automationBoard.title}}</view>
-      </view>
-      <button class="text-link" bindtap="fillFactoryStudioSample">Demo input</button>
     </view>
-    <view class="body">{{automationBoard.label}}</view>
-    <view class="launch-pack-grid">
-      <view class="launch-pack-card" wx:for="{{automationBoard.cards}}" wx:key="id">
-        <view class="launch-pack-top">
-          <view class="launch-pack-title">{{item.label}}</view>
-          <view class="launch-pack-metric">{{item.value}}</view>
-        </view>
-        <view class="muted">{{item.body}}</view>
-      </view>
     </view>
-    <view class="revolution-promise">{{automationBoard.nextAction}}</view>
-  </view>
-
-  <view class="section panel revolution-panel" wx:if="{{revolutionBoard}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">AI LEARNING REVOLUTION BOARD</view>
-        <view class="title-md">{{revolutionBoard.title}}</view>
-      </view>
-      <view class="module-count">{{revolutionBoard.factoryReady}}</view>
-    </view>
-    <view class="body">{{revolutionBoard.label}}</view>
-    <view class="revolution-promise">{{revolutionBoard.promise}}</view>
-
-    <view class="snap-card">
-      <view class="snap-eyebrow">3-QUESTION WEAKNESS SNAP</view>
-      <view class="snap-body">{{revolutionBoard.quickDiagnostic.body}}</view>
-      <view class="signal-row">
-        <view class="signal-pill">{{revolutionBoard.quickDiagnostic.metric}}</view>
-        <view class="signal-pill">fast diagnosis</view>
-        <view class="signal-pill">routes to radar</view>
-      </view>
+    <view class="rc14-tools-after-first-screen"></view>
+    <view class="route-next-lite tools-next-lite" wx:if="{{toolsViewModel.nextStep}}" bindtap="goProfile">
+      <text>{{toolsViewModel.nextStep.text}}</text>
+      <text class="route-next-link">{{toolsViewModel.nextStep.cta}}</text>
     </view>
 
-    <view class="title-sm revolution-subtitle">MULTI-FORMAT LEARNING INPUTS</view>
-    <view class="revolution-grid">
-      <view class="revolution-card" wx:for="{{revolutionBoard.materialEngine}}" wx:key="id">
-        <view class="revolution-card-top">
-          <view class="revolution-card-title">{{item.name}}</view>
-          <view class="revolution-card-status">{{item.status}}</view>
-        </view>
-        <view class="muted">{{item.output}}</view>
-      </view>
+    <view class="route-next-lite tools-next-lite" wx:if="{{latestFocusSession}}" bindtap="goProfile">
+      <text>上次专注：{{latestFocusSession.summary}}</text>
+      <text class="route-next-link">给家长看</text>
     </view>
 
-    <view class="title-sm revolution-subtitle">THINKING SAFETY LAYER</view>
-    <view class="safety-list">
-      <view class="safety-item" wx:for="{{revolutionBoard.antiDependence}}" wx:key="*this">{{item}}</view>
-    </view>
-
-    <view class="title-sm revolution-subtitle">REFERENCE SCORECARD</view>
-    <view class="metric-grid revolution-metrics">
-      <view class="metric-cell" wx:for="{{revolutionBoard.scorecard}}" wx:key="id">
-        <view class="metric-num">{{item.value}}</view>
-        <view class="metric-label">{{item.label}}</view>
+    <view class="game-panel tools-secondary-games">
+      <view class="panel-head">
+        <view class="panel-title">也可以轻松练一下</view>
+        <view class="panel-pill">轻量选择</view>
       </view>
-    </view>
+      <view class="game-loop-note">小游戏只是激励：玩一小局，错的卡会回到复习队列。</view>
+      <view class="legacy-game-title">今天轻练哪一步</view>
 
-    <view class="revolution-actions">
-      <button class="primary-button revolution-btn" wx:for="{{revolutionBoard.actions}}" wx:key="id" data-action="{{item.action}}" bindtap="runRevolutionAction">{{item.label}}</button>
-    </view>
-  </view>
-
-  <view class="section panel factory-panel" wx:if="{{factoryPacks && factoryPacks.length}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">AI CONTENT FACTORY</view>
-        <view class="title-md">Generate a usable study pack.</view>
-      </view>
-      <view class="module-count">{{factoryPacks.length}}</view>
-    </view>
-    <view class="body module-intro">Factory packs turn radar weakness, exam mode and parent check-ins into importable review cards and tutor prompts.</view>
-    <view class="factory-list">
-      <view class="factory-card" wx:for="{{factoryPacks}}" wx:key="id">
-        <view class="module-top">
-          <view class="module-type">{{item.subject}} / {{item.intent}}</view>
-          <view class="module-min">{{item.minutes}} min</view>
-        </view>
-        <view class="module-title">{{item.title}}</view>
-        <view class="muted module-scene">{{item.reason}}</view>
-        <view class="factory-prompt">{{item.prompt}}</view>
-        <button class="secondary-button factory-btn" data-id="{{item.id}}" bindtap="importFactoryPack">Import factory pack</button>
-      </view>
-    </view>
-  </view>
-
-  <view class="section panel studio-panel" wx:if="{{factoryStudioPlan}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">CONTENT FACTORY STUDIO</view>
-        <view class="title-md">{{factoryStudioPlan.title}}</view>
-      </view>
-      <view class="cockpit-score">{{factoryStudioPlan.score}}</view>
-    </view>
-    <view class="body">{{factoryStudioPlan.label}}</view>
-    <view class="signal-row">
-      <view class="signal-pill">{{factoryStudioPlan.type}}</view>
-      <view class="signal-pill">{{factoryStudioPlan.provider || 'local preview'}}</view>
-    </view>
-    <view class="filter-row studio-types">
-      <button class="filter-chip {{factoryStudioType === 'class_notes' ? 'filter-active' : ''}}" data-type="class_notes" bindtap="setFactoryStudioType">Notes</button>
-      <button class="filter-chip {{factoryStudioType === 'ppt' ? 'filter-active' : ''}}" data-type="ppt" bindtap="setFactoryStudioType">PPT</button>
-      <button class="filter-chip {{factoryStudioType === 'video' ? 'filter-active' : ''}}" data-type="video" bindtap="setFactoryStudioType">Video</button>
-      <button class="filter-chip {{factoryStudioType === 'wrong_cause' ? 'filter-active' : ''}}" data-type="wrong_cause" bindtap="setFactoryStudioType">Wrong cause</button>
-    </view>
-    <textarea
-      class="studio-input"
-      value="{{factoryStudioInput}}"
-      placeholder="Paste notes, PPT bullets, transcript, or wrong-cause summary."
-      maxlength="3000"
-      auto-height
-      bindinput="onFactoryStudioInput"
-    />
-    <view class="studio-actions">
-      <button class="secondary-button studio-btn" bindtap="fillFactoryStudioSample">Fill sample</button>
-      <button class="secondary-button studio-btn" bindtap="importFactoryStudioPreview">Import preview</button>
-      <button class="primary-button studio-btn" bindtap="runFactoryStudioRemote">Generate study pack</button>
-    </view>
-    <view class="studio-status">{{factoryStudioStatus}}</view>
-    <view class="studio-pack" wx:if="{{factoryStudioPlan.studyPack}}">
-      <view class="title-sm revolution-subtitle">STUDY PACK OUTPUT</view>
-      <view class="studio-pack-summary">{{factoryStudioPlan.studyPack.summary}}</view>
-      <view class="studio-pack-grid">
-        <view class="studio-pack-card" wx:for="{{factoryStudioPlan.studyPack.outputs}}" wx:key="id">
-          <view class="studio-pack-top">
-            <view class="studio-pack-title">{{item.title}}</view>
-            <view class="studio-pack-value">{{item.value}}</view>
+      <view class="game-grid">
+        <view
+          class="game-card {{item.tone}} {{item.available ? 'ready' : 'locked'}}"
+          wx:for="{{playgroundGames}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          bindtap="openPlaygroundGame"
+        >
+          <view class="game-name">{{item.name}}</view>
+          <view class="game-fit">{{item.fit}}</view>
+          <view class="game-status">
+            <view class="status-dot"></view>
+            <text>{{item.statusLabel}}</text>
           </view>
-          <view class="muted">{{item.body}}</view>
-        </view>
-      </view>
-      <view class="studio-parent-line">{{factoryStudioPlan.studyPack.parentLine}}</view>
-    </view>
-    <view class="studio-gate" wx:if="{{factoryStudioPlan.qualityGate}}">
-      <view class="title-sm revolution-subtitle">CONTENT QUALITY GATE</view>
-      <view class="gate-head">
-        <view>
-          <view class="gate-title">{{factoryStudioPlan.qualityGate.title}}</view>
-          <view class="muted">{{factoryStudioPlan.qualityGate.label}}</view>
-        </view>
-        <view class="gate-score">{{factoryStudioPlan.qualityGate.score}}</view>
-      </view>
-      <view class="gate-grid">
-        <view class="gate-card" wx:for="{{factoryStudioPlan.qualityGate.checks}}" wx:key="id">
-          <view class="gate-card-top">
-            <view class="gate-label">{{item.label}}</view>
-            <view class="gate-state {{item.ready ? 'gate-on' : 'gate-off'}}">{{item.ready ? 'OK' : 'FIX'}}</view>
+          <view class="game-bubble">
+            <view class="game-icon {{item.icon}}"></view>
           </view>
-          <view class="gate-value">{{item.value}}</view>
         </view>
       </view>
-      <view class="studio-parent-line">{{factoryStudioPlan.qualityGate.next}}</view>
     </view>
-    <view class="title-sm revolution-subtitle">PREVIEW CARDS</view>
-    <view class="studio-preview-list">
-      <view class="studio-preview-card" wx:for="{{factoryStudioPlan.cards}}" wx:key="id">
-        <view class="studio-preview-top">
-          <view class="studio-preview-type">{{item.cardType}}</view>
-          <view class="studio-preview-quality">{{item.quality}}</view>
-        </view>
-        <view class="studio-preview-q">{{item.question}}</view>
-        <view class="studio-preview-a">{{item.answer}}</view>
-      </view>
-    </view>
-    <view class="title-sm revolution-subtitle">CORE COVERAGE</view>
-    <view class="metric-grid revolution-metrics">
-      <view class="metric-cell" wx:for="{{factoryStudioPlan.diagnostics}}" wx:key="type">
-        <view class="metric-num">{{item.count}}</view>
-        <view class="metric-label">{{item.label}}</view>
-      </view>
-    </view>
-    <view class="revolution-promise">{{factoryStudioPlan.recommendation}}</view>
-  </view>
 
-  <view class="section panel-quiet" wx:if="{{deckLibrary.length}}">
-    <view class="title-md">Share-ready decks</view>
-    <view class="deck-list">
-      <view class="deck-row" wx:for="{{deckLibrary}}" wx:key="id">
+    <view class="material-panel">
+      <view class="material-head">
+        <view class="material-title">想练自己的内容？</view>
+        <view class="material-subtitle">写一句、贴一题、贴一小段都可以，不用整理成资料。</view>
+      </view>
+
+      <view class="source-row">
+        <view class="source-card {{factoryStudioMode === 'text' ? 'active' : ''}}" data-mode="text" bindtap="setFactoryStudioMode">
+          <view class="source-icon paste"></view>
+          <text>写一句</text>
+        </view>
+        <view class="source-card {{factoryStudioMode === 'upload' ? 'active' : ''}}" data-mode="upload" bindtap="chooseFactoryMaterial">
+          <view class="source-icon camera"></view>
+          <text>贴题/本子</text>
+        </view>
+        <view class="source-card wrong" bindtap="goReview">
+          <view class="source-icon wrong"></view>
+          <text>从错题来</text>
+        </view>
+      </view>
+
+      <view class="material-input" wx:if="{{factoryStudioMode === 'text'}}">
+        <textarea
+          class="material-textarea"
+          value="{{factoryStudioInput}}"
+          placeholder="例：我想练分数应用题，老是找不准单位1。"
+          maxlength="3000"
+          bindinput="onFactoryStudioInput"
+        />
+      </view>
+
+      <view class="upload-hint" wx:else bindtap="chooseFactoryMaterial">
+        <view class="upload-plus">+</view>
         <view>
-          <view class="deck-title">{{item.title}}</view>
-          <view class="muted">{{item.label}}</view>
+          <view class="upload-title">选择学习材料</view>
+          <view class="upload-body">照片只做本地留档；再补一句你想练什么。</view>
         </view>
-        <view class="deck-state">{{item.shareReady ? 'READY' : 'FIX'}}</view>
       </view>
-    </view>
-  </view>
 
-  <view class="section path-panel">
-    <view class="path-step" wx:for="{{pathSummary}}" wx:key="title">
-      <view class="path-index">{{index + 1}}</view>
-      <view>
-        <view class="path-title">{{item.title}}</view>
-        <view class="muted">{{item.desc}}</view>
-      </view>
-    </view>
-  </view>
-
-  <view class="section tool-list">
-    <view class="tool-card panel" wx:for="{{tools}}" wx:key="key">
-      <view class="between">
-        <view>
-          <view class="tool-name">{{item.name}}</view>
-          <view class="muted tool-desc">{{item.desc}}</view>
+      <view class="plan-preview" wx:if="{{factoryStudioInput && factoryStudioPlan && factoryStudioPlan.cards.length}}">
+        <view class="preview-title">这段材料可以先变成</view>
+        <view class="preview-chips">
+          <view class="preview-chip">知识卡</view>
+          <view class="preview-chip">小测</view>
+          <view class="preview-chip">复习卡</view>
         </view>
-        <view class="tool-key">{{index + 1}}</view>
       </view>
-      <button class="ghost-button tool-action" data-index="{{index}}" bindtap="openTool">{{item.action}}</button>
-    </view>
-  </view>
 
-  <view class="section module-section">
-    <view class="between">
-      <view>
-        <view class="eyebrow">MODULE LIBRARY</view>
-        <view class="title-md">Clickable AI learning methods</view>
+      <view class="generate-button secondary-generate" bindtap="runFactoryStudioRemote">
+        <view class="generate-star"></view>
+        <text>用这一句生成轻练习</text>
       </view>
-      <view class="module-count">{{visibleModules.length}}</view>
+      <view class="material-flow-note">生成后先进入错题/材料卡，再去小游戏里轻练一轮。</view>
     </view>
-    <view class="body module-intro">Each module can launch tutor mode and can also become spaced review cards.</view>
 
-    <scroll-view class="filter-scroll" scroll-x enable-flex>
-      <view class="filter-row">
-        <button
-          wx:for="{{moduleFilters}}"
-          wx:key="*this"
-          class="filter-chip {{activeFilter === item ? 'filter-active' : ''}}"
-          data-filter="{{item}}"
-          bindtap="setFilter"
-        >{{item}}</button>
-      </view>
-    </scroll-view>
-
-    <view class="module-list">
-      <view
-        class="module-card"
-        wx:for="{{visibleModules}}"
-        wx:key="id"
-        data-id="{{item.id}}"
-        bindtap="openModule"
-      >
-        <view class="module-top">
-          <view class="module-type">{{item.subject}} / {{item.type}}</view>
-          <view class="module-min">{{item.minutes}} min</view>
-        </view>
-        <view class="module-title">{{item.title}}</view>
-        <view class="muted module-scene">{{item.scene}}</view>
-        <view class="module-proof">{{item.mastery}}</view>
-      </view>
-    </view>
-  </view>
+    <view class="arcade-bottom-space"></view>
+  </scroll-view>
 </view>

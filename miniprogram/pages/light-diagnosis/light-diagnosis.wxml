@@ -1,0 +1,45 @@
+<view class="light-page">
+  <view class="light-title">手动选题型</view>
+  <view class="light-subtitle">先手动确认科目和卡点，咕点再给第一步建议。</view>
+  <view class="hint-card">咕点根据你选的科目和卡点给出建议，不是自动识别答案。</view>
+
+  <view class="section-title">这道题是什么科目？</view>
+  <view class="choice-row">
+    <view class="choice-chip {{subject === item.id ? 'active' : ''}}" wx:for="{{subjectOptions}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseSubject">{{item.label}}</view>
+  </view>
+
+  <view class="section-title">你现在卡在哪一步？</view>
+  <view class="choice-grid">
+    <view class="choice-chip {{stuckStep === item.id ? 'active' : ''}}" wx:for="{{stuckOptions}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseStuckStep">{{item.label}}</view>
+  </view>
+
+  <textarea value="{{inputText}}" bindinput="onInput" placeholder="可以写题目，也可以只写：应用题列不出式子" />
+  <button class="secondary-action" bindtap="chooseLocalImage">上传题目图片（仅供辅助）</button>
+  <button bindtap="analyze">看清题型</button>
+
+  <view wx:if="{{loadingStage}}" class="loading-card">
+    <view class="loading-dot"></view>
+    <view>{{loadingStage}}</view>
+  </view>
+
+  <view wx:if="{{showRetryGuide}}" class="hint-card">没关系，重新选一次科目和卡点，咕点再帮你找更贴近的一步。</view>
+
+  <view wx:if="{{diagnosis}}" class="result-card">
+    <view class="honest-line">这道题我不太确定类型，先按你确认的科目和卡点给第一步。</view>
+    <view class="meta-line">{{diagnosis.subjectLabel}} · {{diagnosis.stuckStepLabel}}</view>
+    <view class="meta-line">题型：{{diagnosis.typeLabel}}</view>
+    <view class="suggestion">{{diagnosis.suggestedFirstStep}}</view>
+    <view class="boundary">{{diagnosis.boundary}}</view>
+    <input value="{{childStepText}}" bindinput="onChildStepInput" placeholder="我先..." />
+    <button bindtap="confirm">确认第一步</button>
+    <view class="minor-actions">
+      <text bindtap="retryChoice">这道题建议不太对？</text>
+      <text bindtap="retakePhoto">重新选择图片</text>
+    </view>
+  </view>
+
+  <view wx:if="{{result}}" class="fixed-start">
+    <view>已记录：{{result.event.childArticulatedStep}}</view>
+    <button bindtap="startFocusFromDiagnosis">好，我就从这一步开始，专注 15 分钟</button>
+  </view>
+</view>

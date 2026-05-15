@@ -3,7 +3,7 @@
 // 有微信 access_token 时可扩展 msgSecCheck；当前先提供服务端统一规则和审核边界。
 import {
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -16,8 +16,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:content:${ip}`, 180);
+    const limited = rateLimit(clientRateKey(req, 'mini:content'), 180);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试' }, 429);
 
     let body = {};
@@ -37,7 +36,13 @@ export default async function handler(req) {
     const result = riskyContent(content);
     return json({
         ok: true,
-        provider: 'server-precheck',
+        provider: 'local_safety_rules',
+        persisted: false,
+        service_contract: {
+            mode: 'local_rules',
+            evidence_required: ['content'],
+            action_required: 'wechat_msg_sec_check_configuration'
+        },
         safe: result.safe,
         risk_type: result.type,
         keyword: result.keyword || '',

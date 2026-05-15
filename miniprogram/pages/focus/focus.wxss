@@ -1,0 +1,507 @@
+.focus-page {
+  min-height: 100vh;
+  color: #fffdf7;
+  background: #14261f;
+  position: relative;
+  overflow: hidden;
+}
+
+.focus-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 18, 24, .22), rgba(6, 10, 12, .58));
+}
+
+.scene-warm { background: radial-gradient(circle at 30% 12%, #f5c777 0, transparent 28%), linear-gradient(145deg, #5b3825, #132b26 62%, #101819); }
+.scene-rain { background: radial-gradient(circle at 80% 18%, #9bc7d2 0, transparent 24%), linear-gradient(145deg, #1c4451, #172a32 60%, #111819); }
+.scene-night { background: radial-gradient(circle at 20% 20%, #a78bfa 0, transparent 20%), linear-gradient(145deg, #20244c, #111827 58%, #0d1417); }
+.scene-morning { background: radial-gradient(circle at 78% 12%, #ffe1a6 0, transparent 24%), linear-gradient(145deg, #4f8b7b, #f1b56a 58%, #283c35); }
+.scene-library { background: radial-gradient(circle at 28% 14%, #d2b48c 0, transparent 24%), linear-gradient(145deg, #344131, #172620 62%, #101614); }
+.scene-starship { background: radial-gradient(circle at 70% 20%, #6ee7f9 0, transparent 22%), linear-gradient(145deg, #18203f, #162b36 62%, #0c1118); }
+.scene-city { background: radial-gradient(circle at 75% 16%, #fbbf24 0, transparent 20%), linear-gradient(145deg, #18223d, #1f2f3a 58%, #101416); }
+.scene-soft { background: radial-gradient(circle at 28% 18%, #f0abfc 0, transparent 22%), linear-gradient(145deg, #40305f, #223b46 62%, #10161b); }
+.scene-night-desk {
+  background-image: linear-gradient(180deg, rgba(7, 17, 27, .18), rgba(7, 17, 27, .66)), url("/assets/focus/night-desk.png"), radial-gradient(circle at 72% 14%, rgba(168, 192, 255, .55) 0, transparent 22%), linear-gradient(145deg, #172554 0%, #111827 56%, #07111b 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.scene-morning-window {
+  background-image: linear-gradient(180deg, rgba(20, 31, 27, .10), rgba(20, 31, 27, .56)), url("/assets/focus/morning-window.png"), radial-gradient(circle at 72% 12%, rgba(255, 226, 166, .78) 0, transparent 25%), linear-gradient(145deg, #2f6f73 0%, #d99a56 58%, #273b37 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.scene-quiet-forest {
+  background-image: linear-gradient(180deg, rgba(10, 24, 22, .12), rgba(10, 24, 22, .62)), url("/assets/focus/quiet-forest.png"), radial-gradient(circle at 28% 18%, rgba(187, 247, 208, .42) 0, transparent 24%), linear-gradient(145deg, #33463d 0%, #1f342d 58%, #101817 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.focus-star {
+  position: absolute;
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  filter: blur(2rpx);
+}
+
+.focus-star.one { right: -56rpx; top: 100rpx; }
+.focus-star.two { left: -80rpx; top: 420rpx; width: 220rpx; height: 220rpx; }
+
+.focus-scroll {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+}
+
+.focus-shell {
+  padding: 44rpx 28rpx 0;
+}
+
+.focus-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 26rpx;
+}
+
+.focus-kicker {
+  font-size: 24rpx;
+  opacity: .82;
+  font-weight: 800;
+}
+
+.focus-title {
+  margin-top: 8rpx;
+  font-size: 44rpx;
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.room-pill {
+  flex: 0 0 auto;
+  padding: 12rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, .16);
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
+.focus-hero-card,
+.panel,
+.completion-card {
+  border: 1rpx solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .14);
+  box-shadow: 0 24rpx 70rpx rgba(0, 0, 0, .18);
+  backdrop-filter: blur(28rpx);
+  border-radius: 28rpx;
+}
+
+.focus-hero-card {
+  padding: 28rpx;
+}
+
+.scene-label {
+  font-size: 24rpx;
+  font-weight: 800;
+  opacity: .82;
+}
+
+.mascot-row {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.gudian-avatar {
+  position: relative;
+  width: 86rpx;
+  height: 76rpx;
+  border-radius: 44rpx 44rpx 36rpx 36rpx;
+  background: linear-gradient(180deg, #d9fff0, #78d8b7);
+  box-shadow: inset 0 -8rpx 0 rgba(15, 89, 70, .2);
+}
+
+.gudian-avatar::before {
+  content: "";
+  position: absolute;
+  left: 36rpx;
+  top: -18rpx;
+  width: 14rpx;
+  height: 24rpx;
+  border-radius: 999rpx;
+  background: #b9f7e5;
+}
+
+.gudian-eye {
+  position: absolute;
+  top: 28rpx;
+  width: 9rpx;
+  height: 13rpx;
+  border-radius: 999rpx;
+  background: #17352d;
+}
+
+.gudian-eye.left { left: 28rpx; }
+.gudian-eye.right { right: 28rpx; }
+
+.gudian-mouth {
+  position: absolute;
+  left: 38rpx;
+  top: 48rpx;
+  width: 12rpx;
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: rgba(23, 53, 45, .7);
+}
+
+.gudian-line {
+  flex: 1;
+  min-width: 0;
+  font-size: 27rpx;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+.focus-progress {
+  --progress: 0;
+  width: 360rpx;
+  height: 360rpx;
+  margin: 30rpx auto 0;
+  border-radius: 50%;
+  padding: 18rpx;
+  box-sizing: border-box;
+  background: conic-gradient(#d8fff0 calc(var(--progress) * 1%), rgba(255, 255, 255, .16) 0);
+  box-shadow: 0 0 0 1rpx rgba(255, 255, 255, .18), 0 30rpx 80rpx rgba(0, 0, 0, .24);
+}
+
+.focus-progress.last-minute {
+  background: conic-gradient(#f59e0b calc(var(--progress) * 1%), rgba(255, 255, 255, .16) 0);
+}
+
+.focus-progress.breathing {
+  animation: focusBreath 3.6s ease-in-out infinite;
+}
+
+.progress-core {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(10, 22, 24, .48);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-text {
+  font-size: 116rpx;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.sound-chip {
+  margin-top: 18rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, .16);
+  font-size: 22rpx;
+  font-weight: 800;
+  opacity: .86;
+}
+
+.timer-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  opacity: .82;
+  font-weight: 800;
+}
+
+.task-card {
+  margin-top: 28rpx;
+  padding: 22rpx;
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, .14);
+}
+
+.task-label {
+  font-size: 22rpx;
+  opacity: .78;
+  font-weight: 800;
+}
+
+.task-title {
+  margin-top: 8rpx;
+  font-size: 32rpx;
+  line-height: 1.35;
+  font-weight: 900;
+}
+
+.task-empty {
+  margin-top: 18rpx;
+}
+
+.task-input {
+  min-height: 76rpx;
+  padding: 0 18rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, .92);
+  color: #17231f;
+  font-size: 26rpx;
+}
+
+.task-save,
+.primary-action,
+.secondary-action,
+.icon-action {
+  margin: 0;
+  border: 0;
+  border-radius: 18rpx;
+  font-weight: 900;
+}
+
+.task-save {
+  margin-top: 14rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  background: #e6fff3;
+  color: #174c3e;
+}
+
+.task-links {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  font-weight: 800;
+  opacity: .9;
+}
+
+.timer-actions {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr .68fr;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.primary-action {
+  background: #fff7d6;
+  color: #234137;
+}
+
+.secondary-action {
+  background: rgba(255, 255, 255, .22);
+  color: #fffdf7;
+}
+
+.icon-action {
+  background: rgba(255, 255, 255, .14);
+  color: #fffdf7;
+}
+
+.mode-row,
+.audio-row {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 20rpx;
+  overflow-x: auto;
+}
+
+.mode-chip,
+.audio-chip,
+.scene-card,
+.stat-item,
+.peer,
+.badge {
+  background: rgba(255, 255, 255, .13);
+  border: 1rpx solid rgba(255, 255, 255, .16);
+  border-radius: 18rpx;
+}
+
+.mode-chip {
+  min-width: 150rpx;
+  padding: 18rpx;
+}
+
+.mode-chip view,
+.audio-chip view,
+.scene-card view {
+  font-size: 25rpx;
+  font-weight: 900;
+}
+
+.mode-chip text,
+.audio-chip text,
+.scene-card text,
+.peer text {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  opacity: .76;
+}
+
+.mode-chip.active,
+.audio-chip.active,
+.scene-card.active {
+  border-color: rgba(255, 247, 214, .9);
+  box-shadow: 0 0 0 2rpx rgba(255, 247, 214, .25);
+}
+
+.panel {
+  margin-top: 20rpx;
+  padding: 24rpx;
+}
+
+.panel-title {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.scene-card {
+  min-height: 118rpx;
+  padding: 18rpx;
+  box-sizing: border-box;
+}
+
+.audio-chip {
+  min-width: 172rpx;
+  padding: 16rpx;
+}
+
+.volume-row {
+  display: grid;
+  grid-template-columns: 72rpx minmax(0, 1fr);
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.stat-item {
+  padding: 18rpx 10rpx;
+  text-align: center;
+}
+
+.stat-item view {
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.stat-item text,
+.empty-line,
+.room-copy {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  opacity: .82;
+}
+
+.badge-row,
+.peer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.badge {
+  padding: 10rpx 16rpx;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.peer {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 18rpx;
+}
+
+.peer-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  background: #b9f7e5;
+}
+
+.completion-card {
+  margin-top: 20rpx;
+  padding: 24rpx;
+}
+
+.completion-title {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.completion-body,
+.completion-parent {
+  margin-top: 12rpx;
+  font-size: 25rpx;
+  line-height: 1.45;
+  opacity: .88;
+}
+
+.completion-card .secondary-action {
+  margin-top: 18rpx;
+}
+
+.parent-pause-card {
+  margin-top: 20rpx;
+}
+
+.copy-action {
+  margin-top: 14rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  border: 0;
+  border-radius: 16rpx;
+  background: rgba(255, 247, 214, .92);
+  color: #234137;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.interruption-card {
+  border-color: rgba(255, 247, 214, .55);
+}
+
+.interrupt-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.focus-bottom {
+  height: 160rpx;
+}
+
+@keyframes focusBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.025); }
+}

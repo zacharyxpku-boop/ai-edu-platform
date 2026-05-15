@@ -7,6 +7,7 @@
  *
  * 数据落点:
  *   - localStorage('ydzx_event_log_v1') 环形数组上限 500 条 {ts, e, p}
+ *   - POST /api/track 写服务端轻量日志(仅事件元信息, 敏感字段会裁剪)
  *   - 镜像 window.gtag (GA4) / window.fbq (Meta) try-catch shim, 不依赖
  *
  * 跟 subject-hub.js 内 trackEvent 行为一致, 抽到独立 module 给 index/paths/quiz/errors
@@ -17,17 +18,78 @@
 
   const KEY = 'ydzx_event_log_v1';
   const CAP = 500;
+  const SENSITIVE_KEY = /key|token|secret|password|authorization|credential|openid|phone|mobile/i;
+  const MAX_META_STR = 180;
+
+  function scrub(value, depth) {
+    if (depth > 3) return '[truncated]';
+    if (value == null) return value;
+    if (typeof value === 'string') return value.slice(0, MAX_META_STR);
+    if (typeof value === 'number' || typeof value === 'boolean') return value;
+    if (Array.isArray(value)) return value.slice(0, 8).map(function (item) { return scrub(item, depth + 1); });
+    if (typeof value === 'object') {
+      const out = {};
+      Object.keys(value).slice(0, 24).forEach(function (key) {
+        out[key] = SENSITIVE_KEY.test(key) ? '[redacted]' : scrub(value[key], depth + 1);
+      });
+      return out;
+    }
+    return String(value).slice(0, MAX_META_STR);
+  }
+
+  function sid() {
+    try {
+      const key = 'ydzx_sid_v1';
+      let value = localStorage.getItem(key);
+      if (!value) {
+        value = 'sid_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem(key, value);
+      }
+      return value;
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function sendServer(entry) {
+    const payload = JSON.stringify({
+      event: entry.e,
+      page: derivePageName(),
+      ts: entry.ts,
+      sid: sid(),
+      ref: document.referrer || '',
+      meta: scrub(entry.p || {}, 0)
+    });
+    try {
+      if (global.navigator && typeof global.navigator.sendBeacon === 'function') {
+        const ok = global.navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
+        if (ok) return;
+      }
+    } catch (_) {}
+    try {
+      if (typeof global.fetch === 'function') {
+        global.fetch('/api/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        }).catch(function () {});
+      }
+    } catch (_) {}
+  }
 
   function event(name, props) {
-    const entry = { ts: Date.now(), e: name, p: props || {} };
+    const safeProps = scrub(props || {}, 0);
+    const entry = { ts: Date.now(), e: name, p: safeProps };
     try {
       const log = JSON.parse(localStorage.getItem(KEY) || '[]');
       log.push(entry);
       if (log.length > CAP) log.splice(0, log.length - CAP);
       localStorage.setItem(KEY, JSON.stringify(log));
     } catch (_) {}
-    try { if (typeof global.gtag === 'function') global.gtag('event', name, props || {}); } catch (_) {}
-    try { if (typeof global.fbq === 'function') global.fbq('trackCustom', name, props || {}); } catch (_) {}
+    try { if (typeof global.gtag === 'function') global.gtag('event', name, safeProps); } catch (_) {}
+    try { if (typeof global.fbq === 'function') global.fbq('trackCustom', name, safeProps); } catch (_) {}
+    sendServer(entry);
   }
 
   // 只读 helper · 给 OBSERVABILITY snippet / debug console 用

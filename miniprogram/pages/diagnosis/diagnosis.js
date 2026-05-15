@@ -9,49 +9,49 @@ function buildQuickSnap(form) {
   const signals = [];
   let axis = 'concept';
   let score = 72;
-  let headline = 'Quick snap is collecting learning signals.';
-  let nextMove = 'Answer the three prompts to produce a first weak-point guess.';
+  let headline = '这三问在帮你找今晚第一步。';
+  let nextMove = '回答这三个小问题，我会先判断今晚先从哪里开始。';
 
   if (!prerequisite) {
-    signals.push('missing prerequisite explanation');
+    signals.push('前置知识不清');
     axis = 'concept';
     score = 48;
-    headline = 'The learner may be missing prerequisite knowledge.';
-    nextMove = 'Route to prerequisite check before adding more practice.';
+    headline = '孩子可能还没把前置知识说清。';
+    nextMove = '先补一条旧知识，再继续今晚这一步。';
   } else if (/不会|忘|不懂|没学|记不住|模糊/.test(prerequisite)) {
-    signals.push('prerequisite gap');
+    signals.push('前置知识缺口');
     axis = 'concept';
     score = 52;
-    headline = 'The learner knows the topic name but cannot explain the prior rule.';
-    nextMove = 'Rebuild the old knowledge in one sentence, then test again.';
+    headline = '孩子知道题目名字，但说不清前置规则。';
+    nextMove = '先用一句话把旧知识补回来，再继续往下做。';
   }
 
   if (!method) {
-    signals.push('missing first step');
+    signals.push('缺第一步');
     axis = 'reading';
     score = Math.min(score, 46);
-    headline = 'The learner cannot name the first useful step yet.';
-    nextMove = 'Send this to tutor and force a first-step explanation before solving.';
+    headline = '孩子还说不出有用的第一步。';
+    nextMove = '进入作业点拨，先把第一步说出来。';
   } else if (/看答案|直接算|乱写|不知道先/.test(method)) {
-    signals.push('method breakdown');
+    signals.push('方法不稳');
     axis = 'reading';
     score = Math.min(score, 50);
-    headline = 'The learner is skipping the route and jumping toward the answer.';
-    nextMove = 'Use tutor only for route-building and wrong-cause repair.';
+    headline = '孩子在跳步骤，直接往答案冲。';
+    nextMove = '先把方法搭起来，再开始算。';
   }
 
   if (!transfer) {
-    signals.push('missing transfer proof');
+    signals.push('缺迁移证据');
     axis = axis === 'reading' ? 'reading' : 'transfer';
     score = Math.min(score, 54);
-    headline = 'There is no transfer proof yet, so mastery is still shallow.';
-    nextMove = 'Add one small transfer check before calling this mastered.';
+    headline = '还没有看到举一反三的证据。';
+    nextMove = '再补一个小变式，看看能不能迁移。';
   } else if (/不会|不确定|换了就|一变就|类似题也错/.test(transfer)) {
-    signals.push('transfer weak');
+    signals.push('迁移偏弱');
     axis = 'transfer';
     score = Math.min(score, 49);
-    headline = 'The learner can follow one example but breaks on a small variation.';
-    nextMove = 'Generate one transfer drill and one review card pack tonight.';
+    headline = '孩子会做例题，但一变式就容易卡住。';
+    nextMove = '今晚先补一个小变式，再进复习包。';
   }
 
   const map = {
@@ -84,8 +84,8 @@ Page({
     form: {
       grade: '五年级',
       subject: '数学',
-      score: 78,
-      totalScore: 100,
+      score: '',
+      totalScore: '',
       minutes: 35,
       examText: '',
       homeworkText: '',
@@ -93,7 +93,8 @@ Page({
       snapMethod: '',
       snapTransfer: ''
     },
-    quickSnap: null
+    quickSnap: null,
+    showDiagnosisDetails: false
   },
 
   onLoad() {
@@ -131,17 +132,69 @@ Page({
     this.setData({ form, quickSnap: buildQuickSnap(form) });
   },
 
+  toggleDiagnosisDetails() {
+    this.setData({ showDiagnosisDetails: !this.data.showDiagnosisDetails });
+  },
+
+  goHome() {
+    wx.switchTab({ url: '/pages/home/home' });
+  },
+
+  issueTypeFromQuickSnap(quickSnap) {
+    const axis = quickSnap && quickSnap.axis;
+    if (axis === 'concept') return '概念公式';
+    if (axis === 'transfer') return '步骤断点';
+    return '读题审题';
+  },
+
+  saveDiagnosisFocus(form, quickSnap, state) {
+    if (!storage.saveTodayFocusFromThought) return null;
+    const method = String(form.snapMethod || '').trim();
+    const prerequisite = String(form.snapPrerequisite || '').trim();
+    const transfer = String(form.snapTransfer || '').trim();
+    const focusText = [
+      method ? `我的第一步：${method}` : '',
+      prerequisite ? `我先要看懂：${prerequisite}` : '',
+      transfer ? `换条件时我可能卡在：${transfer}` : '',
+      form.examText ? `补充卡点：${form.examText}` : ''
+    ].filter(Boolean).join('\n');
+    if (!focusText) return null;
+    const focus = storage.saveTodayFocusFromThought(focusText, {
+      source: 'mini-diagnosis',
+      subject: form.subject || ((state && state.subject) || ''),
+      title: method || prerequisite || '今晚第一步',
+      issueType: this.issueTypeFromQuickSnap(quickSnap),
+      isStuck: true,
+      repairStatus: 'not_started',
+      progress: 24,
+      miniActionText: method,
+      hasMiniActionDone: false,
+      recommendation: quickSnap && quickSnap.nextMove ? quickSnap.nextMove : '先把第一步说清楚，再做一道小变式。'
+    });
+    if (storage.saveTodaySession) {
+      storage.saveTodaySession({
+        stuckPointText: focusText,
+        taskType: storage.detectTaskType ? storage.detectTaskType(focusText, `${form.subject || ''} ${this.issueTypeFromQuickSnap(quickSnap)}`) : 'unknown',
+        taskTypeConfirmed: true
+      });
+    }
+    if (focus && storage.updateTonightRouteStatus) {
+      storage.updateTonightRouteStatus('focus_created', { focusId: focus.id });
+    }
+    return focus;
+  },
+
   submit() {
     if (this.data.submitting) return;
     const form = this.data.form;
     const quickSnap = buildQuickSnap(form);
-    const snapContext = quickSnap.context ? `3-question snap\n${quickSnap.context}\n快诊结论：${quickSnap.axisName} ${quickSnap.score}` : '';
+    const snapContext = quickSnap.context ? `3-question snap\n${quickSnap.context}\n三问先看：${quickSnap.axisName} ${quickSnap.score}` : '';
     const payload = {
       source: 'mini-diagnosis',
       grade: form.grade,
       subject: form.subject,
-      score: Number(form.score),
-      totalScore: Number(form.totalScore),
+      score: Number(form.score) || 0,
+      totalScore: Number(form.totalScore) || 0,
       minutes: Number(form.minutes),
       examText: [form.examText, snapContext].filter(Boolean).join('\n'),
       homeworkText: form.homeworkText
@@ -152,25 +205,66 @@ Page({
       subject: form.subject,
       minutes: Number(form.minutes) || 35
     });
+    if (storage.saveLearningReportState) {
+      const reportInput = {
+        mode: 'standard',
+        sourceText: [
+          form.examText,
+          form.homeworkText,
+          form.snapPrerequisite,
+          form.snapMethod,
+          form.snapTransfer,
+          `年级：${form.grade}`,
+          `学科：${form.subject}`,
+          form.score ? `${form.subject} 分数 ${form.score}` : '',
+          form.totalScore ? `总分：${form.totalScore}` : ''
+        ].filter(Boolean).join('\n'),
+        profileBasics: {
+          grade: form.grade,
+          age: '',
+          gender: '',
+          region: '',
+          schoolType: ''
+        },
+        behaviorSignals: {
+          studyMinutes: Number(form.minutes) || '',
+          homeworkMinutes: '',
+          classesCount: '',
+          sleepHours: '',
+          focusRating: ''
+        },
+        emotionSignals: {},
+        interestSignals: {},
+        assessmentAnswers: []
+      };
+      const reportState = storage.buildLearningReportFromInput
+        ? storage.buildLearningReportFromInput(reportInput)
+        : null;
+      if (reportState) storage.saveLearningReportState(reportState, { skipBuild: true });
+    }
 
     this.setData({ submitting: true });
     wx.showLoading({ title: '生成中' });
 
     api.buildPriority(payload).then((state) => {
-      storage.saveState(Object.assign({}, state, {
+      const savedState = Object.assign({}, state, {
         source: 'mini-diagnosis-server',
         quick_snap: quickSnap
-      }));
-      wx.showToast({ title: '已生成雷达', icon: 'success' });
-      setTimeout(() => wx.switchTab({ url: '/pages/radar/radar' }), 500);
+      });
+      storage.saveState(savedState);
+      this.saveDiagnosisFocus(form, quickSnap, savedState);
+      wx.showToast({ title: '已排好今晚安排', icon: 'success' });
+      setTimeout(() => wx.navigateTo({ url: '/pages/radar/radar' }), 500);
     }).catch(() => {
       const state = priority.buildAssessment(payload);
-      storage.saveState(Object.assign({}, state, {
+      const savedState = Object.assign({}, state, {
         source: 'mini-diagnosis-local-fallback',
         quick_snap: quickSnap
-      }));
-      wx.showToast({ title: '本地生成雷达', icon: 'success' });
-      setTimeout(() => wx.switchTab({ url: '/pages/radar/radar' }), 500);
+      });
+      storage.saveState(savedState);
+      this.saveDiagnosisFocus(form, quickSnap, savedState);
+      wx.showToast({ title: '已生成本地安排', icon: 'success' });
+      setTimeout(() => wx.navigateTo({ url: '/pages/radar/radar' }), 500);
     }).finally(() => {
       wx.hideLoading();
       this.setData({ submitting: false });

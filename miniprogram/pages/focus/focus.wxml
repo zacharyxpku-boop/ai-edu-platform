@@ -1,0 +1,176 @@
+<view class="focus-page {{cabin.selectedScene.gradient}}">
+  <view class="page-positioning focus-positioning">
+    <view class="positioning-kicker">专注舱</view>
+    <view class="positioning-title">围绕这一小步坐一段，留下孩子真的开始过的证据</view>
+    <view class="positioning-flow">不是单纯计时；专注目标绑定孩子说出的第一步，结束后给家长一行复盘。</view>
+  </view>
+  <view class="focus-shade"></view>
+  <view class="focus-star one"></view>
+  <view class="focus-star two"></view>
+
+  <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="focus-scroll">
+    <view class="focus-shell">
+      <view class="focus-topbar">
+        <view>
+          <view class="focus-kicker">咕点专注舱</view>
+          <view class="focus-title">陪你把今晚这一小步做完</view>
+        </view>
+        <view class="room-pill">{{cabin.room.title}}</view>
+      </view>
+
+      <view class="focus-hero-card">
+        <view class="scene-label">{{cabin.selectedScene.name}} · 氛围只是陪你坐住一点点</view>
+        <view class="mascot-row">
+          <view class="gudian-avatar">
+            <view class="gudian-eye left"></view>
+            <view class="gudian-eye right"></view>
+            <view class="gudian-mouth"></view>
+          </view>
+          <view class="gudian-line">{{cabin.currentSession.mascotLine}}</view>
+        </view>
+
+        <view class="task-card">
+          <view class="task-label">今晚先做完这一小步</view>
+          <view class="task-title">{{cabin.focusTarget.title}}</view>
+          <view class="task-empty" wx:if="{{focusBlocked}}">
+            <view class="task-blocked">{{focusBlockedText}}</view>
+            <view class="task-links">
+              <text bindtap="goHome">回首页输入卡点</text>
+              <text bindtap="goReview">去修卡点</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="focus-progress {{cabin.progressRing.breathing ? 'breathing' : ''}} {{cabin.progressRing.isLastMinute ? 'last-minute' : ''}}" style="{{cabin.progressRing.ringStyle}}">
+          <view class="progress-core">
+            <view class="timer-text">{{timeText}}</view>
+            <view class="sound-chip">{{ambientSoundText}}</view>
+          </view>
+        </view>
+        <view class="timer-meta">
+          <text>{{cabin.progressRing.isLastMinute ? '最后一分钟，慢慢收住' : cabin.currentSession.status === 'running' ? '正在陪你做这一小步' : cabin.currentSession.status === 'paused' ? '先缓一下' : cabin.currentSession.status === 'interrupted' ? '被打断也没关系' : '准备开始'}}</text>
+          <text>第 {{cabin.currentSession.roundCurrent}} / {{cabin.currentSession.roundTotal}} 段</text>
+        </view>
+
+        <view class="timer-actions">
+          <button wx:if="{{cabin.currentSession.status === 'paused'}}" class="primary-action" bindtap="resumeFocus">继续</button>
+          <button wx:elif="{{cabin.currentSession.status === 'running'}}" class="primary-action" bindtap="pauseFocus">暂停</button>
+          <button wx:else class="primary-action" bindtap="startFocus">开始专注</button>
+          <button class="secondary-action" bindtap="completeFocus">完成这一段</button>
+          <button wx:if="{{cabin.currentSession.status === 'running' || cabin.currentSession.status === 'paused'}}" class="icon-action" bindtap="interruptFocus">中断</button>
+          <button wx:else class="icon-action" bindtap="resetFocus">重来</button>
+        </view>
+
+        <view class="parent-pause-card">
+          <button class="secondary-action" bindtap="parentPause">家长暂停键</button>
+          <view class="completion-body" wx:if="{{parentPauseCard}}">
+            {{parentPauseCard.body}}「{{parentPauseCard.phrase}}」
+            <button class="copy-action" bindtap="copyParentPhrase">复制话术</button>
+          </view>
+          <view class="completion-body" wx:if="{{parentPauseSurvey}}">
+            <view>{{parentPauseSurvey.question}}</view>
+            <button wx:for="{{parentPauseSurvey.options}}" wx:key="id" data-behavior="{{item.id}}" bindtap="chooseParentPauseBehavior">{{item.label}}</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="completion-card interruption-card" wx:if="{{interruptionCard}}">
+        <view class="completion-title">{{interruptionCard.title}}</view>
+        <view class="completion-body">{{interruptionCard.body}}</view>
+        <view class="interrupt-actions">
+          <button class="secondary-action" bindtap="restAfterInterrupt">休息一下再来</button>
+          <button class="icon-action" bindtap="closeInterruption">今天先到这儿</button>
+        </view>
+      </view>
+
+      <view class="mode-row">
+        <view class="mode-chip {{cabin.selectedDuration.id === item.id ? 'active' : ''}}" wx:for="{{cabin.durationModes}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseDuration">
+          <view>{{item.label}}</view>
+          <text>{{item.tone}}</text>
+        </view>
+      </view>
+
+      <view class="mode-row break-row">
+        <view class="mode-chip {{cabin.selectedDuration.id === item.id ? 'active' : ''}}" wx:for="{{cabin.breakModes}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseDuration">
+          <view>{{item.label}}</view>
+          <text>缓一下再回来</text>
+        </view>
+      </view>
+
+      <view class="panel two">
+        <view class="panel-title">换个不抢注意力的背景</view>
+        <view class="scene-grid">
+          <view class="scene-card {{cabin.selectedScene.id === item.id ? 'active' : ''}} {{item.gradient}}" wx:for="{{cabin.scenes}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseScene">
+            <view>{{item.name}}</view>
+            <text>{{item.mood}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="panel">
+        <view class="panel-title">一点背景声</view>
+        <view class="audio-row">
+          <view class="audio-chip {{cabin.selectedAudio.id === item.id ? 'active' : ''}}" wx:for="{{cabin.audioModes}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseAudio">
+            <view>{{item.name}}</view>
+            <text>{{item.detail}}</text>
+          </view>
+        </view>
+        <view class="volume-row">
+          <text>音量</text>
+          <slider value="{{volume}}" min="0" max="100" bindchange="onVolumeChange" activeColor="#3D7768" backgroundColor="rgba(255,255,255,.35)" />
+        </view>
+      </view>
+
+      <view class="panel stats-panel">
+        <view class="panel-title">今晚留下的一小步</view>
+        <view class="stat-grid">
+          <view class="stat-item">
+            <view>{{cabin.progress.totalFocusMinutes}}</view>
+            <text>坐住分钟</text>
+          </view>
+          <view class="stat-item">
+            <view>{{cabin.progress.totalSessions}}</view>
+            <text>完成小段</text>
+          </view>
+          <view class="stat-item">
+            <view>{{cabin.progress.streak}}</view>
+            <text>回来天数</text>
+          </view>
+        </view>
+        <view class="badge-row" wx:if="{{cabin.progress.badges.length}}">
+          <view class="badge" wx:for="{{cabin.progress.badges}}" wx:key="id">{{item.label}}</view>
+        </view>
+        <view class="empty-line" wx:else>还没有完成记录。先坐 15 分钟也很好。</view>
+      </view>
+
+      <view class="panel room-panel" wx:if="{{false}}">
+        <view class="panel-title">本地自习室</view>
+        <view class="room-copy">{{cabin.room.checkinText}}</view>
+        <view class="peer-row">
+          <view class="peer" wx:for="{{cabin.room.peers}}" wx:key="id">
+            <view class="peer-dot"></view>
+            <view>
+              <view>{{item.name}}</view>
+              <text>{{item.status}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="completion-card" wx:if="{{completionCard}}">
+        <view class="completion-title">{{completionCard.childLine}}</view>
+        <view class="completion-body">{{completionCard.summary}}</view>
+        <view class="completion-parent">{{completionCard.parentRecap}}</view>
+        <button class="secondary-action" bindtap="goProfile">给家长看一句话</button>
+      </view>
+
+      <view class="completion-card" wx:if="{{secondStepNotice}}">
+        <view class="completion-title">{{secondStepNotice.title}}</view>
+        <view class="completion-body">{{secondStepNotice.body}}</view>
+        <button class="secondary-action" bindtap="goProfile">{{secondStepNotice.cta}}</button>
+      </view>
+
+      <view class="focus-bottom"></view>
+    </view>
+  </scroll-view>
+</view>

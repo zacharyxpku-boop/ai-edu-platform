@@ -11,4 +11,8 @@
     <view class="title-md">AI 辅助说明</view>
     <view class="body">原点智学只提供学习建议、作业优先级和思路提示；不替代学校教学、老师判断或家长监护，不提供作业代写服务。</view>
   </view>
+  <view class="section panel-quiet compliance-note">
+    <view class="title-md">服务边界</view>
+    <view class="body">本版本不提供学科培训课程、直播或录播授课、教师一对一辅导、考试押题、拍照搜题出结果或学习结果承诺；仅围绕用户主动输入的学校作业和卡点，提供学习过程建议。</view>
+  </view>
 </view>

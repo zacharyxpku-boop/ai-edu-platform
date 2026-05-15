@@ -6,8 +6,25 @@ export const config = { runtime: 'edge' };
 
 const KEY_EVENTS = new Set(['lead_submit', 'apikey_set', 'share_card']);
 const MAX_STR = 200;
+const SENSITIVE_KEY = /key|token|secret|password|authorization|credential|openid|phone|mobile/i;
 function clean(s) {
     return String(s || '').replace(/[<>"'&`]/g, '').slice(0, MAX_STR);
+}
+function scrubMeta(value, depth = 0) {
+    if (depth > 3) return '[truncated]';
+    if (value == null) return value;
+    if (typeof value === 'string') return clean(value);
+    if (typeof value === 'number' || typeof value === 'boolean') return value;
+    if (Array.isArray(value)) return value.slice(0, 8).map((item) => scrubMeta(item, depth + 1));
+    if (typeof value === 'object') {
+        return Object.fromEntries(
+            Object.entries(value).slice(0, 24).map(([key, item]) => [
+                clean(key),
+                SENSITIVE_KEY.test(key) ? '[redacted]' : scrubMeta(item, depth + 1)
+            ])
+        );
+    }
+    return clean(value);
 }
 
 const CORS = {
@@ -32,7 +49,7 @@ export default async function handler(req) {
         ua:    clean(req.headers.get('user-agent')),
         ip:    clean(req.headers.get('x-forwarded-for') || '').split(',')[0].trim(),
         ts:    Date.now(),
-        meta:  body.meta && typeof body.meta === 'object' ? body.meta : {}
+        meta:  body.meta && typeof body.meta === 'object' ? scrubMeta(body.meta) : {}
     };
 
     if (!evt.event) {

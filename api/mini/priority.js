@@ -3,7 +3,7 @@
 import {
     clean,
     clamp,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -210,12 +210,12 @@ function buildWeeklyReview(axes, weakPoints, homeworkPlan) {
     const skip = homeworkPlan.can_skip || [];
     const weakest = weakPoints[0] || axes.slice().sort((a, b) => a.score - b.score)[0];
     return {
-        ai_notice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+        ai_notice: 'AI 辅助生成，供学习决策参考，不替代老师判断。',
         headline: weakest
             ? `本周先抓“${clean(weakest.name || '', 24)}”，不要平均用力。`
             : '本周先把最有价值的作业做扎实。',
         parent_script: weakest
-            ? `今晚先不催快，先问孩子：这道题真正卡在“${clean(weakest.name || '', 24)}”的哪一步？`
+            ? `先不追求快，先问自己：这道题真正卡在“${clean(weakest.name || '', 24)}”的哪一步？`
             : '今晚先确认必须做任务，做完再考虑加量。',
         focus: must.slice(0, 2).map((item) => item.text),
         load_advice: skip.length
@@ -237,8 +237,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:priority:${ip}`, 120);
+    const limited = rateLimit(clientRateKey(req, 'mini:priority'), 120);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
@@ -294,7 +293,13 @@ export default async function handler(req) {
 
     return json({
         ok: true,
-        source: 'server-priority',
+        source: 'local_priority_rules',
+        persisted: false,
+        service_contract: {
+            mode: 'local_rules',
+            evidence_required: ['score_or_exam_text', 'homework_text', 'family_confirmation'],
+            action_required: 'account_service_configuration'
+        },
         stage: clean(body.stage || '小学高年级到初中衔接', 40),
         grade: clean(body.grade || '五年级', 20),
         subject: clean(body.subject || '数学', 20),
@@ -306,7 +311,7 @@ export default async function handler(req) {
         misconception_profile: misconceptions,
         homework_plan: homeworkPlan,
         weekly_review: buildWeeklyReview(axes, weak_points, homeworkPlan),
-        ai_notice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+        ai_notice: 'AI 辅助生成，供学习决策参考，不替代老师判断。',
         engine_version: 'mini-priority-v1.2',
         updated_at: new Date().toISOString()
     });

@@ -1,6 +1,6 @@
 import {
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -154,8 +154,8 @@ function buildQualityGate(cards = [], coveredTypes = []) {
             : 'Improve the material before treating this as a paid learning pack.',
         checks,
         next: ready >= 4
-            ? 'Import to review, then run a short quiz and parent summary.'
-            : 'Add the exact wrong step, a worked contrast, and one transfer question.'
+            ? '导入复习后，完成一次小测并生成我的复盘摘要。'
+            : '补上具体错步、一个对比例题和一道迁移题。'
     };
 }
 
@@ -166,16 +166,16 @@ function buildStudyPack(cards = [], text = '', options = {}) {
     const cardCount = cards.length;
     const quizCount = Math.max(3, Math.min(8, cardCount + 2));
     return {
-        title: 'STUDY PACK OUTPUT',
-        summary: `${options.inputType || 'material'} -> ${Math.max(1, cardCount)} cards -> ${quizCount} quiz checks -> 7-day review -> parent summary.`,
+        title: '知识关卡输出',
+        summary: `${options.inputType || 'material'} -> ${Math.max(1, cardCount)} 张卡 -> ${quizCount} 道小测 -> 7 天复习 -> 我的复盘。`,
         outputs: [
-            { id: 'knowledge', title: 'Knowledge cards', value: Math.max(1, cardCount), body: `Extract the core method from: ${normalizeText(first, 42)}` },
-            { id: 'wrong_cause', title: 'Wrong-cause cards', value: Math.max(1, Math.ceil(cardCount / 2)), body: `Ask what exact step breaks: ${normalizeText(second, 38)}` },
-            { id: 'quiz', title: 'Mini quiz', value: quizCount, body: 'Mix recall, cloze, transfer and one closed-book explanation.' },
-            { id: 'review', title: 'Review plan', value: '7d', body: 'Today, tomorrow, day 3, day 5 and day 7. Keep workload small.' },
-            { id: 'parent', title: 'Parent summary', value: Math.round(cards.reduce((sum, card) => sum + Number(card.quality || 0), 0) / Math.max(1, cards.length)), body: 'Show what to watch tonight, what to avoid, and what counts as proof.' }
+            { id: 'knowledge', title: '知识卡', value: Math.max(1, cardCount), body: `提炼核心方法：${normalizeText(first, 42)}` },
+            { id: 'wrong_cause', title: '错因卡', value: Math.max(1, Math.ceil(cardCount / 2)), body: `追问具体错步：${normalizeText(second, 38)}` },
+            { id: 'quiz', title: '小测验', value: quizCount, body: '混合回忆、填空、迁移和一次闭卷解释。' },
+            { id: 'review', title: '复习计划', value: '7天', body: '今天、明天、第 3 天、第 5 天和第 7 天，小负担回访。' },
+            { id: 'reflection', title: '我的复盘', value: Math.round(cards.reduce((sum, card) => sum + Number(card.quality || 0), 0) / Math.max(1, cards.length)), body: '记录今晚学什么、避开什么错、什么算掌握证据。' }
         ],
-        parentLine: 'Parent summary: the child should explain one method, name one wrong cause, pass a short quiz, and return for spaced review.'
+        reflectionLine: '我的复盘：讲清一个方法，说出一个错因，完成一次小测，并进入间隔复习。'
     };
 }
 
@@ -260,8 +260,7 @@ export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
     if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: 'Only POST is allowed.' }, 405);
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:content-engine:${ip}`, 100);
+    const limited = rateLimit(clientRateKey(req, 'mini:content-engine'), 100);
     if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: 'Too many requests.' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
@@ -295,6 +294,12 @@ export default async function handler(req) {
     return json({
         ok: true,
         provider: ai && ai.length ? 'remote_ai_content_engine_v1' : 'rule_content_engine_v2',
+        persisted: false,
+        service_contract: {
+            mode: ai && ai.length ? 'configured_model_with_local_quality_gate' : 'local_rules',
+            evidence_required: ['text', 'subject_or_weak_point'],
+            action_required: ai && ai.length ? '' : 'model_service_configuration'
+        },
         cards,
         count: cards.length,
         requiredTypes: ['concept', 'step', 'trap', 'cloze'],

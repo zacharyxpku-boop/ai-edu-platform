@@ -40,6 +40,9 @@ function makeSandbox() {
     localStorage: ls,
     document: docMock,
     location: { pathname: '/test-page.html' },
+    Blob: function Blob(parts, options) { this.parts = parts; this.options = options || {}; },
+    navigator: { sendBeacon: () => false },
+    fetch: () => Promise.resolve({ ok: true }),
     setTimeout: (fn, ms) => fn(),   // fire immediately for assert simplicity
     __setMeta(content) { metaContent = content; }
   };
@@ -54,6 +57,7 @@ function loadTrack(sandbox) {
     var localStorage = sandbox.localStorage;
     var document = sandbox.document;
     var location = sandbox.location;
+    var Blob = sandbox.Blob;
     var setTimeout = sandbox.setTimeout;
     var window = sandbox.window;
     ${trackSrc}
@@ -153,6 +157,26 @@ try {
   assert.ok(gtagCalls >= 2, 'gtag invoked at least 2x');
   pass('gtag mirror works, fbq missing tolerated');
 } catch (e) { fail('gtag/fbq shim', e); }
+
+// ─── case 8: server payload redacts sensitive metadata ───
+console.log('case 8: server payload redacts secrets');
+try {
+  const sb = makeSandbox();
+  const requests = [];
+  sb.window.fetch = (url, options) => {
+    requests.push({ url, options });
+    return Promise.resolve({ ok: true });
+  };
+  const track = loadTrack(sb);
+  track.event('apikey_set', { provider: 'openai', apiKey: 'sk-secret-value', nested: { token: 'abc', ok: true } });
+  const last = requests[requests.length - 1];
+  assert.equal(last.url, '/api/track');
+  const body = JSON.parse(last.options.body);
+  assert.equal(body.meta.apiKey, '[redacted]');
+  assert.equal(body.meta.nested.token, '[redacted]');
+  assert.equal(body.meta.nested.ok, true);
+  pass('server payload redacts sensitive metadata keys');
+} catch (e) { fail('server redaction', e); }
 
 // ─── exit ───
 if (failed) { console.error('\nFAIL: ' + failed + ' assertion(s)'); process.exit(1); }

@@ -50,7 +50,7 @@ const MISCONCEPTION_RULES = [
     name: '低价值重复',
     axis: 'load',
     pattern: /抄写|机械|摘抄|重复|预习|拓展|选做/,
-    drill: '先完成高价值任务，重复任务只保留能巩固弱点的部分。'
+    drill: '先完成高价值任务，重复任务只保留能巩固卡点的部分。'
   }
 ];
 
@@ -107,7 +107,7 @@ function splitHomework(text) {
 }
 
 function reasonForScore(score) {
-  if (score >= 70) return '命中当前弱点或课堂核心，今晚优先做。';
+  if (score >= 70) return '命中当前卡点或课堂核心，今晚优先做。';
   if (score >= 45) return '有帮助，但可以按时间和精力取舍。';
   return '低收益或机械重复，跳过是保护精力。';
 }
@@ -123,13 +123,13 @@ function evidenceForLine(line, score, weakPoints, index) {
   if (/基础|例题|必做|课堂|老师/.test(line)) tags.push('课堂核心');
   if (/应用|综合|变式|方程|函数|几何|阅读/.test(line)) tags.push('迁移应用');
   if (/抄写|机械|摘抄|预习|拓展|选做/.test(line)) tags.push('低收益重复');
-  if (matchedWeak) tags.push(`关联弱点：${matchedWeak.name}`);
+  if (matchedWeak) tags.push(`关联卡点：${matchedWeak.name}`);
   if (!tags.length) tags.push(index < 2 ? '顺序靠前' : '常规任务');
 
   return {
     tags: Array.from(new Set(tags)),
     decision: score >= 70
-      ? '优先处理，能直接打到当前薄弱点。'
+      ? '优先处理，能直接打到当前卡点。'
       : score < 45
         ? '今晚可后置，避免挤占关键任务。'
         : '按今晚精力灵活安排。',
@@ -191,7 +191,7 @@ function classifyHomework(text, weakPoints, minutes) {
       top_reason: mustDo[0]?.reason || '先保住最有帮助的任务',
       misconception_count: items.reduce((sum, item) => sum + (item.evidence.misconception_tags || []).length, 0)
     },
-    rule: '必须做约 40-50%，可以跳过约 20-30%，剩余按精力灵活选择。',
+    rule: '必交先做约 40-50%，可以后置约 20-30%，剩余按精力灵活安排。',
     generated_at: new Date().toISOString()
   };
 }
@@ -201,12 +201,12 @@ function buildWeeklyReview(axes, weakPoints, homeworkPlan) {
   const skip = homeworkPlan.can_skip || [];
   const weakest = weakPoints[0] || axes.slice().sort((a, b) => a.score - b.score)[0];
   return {
-    ai_notice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+    ai_notice: 'AI 辅助生成，供学习决策参考，不替代老师判断。',
     headline: weakest
       ? `本周先抓“${weakest.name}”，不要平均用力。`
       : '本周先把最有价值的作业做扎实。',
     parent_script: weakest
-      ? `今晚先不催快，先问孩子：这道题真正卡在“${weakest.name}”的哪一步？`
+      ? `先不追求快，先问自己：这道题真正卡在“${weakest.name}”的哪一步？`
       : '今晚先确认必须做任务，做完再考虑加量。',
     focus: must.slice(0, 2).map((item) => item.text),
     load_advice: skip.length
@@ -267,7 +267,7 @@ function buildAssessment(input) {
     misconception_profile: misconceptions,
     homework_plan: homeworkPlan,
     weekly_review: buildWeeklyReview(axes, weakPoints, homeworkPlan),
-    ai_notice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+    ai_notice: 'AI 辅助生成，供学习决策参考，不替代老师判断。',
     positioning: getPositioning(),
     updated_at: new Date().toISOString()
   };
@@ -279,11 +279,11 @@ function getPositioning() {
     validation_segment: '初一初二方法升级验证',
     not_for: '初三短期冲刺和固定结果承诺',
     promise: '不替孩子写作业；先判断今晚哪些值得做，再把关键错因讲清楚、练到位、复盘出来。',
-    miniapp_loop: '测评/试卷/作业录入 -> 雷达弱点 -> 作业三分类 -> 原小点只引导高优先级任务和关键错因'
+    miniapp_loop: '作业录入 -> 卡点识别 -> 作业三分类 -> 作业点拨只引导高优先级任务和关键错因'
   };
 }
 
-function makeDemoState() {
+function makeLocalSampleState() {
   const weakPoints = [
     { key: 'transfer', name: '迁移应用', score: 52, reason: '换题型后，不知道先抓哪条线索。' },
     { key: 'reading', name: '审题建模', score: 56, reason: '容易漏条件，或误读题目问法。' },
@@ -291,7 +291,7 @@ function makeDemoState() {
   ];
   const homeworkPlan = classifyHomework('', weakPoints, 35);
   return {
-    source: 'demo',
+    source: 'local_sample',
     stage: '小学高年级到初中衔接',
     grade: '五年级',
     subject: '数学',
@@ -301,7 +301,7 @@ function makeDemoState() {
     misconception_profile: [],
     homework_plan: homeworkPlan,
     weekly_review: buildWeeklyReview(DEFAULT_AXES, weakPoints, homeworkPlan),
-    ai_notice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+    ai_notice: 'AI 辅助生成，供学习决策参考，不替代老师判断。',
     positioning: getPositioning(),
     updated_at: new Date().toISOString()
   };
@@ -314,5 +314,5 @@ module.exports = {
   classifyHomework,
   detectMisconceptions,
   getPositioning,
-  makeDemoState
+  makeLocalSampleState
 };

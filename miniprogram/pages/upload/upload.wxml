@@ -1,131 +1,200 @@
-<view class="page safe-bottom">
-  <view class="eyebrow">HOMEWORK</view>
-  <view class="title-xl">把今晚作业变成三类。</view>
-  <view class="body intro">请手动录入题号、错题或作业清单，系统会结合雷达弱点判断哪些必须做。</view>
-
-  <view class="section panel upload-playbook" wx:if="{{uploadPlaybook}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">UPLOAD TO TRIAGE LOOP</view>
-        <view class="title-md">{{uploadPlaybook.title}}</view>
-      </view>
-      <view class="pill">{{previewPlan ? 'preview on' : 'waiting'}}</view>
-    </view>
-    <view class="body">{{uploadPlaybook.label}}</view>
-    <view class="proof-strip">
-      <view class="proof-stat" wx:for="{{uploadPlaybook.stats}}" wx:key="label">
-        <view class="proof-num">{{item.value}}</view>
-        <view class="proof-name">{{item.label}}</view>
-      </view>
-    </view>
-    <view class="upload-playbook-list">
-      <view class="upload-playbook-card {{item.tone}}" wx:for="{{uploadPlaybook.cards}}" wx:key="id">
-        <view class="upload-playbook-title">{{item.title}}</view>
-        <view class="muted">{{item.body}}</view>
-      </view>
-    </view>
+<view class="upload-page">
+  <view class="page-positioning upload-positioning">
+    <view class="positioning-kicker">材料入口</view>
+    <view class="positioning-title">把作业、错题、材料变成今晚路线和可回访卡</view>
+    <view class="positioning-flow">先分清必须做什么；错题会进修卡点，材料会变成轻练习，不散在各处。</view>
+  </view>
+  <view class="upload-nav">
+    <button class="nav-back" bindtap="goHome" aria-label="返回">
+      <text class="nav-back-icon">‹</text>
+    </button>
+    <view class="nav-title">今晚作业</view>
+    <button class="nav-home" bindtap="goHome">首页</button>
   </view>
 
-  <view class="section panel stack">
-    <view class="notice">
-      <view class="notice-title">录入越具体，取舍越可信</view>
-      <view class="muted">建议写清题型、数量、老师要求和孩子卡住的位置。照片只做本地留档，不上传识别。</view>
-    </view>
+  <scroll-view class="upload-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="upload-content">
+      <view class="upload-brand-row">
+        <view class="upload-brand">
+          <view class="upload-logo"><view class="upload-logo-leaf"></view></view>
+          <view class="upload-brand-copy">
+            <view class="upload-brand-line">
+              <text class="upload-brand-name">原点智学</text>
+              <text class="upload-brand-divider">|</text>
+              <text class="upload-brand-sub">今晚作业入口</text>
+            </view>
+          </view>
+        </view>
+        <view class="upload-soft-pill">
+          <text class="pill-spark">✦</text>
+          <text>三行也能开始</text>
+        </view>
+      </view>
 
-    <view class="sample-panel">
-      <view class="sample-title">不知道怎么写，就点一条样例</view>
-      <button class="review-fill" bindtap="fillReviewSample">一键填入审核/家长体验样例</button>
-      <view class="sample-list">
-        <button
-          class="sample-chip"
-          wx:for="{{examples}}"
-          wx:key="*this"
-          data-index="{{index}}"
-          bindtap="useExample"
-        >{{item}}</button>
+      <view class="upload-hero">
+        <view class="upload-badge"><text class="badge-dot"></text>作业分流</view>
+        <view class="upload-hero-row">
+          <view class="upload-hero-copy">
+            <view class="upload-title">先写今晚作业清单</view>
+            <view class="upload-subtitle">题型、数量、卡住哪里。写不完整也可以先预览，我会先判断必须做和可放过。</view>
+          </view>
+          <view class="paper-stack" aria-hidden="true">
+            <view class="paper paper-back"></view>
+            <view class="paper paper-mid"></view>
+            <view class="paper paper-front">
+              <view class="paper-line full"></view>
+              <view class="paper-line short"></view>
+              <view class="paper-line full bottom"></view>
+            </view>
+            <view class="paper-spark">✦</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="upload-stack">
+        <view class="soft-card">
+          <view class="card-title-row">
+            <view class="card-title-icon">◷</view>
+            <view class="card-title">今晚可用时间</view>
+          </view>
+          <view class="time-stepper">
+            <button class="step-button" data-delta="-5" bindtap="adjustMinutes">−</button>
+            <view class="time-value">
+              <view>
+                <text class="time-number">{{minutes}}</text>
+                <text class="time-unit">分钟</text>
+              </view>
+            </view>
+            <button class="step-button" data-delta="5" bindtap="adjustMinutes">＋</button>
+          </view>
+        </view>
+
+        <view class="soft-card">
+          <view class="card-title-row compact">
+            <view class="card-title-icon">✎</view>
+            <view class="card-title">作业清单</view>
+          </view>
+          <view class="textarea-box">
+            <textarea
+              class="homework-textarea"
+              value="{{homeworkText}}"
+              maxlength="1200"
+              bindinput="onInput"
+              placeholder="例如：&#10;数学方程基础题 8 道；&#10;错题订正：应用题卡在等量关系；&#10;错因：漏看单位，想要举一反三。"
+            />
+            <view class="voice-hint">支持语音输入</view>
+          </view>
+
+          <view class="wrongbook-strip" wx:if="{{inputCoach}}">
+            <view class="wrongbook-dot"></view>
+            <view class="wrongbook-copy">
+              <view class="wrongbook-title">错题本整理</view>
+              <view class="wrongbook-desc">{{inputCoach.wrongbookLabel}}</view>
+            </view>
+          </view>
+
+          <view class="quick-wrap">
+            <view class="quick-label">💡 快捷补充常见项</view>
+            <view class="quick-row">
+              <button class="quick-chip" wx:for="{{quickChips}}" wx:key="label" data-index="{{index}}" bindtap="useQuickChip">
+                <text class="quick-plus">＋</text>{{item.label}}
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <button class="submit-button" bindtap="submit" loading="{{submitting}}">
+        {{submitLabel}}
+        <text class="submit-arrow">→</text>
+      </button>
+
+      <view class="upload-flow-actions">
+        <button bindtap="submit" loading="{{submitting}}">生成今晚路线</button>
+        <button bindtap="goReview">去修卡点</button>
+        <button bindtap="goTools">生成轻练习</button>
+      </view>
+
+      <view class="upload-detail-toggle">
+        <view>
+          <view class="upload-detail-title">咕点会怎么分</view>
+          <view class="upload-detail-subtitle">必交先做 / 灵活安排 / 可以后置</view>
+        </view>
+        <button class="upload-detail-button" bindtap="togglePlanDetails">{{showPlanDetails ? '收起' : '展开'}}</button>
+      </view>
+
+      <view class="plan-card" wx:if="{{showPlanDetails}}">
+        <view class="plan-bg"></view>
+        <view class="plan-hint">ⓘ 咕点将这样为你规划</view>
+        <view class="plan-grid">
+          <view class="plan-cell must">
+            <view class="plan-icon">火</view>
+            <view class="plan-title">必须做</view>
+            <view class="plan-lines">
+              <view class="line long"></view>
+              <view class="line mid"></view>
+            </view>
+            <view class="plan-count" wx:if="{{previewPlan}}">{{previewPlan.must_do.length}} 项</view>
+          </view>
+          <view class="plan-cell flexible">
+            <view class="plan-icon">衡</view>
+            <view class="plan-title">灵活选</view>
+            <view class="plan-lines">
+              <view class="line long"></view>
+              <view class="line short"></view>
+            </view>
+            <view class="plan-count" wx:if="{{previewPlan}}">{{previewPlan.flexible.length}} 项</view>
+          </view>
+          <view class="plan-cell skip">
+            <view class="plan-icon">✓</view>
+            <view class="plan-title">可以后置</view>
+            <view class="plan-lines">
+              <view class="line long"></view>
+              <view class="line mid"></view>
+            </view>
+            <view class="plan-count" wx:if="{{previewPlan}}">{{previewPlan.can_skip.length}} 项</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="preview-card" wx:if="{{previewPlan}}">
+        <view class="preview-kicker">今晚预览</view>
+        <view class="preview-title">第一步先做什么</view>
+        <view class="preview-first" wx:if="{{previewPlan.must_do.length}}">
+          <view class="preview-first-title">{{previewPlan.must_do[0].text}}</view>
+          <view class="preview-first-reason">{{previewPlan.must_do[0].reason}}</view>
+        </view>
+        <view class="preview-first empty" wx:else>还没有识别到必须做。再补一行题型、数量或卡住点。</view>
+      </view>
+
+      <view class="secondary-row">
+        <button class="secondary-button" bindtap="chooseImage">拍照留档，补一句错因</button>
+      </view>
+
+      <view class="image-list" wx:if="{{imagePaths.length}}">
+        <image class="thumb" mode="aspectFill" wx:for="{{imagePaths}}" wx:key="*this" src="{{item}}" />
+      </view>
+      <view class="photo-hint" wx:if="{{imagePaths.length}}">照片先保存在本机；请在上方补一句“错因/卡住点”，咕点再整理成可回访的错题卡。</view>
+
+      <view class="material-toggle">
+        <view>
+          <view class="material-title">已有材料要变成复习卡？</view>
+          <view class="material-desc">这是二级入口。今晚主任务仍然是先把作业分流。</view>
+        </view>
+        <button class="material-toggle-btn" bindtap="toggleMaterialPanel">{{showMaterialPanel ? '收起' : '展开'}}</button>
+      </view>
+
+      <view class="material-card" wx:if="{{showMaterialPanel && materialPreview}}">
+        <view class="material-title">学习包</view>
+        <view class="material-desc">{{materialPreview.nextAction}}</view>
+        <textarea
+          class="material-textarea"
+          value="{{materialText}}"
+          bindinput="onMaterialInput"
+          placeholder="也可以粘贴课堂笔记、错题解释或 PPT 要点，生成复习卡。"
+        />
+        <button class="material-import" bindtap="importMaterialPack">导入轻回访</button>
       </view>
     </view>
-
-    <button class="ghost-button" bindtap="chooseImage">选择照片留档</button>
-    <view class="image-list" wx:if="{{imagePaths.length}}">
-      <image class="thumb" mode="aspectFill" wx:for="{{imagePaths}}" wx:key="*this" src="{{item}}" />
-    </view>
-
-    <view class="field">
-      <view class="label">今晚可用时间</view>
-      <input class="input" type="number" value="{{minutes}}" bindinput="onMinutes" />
-      <view class="muted">系统会按时间把作业分成必须做、灵活选择、可以跳过。</view>
-    </view>
-
-    <view class="field">
-      <view class="label">作业清单</view>
-      <textarea class="textarea" value="{{homeworkText}}" bindinput="onInput" placeholder="例：数学方程基础题 8 道；应用题 4 道；英语单词抄写 3 遍；整理错题。" />
-    </view>
-  </view>
-
-  <view class="section panel material-panel" wx:if="{{materialPreview}}">
-    <view class="between">
-      <view>
-        <view class="eyebrow">MATERIAL TO MEMORY ENGINE</view>
-        <view class="title-md">{{materialPreview.title}}</view>
-      </view>
-      <view class="pill">{{materialPreview.readiness}}</view>
-    </view>
-    <view class="body">{{materialPreview.label}}</view>
-    <view class="material-tabs">
-      <button class="material-tab {{materialType === 'class_notes' ? 'active' : ''}}" data-type="class_notes" bindtap="setMaterialType">Notes</button>
-      <button class="material-tab {{materialType === 'ppt' ? 'active' : ''}}" data-type="ppt" bindtap="setMaterialType">PPT</button>
-      <button class="material-tab {{materialType === 'video' ? 'active' : ''}}" data-type="video" bindtap="setMaterialType">Video</button>
-      <button class="material-tab {{materialType === 'handwriting' ? 'active' : ''}}" data-type="handwriting" bindtap="setMaterialType">Handwriting</button>
-    </view>
-    <button class="review-fill" bindtap="fillMaterialSample">填入学习材料样例</button>
-    <view class="field">
-      <view class="label">学习材料</view>
-      <textarea class="textarea material-textarea" value="{{materialText}}" bindinput="onMaterialInput" placeholder="粘贴课堂笔记、PPT 要点、视频 transcript 或手写整理。例：应用题步骤、常见陷阱、变式检查。" />
-    </view>
-    <view class="material-verdict">
-      <view class="mini-label">{{materialPreview.type}}</view>
-      <view class="material-verdict-text">{{materialPreview.nextAction}}</view>
-    </view>
-    <view class="material-card-list" wx:if="{{materialPreview.cards.length}}">
-      <view class="material-card" wx:for="{{materialPreview.cards}}" wx:key="id">
-        <view class="material-card-q">{{item.question}}</view>
-        <view class="muted">{{item.cardType || 'card'}} · Q{{item.quality}} · {{item.reason}}</view>
-      </view>
-    </view>
-    <button class="secondary-button material-import" bindtap="importMaterialPack">Import to review</button>
-  </view>
-
-  <view class="section panel preview-panel" wx:if="{{previewPlan}}">
-    <view class="between">
-      <view>
-        <view class="title-md">Tonight preview</view>
-        <view class="muted">{{previewPlan.rule}}</view>
-      </view>
-      <view class="pill">{{previewPlan.minutes_available}} min</view>
-    </view>
-    <view class="preview-grid">
-      <view class="preview-cell danger">
-        <view class="preview-num">{{previewPlan.must_do.length}}</view>
-        <view class="preview-label">must</view>
-      </view>
-      <view class="preview-cell">
-        <view class="preview-num">{{previewPlan.flexible.length}}</view>
-        <view class="preview-label">flexible</view>
-      </view>
-      <view class="preview-cell quiet">
-        <view class="preview-num">{{previewPlan.can_skip.length}}</view>
-        <view class="preview-label">skip</view>
-      </view>
-    </view>
-    <view class="preview-first" wx:if="{{previewPlan.must_do.length}}">
-      <view class="mini-label">First must-do</view>
-      <view class="preview-first-title">{{previewPlan.must_do[0].text}}</view>
-      <view class="muted">{{previewPlan.must_do[0].reason}}</view>
-    </view>
-  </view>
-
-  <view class="submit-bar">
-    <button class="primary-button" bindtap="submit">基于当前弱点生成作业三分类</button>
-  </view>
+  </scroll-view>
 </view>

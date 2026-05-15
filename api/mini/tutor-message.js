@@ -1,7 +1,7 @@
 import { env } from '../_env.js';
 import {
     clean,
-    clientIp,
+    clientRateKey,
     json,
     rateLimit,
     readJson,
@@ -15,6 +15,14 @@ export const config = { runtime: 'edge' };
 const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 const COACH_STEPS = {
+    check_answer: {
+        label: '核对答案',
+        next_action: '发题目和你写的答案，我只做核对和一句检查提醒。'
+    },
+    fast_mode: {
+        label: '加速模式',
+        next_action: '发题目和当前答案，我用三句说清：对不对、错在哪、下次先查什么。'
+    },
     read_problem: {
         label: '读题',
         next_action: '先用一句话说清题目真正问什么。'
@@ -30,6 +38,14 @@ const COACH_STEPS = {
     explain_misconception: {
         label: '说错因',
         next_action: '说清卡住的是审题、建模、计算还是表达。'
+    },
+    explain_full: {
+        label: '讲透这题',
+        next_action: '我分步骤讲清关键方法，但不替你抄完整作业。'
+    },
+    transfer: {
+        label: '举一反三',
+        next_action: '先说同类题第一步检查点，再做一个小变式。'
     },
     review: {
         label: '复盘',
@@ -63,8 +79,36 @@ function misconceptionText(tags) {
         .join('、');
 }
 
+function normalizeParentGoal(goal = {}) {
+    if (!goal || typeof goal !== 'object') return null;
+    const normalized = {
+        id: clean(goal.id || '', 30),
+        label: clean(goal.label || '', 30),
+        strategy: clean(goal.strategy || '', 120),
+        tutorMode: clean(goal.tutorMode || goal.tutor_mode || '', 40),
+        reviewBias: clean(goal.reviewBias || goal.review_bias || '', 40)
+    };
+    return normalized.id || normalized.label || normalized.strategy ? normalized : null;
+}
+
+function answerFromText(text) {
+    const patterns = [
+        /(?:我(?:写|算|选|做)的)?(?:答案|结果)?(?:是|为|=|：|:)\s*([A-Za-z0-9+\-*/().分之%√π]+)\s*$/i,
+        /(?:选|答案选)\s*([A-D])\s*$/i
+    ];
+    for (const pattern of patterns) {
+        const hit = String(text || '').match(pattern);
+        if (hit && hit[1]) return clean(hit[1], 40);
+    }
+    return '';
+}
+
 function inferCoachStep(message, requested) {
     if (COACH_STEPS[requested]) return requested;
+    if (/核对|对答案|我写的答案|答案是|结果是/.test(message)) return 'check_answer';
+    if (/赶时间|加速|三句|快点/.test(message)) return 'fast_mode';
+    if (/讲透|讲清楚|完整讲|看不懂/.test(message)) return 'explain_full';
+    if (/举一反三|变式|同类题|迁移/.test(message)) return 'transfer';
     if (/复盘|总结|下次|检查点/.test(message)) return 'review';
     if (/错因|为什么错|卡住|不会|思路错/.test(message)) return 'explain_misconception';
     if (/第一步|怎么开始|开头|起步|列式/.test(message)) return 'write_first_step';
@@ -78,6 +122,34 @@ function masterySignal(step, homeworkBoundary) {
             status: 'blocked_answer_request',
             confidence: 0.88,
             evidence_needed: '学生需要先给出自己的第一步或卡点。'
+        };
+    }
+    if (step === 'check_answer') {
+        return {
+            status: 'answer_check_allowed',
+            confidence: 0.76,
+            evidence_needed: '学生需要提供自己的答案，系统只做核对和短提醒。'
+        };
+    }
+    if (step === 'fast_mode') {
+        return {
+            status: 'fast_check',
+            confidence: 0.74,
+            evidence_needed: '学生需要给出当前答案或卡点。'
+        };
+    }
+    if (step === 'explain_full') {
+        return {
+            status: 'explain_requested',
+            confidence: 0.75,
+            evidence_needed: '学生需要在每一步后确认是否理解。'
+        };
+    }
+    if (step === 'transfer') {
+        return {
+            status: 'transfer_check',
+            confidence: 0.72,
+            evidence_needed: '学生需要说明同类题第一步为什么不变。'
         };
     }
     if (step === 'review') {
@@ -107,6 +179,15 @@ function localReply(message, context = {}, step = 'read_problem') {
         return '我不能替你写答案。先把你想到的第一步发来，我只给最小提示。';
     }
 
+    if (step === 'check_answer') {
+        const answer = answerFromText(message);
+        return answer
+            ? `收到，你写的是「${answer}」。我需要题目原文或关键条件才能核对；如果是口算、单词或公式，我会直接说对不对，再补一句检查点。`
+            : '可以核对。把「题目 + 你写的答案」一起发来，我直接帮你确认，再补一句最容易错的检查点。';
+    }
+    if (step === 'fast_mode') {
+        return `加速版：我只回三句。1. 先看「${misconception}」。2. 发题目和你当前答案。3. 我告诉你对不对、错在哪、下次先查什么。`;
+    }
     if (step === 'find_conditions') {
         return `先锁定「${selected}」。请列两列：已知条件、要解决的问题。先不算答案。`;
     }
@@ -116,10 +197,40 @@ function localReply(message, context = {}, step = 'read_problem') {
     if (step === 'explain_misconception') {
         return `先说错因。它大概率卡在「${misconception}」。你用一句话说：刚才哪一步想错了？`;
     }
+    if (step === 'explain_full') {
+        return `我可以讲透，但不替你抄完整作业。先把题目拆成三步：问什么、给了什么、该用什么方法。你先发「${selected}」的题目原文。`;
+    }
+    if (step === 'transfer') {
+        return `现在做小变式。先别算到底：如果「${selected}」换一个条件，第一步还要检查什么？先说方法。`;
+    }
     if (step === 'review') {
         return `复盘一句话：这类题下次先检查「${misconception}」，再动笔。把你的复盘句发来。`;
     }
     return `先锁定「${selected}」。它和「${misconception}」有关。先别算答案，用一句话说题目真正问什么。`;
+}
+
+function replyLooksLikeDirectAnswer(reply = '') {
+    const text = String(reply || '');
+    return /(?:最终答案|答案是|结果是|所以答案|因此答案|直接写|完整答案)[:：为\s]/.test(text)
+        || /(?:^|\n)\s*(?:所以|因此)?\s*[A-D]\s*(?:$|\n)/.test(text)
+        || /(?:^|\n).{0,16}=\s*-?\d+(?:\.\d+)?\s*(?:$|\n)/.test(text);
+}
+
+function sanitizeTutorReply(reply, message, context = {}, step = 'read_problem') {
+    const answerCheckStep = step === 'check_answer' || step === 'fast_mode';
+    const studentProvidedAnswer = Boolean(answerFromText(message));
+    if (answerCheckStep && studentProvidedAnswer) {
+        return { reply: clean(reply, 700), step, homeworkBoundary: false, sanitized: false };
+    }
+    if (!replyLooksLikeDirectAnswer(reply)) {
+        return { reply: clean(reply, 700), step, homeworkBoundary: false, sanitized: false };
+    }
+    return {
+        reply: localReply(message, context, 'write_first_step'),
+        step: 'write_first_step',
+        homeworkBoundary: true,
+        sanitized: true
+    };
 }
 
 function selfHarmReply() {
@@ -152,6 +263,8 @@ function normalizeContext(context = {}) {
             : [],
         misconception_tags: normalizeTags(context.misconception_tags),
         coach_step: clean(context.coach_step || '', 40),
+        help_mode: clean(context.help_mode || '', 40),
+        parent_goal: normalizeParentGoal(context.parent_goal),
         homework_plan: context.homework_plan ? { present: true } : null
     };
 }
@@ -161,17 +274,31 @@ function buildPrompt(mode, context = {}, step = 'read_problem') {
         .map((item) => `${item.name}:${item.reason || ''}`)
         .join('；') || '暂无雷达，先按审题和关键错因处理';
     const selected = context.selected_homework?.text || '未指定，默认从必须做第一项开始';
+    const selectedReference = context.selected_homework?.reason || context.selected_homework?.evidence?.reason || '';
     const misconception = misconceptionText(context.selected_homework?.evidence?.misconception_tags || context.misconception_tags) || '待识别';
+    const parentGoal = context.parent_goal
+        ? `${context.parent_goal.label || context.parent_goal.id}：${context.parent_goal.strategy || '按家庭目标调整节奏'}`
+        : '未设置，默认先讲懂再加练';
+    const modeInstruction = {
+        check_answer: '核对答案模式：如果学生已经给出自己的答案，可以直接判断对/不对或说明还缺哪条条件；不要绕回泛泛追问。回复控制在 3 句内。',
+        fast_mode: '加速模式：必须三句内完成：结论、卡点、下一题检查点。不要展开长讲解。',
+        explain_full: '讲透模式：可以分步骤讲清方法，但每一步后都要让学生接一句自己的理解，不给可直接抄写的整题答案。',
+        transfer: '举一反三模式：不要重复原题答案，换一个小条件，检查方法能否迁移。',
+        review: '复盘模式：逼近一句孩子能复述的话，下次先检查什么要具体。'
+    }[step] || '默认模式：先问学生判断，再给最小提示。';
     return [
         '你是原点智学小程序里的原小点，面向小学高年级到初中学生。',
-        '定位：只引导高优先级任务和关键错因，不做通用闲聊，不替孩子写作业，不直接给完整答案。',
-        '采用苏格拉底式最小提示：先让学生说自己的判断，再给一个具体下一步。',
+        '定位：快速定位薄弱点，给符合孩子当前认知的下一步；不做通用闲聊，不替孩子写作业。',
+        '原则：简单题不绕，已做完可核对；没做完只给最小提示；连续学不懂时要讲清一个关键点，再让孩子复述。',
         '每次最多 120 字。不要暴露内部推理。不要承诺提分。',
-        '如果学生要答案，拒绝代写，并要求他说出自己的第一步。',
+        '如果学生没给自己的答案却要你代写，拒绝代写，并要求他说出第一步。',
         '如果材料足够，先定位关键错因，再给一个最小提示。',
+        modeInstruction,
         `当前模式：${mode || 'homework'}`,
         `当前步骤：${COACH_STEPS[step]?.label || '读题'}`,
+        `家庭目标：${parentGoal}`,
         `当前锁定作业：${selected}`,
+        `可用核对依据：${selectedReference || '暂无，需学生补充题目/答案后再核对'}`,
         `当前弱点：${weak}`,
         `当前错因标签：${misconception}`
     ].join('\n');
@@ -200,6 +327,12 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
         } : null,
         misconception_tags: tags,
         engine_version: 'mini-tutor-message-v1.3',
+        persisted: false,
+        service_contract: {
+            mode: extra.extra && extra.extra.fallback === false ? 'configured_model' : 'local_socratic_rules',
+            evidence_required: ['student_first_step', 'selected_homework', 'misconception_tags'],
+            boundary: 'no_direct_homework_answer'
+        },
         ...extra.extra
     };
 }
@@ -210,8 +343,7 @@ export default async function handler(req) {
         return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST' }, 405);
     }
 
-    const ip = clientIp(req);
-    const limited = rateLimit(`mini:tutor:${ip}`, 50);
+    const limited = rateLimit(clientRateKey(req, 'mini:tutor'), 50);
     if (!limited.ok) {
         return json({ ok: false, error: 'rate_limited', message: '今天对话次数较多，先休息一下。' }, 429);
     }
@@ -243,16 +375,17 @@ export default async function handler(req) {
     if (!message) return json({ ok: false, error: 'missing_message', message: 'message 必填' }, 400);
 
     const safety = riskyContent(message);
+    const answerCheckStep = coachStep === 'check_answer' || coachStep === 'fast_mode';
     if (!safety.safe) {
-        const step = safety.type === 'academic_integrity' ? 'write_first_step' : coachStep;
+        const step = safety.type === 'academic_integrity' && !answerCheckStep ? 'write_first_step' : coachStep;
         return json(structuredReply(
             safety.type === 'self_harm' ? selfHarmReply() : localReply(message, context, step),
             mode,
             step,
             context,
             {
-                homework_boundary: safety.type === 'academic_integrity',
-                next_action: safety.type === 'academic_integrity'
+                homework_boundary: safety.type === 'academic_integrity' && !answerCheckStep,
+                next_action: safety.type === 'academic_integrity' && !answerCheckStep
                     ? '先发自己的第一步或卡住的条件，我只给最小提示。'
                     : COACH_STEPS[step]?.next_action,
                 extra: { safety_blocked: safety.type === 'self_harm' }
@@ -293,9 +426,12 @@ export default async function handler(req) {
         }
 
         const data = await upstream.json();
-        const reply = clean(data.choices?.[0]?.message?.content || '', 600) || localReply(message, context, coachStep);
-        return json(structuredReply(reply, mode, coachStep, context, {
-            extra: { fallback: false }
+        const rawReply = clean(data.choices?.[0]?.message?.content || '', 600) || localReply(message, context, coachStep);
+        const safeReply = sanitizeTutorReply(rawReply, message, context, coachStep);
+        return json(structuredReply(safeReply.reply, mode, safeReply.step, context, {
+            homework_boundary: safeReply.homeworkBoundary,
+            next_action: safeReply.homeworkBoundary ? '先发自己的第一步或卡住的条件，我只给最小提示。' : undefined,
+            extra: { fallback: false, output_sanitized: safeReply.sanitized }
         }));
     } catch (error) {
         return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {

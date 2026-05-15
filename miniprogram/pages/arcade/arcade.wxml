@@ -1,0 +1,264 @@
+<view class="page arcade-page safe-bottom">
+  <view class="page-positioning arcade-positioning">
+    <view class="positioning-kicker">游戏化轻练习</view>
+    <view class="positioning-title">玩一小局，错的卡回到复习队列</view>
+    <view class="positioning-flow">游戏负责让孩子愿意再练一下；错题和模糊点会回到修卡点，不做排行。</view>
+  </view>
+  <view class="arcade-topbar">
+    <button class="nav-back" bindtap="goBack">‹</button>
+    <view class="nav-title">轻练习</view>
+    <button class="nav-home" bindtap="goHome">首页</button>
+  </view>
+
+  <scroll-view class="arcade-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="arcade-hero">
+      <view class="hero-art">
+        <view class="hero-orbit">
+          <view class="hero-core"></view>
+          <view class="hero-dot one"></view>
+          <view class="hero-dot two"></view>
+          <view class="hero-dot three"></view>
+        </view>
+      </view>
+      <view class="hero-kicker">学科 × 知识类型 × 游戏类型</view>
+      <view class="hero-title">今天把知识打一小关</view>
+      <view class="hero-copy">不是把复习换皮，而是让短回忆、概念和步骤各自进入最合适的玩法。</view>
+      <view class="hero-stats">
+        <view class="hero-stat">
+          <view class="hero-stat-num">{{cards.length || 0}}</view>
+          <view class="hero-stat-label">可用卡片</view>
+        </view>
+        <view class="hero-stat">
+          <view class="hero-stat-num">{{round.total || 0}}</view>
+          <view class="hero-stat-label">本局题数</view>
+        </view>
+        <view class="hero-stat">
+          <view class="hero-stat-num">{{score || 0}}</view>
+          <view class="hero-stat-label">本局得分</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="arcade-card compact">
+      <view class="section-head">
+        <view>
+          <view class="section-title">推荐玩法</view>
+          <view class="section-subtitle">四个精品关卡先露出，更多实验型玩法放到矩阵里。</view>
+        </view>
+        <button class="ghost-link" bindtap="toggleMatrix">{{expandedMatrix ? '收起' : '展开'}}</button>
+      </view>
+      <view class="game-reco-row">
+        <button
+          wx:for="{{visibleRecommendations}}"
+          wx:key="id"
+          class="game-chip {{item.id === selectedGame ? 'active' : ''}} {{!item.available ? 'disabled' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="selectGame"
+        >
+          <text class="game-chip-mascot">{{item.mascot}}</text>
+          <text class="game-chip-title">{{item.shortName}}</text>
+          <text class="game-chip-meta">{{item.available ? item.readyCount + ' 张可玩' : '先补材料'}}</text>
+          <text class="game-chip-pitch">{{item.pitch}}</text>
+          <text class="game-chip-lock" wx:if="{{!item.available}}">{{item.lockedReason}}</text>
+        </button>
+      </view>
+    </view>
+
+    <view class="mode-brief" wx:if="{{activeGame}}">
+      <view>
+        <view class="mode-brief-kicker">当前玩法</view>
+        <view class="mode-brief-title">{{activeGame.name}}</view>
+      </view>
+      <view class="mode-brief-pill">{{activeGame.knowledgeType}}</view>
+    </view>
+
+    <view class="play-principle-card" wx:if="{{activeGame && expandedMatrix}}">
+      <view class="play-principle-dot">{{activeGame.mascot}}</view>
+      <view class="play-principle-copy">
+        <view class="play-principle-title">{{activeGame.principleTitle}}</view>
+        <view class="play-principle-body">{{activeGame.principleBody}} 答题结果会进入回访记录、错因和间隔复习。</view>
+      </view>
+    </view>
+
+    <view class="matrix-card" wx:if="{{expandedMatrix}}">
+      <view class="matrix-title">知识类型覆盖</view>
+      <view class="type-row" wx:for="{{classifications}}" wx:key="id">
+        <view class="type-name">{{item.name}}</view>
+        <view class="type-count">{{item.count}} 张</view>
+      </view>
+    </view>
+
+    <view class="whack-stage" wx:if="{{gameMode === 'whack' && currentQuestion && !result}}">
+      <view class="stage-top">
+        <view>
+          <view class="stage-kicker">打地鼠速记关</view>
+          <view class="stage-question">{{currentQuestion.question}}</view>
+        </view>
+        <view class="life-pill">生命 {{lives}}</view>
+      </view>
+      <view class="combo-row">
+        <view>进度 {{currentIndex + 1}} / {{round.total}}</view>
+        <view>Combo {{combo}}</view>
+      </view>
+      <view class="mole-grid">
+        <button
+          wx:for="{{moleHoles}}"
+          wx:key="id"
+          class="mole-hole {{item.active ? 'active' : ''}}"
+          data-index="{{index}}"
+          bindtap="tapHole"
+        >
+          <view class="mole" wx:if="{{item.active}}">
+            <view class="mole-face"></view>
+            <view class="mole-label">{{item.label}}</view>
+          </view>
+        </button>
+      </view>
+    </view>
+
+    <view class="quest-stage" wx:if="{{gameMode === 'quiz' && currentQuestion && !result}}">
+      <view class="quest-map">
+        <view
+          wx:for="{{round.questions}}"
+          wx:key="id"
+          class="quest-node {{index < currentIndex ? 'done' : ''}} {{index === currentIndex ? 'active' : ''}}"
+        >{{index + 1}}</view>
+      </view>
+      <view class="quest-card">
+        <view class="stage-top">
+          <view>
+            <view class="stage-kicker">轻练答题 · {{currentQuestion.knowledgeType}}</view>
+            <view class="quest-checkpoint">{{currentQuestion.checkpoint}}</view>
+          </view>
+          <view class="life-pill">生命 {{lives}}</view>
+        </view>
+        <view class="quest-question">{{currentQuestion.question}}</view>
+        <view class="quest-hint" wx:if="{{currentQuestion.hint}}">{{currentQuestion.hint}}</view>
+        <button class="reveal-btn" wx:if="{{!revealed}}" bindtap="revealAnswer">我想好了，核对思路</button>
+        <view class="quest-answer" wx:if="{{revealed}}">
+          <view class="answer-review-title">参考思路</view>
+          <view class="quest-answer-text">{{currentQuestion.answer}}</view>
+          <view class="grade-row">
+            <button class="grade-btn weak" data-rating="again" bindtap="gradeQuest">忘记</button>
+            <button class="grade-btn mid" data-rating="good" bindtap="gradeQuest">模糊</button>
+            <button class="grade-btn strong" data-rating="easy" bindtap="gradeQuest">记得</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="snake-stage" wx:if="{{gameMode === 'snake' && snakeTrack && !result}}">
+      <view class="snake-board">
+        <view class="stage-top">
+          <view>
+            <view class="stage-kicker">贪吃蛇顺序关 · {{snakeTrack.knowledgeType}}</view>
+            <view class="snake-title">{{snakeTrack.question}}</view>
+          </view>
+          <view class="life-pill">生命 {{lives}}</view>
+        </view>
+        <view class="snake-path">
+          <view
+            wx:for="{{snakeTrack.correctOrder}}"
+            wx:key="*this"
+            class="snake-segment {{index < snakeNextOrder ? 'eaten' : ''}}"
+          >{{index + 1}}</view>
+        </view>
+        <view class="snake-body" wx:if="{{snakeNextOrder > 0}}">
+          <view class="snake-body-title">已经吃掉</view>
+          <view class="snake-body-track">
+            <text wx:for="{{snakeTiles}}" wx:key="id" wx:if="{{item.eaten}}" class="snake-body-chip">{{item.text}}</text>
+          </view>
+        </view>
+        <view class="snake-prompt">下一口：第 {{snakeNextOrder + 1}} 步</view>
+        <view class="snake-grid">
+          <button
+            wx:for="{{snakeTiles}}"
+            wx:key="id"
+            class="snake-tile {{item.eaten ? 'eaten' : ''}} {{item.missed ? 'missed' : ''}}"
+            data-id="{{item.id}}"
+            bindtap="tapSnakeTile"
+          >
+            {{item.text}}
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <view class="bubble-stage" wx:if="{{gameMode === 'match' && currentQuestion && !result}}">
+      <view class="bubble-board">
+        <view class="stage-top">
+          <view>
+            <view class="bubble-kicker">泡泡消消乐 · {{currentQuestion.knowledgeType}}</view>
+            <view class="bubble-title">点一颗题泡泡，再点对应泡泡</view>
+          </view>
+          <view class="life-pill bubble-life">生命 {{lives}}</view>
+        </view>
+        <view class="bubble-progress">
+          <view>已消 {{matchPairsDone}} / {{round.total}}</view>
+          <view>Combo {{combo}}</view>
+        </view>
+        <view class="bubble-grid">
+          <button
+            wx:for="{{matchTiles}}"
+            wx:key="id"
+            class="bubble-tile side-{{item.side}} {{item.selected ? 'selected' : ''}} {{item.matched ? 'matched' : ''}} {{item.missed ? 'missed' : ''}}"
+            disabled="{{item.matched}}"
+            data-id="{{item.id}}"
+            bindtap="tapMatchTile"
+          >
+            <view class="bubble-badge">{{item.sideLabel}}</view>
+            <view class="bubble-text">{{item.text}}</view>
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <view class="arcade-card empty" wx:if="{{!currentQuestion && !result}}">
+      <view class="empty-title">{{emptyGuide.title}}</view>
+      <view class="empty-copy">{{emptyGuide.body}}</view>
+      <button class="primary-btn" data-action="{{emptyGuide.action}}" bindtap="runGuideAction">{{emptyGuide.cta}}</button>
+    </view>
+
+    <view class="result-card" wx:if="{{result}}">
+      <view class="result-kicker">{{result.passed ? '通关完成' : '继续练这一组'}}</view>
+      <view class="result-title">{{result.correct}} / {{result.total}} 答对</view>
+      <view class="result-grid">
+        <view>
+          <view class="result-num">{{result.accuracy}}%</view>
+          <view class="result-label">正确率</view>
+        </view>
+        <view>
+          <view class="result-num">{{result.xp}}</view>
+          <view class="result-label">回访</view>
+        </view>
+        <view>
+          <view class="result-num">{{result.bestCombo}}</view>
+          <view class="result-label">最佳 Combo</view>
+        </view>
+      </view>
+      <view class="answer-review" wx:if="{{wrongAnswers.length}}">
+        <view class="answer-review-title">本局错题</view>
+        <view class="answer-row" wx:for="{{wrongAnswers}}" wx:key="cardId">
+          <view class="answer-selected">你选：{{item.selected}}</view>
+          <view class="answer-correct">应选：{{item.answer}}</view>
+        </view>
+      </view>
+      <view class="repair-focus-card" wx:if="{{repairFocus}}">
+        <view class="repair-focus-kicker">先修这个断点</view>
+        <view class="repair-focus-title">{{repairFocus.title}}</view>
+        <view class="repair-focus-body">{{repairFocus.decision}}</view>
+      </view>
+      <view class="result-copy">{{feedbackText}}</view>
+      <view class="next-action-card" wx:if="{{resultAdvice}}">
+        <view class="next-action-title">{{resultAdvice.title}}</view>
+        <view class="next-action-body">{{resultAdvice.body}}</view>
+      </view>
+      <view class="result-actions">
+        <button class="primary-btn" bindtap="restartRound">{{resultAdvice.primary}}</button>
+        <button class="secondary-btn" bindtap="runResultSecondary">{{resultAdvice.secondary}}</button>
+      </view>
+    </view>
+
+    <view class="feedback-line" wx:if="{{feedbackText && !result}}">{{feedbackText}}</view>
+  </scroll-view>
+</view>

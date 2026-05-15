@@ -25,13 +25,15 @@ Page({
     feedbackStatusMust: [],
     feedbackStatusFlexible: [],
     feedbackStatusSkip: [],
-    aiNotice: 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+    aiNotice: 'AI 辅助生成，供学习决策参考，老师和家长仍需判断。',
     plan: {
       must_do: [],
       flexible: [],
       can_skip: []
     },
     decisionBoard: null,
+    parentActionHero: null,
+    growthPath: null,
     recommendedModules: [],
     adaptivePath: null
   },
@@ -60,10 +62,12 @@ Page({
       proofSummary: this.buildProofSummary(plan),
       thinkingSummary,
       reviewSummary,
-      aiNotice: state.ai_notice || 'AI 辅助生成，供家长决策参考，不替代老师判断。',
+      aiNotice: state.ai_notice || 'AI 辅助生成，供学习决策参考，老师和家长仍需判断。',
       plan,
       weaknessLoop: this.buildWeaknessLoop(state, plan, thinkingSummary, reviewSummary),
       decisionBoard: this.buildDecisionBoard(plan, adaptivePath, state),
+      parentActionHero: this.buildParentActionHero(state, plan, reviewSummary, thinkingSummary),
+      growthPath: this.buildGrowthPath(state, plan, reviewSummary, thinkingSummary),
       adaptivePath,
       recommendedModules: adaptivePath.current
         ? [adaptivePath.current].concat(adaptivePath.next).slice(0, 3)
@@ -89,42 +93,105 @@ Page({
     };
   },
 
+  buildParentActionHero(state, plan, reviewSummary, thinkingSummary) {
+    const weak = ((state && state.weak_points) || [])[0] || null;
+    const firstMust = ((plan && plan.must_do) || [])[0] || null;
+    const summary = (plan && plan.summary) || {};
+    const thinking = thinkingSummary || {};
+    const weakName = weak ? weak.name : '今晚先看这一点';
+    return {
+      title: firstMust ? '先做这一题型' : '先录入学习任务',
+      focusTitle: firstMust ? `优先攻克「${weakName}」` : '先录入学习任务',
+      subtitle: firstMust
+        ? firstMust.text
+        : '先填作业，我会先分出今晚先做和可以后放。',
+      weakName,
+      weakScore: weak ? weak.score : '--',
+      mustMinutes: summary.must_minutes || 0,
+      savedMinutes: summary.saved_minutes || 0,
+      reviewAssets: reviewSummary.total || 0,
+      thinkingProof: thinking.total || 0,
+      primaryAction: firstMust ? 'startFirstMust' : 'goUpload',
+      primaryLabel: firstMust ? '去作业点拨' : '录入作业',
+      secondaryAction: 'goReview',
+      secondaryLabel: '看学习证据'
+    };
+  },
+
   buildDecisionBoard(plan, adaptivePath, state) {
     const must = (plan && plan.must_do) || [];
     const firstMust = must[0] || null;
     const currentModule = adaptivePath && adaptivePath.current ? adaptivePath.current : null;
     const weak = ((state && state.weak_points) || [])[0] || null;
     return {
-      title: 'TONIGHT DECISION BOARD',
-      label: 'This is the parent-facing decision layer: what to do first, what to study next, and what can wait until the child still has energy.',
+      title: '下一步怎么安排',
+      label: '不是先问做多少，而是先定第一步、再定余力时做什么、最后定孩子要说出什么。',
       cards: [
         {
           id: 'must',
-          title: 'Start here',
-          body: firstMust ? firstMust.text : 'No must-do item yet. Update homework first.',
-          meta: firstMust ? `${firstMust.minutes || 10} min` : 'setup',
+          title: '先从这里开始',
+          body: firstMust ? firstMust.text : '还没有必须做，先更新学习任务。',
+          meta: firstMust ? `${firstMust.minutes || 10} 分钟` : '先设置',
           action: firstMust ? 'startFirstMust' : 'goUpload',
-          cta: firstMust ? 'Start tutor' : 'Update homework'
+          cta: firstMust ? '去点拨' : '录入作业'
         },
         {
           id: 'module',
-          title: 'Method after homework',
-          body: currentModule ? currentModule.title : 'Open the study module that best matches the weak point.',
-          meta: currentModule ? `${currentModule.score} fit` : 'adaptive',
+          title: '作业后补这一块',
+          body: currentModule ? currentModule.title : '打开最适合当前卡点的轻练习。',
+          meta: currentModule ? `适配 ${currentModule.score}` : '自适应',
           action: 'goTools',
-          cta: 'Open cockpit'
+          cta: '去轻练习'
         },
         {
           id: 'proof',
-          title: 'Parent proof tonight',
+          title: '先看什么',
           body: weak
-            ? `Ask the child to explain one corrected idea about ${weak.name}.`
-            : 'Ask the child to explain one corrected idea before ending tonight.',
-          meta: `${(plan && plan.summary && plan.summary.misconception_count) || 0} wrong-cause hits`,
+            ? `让孩子讲清 ${weak.name} 里一个被纠正的点。`
+            : '让孩子在结束前讲出一个今天学会的点。',
+          meta: `${(plan && plan.summary && plan.summary.misconception_count) || 0} 次错因命中`,
           action: 'goReview',
-          cta: 'Open review'
+          cta: '看复习证据'
         }
       ]
+    };
+  },
+
+  buildGrowthPath(state, plan, reviewSummary, thinkingSummary) {
+    const weak = ((state && state.weak_points) || [])[0] || {};
+    const firstMust = ((plan && plan.must_do) || [])[0] || {};
+    const review = reviewSummary || {};
+    const thinking = thinkingSummary || {};
+    const weakName = weak.name || '今晚这一步';
+    return {
+      title: '孩子会怎样变好',
+      label: '这页不是用来制造焦虑，而是把今晚这一步变成几天后还能回想起来的进步路径。',
+      weakName,
+      promise: `${weakName} 从“看见问题”到“能讲清方法”，先留下一个可复述证据。`,
+      steps: [
+        {
+          id: 'tonight',
+          day: '现在',
+          title: '只攻一个最关键点',
+          body: firstMust.text || '先录入学习任务，锁定第一项必须做。',
+          proof: '孩子说出第一步和卡住点'
+        },
+        {
+          id: 'day3',
+          day: '3 天',
+          title: '错因进入轻回访',
+          body: `${review.total || 0} 张复习资产会被安排到小测、修复和间隔复习。`,
+          proof: '同类题先说方法再动笔'
+        },
+        {
+          id: 'day7',
+          day: '7 天',
+          title: '留下可复述证据',
+          body: `${thinking.total || 0} 条思考凭证会沉淀为周报证据。`,
+          proof: '孩子能讲“我以前错在哪，现在先检查什么”'
+        }
+      ],
+      parentQuestion: `收尾只问自己一句：这类题下次我会先检查 ${weakName} 的哪一步？`
     };
   },
 
@@ -134,39 +201,39 @@ Page({
     const thinking = thinkingSummary || {};
     const review = reviewSummary || {};
     return {
-      title: 'WEAKNESS PROOF LOOP',
-      label: 'One screen for the full story: weak point, must-do task, tutor thinking proof, and memory assets.',
+      title: '今晚学习留痕',
+      label: '在一页里看清：今晚先修哪、孩子怎么说出第一步、后面怎么轻回访。',
       cards: [
         {
           id: 'weak',
-          title: 'Weak point',
+          title: '现在先看这里',
           value: weak ? `${weak.score}` : '--',
-          note: weak ? weak.name : 'Waiting for diagnosis'
+          note: weak ? weak.name : '先填今晚作业'
         },
         {
           id: 'must',
-          title: 'Must-do first',
+          title: '先做这一项',
           value: firstMust ? `${firstMust.minutes || 10}m` : '--',
-          note: firstMust ? firstMust.text : 'Update homework'
+          note: firstMust ? firstMust.text : '先录入作业'
         },
         {
           id: 'proof',
-          title: 'Thinking proof',
+          title: '思考证据',
           value: thinking.total ? `${thinking.avgScore}` : '0',
-          note: thinking.total ? `${thinking.total} receipts / ${thinking.proofSentence || 0} proof lines` : 'No tutor receipts yet'
+          note: thinking.total ? `${thinking.total} 条记录 / ${thinking.proofSentence || 0} 条可复述` : '还没有点拨记录'
         },
         {
           id: 'memory',
-          title: 'Memory assets',
+          title: '复习资产',
           value: review.total ? `${review.total}` : '0',
-          note: review.total ? `${review.due || 0} due / ${review.mastered || 0} mastered` : 'No review cards yet'
+          note: review.total ? `${review.due || 0} 张到期 / ${review.mastered || 0} 张掌握` : '还没有复习卡'
         }
       ],
       actions: [
-        { id: 'upload', label: 'Refresh homework', action: 'goUpload' },
-        { id: 'tutor', label: 'Coach must-do', action: 'startFirstMust' },
-        { id: 'review', label: 'Open review', action: 'goReview' },
-        { id: 'cockpit', label: 'Open tools', action: 'goTools' }
+        { id: 'upload', label: '更新作业', action: 'goUpload' },
+        { id: 'tutor', label: '带必须做', action: 'startFirstMust' },
+        { id: 'review', label: '看复习', action: 'goReview' },
+        { id: 'cockpit', label: '去轻练习', action: 'goTools' }
       ]
     };
   },
@@ -191,9 +258,9 @@ Page({
     const axes = this.data.axes || [];
     if (!axes.length) return;
     const ctx = wx.createCanvasContext('radarCanvas', this);
-    const size = 300;
+    const size = 150;
     const center = size / 2;
-    const radius = 104;
+    const radius = 52;
     const count = axes.length;
 
     ctx.clearRect(0, 0, size, size);
@@ -222,8 +289,8 @@ Page({
       ctx.lineTo(x, y);
       ctx.stroke();
       ctx.setFillStyle('#625B50');
-      ctx.setFontSize(10);
-      ctx.fillText(axis.name.slice(0, 4), center + Math.cos(angle) * (radius + 16) - 18, center + Math.sin(angle) * (radius + 16) + 4);
+      ctx.setFontSize(8);
+      ctx.fillText(axis.name.slice(0, 3), center + Math.cos(angle) * (radius + 10) - 12, center + Math.sin(angle) * (radius + 10) + 3);
     });
 
     ctx.beginPath();
@@ -252,7 +319,7 @@ Page({
     if (!item) return;
     storage.set(storage.KEYS.selectedHomework, item);
     storage.set(storage.KEYS.selectedHomeworkSource, bucket);
-    wx.switchTab({ url: '/pages/tutor/tutor' });
+    wx.navigateTo({ url: '/pages/tutor/tutor' });
   },
 
   markFeedback(event) {
@@ -323,7 +390,7 @@ Page({
     }
     storage.set(storage.KEYS.selectedHomework, item);
     storage.set(storage.KEYS.selectedHomeworkSource, 'radar_first_must');
-    wx.switchTab({ url: '/pages/tutor/tutor' });
+    wx.navigateTo({ url: '/pages/tutor/tutor' });
   },
 
   runDecisionAction(event) {
@@ -344,10 +411,18 @@ Page({
   },
 
   goReview() {
-    wx.navigateTo({ url: '/pages/review/review' });
+    wx.switchTab({ url: '/pages/review/review' });
   },
 
   goTools() {
     wx.switchTab({ url: '/pages/tools/tools' });
+  },
+
+  goProfile() {
+    wx.switchTab({ url: '/pages/profile/profile' });
+  },
+
+  goHome() {
+    wx.switchTab({ url: '/pages/home/home' });
   }
 });

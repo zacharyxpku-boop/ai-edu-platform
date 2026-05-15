@@ -51,6 +51,7 @@ const FORBIDDEN = [
   { pattern: /全家会员/g, reason: '当前公开漏斗不应混入旧会员售卖' },
   { pattern: /保证提分/g, reason: '避免高风险教育承诺' },
   { pattern: /提分承诺/g, reason: '避免高风险教育承诺' },
+  { pattern: /拍照出答案|秒解|答案已生成|标准答案如下/g, reason: '避免被识别为搜题或答案工具' },
   { pattern: /小程序\s*MVP|MVP\s*先|人教版\s*MVP/g, reason: '用户可见文案不应显得半成品' },
   { pattern: /首版只保留/g, reason: '用户可见文案不应显得半成品' },
   { pattern: />\s*TOOLS\s*</g, reason: '公开入口应讲诊断/决策，不讲工具仓库' },

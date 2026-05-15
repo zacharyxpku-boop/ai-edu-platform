@@ -1,0 +1,32 @@
+<view class="light-page">
+  <view class="light-title">{{session.title}}</view>
+  <view class="light-subtitle">做完后先看第一步，不直接看答案。</view>
+  <view class="math-meta">
+    <text wx:if="{{session.gradeBand === 'lower'}}">1-2 年级 · 20 以内加减</text>
+    <text wx:elif="{{session.gradeBand === 'middle'}}">3-4 年级 · 乘除混合</text>
+    <text wx:else>5-6 年级 · 小数/分数</text>
+    <text bindtap="regenerate">换一组</text>
+  </view>
+  <view class="light-list">
+    <view class="light-item" wx:for="{{session.items}}" wx:key="id">
+      <text>{{index + 1}}. {{item.prompt}}</text>
+      <input data-index="{{index}}" bindinput="onAnswerInput" placeholder="{{item.firstStepCheck}}" />
+    </view>
+  </view>
+  <button bindtap="submit">提交并看第一步反馈</button>
+  <view wx:if="{{result}}" class="result-card">
+    <view class="feedback-title">先回看第一眼</view>
+    <view>{{result.feedback}}</view>
+    <view class="share-card">
+      <view>{{result.shareCard.title}}</view>
+      <text>{{result.shareCard.body}}</text>
+    </view>
+    <button bindtap="shareFirstStep">分享今晚我先做了什么</button>
+  </view>
+  <view wx:if="{{transitionPrompt}}" class="transition-card">
+    <view>{{transitionPrompt.title}}</view>
+    <view>{{transitionPrompt.body}}</view>
+    <button bindtap="goCoreLoopFromMath">{{transitionPrompt.acceptText}}</button>
+    <button bindtap="dismissMathTransition">{{transitionPrompt.rejectText}}</button>
+  </view>
+</view>

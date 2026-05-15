@@ -35,6 +35,10 @@ function hasFlag(name) {
   return process.argv.includes(name);
 }
 
+function looksLikePlaceholderAppId(appid) {
+  return /PLACEHOLDER|TEST|DUMMY|FAKE|YOUR|真实|你的|示例/i.test(String(appid || ''));
+}
+
 function check(condition, ok, fail, results) {
   results.push({ ok: !!condition, okText: ok, failText: fail });
 }
@@ -84,29 +88,37 @@ function postJson(url, data) {
   });
 }
 
-function configureAppId(appid) {
+function configureAppId(appid, options = {}) {
   if (!appid) return null;
   if (!/^wx[a-zA-Z0-9]{8,}$/.test(appid)) {
     throw new Error(`AppID 看起来不对：${appid}。微信小程序 AppID 通常以 wx 开头。`);
   }
-  const privateConfig = {
-    appid,
-    projectname: 'yuandianzhixue-miniapp',
-    setting: {
-      compileHotReLoad: true
-    }
-  };
+  if (appid === 'touristappid' || looksLikePlaceholderAppId(appid)) {
+    throw new Error(`AppID 不能是游客值或占位值：${appid}。请使用微信公众平台里的真实小程序 AppID。`);
+  }
   const target = path.join(MINI, 'project.private.config.json');
+  const existingPrivateConfig = fs.existsSync(target) ? readJson(target) : {};
+  const privateConfig = Object.assign({}, existingPrivateConfig, {
+    appid,
+    projectname: existingPrivateConfig.projectname || 'yuandianzhixue-miniapp',
+    setting: Object.assign({}, existingPrivateConfig.setting || {}, {
+      compileHotReLoad: true
+    })
+  });
+  if (options.dryRun) {
+    return { target, dryRun: true, appid, privateConfig };
+  }
   writeJson(target, privateConfig);
-  return target;
+  return { target, dryRun: false, appid };
 }
 
 async function main() {
   const appid = argValue('--appid') || process.env.MINIPROGRAM_APPID || process.env.WECHAT_APP_ID || '';
   const remote = hasFlag('--remote');
+  const dryRun = hasFlag('--dry-run') || hasFlag('--check-only');
   const results = [];
 
-  const configured = configureAppId(appid);
+  const configured = configureAppId(appid, { dryRun });
 
   const appJsonPath = path.join(MINI, 'app.json');
   const projectConfigPath = path.join(MINI, 'project.config.json');
@@ -114,7 +126,9 @@ async function main() {
   const projectConfig = readJson(projectConfigPath);
   const privateConfigPath = path.join(MINI, 'project.private.config.json');
   const privateConfig = fs.existsSync(privateConfigPath) ? readJson(privateConfigPath) : null;
-  const activeAppId = privateConfig?.appid || projectConfig.appid || '';
+  const activeAppId = (configured && configured.dryRun && hasFlag('--upload-ready'))
+    ? configured.appid
+    : (privateConfig?.appid || projectConfig.appid || '');
 
   check(fs.existsSync(MINI), 'miniprogram/ 已存在', '缺少 miniprogram/ 目录', results);
   const requireAppId = hasFlag('--require-appid') || hasFlag('--upload-ready');
@@ -151,7 +165,7 @@ async function main() {
   check(!hit, '前台高风险承诺词未命中', `前台仍含高风险词：${hit}`, results);
   check(publicText.includes('api.buildPriority'), '测评/作业主流程已接服务端优先级接口', '测评/作业主流程未接入服务端优先级接口', results);
   check(publicText.includes('api.submitFeedback'), 'family feedback calibration wired', 'family feedback calibration missing', results);
-  check(publicText.includes('api.checkContent'), '原小点已接内容安全前置检查', '原小点未接入内容安全前置检查', results);
+  check(publicText.includes('api.checkContent'), '作业点拨已接内容安全前置检查', '作业点拨未接入内容安全前置检查', results);
 
   check(true, `微信后台 request 合法域名只需配置：${REQUEST_DOMAIN}`, 'request 合法域名未明确', results);
   check(true, '首版不需要 uploadFile/downloadFile 合法域名', '首版不应开放上传/下载域名', results);
@@ -172,7 +186,7 @@ async function main() {
     const weekly = await postJson(`${REQUEST_DOMAIN}/api/mini/weekly`, {
       axes: [{ key: 'reading', name: '审题建模', score: 56 }],
       weak_points: [{ key: 'reading', name: '审题建模', score: 56 }],
-      homework_plan: { must_do: [{ text: '应用题 4 道', reason: '命中当前弱点', minutes: 12 }], flexible: [], can_skip: [] }
+      homework_plan: { must_do: [{ text: '应用题 4 道', reason: '命中当前卡点', minutes: 12 }], flexible: [], can_skip: [] }
     });
     check(weekly.ok, `/api/mini/weekly 可用`, `/api/mini/weekly 不可用：${weekly.status}`, results);
     const feedback = await postJson(`${REQUEST_DOMAIN}/api/mini/feedback`, {
@@ -191,7 +205,12 @@ async function main() {
   const passed = results.length - failed.length;
 
   console.log('\n原点智学小程序上架助手\n');
-  if (configured) console.log(`已写入本地 AppID 配置：${path.relative(ROOT, configured)}`);
+  if (configured) {
+    const relativeTarget = path.relative(ROOT, configured.target);
+    console.log(configured.dryRun
+      ? `AppID dry-run 通过；不会写入文件。目标文件：${relativeTarget}`
+      : `已写入本地 AppID 配置：${relativeTarget}`);
+  }
   console.log(`通过 ${passed}/${results.length}`);
   results.forEach((item) => {
     console.log(`${item.ok ? 'OK ' : 'ERR'} ${item.ok ? item.okText : item.failText}`);

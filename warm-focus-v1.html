@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>原点智学 - Warm Focus V1</title>
+<meta name="description" content="原点智学 Warm Focus V1 多屏设计预览：今晚任务、学习包、原小点、复习闯关、家长视图和家长雷达。">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#F5F3ED">
+<meta name="ydzx-page" content="warm-focus-v1">
+<link rel="icon" href="/assets/miniapp-logo-kid.png">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --page:#e5e5e5;
+  --bg:#f5f3ed;
+  --bg-soft:#fbfaf6;
+  --green:#1b4332;
+  --green-deep:#123225;
+  --gold:#f2d479;
+  --card:#fff;
+  --ink:#11261d;
+  --muted:#6b7d73;
+  --line:#e6e1d6;
+  --shadow:0 8px 24px rgba(27,67,50,.06),0 2px 8px rgba(27,67,50,.03);
+  --phone-shadow:0 25px 50px -12px rgba(0,0,0,.25);
+}
+html,body{margin:0;min-height:100%}
+body{
+  min-height:100vh;
+  color:var(--ink);
+  background:var(--page);
+  font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button,textarea{font:inherit}
+button{border:0;cursor:pointer}
+textarea{border:0}
+a{color:inherit;text-decoration:none}
+.hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+.gallery-shell{
+  min-height:100vh;
+  padding:28px 40px 40px;
+  overflow-x:auto;
+}
+.design-head{
+  position:sticky;
+  left:0;
+  width:min(1120px,calc(100vw - 80px));
+  margin:0 auto 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+}
+.design-kicker{
+  color:#6f766f;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.design-head h1{
+  margin:6px 0 0;
+  color:var(--green);
+  font-size:28px;
+  line-height:1.15;
+  letter-spacing:0;
+}
+.design-head p{
+  max-width:560px;
+  margin:8px 0 0;
+  color:#5f6d65;
+  font-size:14px;
+  line-height:1.7;
+}
+.back-link{
+  flex:0 0 auto;
+  padding:10px 14px;
+  color:var(--green);
+  background:#fff;
+  border:1px solid rgba(27,67,50,.08);
+  border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.04);
+  font-size:13px;
+  font-weight:800;
+}
+.phone-row{
+  width:max-content;
+  min-width:100%;
+  margin:0 auto;
+  display:flex;
+  gap:32px;
+  align-items:flex-start;
+  justify-content:center;
+}
+.screen-wrap{display:grid;gap:12px;justify-items:center}
+.screen-label{
+  color:#555f59;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+.phone{
+  position:relative;
+  width:390px;
+  height:844px;
+  flex:0 0 auto;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  color:#24312a;
+  background:var(--bg);
+  border:8px solid #111;
+  border-radius:40px;
+  box-shadow:var(--phone-shadow);
+}
+.phone.white{background:#fff}
+.phone.dark{background:var(--green);color:#fff}
+.scroll{
+  flex:1;
+  overflow-y:auto;
+  padding:0 20px 104px;
+}
+.topbar{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:44px 20px 10px;
+}
+.brand{display:flex;align-items:center;gap:8px;min-width:0}
+.logo{
+  width:26px;
+  height:26px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  background:var(--green);
+  border-radius:999px;
+}
+.logo i{
+  width:8px;
+  height:8px;
+  display:block;
+  background:var(--gold);
+  border-radius:999px;
+}
+.brand span{
+  color:var(--green);
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+.pill{
+  flex:0 0 auto;
+  padding:7px 12px;
+  color:#667067;
+  background:#fff;
+  border-radius:999px;
+  box-shadow:0 2px 10px rgba(0,0,0,.03);
+  font-size:12px;
+  font-weight:800;
+}
+.hero{position:relative;margin:26px 0 26px}
+.hero h2{
+  margin:0 0 8px;
+  color:var(--green);
+  font-size:31px;
+  line-height:1.16;
+  letter-spacing:0;
+}
+.hero p{
+  max-width:310px;
+  margin:0;
+  color:#66756d;
+  font-size:14px;
+  line-height:1.72;
+  font-weight:560;
+}
+.hero-mark{
+  position:absolute;
+  right:0;
+  top:0;
+  width:64px;
+  height:64px;
+  display:grid;
+  place-items:center;
+  color:var(--green);
+  background:rgba(27,67,50,.08);
+  border-radius:18px;
+  transform:rotate(12deg);
+}
+.card{
+  background:#fff;
+  border:1px solid rgba(255,255,255,.82);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+}
+.input-card{padding:16px;margin-bottom:14px}
+.input-card textarea{
+  width:100%;
+  height:96px;
+  resize:none;
+  outline:0;
+  color:#26352c;
+  background:transparent;
+  font-size:15px;
+  line-height:1.55;
+}
+.toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding-top:12px;
+  border-top:1px solid #f4f1eb;
+}
+.chips{
+  min-width:0;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+}
+.chip{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:7px 10px;
+  color:var(--green);
+  background:var(--bg);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.count{color:#c8c4bb;font-size:12px;font-weight:800;white-space:nowrap}
+.primary{
+  width:100%;
+  min-height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:#fff;
+  background:var(--green);
+  border-radius:14px;
+  box-shadow:0 12px 22px rgba(27,67,50,.18);
+  font-size:17px;
+  font-weight:900;
+  transition:transform .14s ease,background .14s ease;
+}
+.primary:active,.soft-btn:active,.ghost-btn:active{transform:scale(.98)}
+.divider{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:24px 0 18px;
+  color:#a7aaa5;
+  font-size:12px;
+  font-weight:800;
+}
+.divider::before,.divider::after{content:"";height:1px;flex:1;background:#ddd8ce}
+.upload-btn{
+  width:100%;
+  min-height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:#68736d;
+  background:#fff;
+  border:2px dashed #ddd8cf;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:850;
+}
+.suggestion{
+  padding:18px;
+  margin-top:28px;
+  background:rgba(242,212,121,.14);
+  border:1px solid rgba(242,212,121,.35);
+  border-radius:22px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:3px 8px;
+  color:var(--green);
+  background:var(--gold);
+  border-radius:6px;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.04em;
+}
+.suggestion h3{display:inline;margin:0 0 0 8px;color:var(--green);font-size:16px}
+.suggestion>p{margin:7px 0 18px;color:rgba(27,67,50,.72);font-size:12px;font-weight:650}
+.steps{position:relative;display:grid;gap:16px}
+.steps::before{
+  content:"";
+  position:absolute;
+  top:10px;
+  bottom:10px;
+  left:12px;
+  width:1px;
+  background:rgba(27,67,50,.18);
+}
+.step{position:relative;z-index:1;display:flex;gap:12px}
+.step-num{
+  width:26px;
+  height:26px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:var(--green);
+  border:2px solid var(--bg);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+}
+.step.is-muted .step-num{color:var(--green);background:rgba(27,67,50,.18)}
+.step h4{margin:0 0 2px;color:var(--green);font-size:14px}
+.step.is-muted h4{color:#6f766f}
+.step p{margin:0;color:#788079;font-size:12px;line-height:1.45}
+.dual-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.soft-btn,.ghost-btn{
+  min-height:42px;
+  border-radius:11px;
+  font-size:14px;
+  font-weight:850;
+}
+.soft-btn{color:#fff;background:var(--green)}
+.ghost-btn{color:var(--green);background:#fff;border:1px solid rgba(27,67,50,.12)}
+.tabbox{
+  display:flex;
+  gap:4px;
+  padding:4px;
+  margin-bottom:18px;
+  background:#eae6d8;
+  border-radius:14px;
+}
+.tabbox button{
+  flex:1;
+  padding:10px 0;
+  color:#728078;
+  background:transparent;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:900;
+}
+.tabbox button.active{color:var(--green);background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.large-input{
+  position:relative;
+  height:190px;
+  margin-bottom:18px;
+  overflow:hidden;
+}
+.large-input textarea{
+  width:100%;
+  height:100%;
+  padding:20px;
+  resize:none;
+  outline:0;
+  background:transparent;
+  color:#26352c;
+  font-size:15px;
+  line-height:1.58;
+}
+.large-input .count{position:absolute;right:16px;bottom:14px}
+.privacy{
+  display:flex;
+  justify-content:center;
+  gap:5px;
+  margin:12px 0 28px;
+  color:#a5a39b;
+  font-size:10px;
+  font-weight:800;
+}
+.preview-title{margin:0 0 12px;color:#59645e;font-size:14px;font-weight:950}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.preview-card{
+  padding:16px;
+  background:#fff;
+  border:1px solid #f2f0ea;
+  border-radius:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.025);
+}
+.icon-tile{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  margin-bottom:9px;
+  border-radius:10px;
+}
+.preview-card h4{margin:0 0 3px;color:#29332e;font-size:14px}
+.preview-card p{margin:0 0 9px;color:#8b928d;font-size:10px;font-weight:750}
+.mini-tag{display:inline-block;padding:3px 8px;border-radius:7px;background:var(--bg);color:var(--green);font-size:10px;font-weight:900}
+.chat-head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  display:grid;
+  grid-template-columns:40px 1fr 40px;
+  align-items:center;
+  padding:42px 16px 12px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid #f0eee9;
+}
+.icon-btn{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  color:var(--green);
+  background:transparent;
+}
+.chat-title{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:950}
+.chat-body{
+  flex:1;
+  overflow-y:auto;
+  padding:18px 18px 132px;
+  background:rgba(245,243,237,.52);
+}
+.chat-note{text-align:center;margin-bottom:18px}
+.chat-note span{padding:5px 8px;color:#9b9c98;background:rgba(255,255,255,.72);border-radius:8px;font-size:10px;font-weight:800}
+.bubble-row{display:flex;margin-bottom:18px}
+.bubble-row.user{justify-content:flex-end}
+.bubble{
+  max-width:85%;
+  padding:14px;
+  border-radius:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.035);
+  font-size:15px;
+  line-height:1.62;
+}
+.bubble.user{color:#fff;background:var(--green);border-top-right-radius:5px}
+.bot-line{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.avatar{
+  width:32px;
+  height:32px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  background:var(--green);
+  border-radius:999px;
+}
+.avatar i{width:12px;height:12px;display:block;background:var(--gold);border-radius:999px}
+.bubble.bot{background:#fff;border:1px solid #f2f0ea;border-top-left-radius:5px;color:#506058}
+.hint{
+  margin-top:12px;
+  padding:12px;
+  color:rgba(27,67,50,.72);
+  background:var(--bg);
+  border:1px solid rgba(27,67,50,.05);
+  border-radius:14px;
+  font-size:12px;
+  font-weight:800;
+}
+.quick-replies{display:flex;flex-wrap:wrap;gap:8px;margin-left:42px}
+.quick-replies button{
+  padding:8px 12px;
+  color:var(--green);
+  background:#fff;
+  border:1px solid rgba(27,67,50,.18);
+  border-radius:999px;
+  box-shadow:0 2px 8px rgba(0,0,0,.03);
+  font-size:12px;
+  font-weight:850;
+}
+.typing{display:flex;align-items:center;gap:5px;height:52px}
+.typing i{width:6px;height:6px;border-radius:999px;background:#9aa09a;animation:bounce 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}
+.typing i:nth-child(3){animation-delay:.4s}
+.composer{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:12px 12px 28px;
+  background:#fff;
+  border-top:1px solid #f0eee9;
+}
+.composer-box{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:5px 8px 5px 5px;
+  background:var(--bg);
+  border:1px solid #ddd8cf;
+  border-radius:18px;
+}
+.composer-box textarea{
+  flex:1;
+  min-height:42px;
+  max-height:88px;
+  resize:none;
+  outline:0;
+  background:transparent;
+  font-size:15px;
+  line-height:1.45;
+  padding:11px 0;
+}
+.send{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:var(--green);
+  border-radius:12px;
+}
+.dark-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:42px 16px 10px;
+  color:#fff;
+}
+.dark-title{display:flex;align-items:center;gap:8px;font-weight:950}
+.level{padding:3px 8px;background:rgba(255,255,255,.18);border-radius:999px;font-size:10px;font-weight:850}
+.dark-content{
+  position:relative;
+  z-index:1;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:16px 20px 28px;
+}
+.glow-a,.glow-b{position:absolute;border-radius:999px;filter:blur(36px);pointer-events:none}
+.glow-a{top:-60px;right:-60px;width:190px;height:190px;background:rgba(242,212,121,.15)}
+.glow-b{top:260px;left:-80px;width:150px;height:150px;background:rgba(255,255,255,.08)}
+.review-stats{
+  padding:16px;
+  margin-bottom:22px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  backdrop-filter:blur(12px);
+}
+.review-stats p{margin:0;color:rgba(255,255,255,.72);font-size:12px;font-weight:800}
+.review-stats strong{display:block;margin-top:3px;font-size:15px}
+.review-stats strong span{color:var(--gold);font-size:21px}
+.progress-line{display:flex;align-items:center;gap:12px;margin-top:13px}
+.progress-line span{width:42px;color:#fff;font-size:12px;font-weight:900}
+.track{height:7px;flex:1;background:rgba(0,0,0,.22);border-radius:999px;overflow:hidden}
+.track i{display:block;height:100%;width:30%;background:var(--gold);border-radius:999px}
+.flashcard{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  padding:24px;
+  margin-bottom:26px;
+  background:var(--bg);
+  color:#2d332f;
+  border-radius:30px;
+  box-shadow:0 22px 45px rgba(0,0,0,.18);
+}
+.flashcard-top{display:flex;justify-content:space-between;color:#969993;font-size:10px;font-weight:850}
+.flashcard-top span:first-child{padding:5px 8px;color:var(--green);background:rgba(27,67,50,.09);border-radius:7px}
+.flashcard-main{margin:auto;text-align:center}
+.flashcard-main h2{margin:0;color:#29312d;font-size:24px;line-height:1.42}
+.formula{font-family:Georgia,serif;font-style:italic}
+.answer{
+  display:none;
+  margin:18px auto 0;
+  padding:11px 12px;
+  max-width:245px;
+  color:var(--green);
+  background:#fff;
+  border:1px solid rgba(27,67,50,.08);
+  border-radius:14px;
+  font-size:14px;
+  font-weight:900;
+}
+.flashcard.revealed .answer{display:block}
+.tap-hint{margin-top:26px;color:#a3a39d;font-size:14px;font-weight:800}
+.rating-row{display:flex;justify-content:space-between;align-items:center;padding:0 18px 18px;color:rgba(255,255,255,.6);font-size:14px;font-weight:850}
+.dots{display:flex;gap:9px}
+.dots i{width:10px;height:10px;background:rgba(255,255,255,.2);border-radius:999px}
+.dots i.active{background:var(--gold)}
+.review-note{margin:0 0 14px;text-align:center;color:rgba(255,255,255,.42);font-size:10px;font-weight:800}
+.gold-btn{width:100%;height:56px;color:var(--green);background:var(--gold);border-radius:14px;font-size:18px;font-weight:950;box-shadow:0 12px 24px rgba(0,0,0,.14)}
+.link-btn{width:100%;padding:13px;color:rgba(255,255,255,.64);background:transparent;font-size:14px;font-weight:850}
+.parent-card{padding:18px;margin-bottom:18px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-head h3{margin:0;color:var(--green);font-size:18px}
+.section-head span{color:#9aa09b;font-size:12px;font-weight:850}
+.microcopy{margin:0 0 14px;color:#8a928c;font-size:11px;font-weight:750}
+.priority-list{display:grid;gap:10px;margin-bottom:16px}
+.priority-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background:#fff;
+  border:1px solid #f0eee9;
+  border-radius:14px;
+}
+.priority-item:first-child{background:rgba(245,243,237,.72)}
+.num{
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  color:var(--green);
+  background:rgba(27,67,50,.1);
+  border-radius:999px;
+  font-size:10px;
+  font-weight:950;
+}
+.priority-item p{min-width:0;flex:1;margin:0;color:#667067;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.priority-item em{font-style:normal;padding:3px 7px;border-radius:6px;font-size:10px;font-weight:900}
+.hot{color:#c2410c;background:#fff0e8}.mid{color:#2563eb;background:#eff6ff}
+.quote{
+  position:relative;
+  padding:16px;
+  margin-bottom:16px;
+  background:var(--bg);
+  border-left:4px solid var(--gold);
+  border-radius:14px;
+}
+.quote p{margin:0;color:#344038;font-size:15px;line-height:1.62;font-weight:850}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.summary-tile{
+  display:grid;
+  place-items:center;
+  gap:8px;
+  min-height:132px;
+  padding:14px;
+  text-align:center;
+  background:#fff;
+  border:1px solid #f1efea;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+.round-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+}
+.summary-tile h3{margin:0;color:#344038;font-size:14px}
+.summary-tile p{margin:0;color:#9aa09b;font-size:10px;line-height:1.45;font-weight:750}
+.bars{
+  height:148px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 4px;
+}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.bar span{color:#879089;font-size:10px;text-align:center;line-height:1.25;font-weight:800}
+.bar-track{
+  width:100%;
+  flex:1;
+  display:flex;
+  align-items:flex-end;
+  background:#f0f0ee;
+  border-radius:7px 7px 0 0;
+  overflow:hidden;
+}
+.bar-fill{width:100%;border-radius:7px 7px 0 0;background:var(--green)}
+.radar-cta{margin-top:22px}
+.bottom-nav{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:84px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  padding:8px 18px 18px;
+  background:rgba(255,255,255,.96);
+  border-top:1px solid #f0eee9;
+  border-radius:28px 28px 0 0;
+  box-shadow:0 -4px 20px rgba(0,0,0,.025);
+}
+.navitem{
+  min-width:76px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  color:#a0a59f;
+  background:transparent;
+  font-size:10px;
+  font-weight:850;
+}
+.navitem.active{color:var(--green);font-weight:950}
+.navitem svg,.icon svg,.hero-mark svg{width:22px;height:22px;stroke:currentColor}
+.navitem svg{width:24px;height:24px}
+.dark svg,.dark .icon-btn{color:currentColor}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@media (max-width:720px){
+  .gallery-shell{padding:18px 14px 24px}
+  .design-head{position:static;width:auto;display:block;margin-bottom:18px}
+  .back-link{display:inline-flex;margin-top:12px}
+  .phone-row{justify-content:flex-start;gap:18px}
+  .phone{width:360px;height:780px;border-radius:34px}
+  .screen-label{justify-self:start}
+}
+</style>
+</head>
+<body>
+<main class="gallery-shell hide-scrollbar">
+  <header class="design-head">
+    <div>
+      <div class="design-kicker">Warm Focus V1</div>
+      <h1>原点智学多屏设计预览</h1>
+      <p>用于 variant 对齐的高保真静态画廊。主 tab 保持“今晚 / 学习包 / 家长”，原小点、复习闯关、家长雷达作为子页面呈现。</p>
+    </div>
+    <a class="back-link" href="/">返回首页</a>
+  </header>
+
+  <div class="phone-row">
+    <section class="screen-wrap" aria-label="今晚任务规划">
+      <div class="screen-label">01 今晚任务</div>
+      <div class="phone">
+        <header class="topbar">
+          <div class="brand"><div class="logo"><i></i></div><span>原点智学</span></div>
+          <div class="pill">今晚任务规划</div>
+        </header>
+        <div class="scroll hide-scrollbar">
+          <section class="hero">
+            <h2>今晚先做哪一步？</h2>
+            <p>不用一下子做完。告诉我作业、错题或卡住的地方，我帮你拆成最容易开始的一步。</p>
+            <div class="hero-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 10h.01M9 10h.01M9.2 15a4 4 0 005.6 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </section>
+          <section class="card input-card">
+            <textarea maxlength="200" data-count="tonight-count" placeholder="粘贴作业、题目、知识点，或写一句“我不知道先做什么”"></textarea>
+            <div class="toolbar">
+              <div class="chips hide-scrollbar">
+                <button class="chip">帮我找优先级</button>
+                <button class="chip">先聊一题</button>
+                <button class="chip">生成复习卡</button>
+              </div>
+              <span class="count" id="tonight-count">0/200</span>
+            </div>
+          </section>
+          <button class="primary">开始规划今晚任务 <span>✦</span></button>
+          <div class="divider">或上传材料</div>
+          <button class="upload-btn">上传材料生成学习包</button>
+          <section class="suggestion">
+            <div><span class="badge">SUGGESTION</span><h3>建议先做这个</h3></div>
+            <p>先把任务拆成 3 步，再从最容易的一步开始。</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div><h4>输入任务</h4><p>告诉我你遇到的作业、题目或知识点</p></div></div>
+              <div class="step is-muted"><div class="step-num">2</div><div><h4>拆成小步</h4><p>找出清晰、容易开始的小步</p></div></div>
+              <div class="step is-muted"><div class="step-num">3</div><div><h4>完成第一步</h4><p>先完成最容易的一小步，建立信心</p></div></div>
+            </div>
+            <div class="dual-actions"><button class="soft-btn">开始这一小步</button><button class="ghost-btn">换一个建议</button></div>
+          </section>
+        </div>
+        <nav class="bottom-nav" aria-label="主导航">
+          <button class="navitem active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l10 9h-3v8h-6v-6h-2v6H5v-8H2l10-9zm0 2.8l-5 4.5V18h2v-6h6v6h2v-7.7l-5-4.5z"/></svg><span>今晚</span></button>
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>学习包</span></button>
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11a4 4 0 10-8 0 4 4 0 008 0zM4 21a8 8 0 0116 0"/></svg><span>家长</span></button>
+        </nav>
+      </div>
+    </section>
+
+    <section class="screen-wrap" aria-label="学习包">
+      <div class="screen-label">02 学习包</div>
+      <div class="phone">
+        <header class="topbar">
+          <div class="brand"><div class="logo"><i></i></div><span>原点智学</span></div>
+          <div class="pill">学习包</div>
+        </header>
+        <div class="scroll hide-scrollbar">
+          <section class="hero">
+            <h2>把材料变成学习包</h2>
+            <p>一键生成知识卡、小测和复习计划，学习更有结构。</p>
+          </section>
+          <div class="tabbox" role="tablist">
+            <button class="active" type="button">文本</button>
+            <button type="button">上传</button>
+          </div>
+          <section class="card large-input">
+            <textarea maxlength="3000" data-count="pack-count" placeholder="粘贴或输入你的学习材料&#10;作业、课本内容、笔记、错题等"></textarea>
+            <span class="count" id="pack-count">0/3000</span>
+          </section>
+          <button class="primary">生成学习包 <span>⚡</span></button>
+          <p class="privacy">ⓘ 内容仅用于生成学习包，不会公开或分享</p>
+          <h3 class="preview-title">生成预览 <span style="color:#a0a59f;font-weight:700">(示例)</span></h3>
+          <div class="preview-grid">
+            <div class="preview-card"><div class="icon-tile" style="background:#ecfdf3;color:#16a34a">□</div><h4>知识卡</h4><p>提炼关键知识点</p><span class="mini-tag">卡片示例</span></div>
+            <div class="preview-card"><div class="icon-tile" style="background:#eff6ff;color:#2563eb">✓</div><h4>小测</h4><p>检验理解与记忆</p><span class="mini-tag" style="background:#eff6ff;color:#1d4ed8">题目示例</span></div>
+            <div class="preview-card"><div class="icon-tile" style="background:#faf5ff;color:#7c3aed">⌁</div><h4>复习计划</h4><p>安排复习节奏</p><span class="mini-tag" style="background:#faf5ff;color:#6d28d9">计划示例</span></div>
+            <div class="preview-card"><div class="icon-tile" style="background:#fff7ed;color:#ea580c">!</div><h4>错因卡</h4><p>聚焦易错原因</p><span class="mini-tag" style="background:#fff7ed;color:#c2410c">错因示例</span></div>
+          </div>
+        </div>
+        <nav class="bottom-nav" aria-label="主导航">
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg><span>今晚</span></button>
+          <button class="navitem active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zm0 12H4V8h16v10z"/></svg><span>学习包</span></button>
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11a4 4 0 10-8 0 4 4 0 008 0zM4 21a8 8 0 0116 0"/></svg><span>家长</span></button>
+        </nav>
+      </div>
+    </section>
+
+    <section class="screen-wrap" aria-label="原小点辅导">
+      <div class="screen-label">03 原小点</div>
+      <div class="phone white">
+        <header class="chat-head">
+          <button class="icon-btn" aria-label="返回">‹</button>
+          <div class="chat-title"><div class="logo"><i></i></div><span>原小点</span></div>
+          <div></div>
+        </header>
+        <div class="chat-body hide-scrollbar">
+          <div class="chat-note"><span>本轮对话</span></div>
+          <div class="bubble-row user"><div class="bubble user">这道数学题我看不太懂：已知一个直角三角形的斜边是10，一条直角边是6，求另一条直角边。</div></div>
+          <div class="bot-line">
+            <div class="avatar"><i></i></div>
+            <div class="bubble bot">
+              不着急，我们一步一步来拆解。<br><br>
+              这道题提到了直角三角形和边长，你想想看，关于直角三角形三条边之间关系的公式，你记得哪一个？
+              <div class="hint">提示：思考一下“勾股定理”</div>
+            </div>
+          </div>
+          <div class="quick-replies"><button>是勾股定理吗？</button><button>我忘记了</button></div>
+          <div class="bubble-row user" style="margin-top:18px"><div class="bubble user">是勾股定理：a² + b² = c²</div></div>
+          <div class="bot-line">
+            <div class="avatar"><i></i></div>
+            <div class="bubble bot typing" aria-label="正在思考"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="composer-box">
+            <button class="icon-btn" aria-label="添加">+</button>
+            <textarea rows="1" placeholder="说点什么..."></textarea>
+            <button class="send" aria-label="发送">⌁</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen-wrap" aria-label="复习闯关">
+      <div class="screen-label">04 复习闯关</div>
+      <div class="phone dark">
+        <div class="glow-a"></div><div class="glow-b"></div>
+        <header class="dark-topbar">
+          <button class="icon-btn" aria-label="返回">‹</button>
+          <div class="dark-title"><span>复习闯关</span><span class="level">Lv.2 初学者</span></div>
+          <button class="icon-btn" aria-label="更多">⋯</button>
+        </header>
+        <div class="dark-content">
+          <section class="review-stats">
+            <p>每天 5 分钟，持续巩固</p>
+            <strong>今日待复习 <span>示例</span> 卡片</strong>
+            <div class="progress-line"><span>3 / 10</span><div class="track"><i></i></div></div>
+          </section>
+          <section class="flashcard" id="flashcard">
+            <div class="flashcard-top"><span>知识卡</span><span>标记掌握程度</span></div>
+            <div class="flashcard-main">
+              <h2>二次函数 <span class="formula">y=ax²+bx+c</span><br>的对称轴公式是什么？</h2>
+              <div class="answer">答案：x = -b / 2a</div>
+              <div class="tap-hint">点击卡片查看答案</div>
+            </div>
+          </section>
+          <div class="rating-row"><span>不会</span><div class="dots"><i class="active"></i><i></i><i></i><i></i></div><span>会了</span></div>
+          <p class="review-note">不确定也没关系，先想一想再看答案。</p>
+          <button class="gold-btn">开始这一关</button>
+          <button class="link-btn">换一张卡片</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen-wrap" aria-label="家长视图">
+      <div class="screen-label">05 家长</div>
+      <div class="phone">
+        <header class="topbar">
+          <div class="brand"><div class="logo"><i></i></div><span>原点智学</span></div>
+          <div class="pill">家长视图</div>
+        </header>
+        <div class="scroll hide-scrollbar">
+          <section class="hero">
+            <h2>家长只看关键进展</h2>
+            <p>不用盯全过程。今晚先看优先级，结束后看一句话进展。</p>
+          </section>
+          <section class="card parent-card">
+            <div class="section-head"><h3>今晚优先做什么</h3><span>查看详情 ›</span></div>
+            <p class="microcopy">根据任务难度与重要性，已为你排好优先级。</p>
+            <div class="priority-list">
+              <div class="priority-item"><span class="num">1</span><p>先完成数学练习册第 3-5 题</p><em class="hot">高优先级</em></div>
+              <div class="priority-item"><span class="num">2</span><p>攻克二次函数概念卡的薄弱点</p><em class="mid">中优先级</em></div>
+              <div class="priority-item"><span class="num">3</span><p>复习英语单词 Unit 4</p><em class="mid">中优先级</em></div>
+            </div>
+            <button class="primary" style="min-height:48px;font-size:14px">看今晚安排</button>
+          </section>
+          <section class="card parent-card">
+            <div class="section-head"><h3>一句话周报</h3><span>查看历史 ›</span></div>
+            <p class="microcopy">上周进步总结，一句话看重点。</p>
+            <div class="quote"><p>“本周能主动说出先做哪一步，数学错因解释更清楚，继续保持。”</p></div>
+            <button class="ghost-btn" style="width:100%;min-height:48px">生成周报</button>
+          </section>
+        </div>
+        <nav class="bottom-nav" aria-label="主导航">
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg><span>今晚</span></button>
+          <button class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h5l2 2h7a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>学习包</span></button>
+          <button class="navitem active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-3 0-8 1.5-8 4.5V20h16v-1.5c0-3-5-4.5-8-4.5z"/></svg><span>家长</span></button>
+        </nav>
+      </div>
+    </section>
+
+    <section class="screen-wrap" aria-label="家长雷达">
+      <div class="screen-label">06 家长雷达</div>
+      <div class="phone">
+        <header class="chat-head" style="background:rgba(245,243,237,.9)">
+          <button class="icon-btn" aria-label="返回">‹</button>
+          <div class="chat-title" style="color:var(--green)">家长雷达</div>
+          <button class="icon-btn" aria-label="日期">⌁</button>
+        </header>
+        <div class="scroll hide-scrollbar" style="padding-top:22px">
+          <h2 style="margin:0 0 4px;color:var(--green);font-size:25px">今晚焦点决策</h2>
+          <p style="margin:0 0 22px;color:#818981;font-size:14px;font-weight:750">抓重点，不焦虑，看清弱点与必做项。</p>
+          <div class="summary-grid">
+            <div class="summary-tile"><div class="round-icon" style="background:#fef2f2;color:#ef4444">↗</div><h3>优先看弱点</h3><p>数学几何模块需要先验收</p></div>
+            <div class="summary-tile"><div class="round-icon" style="background:#f0fdf4;color:#16a34a">✓</div><h3>验收证据</h3><p>语文作文提纲已完成，待看</p></div>
+          </div>
+          <section class="card parent-card">
+            <div class="section-head"><h3>错因是否说清</h3><span>查看更多 ›</span></div>
+            <p class="microcopy">本周错题主要原因分布（示例）</p>
+            <div class="bars">
+              <div class="bar"><div class="bar-track"><div class="bar-fill" style="height:90%"></div></div><span>概念<br>不清</span></div>
+              <div class="bar"><div class="bar-track"><div class="bar-fill" style="height:70%;background:var(--gold)"></div></div><span>粗心<br>大意</span></div>
+              <div class="bar"><div class="bar-track"><div class="bar-fill" style="height:42%;background:#93c5fd"></div></div><span>审题<br>偏差</span></div>
+              <div class="bar"><div class="bar-track"><div class="bar-fill" style="height:32%;background:#fdba74"></div></div><span>计算<br>失误</span></div>
+            </div>
+          </section>
+          <button class="primary radar-cta">发送提醒复习通知</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+document.querySelectorAll('textarea[data-count]').forEach(function (input) {
+  var target = document.getElementById(input.dataset.count);
+  var max = input.getAttribute('maxlength') || 0;
+  function update() {
+    if (target) target.textContent = input.value.length + '/' + max;
+  }
+  input.addEventListener('input', update);
+  update();
+});
+document.querySelectorAll('.tabbox button').forEach(function (button) {
+  button.addEventListener('click', function () {
+    button.parentElement.querySelectorAll('button').forEach(function (item) {
+      item.classList.toggle('active', item === button);
+    });
+  });
+});
+var flashcard = document.getElementById('flashcard');
+if (flashcard) {
+  flashcard.addEventListener('click', function () {
+    flashcard.classList.toggle('revealed');
+  });
+}
+</script>
+</body>
+</html>

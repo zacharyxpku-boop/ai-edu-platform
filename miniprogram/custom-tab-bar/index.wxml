@@ -1,0 +1,47 @@
+﻿<view class="v1-tabbar">
+  <view
+    class="v1-tab-item {{selected === 0 ? 'active' : ''}}"
+    data-index="0"
+    data-path="/pages/home/home"
+    bindtap="switchTab"
+  >
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon home"></view></view>
+    <view class="v1-tab-text">作业点拨</view>
+  </view>
+  <view
+    class="v1-tab-item {{selected === 1 ? 'active' : ''}}"
+    data-index="1"
+    data-path="/pages/review/review"
+    bindtap="switchTab"
+  >
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon loop"></view></view>
+    <view class="v1-tab-text">修卡点</view>
+  </view>
+  <view
+    class="v1-tab-item {{selected === 2 ? 'active' : ''}}"
+    data-index="2"
+    data-path="/pages/focus/focus"
+    bindtap="switchTab"
+  >
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon focus"></view></view>
+    <view class="v1-tab-text">专注舱</view>
+  </view>
+  <view
+    class="v1-tab-item {{selected === 3 ? 'active' : ''}}"
+    data-index="3"
+    data-path="/pages/tools/tools"
+    bindtap="switchTab"
+  >
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon pack"></view></view>
+    <view class="v1-tab-text">轻回访</view>
+  </view>
+  <view
+    class="v1-tab-item {{selected === 4 ? 'active' : ''}}"
+    data-index="4"
+    data-path="/pages/profile/profile"
+    bindtap="switchTab"
+  >
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon mine"></view></view>
+    <view class="v1-tab-text">我的</view>
+  </view>
+</view>

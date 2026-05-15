@@ -9,8 +9,8 @@ function json(data, status = 200, extraHeaders = {}) {
             'content-type': 'application/json; charset=utf-8',
             'cache-control': 'no-store',
             'access-control-allow-origin': '*',
-            'access-control-allow-methods': 'POST, OPTIONS',
-            'access-control-allow-headers': 'content-type,x-mini-session',
+            'access-control-allow-methods': 'GET, POST, OPTIONS',
+            'access-control-allow-headers': 'content-type,x-mini-session,x-mini-client',
             ...extraHeaders
         }
     });
@@ -52,6 +52,24 @@ function clientIp(req) {
     return req.headers.get('x-forwarded-for')?.split(',')[0].trim()
         || req.headers.get('x-real-ip')
         || 'unknown';
+}
+
+function shortHash(value) {
+    const text = String(value || '');
+    let hash = 2166136261;
+    for (let i = 0; i < text.length; i += 1) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(36);
+}
+
+function clientRateKey(req, scope) {
+    const clientId = clean(req.headers.get('x-mini-client') || '', 160);
+    if (clientId) return `${scope}:client:${shortHash(clientId)}`;
+    const sessionId = clean(req.headers.get('x-mini-session') || '', 2048);
+    if (sessionId) return `${scope}:session:${shortHash(sessionId)}`;
+    return `${scope}:ip:${clientIp(req)}`;
 }
 
 function rateLimit(key, limit, windowMs = DAY_MS) {
@@ -110,7 +128,7 @@ async function hmac(body, secret) {
 
 async function signSession(payload, secret) {
     if (!secret || !globalThis.crypto?.subtle) {
-        return `demo_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        return `local_${Date.now()}_${Math.random().toString(36).slice(2)}`;
     }
     const encoder = new TextEncoder();
     const body = base64UrlFromBytes(encoder.encode(JSON.stringify(payload)));
@@ -121,8 +139,8 @@ async function signSession(payload, secret) {
 async function verifySession(sessionId, secret) {
     const token = clean(sessionId, 2048);
     if (!token) return { ok: false, mode: 'missing' };
-    if (token.startsWith('demo_') || token.startsWith('local_')) {
-        return { ok: true, mode: 'demo', payload: { mode: 'demo' } };
+    if (token.startsWith('local_')) {
+        return { ok: true, mode: 'local', payload: { mode: 'local' } };
     }
     if (!secret || !globalThis.crypto?.subtle) return { ok: false, mode: 'unverifiable' };
     const parts = token.split('.');
@@ -178,6 +196,7 @@ export {
     SESSION_MAX_AGE_MS,
     clean,
     clamp,
+    clientRateKey,
     clientIp,
     json,
     rateLimit,

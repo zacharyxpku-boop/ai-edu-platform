@@ -2,13 +2,15 @@
 // POST /api/lead
 // 接收前端表单提交 → 转发到飞书 Webhook（env FEISHU_WEBHOOK_URL）
 //
-// 同时永久存一份到 KV（如果配置了 Vercel KV；否则只转 Feishu）
+// 同时可持久化到服务端存储（如果配置了 SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY）
 // 这样 localStorage /leads.html 丢了也不丢 lead。
 
 export const config = { runtime: 'edge' };
 
 const IP_LIMIT_PER_DAY = 5; // 每 IP 每天最多 5 条 lead，防刷
 const ipBucket = new Map();
+const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
+const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 
 function todayKey() {
     return new Date().toISOString().slice(0, 10);
@@ -42,6 +44,59 @@ function clean(s, max) {
 
 function isValidPhone(p) {
     return typeof p === 'string' && /^1[3-9]\d{9}$/.test(p.trim());
+}
+
+function pgHeaders(extra = {}) {
+    return {
+        'content-type': 'application/json',
+        apikey: SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+        ...extra
+    };
+}
+
+async function persistLead(lead) {
+    const leadId = `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+        return {
+            lead_id: leadId,
+            mode: 'local_receipt',
+            persisted: false,
+            action_required: 'service_configuration',
+            notice: '当前仅生成本地提交凭证；完成存储或通知通道配置后才会进入服务回访队列。'
+        };
+    }
+    const row = {
+        lead_id: leadId,
+        kind: lead.kind || null,
+        tier: lead.tier || null,
+        tier_label: lead.tier_label || null,
+        name: lead.name || null,
+        phone: lead.phone || null,
+        kid: lead.kid || lead.age_or_kid || null,
+        page: lead.page || null,
+        referrer: lead.referrer || null,
+        utm_source: lead.utm_source || null,
+        utm_medium: lead.utm_medium || null,
+        utm_campaign: lead.utm_campaign || null,
+        evidence_done: lead.evidence_done || null,
+        evidence_total: lead.evidence_total || null,
+        identity_tag: lead.identity_tag || null,
+        invite_code: lead.invite_code || null,
+        share_code: lead.share_code || null,
+        ip: lead.ip || null,
+        created_at: lead.time || new Date().toISOString()
+    };
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/mini_leads?on_conflict=lead_id`, {
+        method: 'POST',
+        headers: pgHeaders({ Prefer: 'resolution=merge-duplicates,return=representation' }),
+        body: JSON.stringify(row)
+    });
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`lead_store_failed:${res.status}:${text.slice(0, 160)}`);
+    }
+    return { lead_id: leadId, mode: 'supabase', persisted: true };
 }
 
 export default async function handler(req) {
@@ -84,6 +139,11 @@ export default async function handler(req) {
         utm_source: clean(body.utm_source, 50),
         utm_medium: clean(body.utm_medium, 50),
         utm_campaign: clean(body.utm_campaign, 50),
+        evidence_done: clean(body.evidence_done, 20),
+        evidence_total: clean(body.evidence_total, 20),
+        identity_tag: clean(body.identity_tag, 80),
+        invite_code: clean(body.invite_code, 80),
+        share_code: clean(body.share_code || body.invite_code, 80),
         time: new Date().toISOString(),
         ip: ip
     };
@@ -108,6 +168,10 @@ export default async function handler(req) {
                   lead.kind === 'wechat-cta' ? '微信咨询' :
                   '咨询';
     const channelName = lead.channel_label || lead.tier_label || '';
+    const evidenceSummary =
+        (lead.identity_tag ? '学习身份: ' + lead.identity_tag + '\n' : '') +
+        (lead.evidence_total ? '证据进度: ' + (lead.evidence_done || '0') + '/' + lead.evidence_total + '\n' : '') +
+        (lead.share_code ? '分享码: ' + lead.share_code + '\n' : '');
 
     const summary =
         '【' + label + '】 ' + (channelName || '原点智学') + '\n' +
@@ -119,10 +183,29 @@ export default async function handler(req) {
             (lead.utm_campaign ? '/' + lead.utm_campaign : '') + '\n' +
         '来源页: ' + (lead.page || '/') + '\n' +
         (lead.referrer ? '上页: ' + lead.referrer + '\n' : '') +
+        evidenceSummary +
         '时间: ' + lead.time + '\n' +
         'IP: ' + lead.ip;
 
     const channels = { feishu: false, wecom: false, email: false };
+    let leadStore = {
+        lead_id: '',
+        mode: 'local_receipt',
+        persisted: false,
+        action_required: 'service_configuration',
+        error: ''
+    };
+    try {
+        leadStore = await persistLead(lead);
+    } catch (error) {
+        leadStore = {
+            lead_id: '',
+            mode: 'service_store_failed',
+            persisted: false,
+            action_required: 'service_recovery',
+            error: error.message || 'lead_store_failed'
+        };
+    }
 
     // 通道 1: 飞书自定义机器人
     if (feishuHook) {
@@ -186,11 +269,19 @@ export default async function handler(req) {
 
     return new Response(JSON.stringify({
         ok: true,
+        lead_id: leadStore.lead_id,
+        lead_store: leadStore,
         channels: channels,
         configured: {
             feishu: !!feishuHook,
             wecom: !!wecomHook,
             email: !!resendKey
+        },
+        service_ready: !!(leadStore.persisted || channels.feishu || channels.wecom || channels.email),
+        service_contract: {
+            table: 'mini_leads',
+            primary_keys: ['lead_id'],
+            future_join_keys: ['share_code', 'client_id', 'student_id', 'utm_source']
         },
         time: lead.time
     }), {
