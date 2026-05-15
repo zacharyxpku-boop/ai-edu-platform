@@ -77,6 +77,6 @@ export default async function handler(req) {
         openid_hash: payload.openid_hash,
         session_id: sessionId,
         expires_at: new Date(expiresAt).toISOString(),
-        message: mode === 'wechat' ? '微信会话已建立' : '本地会话已建立，完成小程序服务配置后启用微信会话'
+        message: mode === 'wechat' ? '微信会话已建立' : '本地会话已建立，当前可继续完成本机学习闭环'
     });
 }

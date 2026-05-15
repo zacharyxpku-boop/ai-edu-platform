@@ -54,7 +54,7 @@ export default async function handler(req) {
                 action_required: 'account_service_configuration'
             },
             rows: localLeaderboard(body.profile || {}, body.events || []),
-            notice: '未完成账号和多设备连续性配置前，不展示全校榜、班级榜或好友榜，避免展示未验证的数据。',
+            notice: '当前只展示本机学习进展；班级或好友榜会在连续记录稳定后再开放，避免展示未验证的数据。',
             engine_version: 'mini-game-leaderboard-v1'
         });
     }

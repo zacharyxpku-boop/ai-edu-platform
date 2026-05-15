@@ -128,6 +128,7 @@ assert(!/cloud_sync_not_configured|云同步/.test(miniLeaderboard), 'Leaderboar
 assert(!/假社交|假数据/.test(miniLeaderboard), 'Leaderboard fallback avoids fake-social wording');
 assert(!/云端持久化|云同步|本地 Storage/.test(parentBind + reviewDueCards), 'Parent/review APIs avoid internal persistence setup wording');
 assert(!/云端|云同步|本地 Storage/.test(deckCards + reviewCards + profileJs + profileWxml), 'Deck/review/profile copy avoids internal cloud wording');
+assert(!/账号和服务配置|账号服务配置|小程序服务配置|production cloud|cloud-ready|cloud integration|cloud replay|authenticated production sync|production login\/cloud/.test(parentBind + miniSession + miniAchievements + reviewCards), 'Active summaries avoid setup jargon and English production-readiness wording');
 assert(/local_learning_rewards/.test(miniShop + miniAchievements), 'Shop and achievement APIs expose local learning reward mode');
 assert(/persisted:\s*false/.test(miniShop + miniAchievements + miniFeedback), 'Reward and feedback APIs do not imply real persistence without service configuration');
 assert(/local_feedback_receipt/.test(miniFeedback) && !/server-feedback-contract|dataset_contract/.test(miniFeedback), 'Feedback API returns a local receipt instead of pretending to write a server dataset');
@@ -137,6 +138,8 @@ assert(/service_contract/.test(commercialApiSurface), 'Core mini APIs expose ser
 assert(/persisted:\s*false/.test(commercialApiSurface), 'Core mini APIs avoid implying persistence');
 assert(!/client_storage_or_sync|provider:\s*'server-precheck'/.test(commercialApiSurface), 'Content/deck APIs avoid internal storage or server-precheck wording');
 assert(!/source:\s*'server-/.test(miniPriority + miniWeekly + miniReport), 'Priority/weekly/report avoid pretending server-backed intelligence in local mode');
+assert(!/Only POST is allowed|Too many (?:requests|quiz requests|review records|quiz submissions|deck requests)|Mini session is invalid|Missing source text|Missing client identity|Missing card id|CONTENT QUALITY GATE|Clear recall prompt|Usable answer|Wrong-cause lens|Transfer check|Core coverage|AI assisted content|已配置的账号服务|未完成账号和多设备连续性配置/.test(commercialApiSurface + decksApi + deckCards + reviewDueCards + miniEventApi + miniSync + miniLeaderboard), 'Active APIs use product-facing Chinese error and empty-state wording');
+assert(!/IMPORT READY|IMPORT WITH REPAIR|WAITING FOR CONTENT|repair queue|daily mission|API key|LOCAL GAME ECONOMY|Daily 5-minute recall|Wrong-cause boss battle|Local quiz checkpoint|Weekly season checkpoint|SYNTHETIC COHORT LAB|Synthetic cohorts|Need model-backed|Miniapp production|Blocked only by real AppID/.test(reviewCards), 'Review summary avoids internal readiness labels, API-key copy, and English planning surfaces');
 assert(!/stateless_ack/.test(leadApi + miniEvent + miniSync + profileJs), 'Lead/event/sync paths use local receipt wording instead of stateless ack');
 assert(/service_ready/.test(leadApi + profileJs), 'Lead submission exposes whether a real follow-up channel is configured');
 assert(!/拍照出答案|自动识别答案|保证提分|注定|必然/.test(profileWxml + toolsJs + arcadeJs + learningReportRecognition + apiRecognition), 'Commercial shell avoids unsafe claims');

@@ -64,7 +64,7 @@ export default async function handler(req) {
         xp: Number(profile.xp || body.xp || 0),
         level: getLevel(profile.xp || body.xp || 0),
         source: due.length ? 'request_cards' : 'empty_without_client_cards',
-        message: due.length ? '' : '请从小程序本机记录或已配置的账号服务传入真实卡片；接口不会生成假复习任务。',
+        message: due.length ? '' : '请从本机学习记录传入真实卡片；接口不会生成假复习任务。',
         engine_version: 'review-due-cards-v1'
     });
 }

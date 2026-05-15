@@ -139,19 +139,19 @@ function buildQualityGate(cards = [], coveredTypes = []) {
     const hasTransfer = cards.filter((card) => /transfer|变式|迁移|similar|changed/i.test(`${card.question || ''} ${card.answer || ''}`)).length;
     const hasWrongCause = cards.filter((card) => /wrong|cause|错因|误区|trap|careless/i.test(`${card.cardType || ''} ${card.question || ''} ${card.answer || ''}`)).length;
     const checks = [
-        { id: 'question', label: 'Clear recall prompt', ready: hasQuestion >= 2, value: hasQuestion },
-        { id: 'answer', label: 'Usable answer', ready: hasAnswer >= 2, value: hasAnswer },
-        { id: 'wrong_cause', label: 'Wrong-cause lens', ready: hasWrongCause >= 1, value: hasWrongCause },
-        { id: 'transfer', label: 'Transfer check', ready: hasTransfer >= 1, value: hasTransfer },
-        { id: 'coverage', label: 'Core coverage', ready: coveredTypes.length >= 2, value: coveredTypes.length }
+        { id: 'question', label: '回忆题明确', ready: hasQuestion >= 2, value: hasQuestion },
+        { id: 'answer', label: '核对内容可用', ready: hasAnswer >= 2, value: hasAnswer },
+        { id: 'wrong_cause', label: '看得到错因', ready: hasWrongCause >= 1, value: hasWrongCause },
+        { id: 'transfer', label: '有迁移检查', ready: hasTransfer >= 1, value: hasTransfer },
+        { id: 'coverage', label: '核心类型覆盖', ready: coveredTypes.length >= 2, value: coveredTypes.length }
     ];
     const ready = checks.filter((item) => item.ready).length;
     return {
-        title: 'CONTENT QUALITY GATE',
+        title: '材料导入条件',
         score: Math.min(100, Math.round((ready / checks.length) * 100)),
         label: ready >= 4
-            ? 'This pack is ready for review import and parent-facing proof.'
-            : 'Improve the material before treating this as a paid learning pack.',
+            ? '这套材料可以导入复习，并生成本机学习记录。'
+            : '材料还不够具体，先补上错步、对比例题和迁移检查。',
         checks,
         next: ready >= 4
             ? '导入复习后，完成一次小测并生成我的复盘摘要。'
@@ -258,16 +258,16 @@ async function readRequest(req) {
 
 export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
-    if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: 'Only POST is allowed.' }, 405);
+    if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST 请求。' }, 405);
 
     const limited = rateLimit(clientRateKey(req, 'mini:content-engine'), 100);
-    if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: 'Too many requests.' }, 429);
+    if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试。' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
     const sessionHeader = req.headers.get('x-mini-session') || '';
     if (sessionHeader) {
         const session = await verifySession(sessionHeader, sessionSecret(env));
-        if (!session.ok) return json({ ok: false, error: 'bad_session', message: 'Mini session is invalid.' }, 401);
+        if (!session.ok) return json({ ok: false, error: 'bad_session', message: '小程序会话无效，请重新进入页面。' }, 401);
     }
 
     const body = await readRequest(req);
@@ -276,7 +276,7 @@ export default async function handler(req) {
     }
 
     const text = clean(body.text || body.rawText || body.content || '', 6000);
-    if (!text) return json({ ok: false, error: 'missing_text', message: 'Missing source text.' }, 400);
+    if (!text) return json({ ok: false, error: 'missing_text', message: '请先输入真实学习材料。' }, 400);
 
     const options = {
         subject: body.subject,
@@ -307,6 +307,6 @@ export default async function handler(req) {
         quality_gate: qualityGate,
         study_pack: studyPack,
         engine_version: ENGINE_VERSION,
-        ai_notice: 'AI assisted content. Use for review planning, not answer substitution.'
+        ai_notice: 'AI 辅助生成，供复习规划参考，不用于替代作业答案。'
     });
 }

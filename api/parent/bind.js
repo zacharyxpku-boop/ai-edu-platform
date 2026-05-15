@@ -61,8 +61,8 @@ export default async function handler(req) {
             action_required: env.SUPABASE_URL ? '' : 'account_service_configuration'
         },
         message: env.SUPABASE_URL
-            ? '已生成绑定记录，可写入已配置的账号服务。'
-            : '当前未完成账号与多设备连续性配置，仅返回本机绑定凭证；正式多端使用前请完成服务配置。',
+            ? '已生成绑定记录，可用于家长端查看学习摘要。'
+            : '已生成本机绑定凭证；多端连续记录开通后可继续承接。',
         privacy_notice: '家长查看范围限于学习进度、复习数量、XP、正确率趋势和错因统计，不开放孩子私聊社交。',
         engine_version: 'parent-bind-v1'
     });

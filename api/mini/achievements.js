@@ -43,7 +43,7 @@ export default async function handler(req) {
             evidence_required: ['stats.review_count', 'stats.correct_count', 'stats.streak'],
             action_required: 'account_service_configuration'
         },
-        notice: '成就只根据本机传入的学习记录计算，未完成账号服务配置前不作为跨设备记录。',
+        notice: '成就只根据当前传入的学习记录计算，多端连续记录开通后再合并显示。',
         engine_version: 'mini-game-achievements-v1'
     }, achievementState(body.stats || body)));
 }

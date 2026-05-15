@@ -940,12 +940,12 @@ function contentEnginePlan(rawText, options = {}) {
     missingTypes,
     qualityBands,
     recommendation,
-    importLabel: ready ? 'IMPORT READY' : cards.length ? 'IMPORT WITH REPAIR' : 'WAITING FOR CONTENT',
+    importLabel: ready ? '可导入复习' : cards.length ? '先修补再导入' : '等待学习材料',
     nextActions: [
       missingTypes.length ? `补齐 ${missingTypes.join(' / ')} 卡型` : '覆盖 concept / step / trap / cloze',
       counts.transfer ? '已生成举一反三卡，可用于错题回访' : '如是错题，补一句错因会生成举一反三卡',
-      avgQuality < 76 ? '导入后运行 repair queue' : '直接进入 daily mission',
-      adapter.remoteReady ? '可切换远程 AI 增强' : '本地规则已可用，等待 API key 后增强'
+      avgQuality < 76 ? '导入后先做一次错因修补' : '直接进入每日轻回访',
+      adapter.remoteReady ? '可切换稳定服务增强' : '本地规则已可用，后续接入稳定服务后增强'
     ]
   });
 }
@@ -2057,7 +2057,7 @@ function syncStatus() {
     diagnostics,
     label: diagnostics && diagnostics.pending
       ? diagnostics.label
-      : (state.last_error ? `同步失败：${state.last_error}` : (hasCloudSession ? '多设备连续性已连接。' : '本地记录已就绪，完成账号和服务配置后可开启多设备连续性。'))
+      : (state.last_error ? `同步失败：${state.last_error}` : (hasCloudSession ? '多端连续记录已连接。' : '本机记录已就绪，多端连续记录开通后会自动承接。'))
   };
 }
 
@@ -2417,9 +2417,9 @@ function deckMaintenancePlan(summary) {
   if (sync.pending > 0) {
     actions.push({
       id: 'sync_queue',
-      title: 'Flush local sync queue',
+      title: '整理待承接记录',
       count: Number(sync.pending || 0),
-      reason: 'Keep local study evidence ready for cloud replay.'
+      reason: '先把本机学习证据留好，后续连续记录可继续承接。'
     });
   }
   return {
@@ -2469,7 +2469,7 @@ function dailyMissionCenter(summary) {
   return {
     missions,
     primary,
-    label: primary ? `Start with ${primary.title.toLowerCase()}.` : 'Start the daily mission.'
+    label: primary ? `先从「${primary.title}」开始。` : '先完成今天的轻回访。'
   };
 }
 
@@ -2545,7 +2545,7 @@ function studySeason(summary) {
     streakShield,
     lives: Number(loop.lives || 0),
     target: Math.max(60, Number(goal.target || 1) * 18),
-    checkpoint: challenge.title || 'Finish the daily mission',
+    checkpoint: challenge.title || '完成今天的轻回访',
     status: weekXp >= 100 ? 'Season target cleared.' : `${Math.max(0, 100 - weekXp)}% to the weekly checkpoint.`
   };
 }
@@ -2713,12 +2713,12 @@ function socialChallengeShell(summary) {
     }
   ];
   return {
-    title: 'LOCAL CHALLENGE LOOP',
+    title: '本机轻挑战',
     mode: 'local_preview_cloud_ready',
     inviteCode: '',
     dailyPrompt: challenge.title || 'Finish today mission',
     missions,
-    label: 'Only local progress is shown until production cloud sync is configured.'
+    label: '当前只展示本机进展，多端连续记录开通后再合并显示。'
   };
 }
 
@@ -2775,18 +2775,18 @@ function gameEconomy(summary) {
   const season = safe.season || {};
   const challenge = safe.socialChallenge || {};
   const quests = [
-    { id: 'daily', title: 'Daily 5-minute recall', reward: '+12 review points', trigger: 'finish daily goal', ready: !!safe.goal },
-    { id: 'boss', title: 'Wrong-cause boss battle', reward: '+1 life', trigger: 'clear one leech or repair card', ready: Number(safe.leeches || 0) >= 0 },
-    { id: 'quiz', title: 'Local quiz checkpoint', reward: '+8 review points', trigger: 'complete a real-card quiz', ready: !!challenge },
-    { id: 'season', title: 'Weekly season checkpoint', reward: 'tier progress', trigger: 'earn weekly review points', ready: !!season }
+    { id: 'daily', title: '每日 5 分钟回忆', reward: '+12 学习记录', trigger: '完成今日小目标', ready: !!safe.goal },
+    { id: 'boss', title: '错因修补关', reward: '+1 次鼓励记录', trigger: '修掉一张顽固卡或错因卡', ready: Number(safe.leeches || 0) >= 0 },
+    { id: 'quiz', title: '本机小测检查', reward: '+8 学习记录', trigger: '完成一次真实卡片小测', ready: !!challenge },
+    { id: 'season', title: '每周进展节点', reward: '进度提升', trigger: '积累本周学习记录', ready: !!season }
   ];
   return {
-    title: 'LOCAL GAME ECONOMY',
+    title: '本机轻练习激励',
     lives: Number(loop.lives || 0),
-    tier: season.tier || 'Bronze',
+    tier: season.tier || '起步',
     quests,
     ready: quests.filter((item) => item.ready).length,
-    label: 'Game loop is local-first: daily recall, repair boss, quiz checkpoint, weekly season.'
+    label: '轻练习只围绕每日回忆、错因修补、小测检查和每周进展，不做交易或付费激励。'
   };
 }
 
@@ -2807,7 +2807,7 @@ function outcomeSimulator(summary) {
     projected: [
       { horizon: 'Tonight', metric: 'must-do clarity', value: clampScore(55 + Math.min(25, quality / 4)), note: 'Based on content quality and tutor/review loop.' },
       { horizon: '7 days', metric: 'recall stability', value: clampScore(45 + loopPower * 0.45), note: 'Assumes daily review completion.' },
-      { horizon: '21 days', metric: 'weak-cause repair', value: clampScore(40 + loopPower * 0.5 - Math.min(10, repairLoad)), note: 'Assumes leech and repair queue are handled.' }
+      { horizon: '21 天', metric: '错因修补', value: clampScore(40 + loopPower * 0.5 - Math.min(10, repairLoad)), note: '假设顽固卡和错因修补能按时处理。' }
     ],
     label: 'This is a product planning estimate, not a score-improvement promise.'
   };
@@ -2879,7 +2879,7 @@ function syntheticCohortLab(summary) {
     {
       id: 'steady',
       title: 'Steady user',
-      assumption: '5 reviews/day, daily mission, one repair/week',
+      assumption: '每天 5 次回忆、一次轻回访、每周一次错因修补',
       clarity: clampScore(base * 0.88),
       retention: clampScore(base * 0.82),
       fatigue: 'balanced'
@@ -2894,10 +2894,10 @@ function syntheticCohortLab(summary) {
     }
   ];
   return {
-    title: 'SYNTHETIC COHORT LAB',
+    title: '本机假设校准',
     mode: 'simulated_assumptions',
     cohorts,
-    label: 'Synthetic cohorts help design defaults before production data; they are not real outcome claims.'
+    label: '这些是假设校准，用来调整默认节奏，不作为真实学习结果承诺。'
   };
 }
 
@@ -3043,7 +3043,7 @@ function maturityScore(summary) {
         + (safe.publicDeckTemplates && safe.publicDeckTemplates.length >= 3 ? 8 : 0)
         + (safe.avgQuality >= 70 ? 15 : safe.avgQuality >= 60 ? 8 : 0)
       ),
-      gap: 'Need model-backed generation, rubric judging, and multi-format ingestion after API keys.'
+      gap: '需要稳定生成、评分规则和多格式材料导入后再扩大。'
     },
     {
       id: 'self_repair',
@@ -3076,7 +3076,7 @@ function maturityScore(summary) {
     },
     {
       id: 'cloud_sync',
-      label: '账号连续性准备度',
+      label: '多端连续记录准备度',
       score: clampScore(
         30
         + (diagnostics.schemaVersion ? 15 : 0)
@@ -3085,7 +3085,7 @@ function maturityScore(summary) {
         + (sync.readyForCloud ? 10 : 0)
         + (sync.lastError ? -10 : 0)
       ),
-      gap: 'Need authenticated backend, real cloud persistence, and conflict replay tests.'
+      gap: '需要真实会话、连续记录承接和冲突恢复测试后再开放。'
     },
     {
       id: 'family_outcome',
@@ -3100,18 +3100,18 @@ function maturityScore(summary) {
         + (health.retention >= 70 ? 10 : 0)
         + (safe.leeches >= 0 ? 6 : 0)
       ),
-      gap: 'Need before/after score evidence, parent feedback, and school-term cohorts.'
+      gap: '需要前后测证据、家长反馈和学期样本后再判断。'
     },
     {
       id: 'miniapp_production',
-      label: 'Miniapp production',
+      label: '小程序上线准备',
       score: clampScore(
         70
         + (sync.readyForCloud ? 10 : 0)
         + (content.endpointReady ? 10 : 0)
         + (safe.total > 0 ? 10 : 0)
       ),
-      gap: 'Blocked only by real AppID, configured domain, and production API keys.'
+      gap: '仅剩真实 AppID、合法域名和稳定服务接入后可进入上传提审。'
     }
   ];
   const overall = clampScore(dimensions.reduce((sum, item) => sum + item.score, 0) / dimensions.length);
@@ -3124,9 +3124,9 @@ function maturityScore(summary) {
     label: overall >= 90
       ? '本机闭环已接近可试用状态。'
       : overall >= 75
-        ? 'Strong local prototype; production data will decide the next jump.'
-        : 'Core loop exists; biggest lift is real AI/data/cloud integration.',
-    nextBet: weakest[0] ? weakest[0].gap : 'Keep collecting real learning evidence.'
+        ? '本机闭环已经较完整，下一步要看真实家庭连续使用记录。'
+        : '核心闭环已经存在，下一步重点是提高真实辅导质量和长期记录连续性。',
+    nextBet: weakest[0] ? weakest[0].gap : '继续积累真实学习证据。'
   };
 }
 
@@ -3170,14 +3170,14 @@ function commercialReadiness(summary) {
   const contentLoopFeatures = [
     featureHit(hasCoreCardTypes, 14, 'concept/step/trap/cloze card engine exists', 'Add reliable AI generation for every card type.'),
     featureHit(hasModulePack, 10, 'module content can become review packs', 'Convert more learning modules and prompts into instant decks.'),
-    featureHit(hasRepair, 12, 'local repair engine can improve weak cards', 'Use model-backed rubric repair after API key.'),
+    featureHit(hasRepair, 12, '本机错因修复已能处理薄弱卡片', '接入稳定评分规则后再扩展复杂修复。'),
     featureHit(hasQuizLoop, 10, 'quiz attempts feed memory scheduling and repair', 'Add timed tests and richer answer checking.'),
     featureHit(hasGameLoop, 14, 'challenge/mission/learning-record loop exists', 'Add richer streak quests and seasonal checkpoints.'),
-    featureHit(hasLeaderboard, 8, 'local progress snapshot exists', 'Keep multi-user ranking hidden until production login/cloud exist.'),
-    featureHit(false, 12, '', '外部材料接入需要先配置上传、解析和家长确认服务。'),
-    featureHit(hasShareLibrary, 10, 'local share-ready deck library exists', 'Add shared/public deck library and community graph.'),
-    featureHit(hasTutorLoop || hasWeakLoop, 10, hasThinkingProof ? 'homework/radar/tutor/thinking-proof loop exists' : 'homework/radar/tutor loop exists', 'Collect more real study sessions for personalization.'),
-    featureHit(sync.readyForCloud, 10, 'sync protocol is cloud-ready', 'Connect authenticated production sync.')
+    featureHit(hasLeaderboard, 8, '本机进展快照已存在', '多人排行等强社交功能先保持隐藏，等连续记录稳定后再开放。'),
+    featureHit(false, 12, '', '外部材料接入需要先完成上传、解析和家长确认链路。'),
+    featureHit(hasShareLibrary, 10, '本机分享卡片库已存在', '后续再扩展共享素材库。'),
+    featureHit(hasTutorLoop || hasWeakLoop, 10, hasThinkingProof ? '作业、雷达、点拨和思路记录已连通' : '作业、雷达和点拨已连通', '继续收集真实学习记录，提高个性化质量。'),
+    featureHit(sync.readyForCloud, 10, '连续记录协议已就绪', '开通真实会话后再做多端承接。')
   ];
   const memoryLoopFeatures = [
     featureHit(safe.deck && safe.deck.fsrsVersion, 18, 'spaced scheduling state is stored', 'Tune scheduling parameters from real review history.'),
@@ -3186,9 +3186,9 @@ function commercialReadiness(summary) {
     featureHit(hasReverse && hasCloze, 12, 'reverse and cloze cards exist', 'Add richer note templates and card-type controls.'),
     featureHit((safe.queue && safe.queue.buried >= 0) && safe.suspended >= 0, 10, 'bury/suspend card controls exist', 'Add bulk browser operations and deck maintenance tools.'),
     featureHit(safe.progress && safe.progress.mastered >= 0, 10, 'mastery and practice history exists', 'Add retention analytics over months.'),
-    featureHit(sync.readyForCloud, 10, 'sync protocol is cloud-ready', 'Add production multi-device conflict replay.'),
-    featureHit(false, 8, '', 'Add structured import/export for external learning materials.'),
-    featureHit(false, 10, '', 'Add plugin/add-on style extension surface later.')
+    featureHit(sync.readyForCloud, 10, '连续记录协议已就绪', '补齐多端冲突恢复测试。'),
+    featureHit(false, 8, '', '后续再补结构化导入和导出。'),
+    featureHit(false, 10, '', '后续再扩展插件式能力。')
   ];
   const products = [
     {

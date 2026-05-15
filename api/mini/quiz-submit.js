@@ -20,16 +20,16 @@ async function readRequest(req) {
 
 export default async function handler(req) {
     if (req.method === 'OPTIONS') return json({}, 204);
-    if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: 'Only POST is allowed.' }, 405);
+    if (req.method !== 'POST') return json({ ok: false, error: 'method_not_allowed', message: '只接收 POST 请求。' }, 405);
 
     const limited = rateLimit(clientRateKey(req, 'mini:quiz-submit'), 300);
-    if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: 'Too many quiz submissions.' }, 429);
+    if (!limited.ok) return json({ ok: false, error: 'rate_limited', message: '请求过于频繁，请稍后再试。' }, 429);
 
     const env = (typeof process !== 'undefined' && process.env) || {};
     const sessionHeader = req.headers.get('x-mini-session') || '';
     if (sessionHeader) {
         const session = await verifySession(sessionHeader, sessionSecret(env));
-        if (!session.ok) return json({ ok: false, error: 'bad_session', message: 'Mini session is invalid.' }, 401);
+        if (!session.ok) return json({ ok: false, error: 'bad_session', message: '小程序会话无效，请重新进入页面。' }, 401);
     }
 
     const body = await readRequest(req);

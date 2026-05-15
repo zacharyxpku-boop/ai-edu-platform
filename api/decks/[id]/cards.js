@@ -54,7 +54,7 @@ export default async function handler(req) {
             action_required: 'account_service_configuration'
         },
         source: cards.length ? 'request_material' : 'empty_without_service_cards',
-        message: cards.length ? '' : '请从小程序本机记录或已配置的账号服务传入真实卡片；接口不会生成假卡组。',
+        message: cards.length ? '' : '请从本机学习记录传入真实卡片；接口不会生成假卡组。',
         engine_version: 'deck-cards-v1'
     });
 }
