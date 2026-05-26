@@ -16,7 +16,7 @@
     "test:links": "node scripts/check-static-links.cjs",
     "test:encoding": "node scripts/check-miniapp-encoding.cjs",
     "check:boundaries": "node scripts/check-product-boundaries.cjs",
-    "web:check": "node apps/web/scripts/check-web-surface.cjs && node apps/web/scripts/check-web-interactions.cjs && node apps/web/scripts/check-official-preview.cjs",
+    "web:check": "node apps/web/scripts/check-web-surface.cjs && node apps/web/scripts/check-web-interactions.cjs && node apps/web/scripts/check-web-layout.cjs && node apps/web/scripts/check-official-preview.cjs",
     "web:dev": "http-server apps/web -p 3001 -c-1",
     "web:dev:site": "http-server . -p 3002 -c-1",
     "web:capture": "node apps/web/scripts/capture-web-preview.cjs",
