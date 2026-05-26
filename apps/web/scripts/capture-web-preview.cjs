@@ -169,6 +169,8 @@ async function waitForJson(endpoint, timeoutMs = 10000) {
 function startChrome(chrome, userDataDir, debugPort) {
   const args = [
     headlessMode,
+    '--no-sandbox',
+    '--single-process',
     '--disable-gpu',
     '--disable-gpu-compositing',
     '--disable-software-rasterizer',
@@ -262,8 +264,14 @@ async function capturePage(chrome, base, page, viewport, suffix) {
   const outputPath = path.join(outDir, filename);
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yuandian-web-capture-'));
   const args = [
-    '--headless=new',
+    headlessMode,
+    '--no-sandbox',
     '--disable-gpu',
+    '--disable-gpu-sandbox',
+    '--disable-gpu-compositing',
+    '--disable-accelerated-2d-canvas',
+    '--disable-accelerated-video-decode',
+    '--disable-features=UseSkiaRenderer,VizDisplayCompositor,GpuRasterization,Vulkan',
     '--disable-extensions',
     '--disable-background-networking',
     '--disable-default-apps',
