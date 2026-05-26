@@ -17,6 +17,7 @@ Run from the source repo:
 
 ```bash
 npm.cmd run web:acceptance
+npm.cmd run web:acceptance:visual
 npm.cmd run web:prepare:deploy
 ```
 
@@ -32,6 +33,8 @@ Switch into that bundle and run:
 npm.cmd run web:acceptance
 npm.cmd run web:deploy:check
 ```
+
+`web:acceptance` is the stable structural gate. `web:acceptance:visual` adds local Chrome screenshot capture for machines where headless Chrome is healthy. If local Chrome fails with GPU or DevTools errors, use the Codex in-app browser to capture `/app#home`, `/app#upload`, `/app#report`, `/app#tutor`, `/app#review`, and `/app#parent`, then keep `web:acceptance` plus `web:live:check` as the deploy gate.
 
 If `web:deploy:check` fails only on Vercel auth, log in:
 
