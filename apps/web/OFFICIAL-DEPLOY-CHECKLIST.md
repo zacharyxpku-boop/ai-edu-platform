@@ -81,6 +81,12 @@ Until that passes, the official Web app is not live.
 
 If `/app` is live but `/` still shows the old homepage, Cloudflare is serving a stale root document. Confirm this by checking whether a cache-busted URL such as `https://yuandianzhixue.com/?v=1` contains the `/app` entry while `https://yuandianzhixue.com/` does not.
 
+The automated source check does that with cache-busting enabled:
+
+```bash
+npm.cmd run web:live:source-check
+```
+
 The repo includes a targeted purge command:
 
 ```bash

@@ -2,7 +2,9 @@
 'use strict';
 
 const DEFAULT_ORIGIN = 'https://yuandianzhixue.com';
-const origin = (process.env.WEB_LIVE_ORIGIN || process.argv[2] || DEFAULT_ORIGIN).replace(/\/$/, '');
+const cacheBust = process.argv.includes('--cache-bust') || process.env.WEB_LIVE_CACHE_BUST === '1';
+const originArg = process.argv.slice(2).find((arg) => arg && !arg.startsWith('--'));
+const origin = (process.env.WEB_LIVE_ORIGIN || originArg || DEFAULT_ORIGIN).replace(/\/$/, '');
 
 const checks = [
   {
@@ -48,7 +50,7 @@ const checks = [
 ];
 
 async function fetchCheck(check) {
-  const url = `${origin}${check.path}`;
+  const url = `${origin}${check.path}${cacheBust ? `${check.path.includes('?') ? '&' : '?'}v=${Date.now()}` : ''}`;
   const response = await fetch(url, {
     redirect: 'follow',
     headers: {
@@ -91,12 +93,12 @@ async function main() {
 
   if (failures.length) {
     console.error('');
-    console.error(`Official live Web app check failed for ${origin}.`);
+    console.error(`Official live Web app check failed for ${origin}${cacheBust ? ' with cache-busting enabled' : ''}.`);
     process.exit(1);
   }
 
   console.log('');
-  console.log(`Official live Web app check passed for ${origin}.`);
+  console.log(`Official live Web app check passed for ${origin}${cacheBust ? ' with cache-busting enabled' : ''}.`);
 }
 
 main().catch((error) => {
