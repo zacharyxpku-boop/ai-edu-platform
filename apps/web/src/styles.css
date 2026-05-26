@@ -36,6 +36,7 @@ a { color: inherit; text-decoration: none; }
   min-height: 100vh;
   display: grid;
   grid-template-columns: 224px minmax(0, 1fr);
+  overflow-x: hidden;
 }
 
 .side-rail {
@@ -101,29 +102,52 @@ a { color: inherit; text-decoration: none; }
   width: var(--size);
   height: var(--size);
   position: relative;
-  border-radius: 28px;
-  background: #fffdf4 url("../assets/brand/gudian-mascot.png") center / contain no-repeat;
+  border-radius: 44% 44% 48% 48%;
+  background:
+    radial-gradient(circle at 30% 27%, rgba(255,255,255,.78) 0 10%, transparent 10.8%),
+    radial-gradient(circle at 39% 44%, #17303a 0 4.7%, transparent 5.3%),
+    radial-gradient(circle at 61% 44%, #17303a 0 4.7%, transparent 5.3%),
+    radial-gradient(circle at 50% 57%, #ffba45 0 7%, transparent 7.7%),
+    radial-gradient(ellipse at 50% 49%, #fff0c9 0 38%, transparent 39%),
+    conic-gradient(from 210deg at 52% 52%, #079645, #23bf58, #78df78, #22b85a, #078b40, #079645);
   box-shadow:
-    0 16px 28px rgba(35, 130, 64, .12),
-    inset 0 0 0 1px rgba(232, 239, 224, .88);
+    inset 0 -13px 0 rgba(8, 86, 41, .14),
+    inset 10px 9px 18px rgba(255,255,255,.2),
+    0 18px 30px rgba(35, 130, 64, .14);
 }
 
 .mascot::before {
-  content: none;
+  content: "";
+  position: absolute;
+  left: calc(var(--size) * .46);
+  top: calc(var(--size) * -.055);
+  width: calc(var(--size) * .18);
+  height: calc(var(--size) * .23);
+  border-radius: 90% 0 90% 0;
+  background: linear-gradient(135deg, #7bdc52, #31b946);
+  transform: rotate(23deg);
+  box-shadow: inset 3px 2px 0 rgba(255,255,255,.18);
 }
 
 .mascot::after {
-  content: none;
+  content: "";
+  position: absolute;
+  right: calc(var(--size) * -.045);
+  top: calc(var(--size) * .37);
+  width: calc(var(--size) * .245);
+  height: calc(var(--size) * .245);
+  border-radius: 50%;
+  background: #fff0bf;
+  box-shadow: inset 0 -3px 0 rgba(120, 88, 39, .08);
 }
 
 .mascot-side {
-  --size: 128px;
+  --size: 112px;
 }
 
 .mascot-hero {
-  --size: 128px;
-  flex: 0 0 128px;
-  background: #fffdf4 url("../assets/brand/gudian-mascot-study.png") center / contain no-repeat;
+  --size: 118px;
+  flex: 0 0 118px;
 }
 .mascot-report { --size: 112px; justify-self: center; }
 .mascot-tutor { --size: 132px; justify-self: center; }
@@ -192,12 +216,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .topbar {
-  height: 76px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 0 28px 0 36px;
+  padding: 0 24px 0 32px;
   background: rgba(255,255,255,.78);
   border-bottom: 1px solid rgba(223, 230, 225, .8);
   backdrop-filter: blur(18px);
@@ -301,12 +325,13 @@ a { color: inherit; text-decoration: none; }
 
 .page-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 332px;
-  gap: 18px;
-  padding: 22px 22px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  padding: 20px 22px;
+  overflow: hidden;
 }
 
-.content-panel { min-width: 0; }
+.content-panel, .right-rail { min-width: 0; }
 .card, .rail-card, .entry-card {
   background: rgba(255,255,255,.94);
   border: 1px solid rgba(222, 231, 225, .9);
@@ -334,33 +359,33 @@ a { color: inherit; text-decoration: none; }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(420px, 1fr) 360px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
   align-items: stretch;
 }
 
 h1 {
   margin: 0;
-  font-size: 38px;
+  font-size: 34px;
   line-height: 1.18;
   letter-spacing: 0;
 }
 
 .hero-copy {
-  padding: 10px 0 4px 22px;
+  padding: 8px 0 2px 18px;
   min-width: 0;
 }
 
 .hero-copy h1 {
   display: inline-block;
   position: relative;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .hero-copy h1::after {
   content: "";
   position: absolute;
-  left: 210px;
+  left: 178px;
   right: 10px;
   bottom: -3px;
   height: 8px;
@@ -373,20 +398,20 @@ h1 {
 .buddy-message {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
 }
 
 .buddy-message p {
-  flex: 0 0 300px;
-  max-width: 300px;
+  flex: 0 0 280px;
+  max-width: 280px;
   margin: 0;
-  padding: 22px 24px;
+  padding: 20px 22px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 22px;
   box-shadow: var(--shadow);
-  font-size: 17px;
-  line-height: 1.72;
+  font-size: 16px;
+  line-height: 1.68;
   font-weight: 650;
 }
 
@@ -405,7 +430,7 @@ h1 {
 .card-head a, .card-head span { color: var(--muted); font-weight: 700; font-size: 14px; }
 
 .report-preview {
-  padding: 16px 18px;
+  padding: 14px 16px;
 }
 
 .preview-body {
@@ -417,12 +442,12 @@ h1 {
 
 .radar {
   position: relative;
-  height: 178px;
+  height: 158px;
 }
 
 .radar svg {
   width: 100%;
-  height: 156px;
+  height: 138px;
   overflow: visible;
 }
 
@@ -477,15 +502,15 @@ h1 {
 .entry-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 14px;
 }
 
 .entry-card {
-  min-height: 138px;
+  min-height: 126px;
   position: relative;
   display: block;
-  padding: 18px 18px 46px;
+  padding: 16px 16px 42px;
   text-align: left;
   border: 1px solid #e0e9e2;
   overflow: hidden;
@@ -496,7 +521,7 @@ h1 {
 .entry-card > div:not(:first-child) {
   position: relative;
   z-index: 2;
-  max-width: 176px;
+  max-width: calc(100% - 78px);
 }
 .entry-card strong {
   display: inline-grid;
@@ -510,8 +535,8 @@ h1 {
   line-height: 1;
   font-weight: 900;
 }
-.entry-card h2 { margin: 10px 0 7px; font-size: 21px; line-height: 1.16; }
-.entry-card p { margin: 0; color: #687581; line-height: 1.48; font-size: 13px; }
+.entry-card h2 { margin: 9px 0 6px; font-size: 19px; line-height: 1.16; }
+.entry-card p { margin: 0; color: #687581; line-height: 1.45; font-size: 12px; }
 .entry-card .jump {
   position: absolute;
   right: 18px;
@@ -559,14 +584,14 @@ h1 {
 .entry-card.sage { background: linear-gradient(135deg, #fff, #f0f8e9); }
 
 .folder-art, .paper-art, .bot-art, .game-art, .map-art, .family-art {
-  width: 92px;
-  height: 98px;
+  width: 84px;
+  height: 90px;
   position: absolute;
-  right: 12px;
-  bottom: 12px;
-  transform: scale(.66);
+  right: 8px;
+  bottom: 10px;
+  transform: scale(.58);
   transform-origin: left center;
-  opacity: .72;
+  opacity: .54;
   z-index: 1;
 }
 
@@ -731,7 +756,7 @@ h1 {
 .map-art b { position: absolute; right: 26px; top: 28px; width: 18px; height: 42px; background: #f25f3a; border-radius: 3px; }
 
 .learning-route {
-  margin-top: 16px;
+  margin-top: 14px;
   padding: 16px 18px 18px;
 }
 
@@ -786,7 +811,7 @@ h1 {
 }
 
 .rail-card {
-  padding: 16px 18px;
+  padding: 15px 16px;
 }
 
 .progress-summary {
@@ -1923,11 +1948,11 @@ h1 {
   .guide-button { height: 44px; }
   .topbar { height: 72px; }
   .page-layout { padding-top: 22px; padding-bottom: 20px; }
-  h1 { font-size: 38px; }
-  .hero-copy h1 { margin-bottom: 22px; }
-  .mascot-hero { --size: 132px; flex-basis: 132px; }
-  .buddy-message p { padding: 22px; font-size: 17px; line-height: 1.65; }
-  .entry-card { min-height: 154px; padding-top: 16px; padding-bottom: 16px; }
+  h1 { font-size: 34px; }
+  .hero-copy h1 { margin-bottom: 18px; }
+  .mascot-hero { --size: 118px; flex-basis: 118px; }
+  .buddy-message p { padding: 20px 22px; font-size: 16px; line-height: 1.65; }
+  .entry-card { min-height: 126px; padding: 16px 16px 42px; }
   .learning-route { padding-top: 14px; padding-bottom: 14px; }
   .route-line button { min-height: 64px; }
   .rail-card { padding: 16px 18px; }
@@ -1984,7 +2009,7 @@ h1 {
   .right-rail { grid-template-columns: 1fr; }
   h1, .page-title h1 { font-size: 30px; }
   .hero-grid { grid-template-columns: minmax(0, 1fr); }
-  .hero-copy { padding: 0; }
+  .hero-copy { width: 100%; min-width: 0; padding: 0; overflow: hidden; }
   .buddy-message {
     display: grid;
     grid-template-columns: 1fr;
@@ -2006,13 +2031,19 @@ h1 {
     display: block;
   }
   .mobile-launchboard {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     margin: 4px 0 18px;
   }
   .mobile-launchboard button {
-    min-height: 76px;
+    flex: 1 1 calc(50% - 5px);
+    max-width: calc(50% - 5px);
+    min-width: 0;
+    min-height: 58px;
     display: grid;
     align-content: center;
     justify-items: start;
@@ -2039,6 +2070,8 @@ h1 {
     font-size: 13px;
     font-weight: 900;
     line-height: 1.2;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .report-preview .card-head a { display: none; }
   .radar { overflow: hidden; }
