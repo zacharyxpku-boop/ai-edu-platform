@@ -361,6 +361,76 @@ async function inspectNavigation(debugPort, base) {
   return failures;
 }
 
+async function inspectActions(debugPort, base) {
+  const target = await newTarget(debugPort);
+  const cdp = cdpSocket(target.webSocketDebuggerUrl);
+  const failures = [];
+
+  async function navigate(page) {
+    await cdp.send('Page.navigate', { url: `${base}${routeBasePath}/#${page}` });
+    await waitForApp(cdp, page);
+    await wait(150);
+  }
+
+  async function clickAction(page, selector, label, beforeClickExpression = '') {
+    await navigate(page);
+    if (beforeClickExpression) {
+      await cdp.send('Runtime.evaluate', { expression: beforeClickExpression });
+    }
+    const clickResult = await cdp.send('Runtime.evaluate', {
+      returnByValue: true,
+      expression: `(() => {
+        const target = document.querySelector(${JSON.stringify(selector)});
+        if (!target) return { clicked: false, reason: 'missing target' };
+        const rect = target.getBoundingClientRect();
+        if (rect.width < 1 || rect.height < 1) return { clicked: false, reason: 'target has no visible size' };
+        target.click();
+        return { clicked: true };
+      })()`
+    });
+    if (!clickResult.result.value.clicked) {
+      failures.push(`${label}: ${clickResult.result.value.reason}`);
+      return;
+    }
+    await wait(350);
+    const toastResult = await cdp.send('Runtime.evaluate', {
+      returnByValue: true,
+      expression: `(() => {
+        const toast = document.querySelector('#webToast.show');
+        return toast ? toast.textContent.trim() : '';
+      })()`
+    });
+    if (!toastResult.result.value) {
+      failures.push(`${label}: expected visible toast feedback`);
+      return;
+    }
+    console.log(`OK action ${label}: ${toastResult.result.value}`);
+  }
+
+  try {
+    await cdp.send('Page.enable');
+    await cdp.send('Runtime.enable');
+    await cdp.send('Emulation.setDeviceMetricsOverride', {
+      width: 390,
+      height: 844,
+      deviceScaleFactor: 1,
+      mobile: true
+    });
+
+    await clickAction('upload', '[data-action="mock-upload"]', 'upload mock');
+    await clickAction('upload', '[data-action="select-material"]', 'select material');
+    await clickAction('report', '[data-action="share-report"]', 'share report');
+    await clickAction('tutor', '[data-action="send-tutor"]', 'send tutor thought', "document.querySelector('#tutorInput').value = '先算每组多少根'");
+    await clickAction('tutor', '[data-action="tutor-hint"]', 'tutor hint');
+    await clickAction('review', '[data-action="start-review"]', 'start review');
+    await clickAction('parent', '[data-action="parent-question"]', 'parent question');
+  } finally {
+    cdp.close();
+  }
+
+  return failures;
+}
+
 async function main() {
   const chrome = findChrome();
   const server = createServer();
@@ -407,6 +477,7 @@ async function main() {
     }
 
     failures.push(...await inspectNavigation(activeDebugPort, base));
+    failures.push(...await inspectActions(activeDebugPort, base));
 
     if (failures.length) {
       console.error('Web layout check failed:');
