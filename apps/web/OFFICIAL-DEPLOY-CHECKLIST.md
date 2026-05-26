@@ -76,3 +76,18 @@ This verifies:
 - brand image assets load
 
 Until that passes, the official Web app is not live.
+
+## Cloudflare Cache
+
+If `/app` is live but `/` still shows the old homepage, Cloudflare is serving a stale root document. Confirm this by checking whether a cache-busted URL such as `https://yuandianzhixue.com/?v=1` contains the `/app` entry while `https://yuandianzhixue.com/` does not.
+
+The repo includes a targeted purge command:
+
+```bash
+set CLOUDFLARE_API_TOKEN=...
+set CLOUDFLARE_ZONE_ID=...
+npm.cmd run web:cache:purge
+npm.cmd run web:live:check
+```
+
+The token only needs permission to purge cache for the `yuandianzhixue.com` zone. The default purge list covers `/`, `/app`, the Web shell scripts/styles, and the two brand images checked by `web:live:check`.

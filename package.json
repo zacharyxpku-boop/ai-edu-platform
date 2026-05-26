@@ -26,6 +26,7 @@
     "web:deploy:check": "node apps/web/scripts/check-official-deploy-readiness.cjs",
     "web:deploy:prod": "node apps/web/scripts/deploy-official-web.cjs",
     "web:live:check": "node apps/web/scripts/check-live-official-app.cjs",
+    "web:cache:purge": "node apps/web/scripts/purge-cloudflare-cache.cjs",
     "test:track": "node scripts/test-track.cjs",
     "test:streak": "node scripts/test-streak-bar.cjs",
     "test:today-focus": "node scripts/test-today-focus.cjs",
