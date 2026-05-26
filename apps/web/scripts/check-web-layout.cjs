@@ -291,6 +291,76 @@ async function inspectPage(debugPort, base, page, viewport) {
   }
 }
 
+async function inspectNavigation(debugPort, base) {
+  const target = await newTarget(debugPort);
+  const cdp = cdpSocket(target.webSocketDebuggerUrl);
+  const routes = ['upload', 'report', 'tutor', 'review', 'parent', 'home'];
+  const failures = [];
+
+  async function navigateHome() {
+    await cdp.send('Page.navigate', { url: `${base}${routeBasePath}/#home` });
+    await waitForApp(cdp, 'home');
+    await wait(150);
+  }
+
+  async function clickAndWait(selector, expectedHash, label) {
+    const clickResult = await cdp.send('Runtime.evaluate', {
+      returnByValue: true,
+      expression: `(() => {
+        const nodes = Array.from(document.querySelectorAll(${JSON.stringify(selector)}));
+        const target = nodes.find((node) => {
+          const rect = node.getBoundingClientRect();
+          const style = getComputedStyle(node);
+          return rect.width > 1 && rect.height > 1 && style.display !== 'none' && style.visibility !== 'hidden';
+        });
+        if (!target) return false;
+        target.click();
+        return true;
+      })()`
+    });
+    if (!clickResult.result.value) {
+      failures.push(`${label}: clickable target not found (${selector})`);
+      return;
+    }
+    await waitForApp(cdp, expectedHash);
+    const hashResult = await cdp.send('Runtime.evaluate', {
+      returnByValue: true,
+      expression: 'location.hash'
+    });
+    if (hashResult.result.value !== `#${expectedHash}`) {
+      failures.push(`${label}: expected #${expectedHash}, got ${hashResult.result.value}`);
+    }
+  }
+
+  try {
+    await cdp.send('Page.enable');
+    await cdp.send('Runtime.enable');
+    await cdp.send('Emulation.setDeviceMetricsOverride', {
+      width: 390,
+      height: 844,
+      deviceScaleFactor: 1,
+      mobile: true
+    });
+
+    for (const route of routes.filter((route) => route !== 'home')) {
+      await navigateHome();
+      await clickAndWait(`[data-route="${route}"]`, route, `home entry to ${route}`);
+      console.log(`OK mobile navigation: home -> ${route}`);
+    }
+
+    for (const route of routes) {
+      await cdp.send('Page.navigate', { url: `${base}${routeBasePath}/#report` });
+      await waitForApp(cdp, 'report');
+      await clickAndWait(`.mobile-tabs a[href="#${route}"]`, route, `mobile tab to ${route}`);
+      console.log(`OK mobile tab: report -> ${route}`);
+    }
+  } finally {
+    cdp.close();
+  }
+
+  return failures;
+}
+
 async function main() {
   const chrome = findChrome();
   const server = createServer();
@@ -335,6 +405,8 @@ async function main() {
         console.log(`OK ${prefix}: ${result.title}`);
       }
     }
+
+    failures.push(...await inspectNavigation(activeDebugPort, base));
 
     if (failures.length) {
       console.error('Web layout check failed:');
