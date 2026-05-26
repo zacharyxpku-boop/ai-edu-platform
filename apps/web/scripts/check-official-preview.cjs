@@ -12,9 +12,10 @@ const checks = [
     path: '/',
     type: 'text/html',
     includes: [
-      'href="/app"',
-      '网页版体验',
-      '查看网页版原型'
+      '/apps/web/src/styles.css',
+      '/apps/web/src/app.js',
+      'name="web-app-asset-base" content="/apps/web/assets/brand"',
+      'class="app-shell"'
     ]
   },
   {
@@ -59,6 +60,16 @@ const checks = [
     path: '/apps/web/assets/brand/family-report.png',
     type: 'image/png',
     minBytes: 10000
+  },
+  {
+    path: '/apps/web/assets/brand/gudian-mascot-clean.png',
+    type: 'image/png',
+    minBytes: 1000
+  },
+  {
+    path: '/apps/web/assets/brand/gudian-mascot-study-clean.png',
+    type: 'image/png',
+    minBytes: 1000
   }
 ];
 

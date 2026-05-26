@@ -54,6 +54,10 @@ function main() {
   console.log('');
   console.log('Checking official domain: https://yuandianzhixue.com');
   run('npm.cmd', ['run', 'web:live:check']);
+
+  console.log('');
+  console.log('Checking official www domain: https://www.yuandianzhixue.com');
+  run('npm.cmd', ['run', 'web:live:check', '--', 'https://www.yuandianzhixue.com']);
 }
 
 try {

@@ -8,9 +8,9 @@ const origin = (process.env.WEB_LIVE_ORIGIN || originArg || DEFAULT_ORIGIN).repl
 
 const checks = [
   {
-    label: 'official homepage app entry',
+    label: 'official homepage app shell',
     path: '/',
-    mustInclude: ['href="/app"', '网页版体验', '查看网页版原型']
+    mustInclude: ['web-app-asset-base', '/apps/web/src/app.js', '/apps/web/src/styles.css', 'class="app-shell"']
   },
   {
     label: 'official app shell',
@@ -40,6 +40,16 @@ const checks = [
   {
     label: 'brand mascot',
     path: '/apps/web/assets/brand/gudian-mascot.png',
+    binary: true
+  },
+  {
+    label: 'brand mascot clean',
+    path: '/apps/web/assets/brand/gudian-mascot-clean.png',
+    binary: true
+  },
+  {
+    label: 'study mascot clean',
+    path: '/apps/web/assets/brand/gudian-mascot-study-clean.png',
     binary: true
   },
   {
