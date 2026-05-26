@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7fbf3" />
+    <meta name="web-app-asset-base" content="/apps/web/assets/brand" />
+    <title>原点智学 Web 预览</title>
+    <link rel="stylesheet" href="/apps/web/src/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-rail" aria-label="主导航">
+        <a class="brand-lockup" href="#home" aria-label="原点智学首页">
+          <span class="brand-mark">⬆</span>
+          <span>原点智学</span>
+        </a>
+
+        <section class="buddy-card">
+          <div class="mascot mascot-side" role="img" aria-label="咕点"></div>
+          <strong>咕点</strong>
+          <span>AI学习伙伴</span>
+        </section>
+
+        <nav class="nav-list" id="sideNav"></nav>
+
+        <a class="guide-button" href="#home">
+          <span>▶</span>
+          新手引导
+        </a>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <label class="search-box">
+            <span>⌕</span>
+            <input aria-label="搜索" placeholder="搜索知识点、报告、资料或功能" />
+          </label>
+          <div class="top-actions">
+            <button class="student-pill" type="button">
+              <span class="avatar boy">小</span>
+              小明（四年级）
+              <span>⌄</span>
+            </button>
+            <button class="bell" type="button" aria-label="通知">🔔<em>3</em></button>
+            <button class="family-pill" type="button">
+              <span class="family-face">👪</span>
+              <span><b>小明家</b><small>家庭版</small></span>
+              <span>⌄</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="page-layout">
+          <section class="content-panel" id="appContent" aria-live="polite"></section>
+          <aside class="right-rail" id="rightRail"></aside>
+        </div>
+      </main>
+    </div>
+
+    <nav class="mobile-tabs" id="mobileNav" aria-label="移动端导航"></nav>
+    <script type="module" src="/apps/web/src/app.js"></script>
+  </body>
+</html>

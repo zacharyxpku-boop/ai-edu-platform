@@ -1,0 +1,91 @@
+{
+  "surface": "web",
+  "name": "Yuandian Web / H5",
+  "purpose": "Render the same product loop as the miniapp on the official website without importing miniapp UI code.",
+  "designRule": "Keep brand language aligned with the miniapp, but implement Web layout, routing, responsive behavior, and export flows inside apps/web only.",
+  "sharedPackages": [
+    "packages/edu-core",
+    "packages/ui-contracts"
+  ],
+  "forbiddenSources": [
+    "miniprogram/**/*.wxml",
+    "miniprogram/**/*.wxss",
+    "miniprogram/pages/**",
+    "apps/app/**"
+  ],
+  "primaryEntries": [
+    {
+      "id": "home",
+      "label": "首页总览",
+      "path": "/",
+      "miniappParity": "pages/home/home",
+      "job": "Show the whole learning loop at a glance and route users into the next best action.",
+      "webAdaptation": "Desktop gets a left rail plus one main action panel; mobile gets a compact tab-like launch board."
+    },
+    {
+      "id": "upload",
+      "label": "上传资料",
+      "path": "/upload",
+      "miniappParity": "pages/upload/upload",
+      "job": "Classify talent reports, grades, wrong questions, school feedback, and parent notes.",
+      "webAdaptation": "Use larger drop zones, material cards, and a right-side evidence checklist."
+    },
+    {
+      "id": "report",
+      "label": "个性化报告",
+      "path": "/report",
+      "miniappParity": "pages/radar/radar + pages/profile/profile",
+      "job": "Explain evidence, talent-method fit, learning plan, and PDF export.",
+      "webAdaptation": "Use report chapters, visual evidence panels, and sticky export/share actions."
+    },
+    {
+      "id": "tutor",
+      "label": "AI私教",
+      "path": "/tutor",
+      "miniappParity": "pages/tutor/tutor",
+      "job": "Start with the first Socratic question and keep the answer-safe tutoring boundary.",
+      "webAdaptation": "Use a two-column tutor workspace: dialogue on the left, evidence and next action on the right."
+    },
+    {
+      "id": "review",
+      "label": "复习游戏",
+      "path": "/review",
+      "miniappParity": "pages/arcade/arcade + pages/review/review",
+      "job": "Validate memory, transfer, and wrong-cause repair through lightweight game loops.",
+      "webAdaptation": "Use one active challenge per screen, with progress, streak, and transfer prompts around it."
+    },
+    {
+      "id": "parent",
+      "label": "家长中心",
+      "path": "/parent",
+      "miniappParity": "pages/profile/profile",
+      "job": "Summarize evidence, reassurance, parent question, and next step.",
+      "webAdaptation": "Use a decision dashboard: what we know, what changed, what to do tonight."
+    }
+  ],
+  "releaseTracks": {
+    "website": {
+      "root": "apps/web",
+      "deploysFrom": "apps/web only",
+      "mustPass": [
+        "npm run check:boundaries",
+        "npm run web:check"
+      ]
+    },
+    "miniapp": {
+      "root": "miniprogram",
+      "deploysFrom": "miniprogram only",
+      "mustPass": [
+        "npm run miniapp:wxml-compile",
+        "npm run miniapp:fullcheck"
+      ]
+    },
+    "app": {
+      "root": "apps/app",
+      "deploysFrom": "apps/app only",
+      "mustPass": [
+        "npm run check:boundaries"
+      ]
+    }
+  }
+}
