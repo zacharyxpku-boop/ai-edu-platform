@@ -274,11 +274,26 @@ async function inspectPage(debugPort, base, page, viewport) {
             width: Math.round(rect.width)
           };
         }).filter(Boolean).slice(0, 8);
+        const inertControls = Array.from(document.querySelectorAll('button, a')).map((el) => {
+          const style = getComputedStyle(el);
+          const rect = el.getBoundingClientRect();
+          if (style.display === 'none' || style.visibility === 'hidden' || rect.width < 1 || rect.height < 1) return null;
+          const hasRoute = el.hasAttribute('data-route');
+          const hasAction = el.hasAttribute('data-action');
+          const hasHref = el.tagName.toLowerCase() === 'a' && el.hasAttribute('href');
+          if (hasRoute || hasAction || hasHref) return null;
+          return {
+            tag: el.tagName.toLowerCase(),
+            className: String(el.className || '').slice(0, 80),
+            text: (el.textContent || '').replace(/\\s+/g, ' ').trim().slice(0, 80)
+          };
+        }).filter(Boolean).slice(0, 8);
         return {
           title: document.querySelector('h1')?.textContent.trim() || '',
           required,
           scroll,
           offenders,
+          inertControls,
           mobileTabs: document.querySelectorAll('.mobile-tabs a').length,
           activeHash: location.hash
         };
@@ -422,8 +437,14 @@ async function inspectActions(debugPort, base) {
     await clickAction('report', '[data-action="share-report"]', 'share report');
     await clickAction('tutor', '[data-action="send-tutor"]', 'send tutor thought', "document.querySelector('#tutorInput').value = '先算每组多少根'");
     await clickAction('tutor', '[data-action="tutor-hint"]', 'tutor hint');
+    await clickAction('review', '[data-action="review-map-info"]', 'review map info');
+    await clickAction('review', '[data-action="review-level"][data-level="变式挑战"]', 'review level');
+    await clickAction('review', '[data-action="review-challenge"][data-level="变式挑战"]', 'review challenge');
     await clickAction('review', '[data-action="start-review"]', 'start review');
     await clickAction('parent', '[data-action="parent-question"]', 'parent question');
+    await clickAction('parent', '[data-action="parent-evidence"]', 'parent evidence');
+    await clickAction('parent', '[data-action="parent-evidence-all"]', 'parent evidence all');
+    await clickAction('parent', '[data-action="parent-methods"]', 'parent methods');
   } finally {
     cdp.close();
   }
@@ -471,6 +492,9 @@ async function main() {
         }
         if (viewport.mobile && result.offenders.length) {
           failures.push(`${prefix}: horizontal overflow ${JSON.stringify(result.offenders)}`);
+        }
+        if (result.inertControls.length) {
+          failures.push(`${prefix}: inert controls ${JSON.stringify(result.inertControls)}`);
         }
         console.log(`OK ${prefix}: ${result.title}`);
       }

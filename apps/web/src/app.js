@@ -238,7 +238,7 @@ function renderUpload() {
       </div>
     </section>
     <section class="material-types">
-      <div class="section-head"><h3>选择资料类型</h3><a>如何选择资料？</a></div>
+      <div class="section-head"><h3>选择资料类型</h3><button type="button" class="text-link" data-action="material-help">如何选择资料？</button></div>
       <div class="type-grid">
         ${types.map(([title, desc, tone]) => `<button class="type-card ${tone}" type="button" data-action="select-material" data-material="${title}"><i></i><b>${title}</b><span>${desc}</span><em></em></button>`).join('')}
       </div>
@@ -354,7 +354,7 @@ function renderTutor() {
         <label class="chat-input"><input id="tutorInput" placeholder="试着输入你的想法吧，咕点会一步步引导你思考~" /><button type="button" data-action="send-tutor">发送</button></label>
       </article>
       <article class="board-card card">
-        <div class="card-head"><h3>题目与思路板</h3><a>收起⌃</a></div>
+        <div class="card-head"><h3>题目与思路板</h3><button type="button" class="text-link" data-action="toggle-board">收起⌃</button></div>
         <div class="problem-box"><b>题目</b><p>学校买来84根跳绳，平均分给6个班，每个班分得几根？</p><div class="rope-art"></div></div>
         <div class="thinking-box"><b>我的思路</b><p>第一步：先算出每捆有多少根<br>84 ÷ 6 = ?（根）</p></div>
         <div class="hint-steps"><span class="active">提示1 我可以用什么方法来解决这道题？</span><span>提示2 要先解决什么问题？</span><span class="locked">提示3 除法算式应该怎么列？</span></div>
@@ -364,6 +364,13 @@ function renderTutor() {
 }
 
 function renderReview() {
+  const reviewLevels = ['回忆关','迁移关','变式挑战','连击复盘','综合挑战'];
+  const reviewChallenges = [
+    ['回忆关','快速回想课堂重点，牢固基础记忆','推荐','去挑战'],
+    ['迁移关','把知识用到新情境，提升灵活运用','','去挑战'],
+    ['变式挑战','变换题型与条件，突破易错点','当前','继续挑战'],
+    ['连击复盘','针对错题连击巩固，彻底搞懂错因','','去挑战']
+  ];
   return `
     <section class="review-head">
       <div><h1>🎮 复习游戏</h1><p>3分钟回访，把错因变成闯关挑战 ⭐</p></div>
@@ -371,19 +378,14 @@ function renderReview() {
     </section>
     ${pageGuide('review')}
     <section class="map-card card">
-      <div class="card-head"><h3>闯关进度：已完成 2/6 关</h3><button>地图说明</button></div>
+      <div class="card-head"><h3>闯关进度：已完成 2/6 关</h3><button type="button" data-action="review-map-info">地图说明</button></div>
       <div class="game-map">
-        ${['回忆关','迁移关','变式挑战','连击复盘','综合挑战'].map((name, index) => `<button class="level l${index + 1} ${index < 2 ? 'done' : index === 2 ? 'current' : 'locked'}"><b>${index + 1}</b><span>${name}</span></button>`).join('')}
+        ${reviewLevels.map((name, index) => `<button type="button" data-action="review-level" data-level="${name}" class="level l${index + 1} ${index < 2 ? 'done' : index === 2 ? 'current' : 'locked'}"><b>${index + 1}</b><span>${name}</span></button>`).join('')}
         <span class="treasure">🎁</span>
       </div>
     </section>
     <section class="challenge-grid">
-      ${[
-        ['回忆关','快速回想课堂重点，牢固基础记忆','推荐','去挑战'],
-        ['迁移关','把知识用到新情境，提升灵活运用','','去挑战'],
-        ['变式挑战','变换题型与条件，突破易错点','当前','继续挑战'],
-        ['连击复盘','针对错题连击巩固，彻底搞懂错因','','去挑战']
-      ].map(([title, desc, tag, action]) => `<article class="challenge card"><em>${tag}</em><h3>${title}</h3><p>${desc}</p><div class="stars">★★★</div><button>${action}</button></article>`).join('')}
+      ${reviewChallenges.map(([title, desc, tag, action]) => `<article class="challenge card">${tag ? `<em>${tag}</em>` : ''}<h3>${title}</h3><p>${desc}</p><div class="stars">★★★</div><button type="button" data-action="review-challenge" data-level="${title}">${action}</button></article>`).join('')}
     </section>
     <section class="play-now card"><img src="${asset('review-sprout.png')}" alt="" /><b>3分钟回访，错因变经验！</b><button class="primary-cta" type="button" data-action="start-review">▶ 开始今天的挑战</button><span>02:59</span></section>
   `;
@@ -397,11 +399,11 @@ function renderParent() {
     </section>
     ${pageGuide('parent')}
     <section class="parent-grid">
-      <article class="child-card card"><h3>孩子画像</h3><div class="child-row"><span class="avatar large">小</span><div><b>小明（四年级）</b><em>勤学乐思型</em><p>好奇心强，愿意尝试新方法，在理解力和表达上进步明显。</p></div></div><a>查看完整画像 ›</a></article>
+      <article class="child-card card"><h3>孩子画像</h3><div class="child-row"><span class="avatar large">小</span><div><b>小明（四年级）</b><em>勤学乐思型</em><p>好奇心强，愿意尝试新方法，在理解力和表达上进步明显。</p></div></div><button type="button" class="text-link" data-route="report">查看完整画像 ›</button></article>
       <article class="week-card card"><h3>本周进展</h3><div class="metric-row"><span>学习时长<b>5h36m</b><small>较上周 +18%</small></span><span>完成任务<b>16/20个</b><small>较上周 +2个</small></span><span>正确率<b>84%</b><small>较上周 +7%</small></span></div><p class="ok-line">本周达到目标，继续保持！💪</p></article>
-      <article class="evidence-list card"><h3>证据汇总</h3>${['上传资料 8份','生成报告 6份','说第一步 3次','AI私教提问 12次'].map((x) => `<p><span>✓</span>${x}<a>查看›</a></p>`).join('')}<button>查看全部证据</button></article>
+      <article class="evidence-list card"><h3>证据汇总</h3>${['上传资料 8份','生成报告 6份','说第一步 3次','AI私教提问 12次'].map((x) => `<p><span>✓</span>${x}<button type="button" class="text-link" data-action="parent-evidence" data-evidence="${x}">查看›</button></p>`).join('')}<button type="button" data-action="parent-evidence-all">查看全部证据</button></article>
       <article class="question-card card"><h3>今晚该问什么</h3><p>晚饭后10分钟，高效了解孩子的学习情况</p><ol><li>今天最有成就感的一件事是什么？</li><li>哪个地方你还不太明白，可以说给我听吗？</li><li>明天你想先解决哪一个小问题？</li></ol><button type="button" data-action="parent-question">换一组问题</button></article>
-      <article class="method-card card"><h3>方法建议</h3><ul><li>多用“追问”代替“告诉”。</li><li>把错题变成“资源”。</li><li>小目标加及时鼓励。</li></ul><a>查看全部方法建议 ›</a></article>
+      <article class="method-card card"><h3>方法建议</h3><ul><li>多用“追问”代替“告诉”。</li><li>把错题变成“资源”。</li><li>小目标加及时鼓励。</li></ul><button type="button" class="text-link" data-action="parent-methods">查看全部方法建议 ›</button></article>
       <article class="chart-card card"><h3>本周变化</h3><div class="line-chart"><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
     </section>
   `;
@@ -528,6 +530,18 @@ async function shareReport() {
 }
 
 function handleAction(action, target) {
+  if (action === 'student-menu') {
+    showToast('当前学生：小明（四年级），学习画像和报告已同步');
+    return;
+  }
+  if (action === 'notifications') {
+    showToast('3条提醒：报告已生成、今日回访待完成、家长摘要可查看');
+    return;
+  }
+  if (action === 'family-menu') {
+    showToast('家庭版已连接：家长中心可查看证据、进展和下一步');
+    return;
+  }
   if (action === 'mock-upload') {
     state.uploads.unshift({
       file: `${state.selectedMaterialType}_样例材料.pdf`,
@@ -543,6 +557,10 @@ function handleAction(action, target) {
   if (action === 'select-material') {
     state.selectedMaterialType = target.dataset.material || '学习材料';
     showToast(`已选择材料类型：${state.selectedMaterialType}`);
+    return;
+  }
+  if (action === 'material-help') {
+    showToast('优先上传天赋测评、成绩单、错题照片；没有测评也可以先用问卷补齐');
     return;
   }
   if (action === 'print-report') {
@@ -564,12 +582,34 @@ function handleAction(action, target) {
     showToast('已切换为第一步追问，不会直接给完整答案');
     return;
   }
+  if (action === 'toggle-board') {
+    showToast('题目板已保持展开，方便对照孩子的第一步想法');
+    return;
+  }
   if (action === 'start-review') {
     showToast('今日回访挑战已开始：先做回忆关，再做迁移关');
     return;
   }
+  if (action === 'review-map-info') {
+    showToast('地图按“回忆-迁移-变式-复盘”推进，灰色关卡完成前置后解锁');
+    return;
+  }
+  if (action === 'review-level' || action === 'review-challenge') {
+    const level = target.dataset.level || '当前关卡';
+    showToast(`已进入「${level}」，先做1道回忆题，再看迁移表现`);
+    return;
+  }
   if (action === 'parent-question') {
     showToast('已换成更适合今晚的家长提问');
+    return;
+  }
+  if (action === 'parent-evidence' || action === 'parent-evidence-all') {
+    const evidence = target.dataset.evidence || '全部证据';
+    showToast(`已打开「${evidence}」证据链摘要`);
+    return;
+  }
+  if (action === 'parent-methods') {
+    showToast('已打开家庭陪伴方法清单：追问、复盘、鼓励三步走');
   }
 }
 
