@@ -313,7 +313,7 @@ function normalizeEvidenceBias(input = {}) {
     '/pages/review/review',
     '/pages/arcade/arcade',
     '/pages/profile/profile',
-    '/pages/focus/focus',
+    '/pages/entry-detail/entry-detail?scene=today',
     '/pages/home/home'
   ];
   const route = allowedRoutes.includes(input.nextRoute) ? input.nextRoute : '/pages/tutor/tutor';
@@ -361,7 +361,7 @@ function buildDailyQuestSet(profile = {}, cards = [], events = [], options = {})
       target: 1,
       progress: Number(profile.focus_rounds_today || profile.focusRoundsToday || 0) > 0 ? 1 : 0,
       rewardXp: calculateXP('daily_review_complete', streakMultiplier(profile.streak)),
-      route: '/pages/focus/focus',
+      route: '/pages/entry-detail/entry-detail?scene=today',
       evidenceRequired: ['focus_seconds', 'parent_recap']
     },
     {
@@ -472,7 +472,7 @@ function buildGameRetentionLoop(profile = {}, result = {}, challenge = {}, quest
   const reviewedToday = Number((profile && (profile.reviewed_today || profile.reviewedToday)) || 0);
   const xp = Math.max(0, Number(result.xp || 0));
   const needsRepair = wrong > 0 || accuracy < targetAccuracy;
-  const nextRoute = needsRepair ? '/pages/review/review' : (mode === 'stretch' ? '/pages/tutor/tutor' : '/pages/focus/focus');
+  const nextRoute = needsRepair ? '/pages/review/review' : (mode === 'stretch' ? '/pages/tutor/tutor' : '/pages/entry-detail/entry-detail?scene=today');
   const nextMode = needsRepair ? 'repair' : (mode === 'stretch' ? 'transfer' : 'steady');
   const nextRoundSize = needsRepair
     ? Math.max(3, Math.min(4, Number(challenge.roundSize || 4)))

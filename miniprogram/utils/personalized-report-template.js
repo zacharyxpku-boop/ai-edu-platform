@@ -74,7 +74,7 @@ const CORE_METHODOLOGIES = [
     label: '自我调节学习闭环',
     source: '目标设定/监控/反思',
     parentLine: '把家长催促改成孩子自己记录目标、卡点、证据和下一步。',
-    productRoute: '/pages/focus/focus?from=personalized_report_srl',
+    productRoute: '/pages/entry-detail/entry-detail?scene=today&from=personalized_report_srl',
     evidenceGate: '孩子能自己写出下一步计划和复盘一句话'
   }
 ];
@@ -256,7 +256,7 @@ function buildTalentMethodMatches(talent = {}) {
       theory: '自我调节学习：目标设定、过程监控和复盘反馈要连在一起，执行优势才会变成稳定习惯。',
       avoid: '不建议只写长期目标或大计划，因为目标感强的孩子也需要短反馈维持行动。',
       confidence: '高',
-      productRoute: '/pages/focus/focus?from=talent_execution_loop',
+      productRoute: '/pages/entry-detail/entry-detail?scene=today&from=talent_execution_loop',
       evidenceGate: '连续 3 次完成第一步记录和次日回访'
     },
     {
@@ -948,7 +948,7 @@ function buildAssessmentDeepPages(model = {}) {
       signal: profile.behaviorMode,
       interpretation: '目标驱动不是“逼目标”，而是把目标切成可完成的小动作。报告必须告诉家长今晚做哪一步、明天回看哪一张卡。',
       execution: ['每次只设一个 P0 科目动作', '完成后记录“第一步 + 错因 + 下次回访”', '反馈只奖励过程证据，不奖励刷题数量'],
-      product: '/pages/focus/focus?from=report_assessment_behavior'
+      product: '/pages/entry-detail/entry-detail?scene=today&from=report_assessment_behavior'
     },
     {
       id: 'assessment-persistence',

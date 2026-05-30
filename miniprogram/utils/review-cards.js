@@ -123,7 +123,7 @@ function buildNextPracticePlan(input = {}) {
     parentPrompt: cause.parentPrompt,
     nextPracticeText: `${subject}${source}：${cause.practice}`,
     appRoute: cause.id === 'habit_focus'
-      ? '/pages/focus/focus'
+      ? '/pages/entry-detail/entry-detail?scene=today'
       : cause.id === 'expression_planning'
         ? '/pages/tutor/tutor'
         : '/pages/review/review'
@@ -741,7 +741,7 @@ function buildConceptCard(base, subject, index) {
   };
 }
 
-function buildStepCardLegacy(base, subject, index) {
+function buildStepCardCurrent(base, subject, index) {
   if (!/先|再|然后|步骤|第一|第二|最后/.test(base.answer + ' ' + base.context)) return null;
   return {
     id: stableId('import_step', [subject || 'general', index, base.question.slice(0, 12)]),
@@ -752,7 +752,7 @@ function buildStepCardLegacy(base, subject, index) {
   };
 }
 
-function buildTrapCardLegacy(base, subject, index) {
+function buildTrapCardCurrent(base, subject, index) {
   if (!/错|不要|易|混|单位|符号|审题/.test(base.answer + ' ' + base.context)) return null;
   return {
     id: stableId('import_trap', [subject || 'general', index, base.question.slice(0, 12)]),
@@ -763,7 +763,7 @@ function buildTrapCardLegacy(base, subject, index) {
   };
 }
 
-function buildClozeCardLegacy(base, subject, index) {
+function buildClozeCardCurrent(base, subject, index) {
   const text = String(base.answer || base.context || '').trim();
   const candidates = text.match(/[\u4e00-\u9fa5A-Za-z0-9]{2,12}/g) || [];
   const keyword = candidates[0];

@@ -403,7 +403,7 @@ const FINAL_TARGET_REQUIREMENTS = [
     benchmark: '对标 Khan Academy 的课程骨架，但先做中国 K12 课标结构和题型蓝图。',
     dimensionIds: ['material_to_review', 'guided_tutor', 'spaced_recall'],
     requiredLocalEvidence: ['module_to_recall_card', 'report_to_plan'],
-    route: '/pages/module/module?from=final_target_gap&target=curriculum_question_bank',
+    route: '/pages/entry-detail/entry-detail?scene=tutor&from=final_target_gap&target=curriculum_question_bank',
     nextAction: '继续把 7 科题型卡沉淀为第一步、小黑板、错因、迁移和掌握门槛，不复制公开原题。'
   },
   {

@@ -319,7 +319,7 @@ const PUBLIC_K12_SOURCE_LEDGER = [
     localRuleUse: ['题型路由', '小黑板第一笔', '变式解锁门槛', '错因复现'],
     aiUse: ['解释同一错因在不同题面里的表现'],
     blockedUse: ['原题答案索引', '押题承诺', '考试分数预测'],
-    miniappSurface: ['/pages/tutor/tutor', '/pages/radar/radar', '/pages/profile/profile'],
+    miniappSurface: ['/pages/tutor/tutor', '/pages/entry-detail/entry-detail?scene=parent', '/pages/profile/profile'],
     evidenceRequired: ['question_type_cluster', 'visual_board_move', 'variant_gate', 'exam_score_boundary']
   },
   {
@@ -403,7 +403,7 @@ const PUBLIC_K12_ASSET_PIPELINE = [
     normalizeAsLocalCode: ['question_type_cluster', 'variant_unlock_gate', 'board_move', 'transfer_ladder'],
     aiExpressionUse: ['解释同一错因为什么会在新题面复发'],
     discardFields: ['押题话术', '分数预测', '原题答案索引'],
-    miniappLanding: ['/pages/arcade/arcade', '/pages/radar/radar', '/pages/profile/profile'],
+    miniappLanding: ['/pages/arcade/arcade', '/pages/entry-detail/entry-detail?scene=parent', '/pages/profile/profile'],
     acceptanceGate: ['variant_gate_local', 'no_exam_score_claim', 'board_move_first_step_only'],
     owner: 'local_rule'
   },
@@ -479,7 +479,7 @@ const PUBLIC_K12_CANDIDATE_POOL = [
     aiFit: ['解释为什么新题面还是同一错因'],
     rejectIf: ['押题承诺', '分数预测', '原题答案索引'],
     sampleSeed: '只抽题型结构和干扰项，不抽原题答案。',
-    miniappLanding: ['/pages/tutor/tutor', '/pages/arcade/arcade', '/pages/radar/radar'],
+    miniappLanding: ['/pages/tutor/tutor', '/pages/arcade/arcade', '/pages/entry-detail/entry-detail?scene=parent'],
     nextAction: '补“同错因换题面”的迁移压测，而不是补标准答案。'
   },
   {
@@ -558,7 +558,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['capability_axis', 'course_unit_spine', 'mastery_gate', 'report_dimension'],
     aiBetterFor: ['把能力目标翻译成家长和孩子能听懂的话'],
     mustNotUse: ['大段复制标准正文', '把课标当题库', '让 AI 判定掌握等级'],
-    miniappLanding: ['/pages/module/module', '/pages/profile/profile'],
+    miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/profile/profile'],
     acceptanceGate: ['capability_tag_exists', 'local_mastery_gate', 'parent_readable_line']
   },
   {
@@ -600,7 +600,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['concept_ladder', 'glossary_guardrail', 'course_unit_backlog'],
     aiBetterFor: ['把概念解释改写成中文小黑板旁白'],
     mustNotUse: ['直接搬运教材段落', '复制习题答案', '把大学教材难度下放给小初学生'],
-    miniappLanding: ['/pages/module/module', '/pages/tutor/tutor'],
+    miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/tutor/tutor'],
     acceptanceGate: ['age_band_adapted', 'no_copied_paragraph', 'first_step_only']
   },
   {
@@ -628,7 +628,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['concept_prerequisite_ladder', 'glossary_axis', 'process_board_move', 'age_band_gate'],
     aiBetterFor: ['把术语关系翻译成中文家庭作业里的小黑板旁白'],
     mustNotUse: ['复制教材段落', '复制习题答案', '忽略年龄段直接前台展示'],
-    miniappLanding: ['/pages/module/module', '/pages/tutor/tutor', '/pages/profile/profile'],
+    miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/tutor/tutor', '/pages/profile/profile'],
     acceptanceGate: ['age_band_checked', 'no_copied_text', 'concept_ladder_local']
   },
   {
@@ -670,7 +670,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['skill_verb', 'grade_band', 'curriculum_node', 'prerequisite_ladder'],
     aiBetterFor: ['把能力动词翻译成孩子能执行的一句话'],
     mustNotUse: ['复制标准措辞', '宣称官方课程覆盖', '把标准当测评结论'],
-    miniappLanding: ['/pages/module/module', '/pages/review/review', '/pages/profile/profile'],
+    miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/review/review', '/pages/profile/profile'],
     acceptanceGate: ['structure_only', 'localized_wording', 'no_official_coverage_claim']
   },
   {
@@ -684,7 +684,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['problem_based_unit_shape', 'anticipated_misconception_tag', 'family_prompt_contract', 'no_content_copy_gate'],
     aiBetterFor: ['把问题式探究过程改写成孩子能说出口的第一步追问'],
     mustNotUse: ['复制 IM 任务文本', '使用 NC 内容做商业内置题库', '宣称 IM Certified 或官方合作'],
-    miniappLanding: ['/pages/module/module', '/pages/tutor/tutor', '/pages/profile/profile'],
+    miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/tutor/tutor', '/pages/profile/profile'],
     acceptanceGate: ['license_checked', 'structure_only', 'no_certification_claim'],
     licenseCheckedAt: '2026-05-19',
     reuseLevel: 'structure_only',
@@ -702,7 +702,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['phenomenon_first_step', 'evidence_chain_board', 'model_revision_revisit', 'science_claim_evidence_reasoning_gate'],
     aiBetterFor: ['把科学解释改写成不泄答案的追问和家长复盘句'],
     mustNotUse: ['复制单元材料', '复制实验图片/讲义', '宣称覆盖 OpenSciEd 官方课程'],
-    miniappLanding: ['/pages/tutor/tutor', '/pages/diagnosis/diagnosis', '/pages/profile/profile'],
+    miniappLanding: ['/pages/tutor/tutor', '/pages/entry-detail/entry-detail?scene=upload', '/pages/profile/profile'],
     acceptanceGate: ['phenomenon_localized', 'no_lab_sheet_copy', 'claim_evidence_reasoning_only'],
     licenseCheckedAt: '2026-05-19',
     reuseLevel: 'structure_only',
@@ -759,7 +759,7 @@ const PUBLIC_K12_USE_WORKBENCH = [
     localizeAsCode: ['题型路由', '变式解锁', '小黑板第一笔', '跨周趋势'],
     aiBetterFor: ['解释同一错因在不同题面里的表现'],
     mustNotUse: ['押题承诺', '原题答案索引', '考试分数预测'],
-    productSurface: ['/pages/tutor/tutor', '/pages/radar/radar', '/pages/profile/profile'],
+    productSurface: ['/pages/tutor/tutor', '/pages/entry-detail/entry-detail?scene=parent', '/pages/profile/profile'],
     evidenceGate: ['question_type_cluster', 'variant_gate', 'exam_boundary_visible'],
     productDecision: '用来压测迁移能力，不用来做押题或答案搜索。'
   },
@@ -971,7 +971,7 @@ function buildK12LocalAiImplementationRunway(options = {}) {
       gap: '把公开/OER/一方资料沉淀为题型、错因、第一步和回访，不复制原题答案。',
       localCodeOwns: ['source_registry_gate', 'grade_chapter_route', 'question_type_axis', 'sample_specific_first_step', 'answer_boundary'],
       aiBetterFor: ['把已通过边界的第一步改写成儿童能听懂的一句话', '把家长摘要写得更低压'],
-      miniappLanding: ['/pages/module/module', '/pages/tutor/tutor', '/pages/profile/profile'],
+      miniappLanding: ['/pages/entry-detail/entry-detail?scene=tutor', '/pages/tutor/tutor', '/pages/profile/profile'],
       acceptanceGate: ['source_url_present', 'license_signal_visible', 'no_original_text', 'no_full_answer', 'sample_specific_output']
     },
     {
@@ -1849,7 +1849,7 @@ function buildPublicK12AssetBoundaryAudit(options = {}) {
   };
 }
 
-function buildPublicK12IntakeChallengeDeckLegacy(options = {}) {
+function buildPublicK12IntakeChallengeDeckCurrent(options = {}) {
   const limit = Number(options.limit || PUBLIC_K12_HOMEWORK_INTAKE_QUEUE.length);
   return PUBLIC_K12_HOMEWORK_INTAKE_QUEUE.slice(0, limit).map((item, index) => ({
     id: `public_k12_intake_${item.id || index + 1}`,

@@ -102,7 +102,7 @@ function buildTalentLearningMethodPlan(seed = {}) {
     focus: {
       label: '先缩小任务',
       action: '把今晚任务压到 10-15 分钟，先留下开始过的证据。',
-      route: '/pages/focus/focus?from=talent_method_plan'
+      route: '/pages/entry-detail/entry-detail?scene=today&from=talent_method_plan'
     },
     review: {
       label: '先修错因',

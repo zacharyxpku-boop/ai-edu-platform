@@ -946,10 +946,10 @@ function loadLearningReportState() {
 function reportRouteTarget(path = '') {
   const value = String(path || '');
   if (value.indexOf('/pages/review/review') === 0) return 'review';
-  if (value.indexOf('/pages/focus/focus') === 0) return 'focus';
+  if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'focus';
   if (value.indexOf('/pages/profile/profile') === 0) return 'profile';
   if (value.indexOf('/pages/arcade/arcade') === 0) return 'arcade';
-  if (value.indexOf('/pages/tools/tools') === 0) return 'tools';
+  if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'tools';
   return 'tutor';
 }
 
@@ -2655,7 +2655,7 @@ function buildGlobalEvidenceBrief(options = {}) {
       label: '轻入口',
       ready: !!light.ready,
       line: light.ready ? light.parentLine : light.summary,
-      route: light.route || '/pages/daily-math/daily-math'
+      route: light.route || '/pages/entry-detail/entry-detail?scene=today'
     },
     {
       id: 'game',
@@ -2796,7 +2796,7 @@ function buildCapabilityEvidenceLedger(options = {}) {
         ? (lightFeatureEvidence.parentLine || lightFeatureEvidence.summary)
         : '口算、听写、手动诊断还缺回到核心链路的证据',
       nextAction: lightFeatureEvidence && lightFeatureEvidence.nextAction ? lightFeatureEvidence.nextAction : '从一个轻入口补一条第一步记录',
-      route: lightFeatureEvidence && lightFeatureEvidence.route ? lightFeatureEvidence.route : '/pages/daily-math/daily-math'
+      route: lightFeatureEvidence && lightFeatureEvidence.route ? lightFeatureEvidence.route : '/pages/entry-detail/entry-detail?scene=today'
     },
     {
       id: 'module_flow',
@@ -2908,7 +2908,7 @@ function buildCapabilityMaturityQueue(options = {}) {
       id: 'light_entry_scale',
       label: '轻入口题型库',
       surface: 'light_diagnosis',
-      route: '/pages/light-diagnosis/light-diagnosis',
+      route: '/pages/entry-detail/entry-detail?scene=today',
       capabilities: ['light_entry', 'socratic', 'module_flow', 'next_action'],
       competitorLine: '借鉴千问可视化方向，但只做第一步种子库和错因图解，不承诺全科自动板书讲题。',
       nextAction: '从口算、听写或手动诊断补一条可复用第一步模型。'
@@ -2926,7 +2926,7 @@ function buildCapabilityMaturityQueue(options = {}) {
       id: 'material_factory',
       label: '材料到资产',
       surface: 'tools',
-      route: '/pages/tools/tools',
+      route: '/pages/entry-detail/entry-detail?scene=today',
       capabilities: ['light_entry', 'module_flow', 'game', 'next_action'],
       competitorLine: '对标 Gizmo 的导入能力：现阶段先把本地材料稳定转成复习资产。',
       nextAction: '把一段材料或错题转成可回访卡，而不是停在输入框。'
@@ -3141,7 +3141,7 @@ function buildEvidenceRouteBias(options = {}) {
     review: '/pages/review/review',
     arcade: '/pages/arcade/arcade',
     profile: '/pages/profile/profile',
-    focus: '/pages/focus/focus',
+    focus: '/pages/entry-detail/entry-detail?scene=today',
     home: '/pages/home/home'
   };
   let nextRoute = brief.latestRoute || knownRoutes.tutor;
@@ -4090,7 +4090,7 @@ function buildSubjectSkillDepth(input = {}) {
         label: spec.label,
         firstStep,
         evidenceRequired: spec.evidenceRequired.slice(),
-        route: taskType === 'writing_process' ? '/pages/focus/focus' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade'
+        route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade'
       },
       subject: input.subject || '',
       sourceText,
@@ -4103,7 +4103,7 @@ function buildSubjectSkillDepth(input = {}) {
     evidenceRequired: spec.evidenceRequired.slice(),
     socraticAssessment,
     gameBias: taskType === 'unknown' ? 'balanced' : 'repair',
-    route: taskType === 'writing_process' ? '/pages/focus/focus' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade',
+    route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade',
     shareLine: `${spec.label}：先做「${firstStep}」，再留下 ${spec.evidenceRequired[0]} 证据。`
   };
 }
@@ -4111,7 +4111,7 @@ function buildSubjectSkillDepth(input = {}) {
 const CURRICULUM_SPINE = {
   math: {
     label: '数学',
-    route: '/pages/daily-math/daily-math',
+    route: '/pages/entry-detail/entry-detail?scene=today',
     nodes: [
       { id: 'read_problem', label: '读题', evidence: '圈已知、问题句、单位' },
       { id: 'model_relation', label: '建模', evidence: '写数量关系或等量关系' },
@@ -4129,7 +4129,7 @@ const CURRICULUM_SPINE = {
   },
   english: {
     label: '英语',
-    route: '/pages/dictation/dictation',
+    route: '/pages/entry-detail/entry-detail?scene=today',
     nodes: [
       { id: 'sentence_frame', label: '句子骨架', evidence: '主语、谓语、时态线索' },
       { id: 'word_use', label: '词汇用法', evidence: '词义、搭配、语境' },
@@ -6440,7 +6440,7 @@ function normalizeXpEvidenceGate(evidence = {}) {
   const hasFirstStep = !!(safe.student_first_step || safe.first_step_recall || safe.child_first_step || safe.childArticulatedStep);
   const hasWrongCause = !!(safe.wrong_cause_named || safe.wrong_cause_replay || safe.wrongCauseLabel || safe.wrongCause);
   const hasRevisit = !!(safe.next_day_revisit_locked || safe.next_day_revisit || safe.revisit_locked || safe.revisitWindow);
-  const pass = !!safe.allowUnsafeLegacyXp || (hasFirstStep && hasWrongCause && hasRevisit);
+  const pass = !!safe.allowEvidenceGateBypass || (hasFirstStep && hasWrongCause && hasRevisit);
   return {
     pass,
     hasFirstStep,
@@ -8866,10 +8866,10 @@ function buildLightFeatureEvidenceSummary(options = {}) {
       ? '把最近一条轻入口记录带回修卡点或专注舱。'
       : '先完成一次口算、听写或手动选题。',
     route: top && top.id === 'dictation'
-      ? '/pages/dictation/dictation'
+      ? '/pages/entry-detail/entry-detail?scene=today'
       : top && top.id === 'light_diagnosis'
-        ? '/pages/light-diagnosis/light-diagnosis'
-        : '/pages/daily-math/daily-math',
+        ? '/pages/entry-detail/entry-detail?scene=today'
+        : '/pages/entry-detail/entry-detail?scene=today',
     generatedAt: options.now ? new Date(options.now).toISOString() : rcNowIso()
   };
 }
@@ -8877,7 +8877,7 @@ function buildLightFeatureEvidenceSummary(options = {}) {
 const LIGHT_ENTRY_SEED_BANK = {
   daily_math: {
     label: '口算',
-    route: '/pages/daily-math/daily-math',
+    route: '/pages/entry-detail/entry-detail?scene=today',
     taskSeeds: [
       { id: 'symbol_scan', label: '符号先看清', taskType: 'daily_math', wrongCause: '漏看符号', firstStep: '先圈加减乘除符号。' },
       { id: 'carry_check', label: '进退位检查', taskType: 'daily_math', wrongCause: '进退位漏掉', firstStep: '先标出需要进位或退位的位置。' },
@@ -8888,7 +8888,7 @@ const LIGHT_ENTRY_SEED_BANK = {
   },
   dictation: {
     label: '听写',
-    route: '/pages/dictation/dictation',
+    route: '/pages/entry-detail/entry-detail?scene=today',
     taskSeeds: [
       { id: 'sound_shape', label: '音形对应', taskType: 'dictation', wrongCause: '听到音但字形不稳', firstStep: '先说这个词最容易错的那一笔。' },
       { id: 'meaning_anchor', label: '意思锚点', taskType: 'dictation', wrongCause: '词义不清', firstStep: '先用这个词说一句短句。' },
@@ -8899,7 +8899,7 @@ const LIGHT_ENTRY_SEED_BANK = {
   },
   light_diagnosis: {
     label: '手动选题',
-    route: '/pages/light-diagnosis/light-diagnosis',
+    route: '/pages/entry-detail/entry-detail?scene=today',
     taskSeeds: [
       { id: 'type_confirm', label: '先判题型', taskType: 'unknown', wrongCause: '题型没确认', firstStep: '先说这题像哪一类。' },
       { id: 'ask_sentence', label: '问题句定位', taskType: 'math_word_problem', wrongCause: '没看清问什么', firstStep: '先圈题目真正问的句子。' },
@@ -10394,7 +10394,7 @@ function buildCommercialDepthRunway(options = {}) {
     {
       id: 'grade_chapter_strategy',
       label: '年级章节教学策略',
-      route: '/pages/module/module',
+      route: '/pages/entry-detail/entry-detail?scene=tutor',
       evidenceLine: `已沉淀 ${gradeChapterTeachingStrategyMap.strategyCount || 0} 条年级/章节/题型策略，覆盖识别题型、修错因和近迁移。`,
       nextAction: '今晚只选一条策略落到第一步小黑板。',
       proof: ['年级段', '章节', '题型', '错因', '本地放行']
@@ -10402,7 +10402,7 @@ function buildCommercialDepthRunway(options = {}) {
     {
       id: 'question_type_depth',
       label: '题型级内容深度',
-      route: '/pages/light-diagnosis/light-diagnosis',
+      route: '/pages/entry-detail/entry-detail?scene=today',
       evidenceLine: `已有 ${activeCards.length} 张单元题库卡，外加 ${courseUnitDepthExpansionAtlas.archetypeCount || 0} 类原型题和 ${courseUnitDepthExpansionAtlas.misconceptionVariantCount || 0} 条误区变体。`,
       nextAction: activeCards[0] ? activeCards[0].prompt : '先补一张主动回忆卡',
       proof: (courseUnitDepthExpansionAtlas.activeArchetypes || []).slice(0, 3).map((item) => `${item.label}：${item.parentCheckScript}`)
@@ -12048,14 +12048,14 @@ function buildSurfaceDepthPack(surface = 'home', options = {}) {
     parent_evidence: '/pages/profile/profile',
     local_resilience: '/pages/upload/upload',
     spaced_recall: '/pages/review/review',
-    report_to_solution: '/pages/radar/radar',
-    decision_path: '/pages/radar/radar',
+    report_to_solution: '/pages/entry-detail/entry-detail?scene=parent',
+    decision_path: '/pages/entry-detail/entry-detail?scene=parent',
     weekly_pattern: '/pages/profile/profile',
     mastery_rubric: '/pages/profile/profile',
-    intervention_playbook: '/pages/radar/radar',
+    intervention_playbook: '/pages/entry-detail/entry-detail?scene=parent',
     outcome_review: '/pages/profile/profile',
-    depth_compounding: '/pages/module/module',
-    light_entry_evidence: '/pages/daily-math/daily-math',
+    depth_compounding: '/pages/entry-detail/entry-detail?scene=tutor',
+    light_entry_evidence: '/pages/entry-detail/entry-detail?scene=today',
     share_return: '/pages/profile/profile'
   };
   const surfaceCapabilityMap = {
@@ -12192,15 +12192,15 @@ function buildUnifiedNextActionController(options = {}) {
     '/pages/review/review',
     '/pages/arcade/arcade',
     '/pages/profile/profile',
-    '/pages/focus/focus',
-    '/pages/tools/tools',
+    '/pages/entry-detail/entry-detail?scene=today',
+    '/pages/entry-detail/entry-detail?scene=today',
     '/pages/upload/upload',
-    '/pages/diagnosis/diagnosis',
-    '/pages/radar/radar',
-    '/pages/module/module',
-    '/pages/daily-math/daily-math',
-    '/pages/dictation/dictation',
-    '/pages/light-diagnosis/light-diagnosis'
+    '/pages/entry-detail/entry-detail?scene=upload',
+    '/pages/entry-detail/entry-detail?scene=parent',
+    '/pages/entry-detail/entry-detail?scene=tutor',
+    '/pages/entry-detail/entry-detail?scene=today',
+    '/pages/entry-detail/entry-detail?scene=today',
+    '/pages/entry-detail/entry-detail?scene=today'
   ];
   function normalizeRoute(route, fallback = '/pages/tutor/tutor') {
     const value = typeof route === 'string' && route.trim() ? route.trim() : fallback;

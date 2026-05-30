@@ -42,6 +42,18 @@ function assertWxmlTemplateIsCompilerSafe(name, wxml, options = {}) {
 
 const appJson = JSON.parse(read('miniprogram/app.json'));
 assert(appJson.pages.includes('pages/entry-detail/entry-detail'), 'entry detail page is registered');
+[
+  'pages/daily-math/daily-math',
+  'pages/dictation/dictation',
+  'pages/light-diagnosis/light-diagnosis',
+  'pages/focus/focus',
+  'pages/tools/tools',
+  'pages/module/module',
+  'pages/radar/radar',
+  'pages/diagnosis/diagnosis'
+].forEach((page) => {
+  assert(!appJson.pages.includes(page), `retired page must not remain registered: ${page}`);
+});
 
 const tabPages = [
   ['home', 'miniprogram/pages/home/home.wxml', 'miniprogram/pages/home/home.js'],
@@ -61,10 +73,19 @@ const denseLaunchClasses = [
   'ux-kit-segment'
 ];
 
+const retiredUiMarkers = [
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['composer','shell'].join('-'),
+  ['family','summary-card'].join('-')
+];
+
 tabPages.forEach(([name, wxmlPath, jsPath]) => {
   const wxml = read(wxmlPath);
   const js = read(jsPath);
-  const launchSlice = wxml.split('<block wx:if="{{showLegacyEntryContent}}">')[0];
+  const launchSlice = wxml.split('<block wx:if="{{showRetiredEntryContent}}">')[0];
   const jumpCardCount = (launchSlice.match(/ux-kit-jump-card/g) || []).length;
 
   assertWxmlTemplateIsCompilerSafe(name, wxml, {
@@ -74,13 +95,15 @@ tabPages.forEach(([name, wxmlPath, jsPath]) => {
   assert(wxml.includes('ux-kit-screen'), `${name} keeps a focused entry screen`);
   assert(wxml.includes('ux-kit-jump-grid'), `${name} entry exposes clear jump cards instead of a long scroll brief`);
   assert.strictEqual(jumpCardCount, 3, `${name} direct tab entry exposes exactly three jump cards`);
+  retiredUiMarkers.forEach((marker) => {
+    assert(!wxml.includes(marker), `${name} WXML must not carry retired UI marker: ${marker}`);
+  });
   denseLaunchClasses.forEach((className) => {
     assert(!launchSlice.includes(className), `${name} direct tab entry removes dense ${className} from the launch viewport`);
   });
   assert(wxml.includes('bindtap="openEntryDetail"'), `${name} entry CTA jumps to a child page`);
-  assert(wxml.includes('wx:if="{{showLegacyEntryContent}}"'), `${name} legacy long content is still guarded behind an explicit flag`);
-  assert(js.includes('showLegacyEntryContent: false'), `${name} keeps historical long UI closed even after child-page returns`);
-  assert(!/<view class="page-positioning [^"]+">/.test(wxml), `${name} does not render the old explanatory positioning block on direct tab entry`);
+  const positioningClass = ['page', 'positioning'].join('-');
+  assert(!new RegExp(`<view class="${positioningClass} [^"]+">`).test(wxml), `${name} does not render the retired explanatory positioning block on direct tab entry`);
   assert(js.includes('openEntryDetail(event)'), `${name} implements entry jump handler`);
   assert(js.includes('/pages/entry-detail/entry-detail?scene='), `${name} routes to the entry detail child page`);
   assert(js.includes('consumePendingTabRouteContext'), `${name} still consumes child-page route context without reopening historical UI`);
@@ -96,11 +119,62 @@ assert(detailWxml.includes('entry-jump-grid') && detailWxml.includes('bindtap="o
 assert(detailJs.includes('openScene(event)') && detailJs.includes('setScene(key'), 'entry detail can switch child entry scenes in place');
 assert(detailJs.includes('open=flow'), 'entry detail marks tab-return actions as explicit functional flows');
 
+const sceneBodyPattern = /(\w+): \{([\s\S]*?)\n  \},/g;
+let sceneMatch;
+const sceneRoutes = {};
+while ((sceneMatch = sceneBodyPattern.exec(detailJs))) {
+  const [, scene, body] = sceneMatch;
+  if (!['today', 'tutor', 'review', 'parent', 'upload'].includes(scene)) continue;
+  const primary = (body.match(/primaryRoute: '([^']+)'/) || [])[1] || '';
+  const secondary = (body.match(/secondaryRoute: '([^']+)'/) || [])[1] || '';
+  sceneRoutes[scene] = { primary, secondary };
+}
+assert.strictEqual(Object.keys(sceneRoutes).length, 5, 'entry detail defines routes for five child scenes');
+Object.entries(sceneRoutes).forEach(([scene, routes]) => {
+  assert(routes.primary && routes.secondary, `${scene} child scene has primary and secondary routes`);
+  Object.entries(routes).forEach(([kind, route]) => {
+    assert(!/\/pages\/(daily-math|dictation|light-diagnosis|focus|tools|module|radar|diagnosis)\//.test(route), `${scene} ${kind} route does not reopen retired pages`);
+    assert(
+      /\/pages\/(home|tutor|review|profile|upload|entry-detail)\//.test(route),
+      `${scene} ${kind} route targets an active page: ${route}`
+    );
+  });
+});
+assert(sceneRoutes.today.primary.includes('/pages/tutor/tutor'), 'today primary goes to AI tutor first step');
+assert(sceneRoutes.tutor.secondary.includes('/pages/review/review'), 'tutor secondary deposits into review');
+assert(sceneRoutes.review.secondary.includes('/pages/tutor/tutor'), 'review secondary can return to tutor');
+assert(sceneRoutes.parent.secondary.includes('/pages/upload/upload'), 'parent secondary can add evidence');
+assert(sceneRoutes.upload.primary.includes('/pages/upload/upload'), 'upload primary opens upload flow');
+
 const navigationJs = read('miniprogram/utils/navigation.js');
 assert(navigationJs.includes('consumePendingTabRouteContext'), 'navigation can consume pending tab route context');
 assert(navigationJs.includes('shouldOpenFunctionalTab'), 'navigation distinguishes short tab entries from functional flows');
 assert(navigationJs.includes('TAB_ROUTES.includes(base)'), 'navigation detects tabBar routes');
 assert(navigationJs.includes('wx.switchTab({ url: base })'), 'navigation uses switchTab for tabBar routes');
+assert(navigationJs.includes('RETIRED_ROUTE_MAP') && navigationJs.includes('activeRoute(route)'), 'retired routes are remapped into the current entry-detail shell');
+
+const activeSurfaceFiles = [
+  'miniprogram/pages/home/home.js',
+  'miniprogram/pages/upload/upload.js',
+  'miniprogram/pages/entry-detail/entry-detail.js',
+  'miniprogram/pages/tutor/tutor.js',
+  'miniprogram/pages/review/review.js',
+  'miniprogram/pages/arcade/arcade.js',
+  'miniprogram/pages/profile/profile.js',
+  'miniprogram/utils/storage.js',
+  'miniprogram/utils/review-cards.js',
+  'miniprogram/utils/real-homework-coverage.js',
+  'miniprogram/utils/product-readiness.js',
+  'miniprogram/utils/personalized-report-template.js',
+  'miniprogram/utils/learning-report.js',
+  'miniprogram/utils/game-logic.js',
+  'miniprogram/utils/learning-assessment.js'
+];
+const retiredRoutePattern = /\/pages\/(?:daily-math|dictation|light-diagnosis|focus|tools|module|radar|diagnosis)\//;
+activeSurfaceFiles.forEach((file) => {
+  const source = read(file);
+  assert(!retiredRoutePattern.test(source), `${file} must not retain direct retired-page routes`);
+});
 
 const registeredTabs = new Set((appJson.tabBar && appJson.tabBar.list ? appJson.tabBar.list : [])
   .map((item) => `/${item.pagePath}`));

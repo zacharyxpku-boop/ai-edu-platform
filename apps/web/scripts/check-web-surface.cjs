@@ -106,7 +106,60 @@ const previewShell = fs.readFileSync(previewShellPath, 'utf8');
 const appHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appJs = fs.readFileSync(path.join(root, 'src', 'app.js'), 'utf8');
 const appCss = fs.readFileSync(path.join(root, 'src', 'styles.css'), 'utf8');
+const routesJs = fs.readFileSync(path.join(root, 'src', 'routes.js'), 'utf8');
 const viewModelJs = fs.readFileSync(path.join(root, 'src', 'view-model.js'), 'utf8');
+const manifestText = fs.readFileSync(manifestPath, 'utf8');
+
+const forbiddenMiniappParityRoutes = [
+  'pages/daily-math/daily-math',
+  'pages/dictation/dictation',
+  'pages/light-diagnosis/light-diagnosis',
+  'pages/focus/focus',
+  'pages/tools/tools',
+  'pages/module/module',
+  'pages/radar/radar',
+  'pages/diagnosis/diagnosis'
+];
+
+for (const retiredRoute of forbiddenMiniappParityRoutes) {
+  if (routesJs.includes(retiredRoute) || manifestText.includes(retiredRoute)) {
+    fail(`web route contracts must not point at retired miniapp UI: ${retiredRoute}`);
+  }
+}
+
+for (const requiredRoute of [
+  'pages/entry-detail/entry-detail?scene=parent',
+  'pages/entry-detail/entry-detail?scene=today'
+]) {
+  if (!routesJs.includes(requiredRoute) || !manifestText.includes(requiredRoute)) {
+    fail(`web route contracts must preserve active entry-detail parity: ${requiredRoute}`);
+  }
+}
+
+const requiredReferenceAssets = [
+  'brand-house.png',
+  'entry-upload.png',
+  'entry-report.png',
+  'entry-tutor.png',
+  'entry-review.png',
+  'entry-parent.png',
+  'entry-map.png',
+  'gudian-sticker.png',
+  'hero-mascot.png'
+];
+
+for (const assetName of requiredReferenceAssets) {
+  const miniappAssetPath = path.join(repoRoot, 'miniprogram', 'assets', 'reference', assetName);
+  const webAssetPath = path.join(root, 'assets', 'reference', assetName);
+  if (!fs.existsSync(miniappAssetPath)) fail(`miniapp reference asset is missing: ${assetName}`);
+  if (!fs.existsSync(webAssetPath)) fail(`web reference asset is missing: ${assetName}`);
+  const miniappAssetSize = fs.statSync(miniappAssetPath).size;
+  const webAssetSize = fs.statSync(webAssetPath).size;
+  if (miniappAssetSize !== webAssetSize) {
+    fail(`web/miniapp reference asset mismatch: ${assetName}`);
+  }
+}
+
 for (const requiredSnippet of [
   '/apps/web/src/styles.css',
   '/apps/web/src/app.js',
@@ -120,7 +173,7 @@ for (const requiredSnippet of [
 for (const requiredSnippet of [
   'class="brand-mark" src="./assets/reference/brand-house.png"',
   'class="family-face" src="./assets/reference/entry-parent.png"',
-  '<button class="bell" type="button" aria-label="通知"><span></span><em>3</em></button>'
+  '<button class="bell" type="button" data-action="notifications" aria-label="通知"><span></span><em>3</em></button>'
 ]) {
   if (!appHtml.includes(requiredSnippet)) {
     fail(`apps/web/index.html must use reference-asset shell markup: ${requiredSnippet}`);
@@ -141,16 +194,39 @@ for (const requiredAsset of [
   }
 }
 
+for (const [route, visualMarker] of [
+  ['upload', '<section class="upload-console"'],
+  ['report', '<section class="report-hero pro card"'],
+  ['tutor', '<section class="tutor-lab"'],
+  ['review', '<section class="review-world card"'],
+  ['parent', '<section class="parent-dashboard"'],
+  ['map', '<section class="learning-road card"']
+]) {
+  const visualIndex = appJs.indexOf(visualMarker);
+  const guideIndex = appJs.indexOf(`pageGuide('${route}')`);
+  if (visualIndex < 0 || guideIndex < 0) {
+    fail(`web ${route} page must include both visual marker and guide marker`);
+  }
+  if (guideIndex < visualIndex) {
+    fail(`web ${route} page must show the visual product surface before the process guide`);
+  }
+}
+
 for (const forbiddenSnippet of [
   "['home', '学习主界面', '⌂']",
   "['upload', '上传资料', '⇧']",
   "['tutor', 'AI私教', '☻']",
   "['parent', '家长中心', '♙']",
+  '\u9358\u7192\u7ca3\u5073',
+  '\u701b\uff04\u7bc4',
+  '\u6d93\u5a09\u7d36',
+  '\u7ec9\u4f7d\u6680',
+  '\u702c\u582e\u66b1',
   "'purple'",
   '.level-card.purple'
 ]) {
   if (appJs.includes(forbiddenSnippet) || appCss.includes(forbiddenSnippet) || viewModelJs.includes(forbiddenSnippet)) {
-    fail(`web UI must not regress to old symbolic/purple design: ${forbiddenSnippet}`);
+    fail(`web UI must not regress to retired symbolic color design: ${forbiddenSnippet}`);
   }
 }
 

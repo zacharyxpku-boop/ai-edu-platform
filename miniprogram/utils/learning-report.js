@@ -621,7 +621,7 @@ function buildRecommendationPlan(parts, matrix) {
         : 'tutor';
   const routeMap = {
     tutor: '/pages/tutor/tutor?from=learning_report',
-    focus: '/pages/focus/focus?from=learning_report',
+    focus: '/pages/entry-detail/entry-detail?scene=today&from=learning_report',
     review: '/pages/review/review?from=learning_report',
     arcade: '/pages/arcade/arcade?from=learning_report',
     profile: '/pages/profile/profile?panel=assessment'
