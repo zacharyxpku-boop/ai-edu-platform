@@ -117,6 +117,7 @@ const detailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 assert(detailWxml.includes('entry-primary') && detailWxml.includes('entry-secondary'), 'entry detail exposes clear next actions');
 assert(detailWxml.includes('entry-jump-grid') && detailWxml.includes('bindtap="openScene"'), 'entry detail child page exposes clickable cross-entry jumps');
 assert(detailJs.includes('openScene(event)') && detailJs.includes('setScene(key'), 'entry detail can switch child entry scenes in place');
+assert(detailWxml.includes('entry-spotlight') && detailJs.includes('报告决策板') && detailJs.includes('家长行动卡'), 'entry detail report/parent scenes have dedicated visual decision panels');
 assert(detailJs.includes('open=flow'), 'entry detail marks tab-return actions as explicit functional flows');
 assert(detailWxml.includes('entry-proof-node') && detailWxml.includes('entry-proof-icon'), 'entry detail proof strip uses visual evidence nodes');
 assert(detailWxml.includes('wx:for="{{scene.proofSteps}}"') && detailWxml.includes('class="entry-proof-hint"'), 'entry detail proof strip is data-driven instead of a hardcoded three-step tail');

@@ -77,6 +77,21 @@ const SCENES = {
       { label: '天赋匹配', value: '先解释孩子适合怎样输入、输出和反馈，再落到具体方法。', icon: '/assets/reference/entry-report.png' },
       { label: '方法依据', value: '把费曼、苏格拉底追问、短周期回访变成可执行动作。', icon: '/assets/reference/entry-tutor.png' }
     ],
+    spotlight: {
+      kicker: '报告决策板',
+      title: '证据先分层，结论才可信',
+      image: '/assets/reference/entry-report.png',
+      metrics: [
+        { label: '材料完整度', value: '4类' },
+        { label: '交叉验证', value: '3步' },
+        { label: '方法匹配', value: '可执行' }
+      ],
+      points: [
+        '先把测评、成绩、错题和家长观察分开看。',
+        '只把互相支持的信号写进结论，弱证据进入待补充。',
+        '每个建议都必须落到今晚能做的一步。'
+      ]
+    },
     proofSteps: proofFlow('report')
   },
   parent: {
@@ -93,6 +108,21 @@ const SCENES = {
       { label: '为什么这样学', value: '从学习偏好和当前卡点匹配方法。', icon: '/assets/reference/entry-tutor.png' },
       { label: '今晚怎么做', value: '只给一张家庭行动卡，不制造焦虑。', icon: '/assets/reference/entry-parent.png' }
     ],
+    spotlight: {
+      kicker: '家长行动卡',
+      title: '今晚只问一个低压问题',
+      image: '/assets/reference/entry-parent.png',
+      metrics: [
+        { label: '今晚目标', value: '一句话' },
+        { label: '家长角色', value: '观察者' },
+        { label: '回访时间', value: '明天' }
+      ],
+      points: [
+        '不要催完整答案，只问“你准备从哪一步开始”。',
+        '只记录孩子说出的第一步和卡住原因。',
+        '明天用同类小题回访，不翻旧账。'
+      ]
+    },
     proofSteps: proofFlow('parent')
   },
   upload: {

@@ -39,6 +39,26 @@
     <button class="entry-secondary" bindtap="goSecondary">{{scene.secondaryLabel}}</button>
   </view>
 
+  <view class="entry-spotlight scene-{{sceneKey}}" wx:if="{{scene.spotlight}}">
+    <view class="entry-spotlight-main">
+      <view class="entry-spotlight-kicker">{{scene.spotlight.kicker}}</view>
+      <view class="entry-spotlight-title">{{scene.spotlight.title}}</view>
+      <view class="entry-spotlight-metrics">
+        <view wx:for="{{scene.spotlight.metrics}}" wx:key="label">
+          <text>{{item.label}}</text>
+          <text>{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+    <image class="entry-spotlight-image" mode="aspectFit" src="{{scene.spotlight.image}}" />
+    <view class="entry-spotlight-points">
+      <view wx:for="{{scene.spotlight.points}}" wx:key="*this">
+        <text></text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
   <view class="entry-card-grid">
     <view class="entry-card" wx:for="{{scene.cards}}" wx:key="label">
       <image class="entry-card-icon" mode="aspectFill" src="{{item.icon}}" />

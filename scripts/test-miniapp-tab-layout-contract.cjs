@@ -174,6 +174,9 @@ assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail ch
 assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
 assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
 assert(entryDetailJs.includes("report: {") && entryDetailJs.includes("badge: '个性化报告'"), 'entry-detail separates report evidence from parent-center actions');
+assert(entryDetailJs.includes('报告决策板') && entryDetailJs.includes('家长行动卡'), 'entry-detail gives report and parent child scenes dedicated decision panels');
+assert(entryDetailWxml.includes('entry-spotlight') && entryDetailWxml.includes('scene.spotlight.metrics') && entryDetailWxml.includes('scene.spotlight.points'), 'entry-detail renders scene-specific spotlight panels instead of one generic child layout');
+assert(entryDetailWxss.includes('.entry-spotlight.scene-report') && entryDetailWxss.includes('.entry-spotlight.scene-parent'), 'entry-detail styles report and parent child scenes with distinct visual treatments');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'entry-detail child page cross-entry jumps render as a two-column visual grid');
 assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child page clamps hero copy to avoid a text wall');
 assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');
