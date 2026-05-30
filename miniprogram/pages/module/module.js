@@ -1,5 +1,6 @@
 const modules = require('../../utils/learning-modules');
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 const api = require('../../utils/api');
 const reviewCards = require('../../utils/review-cards');
 
@@ -40,7 +41,8 @@ Page({
     activeStep: 'setup',
     evidenceText: '',
     sessionStatus: null,
-    reviewStats: null
+    reviewStats: null,
+    surfaceDepthPack: null
   },
 
   onLoad(query = {}) {
@@ -64,7 +66,8 @@ Page({
       source,
       sessionSteps: buildSessionSteps(item),
       reviewPreview: pack ? reviewCards.previewImport(pack.text, pack.options).slice(0, 4) : [],
-      reviewStats
+      reviewStats,
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('module') : null
     });
   },
 
@@ -89,7 +92,7 @@ Page({
         text: `开始这个学习局：${item.title}。${item.tutorPrompt}`
       }
     ]);
-    wx.navigateTo({ url: '/pages/tutor/tutor' });
+    navigation.navigateLearningRoute('/pages/tutor/tutor?from=module');
   },
 
   markModule(event) {
@@ -167,12 +170,29 @@ Page({
   },
 
   goReview() {
-    wx.switchTab({ url: '/pages/review/review' });
+    navigation.navigateLearningRoute('/pages/review/review?from=module');
   },
 
   trackEvent(eventName, item, props = {}) {
     const next = storage.trackModuleEvent(eventName, item, props);
     const event = next[0];
     api.submitEvent(event).catch(() => {});
-  }
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
 });

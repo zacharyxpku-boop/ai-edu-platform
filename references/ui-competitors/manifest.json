@@ -1,0 +1,282 @@
+{
+  "generatedAt": "2026-05-24T13:15:11.066Z",
+  "source": "Apple iTunes Search API screenshotUrls",
+  "apps": [
+    {
+      "key": "khan-academy-kids",
+      "searchTerm": "Khan Academy Kids",
+      "country": "us",
+      "appName": "Khan Academy Kids",
+      "seller": "Khan Academy",
+      "source": "https://apps.apple.com/us/app/khan-academy-kids/id1378467217?uo=4",
+      "angle": "kids home, friendly learning companion",
+      "screenshots": []
+    },
+    {
+      "key": "khan-academy",
+      "searchTerm": "Khan Academy",
+      "country": "us",
+      "appName": "Khan Academy",
+      "seller": "Khan Academy",
+      "source": "https://apps.apple.com/us/app/khan-academy/id469863705?uo=4",
+      "angle": "learning dashboard and lesson library",
+      "screenshots": [
+        {
+          "file": "images/khan-academy-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/6d/95/0a/6d950a24-dab9-cd4d-84d0-9bbb8f63fbd4/2202ea67-fa88-4a35-a215-26e47da28d94_0_APP_IPHONE_55_0.png/392x696bb.png"
+        },
+        {
+          "file": "images/khan-academy-2.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/f6/ba/14/f6ba1421-5cd5-6be9-27e9-d0fcef00dde8/5b614bf0-8fe3-4734-9af6-093a9c4ede20_1_APP_IPHONE_55_1.png/392x696bb.png"
+        },
+        {
+          "file": "images/khan-academy-3.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/1d/95/8b/1d958b3a-6db7-c084-407a-c3432e7d52b8/6f94f77f-3431-4f20-8007-d1d44a10f0a1_2_APP_IPHONE_55_2.png/392x696bb.png"
+        },
+        {
+          "file": "images/khan-academy-4.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/8b/ca/47/8bca474a-78be-33f4-b663-64a65d4e092a/ec539f1f-1de6-4808-b179-c0e2e8a2c2c4_3_APP_IPHONE_55_3.png/392x696bb.png"
+        }
+      ]
+    },
+    {
+      "key": "duolingo",
+      "searchTerm": "Duolingo",
+      "country": "us",
+      "appName": "Duolingo: Language Lessons",
+      "seller": "Duolingo, Inc",
+      "source": "https://apps.apple.com/us/app/duolingo-language-lessons/id570060128?uo=4",
+      "angle": "gamified path, streak and reward loop",
+      "screenshots": []
+    },
+    {
+      "key": "quizlet",
+      "searchTerm": "Quizlet",
+      "country": "us",
+      "appName": "Quizlet: More than Flashcards",
+      "seller": "Quizlet Inc",
+      "source": "https://apps.apple.com/us/app/quizlet-more-than-flashcards/id546473125?uo=4",
+      "angle": "flashcard review and study modes",
+      "screenshots": [
+        {
+          "file": "images/quizlet-1.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/98/8c/f3/988cf364-5355-7c60-36b1-f392ac6f6b74/480b05eb-46b0-4479-b490-9b2b241702b2_1_APP_IPHONE_55_1.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/quizlet-2.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8c/44/e5/8c44e592-f996-69aa-0e5f-f27c0181c801/6bf4c97e-53fa-43e3-b076-fc022d0e75d6_1_APP_IPHONE_55_1.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/quizlet-3.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d4/36/d0/d436d03f-5b80-4b56-836a-48c79378a2d8/64046d3b-d71f-44b0-a308-80ddc2ef83a1_2_APP_IPHONE_55_2.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/quizlet-4.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/9d/77/b0/9d77b05d-f4ec-760b-2e4d-38e4228f6a52/9e72cefd-a04d-4d78-8281-da454b86df96_3_APP_IPHONE_55_3.jpg/392x696bb.jpg"
+        }
+      ]
+    },
+    {
+      "key": "brilliant",
+      "searchTerm": "Brilliant Learn by Doing",
+      "country": "us",
+      "appName": "Brilliant: Learn by doing",
+      "seller": "Brilliant Worldwide, Inc",
+      "source": "https://apps.apple.com/us/app/brilliant-learn-by-doing/id913335252?uo=4",
+      "angle": "interactive concept learning",
+      "screenshots": []
+    },
+    {
+      "key": "classdojo",
+      "searchTerm": "ClassDojo",
+      "country": "us",
+      "appName": "ClassDojo",
+      "seller": "ClassDojo, Inc.",
+      "source": "https://apps.apple.com/us/app/classdojo/id552602056?uo=4",
+      "angle": "parent communication and child progress",
+      "screenshots": []
+    },
+    {
+      "key": "photomath",
+      "searchTerm": "Photomath",
+      "country": "us",
+      "appName": "Photomath",
+      "seller": "Google LLC",
+      "source": "https://apps.apple.com/us/app/photomath/id919087726?uo=4",
+      "angle": "step-by-step math help",
+      "screenshots": [
+        {
+          "file": "images/photomath-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/cd/c2/ee/cdc2ee23-90c8-f808-9453-d86537957091/45185335-a636-40fa-95ca-c8ba25c10119_01.png/392x696bb.png"
+        },
+        {
+          "file": "images/photomath-2.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3c/b5/5f/3cb55fc6-cec9-b4be-7e44-7e3604dc5589/5c8b6ddf-6a07-4458-85f4-7414853084a2_02.png/392x696bb.png"
+        },
+        {
+          "file": "images/photomath-3.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8b/df/36/8bdf3601-a0e5-4ee9-c79d-ce0139c5371c/b447533d-20a5-42ba-b61b-c6f5df70c09b_03.png/392x696bb.png"
+        },
+        {
+          "file": "images/photomath-4.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8f/05/c9/8f05c95e-091e-b19a-b5f3-e5b58d518ac7/a7f3ef2d-96c5-47b6-b26f-cb67b26e81d6_04.png/392x696bb.png"
+        }
+      ]
+    },
+    {
+      "key": "zuoyebang",
+      "searchTerm": "作业帮",
+      "country": "cn",
+      "appName": "作业帮-中小学家长作业检查和AI伴学辅导工具",
+      "seller": "Guangzhou Polar Future Culture Technology Co., Ltd",
+      "source": "https://apps.apple.com/cn/app/%E4%BD%9C%E4%B8%9A%E5%B8%AE-%E4%B8%AD%E5%B0%8F%E5%AD%A6%E5%AE%B6%E9%95%BF%E4%BD%9C%E4%B8%9A%E6%A3%80%E6%9F%A5%E5%92%8Cai%E4%BC%B4%E5%AD%A6%E8%BE%85%E5%AF%BC%E5%B7%A5%E5%85%B7/id803781859?uo=4",
+      "angle": "homework help and student task entry",
+      "screenshots": [
+        {
+          "file": "images/zuoyebang-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/2b/98/18/2b981881-75ba-1ebc-2099-c99f0fb9fd5b/af9689f2-47cf-44a3-84da-09445d40ceb6_1.png/392x696bb.png"
+        },
+        {
+          "file": "images/zuoyebang-2.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7d/41/20/7d41202a-7166-5a15-77d6-1c4e18e1c195/11ae8ceb-cd59-4ea3-b2d4-d1ac13ac7105_1.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/zuoyebang-3.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/2c/27/4a/2c274a30-ea0d-5b12-b92d-85634f1be26e/a31e4a1d-5df7-4feb-8672-033fdf59d6d4_2.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/zuoyebang-4.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/23/3d/bc/233dbc05-82e9-683d-3193-5462ee436509/39dd4df8-d579-46ca-b565-cf432874afb4_3.jpg/392x696bb.jpg"
+        }
+      ]
+    },
+    {
+      "key": "xiaoyuan-kousuan",
+      "searchTerm": "小猿口算",
+      "country": "cn",
+      "appName": "小猿AI - 原「小猿口算」检查作业神器",
+      "seller": "Beijing Yuanli Science and Technology Co., Ltd.",
+      "source": "https://apps.apple.com/cn/app/%E5%B0%8F%E7%8C%BFai-%E5%8E%9F-%E5%B0%8F%E7%8C%BF%E5%8F%A3%E7%AE%97-%E6%A3%80%E6%9F%A5%E4%BD%9C%E4%B8%9A%E7%A5%9E%E5%99%A8/id1325419855?uo=4",
+      "angle": "children practice and correction flow",
+      "screenshots": [
+        {
+          "file": "images/xiaoyuan-kousuan-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/0d/1e/fc/0d1efc9f-56ea-2b51-4439-9efabc46a2bb/72212f63-7e1c-4a59-988f-0b1ca52c164d_1242-2208-2.png/392x696bb.png"
+        },
+        {
+          "file": "images/xiaoyuan-kousuan-2.jpg",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/28/a7/a9/28a7a907-35ae-050a-437e-ac457c519ed6/bfd368af-5ea2-4224-90b9-1e298d484e53_1242-2208-3.jpg/392x696bb.jpg"
+        },
+        {
+          "file": "images/xiaoyuan-kousuan-3.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d1/58/0b/d1580b49-6971-11ad-4c3a-5868361ea15f/0daf5966-b2a1-4363-97b4-9bb945f8f8a4_1242-2208-4.png/392x696bb.png"
+        },
+        {
+          "file": "images/xiaoyuan-kousuan-4.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/87/88/52/87885251-5818-7ea7-3f17-6889164085cf/f8578d4d-5fff-435a-8b8e-086c1ee3baf3_1242-2208-5.png/392x696bb.png"
+        }
+      ]
+    },
+    {
+      "key": "xueersi",
+      "searchTerm": "学而思",
+      "country": "cn",
+      "appName": "学而思",
+      "seller": "Beijing Xintang Sichuang Education Technology Co., Ltd.",
+      "source": "https://apps.apple.com/cn/app/%E5%AD%A6%E8%80%8C%E6%80%9D/id882419058?uo=4",
+      "angle": "course dashboard and parent learning service",
+      "screenshots": [
+        {
+          "file": "images/xueersi-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/fd/10/e2/fd10e268-f590-5807-6989-f069f73ed448/8c6a2475-ca5e-4d84-ba07-3b5034f29af5_ios-_1242x2208.png/392x696bb.png"
+        },
+        {
+          "file": "images/xueersi-2.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8a/15/9d/8a159dff-949e-2e89-3e26-b7f17cbde270/27d82051-381b-42fd-9897-c7310061fdae_2.png/392x696bb.png"
+        },
+        {
+          "file": "images/xueersi-3.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/06/35/bc/0635bc00-4122-1096-1a9f-97cb00066cff/133af360-51ca-46f8-964c-1970db7aa0ab_3.png/392x696bb.png"
+        },
+        {
+          "file": "images/xueersi-4.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/15/50/a2/1550a25f-7066-6db9-aedf-df8b8eae8fd1/37883cb7-dc34-4c64-98e4-699552db7cad_4.png/392x696bb.png"
+        }
+      ]
+    },
+    {
+      "key": "banma",
+      "searchTerm": "斑马",
+      "country": "cn",
+      "appName": "斑马AI学-学思维学英语学阅读",
+      "seller": "Beijing Yuanli Science and Technology Co., Ltd.",
+      "source": "https://apps.apple.com/cn/app/%E6%96%91%E9%A9%ACai%E5%AD%A6-%E5%AD%A6%E6%80%9D%E7%BB%B4%E5%AD%A6%E8%8B%B1%E8%AF%AD%E5%AD%A6%E9%98%85%E8%AF%BB/id1279609813?uo=4",
+      "angle": "kids learning visual world",
+      "screenshots": [
+        {
+          "file": "images/banma-1.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6c/95/6e/6c956e45-adff-cc43-7655-8f62dbcce008/115e4474-3b44-43f3-908a-e10ee4ab6c64_ios1242-2208-1.png/392x696bb.png"
+        },
+        {
+          "file": "images/banma-2.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/21/56/0c/21560c73-4d9f-b222-9940-079f729cd482/f150b0a4-50e7-4770-979f-b7edc8211c62_ios1242-2208-2.png/392x696bb.png"
+        },
+        {
+          "file": "images/banma-3.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/26/ef/83/26ef83b0-9f3f-4cc2-c09c-608da96be0e9/533ae1d1-de27-4dcc-b400-11f59e1767ff_ios1242-2208-3.png/392x696bb.png"
+        },
+        {
+          "file": "images/banma-4.png",
+          "url": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/01/f1/be/01f1be55-5572-ecd5-ce3a-aeeba2dfc612/fd1401a0-2569-4863-9faa-6eb070b67773_ios1242-2208-4.png/392x696bb.png"
+        }
+      ]
+    },
+    {
+      "key": "yangcong",
+      "searchTerm": "洋葱学园",
+      "country": "cn",
+      "appName": "洋葱学园-AI超级进化",
+      "seller": "Guanghe Xinzhi (Beijing) Technology Co., Ltd.",
+      "source": "https://apps.apple.com/cn/app/%E6%B4%8B%E8%91%B1%E5%AD%A6%E5%9B%AD-ai%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96/id990959871?uo=4",
+      "angle": "subject learning and animated explanation",
+      "screenshots": []
+    }
+  ],
+  "pageScreenshots": [
+    {
+      "key": "synthesis-home",
+      "title": "Synthesis home",
+      "url": "https://www.synthesis.com/",
+      "angle": "premium AI/math learning positioning",
+      "file": "pages/synthesis-home.png"
+    },
+    {
+      "key": "khanmigo-home",
+      "title": "Khanmigo home",
+      "url": "https://www.khanmigo.ai/",
+      "angle": "AI tutor positioning and CTA hierarchy",
+      "file": "pages/khanmigo-home.png"
+    },
+    {
+      "key": "khan-academy-kids-home",
+      "title": "Khan Academy Kids home",
+      "url": "https://learn.khanacademy.org/khan-academy-kids/",
+      "angle": "child-friendly brand world",
+      "file": "pages/khan-academy-kids-home.png"
+    },
+    {
+      "key": "classdojo-home",
+      "title": "ClassDojo home",
+      "url": "https://www.classdojo.com/",
+      "angle": "parent/teacher communication tone",
+      "file": "pages/classdojo-home.png"
+    },
+    {
+      "key": "duolingo-home",
+      "title": "Duolingo home",
+      "url": "https://www.duolingo.com/",
+      "angle": "gamified child-friendly path and mascot use",
+      "file": "pages/duolingo-home.png"
+    }
+  ]
+}

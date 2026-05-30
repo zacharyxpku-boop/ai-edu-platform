@@ -9,6 +9,7 @@
     "pages/module/module",
     "pages/review/review",
     "pages/arcade/arcade",
+    "pages/entry-detail/entry-detail",
     "pages/tutor/tutor",
     "pages/radar/radar",
     "pages/profile/profile",
@@ -33,23 +34,23 @@
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "作业点拨"
+        "text": "今天"
       },
       {
-        "pagePath": "pages/review/review",
-        "text": "修卡点"
+        "pagePath": "pages/tutor/tutor",
+        "text": "AI私教"
       },
       {
-        "pagePath": "pages/focus/focus",
-        "text": "专注舱"
-      },
-      {
-        "pagePath": "pages/tools/tools",
-        "text": "轻回访"
+        "pagePath": "pages/arcade/arcade",
+        "text": "复习岛"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的"
+        "text": "家长"
+      },
+      {
+        "pagePath": "pages/upload/upload",
+        "text": "上传"
       }
     ]
   },

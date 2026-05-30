@@ -78,6 +78,54 @@ const withFocus = homeVm.buildHomeViewModel({
 assert(withFocus.nextStep && withFocus.nextStep.text === '下一步：去修今晚最卡的一步。', 'todayFocus state points to review');
 assert.strictEqual(withFocus.nextStep.cta, '去修卡点', 'todayFocus next step has review CTA');
 
+const withMiniLesson = homeVm.buildHomeViewModel({
+  companionPreference: { selectedCompanion: 'gudian' },
+  miniLessonResume: {
+    id: 'mini_lesson_card_1',
+    topicLabel: '分数应用题第一步',
+    blackboardLine: '先画出已知和要求',
+    parentLine: '家长只问：第一步先看什么',
+    nextDayReview: '明天换一题复述第一步'
+  }
+});
+assert(withMiniLesson.miniLessonResume, 'homeViewModel exposes miniLessonResume');
+assert.strictEqual(withMiniLesson.miniLessonResume.id, 'mini_lesson_card_1', 'miniLessonResume keeps card id');
+assert.strictEqual(withMiniLesson.nextStep.action, 'miniLesson', 'miniLessonResume takes next step priority');
+assert(withMiniLesson.miniLessonResume.blockedFields.length >= 5, 'miniLessonResume carries visible safety boundary');
+assert(withMiniLesson.miniLessonResume.blockedFields.includes('孩子姓名') && withMiniLesson.miniLessonResume.blockedFields.includes('家长联系方式'), 'miniLessonResume blocks child identity and parent contact sharing');
+
+const withReportService = homeVm.buildHomeViewModel({
+  learningReportState: {
+    parentConfirmed: false,
+    servicePathway: {
+      primaryMode: { label: '苏格拉底 1 对 1' },
+      nextAction: '今晚只验证孩子自己说出的第一步。',
+      partnerServiceDeliveryLedger: { status: 'needs_parent_confirmation' },
+      validationPlan: [{ action: '先做一条7天验证任务。' }]
+    }
+  },
+  uploadReportHandoff: {
+    title: '孩子学习方案',
+    line: '从上传材料回到家庭行动。'
+  }
+});
+assert(withReportService.reportServiceResume, 'homeViewModel exposes uploaded report service resume');
+assert(withReportService.reportServiceResume.statusLine.includes('未确认'), 'report service resume blocks delivery before parent confirmation');
+assert(withReportService.reportServiceResume.parentGateLine.includes('不向合作方交付'), 'report service resume shows partner delivery safety gate');
+assert(withReportService.reportServiceResume.blockedFields.includes('姓名') && withReportService.reportServiceResume.blockedFields.includes('联系方式'), 'report service resume blocks identity and contact fields');
+
+const confirmedReportService = homeVm.buildHomeViewModel({
+  learningReportState: {
+    parentConfirmed: true,
+    servicePathway: {
+      primaryMode: { label: '苏格拉底 1 对 1' },
+      partnerServiceDeliveryLedger: { status: 'deliverable_after_parent_confirmation' }
+    }
+  }
+});
+assert(confirmedReportService.reportServiceResume.statusLine.includes('已确认'), 'confirmed report service resume opens the 7-day validation route');
+assert(confirmedReportService.reportServiceResume.route.includes('/pages/profile/profile'), 'confirmed report service resume routes to profile evidence view');
+
 function collectStrings(value, out = []) {
   if (typeof value === 'string') out.push(value);
   if (Array.isArray(value)) value.forEach((item) => collectStrings(item, out));
@@ -85,7 +133,29 @@ function collectStrings(value, out = []) {
   return out;
 }
 
-const visibleText = collectStrings([empty, anan, wenwen, yueyue, withPlan, withFocus]).join('\n');
+const visibleMiniLessonText = {
+  title: withMiniLesson.miniLessonResume.title,
+  topicLabel: withMiniLesson.miniLessonResume.topicLabel,
+  blackboardLine: withMiniLesson.miniLessonResume.blackboardLine,
+  parentLine: withMiniLesson.miniLessonResume.parentLine,
+  nextDayReview: withMiniLesson.miniLessonResume.nextDayReview,
+  blockedFields: withMiniLesson.miniLessonResume.blockedFields,
+  nextStepText: withMiniLesson.nextStep.text,
+  nextStepCta: withMiniLesson.nextStep.cta
+};
+const visibleReportServiceText = {
+  title: withReportService.reportServiceResume.title,
+  statusLine: withReportService.reportServiceResume.statusLine,
+  modeLine: withReportService.reportServiceResume.modeLine,
+  actionLine: withReportService.reportServiceResume.actionLine,
+  parentGateLine: withReportService.reportServiceResume.parentGateLine,
+  cta: withReportService.reportServiceResume.cta,
+  blockedFields: withReportService.reportServiceResume.blockedFields,
+  confirmedStatusLine: confirmedReportService.reportServiceResume.statusLine,
+  confirmedParentGateLine: confirmedReportService.reportServiceResume.parentGateLine,
+  confirmedCta: confirmedReportService.reportServiceResume.cta
+};
+const visibleText = collectStrings([empty, anan, wenwen, yueyue, withPlan, withFocus, visibleMiniLessonText, visibleReportServiceText]).join('\n');
 [
   /[a-z]+_[a-z0-9_]+/,
   /[a-z]+[A-Z][a-zA-Z]+/,
@@ -100,7 +170,10 @@ const visibleText = collectStrings([empty, anan, wenwen, yueyue, withPlan, withF
   /数学老师/,
   /英语老师/,
   /语文老师/,
-  /科学老师/
+  /科学老师/,
+  /original_question/,
+  /full_answer/,
+  /talent_label/
 ].forEach((pattern) => {
   assert(!pattern.test(visibleText), `homeViewModel avoids unsafe visible text: ${pattern}`);
 });
@@ -109,6 +182,12 @@ const homeJs = read('miniprogram/pages/home/home.js');
 const homeWxml = read('miniprogram/pages/home/home.wxml');
 assert(homeJs.includes('home-view-model'), 'home page imports home viewModel');
 assert(homeJs.includes('buildHomeViewModel'), 'home page builds homeViewModel');
+assert(homeJs.includes('buildMiniLessonResumeCard'), 'home page builds mini lesson resume card');
+assert(homeJs.includes('goMiniLessonResume'), 'home page exposes mini lesson resume navigation');
+assert(homeJs.includes('loadLearningReportState') && homeJs.includes("storage.get('upload.report.handoff.v1'"), 'home page feeds report service handoff into the first-screen view model');
+assert(homeJs.includes('goReportServiceResume'), 'home page exposes report service resume navigation');
+assert(homeJs.includes('runHomeNextStep') && homeJs.includes("action === 'miniLesson'") && homeJs.includes("action === 'first'"), 'home next-step action dispatches to mini lesson, tutor, or review');
+assert(homeWxml.includes('catchtap="runHomeNextStep"'), 'home next-step card uses action-aware navigation');
 
 const firstScreen = [
   homeWxml.slice(homeWxml.indexOf('rc14-home-first-screen-top'), homeWxml.indexOf('rc14-home-after-first-screen-top')),
@@ -123,7 +202,9 @@ const firstScreen = [
   'homeViewModel.inputCard',
   'homeViewModel.primaryCta',
   'homeViewModel.secondaryAction',
-  'homeViewModel.teacherPickerHint'
+  'homeViewModel.teacherPickerHint',
+  'homeViewModel.miniLessonResume',
+  'homeViewModel.reportServiceResume'
 ].forEach((binding) => {
   assert(firstScreen.includes(binding), `home first screen binds ${binding}`);
 });
@@ -138,7 +219,7 @@ const firstScreen = [
 ].forEach((term) => {
   assert(!firstScreen.includes(term), `home first screen does not directly bind ${term}`);
 });
-['companionOptions', '{{item.label}}', '{{item.short}}'].forEach((term) => {
+['companionOptions'].forEach((term) => {
   assert(!firstScreen.includes(term), `home first screen no longer renders teacher selector: ${term}`);
 });
 

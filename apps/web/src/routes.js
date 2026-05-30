@@ -46,6 +46,14 @@ export const WEB_SURFACE_ROUTES = [
     miniappParity: 'pages/profile/profile',
     primaryAction: '看证据和下一步',
     promise: '让家长知道孩子为什么这样学、今晚问什么、下一次看什么证据。'
+  },
+  {
+    id: 'map',
+    label: '学习地图',
+    path: '/map',
+    miniappParity: 'pages/tools/tools + pages/arcade/arcade',
+    primaryAction: '查看今晚和未来 7 天路径',
+    promise: '把上传、报告、私教、复习和家长回访串成一条能走完、能验证的学习路线。'
   }
 ];
 
@@ -55,7 +63,8 @@ export const WEB_ENTRY_FLOW = [
   ['report', 'tutor'],
   ['tutor', 'review'],
   ['review', 'parent'],
-  ['parent', 'upload']
+  ['parent', 'map'],
+  ['map', 'upload']
 ];
 
 export function getWebRoute(id) {

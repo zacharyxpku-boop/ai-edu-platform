@@ -13,7 +13,7 @@ export const WEB_DEMO_STATE = {
     { file: '三年级下学期期末成绩单.pdf', type: '成绩单', size: '1.2MB', status: '分析完成', color: 'blue' },
     { file: '班主任评语_2024春季.pdf', type: '学校反馈', size: '0.9MB', status: '分析完成', color: 'yellow' },
     { file: '口算练习错题集.mp4', type: '错题照片', size: '15.6MB', status: '分析中', color: 'orange' },
-    { file: '家长观察记录_兴趣与特长.pdf', type: '家长观察', size: '1.1MB', status: '待分析', color: 'purple' }
+    { file: '家长观察记录_兴趣与特长.pdf', type: '家长观察', size: '1.1MB', status: '待分析', color: 'green' }
   ]
 };
 

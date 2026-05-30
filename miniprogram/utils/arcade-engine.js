@@ -51,7 +51,7 @@ const GAME_TYPES = [
     shortName: '泡泡消',
     verb: '消对应',
     fit: ['fact'],
-    status: 'needs_material',
+    status: 'ready',
     minutes: 4
   },
   {

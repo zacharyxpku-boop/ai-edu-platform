@@ -349,6 +349,24 @@ function recognizeLearningReport(payload) {
   });
 }
 
+function analyzeMiniappMaterial(payload) {
+  const session = storage.get(storage.KEYS.session, {});
+  return request('/api/miniapp-material-analysis', {
+    method: 'POST',
+    data: payload || {},
+    header: session.session_id ? { 'x-mini-session': session.session_id } : {},
+    timeout: 22000
+  });
+}
+
+function fetchReportJobStatus(caseId) {
+  const safeCaseId = String(caseId || 'default').replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 64) || 'default';
+  return request(`/api/report-job-status?case_id=${encodeURIComponent(safeCaseId)}`, {
+    method: 'GET',
+    timeout: 12000
+  });
+}
+
 module.exports = {
   request,
   initSession,
@@ -371,5 +389,7 @@ module.exports = {
   purchaseShopItem,
   fetchLeaderboard,
   fetchGameReport,
-  recognizeLearningReport
+  recognizeLearningReport,
+  analyzeMiniappMaterial,
+  fetchReportJobStatus
 };

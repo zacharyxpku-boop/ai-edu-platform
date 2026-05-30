@@ -52,6 +52,9 @@
 
     function gather(){
         var errs = (window.LearningStore && window.LearningStore.getErrors) ? (window.LearningStore.getErrors() || []) : [];
+        var loopSnapshot = (window.LearningStore && window.LearningStore.buildLearningLoopSnapshot)
+            ? window.LearningStore.buildLearningLoopSnapshot()
+            : null;
         var dueErrs = errs.filter(function(e){
             return (e.nextReviewAt||0) <= Date.now() && (e.reviewCount||0) < 3;
         });
@@ -76,7 +79,8 @@
             readN: read.length,
             arcadeN: arcadeN,
             feynmanN: feynmanN,
-            errorActN: errorActN
+            errorActN: errorActN,
+            loopSnapshot: loopSnapshot
         };
     }
 
@@ -95,6 +99,15 @@
         }
 
         // prio 90：读了不少但完全没练
+        if (stats.loopSnapshot && stats.loopSnapshot.ready && stats.loopSnapshot.nextAction) {
+            cards.push({
+                cls: 'cool', em: '鈿?', priority: 95,
+                h: '\u4eca\u65e5\u95ed\u73af\u4e0b\u4e00\u6b65',
+                d: '<b>' + stats.loopSnapshot.nextAction + '</b> · ' + (stats.loopSnapshot.parentLine || '\u5bb6\u957f\u53ea\u770b\u4e0b\u4e00\u4e2a\u52a8\u4f5c'),
+                cta: '\u770b\u5b66\u4e60\u8bb0\u5f55', href: '/progress.html'
+            });
+        }
+
         if (stats.readN >= 3 && stats.arcadeN === 0){
             cards.push({
                 cls: 'warm', em: '✏️', priority: 90,
@@ -233,6 +246,16 @@
         }
 
         // B: 学生年级 → 学科首页里挑一个推 (走 subject 主页, hub 内自己再挑章节)
+        var loopSnapshot = stats.loopSnapshot;
+        if (loopSnapshot && loopSnapshot.ready && loopSnapshot.nextAction) {
+            return {
+                lvl: 'B', em: '鈿?', tag: '\u95ed\u73af\u63a5\u7eed',
+                t: loopSnapshot.nextAction,
+                s: loopSnapshot.parentLine || loopSnapshot.shareLine || '\u628a\u4eca\u665a\u8bb0\u5f55\u63a5\u5230\u4e0b\u4e00\u6b65',
+                href: '/progress.html'
+            };
+        }
+
         var grade = '';
         try { grade = localStorage.getItem('yd:my_grade') || ''; } catch(e){}
         var subjects = ['math','physics','chemistry','chinese','biology','history','geography','politics'];

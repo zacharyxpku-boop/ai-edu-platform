@@ -1,0 +1,43 @@
+<view class="entry-detail-page">
+  <view class="entry-detail-top">
+    <button class="entry-back" bindtap="goBack">‹</button>
+    <view class="entry-brand">原点智学</view>
+  </view>
+
+  <view class="entry-detail-hero">
+    <view>
+      <view class="entry-badge">{{scene.badge}}</view>
+      <view class="entry-title">{{scene.title}}</view>
+      <view class="entry-subtitle">{{scene.subtitle}}</view>
+    </view>
+    <image class="entry-image" mode="aspectFill" src="{{scene.heroImage}}" />
+  </view>
+
+  <view class="entry-actions">
+    <button class="entry-primary" bindtap="goPrimary">{{scene.primaryLabel}}</button>
+    <button class="entry-secondary" bindtap="goSecondary">{{scene.secondaryLabel}}</button>
+  </view>
+
+  <view class="entry-card-grid">
+    <view class="entry-card" wx:for="{{scene.cards}}" wx:key="label">
+      <view class="entry-card-label">{{item.label}}</view>
+      <view class="entry-card-value">{{item.value}}</view>
+    </view>
+  </view>
+
+  <view class="entry-jump-section">
+    <view class="entry-jump-title">继续看其他入口</view>
+    <view class="entry-jump-grid">
+      <button class="entry-jump-card" wx:for="{{sceneLinks}}" wx:key="key" data-scene="{{item.key}}" bindtap="openScene">
+        <image mode="aspectFit" src="{{item.image}}" />
+        <text>{{item.label}}</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="entry-proof-strip">
+    <view><text>1</text><text>先看依据</text></view>
+    <view><text>2</text><text>再做一步</text></view>
+    <view><text>3</text><text>回流证据</text></view>
+  </view>
+</view>

@@ -1,5 +1,6 @@
 const focusCabin = require('../../utils/focus-cabin');
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 
 function formatTime(seconds) {
   const total = Math.max(0, Number(seconds || 0));
@@ -33,7 +34,8 @@ Page({
     volume: 40,
     ambientSoundText: '雨声循环中',
     focusBlocked: false,
-    focusBlockedText: ''
+    focusBlockedText: '',
+    surfaceDepthPack: null
   },
 
   onLoad() {
@@ -71,7 +73,8 @@ Page({
       volume: cabin.settings.volume || 40,
       ambientSoundText: this.ambientSoundText(cabin.selectedAudio),
       focusBlocked,
-      focusBlockedText: focusBlocked ? '先回咕点确认今晚第一步，才能进专注舱。' : ''
+      focusBlockedText: focusBlocked ? '先回咕点确认今晚第一步，才能进专注舱。' : '',
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('focus') : null
     });
     if (cabin.currentSession.status === 'running') {
       this.startTicker();
@@ -273,13 +276,17 @@ Page({
     const chains = storage.loadScaffoldingChains ? storage.loadScaffoldingChains() : [];
     const latestChain = chains[0] || null;
     const secondStepDone = !!(latestChain && (latestChain.steps || []).some((step) => Number(step.order) === 2 && step.completed));
+    const reviewCard = storage.ensureFocusReviewCard ? storage.ensureFocusReviewCard(record, {
+      nextRoute: '/pages/review/review?from=focus_return'
+    }) : null;
     this.setData({
       completionCard: record,
       secondStepNotice: !secondStepDone && latestChain ? {
         title: '第二步轻提示',
         body: '孩子今天第一步完成了，但第二步还没完成。你可以只问：第一步圈的条件，哪两个有关系？',
         cta: '查看下一步提示'
-      } : null
+      } : null,
+      reviewCard
     });
     this.playDoneSound();
     this.refresh();
@@ -363,7 +370,7 @@ Page({
   },
 
   goReview() {
-    wx.switchTab({ url: '/pages/review/review' });
+    navigation.navigateLearningRoute('/pages/review/review?from=focus');
   },
 
   goProfile() {
@@ -377,5 +384,22 @@ Page({
       title: `${name} 今晚围绕第一步坐了一段`,
       path: `/pages/focus/focus?ref=${storage.getLocalUserId ? storage.getLocalUserId() : ''}`
     };
-  }
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
 });

@@ -182,9 +182,9 @@
   border: 1rpx solid rgba(92, 143, 222, 0.22);
 }
 
-.game-card.purple {
-  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-  border: 1rpx solid rgba(152, 94, 212, 0.22);
+.game-card.orange {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border: 1rpx solid rgba(255, 122, 69, 0.22);
 }
 
 .game-name {
@@ -925,6 +925,150 @@
   flex-shrink: 0;
   color: #1a5336;
   font-weight: 880;
+}
+
+.public-k12-ops-card {
+  margin: 18rpx 28rpx 0;
+  padding: 24rpx;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1rpx solid rgba(26, 83, 54, 0.10);
+  border-radius: 28rpx;
+  box-shadow: 0 12rpx 36rpx rgba(26, 83, 54, 0.055);
+}
+
+.public-k12-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.public-k12-title {
+  color: #1a211d;
+  font-size: 28rpx;
+  font-weight: 950;
+  line-height: 1.18;
+}
+
+.public-k12-summary,
+.public-k12-boundary,
+.public-k12-next {
+  margin-top: 8rpx;
+  color: #5f6f66;
+  font-size: 21rpx;
+  font-weight: 720;
+  line-height: 1.42;
+}
+
+.public-k12-badge {
+  flex: 0 0 auto;
+  max-width: 180rpx;
+  padding: 8rpx 12rpx;
+  color: #1a5336;
+  background: rgba(26, 83, 54, 0.07);
+  border-radius: 999rpx;
+  font-size: 19rpx;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.public-k12-metrics,
+.public-k12-lanes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.public-k12-metric,
+.public-k12-lane,
+.public-k12-seed {
+  padding: 16rpx;
+  background: #f8faf8;
+  border: 1rpx solid rgba(26, 83, 54, 0.08);
+  border-radius: 18rpx;
+}
+
+.public-k12-quality {
+  margin-top: 14rpx;
+  padding: 16rpx;
+  background: #f7fbf7;
+  border: 1rpx solid rgba(26, 83, 54, 0.12);
+  border-radius: 16rpx;
+}
+
+.public-k12-quality-title {
+  color: #1a5336;
+  font-size: 22rpx;
+  font-weight: 920;
+  line-height: 1.28;
+}
+
+.public-k12-quality-line {
+  margin-top: 6rpx;
+  color: #667269;
+  font-size: 20rpx;
+  font-weight: 720;
+  line-height: 1.36;
+}
+
+.public-k12-metric text:first-child {
+  display: block;
+  color: #1a5336;
+  font-size: 30rpx;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.public-k12-metric text:last-child,
+.public-k12-lane-body,
+.public-k12-seed text {
+  display: block;
+  margin-top: 6rpx;
+  color: #667269;
+  font-size: 20rpx;
+  font-weight: 720;
+  line-height: 1.34;
+}
+
+.public-k12-lane-label {
+  color: #233029;
+  font-size: 22rpx;
+  font-weight: 920;
+}
+
+.public-k12-seeds {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.public-k12-action-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.public-k12-primary,
+.public-k12-secondary {
+  min-height: 68rpx;
+  padding: 0 14rpx;
+  border-radius: 18rpx;
+  font-size: 22rpx;
+  font-weight: 920;
+  line-height: 68rpx;
+}
+
+.public-k12-primary {
+  color: #fff;
+  background: #1a5336;
+}
+
+.public-k12-secondary {
+  color: #1a5336;
+  background: rgba(26, 83, 54, 0.07);
 }
 
 .tools-more-toggle {

@@ -107,6 +107,24 @@
     .smart-cta{align-self:flex-start;font-size:13px;color:var(--primary);font-weight:500;border-bottom:0.5px solid currentColor;padding-bottom:1px}
     .smart-cta:hover{color:var(--ink)}
     .smart-empty{padding:28px;text-align:center;color:var(--ink-4);font-size:13px;background:var(--bg-2);border:0.5px dashed var(--border);border-radius:8px}
+    .loop-bridge{display:none;margin-top:14px;background:#fff;border:0.5px solid var(--border);border-radius:8px;padding:18px;gap:14px;align-items:flex-start}
+    .loop-bridge.on{display:grid;grid-template-columns:1fr auto}
+    @media(max-width:720px){.loop-bridge.on{grid-template-columns:1fr}}
+    .loop-bridge-k{font-size:11px;color:var(--ink-3);font-weight:500;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+    .loop-bridge-t{font-size:16px;font-weight:500;color:var(--ink);line-height:1.45}
+    .loop-bridge-s{font-size:12px;color:var(--ink-2);line-height:1.65;margin-top:6px}
+    .loop-bridge-m{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .loop-bridge-m span{font-size:11px;color:var(--ink-2);background:var(--bg-2);border:0.5px solid var(--border);border-radius:999px;padding:4px 8px}
+    .loop-bridge-a{align-self:center;background:var(--ink);color:#fff;border-radius:6px;padding:9px 14px;font-size:13px;font-weight:500}
+    .evidence-timeline{background:#fff;border:0.5px solid var(--border);border-radius:8px;overflow:hidden}
+    .evidence-line{display:grid;grid-template-columns:96px 1fr auto;gap:12px;padding:13px 16px;border-top:0.5px solid var(--border);align-items:center}
+    .evidence-line:first-child{border-top:none}
+    .evidence-type{font-size:11px;color:var(--primary);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+    .evidence-title{font-size:13px;color:var(--ink);font-weight:500;line-height:1.45}
+    .evidence-detail{font-size:12px;color:var(--ink-3);line-height:1.55;margin-top:2px}
+    .evidence-go{font-size:12px;color:var(--ink);border-bottom:0.5px solid currentColor}
+    .evidence-empty{padding:22px;text-align:center;color:var(--ink-4);font-size:13px}
+    @media(max-width:720px){.evidence-line{grid-template-columns:1fr}.evidence-go{justify-self:flex-start}}
 
     /* QUESTS — single grayscale */
     .quests{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -347,6 +365,27 @@
         </div>
     </div>
     <div class="smart-grid" id="smart-grid"></div>
+    <div class="loop-bridge" id="learning-loop-bridge">
+        <div>
+            <div class="loop-bridge-k">Learning loop</div>
+            <div class="loop-bridge-t" id="loop-next-action"></div>
+            <div class="loop-bridge-s" id="loop-parent-line"></div>
+            <div class="loop-bridge-m" id="loop-counts"></div>
+        </div>
+        <a class="loop-bridge-a" href="study-tools.html">继续行动</a>
+    </div>
+</section>
+
+<!-- LOCAL EVIDENCE TIMELINE -->
+<section class="sec" id="evidence-sec">
+    <span class="eyebrow-en">[Evidence.]</span>
+    <div class="sec-h">
+        <div>
+            <div class="sec-t">最近发生了什么</div>
+            <div class="sec-sub" id="evidence-summary">把工具记录、练习和错题串成家长能读的一条线</div>
+        </div>
+    </div>
+    <div class="evidence-timeline" id="evidence-timeline"></div>
 </section>
 
 <!-- DAILY QUESTS -->
@@ -1228,10 +1267,68 @@ function renderFourDim(matrix, act){
 }
 
 // ============== SMART NEXT STEPS ==============
+function renderLearningLoopBridge() {
+    var bridge = document.getElementById('learning-loop-bridge');
+    if (!bridge || !window.LearningStore || !window.LearningStore.buildLearningLoopSnapshot) return null;
+    var snapshot = window.LearningStore.buildLearningLoopSnapshot();
+    if (!snapshot || !snapshot.ready) {
+        bridge.className = 'loop-bridge';
+        return snapshot;
+    }
+    document.getElementById('loop-next-action').textContent = snapshot.nextAction || '\u5148\u5199\u4eca\u665a\u7b2c\u4e00\u6b65';
+    document.getElementById('loop-parent-line').textContent = snapshot.parentLine || snapshot.shareLine || '\u5bb6\u957f\u53ea\u770b\u4e0b\u4e00\u6b65\u52a8\u4f5c\u3002';
+    var counts = snapshot.counts || {};
+    document.getElementById('loop-counts').innerHTML = [
+        '<span>\u8ba1\u5212 ' + (counts.plans || 0) + '</span>',
+        '<span>\u7ec3\u4e60 ' + (counts.practice || 0) + '</span>',
+        '<span>\u8fdb\u6b65 ' + (counts.progress || 0) + '</span>',
+        '<span>\u5230\u671f ' + (counts.dueErrors || 0) + '</span>'
+    ].join('');
+    bridge.className = 'loop-bridge on';
+    return snapshot;
+}
+
+function escapeProgressHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, function (c) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+}
+
+function renderLearningEvidenceTimeline() {
+    var mount = document.getElementById('evidence-timeline');
+    if (!mount || !window.LearningStore || !window.LearningStore.buildLearningEvidenceTimeline) return null;
+    var timeline = window.LearningStore.buildLearningEvidenceTimeline({ limit: 6 });
+    var summary = document.getElementById('evidence-summary');
+    if (summary) summary.textContent = timeline.parentSummary || '把工具记录、练习和错题串成家长能读的一条线';
+    if (!timeline || !timeline.ready) {
+        mount.innerHTML = '<div class="evidence-empty">还没有本地学习证据 · 先去工具箱完成一次练习</div>';
+        return timeline;
+    }
+    mount.innerHTML = timeline.items.map(function (item) {
+        return '<div class="evidence-line">'
+            + '<div class="evidence-type">' + escapeProgressHtml(item.type) + '</div>'
+            + '<div><div class="evidence-title">' + escapeProgressHtml(item.title) + '</div>'
+            + '<div class="evidence-detail">' + escapeProgressHtml(item.detail) + '</div></div>'
+            + '<a class="evidence-go" href="' + escapeProgressHtml(item.route || 'progress.html') + '">查看</a>'
+            + '</div>';
+    }).join('');
+    return timeline;
+}
+
 function renderSmartNext() {
     var grid = document.getElementById('smart-grid');
     if (!grid) return;
     var cards = [];
+
+    var loopSnapshot = renderLearningLoopBridge();
+    if (loopSnapshot && loopSnapshot.ready && loopSnapshot.nextAction) {
+        cards.push({
+            cls: 'loop', tag: '\u95ed\u73af',
+            title: loopSnapshot.nextAction,
+            reason: loopSnapshot.parentLine || loopSnapshot.shareLine || '\u628a\u4eca\u665a\u8bb0\u5f55\u63a5\u5230\u4e0b\u4e00\u6b65\u3002',
+            cta: '\u7ee7\u7eed', href: 'study-tools.html'
+        });
+    }
 
     // 1. FSRS 到期
     try {
@@ -1528,6 +1625,7 @@ render();
 renderFsrs();
 renderSubjects();
 renderSmartNext();
+renderLearningEvidenceTimeline();
 renderTrophies();
 </script>
 

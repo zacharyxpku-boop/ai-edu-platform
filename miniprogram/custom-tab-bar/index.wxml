@@ -6,42 +6,42 @@
     bindtap="switchTab"
   >
     <view class="v1-tab-icon-wrap"><view class="v1-tab-icon home"></view></view>
-    <view class="v1-tab-text">作业点拨</view>
+    <view class="v1-tab-text">今天</view>
   </view>
   <view
     class="v1-tab-item {{selected === 1 ? 'active' : ''}}"
     data-index="1"
-    data-path="/pages/review/review"
+    data-path="/pages/tutor/tutor"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon loop"></view></view>
-    <view class="v1-tab-text">修卡点</view>
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon tutor"></view></view>
+    <view class="v1-tab-text">AI私教</view>
   </view>
   <view
     class="v1-tab-item {{selected === 2 ? 'active' : ''}}"
     data-index="2"
-    data-path="/pages/focus/focus"
+    data-path="/pages/arcade/arcade"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon focus"></view></view>
-    <view class="v1-tab-text">专注舱</view>
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon island"></view></view>
+    <view class="v1-tab-text">复习岛</view>
   </view>
   <view
     class="v1-tab-item {{selected === 3 ? 'active' : ''}}"
     data-index="3"
-    data-path="/pages/tools/tools"
+    data-path="/pages/profile/profile"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon pack"></view></view>
-    <view class="v1-tab-text">轻回访</view>
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon parent"></view></view>
+    <view class="v1-tab-text">家长</view>
   </view>
   <view
     class="v1-tab-item {{selected === 4 ? 'active' : ''}}"
     data-index="4"
-    data-path="/pages/profile/profile"
+    data-path="/pages/upload/upload"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon mine"></view></view>
-    <view class="v1-tab-text">我的</view>
+    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon upload"></view></view>
+    <view class="v1-tab-text">上传</view>
   </view>
 </view>

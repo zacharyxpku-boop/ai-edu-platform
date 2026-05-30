@@ -15,4 +15,14 @@
     <view class="title-md">服务边界</view>
     <view class="body">本版本不提供学科培训课程、直播或录播授课、教师一对一辅导、考试押题、拍照搜题出结果或学习结果承诺；仅围绕用户主动输入的学校作业和卡点，提供学习过程建议。</view>
   </view>
+  <view class="section panel-quiet legal-depth-card" wx:if="{{surfaceDepthPack}}">
+    <view class="title-md">{{surfaceDepthPack.title}}</view>
+    <view class="body">{{surfaceDepthPack.summary}}</view>
+    <view class="legal-depth-list">
+      <button class="legal-depth-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id" data-route="{{item.route}}" data-dimension-id="{{item.id}}" data-label="{{item.displayLabel}}" bindtap="runSurfaceDepthAction">
+        {{item.displayLabel}}
+      </button>
+    </view>
+    <view class="body">{{surfaceDepthPack.familyLine}}</view>
+  </view>
 </view>

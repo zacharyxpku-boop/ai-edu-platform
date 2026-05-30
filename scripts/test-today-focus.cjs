@@ -95,4 +95,45 @@ assert.strictEqual(second.hasMiniActionDone, false, 'new focus resets the mini a
 assert.ok(!second.completed_at, 'new pending focus does not inherit the previous completion timestamp');
 assert.ok((second.thoughtHistory || []).some((item) => item.text.includes('不知道下一步')), 'completed focus history is still locally traceable');
 
+storage.clearLearningData();
+const localCases = storage.buildLocalScenarioLoopCases();
+assert.ok(localCases.length >= 10, 'local scenario loop gives enough real starting cases');
+assert.ok(localCases.some((item) => item.id === 'physics_circuit_path'), 'local scenario loop covers physics circuit path');
+assert.ok(localCases.every((item) => item.firstStepCard && item.firstStepCard.noFinalAnswer), 'local scenario cases produce first-step cards with no-answer boundary');
+const loopResult = storage.applyLocalScenarioLoopCase('physics_circuit_path');
+assert.ok(loopResult && loopResult.focus && loopResult.card, 'applying a local scenario creates a focus and review card');
+assert.strictEqual(loopResult.focus.repairStatus, 'completed', 'local scenario walks through the repair gate');
+assert.ok(loopResult.firstStepCard && loopResult.firstStepCard.subjectKey === 'physics', 'local scenario keeps the subject-specific first-step card');
+const scenarioCards = storage.loadReviewCards().filter((card) => card.sourceFocusId === loopResult.focus.id);
+assert.strictEqual(scenarioCards.length, 4, 'local scenario creates one primary review card plus three spaced cadence cards');
+assert(scenarioCards.some((card) => card.source === 'today_focus' && card.sourceFocusId === loopResult.focus.id), 'local scenario creates one primary linked review card');
+assert(['next_day_revisit', 'day7_variant', 'two_week_stability_check'].every((marker) => scenarioCards.some((card) => card.cadenceMarker === marker)), 'local scenario creates next-day/day-7/two-week cadence cards');
+const scenarioUpdatedPrimary = storage.loadReviewCards().find((card) => card.id === loopResult.card.id) || loopResult.card;
+const scenarioTransferSet = scenarioUpdatedPrimary.nextPracticePlan && scenarioUpdatedPrimary.nextPracticePlan.transferPracticeSet;
+assert.ok(scenarioTransferSet && scenarioTransferSet.completedPromptIds.includes('near_transfer'), 'local scenario records near-transfer practice');
+assert.ok(scenarioTransferSet.completedPromptIds.includes('teach_back'), 'local scenario records teach-back practice');
+assert.ok(storage.buildParentReflectionSummary().ready, 'local scenario records a parent reflection receipt');
+assert.ok(storage.buildOutcomeReviewSummary().ready, 'local scenario records an outcome check');
+assert.ok(storage.loadReviewEvents().some((event) => event.type === 'local_scenario_loop_applied'), 'local scenario appends a review event');
+assert.ok(loopResult.flowSteps && loopResult.flowSteps.length >= 5 && loopResult.flowSteps.every((step) => step.done), 'local scenario returns a visible done-path');
+assert.ok(loopResult.nextRoutes && loopResult.nextRoutes.some((route) => route.path === '/pages/review/review'), 'local scenario returns a review route');
+assert.ok(loopResult.nextRoutes.some((route) => route.path === '/pages/profile/profile'), 'local scenario returns a parent recap route');
+const questArc = storage.buildLearningQuestArc();
+assert.ok(questArc && questArc.stages && questArc.stages.length >= 6, 'learning quest arc connects the full loop');
+assert.ok(questArc.stages.some((stage) => stage.id === 'transfer' && stage.done), 'learning quest arc reflects transfer completion');
+assert.ok(questArc.stages.some((stage) => stage.id === 'parent' && stage.done), 'learning quest arc reflects parent follow-up');
+assert.ok(questArc.currentAction && questArc.currentActionLabel, 'learning quest arc gives a concrete next action');
+const questArcGameBridge = storage.buildQuestArcGameBridge({
+  dailyQuestSet: { weakKey: '电路路径', quests: [{ id: 'quest_boss_gap', progress: 0, target: 1 }] },
+  adaptiveChallenge: { mode: 'repair', bossCard: { key: '电路路径' } }
+});
+assert.strictEqual(questArcGameBridge.noFinalAnswer, true, 'quest arc game bridge keeps the no-answer boundary');
+assert.ok(questArcGameBridge.completionWrites.includes('quest_arc_game_signal'), 'quest arc game bridge declares evidence writeback');
+const questArcGameSignal = storage.recordQuestArcGameSignal({
+  mission: questArcGameBridge,
+  result: { gameType: 'quiz', total: 3, correct: 3, accuracy: 100, passed: true }
+}, { gameType: 'quiz' });
+assert.ok(questArcGameSignal && questArcGameSignal.noFinalAnswer, 'arcade quest signal records the no-answer boundary');
+assert.ok(storage.validationEventsByType('quest_arc_game_signal').length >= 1, 'arcade writes quest arc game evidence into validation events');
+
 console.log('All today focus behavior tests pass.');

@@ -23,12 +23,12 @@ const appJson = JSON.parse(read('miniprogram/app.json'));
 const tabLabels = appJson.tabBar.list.map((item) => item.text);
 assert.deepStrictEqual(
   tabLabels,
-  ['作业点拨', '修卡点', '专注舱', '轻回访', '我的'],
-  'tab labels should stay aligned to the user route'
+  ['今天', 'AI私教', '复习岛', '家长', '上传'],
+  'tab labels should stay aligned to the five-entry user route'
 );
 
 const customTab = read('miniprogram/custom-tab-bar/index.wxml');
-['作业点拨', '专注舱', '轻回访', '修卡点', '我的'].forEach((label) => {
+['今天', 'AI私教', '复习岛', '家长', '上传'].forEach((label) => {
   assertIncludes(customTab, label, `custom tab should render ${label}`);
 });
 

@@ -1,6 +1,7 @@
 const api = require('../../utils/api');
 const priority = require('../../utils/learning-priority');
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 
 function buildQuickSnap(form) {
   const prerequisite = String(form.snapPrerequisite || '').trim();
@@ -94,7 +95,8 @@ Page({
       snapTransfer: ''
     },
     quickSnap: null,
-    showDiagnosisDetails: false
+    showDiagnosisDetails: false,
+    surfaceDepthPack: null
   },
 
   onLoad() {
@@ -105,7 +107,8 @@ Page({
         subject: profile.subject || '数学',
         minutes: profile.minutes || 35
       }),
-      quickSnap: buildQuickSnap(this.data.form)
+      quickSnap: buildQuickSnap(this.data.form),
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('diagnosis') : null
     });
   },
 
@@ -269,5 +272,22 @@ Page({
       wx.hideLoading();
       this.setData({ submitting: false });
     });
-  }
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
 });

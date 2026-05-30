@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-05-30T06:04:09.583Z",
+  "devtoolsCli": {
+    "attempted": true,
+    "status": "blocked_by_local_service_port",
+    "detail": "微信开发者工具 CLI 服务端口未能连接 127.0.0.1:9420；需要在工具安全设置里开启服务端口后再抓 DevTools/真机截图。"
+  },
+  "checks": [
+    {
+      "id": "upload_material_classification",
+      "title": "上传页分类材料",
+      "route": "/pages/upload/upload?type=talent_assessment",
+      "passed": true,
+      "evidence": [
+        "材料类型：天赋/学习偏好测评",
+        "下一步队列：确认第一步卡点 / 苏格拉底第一步 / 生成回忆卡",
+        "页面按钮覆盖测评、成绩、错题、学校反馈、家长观察和无测评快测。"
+      ]
+    },
+    {
+      "id": "report_evidence_method",
+      "title": "报告页解释证据和方法",
+      "route": "/pages/profile/profile?from=upload_report_ready",
+      "passed": true,
+      "evidence": [
+        "标准版本：2026-05-24.visible-decision-v1",
+        "命中材料场景：talent_report_uploaded / wrong_question_uploaded / mixed_materials",
+        "HTML 长度：103183"
+      ]
+    },
+    {
+      "id": "tutor_first_step",
+      "title": "私教页追问第一步",
+      "route": "/pages/tutor/tutor?from=parent_report_standard",
+      "passed": true,
+      "evidence": [
+        "私教入口绑定报告标准里的 tutor route。",
+        "可见文案强调先说第一步，不直接替写答案。",
+        "报告标准要求回流 child_first_step + socratic_receipt。"
+      ]
+    },
+    {
+      "id": "review_game_transfer",
+      "title": "复习/游戏页验证记忆和迁移",
+      "route": "/pages/review/review -> /pages/arcade/arcade",
+      "passed": true,
+      "evidence": [
+        "回访合约：daily_return_contract",
+        "复习种子：review_return_seed",
+        "次日证据：agreed_local_contract"
+      ]
+    },
+    {
+      "id": "parent_summary_next_step",
+      "title": "家长页汇总证据与下一步",
+      "route": "/pages/profile/profile",
+      "passed": true,
+      "evidence": [
+        "家长页展示报告标准、导出规则、闭环动作和下一证据。",
+        "完整 HTML/PDF 仍按 H5 WebView 或服务端临时文件导出，不在小程序内假承诺。",
+        "导出策略：小程序内展示家长摘要与报告入口；完整 HTML/PDF 建议通过服务端生成临时文件或 H5 WebView 打开后打印。"
+      ]
+    }
+  ]
+}

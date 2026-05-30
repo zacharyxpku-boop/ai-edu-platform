@@ -287,7 +287,7 @@ async function main() {
   assert.ok(upload.includes('buildSubmitLabel'), 'upload changes primary CTA when wrong questions are detected');
   assert.ok(homePage.includes('buildWrongbookEntry'), 'home page exposes one clear wrongbook entry');
   assert.ok(homePage.includes("event: 'share_clicked'"), 'home page records incoming share clicks for growth attribution');
-  assert.ok(homePage.includes("wx.navigateTo({ url: '/pages/tutor/tutor?from=home' })"), 'home primary AI input opens Xiaodian tutor directly');
+  assert.ok(homePage.includes("navigation.navigateLearningRoute(url)") && homePage.includes("'/pages/tutor/tutor?from=home'"), 'home primary AI input opens Xiaodian tutor through tab-safe navigation');
   assert.ok(homePage.includes('trackShareActivation') && homePage.includes("event,") && homePage.includes('share_code: incoming.share_code'), 'home attaches share attribution to activation events');
   assert.ok(profileWxml.includes('hero-identity-card') && profileWxml.includes('dailyShareCard.identityTag'), 'profile first screen promotes a shareable learning identity card');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');

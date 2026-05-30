@@ -23,7 +23,7 @@ const screenshotTimeoutMs = process.env.WEB_PREVIEW_SCREENSHOT_TIMEOUT_MS
   : 20000;
 const headlessMode = process.env.WEB_PREVIEW_HEADLESS || '--headless=new';
 
-const defaultPages = ['home', 'upload', 'report', 'tutor', 'review', 'parent'];
+const defaultPages = ['home', 'upload', 'report', 'tutor', 'review', 'parent', 'map'];
 const requestedPages = process.env.WEB_PREVIEW_PAGES
   ? process.env.WEB_PREVIEW_PAGES.split(',').map((page) => page.trim()).filter(Boolean)
   : defaultPages;
@@ -347,7 +347,7 @@ async function main() {
   const files = fs.readdirSync(outDir)
     .filter((file) => {
       if (!file.endsWith('-current.png')) return false;
-      if (!requestedPages.some((page) => file.includes(`-${page}-`))) return false;
+      if (!requestedPages.some((page) => file.startsWith(`${outputPrefix}${page}-`))) return false;
       return captureOfficialSite ? file.startsWith(outputPrefix) : !file.startsWith('site-');
     })
     .sort();

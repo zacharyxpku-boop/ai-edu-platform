@@ -63,7 +63,27 @@ const storageStub = {
     };
   },
   buildBlackboardHint() {
-    return { structure: '先看题目问什么，再找第一步。' };
+    return { title: '审题小黑板', body: '先看题目问什么。', structure: '问题 → 条件 → 第一步' };
+  },
+  buildFirstStepBlackboardBlueprint() {
+    return {
+      title: '语文第一步小黑板',
+      boundary: '只画第一笔和证据点，不讲完整答案。',
+      firstStroke: {
+        label: '问题',
+        drawAction: '只圈出题目问什么',
+        evidence: '先确认题目要求',
+        childReply: '孩子要能说出：我先处理问题。'
+      },
+      layers: [
+        { id: 'layer_problem', order: 1, label: '问题', drawAction: '圈出问题', evidence: '题目问什么', parentQuestion: '你第一步先看问题吗？' },
+        { id: 'layer_condition', order: 2, label: '条件', drawAction: '标出条件', evidence: '已知信息', parentQuestion: '这一笔有什么证据？' },
+        { id: 'layer_first_step', order: 3, label: '第一步', drawAction: '写下第一步', evidence: '孩子自己的开头', parentQuestion: '你能复述第一步吗？' }
+      ],
+      stopRule: '孩子能说出第一步就停；说不出时退回更小的一笔。',
+      wrongCauseReturn: '如果同类题又错，先回到问题这一笔，不加题量。',
+      aiRole: 'explain_the_same_first_step_in_child_friendly_words'
+    };
   }
 };
 
@@ -90,6 +110,12 @@ assert(vmWithFocus.subtitle.includes('最卡的这一步'), 'viewModel keeps fir
 assert(vmWithFocus.primaryCard.sections.some((item) => item.label === '今天卡在哪'), 'primary card shows stuck point');
 assert(vmWithFocus.primaryCard.sections.some((item) => item.label === '咕点建议你先看'), 'primary card shows system suggestion');
 assert(vmWithFocus.primaryCard.sections.some((item) => item.label === '你自己的第一步'), 'primary card shows child first step slot');
+assert(vmWithFocus.repairContract && vmWithFocus.repairContract.rows.length === 3, 'review view model exposes a three-step repair contract');
+assert(vmWithFocus.repairContract.boundary.includes('不做分数比较'), 'repair contract keeps no-answer and no-score-comparison boundary');
+assert(vmWithFocus.blackboard && vmWithFocus.blackboard.visualMode === 'three_layer_first_step_board', 'review blackboard exposes visual board mode');
+assert(vmWithFocus.blackboard.layers && vmWithFocus.blackboard.layers.length === 3, 'review blackboard exposes three visible board layers');
+assert(vmWithFocus.blackboard.firstStrokeLine.includes('只圈出题目问什么'), 'review blackboard exposes first stroke line');
+assert(vmWithFocus.blackboard.stopRuleLine.includes('说出第一步就停'), 'review blackboard exposes stop rule');
 assert(vmWithFocus.miniAction && vmWithFocus.miniAction.question.includes('我先'), 'missing child step exposes gentle confirmation prompt');
 assert(vmWithFocus.miniAction.quickChoices.includes('我先圈出题干条件'), 'mini action exposes quick choices');
 
@@ -114,6 +140,7 @@ const vmCompleted = reviewVm.buildReviewViewModel({
   }
 });
 assert.strictEqual(vmCompleted.primaryCta.action, 'tools', 'completed CTA action is light recall');
+assert.strictEqual(vmCompleted.repairContract.status, '已完成', 'completed repair contract is visibly closed');
 
 const vmEmpty = reviewVm.buildReviewViewModel({});
 assert(vmEmpty.emptyState && vmEmpty.emptyState.text.includes('还没有要修的卡点'), 'empty state is warm');
@@ -144,6 +171,9 @@ const reviewJs = read('miniprogram/pages/review/review.js');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
 assert(reviewJs.includes('review-view-model'), 'review page imports review viewModel');
 assert(reviewJs.includes('buildReviewViewModel'), 'review page builds reviewViewModel');
+assert(reviewJs.includes('reviewReadableRouteLine') && reviewWxml.includes('reportSourcePanel.returnRouteLine'), 'review report source renders readable return-route copy');
+assert(reviewJs.includes('reviewEvidenceThreadLine') && reviewWxml.includes('miniLessonReturnPanel.topicCardLine'), 'review mini lesson return hides internal topic ids behind a readable evidence line');
+assert(!reviewWxml.includes('reportSourcePanel.returnRoute}}</view>') && !reviewWxml.includes('miniLessonReturnPanel.topicCardId}}</text>'), 'review UI does not expose raw return routes or topic card ids');
 
 const firstScreen = reviewWxml.slice(
   reviewWxml.indexOf('rc14-review-first-screen'),
@@ -151,5 +181,8 @@ const firstScreen = reviewWxml.slice(
 );
 assert(firstScreen.includes('reviewViewModel.routePill'), 'first screen reads routePill from reviewViewModel');
 assert(firstScreen.includes('reviewViewModel.primaryCard.sections'), 'first screen renders primary card sections from reviewViewModel');
+assert(firstScreen.includes('reviewViewModel.repairContract.rows') && firstScreen.includes('repair-contract-boundary'), 'first screen renders the repair contract before secondary review machinery');
+assert(firstScreen.includes('reviewViewModel.blackboard.layers') && firstScreen.includes('blackboard-layer-board'), 'first screen renders three-layer visual blackboard');
+assert(firstScreen.includes('reviewViewModel.blackboard.stopRuleLine'), 'first screen renders visual blackboard stop rule');
 
 console.log('All review view model tests pass.');

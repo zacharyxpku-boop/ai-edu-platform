@@ -1,3 +1,6 @@
+const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
+
 const COPY = {
   privacy: {
     title: '隐私政策',
@@ -31,12 +34,31 @@ const COPY = {
 Page({
   data: {
     title: COPY.privacy.title,
-    items: COPY.privacy.items
+    items: COPY.privacy.items,
+    surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('legal') : null
   },
 
   onLoad(query) {
     const doc = COPY[query.type] || COPY.privacy;
     wx.setNavigationBarTitle({ title: doc.title });
-    this.setData(doc);
+    this.setData(Object.assign({}, doc, {
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('legal') : null
+    }));
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute || '/pages/profile/profile';
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: 'legal',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || 'legal_boundary'
+      });
+    }
+    navigation.navigateLearningRoute(route);
   }
 });

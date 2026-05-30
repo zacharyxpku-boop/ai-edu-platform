@@ -19,6 +19,7 @@
 }
 
 .v1-tab-item {
+  position: relative;
   display: grid;
   grid-template-rows: 44rpx 34rpx;
   row-gap: 4rpx;
@@ -42,8 +43,20 @@
 
 .v1-tab-item.active {
   color: #0C4A3B;
-  background: transparent;
+  background: #F1FAEF;
   border-color: transparent;
+}
+
+.v1-tab-item.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 6rpx;
+  width: 24rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: #22B95C;
+  transform: translateX(-50%);
 }
 
 .v1-tab-text {
@@ -55,8 +68,6 @@
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transform: scale(0.88);
-  transform-origin: center center;
 }
 
 .v1-tab-icon-wrap {
@@ -66,6 +77,14 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.v1-tab-item.active .v1-tab-icon-wrap {
+  width: 52rpx;
+  height: 44rpx;
+  justify-self: center;
+  border-radius: 18rpx;
+  background: rgba(34, 185, 92, 0.12);
 }
 
 .v1-tab-icon {
@@ -138,6 +157,77 @@
   position: absolute;
   border: 3rpx solid currentColor;
   border-radius: 999rpx;
+}
+
+.v1-tab-icon.tutor::before {
+  content: "";
+  position: absolute;
+  left: 4rpx;
+  top: 5rpx;
+  width: 27rpx;
+  height: 22rpx;
+  border: 3rpx solid currentColor;
+  border-radius: 10rpx;
+}
+
+.v1-tab-icon.tutor::after {
+  content: "";
+  position: absolute;
+  left: 12rpx;
+  top: 15rpx;
+  width: 4rpx;
+  height: 4rpx;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 10rpx 0 0 currentColor, 5rpx 8rpx 0 -1rpx currentColor;
+}
+
+.v1-tab-icon.island::before {
+  content: "";
+  position: absolute;
+  left: 3rpx;
+  bottom: 4rpx;
+  width: 29rpx;
+  height: 13rpx;
+  border: 3rpx solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 18rpx 18rpx;
+}
+
+.v1-tab-icon.island::after {
+  content: "";
+  position: absolute;
+  left: 10rpx;
+  top: 4rpx;
+  width: 13rpx;
+  height: 18rpx;
+  border-left: 3rpx solid currentColor;
+  border-bottom: 3rpx solid currentColor;
+  transform: rotate(-35deg);
+  border-radius: 0 0 0 8rpx;
+}
+
+.v1-tab-icon.upload::before {
+  content: "";
+  position: absolute;
+  left: 4rpx;
+  top: 8rpx;
+  width: 27rpx;
+  height: 23rpx;
+  border: 3rpx solid currentColor;
+  border-radius: 7rpx;
+}
+
+.v1-tab-icon.upload::after {
+  content: "";
+  position: absolute;
+  left: 13rpx;
+  top: 3rpx;
+  width: 9rpx;
+  height: 16rpx;
+  border-left: 3rpx solid currentColor;
+  border-top: 3rpx solid currentColor;
+  transform: rotate(45deg);
 }
 
 .v1-tab-icon.loop::before {

@@ -147,7 +147,10 @@ const inProgressVm = reviewVm.buildReviewViewModel({
   todayFocus: { id: 'focus_in_progress', issueType: '读题审题', repairStatus: 'in_progress' }
 });
 assert(inProgressVm.blackboard && inProgressVm.blackboard.title === '审题小黑板', 'blackboard appears during repair state');
+assert(inProgressVm.blackboard.layers && inProgressVm.blackboard.layers.length === 3, 'blackboard exposes three visible first-step layers');
+assert(inProgressVm.blackboard.stopRuleLine && inProgressVm.blackboard.stopRuleLine.includes('第一步'), 'blackboard exposes a stop rule for first-step teaching');
 assert(reviewWxml.includes('reviewViewModel.blackboard'), 'review page renders blackboard from viewModel');
+assert(reviewWxml.includes('reviewViewModel.blackboard.layers'), 'review page renders visual blackboard layers from viewModel');
 
 storage.clearLearningData();
 let relationFocus = storage.saveTodayFocusFromThought('我不确定单位1是谁', { source: 'rc31_real_device_flow' });
@@ -176,7 +179,8 @@ relationFocus = storage.updateTodayFocusRepair({
 assert.strictEqual(relationFocus.repairStatus, 'completed', 'unit-one blackboard flow completes repair');
 assert.strictEqual(relationFocus.miniActionText, '我先找谁是整体', 'unit-one blackboard flow keeps miniActionText');
 assert(relationFocus.blackboardHint && relationFocus.blackboardUsedAt, 'completed unit-one focus keeps blackboard evidence');
-const relationReviewCard = storage.loadReviewCards().find((item) => item.sourceFocusId === relationFocus.id);
+const relationReviewCard = storage.loadReviewCards().find((item) => item.sourceFocusId === relationFocus.id && item.source === 'today_focus')
+  || storage.loadReviewCards().find((item) => item.sourceFocusId === relationFocus.id);
 assert(relationReviewCard, 'unit-one blackboard flow creates reviewCard');
 assert(
   (relationReviewCard.front || '').includes('我先找谁是整体') || (relationReviewCard.front || '').includes('单位1'),
@@ -217,7 +221,8 @@ focus = storage.updateTodayFocusRepair({
   hasMiniActionDone: true,
   miniActionText: '我先圈题目问什么'
 });
-const card = storage.loadReviewCards().find((item) => item.sourceFocusId === focus.id);
+const card = storage.loadReviewCards().find((item) => item.sourceFocusId === focus.id && item.source === 'today_focus')
+  || storage.loadReviewCards().find((item) => item.sourceFocusId === focus.id);
 assert(card, 'completed blackboard repair creates reviewCard');
 assert((card.front || '').includes('昨天小黑板提醒你先看：问题 → 条件 → 第一步。'), 'reviewCard references blackboard structure');
 assert(card.blackboardHint && card.blackboardHint.structure === '问题 → 条件 → 第一步', 'reviewCard stores blackboard hint');

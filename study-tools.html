@@ -100,6 +100,17 @@
     .recos-h a.full{font-size:12px;color:var(--ink-3)}
     .recos-h a.full:hover{color:var(--ink)}
     .recos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+    .loop-bridge{display:none;margin-top:14px;border:0.5px solid var(--border);background:#fff;border-radius:8px;padding:18px 20px}
+    .loop-bridge.on{display:block}
+    .loop-bridge-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+    .loop-bridge-k{font-size:11px;color:var(--primary);letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px}
+    .loop-bridge-h{font-size:16px;font-weight:500;color:var(--ink);line-height:1.45}
+    .loop-bridge-p{font-size:12px;color:var(--ink-2);margin-top:6px;line-height:1.7;max-width:680px}
+    .loop-bridge-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+    .loop-chip{font-size:11px;color:var(--ink-2);background:var(--bg-2);border-radius:999px;padding:4px 8px}
+    .loop-bridge-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .loop-bridge-actions a{font-size:12px;font-weight:500;border-radius:6px;padding:9px 12px;border:0.5px solid var(--border);background:var(--bg-primary)}
+    .loop-bridge-actions a.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
 
     /* DIMENSION SWITCHER — single ink, primary on active */
     .switcher{margin-top:48px}
@@ -259,12 +270,51 @@
         <a href="progress.html" class="full">看完整诊断 →</a>
     </div>
     <div id="recos-grid" class="recos-grid"></div>
+    <div id="learning-loop-bridge" class="loop-bridge" aria-live="polite">
+        <div class="loop-bridge-top">
+            <div>
+                <div class="loop-bridge-k">Learning loop</div>
+                <div id="loop-bridge-title" class="loop-bridge-h"></div>
+                <p id="loop-bridge-desc" class="loop-bridge-p"></p>
+                <div id="loop-bridge-meta" class="loop-bridge-meta"></div>
+            </div>
+        </div>
+        <div class="loop-bridge-actions">
+            <a class="primary" href="progress.html">看今晚闭环</a>
+            <a id="loop-bridge-tool" href="tools/error-practice.html">去执行这一步</a>
+        </div>
+    </div>
 </section>
+<script src="/src/learning-store.js"></script>
 <script src="/src/today-recos.js"></script>
 <script>
 window.addEventListener('DOMContentLoaded', function(){
     if (window.TodayRecos) window.TodayRecos.render(document.getElementById('recos-grid'));
+    renderStudyToolsLoopBridge();
 });
+
+function renderStudyToolsLoopBridge(){
+    if (!window.LearningStore || !window.LearningStore.buildLearningLoopSnapshot) return;
+    var snap = window.LearningStore.buildLearningLoopSnapshot();
+    if (!snap || !snap.ready) return;
+    var root = document.getElementById('learning-loop-bridge');
+    if (!root) return;
+    var counts = snap.counts || {};
+    var toolHref = counts.dueErrors ? 'tools/error-practice.html'
+        : counts.plans ? 'tools/study-plan.html'
+        : counts.practice ? 'tools/feynman-verify.html'
+        : 'tools/knowledge-explain.html';
+    document.getElementById('loop-bridge-title').textContent = snap.nextAction || '接着完成今晚下一步';
+    document.getElementById('loop-bridge-desc').textContent = snap.parentLine || snap.shareLine || '把刚才的记录接到一个可执行动作里。';
+    document.getElementById('loop-bridge-tool').setAttribute('href', toolHref);
+    document.getElementById('loop-bridge-meta').innerHTML = [
+        '计划 ' + (counts.plans || 0),
+        '练习 ' + (counts.practice || 0),
+        '进展 ' + (counts.progress || 0),
+        '到期错题 ' + (counts.dueErrors || 0)
+    ].map(function(t){ return '<span class="loop-chip">' + t + '</span>'; }).join('');
+    root.classList.add('on');
+}
 </script>
 
 <!-- DIMENSION SWITCHER -->
@@ -545,7 +595,6 @@ function switchDim(d){
 <script src="/src/wechat-cta.js" defer></script>
 <script src="/src/analytics.js" defer></script>
 <script src="/src/pwa.js" defer></script>
-<script src="/src/learning-store.js"></script>
 <script src="/src/gamification.js"></script>
 <script src="/src/gamification-hud.js"></script>
 </body>

@@ -40,11 +40,147 @@
         <view class="focus-review-title">{{toolsViewModel.primaryCard.title}}</view>
         <view class="focus-review-body">{{toolsViewModel.primaryCard.body}}</view>
       </view>
-      <view class="focus-review-arrow" bindtap="goArcade">{{toolsViewModel.primaryCta.text}}</view>
+      <view class="focus-review-arrow" bindtap="goFirstStep">{{toolsViewModel.primaryCta.text}}</view>
     </view>
     </view>
     </view>
     <view class="rc14-tools-after-first-screen"></view>
+
+    <view class="global-depth-card" wx:if="{{surfaceDepthPack}}">
+      <view class="global-depth-head">
+        <view>
+          <view class="global-depth-title">{{surfaceDepthPack.title}}</view>
+          <view class="global-depth-summary">{{surfaceDepthPack.summary}}</view>
+        </view>
+        <view class="global-depth-score">{{surfaceDepthPack.readyCount}}/{{surfaceDepthPack.totalCount}}</view>
+      </view>
+      <view class="global-depth-next" data-route="{{surfaceDepthPack.primaryRoute}}" bindtap="runSurfaceDepthAction">{{surfaceDepthPack.nextAction}}</view>
+      <view class="global-depth-grid">
+        <view class="global-depth-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id" data-route="{{item.route}}" data-dimension-id="{{item.id}}" data-label="{{item.displayLabel}}" bindtap="runSurfaceDepthAction">
+          <text class="global-depth-chip-title">{{item.displayLabel}}</text>
+          <text class="global-depth-chip-line">{{item.ready ? item.evidenceLine : item.gapLine}}</text>
+        </view>
+      </view>
+      <view class="global-depth-note">{{surfaceDepthPack.familyLine}}</view>
+    </view>
+
+    <view class="public-k12-ops-card" wx:if="{{publicK12ContentOps}}">
+      <view class="public-k12-head">
+        <view>
+          <view class="public-k12-title">{{publicK12ContentOps.title}}</view>
+          <view class="public-k12-summary">{{publicK12ContentOps.summary}}</view>
+        </view>
+        <view class="public-k12-badge">来源先过门槛</view>
+      </view>
+      <view class="public-k12-metrics">
+        <view class="public-k12-metric" wx:for="{{publicK12ContentOps.metrics}}" wx:key="id">
+          <text>{{item.value}}</text>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+      <view class="public-k12-lanes">
+        <view class="public-k12-lane" wx:for="{{publicK12ContentOps.lanes}}" wx:key="id">
+          <view class="public-k12-lane-label">{{item.label}}</view>
+          <view class="public-k12-lane-body">{{item.body}}</view>
+        </view>
+      </view>
+      <view class="public-k12-seeds" wx:if="{{publicK12ContentOps.challengeSeeds.length}}">
+        <view class="public-k12-seed" wx:for="{{publicK12ContentOps.challengeSeeds}}" wx:key="id" data-route="{{item.route}}" data-review-route="{{item.reviewRoute}}" data-challenge-id="{{item.sourceChallengeId}}" data-subject="{{item.subject}}" data-task-type="{{item.taskType}}" data-first-step-gate="{{item.firstStepGate}}" bindtap="runPublicK12ChallengeSeed">
+          <text>{{item.subject}}｜{{item.firstStepPrompt}}</text>
+          <text>{{item.answerBoundary}}</text>
+          <text>点入后只问第一步：{{item.firstStepGate}}</text>
+        </view>
+      </view>
+      <view class="public-k12-boundary">{{publicK12ContentOps.sourceLine}}</view>
+      <view class="public-k12-action-row">
+        <button class="public-k12-primary" data-route="{{publicK12ContentOps.primaryRoute}}" bindtap="runPublicK12ContentOps">贴自己的材料</button>
+        <button class="public-k12-secondary" data-route="{{publicK12ContentOps.secondaryRoute}}" bindtap="runPublicK12ContentOps">玩第一步挑战</button>
+      </view>
+      <view class="public-k12-next">{{publicK12ContentOps.actionLine}}</view>
+    </view>
+
+    <view class="public-k12-ops-card moat-workbench-card" wx:if="{{competitiveMoatWorkbench}}">
+      <view class="public-k12-head">
+        <view>
+          <view class="public-k12-title">{{competitiveMoatWorkbench.title}}</view>
+          <view class="public-k12-summary">{{competitiveMoatWorkbench.summary}}</view>
+        </view>
+        <view class="public-k12-badge">{{competitiveMoatWorkbench.progressPercent}}%</view>
+      </view>
+      <view class="public-k12-metrics">
+        <view class="public-k12-metric">
+          <text>{{competitiveMoatWorkbench.sourceCounts.subjects}}</text>
+          <text>学科</text>
+        </view>
+        <view class="public-k12-metric">
+          <text>{{competitiveMoatWorkbench.sourceCounts.courseUnits}}</text>
+          <text>单元</text>
+        </view>
+        <view class="public-k12-metric">
+          <text>{{competitiveMoatWorkbench.sourceCounts.questionCards}}</text>
+          <text>题型卡</text>
+        </view>
+        <view class="public-k12-metric">
+          <text>{{competitiveMoatWorkbench.sourceCounts.publicK12Resources}}</text>
+          <text>来源</text>
+        </view>
+      </view>
+      <view class="public-k12-quality" wx:if="{{competitiveMoatWorkbench.qualityGate}}">
+        <view class="public-k12-quality-title">内容质量门：{{competitiveMoatWorkbench.qualityGateReady ? '已通过' : '继续补证据'}}</view>
+        <view class="public-k12-quality-line">样本来源：{{competitiveMoatWorkbench.qualityGate.sampleSourceStatus}} / {{competitiveMoatWorkbench.qualityGate.coverageConfidence}}</view>
+        <view class="public-k12-quality-line">风险计数：伪厚度 {{competitiveMoatWorkbench.qualityGate.pseudoThicknessRiskCount}}，苏格拉底 {{competitiveMoatWorkbench.qualityGate.threeRoundSocraticRiskCount}}，跨模块 {{competitiveMoatWorkbench.qualityGate.crossModuleConsistencyRiskCount}}</view>
+        <view class="public-k12-quality-line">{{competitiveMoatWorkbench.statusReason}}</view>
+      </view>
+      <view class="public-k12-lanes">
+        <view class="public-k12-lane" wx:for="{{competitiveMoatWorkbench.highLeverageLanes}}" wx:key="id">
+          <view class="public-k12-lane-label">{{item.label}}</view>
+          <view class="public-k12-lane-body">{{item.target}}</view>
+          <view class="public-k12-lane-body">证据：{{item.currentEvidence}}</view>
+          <view class="public-k12-lane-body">下一步：{{item.nextAction}}</view>
+        </view>
+      </view>
+      <view class="public-k12-boundary">{{competitiveMoatWorkbench.aiLocalDecision.localBetter}}</view>
+      <view class="public-k12-boundary">{{competitiveMoatWorkbench.aiLocalDecision.aiBetter}}</view>
+      <view class="public-k12-boundary">{{competitiveMoatWorkbench.aiLocalDecision.doNotUse}}</view>
+      <view class="public-k12-seeds">
+        <view class="public-k12-seed" wx:for="{{competitiveMoatWorkbench.sourcePolicyRows}}" wx:key="id">
+          <text>{{item.label}}：{{item.decision}}</text>
+          <text>{{item.blocked}}</text>
+        </view>
+      </view>
+      <view class="public-k12-seeds" wx:if="{{competitiveMoatWorkbench.sourceLicenseGateRows.length}}">
+        <view class="public-k12-seed" wx:for="{{competitiveMoatWorkbench.sourceLicenseGateRows}}" wx:key="id">
+          <text>{{item.label}}：{{item.status}}</text>
+          <text>{{item.productUse}}</text>
+          <text>{{item.blockedUse}}</text>
+        </view>
+      </view>
+      <view class="public-k12-lanes" wx:if="{{competitiveMoatWorkbench.openMaicScenePack.length}}">
+        <view class="public-k12-lane" wx:for="{{competitiveMoatWorkbench.openMaicScenePack}}" wx:key="id">
+          <view class="public-k12-lane-label">{{item.label}}</view>
+          <view class="public-k12-lane-body">本地负责：{{item.localCodeOwns}}</view>
+          <view class="public-k12-lane-body">AI 更适合：{{item.aiBetterFor}}</view>
+        </view>
+      </view>
+      <view class="public-k12-lanes" wx:if="{{competitiveMoatWorkbench.competitiveExecutionBoard.length}}">
+        <view class="public-k12-lane" wx:for="{{competitiveMoatWorkbench.competitiveExecutionBoard}}" wx:key="id">
+          <view class="public-k12-lane-label">{{item.label}}</view>
+          <view class="public-k12-lane-body">{{item.tonightAction}}</view>
+          <view class="public-k12-lane-body">证据：{{item.evidenceRequired}}</view>
+          <view class="public-k12-lane-body">禁传：{{item.blockedFields}}</view>
+        </view>
+      </view>
+      <view class="public-k12-lanes" wx:if="{{competitiveMoatWorkbench.reportInputLanes.length}}">
+        <view class="public-k12-lane" wx:for="{{competitiveMoatWorkbench.reportInputLanes}}" wx:key="id">
+          <view class="public-k12-lane-label">{{item.label}}</view>
+          <view class="public-k12-lane-body">输入：{{item.acceptedInput}}</view>
+          <view class="public-k12-lane-body">输出：{{item.output}}</view>
+          <view class="public-k12-lane-body">交付边界：{{item.releaseLine}}</view>
+        </view>
+      </view>
+      <view class="public-k12-next" wx:for="{{competitiveMoatWorkbench.nextOneDayBuild}}" wx:key="*this">{{item}}</view>
+    </view>
+
     <view class="route-next-lite tools-next-lite" wx:if="{{toolsViewModel.nextStep}}" bindtap="goProfile">
       <text>{{toolsViewModel.nextStep.text}}</text>
       <text class="route-next-link">{{toolsViewModel.nextStep.cta}}</text>

@@ -63,6 +63,243 @@
   padding-bottom: calc(64rpx + env(safe-area-inset-bottom));
 }
 
+.arcade-hero-shell {
+  position: relative;
+  margin: 12rpx 28rpx 22rpx;
+  padding: 24rpx;
+  overflow: hidden;
+  border: 1rpx solid rgba(232, 238, 230, 0.94);
+  border-radius: 36rpx;
+  background:
+    radial-gradient(circle at 9% 5%, rgba(248, 198, 34, 0.20), transparent 24%),
+    radial-gradient(circle at 92% 11%, rgba(34, 185, 92, 0.14), transparent 22%),
+    linear-gradient(180deg, #fffef9 0%, #f7fbf3 100%);
+  box-shadow: 0 22rpx 60rpx rgba(38, 58, 43, 0.08);
+}
+
+.arcade-dash-top,
+.arcade-dash-brand,
+.arcade-dash-hero,
+.arcade-map-head,
+.arcade-dash-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.arcade-dash-brand {
+  min-width: 0;
+  justify-content: flex-start;
+}
+
+.arcade-dash-mark {
+  width: 52rpx;
+  height: 52rpx;
+  flex: 0 0 auto;
+  display: block;
+  padding: 7rpx;
+  border-radius: 18rpx;
+  background: #fff6c9;
+  border: 1rpx solid rgba(248, 198, 34, 0.26);
+  box-shadow: 0 14rpx 26rpx rgba(248, 198, 34, 0.20);
+}
+
+.arcade-dash-brand text {
+  display: block;
+  max-width: 340rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arcade-dash-brand text:first-child {
+  color: #18211d;
+  font-size: 30rpx;
+  font-weight: 950;
+  line-height: 1.15;
+}
+
+.arcade-dash-brand text:last-child {
+  margin-top: 3rpx;
+  color: #6a766f;
+  font-size: 21rpx;
+  font-weight: 760;
+}
+
+.arcade-dash-pill {
+  flex: 0 0 auto;
+  padding: 13rpx 18rpx;
+  color: #14854a;
+  background: #ebf9ed;
+  border: 1rpx solid rgba(34, 185, 92, 0.16);
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.arcade-dash-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 168rpx;
+  align-items: center;
+  margin-top: 28rpx;
+}
+
+.arcade-dash-kicker {
+  width: max-content;
+  max-width: 100%;
+  padding: 9rpx 15rpx;
+  border-radius: 999rpx;
+  color: #26754c;
+  background: #effaf0;
+  font-size: 21rpx;
+  font-weight: 900;
+}
+
+.arcade-dash-title {
+  margin-top: 14rpx;
+  color: #101a16;
+  font-size: 42rpx;
+  font-weight: 950;
+  line-height: 1.09;
+  letter-spacing: 0;
+}
+
+.arcade-dash-sub {
+  margin-top: 12rpx;
+  color: #64706a;
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.arcade-dash-art {
+  width: 184rpx;
+  height: 164rpx;
+  border-radius: 36rpx;
+  background: #f3fbef;
+}
+
+.arcade-map-card {
+  margin-top: 22rpx;
+  padding: 20rpx;
+  border: 1rpx solid rgba(232, 238, 230, 0.95);
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12rpx 28rpx rgba(38, 58, 43, 0.05);
+}
+
+.arcade-map-head text:first-child {
+  color: #18211d;
+  font-size: 27rpx;
+  font-weight: 950;
+}
+
+.arcade-map-head text:last-child {
+  color: #738077;
+  font-size: 20rpx;
+  font-weight: 780;
+  white-space: nowrap;
+}
+
+.arcade-map-line {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-top: 18rpx;
+}
+
+.arcade-map-node {
+  position: relative;
+  display: grid;
+  min-height: 112rpx;
+  align-content: center;
+  gap: 8rpx;
+  border-radius: 24rpx;
+  background: #f6f7f1;
+  text-align: center;
+}
+
+.arcade-map-node.active {
+  background: #ecf9ed;
+}
+
+.arcade-map-node text:first-child {
+  justify-self: center;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #16a34a;
+  font-size: 22rpx;
+  font-weight: 950;
+  line-height: 42rpx;
+}
+
+.arcade-map-node text:last-child {
+  color: #173f31;
+  font-size: 22rpx;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.arcade-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.arcade-stats-grid view {
+  min-width: 0;
+  padding: 18rpx 10rpx;
+  border: 1rpx solid rgba(232, 238, 230, 0.95);
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.92);
+  text-align: center;
+}
+
+.arcade-stats-grid text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arcade-stats-grid text:first-child {
+  color: #16a34a;
+  font-size: 34rpx;
+  font-weight: 950;
+}
+
+.arcade-stats-grid text:last-child {
+  margin-top: 6rpx;
+  color: #728078;
+  font-size: 20rpx;
+  font-weight: 800;
+}
+
+.arcade-hero-shell .ux-kit-jump-grid {
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.arcade-jump-card {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(248, 198, 34, 0.18), transparent 32%),
+    #ffffff;
+}
+
+.arcade-dash-action-row {
+  margin-top: 18rpx;
+}
+
+.arcade-primary,
+.arcade-secondary {
+  flex: 1 1 0;
+  margin-top: 0;
+}
+
 .arcade-hero,
 .arcade-card,
 .matrix-card,
@@ -203,6 +440,89 @@
   color: rgba(255, 255, 255, 0.68);
   font-size: 20rpx;
   font-weight: 760;
+}
+
+.challenge-brief-card {
+  margin: 0 28rpx 22rpx;
+  padding: 26rpx;
+  border-radius: 28rpx;
+  background: #FFF7E1;
+  border: 2rpx solid rgba(242, 212, 121, 0.6);
+  box-shadow: 0 14rpx 32rpx rgba(42, 34, 18, 0.08);
+}
+
+.challenge-brief-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.challenge-brief-kicker {
+  color: #8A6A18;
+  font-size: 22rpx;
+}
+
+.challenge-brief-title {
+  margin-top: 6rpx;
+  color: #1B4332;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.challenge-brief-pill {
+  flex: 0 0 auto;
+  max-width: 210rpx;
+  padding: 10rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(27, 67, 50, 0.1);
+  color: #1B4332;
+  font-size: 22rpx;
+  text-align: center;
+}
+
+.challenge-brief-line,
+.challenge-brief-sub {
+  margin-top: 16rpx;
+  color: #4E463D;
+  font-size: 25rpx;
+  line-height: 1.55;
+}
+
+.challenge-brief-sub {
+  margin-top: 8rpx;
+  color: #756D63;
+}
+
+.story-mission {
+  margin-top: 18rpx;
+  padding: 18rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1rpx solid rgba(27, 67, 50, 0.12);
+}
+
+.story-mission-title {
+  color: #1B4332;
+  font-size: 27rpx;
+  font-weight: 850;
+}
+
+.story-mission-line,
+.story-mission-rule {
+  margin-top: 8rpx;
+  color: #4E463D;
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.story-mission-rule {
+  color: #756D63;
+}
+
+.rule-retest-mission {
+  border-color: rgba(27, 67, 50, 0.22);
+  background: rgba(27, 67, 50, 0.06);
 }
 
 .answer-review {
@@ -1007,6 +1327,348 @@
   border: 1rpx solid rgba(242, 212, 121, 0.24);
 }
 
+.arcade-result-bridge {
+  margin-top: 22rpx;
+  padding: 22rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1rpx solid rgba(255, 255, 255, 0.18);
+}
+
+.bridge-kicker {
+  color: rgba(242, 212, 121, 0.92);
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.bridge-title {
+  margin-top: 8rpx;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 950;
+  line-height: 1.28;
+}
+
+.bridge-line,
+.bridge-share {
+  margin-top: 10rpx;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 23rpx;
+  line-height: 1.45;
+}
+
+.bridge-share {
+  color: rgba(242, 212, 121, 0.86);
+}
+
+.bridge-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.bridge-action {
+  min-width: 0;
+  min-height: 72rpx;
+  padding: 0 10rpx;
+  border-radius: 18rpx;
+  background: rgba(242, 212, 121, 0.18);
+  color: #FFFFFF;
+  font-size: 22rpx;
+  font-weight: 850;
+  line-height: 72rpx;
+}
+
+.retention-loop-card {
+  margin-top: 22rpx;
+  padding: 22rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1rpx solid rgba(255, 255, 255, 0.18);
+}
+
+.next-day-return-card {
+  margin-top: 22rpx;
+  padding: 22rpx;
+  border-radius: 24rpx;
+  background: rgba(242, 212, 121, 0.16);
+  border: 1rpx solid rgba(242, 212, 121, 0.34);
+}
+
+.next-day-return-kicker {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.next-day-return-title {
+  margin-top: 6rpx;
+  color: #F2D479;
+  font-size: 30rpx;
+  font-weight: 950;
+}
+
+.next-day-return-line {
+  margin-top: 10rpx;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 23rpx;
+  line-height: 1.45;
+  word-break: break-all;
+}
+
+.daily-return-card {
+  margin: 0 28rpx 22rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #FFFFFF;
+  border: 2rpx solid rgba(27, 67, 50, 0.10);
+  box-shadow: 0 12rpx 30rpx rgba(27, 67, 50, 0.06);
+}
+
+.daily-return-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.daily-return-kicker {
+  color: #5E8C61;
+  font-size: 20rpx;
+  font-weight: 950;
+}
+
+.daily-return-title {
+  margin-top: 6rpx;
+  color: #1B4332;
+  font-size: 32rpx;
+  font-weight: 950;
+}
+
+.daily-return-pill {
+  flex: 0 0 auto;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(242, 212, 121, 0.32);
+  color: #1B4332;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.daily-return-line,
+.daily-return-rule {
+  margin-top: 12rpx;
+  color: rgba(27, 67, 50, 0.74);
+  font-size: 24rpx;
+  line-height: 1.55;
+}
+
+.primary-recall-card {
+  border-color: rgba(27, 67, 50, 0.18);
+  background: linear-gradient(180deg, rgba(248, 252, 246, 1) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.daily-return-button {
+  margin-top: 16rpx;
+  width: 100%;
+  border-radius: 18rpx;
+  background: #1B4332;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1;
+}
+
+.daily-return-steps {
+  margin-top: 18rpx;
+  display: grid;
+  gap: 12rpx;
+}
+
+.daily-return-step {
+  display: grid;
+  grid-template-columns: 42rpx 1fr;
+  gap: 14rpx;
+  align-items: flex-start;
+  padding: 16rpx;
+  border-radius: 18rpx;
+  background: rgba(94, 140, 97, 0.08);
+}
+
+.daily-return-step.current {
+  background: rgba(242, 212, 121, 0.28);
+  border: 2rpx solid rgba(242, 169, 59, 0.55);
+}
+
+.daily-return-step.completed {
+  background: rgba(94, 140, 97, 0.16);
+}
+
+.daily-return-step.locked {
+  opacity: 0.72;
+}
+
+.daily-return-step-order {
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1B4332;
+  color: #FFFFFF;
+  font-size: 22rpx;
+  font-weight: 950;
+}
+
+.daily-return-step-action {
+  color: #1B4332;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.daily-return-step-input {
+  margin-top: 10rpx;
+  min-height: 72rpx;
+  padding: 0 18rpx;
+  border: 2rpx solid rgba(27, 67, 50, 0.18);
+  border-radius: 16rpx;
+  background: rgba(255, 255, 255, 0.82);
+  color: #1B4332;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.daily-return-choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 10rpx;
+}
+
+.daily-return-choice {
+  min-height: 58rpx;
+  margin: 0;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid rgba(27, 67, 50, 0.18);
+  background: rgba(255, 255, 255, 0.78);
+  color: #1B4332;
+  font-size: 22rpx;
+  font-weight: 850;
+  line-height: 58rpx;
+}
+
+.daily-return-choice.selected {
+  border-color: rgba(27, 67, 50, 0.72);
+  background: rgba(94, 140, 97, 0.18);
+}
+
+.daily-return-step-proof {
+  margin-top: 4rpx;
+  color: rgba(27, 67, 50, 0.58);
+  font-size: 21rpx;
+  line-height: 1.4;
+}
+
+.daily-return-step-state {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 8rpx;
+  padding: 6rpx 12rpx;
+  border-radius: 999rpx;
+  color: #6D4D12;
+  background: rgba(242, 212, 121, 0.38);
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.daily-return-step-state.done {
+  color: #1B4332;
+  background: rgba(94, 140, 97, 0.18);
+}
+
+.daily-return-rule.timeout {
+  color: #8A4D24;
+  background: rgba(255, 248, 234, 0.88);
+  border-radius: 16rpx;
+  padding: 12rpx 14rpx;
+}
+
+.retention-loop-kicker {
+  color: rgba(242, 212, 121, 0.9);
+  font-size: 20rpx;
+  font-weight: 950;
+}
+
+.retention-loop-title {
+  margin-top: 8rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 950;
+  line-height: 1.3;
+}
+
+.retention-loop-line,
+.retention-loop-step,
+.retention-loop-foot {
+  margin-top: 10rpx;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 22rpx;
+  font-weight: 760;
+  line-height: 1.45;
+}
+
+.retention-loop-step {
+  padding-left: 16rpx;
+  border-left: 4rpx solid rgba(242, 212, 121, 0.5);
+}
+
+.retention-loop-foot {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.high-frequency-card {
+  background: rgba(242, 212, 121, 0.10);
+}
+
+.high-frequency-section {
+  margin-top: 16rpx;
+  display: grid;
+  gap: 10rpx;
+}
+
+.high-frequency-label {
+  color: rgba(242, 212, 121, 0.9);
+  font-size: 21rpx;
+  font-weight: 950;
+}
+
+.high-frequency-item {
+  display: grid;
+  gap: 4rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 22rpx;
+  font-weight: 760;
+  line-height: 1.36;
+}
+
+.memory-feedback-card {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1rpx solid rgba(242, 212, 121, 0.22);
+  display: grid;
+  gap: 8rpx;
+}
+
 .next-action-title {
   color: #F2D479;
   font-size: 24rpx;
@@ -1114,4 +1776,198 @@
   background: rgba(242, 212, 121, 0.22);
   color: #1B4332;
   font-weight: 780;
+}
+
+.quest-action-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+  margin: 14rpx 0;
+}
+
+.quest-action-btn {
+  min-height: 64rpx;
+  padding: 0 16rpx;
+  border-radius: 14rpx;
+  background: #1B4332;
+  color: #FFFFFF;
+  font-size: 22rpx;
+  font-weight: 850;
+  line-height: 64rpx;
+}
+
+.recall-evidence-strip {
+  display: grid;
+  gap: 10rpx;
+  margin: 16rpx 0;
+  padding: 16rpx;
+  border-radius: 16rpx;
+  background: #ECFDF5;
+  color: #14532D;
+  font-size: 22rpx;
+  font-weight: 850;
+}
+
+.reveal-btn.light {
+  background: #FFFFFF;
+  color: #166534;
+  border: 1rpx solid rgba(22, 101, 52, 0.24);
+}
+
+.surface-depth-card {
+  display: grid;
+  gap: 12rpx;
+  margin: 20rpx 24rpx;
+  padding: 22rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  border: 1rpx solid rgba(15, 23, 42, 0.08);
+}
+
+.surface-depth-title {
+  color: #111827;
+  font-size: 26rpx;
+  font-weight: 1000;
+}
+
+.surface-depth-subtitle,
+.surface-depth-next,
+.surface-depth-note {
+  color: #4B5563;
+  font-size: 22rpx;
+  line-height: 1.45;
+}
+
+.surface-depth-next {
+  padding: 14rpx;
+  border-radius: 14rpx;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-weight: 850;
+}
+
+.surface-depth-grid {
+  display: grid;
+  gap: 10rpx;
+}
+
+.surface-depth-chip {
+  display: grid;
+  gap: 4rpx;
+  padding: 12rpx;
+  border-radius: 14rpx;
+  background: #F8FAFC;
+}
+
+.surface-depth-chip.ready {
+  background: #ECFDF5;
+}
+
+.surface-depth-chip-title {
+  color: #111827;
+  font-size: 21rpx;
+  font-weight: 900;
+}
+
+.surface-depth-chip-line {
+  color: #6B7280;
+  font-size: 19rpx;
+  line-height: 1.35;
+}
+
+/* Later-tab visual pass: make the review island fit like an app screen. */
+.arcade-scroll {
+  padding-bottom: calc(132rpx + env(safe-area-inset-bottom));
+}
+
+.arcade-hero-shell {
+  margin: calc(108rpx + env(safe-area-inset-top)) 34rpx 18rpx;
+  padding: 18rpx;
+  border-radius: 34rpx;
+}
+
+.arcade-dash-hero {
+  grid-template-columns: minmax(0, 1fr) 150rpx;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.arcade-dash-title {
+  margin-top: 10rpx;
+  font-size: 34rpx;
+  line-height: 1.1;
+}
+
+.arcade-dash-sub {
+  display: -webkit-box;
+  margin-top: 9rpx;
+  overflow: hidden;
+  font-size: 21rpx;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.arcade-dash-art {
+  width: 148rpx;
+  height: 128rpx;
+  overflow: hidden;
+  border: 6rpx solid rgba(255, 255, 255, 0.76);
+  border-radius: 30rpx;
+}
+
+.arcade-map-card {
+  margin-top: 14rpx;
+  padding: 14rpx;
+  border-radius: 24rpx;
+}
+
+.arcade-map-line {
+  gap: 8rpx;
+  margin-top: 14rpx;
+}
+
+.arcade-map-node {
+  min-height: 72rpx;
+  gap: 5rpx;
+  border-radius: 18rpx;
+}
+
+.arcade-map-node text:first-child {
+  width: 34rpx;
+  height: 34rpx;
+  font-size: 19rpx;
+  line-height: 34rpx;
+}
+
+.arcade-map-node text:last-child {
+  font-size: 19rpx;
+}
+
+.arcade-stats-grid,
+.arcade-hero-shell .ux-kit-jump-grid,
+.arcade-dash-action-row {
+  margin-top: 14rpx;
+}
+
+.arcade-stats-grid view {
+  padding: 12rpx 8rpx;
+  border-radius: 20rpx;
+}
+
+.arcade-stats-grid text:first-child {
+  font-size: 30rpx;
+}
+
+.arcade-jump-card {
+  min-height: 98rpx;
+  padding: 12rpx 9rpx;
+  border-radius: 20rpx;
+}
+
+.arcade-primary,
+.arcade-secondary {
+  min-height: 66rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
 }

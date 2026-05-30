@@ -1,4 +1,5 @@
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 const api = require('../../utils/api');
 const priority = require('../../utils/learning-priority');
 const learningModules = require('../../utils/learning-modules');
@@ -35,7 +36,8 @@ Page({
     parentActionHero: null,
     growthPath: null,
     recommendedModules: [],
-    adaptivePath: null
+    adaptivePath: null,
+    surfaceDepthPack: null
   },
 
   onShow() {
@@ -69,6 +71,7 @@ Page({
       parentActionHero: this.buildParentActionHero(state, plan, reviewSummary, thinkingSummary),
       growthPath: this.buildGrowthPath(state, plan, reviewSummary, thinkingSummary),
       adaptivePath,
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('radar') : null,
       recommendedModules: adaptivePath.current
         ? [adaptivePath.current].concat(adaptivePath.next).slice(0, 3)
         : learningModules.recommendModules(state, 3, moduleFeedback, moduleEvents)
@@ -319,7 +322,7 @@ Page({
     if (!item) return;
     storage.set(storage.KEYS.selectedHomework, item);
     storage.set(storage.KEYS.selectedHomeworkSource, bucket);
-    wx.navigateTo({ url: '/pages/tutor/tutor' });
+    navigation.navigateLearningRoute('/pages/tutor/tutor?from=radar_select_homework');
   },
 
   markFeedback(event) {
@@ -385,12 +388,12 @@ Page({
   startFirstMust() {
     const item = (this.data.plan.must_do || [])[0];
     if (!item) {
-      wx.navigateTo({ url: '/pages/upload/upload' });
+      navigation.navigateLearningRoute('/pages/upload/upload?from=radar_empty');
       return;
     }
     storage.set(storage.KEYS.selectedHomework, item);
     storage.set(storage.KEYS.selectedHomeworkSource, 'radar_first_must');
-    wx.navigateTo({ url: '/pages/tutor/tutor' });
+    navigation.navigateLearningRoute('/pages/tutor/tutor?from=radar_first_must');
   },
 
   runDecisionAction(event) {
@@ -407,15 +410,15 @@ Page({
   },
 
   goUpload() {
-    wx.navigateTo({ url: '/pages/upload/upload' });
+    navigation.navigateLearningRoute('/pages/upload/upload?from=radar');
   },
 
   goReview() {
-    wx.switchTab({ url: '/pages/review/review' });
+    navigation.navigateLearningRoute('/pages/review/review?from=radar');
   },
 
   goTools() {
-    wx.switchTab({ url: '/pages/tools/tools' });
+    navigation.navigateLearningRoute('/pages/tools/tools?from=radar');
   },
 
   goProfile() {
@@ -424,5 +427,22 @@ Page({
 
   goHome() {
     wx.switchTab({ url: '/pages/home/home' });
-  }
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
 });

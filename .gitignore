@@ -25,6 +25,11 @@ logcleanup.log
 logs/
 tmp-attachments/
 tmp-ui-review/
+tmp_report_inspect/
+inputs/
+outputs/
+.tmp-*.js
+docs/web-app-preview/.tmp-capture/
 
 # WeChat DevTools local app id / private settings
 miniprogram/project.private.config.json

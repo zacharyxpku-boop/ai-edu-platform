@@ -1,0 +1,163 @@
+{
+  "ok": false,
+  "generatedAt": "2026-05-30T06:42:18.577Z",
+  "cliPath": "C:\\Program Files (x86)\\Tencent\\微信web开发者工具\\cli.bat",
+  "port": 9420,
+  "portOpen": false,
+  "projectPath": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\miniprogram",
+  "latestSourceMtime": 1780123247849.6616,
+  "latestSourceMtimeIso": "2026-05-30T06:40:47.849Z",
+  "cliProbe": null,
+  "expectedScreenshots": [
+    {
+      "name": "tab-today.png",
+      "route": "/pages/home/home",
+      "action": "Open Today tab directly",
+      "expected": "Short entry screen only; no long legacy content below the first screen",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-today.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:57:22.550Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "tab-tutor.png",
+      "route": "/pages/tutor/tutor",
+      "action": "Open homework coaching tab directly",
+      "expected": "Short tutor entry screen; primary CTA jumps to child/detail flow",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-tutor.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:57:29.122Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "tab-arcade.png",
+      "route": "/pages/arcade/arcade",
+      "action": "Open Review Island tab directly",
+      "expected": "Short review/game entry screen; no dense mission list by default",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-arcade.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:57:36.885Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "tab-parent.png",
+      "route": "/pages/profile/profile",
+      "action": "Open Parent tab directly",
+      "expected": "Parent sees key progress entry screen, not a report wall",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-parent.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:57:51.596Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "tab-upload.png",
+      "route": "/pages/upload/upload",
+      "action": "Open Upload tab directly",
+      "expected": "Upload entry screen focuses on material intake and learning pack",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-upload.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:57:59.846Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "child-today-first-step.png",
+      "route": "/pages/entry-detail/entry-detail?scene=today",
+      "action": "Today primary CTA -> entry detail -> primary action",
+      "expected": "Returns to tutor with open=flow and visible first-step function area",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-today-first-step.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:58:08.165Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "child-tutor-flow.png",
+      "route": "/pages/entry-detail/entry-detail?scene=tutor",
+      "action": "Tutor primary CTA -> entry detail -> primary action",
+      "expected": "Returns to tutor with open=flow and visible conversation composer",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-tutor-flow.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:58:16.503Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "child-review-recall.png",
+      "route": "/pages/entry-detail/entry-detail?scene=review",
+      "action": "Review primary CTA -> entry detail -> primary action",
+      "expected": "Opens recall/review child flow for memory and transfer validation",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-review-recall.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:58:26.227Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "child-parent-report.png",
+      "route": "/pages/entry-detail/entry-detail?scene=parent",
+      "action": "Parent primary CTA -> entry detail -> primary action",
+      "expected": "Returns to parent with open=flow and visible evidence/report function area",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-parent-report.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:58:39.996Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "child-upload-material.png",
+      "route": "/pages/entry-detail/entry-detail?scene=upload",
+      "action": "Upload primary CTA -> entry detail -> primary action",
+      "expected": "Returns to upload with open=flow and visible material intake function area",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-upload-material.png",
+      "exists": true,
+      "size": {
+        "width": 585,
+        "height": 1266
+      },
+      "mtimeIso": "2026-05-25T01:58:51.427Z",
+      "fresh": false,
+      "valid": false
+    }
+  ]
+}

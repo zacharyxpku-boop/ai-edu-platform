@@ -29,6 +29,7 @@
     function safeSet(key, value) {
         try {
             window.localStorage.setItem(key, JSON.stringify(value));
+            emitLearningStoreUpdated(key);
             return true;
         } catch (e) {
             console.error('写入localStorage失败', key, e);
@@ -38,6 +39,15 @@
             }
             return false;
         }
+    }
+
+    function emitLearningStoreUpdated(key) {
+        try {
+            if (!window.dispatchEvent || !window.CustomEvent) return;
+            window.dispatchEvent(new window.CustomEvent('ydzx:learning-store-updated', {
+                detail: { key: key, timestamp: Date.now() }
+            }));
+        } catch (e) {}
     }
 
     var LearningStore = {
@@ -107,7 +117,7 @@
         },
 
         /**
-         * 保存学习计划（预留）
+         * 保存学习计划
          * @param {Object} plan
          */
         saveStudyPlan: function (plan) {
@@ -119,14 +129,14 @@
         },
 
         /**
-         * 获取学习计划（预留）
+         * 获取学习计划
          */
         getStudyPlans: function () {
             return safeGet(KEYS.STUDY_PLAN);
         },
 
         /**
-         * 删除学习计划（预留）
+         * 删除学习计划
          */
         deleteStudyPlan: function (id) {
             var plans = safeGet(KEYS.STUDY_PLAN);
@@ -135,7 +145,7 @@
         },
 
         /**
-         * 保存进步数据（预留）
+         * 保存进步数据
          * @param {Object} progress
          */
         saveProgress: function (progress) {
@@ -150,7 +160,7 @@
         },
 
         /**
-         * 获取进步数据（预留）
+         * 获取进步数据
          * @param {Object} filter - { subject?, startDate?, endDate? }
          */
         getProgress: function (filter) {
@@ -166,7 +176,7 @@
         },
 
         /**
-         * 保存练习记录（预留）
+         * 保存练习记录
          * @param {Object} practice
          */
         savePractice: function (practice) {
@@ -182,7 +192,7 @@
         },
 
         /**
-         * 获取练习记录（预留）
+         * 获取练习记录
          */
         getPracticeRecords: function () {
             return safeGet(KEYS.PRACTICE);
@@ -529,6 +539,103 @@
                 dueErrors: dueErrors,
                 lastDiagnosisDate: diagnosis.length > 0 ? diagnosis[diagnosis.length - 1].timestamp : null,
                 storage: this.getStorageUsage()
+            };
+        },
+
+        /**
+         * Build a parent-readable timeline from real local evidence.
+         * The timeline is intentionally local-only: it explains what happened without claiming cloud sync.
+         * @param {Object} options - { limit? }
+         * @returns {Object}
+         */
+        buildLearningEvidenceTimeline: function (options) {
+            var limit = (options && options.limit) || 6;
+            var diagnosis = safeGet(KEYS.DIAGNOSIS);
+            var plans = safeGet(KEYS.STUDY_PLAN);
+            var progress = safeGet(KEYS.PROGRESS);
+            var practice = safeGet(KEYS.PRACTICE);
+            var errors = safeGet(KEYS.ERRORS);
+            var items = [];
+            function pushItem(type, ts, title, detail, route) {
+                if (!ts) ts = Date.now();
+                items.push({
+                    type: type,
+                    timestamp: ts,
+                    title: title || 'Learning evidence',
+                    detail: detail || '',
+                    route: route || 'progress.html'
+                });
+            }
+            diagnosis.slice(-20).forEach(function (r) {
+                pushItem('diagnosis', r.timestamp || r.createdAt, '完成一次诊断', (r.subject || r.examName || '定位薄弱点') + ' · 进入下一步决策', 'tools/exam-diagnosis.html');
+            });
+            plans.slice(-20).forEach(function (p) {
+                pushItem('plan', p.createdAt || p.timestamp, '生成学习计划', (p.goal || p.title || '今晚任务已拆成行动') + '', 'tools/study-plan.html');
+            });
+            practice.slice(-50).forEach(function (p) {
+                pushItem('practice', p.timestamp || p.createdAt, '完成一轮练习', (p.subject || p.type || p.title || '练习记录') + ' · 可回看方法是否迁移', 'progress.html');
+            });
+            progress.slice(-30).forEach(function (p) {
+                pushItem('progress', p.timestamp || p.createdAt, '记录一次进展', (p.subject || p.title || '掌握度变化') + ' · 家长可追问下一步', 'progress.html');
+            });
+            errors.slice(-50).forEach(function (e) {
+                pushItem('error', e.timestamp || e.createdAt, '写入一张错题卡', (e.subject || e.keyword || '错题') + ' · 下次先检查错因', 'tools/error-practice.html');
+            });
+            items.sort(function (a, b) { return (b.timestamp || 0) - (a.timestamp || 0); });
+            items = items.slice(0, limit);
+            return {
+                id: 'local_learning_evidence_timeline',
+                ready: items.length > 0,
+                items: items,
+                parentSummary: items.length
+                    ? '最近 ' + items.length + ' 条本地学习证据已串成一条线。'
+                    : '还没有本地学习证据，先完成一次工具练习。',
+                shareLine: items.length
+                    ? '本地证据：' + items[0].title + '，下一步看闭环。'
+                    : '先完成一次工具练习，再生成复盘。'
+            };
+        },
+
+        /**
+         * Build one local evidence snapshot across plan, practice, progress, and due review.
+         * This keeps the static web surface aligned with the miniapp loop: decide, act, review, and share.
+         * @returns {Object}
+         */
+        buildLearningLoopSnapshot: function () {
+            var plans = safeGet(KEYS.STUDY_PLAN);
+            var progress = safeGet(KEYS.PROGRESS);
+            var practice = safeGet(KEYS.PRACTICE);
+            var errors = safeGet(KEYS.ERRORS);
+            var now = Date.now();
+            var dueErrors = errors.filter(function (e) { return (e.nextReviewAt || 0) <= now; });
+            var latestPlan = plans.length ? plans[plans.length - 1] : null;
+            var latestPractice = practice.length ? practice[practice.length - 1] : null;
+            var latestProgress = progress.length ? progress[progress.length - 1] : null;
+            var nextAction = dueErrors.length
+                ? '先复盘 1 道到期错题'
+                : latestPlan
+                    ? '按最新计划完成 1 个小动作'
+                    : latestPractice
+                        ? '把刚才练习写成 1 句复盘'
+                        : '先写今晚第一步';
+
+            return {
+                id: 'local_learning_loop_snapshot',
+                ready: Boolean(latestPlan || latestPractice || latestProgress || dueErrors.length),
+                counts: {
+                    plans: plans.length,
+                    progress: progress.length,
+                    practice: practice.length,
+                    dueErrors: dueErrors.length
+                },
+                latestPlan: latestPlan,
+                latestPractice: latestPractice,
+                latestProgress: latestProgress,
+                nextAction: nextAction,
+                shareLine: '下一步：' + nextAction,
+                parentLine: dueErrors.length
+                    ? '家长只问：这道错题下次先检查哪里？'
+                    : '家长只问：今晚第一步完成了吗？'
             };
         }
     };

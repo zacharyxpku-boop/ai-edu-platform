@@ -33,11 +33,11 @@ appJson.pages.forEach(assertPageFiles);
 const tabPages = (((appJson.tabBar || {}).list) || []).map((item) => item.pagePath);
 assert.deepStrictEqual(tabPages, [
   'pages/home/home',
-  'pages/review/review',
-  'pages/focus/focus',
-  'pages/tools/tools',
-  'pages/profile/profile'
-], 'tab pages follow the locked first-step route');
+  'pages/tutor/tutor',
+  'pages/arcade/arcade',
+  'pages/profile/profile',
+  'pages/upload/upload'
+], 'tab pages follow the child-first five-entry product route');
 tabPages.forEach(assertPageFiles);
 
 if (appJson.tabBar && appJson.tabBar.custom) {

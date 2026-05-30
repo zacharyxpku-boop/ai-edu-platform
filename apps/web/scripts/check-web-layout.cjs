@@ -11,7 +11,7 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..', '..', '..');
 const serveRoot = repoRoot;
 const routeBasePath = '/app';
-const pages = ['home', 'upload', 'report', 'tutor', 'review', 'parent'];
+const pages = ['home', 'upload', 'report', 'tutor', 'review', 'parent', 'map'];
 const commandTimeoutMs = 8000;
 
 const mimeTypes = {

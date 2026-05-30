@@ -40,3 +40,30 @@ Use the miniapp as product parity, not as source code.
 - Shared business logic belongs in `packages/edu-core`.
 - Shared page data contracts belong in `packages/ui-contracts`.
 - Web UI, CSS, browser routing, PDF export UI, and responsive layout stay in `apps/web`.
+
+## Current UI baseline
+
+The accepted reference is the HTML/PNG package at `C:\Users\86136\Desktop\小程序`.
+
+Use this baseline for all three surfaces:
+
+- Product structure: left nav or bottom tabs, top student/family status, six clear entries, report preview, tonight route, evidence/progress rail.
+- Core entries: 上传资料、个性化报告、AI私教、复习游戏、家长中心、学习地图.
+- Visual language: warm off-white background, green primary, yellow/blue/orange accents, 24px-style rounded cards, soft shadows, friendly mascot/illustration blocks.
+- Navigation rule: do not stack everything into one long scroll; each entry must open a focused page/state.
+- Asset rule: mascot and illustrative PNGs can be used directly; interaction surfaces must remain real DOM/WXML, not one big background image with hot zones.
+
+Implementation boundaries:
+
+- `apps/web` owns the website prototype and official `/app` preview.
+- `miniprogram` owns WeChat miniapp WXML/WXSS and must not import web CSS.
+- Future native app work should consume the same content contracts and visual tokens, not copy web or miniapp files directly.
+
+## 2026-05-29 Shell Alignment
+
+The Web shell now follows the same asset discipline as the miniapp:
+
+- Brand mark, sidebar navigation, mobile tabs, family pill, entry cards, report preview, tutor avatar, review game cards, parent evidence cards, and map nodes use PNG assets from `apps/web/assets/reference/`.
+- Symbol-only navigation marks such as `⌂`, `⇧`, `☻`, `♙`, emoji family marks, and CSS-only brand icons are treated as old-design regressions.
+- The review page uses the green/yellow/blue/orange palette from the miniapp references; purple challenge cards are not part of the accepted baseline.
+- `apps/web/scripts/check-web-surface.cjs` enforces these shell rules so future edits cannot silently drift back to the old symbolic UI.

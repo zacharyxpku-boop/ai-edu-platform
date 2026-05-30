@@ -18,6 +18,77 @@
 
   <scroll-view class="content-area" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="content-inner">
+      <view class="review-hero-shell ux-entry ux-entry-review ux-kit-screen ux-kit-review">
+        <view class="review-dash-top">
+          <view class="review-dash-brand">
+            <image class="review-dash-mark" mode="aspectFit" src="/assets/reference/entry-review.png" />
+            <view>
+              <text>复习游戏</text>
+              <text>主动回忆和迁移验证</text>
+            </view>
+          </view>
+          <view class="review-dash-pill">{{gameRunway.due || 0}} 张到期</view>
+        </view>
+
+        <view class="review-dash-hero">
+          <view class="review-dash-copy">
+            <view class="review-dash-title">把错因变成挑战</view>
+            <view class="review-dash-sub">不抄结果，先说出错因和下一次第一步，再用小变式验证是否真的会了。</view>
+            <view class="review-chip-row">
+              <text>主动回忆</text>
+              <text>小变式</text>
+              <text>家长确认</text>
+            </view>
+          </view>
+          <image class="review-dash-art" mode="aspectFit" src="/assets/reference/entry-review.png" />
+        </view>
+
+        <view class="review-map-card">
+          <view class="review-section-head">
+            <text>今日挑战地图</text>
+            <text>奖励来自真实回忆</text>
+          </view>
+          <view class="review-map-line">
+            <view class="done"><text>1</text><text>错因</text></view>
+            <view class="active"><text>2</text><text>回忆</text></view>
+            <view><text>3</text><text>变式</text></view>
+            <view><text>4</text><text>确认</text></view>
+          </view>
+        </view>
+
+        <view class="review-challenge-grid">
+          <view class="review-challenge-card primary" data-action="review" bindtap="runPlaybookAction">
+            <image mode="aspectFit" src="/assets/reference/entry-review.png" />
+            <text>开始挑战</text>
+            <text>先做 3 张回忆卡</text>
+          </view>
+          <view class="review-challenge-card" bindtap="goTutor">
+            <image mode="aspectFit" src="/assets/reference/entry-tutor.png" />
+            <text>回到私教</text>
+            <text>卡住再问第一步</text>
+          </view>
+          <view class="review-challenge-card" bindtap="goTools">
+            <image mode="aspectFit" src="/assets/reference/entry-map.png" />
+            <text>轻练习</text>
+            <text>用变式验迁移</text>
+          </view>
+        </view>
+
+        <view class="review-main-cta" data-action="review" bindtap="runPlaybookAction">开始今日复习挑战</view>
+      </view>
+      <view class="review-subcheck ux-kit-subcheck">
+        <view class="subcheck-main" data-action="review" bindtap="runPlaybookAction">
+          <view class="subcheck-copy">
+            <text>先修一个真实卡点</text>
+            <text>从错因、回忆、变式到家长确认，先闭环一张卡，不把任务铺满。</text>
+          </view>
+          <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-review.png" />
+        </view>
+        <view class="subcheck-side">
+          <view bindtap="goTutor"><text>回到私教</text><text>卡住再说第一步</text></view>
+          <view bindtap="goTools"><text>换一道变式</text><text>验证是否迁移</text></view>
+        </view>
+      </view>
       <view class="rc14-review-first-screen">
       <view class="hero">
         <view class="route-note short">{{reviewViewModel.routePill}}</view>
@@ -37,12 +108,193 @@
             <view class="focus-text">{{item.text}}</view>
           </view>
         </view>
+        <view class="repair-contract-card" wx:if="{{reportSourcePanel}}">
+          <view class="repair-contract-head">
+            <view class="repair-contract-title">{{reportSourcePanel.title}}</view>
+            <view class="repair-contract-status">{{reportSourcePanel.matchedCount}} 张来源卡</view>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">来源</text>
+            <text class="repair-contract-text">家长报告 / 错题回访 / 今日修卡点</text>
+          </view>
+          <view class="repair-contract-row" wx:if="{{reportSourcePanel.currentQuestion}}">
+            <text class="repair-contract-label">当前卡</text>
+            <text class="repair-contract-text">{{reportSourcePanel.currentQuestion}}</text>
+          </view>
+          <view class="repair-contract-parent">{{reportSourcePanel.line}}</view>
+          <view class="repair-contract-row" wx:if="{{reportSourcePanel.miniLessonBlackboardLine}}">
+            <text class="repair-contract-label">小黑板</text>
+            <text class="repair-contract-text">{{reportSourcePanel.miniLessonBlackboardLine}}</text>
+          </view>
+          <view class="repair-contract-row" wx:if="{{reportSourcePanel.miniLessonCheckQuestion}}">
+            <text class="repair-contract-label">检查题</text>
+            <text class="repair-contract-text">{{reportSourcePanel.miniLessonCheckQuestion}}</text>
+          </view>
+          <view class="repair-contract-row" wx:if="{{reportSourcePanel.miniLessonNextDayReview}}">
+            <text class="repair-contract-label">明天回访</text>
+            <text class="repair-contract-text">{{reportSourcePanel.miniLessonNextDayReview}}</text>
+          </view>
+          <view class="repair-contract-boundary">安全边界：不带原题、完整结果、分数或比较信息。</view>
+          <view class="repair-contract-boundary" wx:if="{{reportSourcePanel.openMaicBridgeStatus}}">小讲堂回流：先说第一步，再锁明天回访。</view>
+          <view class="repair-contract-boundary" wx:if="{{reportSourcePanel.miniLessonTopicGate}}">小讲堂门槛：{{reportSourcePanel.miniLessonTopicGate}}</view>
+          <view class="repair-contract-boundary" wx:if="{{reportSourcePanel.returnRoute}}">{{reportSourcePanel.returnRouteLine}}</view>
+        </view>
+        <view class="repair-contract-card mini-lesson-return-card" wx:if="{{miniLessonReturnPanel}}">
+          <view class="repair-contract-head">
+            <view class="repair-contract-title">{{miniLessonReturnPanel.title}}</view>
+            <view class="repair-contract-status">{{miniLessonReturnPanel.status}}</view>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">概念缺口</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.conceptGap}}</text>
+          </view>
+          <view class="repair-contract-row" wx:if="{{miniLessonReturnPanel.topicCardLine}}">
+            <text class="repair-contract-label">证据线</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.topicCardLine}}</text>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">第一步</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.firstStep}}</text>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">检查题</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.checkQuestion}}</text>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">家长句</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.parentLine}}</text>
+          </view>
+          <view class="repair-contract-row">
+            <text class="repair-contract-label">明天回访</text>
+            <text class="repair-contract-text">{{miniLessonReturnPanel.nextDayReview}}</text>
+          </view>
+          <view class="blackboard-layer-board" wx:if="{{miniLessonReturnPanel.frames.length}}">
+            <view class="blackboard-layer" wx:for="{{miniLessonReturnPanel.frames}}" wx:key="id">
+              <view class="blackboard-layer-index">{{index + 1}}</view>
+              <view class="blackboard-layer-copy">
+                <view class="blackboard-layer-title">{{item.title}}</view>
+                <view class="blackboard-layer-action">{{item.draw}}</view>
+                <view class="blackboard-layer-evidence">{{item.evidence}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="repair-contract-boundary">放行门槛：{{miniLessonReturnPanel.exitGate}}</view>
+          <view class="repair-contract-boundary" wx:if="{{miniLessonReturnPanel.day7GateLine}}">{{miniLessonReturnPanel.day7GateLine}}</view>
+          <view class="repair-contract-boundary">{{miniLessonReturnPanel.boundary}}</view>
+        </view>
+        <view class="repair-contract-card" wx:if="{{reviewViewModel.repairContract}}">
+          <view class="repair-contract-head">
+            <view class="repair-contract-title">{{reviewViewModel.repairContract.title}}</view>
+            <view class="repair-contract-status">{{reviewViewModel.repairContract.status}}</view>
+          </view>
+          <view class="repair-contract-row" wx:for="{{reviewViewModel.repairContract.rows}}" wx:key="id">
+            <text class="repair-contract-label">{{item.label}}</text>
+            <text class="repair-contract-text">{{item.text}}</text>
+          </view>
+          <view class="repair-contract-parent">{{reviewViewModel.repairContract.parentLine}}</view>
+          <view class="repair-contract-boundary">{{reviewViewModel.repairContract.boundary}}</view>
+        </view>
         <view class="blackboard-card" wx:if="{{reviewViewModel.blackboard}}">
           <view class="blackboard-kicker">原点小黑板</view>
           <view class="blackboard-intro">{{reviewViewModel.blackboard.intro}}</view>
           <view class="blackboard-title">{{reviewViewModel.blackboard.title}}</view>
           <view class="blackboard-body">{{reviewViewModel.blackboard.body}}</view>
           <view class="blackboard-structure">{{reviewViewModel.blackboard.structure}}</view>
+          <view class="blackboard-layer-board" wx:if="{{reviewViewModel.blackboard.layers.length}}">
+            <view class="blackboard-layer" wx:for="{{reviewViewModel.blackboard.layers}}" wx:key="id">
+              <view class="blackboard-layer-index">{{item.order}}</view>
+              <view class="blackboard-layer-copy">
+                <view class="blackboard-layer-title">{{item.label}}</view>
+                <view class="blackboard-layer-action">{{item.drawAction}}</view>
+                <view class="blackboard-layer-evidence">{{item.evidence}}</view>
+                <view class="blackboard-layer-question">家长问：{{item.parentQuestion}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="blackboard-first-step" wx:if="{{reviewViewModel.blackboard.firstStrokeLine}}">{{reviewViewModel.blackboard.firstStrokeLine}}</view>
+          <view class="blackboard-avoid" wx:if="{{reviewViewModel.blackboard.stopRuleLine}}">{{reviewViewModel.blackboard.stopRuleLine}}</view>
+          <view class="blackboard-child-prompt" wx:if="{{reviewViewModel.blackboard.nextRevisitLine}}">{{reviewViewModel.blackboard.nextRevisitLine}}</view>
+          <view class="blackboard-first-step" wx:if="{{reviewViewModel.blackboard.firstMove}}">{{reviewViewModel.blackboard.firstMove}}</view>
+          <view class="blackboard-child-prompt" wx:if="{{reviewViewModel.blackboard.childPrompt}}">{{reviewViewModel.blackboard.childPrompt}}</view>
+          <view class="blackboard-parent-prompt" wx:if="{{reviewViewModel.blackboard.parentPrompt}}">家长只问：{{reviewViewModel.blackboard.parentPrompt}}</view>
+          <view class="blackboard-avoid" wx:if="{{reviewViewModel.blackboard.avoid}}">{{reviewViewModel.blackboard.avoid}}</view>
+          <view class="blackboard-boundary" wx:if="{{reviewViewModel.blackboard.boundaryLine}}">{{reviewViewModel.blackboard.boundaryLine}}</view>
+          <view class="blackboard-boundary" wx:if="{{reviewViewModel.blackboard.localAiSplitLine}}">{{reviewViewModel.blackboard.localAiSplitLine}}</view>
+        </view>
+        <view class="surface-depth-card review-unified-next" wx:if="{{unifiedNextAction}}">
+          <view class="surface-depth-title">{{unifiedNextAction.title}}</view>
+          <view class="surface-depth-subtitle">{{unifiedNextAction.summary}}</view>
+          <view class="surface-depth-next" bindtap="runUnifiedNextAction">{{unifiedNextAction.actionLabel}}</view>
+          <view class="surface-depth-grid">
+            <view class="surface-depth-chip" wx:for="{{unifiedNextAction.candidates}}" wx:key="source">
+              <text class="surface-depth-chip-title">{{item.sourceLabel}}</text>
+              <text class="surface-depth-chip-line">{{item.reasonLine}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="surface-depth-card review-surface-depth" wx:if="{{surfaceDepthPack}}">
+          <view class="surface-depth-title">{{surfaceDepthPack.title}}</view>
+          <view class="surface-depth-subtitle">{{surfaceDepthPack.summary}}</view>
+          <view class="surface-depth-next" data-route="{{surfaceDepthPack.primaryRoute}}" bindtap="runSurfaceDepthAction">{{surfaceDepthPack.nextAction}}</view>
+          <view class="surface-depth-grid">
+            <view class="surface-depth-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id" data-route="{{item.route}}" data-dimension-id="{{item.id}}" data-label="{{item.displayLabel}}" bindtap="runSurfaceDepthAction">
+              <text class="surface-depth-chip-title">{{item.displayLabel}}</text>
+              <text class="surface-depth-chip-line">{{item.ready ? item.evidenceLine : item.gapLine}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="memory-prescription-card" wx:if="{{memoryPrescriptionPanel}}">
+          <view class="memory-prescription-head">
+            <view>
+              <view class="memory-prescription-kicker">Gizmo 式主动回忆，本地规则调度</view>
+              <view class="memory-prescription-title">{{memoryPrescriptionPanel.title}}</view>
+            </view>
+            <view class="memory-prescription-pill">90 秒</view>
+          </view>
+          <view class="memory-prescription-subtitle">{{memoryPrescriptionPanel.subtitle}}</view>
+          <view class="memory-prescription-dose">{{memoryPrescriptionPanel.doseLine}}</view>
+          <view class="memory-prescription-list">
+            <view class="memory-prescription-item" wx:for="{{memoryPrescriptionPanel.recallCards}}" wx:key="id">
+              <view class="memory-prescription-label">{{item.label}}</view>
+              <view class="memory-prescription-question">{{item.question}}</view>
+              <view class="memory-prescription-action">{{item.action}}</view>
+            </view>
+          </view>
+          <view class="memory-prescription-section" wx:if="{{memoryPrescriptionPanel.activeRecallProtocol}}">
+            <view class="memory-prescription-section-title">{{memoryPrescriptionPanel.activeRecallProtocol.title}}</view>
+            <view class="memory-prescription-line">{{memoryPrescriptionPanel.activeRecallProtocol.localRule}}</view>
+            <view class="memory-prescription-line" wx:for="{{memoryPrescriptionPanel.activeRecallProtocol.todayMustCards}}" wx:key="id">{{item.label}}：{{item.action}}｜{{item.ratingRule}}</view>
+            <view class="memory-prescription-line" wx:if="{{memoryPrescriptionPanel.activeRecallProtocol.tomorrowReturnCard}}">{{memoryPrescriptionPanel.activeRecallProtocol.tomorrowReturnCard.label}}：{{memoryPrescriptionPanel.activeRecallProtocol.tomorrowReturnCard.action}}</view>
+            <view class="memory-prescription-line" wx:if="{{memoryPrescriptionPanel.activeRecallProtocol.day7VariantCard}}">{{memoryPrescriptionPanel.activeRecallProtocol.day7VariantCard.label}}：{{memoryPrescriptionPanel.activeRecallProtocol.day7VariantCard.action}}</view>
+            <view class="memory-prescription-line" wx:for="{{memoryPrescriptionPanel.activeRecallProtocol.ratingScale}}" wx:key="id">{{item.label}}：{{item.rule}}</view>
+            <view class="memory-prescription-line">{{memoryPrescriptionPanel.activeRecallProtocol.releaseGateLine}}</view>
+            <view class="memory-prescription-line">{{memoryPrescriptionPanel.activeRecallProtocol.shareBoundary}}</view>
+          </view>
+          <view class="memory-prescription-section" wx:if="{{memoryPrescriptionPanel.receiverShareRelayPanel}}">
+            <view class="memory-prescription-section-title">{{memoryPrescriptionPanel.receiverShareRelayPanel.title}}</view>
+            <view class="memory-prescription-line">{{memoryPrescriptionPanel.receiverShareRelayPanel.receiverMaterial}}</view>
+            <view class="memory-prescription-line">第一步：{{memoryPrescriptionPanel.receiverShareRelayPanel.receiverFirstStep}}</view>
+            <view class="memory-prescription-line">错因：{{memoryPrescriptionPanel.receiverShareRelayPanel.receiverWrongCause}}</view>
+            <view class="memory-prescription-line">明天：{{memoryPrescriptionPanel.receiverShareRelayPanel.nextRevisit}}</view>
+            <view class="memory-prescription-line">{{memoryPrescriptionPanel.receiverShareRelayPanel.localRule}}</view>
+          </view>
+          <view class="memory-prescription-section" wx:if="{{memoryPrescriptionPanel.mustDo.length}}">
+            <view class="memory-prescription-section-title">今天必须做</view>
+            <view class="memory-prescription-line" wx:for="{{memoryPrescriptionPanel.mustDo}}" wx:key="id">{{item.label}}：{{item.action}}</view>
+          </view>
+          <view class="memory-prescription-section">
+            <view class="memory-prescription-section-title">回访窗口</view>
+            <view class="memory-prescription-line" wx:for="{{memoryPrescriptionPanel.reviewWindows}}" wx:key="id">{{item.label}}：{{item.action}}</view>
+          </view>
+          <view class="memory-prescription-section" wx:if="{{memoryPrescriptionPanel.releaseQueue.length}}">
+            <view class="memory-prescription-section-title">新卡放行</view>
+            <view class="memory-prescription-line" wx:for="{{memoryPrescriptionPanel.releaseQueue}}" wx:key="id">{{item.label}}｜{{item.status}}｜{{item.rule}}</view>
+          </view>
+          <view class="memory-prescription-foot">{{memoryPrescriptionPanel.comboLine}}</view>
+          <view class="memory-prescription-foot">{{memoryPrescriptionPanel.xpRule}}</view>
+          <view class="memory-prescription-foot">{{memoryPrescriptionPanel.parentLine}}</view>
+          <view class="memory-prescription-foot">{{memoryPrescriptionPanel.shareLine}}</view>
+          <view class="memory-prescription-cta" data-route="{{memoryPrescriptionPanel.nextRoute}}" bindtap="runSurfaceDepthAction">去 5 分钟轻练习</view>
         </view>
         </view>
 
@@ -196,6 +448,77 @@
               <text class="letter">C</text>
               很熟了，晚点再出现
             </view>
+          </view>
+        </view>
+
+        <view class="rule-retest-card" wx:if="{{ruleRetestPanel}}">
+          <view class="card-label">{{ruleRetestPanel.title}}</view>
+          <view class="rule-retest-badge">{{ruleRetestPanel.badge}}</view>
+          <view class="rule-retest-line">{{ruleRetestPanel.line}}</view>
+          <view class="rule-retest-line">小黑板：{{ruleRetestPanel.blackboardLine}}</view>
+          <view class="rule-retest-line">家长只问：{{ruleRetestPanel.parentLine}}</view>
+          <view class="rule-retest-cadence">
+            <view class="rule-retest-step" wx:for="{{ruleRetestPanel.cadence}}" wx:key="id">{{item.label}}｜{{item.action}}</view>
+          </view>
+          <view class="rule-retest-gate">{{ruleRetestPanel.releaseGate}}</view>
+          <button class="rule-retest-action" bindtap="runRuleRetestAction">去做复测挑战</button>
+        </view>
+
+        <view class="transfer-practice-card" wx:if="{{current && transferPractice}}">
+          <view class="card-label">{{transferPractice.title}}</view>
+          <view class="transfer-status">{{transferPractice.statusLine}}</view>
+          <view class="transfer-safety">{{transferPractice.subtitle}}</view>
+          <view
+            class="transfer-step {{item.done ? 'done' : ''}}"
+            wx:for="{{transferPractice.prompts}}"
+            wx:key="id"
+          >
+            <view class="transfer-copy">
+              <view class="transfer-label">{{item.label}}</view>
+              <view class="transfer-prompt">{{item.prompt}}</view>
+              <view class="transfer-check">{{item.check}}</view>
+            </view>
+            <button
+              class="transfer-action"
+              data-prompt-id="{{item.id}}"
+              bindtap="recordTransferPractice"
+            >{{item.actionLabel}}</button>
+          </view>
+          <view class="transfer-parent" wx:if="{{transferPractice.parentPrompt}}">家长只问：{{transferPractice.parentPrompt}}</view>
+        </view>
+
+        <view class="outcome-check-card" wx:if="{{current && outcomeCheck}}">
+          <view class="card-label">{{outcomeCheck.title}}</view>
+          <view class="outcome-score">掌握 {{outcomeCheck.score}}% · 下一层：{{outcomeCheck.nextLevel}}</view>
+          <view class="outcome-line">{{outcomeCheck.line}}</view>
+          <view class="outcome-actions">
+            <button
+              class="outcome-action"
+              wx:for="{{outcomeCheck.actions}}"
+              wx:key="id"
+              data-field="{{item.field}}"
+              bindtap="recordOutcomeCheck"
+            >{{item.label}}</button>
+          </view>
+        </view>
+
+        <view class="post-repair-bridge-card" wx:if="{{postRepairBridge}}">
+          <view class="card-label">{{postRepairBridge.title}}</view>
+          <view class="post-repair-title">{{postRepairBridge.headline}}</view>
+          <view class="post-repair-line">{{postRepairBridge.evidenceLine}}</view>
+          <view class="post-repair-line">{{postRepairBridge.parentLine}}</view>
+          <view class="post-repair-actions">
+            <button
+              class="post-repair-action"
+              wx:for="{{postRepairBridge.actions}}"
+              wx:key="id"
+              data-id="{{item.id}}"
+              data-label="{{item.label}}"
+              data-route="{{item.route}}"
+              data-reason="{{item.reason}}"
+              data-capability-id="{{item.capabilityId}}"
+              bindtap="runPostRepairBridgeAction"
+            >{{item.label}}</button>
           </view>
         </view>
 

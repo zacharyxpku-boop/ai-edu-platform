@@ -147,8 +147,49 @@ function scoreQuality(fields) {
   return Math.max(0, Math.min(100, score));
 }
 
+function normalizeSourceMaterialType(source = '') {
+  const value = String(source || '').toLowerCase();
+  if (/wechat|公众号/.test(value)) return 'wechat_article';
+  if (/web|url|link|网页|链接/.test(value)) return 'web_article';
+  if (/pdf|讲义|教材/.test(value)) return 'pdf_excerpt';
+  if (/wrong|错题|wrongbook/.test(value)) return 'wrong_question';
+  if (/photo|image|照片/.test(value)) return 'photo_note';
+  if (/manual|note|摘录|笔记/.test(value)) return 'manual_notes';
+  return value || 'manual_notes';
+}
+
+function buildImportMemoryMetadata(source, fields = {}, meta = {}) {
+  const sourceMaterialType = meta.sourceMaterialType || normalizeSourceMaterialType(source || meta.source || '');
+  const cause = meta.wrongCauseBucket || fields.wrongCauseBucket || buildNextPracticePlan(Object.assign({}, fields, meta)).wrongCauseBucket;
+  const isTrapOrWrong = /wrong|trap|错|卡|弱|不会|易错/.test([
+    sourceMaterialType,
+    fields.question,
+    fields.answer,
+    fields.weakPoint,
+    fields.calibrationKey,
+    cause
+  ].join(' '));
+  const nextRevisitWindow = isTrapOrWrong
+    ? '今晚 90 秒主动回忆，明天换条件回访，第 7 天只查同一错因。'
+    : '今晚说出第一步，明天回访一张同源卡，第 7 天做一次迁移。';
+  return {
+    sourceMaterialType,
+    wrongCauseBucket: cause,
+    highFrequency: {
+      mode: isTrapOrWrong ? 'wrong_cause_replay' : 'active_recall',
+      dailyCap: isTrapOrWrong ? 3 : 2,
+      releaseGate: '先说第一步，再看答案；不奖励速度、分数或排名。',
+      reviewRoute: '/pages/review/review?from=material_memory',
+      arcadeRoute: '/pages/arcade/arcade?from=material_memory'
+    },
+    nextRevisitWindow,
+    memoryEvidenceLine: `${sourceMaterialType} -> 第一步 -> 错因 -> 主动回忆 -> 明天回访`
+  };
+}
+
 function makeNote(id, type, source, fields, meta = {}) {
   const practicePlan = buildNextPracticePlan(Object.assign({}, fields || {}, meta || {}, { type, source }));
+  const memoryMeta = buildImportMemoryMetadata(source, fields, Object.assign({}, meta, { wrongCauseBucket: meta.wrongCauseBucket || fields.wrongCauseBucket || practicePlan.wrongCauseBucket }));
   const note = {
     id,
     type,
@@ -162,6 +203,15 @@ function makeNote(id, type, source, fields, meta = {}) {
     nextPracticePlan: meta.nextPracticePlan || fields.nextPracticePlan || practicePlan,
     checkpoint: meta.checkpoint || fields.checkpoint || practicePlan.checkpoint,
     parentPrompt: meta.parentPrompt || fields.parentPrompt || practicePlan.parentPrompt,
+    reportId: meta.reportId || fields.reportId || '',
+    sourceSchemaId: meta.sourceSchemaId || fields.sourceSchemaId || '',
+    reportSourceId: meta.reportSourceId || fields.reportSourceId || '',
+    uploadMaterialType: meta.uploadMaterialType || fields.uploadMaterialType || '',
+    requiredNextEvidence: meta.requiredNextEvidence || fields.requiredNextEvidence || [],
+    sourceMaterialType: meta.sourceMaterialType || memoryMeta.sourceMaterialType,
+    highFrequency: meta.highFrequency || memoryMeta.highFrequency,
+    nextRevisitWindow: meta.nextRevisitWindow || memoryMeta.nextRevisitWindow,
+    memoryEvidenceLine: meta.memoryEvidenceLine || memoryMeta.memoryEvidenceLine,
     fields: {
       question: fields.question || '',
       answer: fields.answer || '',
@@ -192,6 +242,21 @@ function makeCard(note, template = 'qa') {
     nextPracticePlan: note.nextPracticePlan,
     checkpoint: note.checkpoint,
     parentPrompt: note.parentPrompt,
+    reportId: note.reportId,
+    sourceSchemaId: note.sourceSchemaId,
+    reportSourceId: note.reportSourceId,
+    uploadMaterialType: note.uploadMaterialType,
+    requiredNextEvidence: note.requiredNextEvidence,
+    sourceMaterialType: note.sourceMaterialType,
+    highFrequency: note.highFrequency,
+    nextRevisitWindow: note.nextRevisitWindow,
+    memoryEvidenceLine: note.memoryEvidenceLine,
+    recallEvidence: {
+      student_first_step: true,
+      wrong_cause_named: true,
+      next_day_revisit_locked: true,
+      source: note.source || 'review_card'
+    },
     quality: note.quality,
     stability: 0,
     difficulty: 5,
@@ -980,11 +1045,17 @@ function importTextToDeck(rawText, options = {}) {
       subject: item.subject || subject,
       weakPoint: item.weakPoint || options.weakPoint || '',
       calibrationKey: item.calibrationKey || options.calibrationKey || '',
-      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || ''
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || '',
+      reportId: options.reportId || '',
+      sourceSchemaId: options.sourceSchemaId || '',
+      reportSourceId: options.reportSourceId || '',
+      uploadMaterialType: options.uploadMaterialType || options.materialType || '',
+      requiredNextEvidence: options.requiredNextEvidence || []
     }
   ));
   const notes = mergeById(current.notes, extraNotes).slice(0, 200);
-  const cards = mergeById(current.cards, cardsFromNotes(extraNotes, 260)).slice(0, 260);
+  const extraCards = cardsFromNotes(extraNotes, 260);
+  const cards = mergeById(current.cards, extraCards).slice(0, 260);
   persistReviewState(current.deck, notes, cards);
   storage.appendReviewEvent({
     kind: 'review_import',
@@ -1003,7 +1074,9 @@ function importTextToDeck(rawText, options = {}) {
     notes,
     cards,
     imported: extraNotes.length,
-    skipped: imported.length - extraNotes.length
+    skipped: imported.length - extraNotes.length,
+    importedCardIds: extraCards.map((card) => card.id),
+    firstCardId: extraCards[0] ? extraCards[0].id : ''
   };
 }
 
@@ -1033,7 +1106,12 @@ function importGeneratedCards(imported, options = {}) {
       subject: item.subject || subject,
       weakPoint: item.weakPoint || options.weakPoint || '',
       calibrationKey: item.calibrationKey || options.calibrationKey || '',
-      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || ''
+      wrongCauseBucket: item.wrongCauseBucket || options.wrongCauseBucket || '',
+      reportId: options.reportId || '',
+      sourceSchemaId: options.sourceSchemaId || '',
+      reportSourceId: options.reportSourceId || '',
+      uploadMaterialType: options.uploadMaterialType || options.materialType || '',
+      requiredNextEvidence: options.requiredNextEvidence || []
     }
   ));
   const notes = mergeById(current.notes, extraNotes).slice(0, 200);
@@ -1299,7 +1377,7 @@ function unburyCard(cardId) {
   return updated;
 }
 
-function reviewCard(cardId, rating) {
+function reviewCard(cardId, rating, context = {}) {
   const { deck, cards } = ensureReviewDeck();
   let reviewed = null;
   const gameBefore = storage.loadGameProfile ? storage.loadGameProfile() : {};
@@ -1321,13 +1399,20 @@ function reviewCard(cardId, rating) {
           ? 'review_easy'
           : 'review_remembered';
     const xpDelta = gameLogic.calculateXP(xpAction, gameLogic.streakMultiplier(gameBefore.streak || streak || 0));
-    const xpResult = storage.addGameXP ? storage.addGameXP(xpDelta, xpAction) : { profile: gameBefore, accepted: xpDelta };
+    const xpEvidence = Object.assign({}, reviewed.recallEvidence || {}, context.xpEvidence || {}, {
+      student_first_step: !!((context.xpEvidence && context.xpEvidence.student_first_step) || reviewed.childArticulatedStep),
+      wrong_cause_named: !!((context.xpEvidence && context.xpEvidence.wrong_cause_named) || reviewed.childWrongCause),
+      next_day_revisit_locked: !!((context.xpEvidence && context.xpEvidence.next_day_revisit_locked) || reviewed.nextDayRevisitConfirmed)
+    });
+    const xpResult = storage.addGameXP ? storage.addGameXP(xpDelta, xpAction, xpEvidence) : { profile: gameBefore, accepted: xpDelta, gate: { pass: true } };
     const gameAfterXp = xpResult.profile || gameBefore;
     const todayEvents = storage.loadReviewEvents ? storage.loadReviewEvents().filter((item) => String(item.created_at || '').slice(0, 10) === todayKey()) : [];
+    const ratedTodayEvents = todayEvents.filter((item) => ['again', 'hard', 'good', 'easy'].includes(item.rating));
+    const dailyReviewGoal = Math.min(3, Math.max(1, Number((deck && deck.dailyLimit) || 3)));
     const nextGame = gameLogic.updateStreak(gameAfterXp, {
-      reviewedToday: todayEvents.length + 1,
+      reviewedToday: ratedTodayEvents.length + 1,
       now: new Date(),
-      threshold: 10
+      threshold: dailyReviewGoal
     });
     const gameSaved = storage.saveGameProfile ? storage.saveGameProfile(nextGame) : nextGame;
     storage.appendReviewEvent({
@@ -1336,6 +1421,7 @@ function reviewCard(cardId, rating) {
       rating: reviewed.last_rating,
       xp: xpResult.accepted === undefined ? xpDelta : xpResult.accepted,
       xp_capped: !!xpResult.capped,
+      xp_gate_pass: xpResult.gate ? !!xpResult.gate.pass : true,
       stability: reviewed.stability,
       difficulty: reviewed.difficulty,
       retrievability: reviewed.retrievability,
@@ -2376,6 +2462,41 @@ function wrongCauseBreakdown(cards = [], notes = []) {
   };
 }
 
+function materialMemoryBridge(cards = [], notes = [], events = []) {
+  const materialCards = (cards || []).filter((card) => card && card.sourceMaterialType);
+  const byType = {};
+  materialCards.forEach((card) => {
+    const key = card.sourceMaterialType || 'manual_notes';
+    if (!byType[key]) {
+      byType[key] = { sourceMaterialType: key, total: 0, due: 0, leech: 0, replay: 0 };
+    }
+    byType[key].total += 1;
+    if (!card.suspended && (!card.due || new Date(card.due).getTime() <= Date.now())) byType[key].due += 1;
+    if (card.leech || Number(card.lapses || 0) >= 2) byType[key].leech += 1;
+    if (card.highFrequency && card.highFrequency.mode === 'wrong_cause_replay') byType[key].replay += 1;
+  });
+  const sourceRows = Object.keys(byType).map((key) => byType[key]).sort((a, b) => b.total - a.total);
+  const importedEvents = (events || []).filter((event) => event && event.kind === 'review_import');
+  const nextCard = materialCards.find((card) => card.highFrequency && card.highFrequency.mode === 'wrong_cause_replay')
+    || materialCards.find((card) => !card.suspended)
+    || null;
+  return {
+    id: 'material_memory_bridge',
+    title: '材料到记忆闭环',
+    importedCardCount: materialCards.length,
+    importedEventCount: importedEvents.length,
+    sourceRows,
+    nextCardId: nextCard ? nextCard.id : '',
+    nextAction: nextCard
+      ? `先回忆：${normalizeText(nextCard.question || nextCard.answer, 32)}`
+      : '先粘贴一段自己的材料，生成第一张回访卡。',
+    nextRevisitWindow: nextCard ? nextCard.nextRevisitWindow : '今晚导入，明天回访，第 7 天看是否能迁移。',
+    evidenceLine: nextCard ? (nextCard.memoryEvidenceLine || '材料 -> 第一步 -> 主动回忆 -> 回访') : '还没有材料记忆证据。',
+    releaseGate: '只使用用户粘贴或自有材料；不抓链接、不解析文件、不生成原题答案库。',
+    shareBoundary: '分享只带下一步和错因，不带原题、答案、照片、分数或排名。'
+  };
+}
+
 function deckMaintenancePlan(summary) {
   const safe = summary || {};
   const queue = safe.queue || {};
@@ -3167,28 +3288,40 @@ function commercialReadiness(summary) {
   const hasGameLoop = !!safe.challenge && (safe.missions || []).length >= 3 && (safe.rewards || []).length > 0;
   const hasLeaderboard = loop.leaderboard && loop.leaderboard.length > 0;
   const hasSyncProtocol = sync.diagnostics && sync.diagnostics.schemaVersion;
+  const hasStructuredImportExport = !!(
+    safe.materialMemoryBridge &&
+    Array.isArray(safe.materialMemoryBridge.sourceRows) &&
+    safe.materialMemoryBridge.sourceRows.length > 0 &&
+    hasShareLibrary
+  );
+  const hasComposableAbilityRuntime = !!(hasCoreCardTypes && hasRepair && hasTutorLoop && hasQuizLoop);
   const contentLoopFeatures = [
-    featureHit(hasCoreCardTypes, 14, 'concept/step/trap/cloze card engine exists', 'Add reliable AI generation for every card type.'),
-    featureHit(hasModulePack, 10, 'module content can become review packs', 'Convert more learning modules and prompts into instant decks.'),
+    featureHit(hasCoreCardTypes, 14, '概念、步骤、陷阱、填空四类卡片引擎已存在', '补齐每类卡片的稳定生成和人工校验口径。'),
+    featureHit(hasModulePack, 10, '模块内容可沉淀成复习包', '把更多模块题型转成可直接回访的小卡组。'),
     featureHit(hasRepair, 12, '本机错因修复已能处理薄弱卡片', '接入稳定评分规则后再扩展复杂修复。'),
-    featureHit(hasQuizLoop, 10, 'quiz attempts feed memory scheduling and repair', 'Add timed tests and richer answer checking.'),
-    featureHit(hasGameLoop, 14, 'challenge/mission/learning-record loop exists', 'Add richer streak quests and seasonal checkpoints.'),
+    featureHit(hasQuizLoop, 10, '小测结果已能回写记忆排程和修卡点', '补齐限时小测和更细的答题校验。'),
+    featureHit(hasGameLoop, 14, '挑战、任务、学习记录已形成游戏回流', '补齐连续任务和阶段检查点。'),
     featureHit(hasLeaderboard, 8, '本机进展快照已存在', '多人排行等强社交功能先保持隐藏，等连续记录稳定后再开放。'),
-    featureHit(false, 12, '', '外部材料接入需要先完成上传、解析和家长确认链路。'),
+    featureHit(
+      safe.materialMemoryBridge && Array.isArray(safe.materialMemoryBridge.sourceRows) && safe.materialMemoryBridge.sourceRows.length > 0,
+      12,
+      '外部材料上传已接入材料记忆桥',
+      '继续把导出和家长确认包装成更完整的外部协作路径。'
+    ),
     featureHit(hasShareLibrary, 10, '本机分享卡片库已存在', '后续再扩展共享素材库。'),
     featureHit(hasTutorLoop || hasWeakLoop, 10, hasThinkingProof ? '作业、雷达、点拨和思路记录已连通' : '作业、雷达和点拨已连通', '继续收集真实学习记录，提高个性化质量。'),
     featureHit(sync.readyForCloud, 10, '连续记录协议已就绪', '开通真实会话后再做多端承接。')
   ];
   const memoryLoopFeatures = [
-    featureHit(safe.deck && safe.deck.fsrsVersion, 18, 'spaced scheduling state is stored', 'Tune scheduling parameters from real review history.'),
-    featureHit(typeof safe.deck.desiredRetention === 'number', 12, 'desired retention setting exists', 'Add per-subject/deck retention presets.'),
-    featureHit(safe.longWorkload && safe.longWorkload.horizonDays >= 90 && safe.cramPlan, 10, '90-day workload simulator and exam cram mode exist', 'Tune the planner from real exam cohorts.'),
-    featureHit(hasReverse && hasCloze, 12, 'reverse and cloze cards exist', 'Add richer note templates and card-type controls.'),
-    featureHit((safe.queue && safe.queue.buried >= 0) && safe.suspended >= 0, 10, 'bury/suspend card controls exist', 'Add bulk browser operations and deck maintenance tools.'),
-    featureHit(safe.progress && safe.progress.mastered >= 0, 10, 'mastery and practice history exists', 'Add retention analytics over months.'),
+    featureHit(safe.deck && safe.deck.fsrsVersion, 18, '间隔复习排程状态已本机保存', '用真实复习历史继续校准排程参数。'),
+    featureHit(typeof safe.deck.desiredRetention === 'number', 12, '目标记忆保持率已可配置', '补齐分学科、分卡组的保持率预设。'),
+    featureHit(safe.longWorkload && safe.longWorkload.horizonDays >= 90 && safe.cramPlan, 10, '90 天负荷模拟和考前冲刺模式已存在', '用真实考试周期继续校准计划器。'),
+    featureHit(hasReverse && hasCloze, 12, '反向卡和填空卡已存在', '补齐更丰富的笔记模板和卡型控制。'),
+    featureHit((safe.queue && safe.queue.buried >= 0) && safe.suspended >= 0, 10, '搁置和暂停卡片控制已存在', '补齐批量维护和卡组整理能力。'),
+    featureHit(safe.progress && safe.progress.mastered >= 0, 10, '掌握度和练习历史已存在', '补齐跨月保持率分析。'),
     featureHit(sync.readyForCloud, 10, '连续记录协议已就绪', '补齐多端冲突恢复测试。'),
-    featureHit(false, 8, '', '后续再补结构化导入和导出。'),
-    featureHit(false, 10, '', '后续再扩展插件式能力。')
+    featureHit(hasStructuredImportExport, 8, '材料记忆桥和分享卡库已构成轻量导入导出', '补齐可复用的家长确认包和外部交接摘要。'),
+    featureHit(hasComposableAbilityRuntime, 10, '卡片、修卡点、点拨和小测可组合成能力运行链', '补齐面向真实会话的能力编排和失败降级。')
   ];
   const products = [
     {
@@ -3232,7 +3365,8 @@ function reviewSummary() {
   const gameProfile = storage.loadGameProfile ? storage.loadGameProfile() : {};
   const today = todayKey();
   const todayEvents = events.filter((item) => String(item.created_at || '').slice(0, 10) === today);
-  const goodToday = todayEvents.filter((item) => ['good', 'easy'].includes(item.rating)).length;
+  const ratedTodayEvents = todayEvents.filter((item) => ['again', 'hard', 'good', 'easy'].includes(item.rating));
+  const goodToday = ratedTodayEvents.filter((item) => ['good', 'easy'].includes(item.rating)).length;
   const due = dueCards(20).length;
   const mastered = cards.filter((item) => Number(item.interval || 0) >= 7 && Number(item.lapses || 0) === 0).length;
   const leeches = cards.filter((item) => item.leech || Number(item.lapses || 0) >= 2).length;
@@ -3251,7 +3385,7 @@ function reviewSummary() {
     total: cards.length,
     notes: notes.length,
     due,
-    reviewedToday: todayEvents.length,
+    reviewedToday: ratedTodayEvents.length,
     goodToday,
     mastered,
     leeches,
@@ -3275,6 +3409,7 @@ function reviewSummary() {
     quizLoop,
     deckLibrary: deckLibrary(notes, cards, { limit: 6 }),
     wrongCause: wrongCauseBreakdown(cards, notes),
+    materialMemoryBridge: materialMemoryBridge(cards, notes, events),
     sources: sourceBreakdown(cards, events),
     types,
     templates,
@@ -3286,7 +3421,7 @@ function reviewSummary() {
     qualityQueue: enhancedQualityQueue(notes, 6),
     comeback: null,
     avgQuality,
-    accuracy: todayEvents.length ? Math.round((goodToday / todayEvents.length) * 100) : 0,
+    accuracy: ratedTodayEvents.length ? Math.round((goodToday / ratedTodayEvents.length) * 100) : 0,
     label: cards.length ? `今日待复习 ${due} 张` : '还没有复习卡'
   };
   summary.comeback = comebackPlan(summary);

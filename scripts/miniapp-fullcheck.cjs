@@ -2,6 +2,9 @@
 'use strict';
 
 const { spawnSync } = require('child_process');
+const path = require('path');
+
+const safeGitDirectory = path.resolve(process.cwd()).replace(/\\/g, '/');
 
 const checks = [
   {
@@ -22,7 +25,7 @@ const checks = [
   },
   {
     name: 'Git 空白字符检查',
-    command: ['git', ['diff', '--check']]
+    command: ['git', ['-c', `safe.directory=${safeGitDirectory}`, 'diff', '--check']]
   }
 ];
 

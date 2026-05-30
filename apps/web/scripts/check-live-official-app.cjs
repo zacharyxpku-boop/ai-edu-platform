@@ -20,7 +20,7 @@ const checks = [
   {
     label: 'web styles',
     path: '/apps/web/src/styles.css',
-    mustInclude: ['.app-shell', '.mobile-launchboard', '.web-toast']
+    mustInclude: ['.app-shell', '.entry-card', '.mobile-tabs', '.web-toast']
   },
   {
     label: 'web app script',

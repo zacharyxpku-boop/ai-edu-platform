@@ -1,4 +1,4 @@
-const tabs = ['/pages/home/home', '/pages/review/review', '/pages/focus/focus', '/pages/tools/tools', '/pages/profile/profile'];
+const tabs = ['/pages/home/home', '/pages/tutor/tutor', '/pages/arcade/arcade', '/pages/profile/profile', '/pages/upload/upload'];
 
 Component({
   lifetimes: {

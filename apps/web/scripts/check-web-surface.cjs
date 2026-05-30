@@ -103,6 +103,10 @@ if (!fs.existsSync(previewShellPath)) {
 }
 
 const previewShell = fs.readFileSync(previewShellPath, 'utf8');
+const appHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const appJs = fs.readFileSync(path.join(root, 'src', 'app.js'), 'utf8');
+const appCss = fs.readFileSync(path.join(root, 'src', 'styles.css'), 'utf8');
+const viewModelJs = fs.readFileSync(path.join(root, 'src', 'view-model.js'), 'utf8');
 for (const requiredSnippet of [
   '/apps/web/src/styles.css',
   '/apps/web/src/app.js',
@@ -110,6 +114,58 @@ for (const requiredSnippet of [
 ]) {
   if (!previewShell.includes(requiredSnippet)) {
     fail(`app/index.html must include ${requiredSnippet}`);
+  }
+}
+
+for (const requiredSnippet of [
+  'class="brand-mark" src="./assets/reference/brand-house.png"',
+  'class="family-face" src="./assets/reference/entry-parent.png"',
+  '<button class="bell" type="button" aria-label="通知"><span></span><em>3</em></button>'
+]) {
+  if (!appHtml.includes(requiredSnippet)) {
+    fail(`apps/web/index.html must use reference-asset shell markup: ${requiredSnippet}`);
+  }
+}
+
+for (const requiredAsset of [
+  'brand-house.png',
+  'entry-upload.png',
+  'entry-report.png',
+  'entry-tutor.png',
+  'entry-review.png',
+  'entry-parent.png',
+  'entry-map.png'
+]) {
+  if (!appJs.includes(`'${requiredAsset}'`)) {
+    fail(`apps/web/src/app.js must route navigation through ${requiredAsset}`);
+  }
+}
+
+for (const forbiddenSnippet of [
+  "['home', '学习主界面', '⌂']",
+  "['upload', '上传资料', '⇧']",
+  "['tutor', 'AI私教', '☻']",
+  "['parent', '家长中心', '♙']",
+  "'purple'",
+  '.level-card.purple'
+]) {
+  if (appJs.includes(forbiddenSnippet) || appCss.includes(forbiddenSnippet) || viewModelJs.includes(forbiddenSnippet)) {
+    fail(`web UI must not regress to old symbolic/purple design: ${forbiddenSnippet}`);
+  }
+}
+
+if (appJs.includes('⇧ 选择文件')) {
+  fail('web upload CTA must not use symbolic arrow text from the old design');
+}
+
+for (const requiredCss of [
+  '.brand-mark',
+  '.nav-list a img',
+  '.mobile-tabs a img',
+  'url("../assets/reference/brand-house.png")'
+]) {
+  if (!appCss.includes(requiredCss)) {
+    fail(`apps/web/src/styles.css must style reference image assets: ${requiredCss}`);
   }
 }
 

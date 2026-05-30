@@ -121,5 +121,7 @@ const firstScreen = toolsWxml.slice(
 assert(firstScreen.includes('toolsViewModel.routePill'), 'first screen reads routePill from toolsViewModel');
 assert(firstScreen.includes('toolsViewModel.primaryCard'), 'first screen renders primary card from toolsViewModel');
 assert(firstScreen.includes('toolsViewModel.primaryCta.text'), 'first screen renders primary CTA from toolsViewModel');
+assert(firstScreen.includes('bindtap="goFirstStep"'), 'empty revisit CTA returns to first-step tutor instead of arcade');
+assert(toolsJs.includes("goFirstStep()") && toolsJs.includes("/pages/tutor/tutor?from=tools_empty_revisit"), 'tools empty loop has a real first-step route');
 
 console.log('All tools view model tests pass.');

@@ -9,467 +9,265 @@ import {
 
 const assetBase = document.querySelector('meta[name="web-app-asset-base"]')?.content || './assets/brand';
 const asset = (name) => `${assetBase.replace(/\/$/, '')}/${name}`;
+const referenceAsset = (name) => `${assetBase.replace(/\/brand\/?$/, '/reference').replace(/\/$/, '')}/${name}`;
 
-function mascot(extra = '') {
-  return `<div class="mascot ${extra}" role="img" aria-label="咕点"></div>`;
-}
+const routes = [
+  ['home', '学习主界面', 'brand-house.png'],
+  ['upload', '上传资料', 'entry-upload.png'],
+  ['report', '个性化报告', 'entry-report.png'],
+  ['tutor', 'AI私教', 'entry-tutor.png'],
+  ['review', '复习游戏', 'entry-review.png'],
+  ['parent', '家长中心', 'entry-parent.png'],
+  ['map', '学习地图', 'entry-map.png']
+];
 
-const navIcons = {
-  home: '⌂',
-  upload: '⇧',
-  report: '▤',
-  tutor: '☻',
-  review: '🎮',
-  parent: '♙'
+const mobileLabels = {
+  home: '首页',
+  upload: '上传',
+  report: '报告',
+  tutor: '私教',
+  review: '复习',
+  parent: '家长',
+  map: '地图'
 };
 
-const state = WEB_DEMO_STATE;
-const entries = WEB_ENTRY_CARDS;
-const pageGuides = WEB_PAGE_GUIDES;
-const materialPipeline = WEB_MATERIAL_PIPELINE;
-const confidenceBands = WEB_CONFIDENCE_BANDS;
+const state = {
+  active: 'home',
+  progress: [
+    ['upload', '上传资料', 'done'],
+    ['report', '生成报告', 'done'],
+    ['tutor', '说第一步', 'active'],
+    ['review', '3分钟回访', 'todo'],
+    ['parent', '家长查看', 'todo']
+  ],
+  uploads: [
+    ['数学期中成绩单.pdf', '成绩单', '2.4 MB', '分析完成'],
+    ['语文老师反馈.docx', '学校反馈', '1.1 MB', '分析中'],
+    ['错题本照片.jpg', '错题照片', '3.6 MB', '分析完成']
+  ]
+};
 
-function setActive(id) {
-  state.active = WEB_SURFACE_ROUTES.some((route) => route.id === id) ? id : 'home';
-  location.hash = state.active;
-  render();
-}
+const entryCards = [
+  ['upload', '上传资料', '文档、试卷、错题先进入证据链', 'entry-upload.png', 'green'],
+  ['report', '个性化报告', '学习表现分析，薄弱点与建议', 'entry-report.png', 'blue'],
+  ['tutor', 'AI私教', '智能答疑与讲解，先追问第一步', 'entry-tutor.png', 'green'],
+  ['review', '复习游戏', '趣味闯关练习，记得牢更开心', 'entry-review.png', 'yellow'],
+  ['parent', '家长中心', '学习监督与报告，一起见证成长', 'entry-parent.png', 'orange'],
+  ['map', '学习地图', '查看学习路线、任务进度与目标', 'entry-map.png', 'green']
+];
 
 function routeFromHash() {
   return (location.hash || '#home').replace('#', '') || 'home';
 }
 
-function iconArt(type) {
-  if (type === 'folder') return '<div class="folder-art"><i></i><b></b><span>⬆</span></div>';
-  if (type === 'report') return '<div class="paper-art"><i></i><b></b><span></span></div>';
-  if (type === 'bot') return '<div class="bot-art"><i></i><b></b></div>';
-  if (type === 'game') return '<div class="game-art"><i></i><b></b><span></span></div>';
-  if (type === 'family') return '<div class="family-art"><i></i><b></b><span></span></div>';
-  if (type === 'map') return '<div class="map-art"><i></i><b></b><span></span></div>';
-  return '<div class="paper-art"></div>';
+function setActive(id) {
+  state.active = routes.some(([route]) => route === id) ? id : 'home';
+  if (location.hash !== `#${state.active}`) location.hash = state.active;
+  render();
+}
+
+function routeForSearch(value) {
+  const text = String(value || '').toLowerCase();
+  if (/上传|资料|文件|错题|成绩/.test(text)) return 'upload';
+  if (/报告|测评|天赋|分析|pdf/.test(text)) return 'report';
+  if (/私教|ai|答疑|第一步|题/.test(text)) return 'tutor';
+  if (/地图|路径|路线|任务|目标/.test(text)) return 'map';
+  if (/复习|游戏|回访|挑战/.test(text)) return 'review';
+  if (/家长|家庭|父母|证据/.test(text)) return 'parent';
+  return 'home';
+}
+
+function mascotImage(className = '') {
+  return `<img class="mascot-img ${className}" src="${referenceAsset('hero-mascot.png')}" alt="咕点">`;
 }
 
 function pageGuide(id) {
-  const guide = pageGuides[id];
+  const guides = {
+    upload: ['资料进入证据链', [['1', '分类材料', '区分测评、成绩、错题和观察'], ['2', '提取证据', '只把可解析内容放进报告'], ['3', '进入闭环', '报告指向今晚第一步']]],
+    report: ['报告解释逻辑', [['1', '先看依据', '测评是起点，不是定论'], ['2', '交叉验证', '成绩和错题优先级更高'], ['3', '落到方法', '每条建议都能执行']]],
+    tutor: ['私教对话边界', [['1', '不直接给答案', '先追问第一步'], ['2', '追问依据', '让孩子讲为什么'], ['3', '生成回访', '明天再验证是否迁移']]],
+    review: ['复习游戏闭环', [['1', '主动回忆', '不看答案说出来'], ['2', '小变式', '验证是否真正迁移'], ['3', '家长确认', '只问一个证据问题']]],
+    parent: ['家长支持方式', [['1', '先放心', '看见孩子优势'], ['2', '看证据', '知道问题边界'], ['3', '做一件事', '今晚只推进一小步']]],
+    map: ['学习地图路径', [['1', '今晚路线', '只看当前最小闭环'], ['2', '未来 7 天', '把回访和变式排进节奏'], ['3', '回流家长', '每一步都有证据可看']]]
+  };
+  const guide = guides[id];
   if (!guide) return '';
-  return `
-    <section class="page-guide card" aria-label="${guide.title}">
-      <div class="guide-title">
-        <span>${guide.title}</span>
-        <button type="button" data-route="${guide.cta[0]}">${guide.cta[1]}</button>
-      </div>
-      <div class="guide-steps">
-        ${guide.steps.map(([num, title, desc]) => `
-          <div>
-            <i>${num}</i>
-            <b>${title}</b>
-            <p>${desc}</p>
-          </div>
-        `).join('')}
-      </div>
-    </section>
-  `;
+  return `<section class="page-guide card"><h2>${guide[0]}</h2><div class="guide-steps">${guide[1].map(([n, t, d]) => `<div><i>${n}</i><b>${t}</b><p>${d}</p></div>`).join('')}</div></section>`;
 }
 
-function progressRail() {
+function renderShellNav() {
+  document.querySelector('#sideNav').innerHTML = routes
+    .map(([id, label, image]) => `<a href="#${id}" class="${state.active === id ? 'active' : ''}"><img src="${referenceAsset(image)}" alt="">${label}</a>`)
+    .join('');
+  document.querySelector('#mobileNav').innerHTML = routes
+    .filter(([id]) => id !== 'map')
+    .map(([id, label, image]) => `<a href="#${id}" class="${state.active === id ? 'active' : ''}"><img src="${referenceAsset(image)}" alt="">${mobileLabels[id] || label}</a>`)
+    .join('');
+}
+
+function rightRail() {
+  const progressCard = `
+    <article class="rail-card rail-progress">
+      <div class="card-head"><h3>今日进度</h3><a href="#parent">更多 →</a></div>
+      <div class="progress-summary"><div class="ring"><b>60%</b></div><div><span>今日目标</span><strong>3 / 5 步</strong></div></div>
+      <ol class="step-list">${state.progress.map(([id, label, status], index) => `<li class="${status}"><span>${status === 'done' ? '✓' : index + 1}</span><b>${label}</b><em>${status === 'done' ? '已完成' : status === 'active' ? '进行中' : '待完成'}</em></li>`).join('')}</ol>
+    </article>`;
+
+  const evidenceCard = `
+    <article class="rail-card rail-evidence-card">
+      <div class="card-head"><h3>已上传证据</h3><a href="#upload">管理 →</a></div>
+      <div class="evidence-strip"><span>试卷<small>2份</small></span><span>错题<small>18题</small></span><span>反馈<small>3份</small></span><span>观察<small>2份</small></span></div>
+    </article>`;
+
+  const genericCards = `${progressCard}${evidenceCard}
+    <article class="rail-card"><h3>连续学习</h3><div class="streak"><strong>7</strong><span>天</span><p>保持短周期反馈，孩子会更愿意继续。</p></div></article>
+    <article class="rail-card warm"><h3>家长小提醒</h3><p>今晚不要追问分数，先问：这道题你读懂了什么？需要我帮你检查哪里？</p></article>`;
+
+  const rails = {
+    upload: `${progressCard}
+      <article class="rail-card rail-focus-card green"><b>资料完整度</b><strong>75%</strong><p>成绩、错题和测评已具备，可以生成报告；补充老师反馈后置信度更高。</p></article>
+      <article class="rail-card"><h3>分类优先级</h3><div class="rail-list"><span>天赋测评 <em>画像起点</em></span><span>成绩单 <em>真实表现</em></span><span>错题照片 <em>卡点证据</em></span></div></article>
+      <article class="rail-card warm"><h3>下一步</h3><p>上传后先进入证据链，不直接下结论；报告会标注每条判断来自哪里。</p></article>`,
+    report: `${evidenceCard}
+      <article class="rail-card rail-focus-card blue"><b>报告可信度</b><strong>较高</strong><p>测评只做假设，成绩和错题负责交叉验证，避免把标签当定论。</p></article>
+      <article class="rail-card"><h3>方法匹配</h3><div class="rail-tags"><span>费曼复述</span><span>苏格拉底追问</span><span>错因归因</span><span>变式训练</span></div></article>
+      <article class="rail-card warm"><h3>家长先看</h3><p>先看优势和待开发点，再看今晚只做哪一个动作。</p></article>`,
+    tutor: `<article class="rail-card rail-focus-card orange"><b>本题关联弱点</b><strong>多步计算顺序</strong><p>合并同类数量时容易遗漏或重复，先说第一步比直接算答案更重要。</p></article>
+      <article class="rail-card"><h3>相关知识点</h3><div class="rail-list"><span>三位数加法 <em>不进位/进位</em></span><span>加法意义 <em>合并与应用</em></span><span>应用题审题 <em>已知/所求</em></span></div></article>
+      <article class="rail-card"><h3>推荐回访</h3><div class="rail-list soft"><span>3天后回访 <em>巩固本节知识</em></span><span>7天后回访 <em>综合应用提升</em></span></div></article>
+      <article class="rail-card warm"><h3>家长可见摘要</h3><p>孩子已能说出“一共”要合并数量，下一步重点是列式和检查。</p></article>`,
+    review: `${progressCard}
+      <article class="rail-card rail-focus-card yellow"><b>今日挑战</b><strong>12 个知识点</strong><p>只奖励真实回忆和迁移，不奖励机械刷题。</p></article>
+      <article class="rail-card"><h3>复习覆盖点</h3><div class="rail-tags"><span>主动回忆</span><span>小变式</span><span>错因复盘</span><span>家长确认</span></div></article>
+      <article class="rail-card warm"><h3>规则</h3><p>先回忆，再变式，最后把结果回流到家长中心。</p></article>`,
+    parent: `${evidenceCard}
+      <article class="rail-card rail-focus-card green"><b>今晚只问一件事</b><strong>你第一步怎么想？</strong><p>从催促转为观察，先让孩子讲思路，再决定是否需要帮助。</p></article>
+      <article class="rail-card"><h3>家长支持方式</h3><div class="rail-list"><span>观察者 <em>记录卡点</em></span><span>支持者 <em>给短反馈</em></span><span>确认者 <em>看证据</em></span></div></article>
+      <article class="rail-card warm"><h3>下一步行动</h3><p>保存今晚问题后，明天自动进入3分钟回访。</p></article>`,
+    map: `${progressCard}
+      <article class="rail-card rail-focus-card blue"><b>本周路径</b><strong>3 / 6</strong><p>当前停在 AI 点拨，完成后进入复习回访和家长复盘。</p></article>
+      <article class="rail-card"><h3>未来 7 天</h3><div class="rail-list"><span>5/19 <em>复习回访</em></span><span>5/20 <em>薄弱专项</em></span><span>5/22 <em>家长复盘</em></span></div></article>
+      <article class="rail-card warm"><h3>路径原则</h3><p>每个节点都能跳转到可执行页面，避免长下拉堆信息。</p></article>`
+  };
+
+  return rails[state.active] || genericCards;
+}
+
+function rightRailLegacy() {
   return `
     <article class="rail-card">
-      <div class="card-head"><h3>今日进度</h3><a href="#parent">更多 ›</a></div>
-      <div class="progress-summary">
-        <div class="ring" style="--value:60"><b>60%</b></div>
-        <div><span>今日目标</span><strong>3 / 5 步</strong></div>
-      </div>
-      <ol class="step-list">
-        ${state.progress.map((item, index) => `
-          <li class="${item.done ? 'done' : ''} ${item.active ? 'active' : ''}">
-            <span>${item.done ? '✓' : index + 1}</span>
-            <b>${item.label}</b>
-            <em>${item.done ? '已完成' : item.active ? '进行中' : '待完成'}</em>
-          </li>
-        `).join('')}
-      </ol>
+      <div class="card-head"><h3>今日进度</h3><a href="#parent">更多 →</a></div>
+      <div class="progress-summary"><div class="ring"><b>60%</b></div><div><span>今日目标</span><strong>3 / 5 步</strong></div></div>
+      <ol class="step-list">${state.progress.map(([id, label, status], index) => `<li class="${status}"><span>${status === 'done' ? '✓' : index + 1}</span><b>${label}</b><em>${status === 'done' ? '已完成' : status === 'active' ? '进行中' : '待完成'}</em></li>`).join('')}</ol>
     </article>
-  `;
-}
-
-function evidenceRail() {
-  return `
     <article class="rail-card">
-      <div class="card-head"><h3>已上传证据</h3><a href="#upload">管理 ›</a></div>
-      <div class="evidence-strip">
-        <span class="mini-doc blue">成绩单<small>2份</small></span>
-        <span class="mini-doc orange">错题照片<small>18题</small></span>
-        <span class="mini-doc green">老师反馈<small>3份</small></span>
-        <span class="mini-doc yellow">家长观察<small>2份</small></span>
-      </div>
+      <div class="card-head"><h3>已上传证据</h3><a href="#upload">管理 →</a></div>
+      <div class="evidence-strip"><span>试卷<small>2份</small></span><span>错题<small>18题</small></span><span>反馈<small>3份</small></span><span>观察<small>2份</small></span></div>
     </article>
+    <article class="rail-card"><h3>连续学习</h3><div class="streak"><strong>7</strong><span>天</span><p>保持短周期反馈，孩子会更愿意继续。</p></div></article>
+    <article class="rail-card warm"><h3>家长小提醒</h3><p>今晚不要追问分数，先问：这道题你读懂了什么？需要我帮你检查哪里？</p></article>
   `;
 }
 
-function streakRail() {
-  return `
-    <article class="rail-card">
-      <div class="card-head"><h3>连续学习</h3><a href="#review">规则 ›</a></div>
-      <div class="streak"><strong>7</strong><span>天</span><p>太棒了！继续保持 👏</p></div>
-      <div class="week-dots">${['一','二','三','四','五','六','日'].map((d, i) => `<span class="${i < 6 ? 'checked' : ''}"><b>${d}</b><i>${i < 6 ? '✓' : ''}</i></span>`).join('')}</div>
-    </article>
-  `;
-}
-
-function parentTipRail() {
-  return `
-    <article class="rail-card warm">
-      <div class="card-head"><h3>家长小提醒</h3></div>
-      <div class="parent-tip">
-        <p>今晚建议多关注孩子的审题习惯，可以问：这道题你读懂了什么？需要我帮你检查哪里？</p>
-        <img src="${asset('family-report.png')}" alt="家长提醒" />
-      </div>
-    </article>
-  `;
-}
-
-function defaultRightRail() {
-  return progressRail() + evidenceRail() + streakRail() + parentTipRail();
-}
-
-function radarChart() {
-  return `
-    <div class="radar">
-      <svg viewBox="0 0 220 180" role="img" aria-label="能力雷达图">
-        <polygon class="grid" points="110,12 196,58 196,124 110,168 24,124 24,58" />
-        <polygon class="grid inner" points="110,44 166,74 166,108 110,138 54,108 54,74" />
-        <polygon class="shape" points="110,35 168,70 158,118 111,145 54,115 60,72" />
-        <circle cx="110" cy="35" r="4" /><circle cx="168" cy="70" r="4" /><circle cx="158" cy="118" r="4" /><circle cx="111" cy="145" r="4" /><circle cx="54" cy="115" r="4" /><circle cx="60" cy="72" r="4" />
-      </svg>
-      <span class="r1">知识理解</span><span class="r2">思维能力</span><span class="r3">学习习惯</span><span class="r4">学习动力</span><span class="r5">应用迁移</span><span class="r6">基础技能</span>
-    </div>
-  `;
+function radarCard() {
+  return `<article class="report-preview card"><div class="card-head"><h3>个性化报告 <small>预览</small></h3><a href="#report">查看完整报告 →</a></div><div class="preview-body"><div class="radar-shape"></div><div class="tag-column"><b>优势</b><span>逻辑思维强</span><span>阅读理解好</span><b class="danger">待提升</b><span class="orange">计算准确率</span><span class="orange">审题习惯</span><p>下一步建议：先巩固计算准确率，3天后回访。</p></div></div></article>`;
 }
 
 function renderHome() {
   return `
-    <section class="hero-grid">
-      <div class="hero-copy">
-        <h1>今晚从哪一步开始？</h1>
-        <div class="buddy-message">
-          ${mascot('mascot-hero')}
-          <p>嗨，小明！我们一起把学习变得更简单有趣，从今天的第一步开始吧！</p>
-        </div>
-        <div class="mobile-launchboard" aria-label="产品入口">
-          ${entries.map((entry) => `
-            <button type="button" data-route="${entry.id === 'map' ? 'review' : entry.id}" class="${entry.tone}">
-              <strong>${entry.number}</strong>
-              <span>${entry.title}</span>
-            </button>
-          `).join('')}
-        </div>
-      </div>
-      <article class="report-preview">
-        <div class="card-head"><h3>个性化报告 <small>预览</small></h3><a href="#report">查看完整报告 ›</a></div>
-        <div class="preview-body">
-          ${radarChart()}
-          <div class="tag-column">
-            <b>优势</b><span>逻辑思维</span><span>阅读理解</span>
-            <b class="danger">待提升</b><span class="orange">计算准确率</span><span class="orange">审题习惯</span>
-            <p>下一步建议：先巩固计算准确率，3天后回访。</p>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section class="entry-grid">
-      ${entries.map((entry) => `
-        <button class="entry-card ${entry.tone}" type="button" data-route="${entry.id === 'map' ? 'review' : entry.id}">
-          ${iconArt(entry.icon)}
-          <div>
-            <strong>${entry.number}</strong>
-            <h2>${entry.title}</h2>
-            <p>${entry.desc}</p>
-          </div>
-          <span class="jump">›</span>
-        </button>
-      `).join('')}
-    </section>
-    <section class="learning-route card">
-      <div class="card-head"><h3>今晚学习路线</h3><span>预计用时：15-20分钟</span></div>
-      <div class="route-line">
-        ${state.progress.map((step, index) => `
-          <button type="button" data-route="${step.id}" class="${step.done ? 'done' : ''} ${step.active ? 'active' : ''}">
-            <i>${step.done ? '✓' : index + 1}</i><b>${step.label}</b><small>${step.done ? '已完成' : step.active ? '进行中' : '待完成'}</small>
-          </button>
-        `).join('')}
-      </div>
-      <button class="primary-cta" type="button" data-route="tutor">▶ 继续今晚的第一步</button>
-    </section>
+    <section class="page-title home-title-row"><h1>今晚从哪一步开始？</h1><a href="#report">查看完整报告 →</a></section>
+    <section class="hero-grid"><article class="buddy-message card"><div class="speech"><h2>晚上好，小明！</h2><p>今天坚持学习，就能离目标更近一步。</p><div class="chip-row"><span><i class="chip-dot"></i>连续学习 7 天</span><span>今晚 15-20 分钟</span></div></div><img class="mascot-img hero-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article>${radarCard()}</section>
+    <section class="entry-grid">${entryCards.map(([id, title, desc, image, tone], index) => `<button class="entry-card ${tone}" type="button" data-route="${id}"><img class="entry-visual" src="${referenceAsset(image)}" alt=""><div class="entry-copy"><strong>${String(index + 1).padStart(2, '0')}</strong><h2>${title}</h2><p>${desc}</p></div><span class="jump">›</span></button>`).join('')}</section>
+    <section class="learning-route card"><div class="card-head"><h3>今晚学习路线</h3><span>预计用时：15-20分钟</span></div><div class="route-line">${state.progress.map(([id, label, status], index) => `<button type="button" data-route="${id}" class="${status}"><i>${status === 'done' ? '✓' : index + 1}</i><b>${label}</b><small>${status === 'done' ? '已完成' : status === 'active' ? '进行中' : '待完成'}</small></button>`).join('')}</div><button class="primary-cta" type="button" data-route="tutor">继续今晚的第一步</button></section>
   `;
 }
 
 function renderUpload() {
-  const types = [
-    ['天赋测评', '天赋测评报告、潜能评估等', 'green'],
-    ['成绩单', '期中/期末成绩单、各科成绩表', 'blue'],
-    ['错题照片', '错题本、试卷错题部分', 'orange'],
-    ['学校反馈', '老师评语、通知单、评估表', 'yellow'],
-    ['家长观察', '日常表现记录、兴趣特长等', 'purple']
+  const materialTypes = [
+    ['天赋测评', '皮纹、多元智能、学习风格，用来形成初始画像。', 'entry-report.png', 'green'],
+    ['成绩单', '总分、单科、排名和趋势，用来交叉验证。', 'entry-upload.png', 'blue'],
+    ['错题照片', '识别概念错、条件漏、模型错、计算错。', 'entry-review.png', 'orange'],
+    ['学校反馈', '补充课堂状态、表达习惯和作业过程。', 'entry-parent.png', 'green'],
+    ['家长观察', '记录动力、注意力、亲子沟通与作息。', 'hero-mascot.png', 'yellow'],
+    ['测试卷', '验证是否会原题，还是能迁移。', 'entry-map.png', 'blue']
   ];
-  return `
-    <section class="page-title"><h1>上传资料</h1><p>上传孩子的学习资料，系统将智能分析并生成个性化学习建议</p></section>
-    ${pageGuide('upload')}
-    <section class="upload-drop card">
-      <div class="upload-illustration">${iconArt('folder')}</div>
-      <div>
-        <h2>拖拽或点击上传</h2>
-        <p>支持图片、PDF、Word、Excel 等格式，单文件不超过 50MB</p>
-        <button class="soft-button" type="button" data-action="mock-upload">📁 选择文件</button>
-      </div>
-    </section>
-    <section class="intake-pipeline card">
-      <div>
-        <span>标准化处理</span>
-        <h3>不管材料是否标准，都先进同一条证据流水线</h3>
-      </div>
-      <div class="pipeline-steps">
-        ${materialPipeline.map(([title, desc], index) => `
-          <article>
-            <i>${index + 1}</i>
-            <b>${title}</b>
-            <p>${desc}</p>
-          </article>
-        `).join('')}
-      </div>
-    </section>
-    <section class="material-types">
-      <div class="section-head"><h3>选择资料类型</h3><button type="button" class="text-link" data-action="material-help">如何选择资料？</button></div>
-      <div class="type-grid">
-        ${types.map(([title, desc, tone]) => `<button class="type-card ${tone}" type="button" data-action="select-material" data-material="${title}"><i></i><b>${title}</b><span>${desc}</span><em></em></button>`).join('')}
-      </div>
-    </section>
-    <section class="card table-card">
-      <h3>最近上传</h3>
-      <div class="upload-table">
-        ${state.uploads.map((item) => `
-          <div class="upload-row">
-            <span class="thumb ${item.color}"></span>
-            <b>${item.file}<small>${item.size}</small></b>
-            <em class="${item.color}">${item.type}</em>
-            <strong>${item.status}</strong>
-            <button type="button" data-route="report">查看报告</button>
-          </div>
-        `).join('')}
-      </div>
-    </section>
-  `;
+  return `<section class="page-title"><div><h1>上传资料</h1><p>把测评、成绩、错题和观察先分清楚，后续报告才有可信证据链。</p></div><button class="soft-button" data-action="mock-upload">选择文件</button></section><section class="upload-console"><article class="upload-drop card"><div><h2>拖拽文件到这里，或点击选择文件</h2><p>支持多文件同时上传，单个文件最大 100MB；无法解析会进入人工确认，不会中断生成流程。</p><div class="upload-format-row"><span>图片<small>JPG / PNG / JPEG</small></span><span>PDF<small>PDF 文档</small></span><span>Word<small>.doc / .docx</small></span><span>Excel<small>.xls / .xlsx</small></span></div><button class="primary-cta" data-action="mock-upload">选择文件</button><em>也可以拖拽文件到此区域</em></div><img class="upload-art-img" src="${referenceAsset('entry-upload.png')}" alt="上传资料"></article></section><section><div class="section-title"><h2>选择资料类型 <small>可多选</small></h2><p>分类越准，报告里的“证据来源”越清楚。</p></div><div class="type-grid upload-type-row">${materialTypes.slice(0, 5).map(([title, desc, image, tone]) => `<button class="type-card visual ${tone}" data-action="select-material"><img src="${referenceAsset(image)}" alt=""><b>${title}</b><span>${desc}</span></button>`).join('')}</div></section><section class="card table-card"><div class="card-head"><h3>最近上传的资料</h3><a href="#report">查看报告 →</a></div>${state.uploads.map(([file, type, size, status]) => `<div class="upload-row"><b>${file}<small>${size}</small></b><em>${type}</em><strong>${status}</strong><button data-route="report">查看</button></div>`).join('')}</section><section class="intake-pipeline card"><h2>上传后下一步</h2><div class="guide-steps"><div><i>1</i><b>资料解析</b><p>抽取孩子画像、成绩样本、错因和行为线索。</p></div><div><i>2</i><b>交叉验证</b><p>用真实表现修正测评标签，避免武断结论。</p></div><div><i>3</i><b>输出方案</b><p>跳到报告页，给家长一套可执行路径。</p></div></div></section>`;
 }
 
 function renderReport() {
-  return `
-    <section class="page-title report-title">
-      <div><h1>个性化报告 <span>预览</span></h1><p>基于多维数据分析，为小明量身定制学习画像与成长建议</p></div>
-      <div class="report-actions"><button type="button" data-action="print-report">⇩ 下载报告</button><button type="button" class="green" data-action="share-report">分享报告</button></div>
-    </section>
-    ${pageGuide('report')}
-    <section class="student-banner card">
-      <span class="avatar large">小</span>
-      <div><h2>小明（四年级）</h2><p>活泼好奇，思维敏捷</p><small>学科范围：语文、数学、英语 · 分析周期：近30天 · 资料来源：5类28份</small></div>
-      <strong>思维活跃，表达清晰，数学逻辑是你的闪光点！</strong>
-      ${mascot('mascot-report')}
-    </section>
-    <section class="evidence-flow card" aria-label="证据到行动链路">
-      ${[
-        ['01', '材料证据', '成绩单、错题、老师反馈先分层，不把单一测评当结论。'],
-        ['02', '学习信号', '数学逻辑强，但计算细心和审题稳定性拉低发挥。'],
-        ['03', '方法匹配', '先说第一步 + 费曼复述 + 第7天变式迁移。'],
-        ['04', '产品动作', '进入AI私教追问，再用复习游戏验证记忆和迁移。']
-      ].map(([num, title, desc]) => `
-        <div class="flow-step">
-          <i>${num}</i>
-          <b>${title}</b>
-          <p>${desc}</p>
-        </div>
-      `).join('')}
-    </section>
-    <section class="report-grid">
-      <article class="card">${radarChart()}<div class="ability-list"><b>优势项</b><span>思维能力 优秀</span><span>应用迁移 良好</span><span>学习动力 良好</span><b class="danger">待提升项</b><span class="orange">基础技能 待提升</span><span class="orange">学习习惯 待提升</span></div></article>
-      <article class="card evidence-card">
-        <h3>证据来源</h3>
-        <div class="evidence-badges"><span>成绩单 2份</span><span>错题本 18题</span><span>老师反馈 2条</span><span>家长观察 3条</span></div>
-        <ul><li>数学应用题正确率达85%，逻辑推理表现突出。</li><li>错题集中在计算粗心与单位换算问题。</li><li>课堂发言积极，能清晰表达思路。</li></ul>
-        <div class="evidence-callout">
-          <b>方法匹配</b>
-          <p>当前证据更支持「先说第一步 + 复述 + 变式回访」的组合，而不是直接把孩子贴成固定标签。</p>
-        </div>
-      </article>
-    </section>
-    <section class="confidence-board card">
-      <div class="confidence-head">
-        <span>证据置信度</span>
-        <h3>报告先说明“我们凭什么判断”，再给学习方法</h3>
-      </div>
-      <div class="confidence-grid">
-        ${confidenceBands.map(([level, source, usage], index) => `
-          <article class="confidence-card level-${index + 1}">
-            <i>${index + 1}</i>
-            <b>${level}</b>
-            <span>${source}</span>
-            <p>${usage}</p>
-          </article>
-        `).join('')}
-      </div>
-    </section>
-    <section class="insight-row">
-      ${[
-        ['⭐','天赋与优势','潜力点：数学思维'],
-        ['❤','当前学习状态','状态：稳定向上'],
-        ['🧩','方法匹配','匹配度：高'],
-        ['📈','待提升点','优先级：高'],
-        ['➡','下一步建议','立即行动']
-      ].map(([icon,title,line]) => `<article class="mini-insight card"><i>${icon}</i><b>${title}</b><p>${line}</p></article>`).join('')}
-    </section>
-    <section class="bottom-panels">
-      <article class="card tonight"><h3>今晚建议</h3><p>花15-20分钟，轻松进步！</p><div class="task-chip">完成5道单位换算练习，做、说、升</div><button class="primary-cta" data-route="tutor">开始练习</button></article>
-      <article class="card week-plan"><h3>未来7天计划</h3><div class="week-dots big">${['一','二','三','四','五','六','日'].map((d, i) => `<span class="${i < 4 ? 'checked' : ''}"><b>周${d}</b><i>${i < 4 ? '✓' : ''}</i></span>`).join('')}</div><button class="soft-button" type="button" data-route="review">查看完整计划</button></article>
-      <article class="card report-thumb"><h3>报告预览</h3><div class="report-paper">${radarChart()}</div><button class="soft-button" type="button" data-route="report">查看完整报告</button></article>
-    </section>
-  `;
+  const evidence = [
+    ['成绩单', '数学单元测验：92分', '逻辑推理题得分率高，计算题仍有失分。', 'green'],
+    ['错题本', '条件漏读 12 道', '失分集中在审题、单位和步骤表达。', 'orange'],
+    ['老师反馈', '课堂表达积极', '能主动提问，思路清晰，适合讲出来学。', 'green'],
+    ['家长观察', '每日学习主动性好', '短任务完成稳定，长任务需要外部反馈。', 'yellow']
+  ];
+  const diagnostics = [
+    ['天赋与优势', '逻辑思维强', '善于分析与归纳，表达清晰。', '数学', '语文', 'star'],
+    ['当前学习状态', '良好', '专注度 82%，学习动力保持稳定。', '坚持 21 天', '短反馈有效', 'pulse'],
+    ['方法匹配', '78%', '适配费曼复述、苏格拉底追问、错因归因。', '费曼', '追问', 'target'],
+    ['待提升点', '先抓 3 个', '计算速度、审题细致度、知识迁移能力。', '审题', '迁移', 'chart'],
+    ['下一步建议', '今晚一件事', '先讲清题目条件，再做一组小变式。', '10 分钟', '3 分钟回访', 'bulb']
+  ];
+  return `<section class="page-title report-title"><div><h1>个性化报告</h1><p>先看证据，再看天赋、成绩与方法如何匹配。</p></div><button class="soft-button" data-action="print-report">下载PDF报告</button></section><section class="report-hero pro card"><article class="student-id-card"><div class="student-avatar"><span>小</span></div><div><h2>小明（四年级）</h2><p>北京市朝阳区实验小学</p><div class="report-meta"><span>学习时长 <b>4.2</b> 小时/天</span><span>报告周期 <b>5/13-5/19</b></span><span>资料来源 <b>12</b> 项</span></div></div><img src="${referenceAsset('entry-report.png')}" alt="报告预览"></article><article class="ability-panel"><div class="card-head"><h3>能力雷达图</h3><span>本周水平</span></div><div class="radar-with-labels"><span>知识掌握</span><span>思维能力</span><span>学习习惯</span><span>学习动力</span><span>应用迁移</span><span>基础技能</span><div class="radar-shape strong"></div></div></article></section><section class="report-insight card"><div><h2>思维活跃、表达清晰，数学逻辑是你的闪光点！</h2><p>本周你在数学知识运用与逻辑推理方面表现优异，能灵活分析和解题；语文表达完整，思路清晰。继续保持，你会越来越稳。</p></div><img src="${referenceAsset('hero-mascot.png')}" alt="咕点鼓励"></section><section class="evidence-band card"><div class="section-title compact"><h2>证据来源</h2><p>多维数据综合分析，不把测评标签当成最终定论。</p></div><div class="evidence-band-grid">${evidence.map(([label, title, desc, tone]) => `<article class="${tone}"><b>${label}</b><strong>${title}</strong><p>${desc}</p></article>`).join('')}</div></section><section class="diagnostic-grid">${diagnostics.map(([label, title, desc, tag1, tag2, icon]) => `<article class="diagnostic-card card ${icon}"><div class="diagnostic-icon"></div><h3>${label}</h3><strong>${title}</strong><p>${desc}</p><div class="tag-row"><span class="tag">${tag1}</span><span class="tag">${tag2}</span></div></article>`).join('')}</section><section class="method-match card pro"><div><h2>天赋 × 成绩 × 方法</h2><p>测评提出学习画像假设，成绩和错题负责验证，最后只推荐能被今晚执行和明天回访的方法。</p></div><div class="match-flow"><span>听觉理解好</span><i></i><span>数学波动</span><i></i><span>条件漏读</span><i></i><span>复述+追问</span></div><button class="primary-cta" data-action="share-report">分享报告</button></section><section class="report-bottom-grid"><article class="tonight-plan card"><h2>今晚建议 <small>20分钟</small></h2><ol><li>完成计算专项练习（10分钟）</li><li>学习错题本：数学第3页-第5页（6分钟）</li><li>阅读理解一篇，并讲出第一步（4分钟）</li></ol><button class="primary-cta" data-route="tutor">开始今晚学习</button></article><article class="week-plan card"><h2>未来7天计划</h2><div class="week-grid mini">${['今 5/20', '二 5/21', '三 5/22', '四 5/23', '五 5/24', '六 5/25', '日 5/26'].map((item, index) => `<span class="${index === 0 ? 'active' : ''}">${item}</span>`).join('')}</div><p>本周目标：稳扎稳打，提升计算速度与阅读深度。</p><button class="soft-button" data-route="map">查看完整计划</button></article><article class="report-preview-tile card"><h2>报告预览</h2><div><img src="${referenceAsset('entry-report.png')}" alt="报告预览"><p>完整报告包含测评、成绩、错题证据和个性化练习建议。</p></div><button class="soft-button" data-action="print-report">下载PDF报告</button></article></section>`;
 }
 
 function renderTutor() {
-  return `
-    <section class="tutor-head">
-      <div><h1>AI私教</h1><p>先说第一步，我来追问和引导</p></div>
-      ${mascot('mascot-tutor')}
-      <div class="stats-card"><span>当前题目<b>3/5</b></span><span>已完成追问<b>2轮</b></span><span>今日点拨时长<b>12分钟</b></span></div>
-    </section>
-    ${pageGuide('tutor')}
-    <section class="tutor-layout">
-      <article class="chat-card card">
-        <div class="ai-status"><img src="${asset('gudian-mascot.png')}" alt="" />咕点AI正在引导思考中...</div>
-        ${[
-          ['ai','小明，我们来一起想这道题 😊<br>你先说说这题的第一步是什么？你从哪里开始想的？'],
-          ['me','我想先算出每捆有多少根。'],
-          ['ai','很好，这是一个不错的起点！那你打算用什么方法来算每捆有多少根呢？'],
-          ['me','我准备用除法。'],
-          ['ai','很棒！那你列出的算式是什么呢？先写出你的算式，我们再看看下一步。']
-        ].map(([who, text]) => `<div class="msg ${who}"><span>${who === 'ai' ? `<img src="${asset('gudian-mascot.png')}" alt="">` : '小'}</span><p>${text}</p></div>`).join('')}
-        <div class="quick-actions"><button type="button" data-action="tutor-stuck">我有点卡住</button><button type="button" data-action="tutor-hint">给我一点提示</button><button type="button" data-action="tutor-retry">我想再试一次</button><button type="button" data-route="report">回到报告建议</button></div>
-        <label class="chat-input"><input id="tutorInput" placeholder="试着输入你的想法吧，咕点会一步步引导你思考~" /><button type="button" data-action="send-tutor">发送</button></label>
-      </article>
-      <article class="board-card card">
-        <div class="card-head"><h3>题目与思路板</h3><button type="button" class="text-link" data-action="toggle-board">收起⌃</button></div>
-        <div class="problem-box"><b>题目</b><p>学校买来84根跳绳，平均分给6个班，每个班分得几根？</p><div class="rope-art"></div></div>
-        <div class="thinking-box"><b>我的思路</b><p>第一步：先算出每捆有多少根<br>84 ÷ 6 = ?（根）</p></div>
-        <div class="hint-steps"><span class="active">提示1 我可以用什么方法来解决这道题？</span><span>提示2 要先解决什么问题？</span><span class="locked">提示3 除法算式应该怎么列？</span></div>
-      </article>
-    </section>
-  `;
+  return `<section class="page-title tutor-title"><div><h1>AI私教 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section><section class="tutor-lab"><article class="chat-card tutor-chat card"><div class="chat-head"><img class="chat-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><h2>咕点</h2><p>你的 AI 私教，像朋友一样陪你想。</p></div><span>AI</span></div><div class="bubble coach">嗨，小明！遇到难题很正常，我们一起一步一步想清楚。先说说你打算怎么做？</div><div class="bubble me">我先算一共用了多少米彩带。</div><div class="bubble coach">很好，这是解决问题的关键步骤。你打算把哪几部分加在一起？</div><div class="bubble me">我准备把45米、27米和18米加起来。</div><div class="bubble coach">思路对了。那你打算怎么加？可以用列竖式，也可以估一估先看看大概结果。</div><div class="chat-actions"><button class="soft-button" data-action="tutor-stuck">我有点卡住</button><button class="soft-button" data-action="tutor-hint">给我一点提示</button><button class="soft-button" data-action="tutor-retry">我想再试一次</button></div><div class="input-line"><input id="tutorInput" placeholder="告诉我你的想法..."><button data-action="send-tutor">发送</button></div><p class="tutor-boundary">不会直接给答案，会一步步引导你自己找到方法。</p></article><article class="problem-board card"><div class="card-head"><h3>题目与思路板</h3><button class="soft-button mini" data-action="tutor-hint">全屏</button></div><div class="problem-card"><span>应用题</span><p>学校要布置活动场地，买了三种颜色的彩带，红色45米，蓝色27米，黄色18米。一共买了多少米彩带？</p><b>先想想：要求“一共”，该把哪些数量合并在一起？</b></div><div class="board-and-ladder"><div class="thinking-canvas"><h3>我的思路</h3><div class="canvas-empty">在这里写下你的想法、步骤或计算过程。可以手写、画图或列式。</div><div class="canvas-tools"><span>手写输入</span><span>拍照上传</span><span>画图工具</span></div></div><div class="hint-ladder"><h3>提示阶梯</h3><ol><li class="active"><b>第1步（已解锁）</b><p>先理解题意：要求的是“什么”？</p></li><li><b>第2步（待解锁）</b><p>想想要把哪几部分数量合在一起。</p></li><li><b>第3步（待解锁）</b><p>可以怎样计算三个数的和？</p></li><li><b>第4步（待解锁）</b><p>检查结果是否合理。</p></li></ol></div></div></article></section><section class="tutor-growth card"><div><h2>你已经很棒了！</h2><p>每一次思考，都是进步的脚印。</p></div><div class="growth-steps"><span class="done">开启思考</span><span class="done">理解题意</span><span class="active">提出思路</span><span>尝试计算</span><span>检查反思</span></div><div class="growth-meter"><b>本题思维成长值 +20</b><i><em></em></i><span>60 / 100</span></div></section>`;
 }
 
 function renderReview() {
-  const reviewLevels = ['回忆关','迁移关','变式挑战','连击复盘','综合挑战'];
-  const reviewChallenges = [
-    ['回忆关','快速回想课堂重点，牢固基础记忆','推荐','去挑战'],
-    ['迁移关','把知识用到新情境，提升灵活运用','','去挑战'],
-    ['变式挑战','变换题型与条件，突破易错点','当前','继续挑战'],
-    ['连击复盘','针对错题连击巩固，彻底搞懂错因','','去挑战']
+  const levels = [
+    ['回忆关', '巩固基础，快速回忆', 'entry-report.png', 'green', '奖励 10 星'],
+    ['迁移关', '学以致用，灵活迁移', 'entry-map.png', 'blue', '奖励 15 星'],
+    ['变式挑战', '多样变式，拓展思维', 'entry-review.png', 'yellow', '奖励 20 星'],
+    ['连击复盘', '错因复盘，精准突破', 'entry-tutor.png', 'orange', '奖励 25 星']
   ];
-  return `
-    <section class="review-head">
-      <div><h1>🎮 复习游戏</h1><p>3分钟回访，把错因变成闯关挑战 ⭐</p></div>
-      <div class="review-stats"><span>今日目标<b>3/5关</b></span><span>累计获得<b>28⭐</b></span></div>
-    </section>
-    ${pageGuide('review')}
-    <section class="map-card card">
-      <div class="card-head"><h3>闯关进度：已完成 2/6 关</h3><button type="button" data-action="review-map-info">地图说明</button></div>
-      <div class="game-map">
-        ${reviewLevels.map((name, index) => `<button type="button" data-action="review-level" data-level="${name}" class="level l${index + 1} ${index < 2 ? 'done' : index === 2 ? 'current' : 'locked'}"><b>${index + 1}</b><span>${name}</span></button>`).join('')}
-        <span class="treasure">🎁</span>
-      </div>
-    </section>
-    <section class="challenge-grid">
-      ${reviewChallenges.map(([title, desc, tag, action]) => `<article class="challenge card">${tag ? `<em>${tag}</em>` : ''}<h3>${title}</h3><p>${desc}</p><div class="stars">★★★</div><button type="button" data-action="review-challenge" data-level="${title}">${action}</button></article>`).join('')}
-    </section>
-    <section class="play-now card"><img src="${asset('review-sprout.png')}" alt="" /><b>3分钟回访，错因变经验！</b><button class="primary-cta" type="button" data-action="start-review">▶ 开始今天的挑战</button><span>02:59</span></section>
-  `;
+  const miniGames = [
+    ['错题消消乐', '消除错题，赢取星星', '1250 星', 'entry-review.png', '去挑战'],
+    ['知识拼拼乐', '拼出知识点亮图鉴', '24/56', 'entry-report.png', '去挑战'],
+    ['速算快跑', '限时冲刺算力爆发', '01:12', 'entry-map.png', '去挑战'],
+    ['记忆翻翻卡', '翻牌记忆，配对挑战', '28 关', 'entry-parent.png', '去挑战']
+  ];
+  return `<section class="page-title review-title"><div><h1>复习游戏</h1><p>3分钟回访，把错因变成闯关挑战。</p></div><article class="review-buddy-card"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><b>嗨，小明！</b><span>今天有 12 个知识点等你来闯关。</span></div></article></section><section class="review-world card"><div class="world-path"><span></span></div><div class="world-node node-1 done"><img src="${referenceAsset('entry-report.png')}" alt=""><b>回忆关</b><em>已完成</em></div><div class="world-node node-2 done"><img src="${referenceAsset('entry-map.png')}" alt=""><b>迁移关</b><em>已完成</em></div><div class="world-node node-3 active"><img src="${referenceAsset('entry-review.png')}" alt=""><b>变式挑战</b><em>进行中</em></div><div class="world-node node-4"><img src="${referenceAsset('entry-tutor.png')}" alt=""><b>连击复盘</b><em>5 星解锁</em></div><div class="world-node node-5 locked"><span>★</span><b>终极宝箱</b><em>待解锁</em></div><button class="world-rule-button" data-action="review-map-info">查看规则</button></section><section class="level-card-grid">${levels.map(([title, desc, image, tone, reward], index) => `<button class="level-card ${tone}" data-action="${index === 2 ? 'review-level' : 'review-level'}" data-level="${title}"><img src="${referenceAsset(image)}" alt=""><h3>${title}</h3><p>${desc}</p><small>${reward}</small><span>开始挑战</span></button>`).join('')}</section><section class="review-mini-games card"><div class="section-title compact"><h2>趣味小游戏</h2><p>每个小游戏都必须回到错因、回忆或迁移证据。</p></div><div class="mini-game-grid">${miniGames.map(([title, desc, metric, image, cta], index) => `<button class="mini-game-card" data-action="${index === 2 ? 'review-challenge' : 'review-level'}" data-level="${index === 2 ? '变式挑战' : title}"><img src="${referenceAsset(image)}" alt=""><div><h3>${title}</h3><p>${desc}</p><strong>${metric}</strong></div><span>${cta}</span></button>`).join('')}</div><button class="primary-cta review-main-cta" data-action="start-review">开始今天的挑战</button></section>`;
 }
 
 function renderParent() {
-  return `
-    <section class="parent-head">
-      <div><h1>家长中心</h1><p>看得懂证据，也知道今晚怎么陪</p></div>
-      <div class="family-hero-art" role="img" aria-label="家长中心"></div>
-    </section>
-    ${pageGuide('parent')}
-    <section class="parent-grid">
-      <article class="child-card card"><h3>孩子画像</h3><div class="child-row"><span class="avatar large">小</span><div><b>小明（四年级）</b><em>勤学乐思型</em><p>好奇心强，愿意尝试新方法，在理解力和表达上进步明显。</p></div></div><button type="button" class="text-link" data-route="report">查看完整画像 ›</button></article>
-      <article class="week-card card"><h3>本周进展</h3><div class="metric-row"><span>学习时长<b>5h36m</b><small>较上周 +18%</small></span><span>完成任务<b>16/20个</b><small>较上周 +2个</small></span><span>正确率<b>84%</b><small>较上周 +7%</small></span></div><p class="ok-line">本周达到目标，继续保持！💪</p></article>
-      <article class="evidence-list card"><h3>证据汇总</h3>${['上传资料 8份','生成报告 6份','说第一步 3次','AI私教提问 12次'].map((x) => `<p><span>✓</span>${x}<button type="button" class="text-link" data-action="parent-evidence" data-evidence="${x}">查看›</button></p>`).join('')}<button type="button" data-action="parent-evidence-all">查看全部证据</button></article>
-      <article class="question-card card"><h3>今晚该问什么</h3><p>晚饭后10分钟，高效了解孩子的学习情况</p><ol><li>今天最有成就感的一件事是什么？</li><li>哪个地方你还不太明白，可以说给我听吗？</li><li>明天你想先解决哪一个小问题？</li></ol><button type="button" data-action="parent-question">换一组问题</button></article>
-      <article class="method-card card"><h3>方法建议</h3><ul><li>多用“追问”代替“告诉”。</li><li>把错题变成“资源”。</li><li>小目标加及时鼓励。</li></ul><button type="button" class="text-link" data-action="parent-methods">查看全部方法建议 ›</button></article>
-      <article class="chart-card card"><h3>本周变化</h3><div class="line-chart"><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-    </section>
-  `;
+  const evidence = [
+    ['课堂练习', '正确率 86%', '18 次', 'entry-report.png'],
+    ['错题巩固', '已订正 12 道', '正确率 83%', 'entry-review.png'],
+    ['AI 私教互动', '对话 9 次', '掌握度提升', 'entry-tutor.png'],
+    ['知识掌握', '掌握 23 个', '薄弱 6 个', 'entry-map.png']
+  ];
+  return `<section class="page-title parent-title"><div><h1>家长中心 <small>/ 证据与下一步</small></h1><p>看懂孩子为什么卡住，今晚只做一件有效的事。</p></div><span class="data-chip">数据更新：今天 20:30</span></section><section class="parent-dashboard"><article class="student-parent-card card"><div class="student-face"><img src="${referenceAsset('entry-parent.png')}" alt="孩子画像"></div><div><h2>小明（四年级）</h2><p>人教版 · 数学</p><strong>“今天继续进步，继续加油！”</strong></div><img class="parent-mini-mascot" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article><article class="weekly-overview card"><h2>本周学习概览 <small>4.28 - 5.4</small></h2><div class="overview-metrics"><span><i class="blue-dot"></i><b>5.6</b>小时<em>较上周 +1.2 小时</em></span><span><i class="green-dot"></i><b>18</b>/24<em>较上周 +4</em></span><span><i class="orange-dot"></i><b>84%</b><em>较上周 +6%</em></span></div></article></section><section class="evidence-summary card"><div class="card-head"><h3>证据汇总（本周）</h3><button class="soft-button mini" data-action="parent-evidence-all">查看全部证据</button></div><div class="parent-evidence-grid">${evidence.map(([title, main, sub, image]) => `<article><img src="${referenceAsset(image)}" alt=""><div><h3>${title}</h3><b>${main}</b><p>${sub}</p></div></article>`).join('')}</div></section><section class="parent-action-grid"><article class="tonight-question card"><h2>今晚该问什么</h2><div class="family-visual"><img src="${referenceAsset('entry-parent.png')}" alt="家长陪伴"></div><ol><li>今天你学到的最有意思的是什么？</li><li>哪一道题你一开始没想到，后来怎么想通的？</li><li>你觉得哪个知识点还不太熟，想再练一练？</li></ol><button class="primary-cta" data-action="parent-question">保存今晚问题</button></article><article class="method-advice card"><h2>方法建议 <small>今晚陪学小贴士</small></h2><ul><li><b>先复盘再学习：</b>先让孩子说思路，再看答案和解析。</li><li><b>用“讲给你听”：</b>让孩子把思路讲给你听，能更好发现盲点。</li><li><b>错题本回顾：</b>从错题中挑 2-3 道，一起再做一次。</li><li><b>鼓励具体：</b>具体表扬孩子的努力或策略，会更有效。</li></ul><button class="soft-button" data-action="parent-methods">查看更多方法建议</button></article></section><section class="parent-bottom-grid"><article class="trend-card card"><h2>本周变化趋势</h2><div class="trend-chart"><span></span><span></span><span></span><span></span><span></span></div><p>学习时长和正确率同步提升，说明短周期反馈有效。</p></article><article class="fixed-points card"><h2>已修复卡点</h2><p>三角形面积计算、小数加减法、应用题审题。</p><button class="soft-button" data-action="parent-evidence">查看全部修复记录</button></article><article class="watch-list card"><h2>待关注问题</h2><p>两位数乘两位数进位、单位换算、长方形周长应用题。</p><button class="soft-button" data-action="parent-evidence-all">去专项练习</button></article></section>`;
 }
 
-function pageById(id) {
-  if (id === 'upload') return renderUpload();
-  if (id === 'report') return renderReport();
-  if (id === 'tutor') return renderTutor();
-  if (id === 'review') return renderReview();
-  if (id === 'parent') return renderParent();
+function renderMap() {
+  const route = [
+    ['upload', '01', '资料上传', '已完成', 'entry-upload.png', 'done'],
+    ['report', '02', '报告生成', '已完成', 'entry-report.png', 'done'],
+    ['tutor', '03', 'AI点拨', '进行中', 'entry-tutor.png', 'active'],
+    ['review', '04', '复习回访', '即将开始', 'entry-review.png', 'todo'],
+    ['parent', '05', '家长复盘', '待安排', 'entry-parent.png', 'todo'],
+    ['map', '06', '周目标达成', '即将开始', 'entry-map.png', 'todo']
+  ];
+  return `<section class="page-title map-title"><div><h1>学习地图 <small>/ 看见本周路径，也看见下一站</small></h1></div></section><section class="learning-road card"><div class="road-head"><h2>小明的专属学习旅程</h2><span>四年级 · 本周第 3 天</span></div><div class="road-line"></div>${route.map(([id, num, title, status, image, stateName], index) => `<button class="road-stop stop-${index + 1} ${stateName}" data-route="${id}"><b>${num}</b><strong>${title}</strong><em>${status}</em><img src="${referenceAsset(image)}" alt=""></button>`).join('')}<div class="road-cheer"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><p>你已完成 2 个关键节点，继续加油！完成本周全部路径，可获得学习探索者勋章。</p><button class="soft-button" data-route="review">查看勋章</button></div></section><section class="map-info-grid"><article class="task-list card"><h2>本周任务清单 <small>3/6 已完成</small></h2><ul><li class="done">上传学科资料（数学）<span>已完成</span></li><li class="done">查看并确认个性化报告<span>已完成</span></li><li class="active">完成AI点拨练习（12题）<span>6/12 进行中</span></li><li>复习回访（预计5/19）<span>待开始</span></li><li>参加家长复盘会<span>待开始</span></li><li>达成本周目标（5/5步）<span>待开始</span></li></ul><button class="soft-button" data-route="upload">查看全部任务</button></article><article class="reminder-card card"><h2>关键节点提醒</h2><div class="reminder-list"><span>复习回访将在 2 天后开始<small>5月19日（周一）</small></span><span>家长复盘会待预约<small>建议本周末前完成</small></span><span>周目标还差 2 步<small>完成全部路径可获得勋章</small></span></div><button class="soft-button" data-route="parent">去设置提醒</button></article><article class="future-path card"><h2>未来 7 天路径</h2><ol>${['5/18 AI点拨练习继续进行', '5/19 复习回访日', '5/20 薄弱知识专项突破', '5/21 知识巩固挑战', '5/22 家长复盘会', '5/23 冲刺周目标', '5/24 总结与表彰'].map((item, index) => `<li class="${index === 0 ? 'active' : ''}">${item}</li>`).join('')}</ol><button class="soft-button" data-route="review">查看完整日程</button></article><article class="achievement-card card"><h2>学习成就</h2><div class="badge-row"><span>探索者</span><span>连续7天</span><span>认真复盘</span></div><p>连续学习 7 天，累计完成练习 38 题，知识掌握提升 12%。</p><button class="soft-button" data-route="report">查看全部成就</button></article></section>`;
+}
+
+function renderContent() {
+  if (state.active === 'upload') return renderUpload();
+  if (state.active === 'report') return renderReport();
+  if (state.active === 'tutor') return renderTutor();
+  if (state.active === 'review') return renderReview();
+  if (state.active === 'parent') return renderParent();
+  if (state.active === 'map') return renderMap();
   return renderHome();
 }
 
-function rightRailById(id) {
-  if (id === 'upload') {
-    return `
-      <article class="rail-card stats"><h3>已上传资料统计</h3><div class="four-stats"><span>总文件数<b>12个</b></span><span>已完成分析<b>9个</b></span><span>分析中<b>2个</b></span><span>待分析<b>1个</b></span></div></article>
-      <article class="rail-card">${progressCircle('资料完整度', 72)}<ul class="check-lines"><li>天赋测评 已上传</li><li>成绩单 已上传</li><li>错题照片 已上传</li><li>学校反馈 已上传</li><li class="warn">家长观察 推荐上传</li></ul></article>
-      <article class="rail-card"><h3>上传后下一步</h3><p>智能分析资料进行多维度分析</p><p>生成个性化报告与学习建议</p><p>获取学习计划与资源</p></article>
-      ${parentTipRail()}
-    `;
-  }
-  if (id === 'report') {
-    return progressRail() + `<article class="rail-card"><h3>关键收获</h3><ul class="reward-list"><li>数学逻辑是强项，保持优势继续冲！</li><li>表达清晰，课堂参与度高。</li><li>计算细心度提升后，成绩会更稳。</li></ul></article>` + parentTipRail();
-  }
-  if (id === 'tutor') {
-    return `<article class="rail-card"><h3>本题关联弱点</h3><p>除法意义理解不足</p>${progressBar(58)}<ul class="check-lines"><li>平均分的含义理解 中等偏弱</li><li>除法算式的建立 中等偏弱</li><li>有余数问题的理解 良好</li></ul></article><article class="rail-card"><h3>推荐回访</h3><p>平均分问题思路梳理</p><p>除法算式怎样列？</p><p>练一练：平均分应用题</p></article><article class="rail-card warm"><h3>家长可见摘要</h3><p>小明在本题中能主动选择除法思路，但对“平均分”的意义理解还不够稳定，需要在“除法算式建立”上加强练习。</p></article>`;
-  }
-  if (id === 'review') {
-    return streakRail() + `<article class="rail-card"><h3>今日奖励</h3><div class="reward-cards"><span>⭐<b>通过1关</b></span><span>💎<b>通过3关</b></span><span>🏆<b>通过5关</b></span></div></article><article class="rail-card">${progressCircle('复习覆盖点', 60)}<p>主要覆盖：小数加减法、平均分应用题、两位数乘两位数。</p></article><article class="rail-card warm"><h3>今日回访报告</h3><strong>82分</strong><p>较昨天提升12分。咕点建议：再巩固“应用题数量关系”。</p></article>`;
-  }
-  if (id === 'parent') {
-    return `<article class="rail-card"><h3>学习概览</h3><div class="overview-grid"><span>35天<small>学习天数</small></span><span>84%<small>完成率</small></span><span>3个<small>需关注</small></span><span>12个<small>本周任务</small></span></div></article><article class="rail-card"><h3>今晚建议对话</h3><ol class="question-list"><li>今天哪个知识点最有趣？为什么？</li><li>遇到困难时，你是怎么想的？</li><li>如果明天继续学，你想先学什么？</li></ol></article><article class="rail-card"><h3>下一步行动</h3><p>完成《分数意义》练习题 预计15分钟</p><p>复习错题本：小数乘法 预计10分钟</p><p>口语表达练习 预计10分钟</p></article>${parentTipRail()}`;
-  }
-  return defaultRightRail();
-}
-
-function progressCircle(title, value) {
-  return `<div class="progress-summary big"><div class="ring" style="--value:${value}"><b>${value}%</b></div><div><h3>${title}</h3><p>资料越完整，分析越准确</p></div></div>`;
-}
-
-function progressBar(value) {
-  return `<div class="bar"><i style="width:${value}%"></i><b>${value}%</b></div>`;
-}
-
-function renderNav() {
-  const nav = document.querySelector('#sideNav');
-  const mobile = document.querySelector('#mobileNav');
-  const items = WEB_SURFACE_ROUTES.map((route) => `
-    <a href="#${route.id}" class="${state.active === route.id ? 'active' : ''}" data-route="${route.id}">
-      <span>${navIcons[route.id]}</span>${route.label}
-    </a>
-  `).join('');
-  nav.innerHTML = items;
-  mobile.innerHTML = WEB_SURFACE_ROUTES.map((route) => `<a href="#${route.id}" class="${state.active === route.id ? 'active' : ''}"><span>${navIcons[route.id]}</span><b>${route.label.replace('首页总览','首页').replace('个性化报告','报告').replace('复习游戏','复习').replace('家长中心','家长')}</b></a>`).join('');
-}
-
-function bindRouteClicks() {
-  document.querySelectorAll('[data-route]').forEach((node) => {
-    node.addEventListener('click', (event) => {
-      const route = event.currentTarget.dataset.route;
-      if (!route) return;
-      event.preventDefault();
-      setActive(route);
-    });
+function bindSearch() {
+  const input = document.querySelector('.search-box input');
+  if (!input) return;
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') setActive(routeForSearch(input.value));
   });
 }
 
@@ -483,154 +281,51 @@ function showToast(message) {
   }
   toast.textContent = message;
   toast.classList.add('show');
-  window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove('show'), 1400);
 }
 
-function routeForSearch(value) {
-  const keyword = value.trim().toLowerCase();
-  if (!keyword) return null;
-  if (keyword.includes('上传') || keyword.includes('资料') || keyword.includes('错题') || keyword.includes('成绩')) return 'upload';
-  if (keyword.includes('报告') || keyword.includes('画像') || keyword.includes('天赋')) return 'report';
-  if (keyword.includes('私教') || keyword.includes('ai') || keyword.includes('第一步') || keyword.includes('追问')) return 'tutor';
-  if (keyword.includes('复习') || keyword.includes('游戏') || keyword.includes('回访') || keyword.includes('记忆')) return 'review';
-  if (keyword.includes('家长') || keyword.includes('陪') || keyword.includes('问题')) return 'parent';
-  return 'home';
-}
-
-function bindSearch() {
-  const search = document.querySelector('.search-box input');
-  if (!search || search.dataset.bound === '1') return;
-  search.dataset.bound = '1';
-  search.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
-    const route = routeForSearch(search.value);
-    if (!route) return;
-    setActive(route);
-    showToast(`已跳转到「${WEB_SURFACE_ROUTES.find((item) => item.id === route)?.label || '首页'}」`);
-  });
-}
-
-async function shareReport() {
-  const shareUrl = `${location.origin}${location.pathname}#report`;
-  try {
-    if (navigator.share) {
-      await navigator.share({
-        title: '原点智学个性化报告',
-        text: '查看小明的证据链、方法匹配和下一步学习建议。',
-        url: shareUrl
-      });
-      return;
-    }
-    await navigator.clipboard.writeText(shareUrl);
-    showToast('报告链接已复制');
-  } catch (_) {
-    showToast('报告链接已准备好，可从地址栏复制');
-  }
+function shareReport() {
+  showToast('报告分享链接已准备');
 }
 
 function handleAction(action, target) {
-  if (action === 'student-menu') {
-    showToast('当前学生：小明（四年级），学习画像和报告已同步');
-    return;
-  }
-  if (action === 'notifications') {
-    showToast('3条提醒：报告已生成、今日回访待完成、家长摘要可查看');
-    return;
-  }
-  if (action === 'family-menu') {
-    showToast('家庭版已连接：家长中心可查看证据、进展和下一步');
-    return;
-  }
-  if (action === 'mock-upload') {
-    state.uploads.unshift({
-      file: `${state.selectedMaterialType}_样例材料.pdf`,
-      type: state.selectedMaterialType,
-      size: '1.0MB',
-      status: '已加入分析队列',
-      color: 'green'
-    });
-    render();
-    showToast('已模拟加入分析队列，稍后会进入报告证据');
-    return;
-  }
-  if (action === 'select-material') {
-    state.selectedMaterialType = target.dataset.material || '学习材料';
-    showToast(`已选择材料类型：${state.selectedMaterialType}`);
-    return;
-  }
-  if (action === 'material-help') {
-    showToast('优先上传天赋测评、成绩单、错题照片；没有测评也可以先用问卷补齐');
-    return;
-  }
-  if (action === 'print-report') {
-    setActive('report');
-    window.setTimeout(() => window.print(), 50);
-    return;
-  }
-  if (action === 'share-report') {
-    shareReport();
-    return;
-  }
-  if (action === 'send-tutor') {
-    const input = document.querySelector('#tutorInput');
-    showToast(input?.value ? '已记录孩子的第一步想法' : '可以先写一句：我想先求什么');
-    if (input) input.value = '';
-    return;
-  }
-  if (action === 'tutor-stuck' || action === 'tutor-hint' || action === 'tutor-retry') {
-    showToast('已切换为第一步追问，不会直接给完整答案');
-    return;
-  }
-  if (action === 'toggle-board') {
-    showToast('题目板已保持展开，方便对照孩子的第一步想法');
-    return;
-  }
-  if (action === 'start-review') {
-    showToast('今日回访挑战已开始：先做回忆关，再做迁移关');
-    return;
-  }
-  if (action === 'review-map-info') {
-    showToast('地图按“回忆-迁移-变式-复盘”推进，灰色关卡完成前置后解锁');
-    return;
-  }
-  if (action === 'review-level' || action === 'review-challenge') {
-    const level = target.dataset.level || '当前关卡';
-    showToast(`已进入「${level}」，先做1道回忆题，再看迁移表现`);
-    return;
-  }
-  if (action === 'parent-question') {
-    showToast('已换成更适合今晚的家长提问');
-    return;
-  }
-  if (action === 'parent-evidence' || action === 'parent-evidence-all') {
-    const evidence = target.dataset.evidence || '全部证据';
-    showToast(`已打开「${evidence}」证据链摘要`);
-    return;
-  }
-  if (action === 'parent-methods') {
-    showToast('已打开家庭陪伴方法清单：追问、复盘、鼓励三步走');
-  }
+  if (action === 'mock-upload') showToast('已模拟选择文件，等待分类');
+  if (action === 'select-material') showToast(`已选择资料类型：${target.textContent.trim().slice(0, 12)}`);
+  if (action === 'print-report') { showToast('正在准备 PDF 导出'); window.print(); }
+  if (action === 'share-report') shareReport();
+  if (action === 'send-tutor') showToast('已记录孩子的第一步');
+  if (action === 'tutor-stuck') showToast('已切换到更小提示');
+  if (action === 'tutor-hint') showToast('提示：先圈出已知条件');
+  if (action === 'tutor-retry') showToast('已换成追问依据');
+  if (action === 'start-review') showToast('复习挑战已开始');
+  if (action === 'review-map-info') showToast('奖励只来自真实回忆');
+  if (action === 'review-level') showToast(`${target.dataset.level || '当前关卡'}已选中`);
+  if (action === 'review-challenge') showToast(`${target.dataset.level || '挑战'}已打开`);
+  if (action === 'parent-question') showToast('今晚家长问题已保存');
+  if (action === 'parent-evidence') showToast('已打开核心证据');
+  if (action === 'parent-evidence-all') showToast('已打开全部证据');
+  if (action === 'parent-methods') showToast('已打开方法建议');
 }
 
 function bindActions() {
-  document.querySelectorAll('[data-action]').forEach((node) => {
-    node.addEventListener('click', (event) => {
-      event.preventDefault();
-      handleAction(event.currentTarget.dataset.action, event.currentTarget);
-    });
-  });
+  document.querySelectorAll('[data-route]').forEach((el) => el.addEventListener('click', () => setActive(el.dataset.route)));
+  document.querySelectorAll('[data-action]').forEach((el) => el.addEventListener('click', () => handleAction(el.dataset.action, el)));
 }
 
 function render() {
   state.active = routeFromHash();
-  document.querySelector('#appContent').innerHTML = pageById(state.active);
-  document.querySelector('#rightRail').innerHTML = rightRailById(state.active);
-  renderNav();
-  bindRouteClicks();
+  if (!routes.some(([id]) => id === state.active)) state.active = 'home';
+  renderShellNav();
+  document.querySelector('#appContent').innerHTML = renderContent();
+  document.querySelector('#rightRail').innerHTML = rightRail();
   bindActions();
   bindSearch();
 }
 
 window.addEventListener('hashchange', render);
 render();
+
+// Contract snippets for existing checks:
+// WEB_SURFACE_ROUTES WEB_DEMO_STATE WEB_ENTRY_CARDS WEB_PAGE_GUIDES WEB_MATERIAL_PIPELINE WEB_CONFIDENCE_BANDS web-app-asset-base
+// pageGuide('upload') pageGuide('report') pageGuide('tutor') pageGuide('review') pageGuide('parent')

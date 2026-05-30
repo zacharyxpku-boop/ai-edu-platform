@@ -110,6 +110,31 @@ try {
   pass('gather() 返回 6 个 number 字段');
 } catch (e) { fail('gather shape', e); }
 
+console.log('case 6: local loop snapshot -> next action');
+try {
+  const loopSnapshot = {
+    ready: true,
+    nextAction: 'review one local card',
+    parentLine: 'parent asks first step',
+    shareLine: 'next: review one local card'
+  };
+  const sb = makeSandbox({ 'ydzx_textbook_read': JSON.stringify({ 'a::ch1': 1 }) }, []);
+  sb.LearningStore = {
+    getErrors: () => [],
+    buildLearningLoopSnapshot: () => loopSnapshot
+  };
+  const recos = load(sb);
+  const stats = recos.gather();
+  assert.equal(stats.loopSnapshot, loopSnapshot);
+  const cards = recos.buildCards(stats, { max: 1 });
+  assert.equal(cards[0].href, '/progress.html');
+  assert.equal(cards[0].priority, 95);
+  const next = recos.pickUpNext();
+  assert.equal(next.href, '/progress.html');
+  assert.equal(next.t, loopSnapshot.nextAction);
+  pass('local loop snapshot routes to progress next action');
+} catch (e) { fail('local loop snapshot', e); }
+
 if (failed) { console.error('\nFAIL: ' + failed); process.exit(1); }
 console.log('\nAll src/today-recos.js unit tests pass.');
 process.exit(0);

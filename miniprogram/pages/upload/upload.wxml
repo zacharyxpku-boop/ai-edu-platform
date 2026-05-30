@@ -1,10 +1,10 @@
 <view class="upload-page">
-  <view class="page-positioning upload-positioning">
+  <view class="page-positioning upload-positioning" wx:if="{{showLegacyEntryContent}}">
     <view class="positioning-kicker">材料入口</view>
     <view class="positioning-title">把作业、错题、材料变成今晚路线和可回访卡</view>
     <view class="positioning-flow">先分清必须做什么；错题会进修卡点，材料会变成轻练习，不散在各处。</view>
   </view>
-  <view class="upload-nav">
+  <view class="upload-nav" wx:if="{{showLegacyEntryContent}}">
     <button class="nav-back" bindtap="goHome" aria-label="返回">
       <text class="nav-back-icon">‹</text>
     </button>
@@ -14,6 +14,70 @@
 
   <scroll-view class="upload-scroll" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="upload-content">
+      <view class="upload-hero-shell ux-entry ux-entry-upload ux-kit-screen ux-kit-upload">
+        <view class="upload-dash-top">
+          <view class="upload-dash-brand">
+            <image class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+            <view>
+              <text>原点智学</text>
+              <text>资料进入证据链</text>
+            </view>
+          </view>
+          <view class="upload-dash-pill">学习包</view>
+        </view>
+
+        <view class="upload-dash-hero">
+          <view class="upload-dash-copy">
+            <view class="upload-dash-title">先把材料分清楚</view>
+            <view class="upload-dash-sub">测评、成绩、错题和家长观察会进入不同证据位，再生成报告和今晚路线。</view>
+            <view class="upload-dash-proof">
+              <text>不公开分享</text>
+              <text>先分类再分析</text>
+            </view>
+          </view>
+          <image class="upload-dash-mascot" mode="aspectFill" src="/assets/reference/entry-upload.png" />
+        </view>
+
+        <view class="upload-material-grid ux-kit-jump-grid">
+          <view class="upload-material-card ux-kit-jump-card primary" data-scene="upload" bindtap="openEntryDetail">
+            <image class="upload-material-icon" mode="aspectFit" src="/assets/reference/entry-upload.png" />
+            <text>上传材料</text>
+            <text>作业/错题/成绩</text>
+          </view>
+          <view class="upload-material-card ux-kit-jump-card" data-scene="parent" bindtap="openEntryDetail">
+            <image class="upload-material-icon blue" mode="aspectFit" src="/assets/reference/entry-report.png" />
+            <text>家长报告</text>
+            <text>证据与方法匹配</text>
+          </view>
+          <view class="upload-material-card ux-kit-jump-card" data-scene="today" bindtap="openEntryDetail">
+            <image class="upload-material-icon yellow" mode="aspectFit" src="/assets/reference/entry-map.png" />
+            <text>今晚路线</text>
+            <text>直接生成任务</text>
+          </view>
+        </view>
+
+        <view class="upload-dash-pipeline">
+          <view class="done"><text>1</text><text>分类材料</text></view>
+          <view><text>2</text><text>提取证据</text></view>
+          <view><text>3</text><text>生成报告</text></view>
+          <view><text>4</text><text>进入私教</text></view>
+        </view>
+        <view class="upload-dash-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
+      </view>
+      <view class="upload-subcheck ux-kit-subcheck">
+        <view class="subcheck-main" data-scene="upload" bindtap="openEntryDetail">
+          <view class="subcheck-copy">
+            <text>材料先进证据链</text>
+            <text>测评、成绩、错题、观察会被分开处理，不混成一句空建议。</text>
+          </view>
+          <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-upload.png" />
+        </view>
+        <view class="subcheck-side">
+          <view data-scene="parent" bindtap="openEntryDetail"><text>出报告</text><text>给家长看结论</text></view>
+          <view data-scene="today" bindtap="openEntryDetail"><text>变任务</text><text>回到今晚路线</text></view>
+        </view>
+      </view>
+      <block wx:if="{{showLegacyEntryContent}}">
       <view class="upload-brand-row">
         <view class="upload-brand">
           <view class="upload-logo"><view class="upload-logo-leaf"></view></view>
@@ -26,7 +90,7 @@
           </view>
         </view>
         <view class="upload-soft-pill">
-          <text class="pill-spark">✦</text>
+          <text class="pill-spark"></text>
           <text>三行也能开始</text>
         </view>
       </view>
@@ -46,12 +110,71 @@
               <view class="paper-line short"></view>
               <view class="paper-line full bottom"></view>
             </view>
-            <view class="paper-spark">✦</view>
+            <view class="paper-spark"></view>
           </view>
         </view>
       </view>
 
+
+      <view class="global-depth-card" wx:if="{{surfaceDepthPack}}">
+        <view class="global-depth-head">
+          <view>
+            <view class="global-depth-title">{{surfaceDepthPack.title}}</view>
+          <view class="global-depth-summary">{{surfaceDepthPack.summary}}</view>
+        </view>
+        <view class="global-depth-score">{{surfaceDepthPack.readyCount}}/{{surfaceDepthPack.totalCount}}</view>
+      </view>
+      <view class="global-depth-next" data-route="{{surfaceDepthPack.primaryRoute}}" bindtap="runSurfaceDepthAction">{{surfaceDepthPack.nextAction}}</view>
+      <view class="global-depth-grid">
+        <view class="global-depth-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id" data-route="{{item.route}}" data-dimension-id="{{item.id}}" data-label="{{item.displayLabel}}" bindtap="runSurfaceDepthAction">
+          <text class="global-depth-chip-title">{{item.displayLabel}}</text>
+          <text class="global-depth-chip-line">{{item.ready ? item.evidenceLine : item.gapLine}}</text>
+        </view>
+      </view>
+      <view class="global-depth-note">{{surfaceDepthPack.familyLine}}</view>
+    </view>
+
+    <view class="global-depth-card upload-unified-next" wx:if="{{unifiedNextAction}}">
+      <view class="global-depth-head">
+        <view>
+          <view class="global-depth-title">{{unifiedNextAction.title}}</view>
+          <view class="global-depth-summary">{{unifiedNextAction.summary}}</view>
+        </view>
+        <view class="global-depth-score">{{unifiedNextAction.candidateCount}}</view>
+      </view>
+      <view class="global-depth-next" bindtap="runUnifiedNextAction">{{unifiedNextAction.actionLabel}}</view>
+      <view class="global-depth-grid">
+        <view class="global-depth-chip" wx:for="{{unifiedNextAction.candidates}}" wx:key="source">
+          <text class="global-depth-chip-title">{{item.sourceLabel}}</text>
+          <text class="global-depth-chip-line">{{item.reasonLine}}</text>
+        </view>
+      </view>
+      <view class="global-depth-note">{{unifiedNextAction.readinessLine}}</view>
+    </view>
+
       <view class="upload-stack">
+        <view class="soft-card upload-three-step-card" wx:if="{{uploadEntryDeck}}">
+          <view class="card-title-row compact">
+            <view class="card-title-icon">1</view>
+            <view class="card-title">{{uploadEntryDeck.title}}</view>
+          </view>
+          <view class="material-desc">{{uploadEntryDeck.summary}}</view>
+          <view class="upload-entry-grid">
+            <button
+              class="upload-entry-chip {{item.active ? 'active' : ''}}"
+              wx:for="{{uploadEntryDeck.entries}}"
+              wx:key="id"
+              data-mode="{{item.id}}"
+              bindtap="setUploadEntryMode"
+            >
+              <text class="upload-entry-label">{{item.label}}</text>
+              <text class="upload-entry-title">{{item.title}}</text>
+              <text class="upload-entry-line">{{item.line}}</text>
+            </button>
+          </view>
+          <view class="intake-packet-boundary">{{uploadEntryDeck.nextLine}}</view>
+        </view>
+
         <view class="soft-card">
           <view class="card-title-row">
             <view class="card-title-icon">◷</view>
@@ -71,7 +194,7 @@
 
         <view class="soft-card">
           <view class="card-title-row compact">
-            <view class="card-title-icon">✎</view>
+            <view class="card-title-icon">写</view>
             <view class="card-title">作业清单</view>
           </view>
           <view class="textarea-box">
@@ -80,7 +203,7 @@
               value="{{homeworkText}}"
               maxlength="1200"
               bindinput="onInput"
-              placeholder="例如：&#10;数学方程基础题 8 道；&#10;错题订正：应用题卡在等量关系；&#10;错因：漏看单位，想要举一反三。"
+              placeholder="{{homeworkPlaceholder}}"
             />
             <view class="voice-hint">支持语音输入</view>
           </view>
@@ -93,8 +216,38 @@
             </view>
           </view>
 
+
+          <view class="intake-packet-card" wx:if="{{uploadIntakePacket}}">
+            <view class="intake-packet-head">
+              <view>
+                <view class="intake-packet-kicker">结构化入口</view>
+                <view class="intake-packet-title">{{uploadIntakePacket.reportSeed.label}}</view>
+              </view>
+              <view class="intake-packet-pill">{{uploadIntakePacket.imageCount}} 张图</view>
+            </view>
+            <view class="intake-packet-feedback">{{uploadIntakePacket.feedback}}</view>
+            <view class="intake-packet-line">下一步：{{uploadIntakePacket.nextRoute}}</view>
+            <view class="intake-packet-evidence">
+              <view class="intake-packet-chip {{item.ready ? 'ready' : ''}}" wx:for="{{uploadIntakePacket.evidence}}" wx:key="id">{{item.label}}</view>
+            </view>
+            <view class="intake-action-queue" wx:if="{{uploadIntakePacket.nextActionQueue.length}}">
+              <view class="intake-action-title">下一步动作队列</view>
+              <view class="intake-action-item {{item.status}}" wx:for="{{uploadIntakePacket.nextActionQueue}}" wx:key="id" data-route="{{item.route}}" bindtap="goIntakeAction">
+                <view class="intake-action-main">
+                  <text>{{item.label}}</text>
+                  <text>{{item.action}}</text>
+                </view>
+                <view class="intake-action-meta">
+                  <text>{{item.owner}}</text>
+                  <text>{{item.releaseGate}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="intake-packet-boundary">{{uploadIntakePacket.reviewSeed.boundary}}</view>
+            <view class="intake-packet-boundary">{{uploadIntakePacket.aiBoundary}}</view>
+          </view>
           <view class="quick-wrap">
-            <view class="quick-label">💡 快捷补充常见项</view>
+            <view class="quick-label"><text class="quick-label-dot"></text>快捷补充常见项</view>
             <view class="quick-row">
               <button class="quick-chip" wx:for="{{quickChips}}" wx:key="label" data-index="{{index}}" bindtap="useQuickChip">
                 <text class="quick-plus">＋</text>{{item.label}}
@@ -114,6 +267,331 @@
         <button bindtap="goReview">去修卡点</button>
         <button bindtap="goTools">生成轻练习</button>
       </view>
+
+      <view class="intake-packet-card upload-report-cta" wx:if="{{lastReportCta}}">
+        <view class="intake-packet-head">
+          <view>
+            <view class="intake-packet-kicker">报告已生成</view>
+            <view class="intake-packet-title">{{lastReportCta.title}}</view>
+          </view>
+          <view class="intake-packet-pill">已接入报告</view>
+        </view>
+        <view class="intake-packet-feedback">{{lastReportCta.line}}</view>
+        <view class="tonight-task-card" wx:if="{{lastReportCta.tonightTaskCard}}">
+          <view class="intake-packet-kicker">今晚任务卡</view>
+          <view class="intake-packet-title">{{lastReportCta.tonightTaskCard.title}}</view>
+          <view class="intake-packet-line">第一小步：{{lastReportCta.tonightTaskCard.firstStep}}</view>
+          <view class="intake-packet-boundary">小黑板：{{lastReportCta.tonightTaskCard.blackboardLine}}</view>
+          <view class="intake-packet-boundary">误区同学：{{lastReportCta.tonightTaskCard.classmateMistake}}</view>
+          <view class="intake-packet-boundary">近迁移：{{lastReportCta.tonightTaskCard.nearTransfer}}</view>
+          <view class="intake-packet-boundary">家长只问：{{lastReportCta.tonightTaskCard.parentCheck}}</view>
+          <view class="intake-packet-boundary">明天回访：{{lastReportCta.tonightTaskCard.tomorrowReview}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.tonightTaskCard.boundaryLine}}</view>
+          <view class="intake-packet-evidence">
+            <view class="intake-packet-chip ready">{{lastReportCta.tonightTaskCard.releaseGate}}</view>
+            <view class="intake-packet-chip">{{lastReportCta.tonightTaskCard.sourceSchemaLabel}}</view>
+          </view>
+        </view>
+        <view class="intake-packet-boundary">安全边界：不带原题、完整结果、分数或比较信息。</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.openMaicTaskPlanAudit}}">小讲堂任务单：先说第一步，再做轻练习和明天回访。</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.aiLocalBoundary}}">AI 只做改写和追问；本地代码负责放行门和下一证据。</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.aiLocalBoundary}}">{{lastReportCta.aiLocalReleaseLine}}</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.safeRelayPayload}}">{{lastReportCta.safeRelayReturnLine}}</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.guardedAiReportDraft}}">{{lastReportCta.guardedAiReportDraft.visibleLine}}</view>
+        <view class="intake-packet-boundary" wx:if="{{lastReportCta.guardedAiReportDraft}}">AI 草案字段：摘要 / 追问 / 今晚行动 / 小讲堂候选；本地二次校验后才放行。</view>
+        <view class="intake-action-queue" wx:if="{{lastReportCta.personalizedParentReportPreviewMeta}}">
+          <view class="intake-action-title">标准版家长 HTML 报告</view>
+          <view class="intake-action-item">
+            <view class="intake-action-main">
+              <text>{{lastReportCta.personalizedParentReportPreviewMeta.title}}</text>
+              <text>{{lastReportCta.personalizedParentReportPreviewMeta.parentTopLine}}</text>
+            </view>
+            <view class="intake-action-meta">
+              <text>标准：{{lastReportCta.personalizedParentReportPreviewMeta.standardVersion}}</text>
+              <text>格式：{{lastReportCta.personalizedParentReportPreviewMeta.format}}</text>
+              <text>{{lastReportCta.reportExportLine}}</text>
+            </view>
+          </view>
+          <view class="intake-packet-boundary">导出规则：先在家长端确认 HTML 预览；PDF 由 H5/服务端打印导出，不能把原题照片、完整答案和隐私字段写入文件。</view>
+        </view>
+        <view class="intake-action-queue" wx:if="{{lastReportCta.aiMaterialSolutionView}}">
+          <view class="intake-action-title">{{lastReportCta.aiMaterialSolutionView.title}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.aiMaterialSolutionView.statusLine}}</view>
+          <view class="intake-action-item">
+            <view class="intake-action-main">
+              <text>{{lastReportCta.aiMaterialSolutionView.subjectLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.wrongCauseLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.firstStepLine}}</text>
+            </view>
+            <view class="intake-action-meta">
+              <text>{{lastReportCta.aiMaterialSolutionView.learningPreferenceLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.confidenceLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.qualityLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.nextActionLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.scoreLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.scoreUseLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.coverageLine}}</text>
+              <text>{{lastReportCta.aiMaterialSolutionView.coverageFallbackLine}}</text>
+            </view>
+          </view>
+          <view class="intake-action-item" wx:for="{{lastReportCta.aiMaterialSolutionView.routes}}" wx:key="id">
+            <view class="intake-action-main">
+              <text>{{item.label}}</text>
+              <text>{{item.route}}</text>
+            </view>
+          </view>
+          <view class="intake-packet-boundary">{{lastReportCta.aiMaterialSolutionView.releaseLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.aiMaterialSolutionView.evidenceLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.aiMaterialSolutionView.blockedLine}}</view>
+        </view>
+        <view class="intake-action-queue family-decision-report-card" wx:if="{{lastReportCta.familyLearningDecisionView}}">
+          <view class="intake-action-title">{{lastReportCta.familyLearningDecisionView.title}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.familyLearningDecisionView.oneLine}}</view>
+          <view class="intake-action-item">
+            <view class="intake-action-main">
+              <text>{{lastReportCta.familyLearningDecisionView.p0Line}}</text>
+              <text>{{lastReportCta.familyLearningDecisionView.anchorLine}}</text>
+              <text>{{lastReportCta.familyLearningDecisionView.dayOneLine}}</text>
+            </view>
+            <view class="intake-action-meta">
+              <text>{{lastReportCta.familyLearningDecisionView.qualityLine}}</text>
+              <text>{{lastReportCta.familyLearningDecisionView.guardLine}}</text>
+              <text>{{lastReportCta.familyLearningDecisionView.tonightLine}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="intake-action-queue" wx:if="{{lastReportCta.dailyExecutionSeed}}">
+          <view class="intake-action-title">{{lastReportCta.dailyExecutionSeed.title}}</view>
+          <view class="intake-action-item">
+            <view class="intake-action-main">
+              <text>{{lastReportCta.dailyExecutionSeed.todayLine}}</text>
+              <text>{{lastReportCta.dailyExecutionSeed.tomorrowLine}}</text>
+              <text>{{lastReportCta.dailyExecutionSeed.wrongCauseLine}}</text>
+            </view>
+            <view class="intake-action-meta">
+              <text>{{lastReportCta.dailyExecutionSeed.subjectLine}}</text>
+              <text>{{lastReportCta.dailyExecutionSeed.coverageLine}}</text>
+              <text>{{lastReportCta.dailyExecutionSeed.gameLine}}</text>
+            </view>
+          </view>
+          <view class="intake-packet-boundary">{{lastReportCta.dailyExecutionSeed.releaseLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.dailyExecutionSeed.blockedLine}}</view>
+        </view>
+        <view class="upload-flow-actions">
+          <button bindtap="viewLatestReport">查看家长报告</button>
+          <button bindtap="viewLatestReport">预览 HTML/PDF</button>
+          <button bindtap="runReportFollowupAction">{{lastReportCta.actionLabel}}</button>
+          <button wx:if="{{lastReportCta.gameRoute}}" bindtap="runReportGameAction">去轻练习</button>
+        </view>
+      </view>
+
+        <view class="service-pathway-card" wx:if="{{lastReportCta.servicePathway}}">
+          <view class="intake-packet-kicker">学习服务路径</view>
+          <view class="intake-packet-title">{{lastReportCta.servicePathway.title}}</view>
+          <view class="intake-packet-feedback">{{lastReportCta.servicePathway.summary}}</view>
+          <view class="intake-packet-line">{{lastReportCta.servicePathway.nextAction}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.servicePathway.familyVisibleLine}}</view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.serviceHandoffPack}}">
+            <view class="intake-action-title">{{lastReportCta.serviceHandoffPack.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.serviceHandoffPack.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.serviceHandoffPack.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.line}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.evidenceLine}}</text>
+              </view>
+            </view>
+            <view class="intake-packet-boundary">{{lastReportCta.serviceHandoffPack.releaseLine}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.serviceHandoffPack.blockedLine}}</view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.modeRecommendationView.cards.length}}">
+            <view class="intake-action-title">{{lastReportCta.modeRecommendationView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.modeRecommendationView.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.modeRecommendationView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.actionLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.roleLine}}</text>
+                <text>{{item.reasonLine}}</text>
+                <text>{{item.entryLine}}</text>
+                <text>{{item.evidenceLine}}</text>
+                <text>{{item.boundaryLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.modeChoiceProtocolView}}">
+            <view class="intake-action-title">{{lastReportCta.modeChoiceProtocolView.title}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.modeChoiceProtocolView.choiceCards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.roleLine}}{{item.label}}</text>
+                <text>{{item.childChoiceLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.exitLine}}</text>
+                <text>{{item.parentLine}}</text>
+              </view>
+            </view>
+            <view class="intake-packet-boundary">{{lastReportCta.modeChoiceProtocolView.positioningLine}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.modeChoiceProtocolView.releaseGateLine}}</view>
+            <view class="intake-action-title" wx:if="{{lastReportCta.modeChoiceProtocolView.blockedModeCards.length}}">暂不开启</view>
+            <view class="intake-action-item locked" wx:for="{{lastReportCta.modeChoiceProtocolView.blockedModeCards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.lockLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.unlockLine}}</text>
+                <text>{{item.exitLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.productTierView.cards.length}}">
+            <view class="intake-action-title">{{lastReportCta.productTierView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.productTierView.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.productTierView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.deliverableLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.entryGateLine}}</text>
+                <text>{{item.blockedClaimsLine}}</text>
+                <text>{{item.evidenceLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.servicePathway.partnerServiceDeliveryLedger}}">
+            <view class="intake-action-title">合作交付账本</view>
+            <view class="intake-action-item">
+              <view class="intake-action-main">
+                <text>{{lastReportCta.partnerDeliveryLedgerView.statusLine}}</text>
+                <text>{{lastReportCta.partnerDeliveryLedgerView.releaseGateLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>可见字段：{{lastReportCta.partnerDeliveryLedgerView.visibleFieldLine}}</text>
+                <text>阻断字段：{{lastReportCta.partnerDeliveryLedgerView.blockedFieldLine}}</text>
+              </view>
+            </view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.partnerDeliveryLedgerView.packageCards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.deliverable}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.entryGateLine}}</text>
+                <text>{{item.routeLine}}</text>
+              </view>
+            </view>
+            <view class="intake-packet-boundary" wx:if="{{lastReportCta.parentConfirmation}}">{{lastReportCta.parentConfirmation.evidenceLine}}</view>
+            <button class="material-import" wx:if="{{lastReportCta.needsParentConfirmation}}" bindtap="confirmReportParentConsent">家长确认交付范围</button>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.quickAssessmentBridgeView}}">
+            <view class="intake-action-title">没有现成测评时</view>
+            <view class="intake-action-item">
+              <view class="intake-action-main">
+                <text>{{lastReportCta.quickAssessmentBridgeView.label}}</text>
+                <text>{{lastReportCta.quickAssessmentBridgeView.useWhenLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{lastReportCta.quickAssessmentBridgeView.gateLine}}</text>
+                <text>{{lastReportCta.quickAssessmentBridgeView.entryLine}}</text>
+                <text>{{lastReportCta.quickAssessmentBridgeView.evidenceLine}}</text>
+                <text>{{lastReportCta.quickAssessmentBridgeView.boundaryLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.aiLocalDeliveryView.cards.length}}">
+            <view class="intake-action-title">{{lastReportCta.aiLocalDeliveryView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.aiLocalDeliveryView.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.aiLocalDeliveryView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.reasonLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.ownsLine}}</text>
+                <text>{{item.familyLine}}</text>
+                <text>{{item.boundaryLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.publicK12BorrowView.cards.length}}">
+            <view class="intake-action-title">{{lastReportCta.publicK12BorrowView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.publicK12BorrowView.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.publicK12BorrowView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.bestUseLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.localGuardLine}}</text>
+                <text>{{item.aiUseLine}}</text>
+                <text>{{item.blockedLine}}</text>
+                <text>{{item.entryLine}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.validationPlanView.cards.length}}">
+            <view class="intake-action-title">{{lastReportCta.validationPlanView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.validationPlanView.summaryLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.validationPlanView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}：{{item.action}}</text>
+                <text>{{item.evidenceLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.gateLine}}</text>
+                <text>{{item.acceptanceLine}}</text>
+                <text>{{item.stopLine}}</text>
+              </view>
+            </view>
+            <view class="intake-packet-boundary">{{lastReportCta.validationPlanView.successLine}}</view>
+          </view>
+          <view class="intake-action-queue" wx:if="{{lastReportCta.postPilotRetentionView}}">
+            <view class="intake-action-title">{{lastReportCta.postPilotRetentionView.title}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.postPilotRetentionView.statusLine}}</view>
+            <view class="intake-action-item" wx:for="{{lastReportCta.postPilotRetentionView.cards}}" wx:key="id">
+              <view class="intake-action-main">
+                <text>{{item.label}}</text>
+                <text>{{item.conditionLine}}</text>
+              </view>
+              <view class="intake-action-meta">
+                <text>{{item.actionLine}}</text>
+                <text>{{item.gateLine}}</text>
+              </view>
+            </view>
+            <view class="intake-packet-boundary">{{lastReportCta.postPilotRetentionView.operatorLine}}</view>
+            <view class="intake-packet-boundary">{{lastReportCta.postPilotRetentionView.crmLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.postPilotRetentionView.evidenceLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.postPilotRetentionView.safetyLine}}</view>
+        </view>
+        <view class="intake-action-queue" wx:if="{{lastReportCta.personalizedClosureView}}">
+          <view class="intake-action-title">{{lastReportCta.personalizedClosureView.title}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.personalizedClosureView.statusLine}}</view>
+          <view class="intake-action-item">
+            <view class="intake-action-main">
+              <text>{{lastReportCta.personalizedClosureView.contentLine}}</text>
+              <text>{{lastReportCta.personalizedClosureView.socraticLine}}</text>
+              <text>{{lastReportCta.personalizedClosureView.gameLine}}</text>
+            </view>
+            <view class="intake-action-meta">
+              <text>{{lastReportCta.personalizedClosureView.scoreLine}}</text>
+              <text>{{lastReportCta.personalizedClosureView.uploadLine}}</text>
+              <text>{{lastReportCta.personalizedClosureView.routeLine}}</text>
+            </view>
+          </view>
+          <view class="intake-packet-boundary">{{lastReportCta.personalizedClosureView.releaseLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.personalizedClosureView.evidenceLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.personalizedClosureView.blockedLine}}</view>
+          <view class="intake-packet-boundary">{{lastReportCta.personalizedClosureView.lockedLine}}</view>
+        </view>
+        <view class="intake-packet-boundary">{{lastReportCta.servicePathway.moatLine}}</view>
+          <view class="intake-packet-boundary">商业闭环：学习偏好/测评资料 → AI 辅助学习方法候选 → 7 天验证 → 30 天训练营 / 高阶规划。</view>
+        </view>
 
       <view class="upload-detail-toggle">
         <view>
@@ -146,7 +624,7 @@
             <view class="plan-count" wx:if="{{previewPlan}}">{{previewPlan.flexible.length}} 项</view>
           </view>
           <view class="plan-cell skip">
-            <view class="plan-icon">✓</view>
+            <view class="plan-icon">后</view>
             <view class="plan-title">可以后置</view>
             <view class="plan-lines">
               <view class="line long"></view>
@@ -169,12 +647,29 @@
 
       <view class="secondary-row">
         <button class="secondary-button" bindtap="chooseImage">拍照留档，补一句错因</button>
+        <button class="secondary-button" bindtap="chooseMaterialFile">选 PDF/报告文件</button>
       </view>
 
       <view class="image-list" wx:if="{{imagePaths.length}}">
         <image class="thumb" mode="aspectFill" wx:for="{{imagePaths}}" wx:key="*this" src="{{item}}" />
       </view>
       <view class="photo-hint" wx:if="{{imagePaths.length}}">照片先保存在本机；请在上方补一句“错因/卡住点”，咕点再整理成可回访的错题卡。</view>
+      <view class="photo-hint" wx:if="{{materialFiles.length}}">文件已留档；当前不会假装自动读完整 PDF，请先粘贴 OCR/复制出来的关键文字，再生成 AI 分析草案。</view>
+
+      <view class="material-report-hero">
+        <view class="material-report-kicker">家长资料入口</view>
+        <view class="material-report-title">上传测评 / 错题试卷 / 学校反馈，先生成家庭决策报告</view>
+        <view class="material-report-desc">支持测评、成绩、PDF/图片报告文字、错题和学校反馈；先提取文字，再由 AI 生成草案，本地规则只放行方法候选、错因修复和下一证据。</view>
+        <view class="material-report-actions">
+          <button class="material-report-chip" data-type="talent_assessment" bindtap="openMaterialReportPanel">学习偏好/测评资料</button>
+          <button class="material-report-chip" data-type="score_sheet" bindtap="openMaterialReportPanel">成绩单/周测</button>
+          <button class="material-report-chip" data-type="pdf_excerpt" bindtap="openMaterialReportPanel">PDF/图片报告文字</button>
+          <button class="material-report-chip" data-type="wrong_question_paper" bindtap="openMaterialReportPanel">错题试卷</button>
+          <button class="material-report-chip" data-type="school_material" bindtap="openMaterialReportPanel">学校反馈</button>
+          <button class="material-report-chip" data-type="parent_report" bindtap="openMaterialReportPanel">家长观察</button>
+          <button class="material-report-chip" bindtap="openQuickAssessment">没有测评，做 15 题快测</button>
+        </view>
+      </view>
 
       <view class="material-toggle">
         <view>
@@ -187,14 +682,69 @@
       <view class="material-card" wx:if="{{showMaterialPanel && materialPreview}}">
         <view class="material-title">学习包</view>
         <view class="material-desc">{{materialPreview.nextAction}}</view>
+        <view class="material-source-tabs">
+          <button class="material-source-chip {{materialType === 'wechat_article' ? 'active' : ''}}" data-type="wechat_article" bindtap="setMaterialType">公众号摘录</button>
+          <button class="material-source-chip {{materialType === 'web_article' ? 'active' : ''}}" data-type="web_article" bindtap="setMaterialType">网页摘录</button>
+          <button class="material-source-chip {{materialType === 'pdf_excerpt' ? 'active' : ''}}" data-type="pdf_excerpt" bindtap="setMaterialType">PDF 摘录</button>
+          <button class="material-source-chip {{materialType === 'score_sheet' ? 'active' : ''}}" data-type="score_sheet" bindtap="setMaterialType">成绩单/周测</button>
+          <button class="material-source-chip {{materialType === 'class_notes' ? 'active' : ''}}" data-type="class_notes" bindtap="setMaterialType">课堂笔记</button>
+          <button class="material-source-chip {{materialType === 'wrong_question_paper' ? 'active' : ''}}" data-type="wrong_question_paper" bindtap="setMaterialType">错题/试卷</button>
+          <button class="material-source-chip {{materialType === 'talent_assessment' ? 'active' : ''}}" data-type="talent_assessment" bindtap="setMaterialType">学习偏好/测评资料</button>
+          <button class="material-source-chip {{materialType === 'school_material' ? 'active' : ''}}" data-type="school_material" bindtap="setMaterialType">学校材料</button>
+          <button class="material-source-chip {{materialType === 'parent_report' ? 'active' : ''}}" data-type="parent_report" bindtap="setMaterialType">家长观察</button>
+        </view>
+        <view class="material-source-line">{{materialPreview.sourceLine}}</view>
+        <view class="material-source-line" wx:if="{{materialFiles.length}}">已选文件：{{materialFiles[0].name}}</view>
+        <view class="material-boundary">{{materialPreview.importBoundary}}</view>
+        <view class="material-source-line" wx:if="{{materialPreview.statusLine}}">{{materialPreview.statusLine}}</view>
+        <view class="material-source-line" wx:if="{{materialPreview.modeLine}}">{{materialPreview.modeLine}}</view>
+        <view class="material-boundary" wx:if="{{materialPreview.blockedClaimsLine}}">{{materialPreview.blockedClaimsLine}}</view>
+        <view class="material-boundary" wx:if="{{materialPreview.sourceReadinessView}}">{{materialPreview.sourceReadinessView.gateLine}}</view>
+        <view class="intake-action-queue" wx:if="{{materialPreview.sourceReadinessView && materialPreview.sourceReadinessView.nextEvidence.length}}">
+          <view class="intake-action-title">还差哪些证据</view>
+          <view class="intake-action-item" wx:for="{{materialPreview.sourceReadinessView.nextEvidence}}" wx:key="*this">
+            <view class="intake-action-main">
+              <text>{{item}}</text>
+              <text>补齐后才进入更强报告，不因为一份材料贴长期标签。</text>
+            </view>
+          </view>
+        </view>
+        <view class="structured-evidence-card" wx:if="{{structuredEvidenceCapture && structuredEvidenceCapture.fields.length}}">
+          <view class="structured-evidence-head">
+            <view>
+              <view class="structured-evidence-kicker">证据补全</view>
+              <view class="structured-evidence-title">{{structuredEvidenceCapture.title}}</view>
+            </view>
+            <view class="structured-evidence-score">{{structuredEvidenceCapture.readyCount}}/{{structuredEvidenceCapture.totalCount}}</view>
+          </view>
+          <view class="structured-evidence-summary">{{structuredEvidenceCapture.summary}}</view>
+          <view class="structured-evidence-fields">
+            <view class="structured-evidence-field {{item.ready ? 'ready' : ''}}" wx:for="{{structuredEvidenceCapture.fields}}" wx:key="id">
+              <view class="structured-evidence-label">{{item.label}}</view>
+              <input
+                class="structured-evidence-input"
+                value="{{item.value}}"
+                data-field-id="{{item.id}}"
+                bindinput="onStructuredEvidenceInput"
+                placeholder="{{item.placeholder}}"
+              />
+            </view>
+          </view>
+          <view class="structured-evidence-gate">{{structuredEvidenceCapture.releaseGate}}</view>
+          <view class="structured-evidence-next">{{structuredEvidenceCapture.nextAction}}</view>
+        </view>
         <textarea
           class="material-textarea"
           value="{{materialText}}"
           bindinput="onMaterialInput"
-          placeholder="也可以粘贴课堂笔记、错题解释或 PPT 要点，生成复习卡。"
+          placeholder="{{materialPreview.examplePlaceholder}}"
         />
         <button class="material-import" bindtap="importMaterialPack">导入轻回访</button>
+        <view class="material-source-line" wx:if="{{materialPreview.sourceReadinessView}}">{{materialPreview.sourceReadinessView.aiLine}}</view>
+        <view class="material-source-line" wx:if="{{materialPreview.sourceReadinessView}}">{{materialPreview.sourceReadinessView.localLine}}</view>
+        <view class="material-source-line" wx:if="{{materialPreview.sourceReadinessView}}">{{materialPreview.sourceReadinessView.blockedLine}}</view>
       </view>
-    </view>
+      </block>
+      </view>
   </scroll-view>
 </view>

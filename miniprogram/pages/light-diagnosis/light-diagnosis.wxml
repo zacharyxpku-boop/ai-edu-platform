@@ -2,6 +2,146 @@
   <view class="light-title">手动选题型</view>
   <view class="light-subtitle">先手动确认科目和卡点，咕点再给第一步建议。</view>
   <view class="hint-card">咕点根据你选的科目和卡点给出建议，不是自动识别答案。</view>
+  <view class="global-depth-card" wx:if="{{sevenSubjectMasterySprint}}">
+    <view class="global-depth-title">{{sevenSubjectMasterySprint.title}}</view>
+    <view class="global-depth-summary">{{sevenSubjectMasterySprint.summary}}</view>
+    <view class="global-depth-note">{{sevenSubjectMasterySprint.tutorBoundaryLine}}</view>
+    <view class="global-depth-note">{{sevenSubjectMasterySprint.nextBuildLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{sevenSubjectMasterySprint.subjects}}" wx:key="id">
+        <text>{{item.label}}</text>
+        <text>{{item.tutorDepthTarget}}</text>
+        <text>{{item.visualBoardTarget}}</text>
+        <text>{{item.readinessGate}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{surfaceDepthPack}}">
+    <view class="global-depth-head">
+      <view>
+        <view class="global-depth-title">{{surfaceDepthPack.title}}</view>
+        <view class="global-depth-summary">{{surfaceDepthPack.summary}}</view>
+      </view>
+      <view class="global-depth-score">{{surfaceDepthPack.readyCount}}/{{surfaceDepthPack.totalCount}}</view>
+    </view>
+    <view class="global-depth-next" data-route="{{surfaceDepthPack.primaryRoute}}" bindtap="runSurfaceDepthAction">{{surfaceDepthPack.nextAction}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id" data-route="{{item.route}}" data-dimension-id="{{item.id}}" data-label="{{item.displayLabel}}" bindtap="runSurfaceDepthAction">
+        <text>{{item.displayLabel}}</text>
+      </view>
+    </view>
+    <view class="global-depth-note">{{surfaceDepthPack.familyLine}}</view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{lightSeedBank}}">
+    <view class="global-depth-title">{{lightSeedBank.title}}</view>
+    <view class="global-depth-summary">{{lightSeedBank.summary}}</view>
+    <view class="global-depth-note">{{lightSeedBank.modelLine}}</view>
+    <view class="global-depth-note">{{lightSeedBank.evidenceLine}}</view>
+    <view class="global-depth-note">{{lightSeedBank.routeLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{lightSeedBank.seeds}}" wx:key="id">
+        <text class="global-depth-chip-title">{{item.label}}</text>
+        <text>{{item.modelLine}}</text>
+        <text>{{item.firstStep}}</text>
+        <text>{{item.parentQuestion}}</text>
+        <text>{{item.evidenceLine}}</text>
+        <text>{{item.loopLine}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{subjectSeedLibrary}}">
+    <view class="global-depth-title">七科第一步种子库</view>
+    <view class="global-depth-summary">{{subjectSeedLibrary.summary}}</view>
+    <view class="global-depth-note">覆盖数学、语文、英语、物理、化学、生物、地理。</view>
+    <view class="global-depth-note">{{subjectSeedLibrary.active.label}}：{{subjectSeedLibrary.active.depthLine}}</view>
+    <view class="global-depth-note">{{subjectSeedLibrary.active.progressionLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{subjectSeedLibrary.active.seeds}}" wx:key="id" data-seed-id="{{item.id}}" bindtap="runSubjectSeedAction">
+        <text>{{item.subjectLabel}} · {{item.label}} · {{item.tier}}</text>
+        <text>{{item.gradeBand}}｜{{item.firstStep}}</text>
+        <text>{{item.wrongCauseModel}}</text>
+        <text>{{item.boardMove}}</text>
+        <text>{{item.parentCheckLine}}</text>
+        <text>{{item.evidenceContractLine}}</text>
+        <text>{{item.loopLine}}</text>
+        <text>点这里进入这一类题的下一步</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{courseUnitMap}}">
+    <view class="global-depth-title">{{courseUnitMap.title}}</view>
+    <view class="global-depth-summary">{{courseUnitMap.summary}}</view>
+    <view class="global-depth-note">{{courseUnitMap.boundary}}</view>
+    <view class="global-depth-note">{{courseUnitMap.reportLine}}</view>
+    <view class="global-depth-note">{{courseUnitMap.parentLine}}</view>
+    <view class="global-depth-note">{{courseUnitMap.gameLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{courseUnitMap.active.units}}" wx:key="id" data-unit-id="{{item.id}}" bindtap="runCourseUnitAction">
+        <text>{{item.subjectLabel}} · {{item.unitLabel}} · {{item.tier}}</text>
+        <text>{{item.blackboardBlueprint.title}}</text>
+        <text>{{item.blackboardBlueprint.firstStroke}}</text>
+        <text>{{item.reusableQuestionTypes[0]}}</text>
+        <text>{{item.wrongCauseAtlas[0]}}</text>
+        <text>{{item.practiceLoop.recall}}</text>
+        <text>{{item.reportContract}}</text>
+        <text>{{item.shareContract}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{courseUnitQuestionBank}}">
+    <view class="global-depth-title">{{courseUnitQuestionBank.title}}</view>
+    <view class="global-depth-summary">{{courseUnitQuestionBank.summary}}</view>
+    <view class="global-depth-note">{{courseUnitQuestionBank.boundary}}</view>
+    <view class="global-depth-note">{{courseUnitQuestionBank.reportLine}}</view>
+    <view class="global-depth-note">{{courseUnitQuestionBank.gameLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{courseUnitQuestionBank.activeCards}}" wx:key="id">
+        <text>{{item.label}}</text>
+        <text>{{item.prompt}}</text>
+        <text>{{item.visualMove}}</text>
+        <text>{{item.wrongCause}}</text>
+        <text>{{item.answerBoundary}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{courseUnitDepthExpansionAtlas}}">
+    <view class="global-depth-title">{{courseUnitDepthExpansionAtlas.title}}</view>
+    <view class="global-depth-summary">{{courseUnitDepthExpansionAtlas.summary}}</view>
+    <view class="global-depth-note">{{courseUnitDepthExpansionAtlas.boundary}}</view>
+    <view class="global-depth-note">{{courseUnitDepthExpansionAtlas.tutorLine}}</view>
+    <view class="global-depth-note">{{courseUnitDepthExpansionAtlas.parentLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{courseUnitDepthExpansionAtlas.activeArchetypes}}" wx:key="id">
+        <text>{{item.subjectLabel}} · {{item.unitLabel}}</text>
+        <text>原型题：{{item.label}}</text>
+        <text>追问：{{item.diagnosticProbe}}</text>
+        <text>小黑板：{{item.visualBoardTemplate.opening}}</text>
+        <text>家长话术：{{item.parentCheckScript}}</text>
+        <text>复习变式：{{item.gameHook}}</text>
+        <text>{{item.shareSafeLine}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="global-depth-card" wx:if="{{commercialDepthRunway}}">
+    <view class="global-depth-title">{{commercialDepthRunway.title}}</view>
+    <view class="global-depth-summary">{{commercialDepthRunway.summary}}</view>
+    <view class="global-depth-note">{{commercialDepthRunway.boundary}}</view>
+    <view class="global-depth-note">{{commercialDepthRunway.tutorLine}}</view>
+    <view class="global-depth-grid">
+      <view class="global-depth-chip ready" wx:for="{{commercialDepthRunway.lanes}}" wx:key="id">
+        <text>{{item.label}}</text>
+        <text>{{item.evidenceLine}}</text>
+        <text>{{item.nextAction}}</text>
+      </view>
+    </view>
+  </view>
 
   <view class="section-title">这道题是什么科目？</view>
   <view class="choice-row">
@@ -29,6 +169,19 @@
     <view class="meta-line">{{diagnosis.subjectLabel}} · {{diagnosis.stuckStepLabel}}</view>
     <view class="meta-line">题型：{{diagnosis.typeLabel}}</view>
     <view class="suggestion">{{diagnosis.suggestedFirstStep}}</view>
+    <view class="global-depth-card" wx:if="{{diagnosis.visualBlackboard}}">
+      <view class="global-depth-title">{{diagnosis.visualBlackboard.title}}</view>
+      <view class="global-depth-summary">{{diagnosis.visualBlackboard.boundary}}</view>
+      <view class="global-depth-note">{{diagnosis.visualBlackboard.openingQuestion}}</view>
+      <view class="global-depth-grid">
+        <view class="global-depth-chip ready" wx:for="{{diagnosis.visualBlackboard.layers}}" wx:key="id">
+          <text>{{item.order}}. {{item.label}}</text>
+          <text>{{item.drawAction}}</text>
+          <text>{{item.parentQuestion}}</text>
+        </view>
+      </view>
+      <view class="global-depth-note">{{diagnosis.visualBlackboard.stopRule}}</view>
+    </view>
     <view class="boundary">{{diagnosis.boundary}}</view>
     <input value="{{childStepText}}" bindinput="onChildStepInput" placeholder="我先..." />
     <button bindtap="confirm">确认第一步</button>

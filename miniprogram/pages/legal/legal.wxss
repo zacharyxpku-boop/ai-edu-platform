@@ -17,3 +17,32 @@
   background: #0F4F3D;
   border-radius: 50%;
 }
+
+.legal-depth-card {
+  border-color: rgba(15, 79, 61, 0.16);
+  background: #F7FBF8;
+}
+
+.legal-depth-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin: 18rpx 0;
+}
+
+.legal-depth-chip {
+  width: auto;
+  min-height: 0;
+  padding: 10rpx 16rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #D8E8DF;
+  background: #FFFFFF;
+  color: #2F4B3F;
+  font-size: 24rpx;
+  line-height: 1.35;
+}
+
+.legal-depth-chip.ready {
+  border-color: #B8DEC8;
+  background: #ECF8F0;
+}

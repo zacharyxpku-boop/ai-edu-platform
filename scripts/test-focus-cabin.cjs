@@ -60,8 +60,8 @@ storage.clearLearningData();
 
 const appJson = JSON.parse(read('miniprogram/app.json'));
 assert(appJson.pages.includes('pages/focus/focus'), 'Focus cabin page is registered');
-assert(appJson.tabBar.list.some((item) => item.pagePath === 'pages/focus/focus' && item.text === '专注舱'), 'Focus cabin is reachable from tab bar');
-assert(read('miniprogram/custom-tab-bar/index.wxml').includes('/pages/focus/focus'), 'Custom tab can switch to focus cabin');
+assert(!appJson.tabBar.list.some((item) => item.pagePath === 'pages/focus/focus'), 'Focus cabin is now a child route instead of a crowded bottom tab');
+assert(read('miniprogram/utils/navigation.js').includes('navigateLearningRoute'), 'Focus cabin is reachable through the shared route helper');
 
 let state = focusCabin.pageState();
 assert(state.currentSession, 'Focus cabin has safe first-load session state');
@@ -115,6 +115,10 @@ assert.strictEqual(completed.status, 'completed', 'Session can complete');
 assert(completed.childLine, 'Completion stores child-facing encouragement');
 assert(completed.parentRecap, 'Completion stores parent recap');
 assert.strictEqual(focusCabin.loadHistory().length, 2, 'Completion and interruption persist to local history');
+const focusReviewCard = storage.ensureFocusReviewCard(completed);
+assert(focusReviewCard && focusReviewCard.type === 'focus_cabin_return', 'Focus completion creates a next-day review card');
+assert(focusReviewCard.releaseGate === 'focus_first_step_recalled_before_second_step', 'Focus review card gates second step on first-step recall');
+assert(focusReviewCard.blockedFields.includes('score') && focusReviewCard.blockedFields.includes('ranking'), 'Focus review card blocks score and ranking');
 
 let summary = focusCabin.progressSummary();
 assert.strictEqual(summary.totalSessions, 2, 'Progress tracks focus sessions');
@@ -152,6 +156,7 @@ assert(focusJs.includes('/assets/focus/rain.mp3') && focusJs.includes('/assets/f
 assert(focusWxml.includes('focus-progress'), 'Focus renders circular progress feedback');
 assert(focusWxml.includes('复制话术'), 'Focus parent pause can copy phrase');
 assert(focusWxml.includes('休息一下再来'), 'Focus interruption gives rest option');
+assert(focusJs.includes('ensureFocusReviewCard') && focusWxml.includes('reviewCard.firstStep'), 'Focus completion visibly routes into a next-day review card');
 assert(focusWxss.includes('/assets/focus/night-desk.png') && focusWxss.includes('/assets/focus/morning-window.png') && focusWxss.includes('/assets/focus/quiet-forest.png'), 'Focus WXSS uses local wallpaper files');
 assert(focusWxss.includes('scene-night-desk') && focusWxss.includes('scene-morning-window') && focusWxss.includes('scene-quiet-forest'), 'Focus has three experience gradients');
 

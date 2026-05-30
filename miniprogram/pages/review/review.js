@@ -1,6 +1,8 @@
 const reviewCards = require('../../utils/review-cards');
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 const api = require('../../utils/api');
+const gameLogic = require('../../utils/game-logic');
 const reviewViewModels = require('../../view-models/review-view-model');
 
 const DEFAULT_GAME_RUNWAY = {
@@ -26,6 +28,27 @@ const DEFAULT_MISTAKE_HUB = {
   weakSpot: null,
   repairItems: []
 };
+
+function reviewReadableRouteLine(route = '') {
+  const value = String(route || '');
+  if (value.indexOf('/pages/arcade/') >= 0) return '下一步：练后回到 90 秒主动回忆，继续同一个错因。';
+  if (value.indexOf('/pages/tutor/') >= 0) return '下一步：回到一对一点拨，只问第一步。';
+  if (value.indexOf('/pages/profile/') >= 0) return '下一步：回到家长报告查看证据。';
+  if (value.indexOf('/pages/upload/') >= 0) return '下一步：继续补材料证据。';
+  return '下一步：完成本张卡后再决定是否继续。';
+}
+
+function reviewEvidenceThreadLine(id = '') {
+  const value = String(id || '').trim();
+  if (!value) return '';
+  return '证据线：已绑定小讲堂回访卡，不展示内部编号。';
+}
+
+function reviewReadableDay7GateLine(gate = '') {
+  const value = String(gate || '').trim();
+  if (!value) return '';
+  return '第 7 天复核：只看孩子能不能换一道小变式说第一步。';
+}
 
 Page({
   data: {
@@ -71,22 +94,260 @@ Page({
     miniActionText: '',
     tonightPlan: null,
     routeStrip: null,
+    surfaceDepthPack: null,
+    unifiedNextAction: null,
+    memoryPrescriptionPanel: null,
+    transferPractice: null,
+    outcomeCheck: null,
+    postRepairBridge: null,
     companionPreference: null,
     companionCopy: { review: '咕点陪你只修这一小步，不讲完整答案。' },
     companionLine: '咕点：我懂你卡住了，我陪你先迈出第一步。',
     growthMemory: { review: '' },
     showAdvancedReview: false,
-    lastWrongCard: null
+    lastWrongCard: null,
+    reportSourceContext: null,
+    reportSourcePanel: null,
+    miniLessonReturnPanel: null
+  },
+
+  onLoad(query = {}) {
+    this.setData({
+      reportSourceContext: this.buildReportSourceContext(query)
+    });
   },
 
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 1 });
     }
+    const publicK12Context = this.consumePublicK12ReviewContext();
+    if (publicK12Context) {
+      this.setData({ reportSourceContext: publicK12Context });
+    }
     const yesterday = storage.getYesterdayReview ? storage.getYesterdayReview() : null;
     if (yesterday && storage.markReviewCardRevisited) storage.markReviewCardRevisited(yesterday.id);
     this.refresh();
     this.refreshServerGameState();
+  },
+
+  consumePublicK12ReviewContext() {
+    if (!storage.get || !storage.set || !storage.loadReviewCards || !storage.saveReviewCards) return null;
+    const context = storage.get('publicK12.reviewContext.v1', null);
+    if (!context || !context.id) return null;
+    const expiresAt = context.expiresAt ? Date.parse(context.expiresAt) : 0;
+    if (expiresAt && expiresAt < Date.now()) {
+      storage.set('publicK12.reviewContext.v1', Object.assign({}, context, { status: 'expired' }));
+      return null;
+    }
+    const cardId = `public_k12_review_${String(context.id || context.taskType || 'first_step').replace(/[^a-zA-Z0-9_\u4e00-\u9fa5:-]/g, '_')}`;
+    const cards = storage.loadReviewCards();
+    const existing = cards.find((card) => card && card.id === cardId);
+    const blockedFields = Array.isArray(context.blockedFields) && context.blockedFields.length
+      ? context.blockedFields
+      : ['original_question', 'full_answer', 'score', 'ranking', 'full_dialogue'];
+    if (!existing) {
+      const now = new Date().toISOString();
+      const firstStep = context.firstStepRequired || '先说出题目问什么和第一步入口';
+      const parentPrompt = context.fallbackIfNoChildInput || '如果孩子说不出第一步，回到苏格拉底追问，不给整题答案。';
+      storage.saveReviewCards([{
+        id: cardId,
+        type: 'public_k12_first_step_revisit',
+        source: 'public_k12_homework_intake',
+        state: 'new',
+        due: now,
+        created_at: now,
+        question: `${context.subject || '这类题'}：先说哪一个第一步？`,
+        answer: firstStep,
+        subject: context.subject || '',
+        taskType: context.taskType || '',
+        weakPoint: '第一步入口',
+        wrongCauseBucket: context.taskType || 'first_step',
+        parentPrompt,
+        checkpoint: firstStep,
+        calibrationKey: context.id || context.taskType || 'public_k12_intake',
+        blockedFields,
+        publicK12ReviewContext: context,
+        nextPracticePlan: {
+          wrongCauseBucket: context.taskType || 'first_step',
+          wrongCauseLabel: '公开题型第一步',
+          checkpoint: firstStep,
+          parentPrompt,
+          nextPracticeText: '换一个同类题，只说第一步和理由，不看完整答案。',
+          appRoute: '/pages/review/review?from=public_k12_intake'
+        }
+      }].concat(cards).slice(0, 260));
+      if (storage.appendReviewEvent) {
+        storage.appendReviewEvent({
+          type: 'public_k12_review_card_created',
+          source: 'public_k12_homework_intake',
+          cardId,
+          sourceChallengeId: context.id,
+          subject: context.subject || '',
+          taskType: context.taskType || '',
+          blockedFields,
+          releaseGate: context.releaseGate || 'child_can_say_first_step_before_reward'
+        });
+      }
+    }
+    storage.set('publicK12.reviewContext.v1', Object.assign({}, context, {
+      status: 'review_card_ready',
+      cardId,
+      consumedAt: new Date().toISOString()
+    }));
+    return {
+      from: 'public_k12_intake',
+      sourceSchemaId: 'public_k12_intake',
+      cardId,
+      title: context.title || '公开K12第一步回访',
+      line: `${context.subject || '公开题型'}：只回访第一步，不展示原题或完整答案。`,
+      actionLabel: '回访第一步',
+      blockedFields,
+      returnRoute: context.route || '/pages/arcade/arcade',
+      flowTraceId: `public_k12:${context.id || context.taskType || cardId}`,
+      publicK12Review: true
+    };
+  },
+
+  buildReportSourceContext(query = {}) {
+    const handoff = storage.get ? storage.get('upload.report.handoff.v1', null) : null;
+    const rawQuery = query || {};
+    const hasQueryContext = !!(rawQuery.reportId || rawQuery.cardId || rawQuery.sourceSchemaId || rawQuery.from === 'upload_report_ready');
+    const expiresAt = handoff && handoff.expiresAt ? Date.parse(handoff.expiresAt) : 0;
+    const expired = !!(expiresAt && expiresAt < (Date.now ? Date.now() : new Date().getTime()));
+    const readyHandoff = !!(handoff && !expired && handoff.status === 'ready');
+    const matchesQuery = !!(handoff && !expired && hasQueryContext && (
+      (rawQuery.reportId && rawQuery.reportId === handoff.reportId)
+      || (rawQuery.cardId && rawQuery.cardId === handoff.cardId)
+      || (rawQuery.sourceSchemaId && rawQuery.sourceSchemaId === handoff.sourceSchemaId)
+      || rawQuery.from === 'upload_report_ready'
+    ));
+    const context = Object.assign({}, (matchesQuery || readyHandoff) ? handoff : {}, rawQuery);
+    const fromUpload = context.from === 'upload_report_ready' || matchesQuery || readyHandoff;
+    if (!fromUpload && !context.cardId && !context.sourceSchemaId) return null;
+    if ((matchesQuery || readyHandoff) && storage.set) {
+      storage.set('upload.report.handoff.v1', Object.assign({}, handoff, {
+        consumedAt: new Date().toISOString(),
+        status: 'consumed'
+      }));
+    }
+    return {
+      from: context.from || 'upload_report_ready',
+      reportId: context.reportId || '',
+      sourceSchemaId: context.sourceSchemaId || '',
+      cardId: context.cardId || '',
+      title: context.title || '来自刚上传的资料',
+      line: context.line || '这轮复习优先处理刚上传材料生成的卡，不散到普通队列里。',
+      actionLabel: context.actionLabel || '修这张卡',
+      blockedFields: Array.isArray(context.blockedFields) ? context.blockedFields : [],
+      openMaicBridgeStatus: context.openMaicDecisionBridge && context.openMaicDecisionBridge.qualityGate
+        ? context.openMaicDecisionBridge.qualityGate.status
+        : '',
+      returnRoute: context.returnRoute || context.actionRoute || '',
+      miniLessonReport: context.openMaicDecisionBridge && context.openMaicDecisionBridge.miniLessonReport
+        ? context.openMaicDecisionBridge.miniLessonReport
+        : null,
+      flowTraceId: context.flowTraceId || ''
+    };
+  },
+
+  resolveReportRevisitContext(focus = {}) {
+    const current = this.data.current || {};
+    const evidenceThread = current.evidenceThread && typeof current.evidenceThread === 'object'
+      ? current.evidenceThread
+      : {};
+    const reportSourceContext = this.data.reportSourceContext || {};
+    return {
+      reportId: focus.reportId
+        || reportSourceContext.reportId
+        || current.reportId
+        || evidenceThread.reportId
+        || '',
+      flowTraceId: focus.flowTraceId
+        || reportSourceContext.flowTraceId
+        || current.flowTraceId
+        || evidenceThread.flowTraceId
+        || ''
+    };
+  },
+
+  prioritizeReportSourceCards(cards = [], context = null) {
+    if (!context) return cards;
+    const matched = [];
+    const rest = [];
+    cards.forEach((card) => {
+      const hit = (context.cardId && card.id === context.cardId)
+        || (context.type && card.type === context.type)
+        || (context.flowTraceId && card.flowTraceId === context.flowTraceId)
+        || (context.sourceSchemaId && card.sourceSchemaId === context.sourceSchemaId)
+        || (context.sourceSchemaId && String(card.source || '').includes(context.sourceSchemaId));
+      (hit ? matched : rest).push(card);
+    });
+    return matched.concat(rest);
+  },
+
+  buildReportSourcePanel(context = null, current = null, cards = []) {
+    if (!context) return null;
+    const matchedCount = cards.filter((card) => (
+      (context.cardId && card.id === context.cardId)
+      || (context.type && card.type === context.type)
+      || (context.flowTraceId && card.flowTraceId === context.flowTraceId)
+      || (context.sourceSchemaId && card.sourceSchemaId === context.sourceSchemaId)
+      || (context.sourceSchemaId && String(card.source || '').includes(context.sourceSchemaId))
+    )).length;
+    return {
+      title: context.title || '来自刚上传的资料',
+      line: context.line || '这张卡来自刚上传的材料，会先进入修卡点。',
+      sourceSchemaId: context.sourceSchemaId || '',
+      reportId: context.reportId || '',
+      cardId: current && current.id ? current.id : context.cardId,
+      currentQuestion: current && current.question ? current.question : '',
+      matchedCount,
+      blockedFields: context.blockedFields || [],
+      openMaicBridgeStatus: context.openMaicBridgeStatus || '',
+      returnRoute: context.returnRoute || '',
+      returnRouteLine: reviewReadableRouteLine(context.returnRoute || ''),
+      miniLessonReport: context.miniLessonReport || null,
+      miniLessonCheckQuestion: context.miniLessonReport ? context.miniLessonReport.checkQuestion : '',
+      miniLessonBlackboardLine: context.miniLessonReport ? context.miniLessonReport.blackboardLine : '',
+      miniLessonNextDayReview: context.miniLessonReport ? context.miniLessonReport.nextDayReview : '',
+      miniLessonTopicGate: context.miniLessonReport ? context.miniLessonReport.topicLocalGate : '',
+      miniLessonBlackboardFrames: context.miniLessonReport && Array.isArray(context.miniLessonReport.blackboardFrames)
+        ? context.miniLessonReport.blackboardFrames
+        : [],
+      flowTraceId: context.flowTraceId || '',
+      next: matchedCount ? '先修这张卡，再进入轻练习。' : '未找到对应卡，会先展示当前到期卡。'
+    };
+  },
+
+  buildMiniLessonReturnPanel(current = null) {
+    if (!current || current.type !== 'three_minute_mini_lesson_return') return null;
+    const frames = Array.isArray(current.blackboardFrames) ? current.blackboardFrames : [];
+    const blockedFields = Array.isArray(current.blockedFields) && current.blockedFields.length
+      ? current.blockedFields
+      : ['original_question', 'full_answer', 'score', 'ranking', 'talent_label'];
+    const evidenceThread = current.evidenceThread && typeof current.evidenceThread === 'object'
+      ? current.evidenceThread
+      : null;
+    return {
+      title: current.title || '3 分钟小讲堂回访',
+      status: '先说第一步，再进练习',
+      conceptGap: current.wrongCause || current.wrongCauseBucket || current.weakPoint || '这类题第一步还不稳定',
+      firstStep: current.prompt || current.answer || current.blackboardLine || '先说出这类题的第一步',
+      checkQuestion: current.question || '不看答案，说出第一步',
+      parentLine: current.backPrompt || (current.nextPracticePlan && current.nextPracticePlan.parentPrompt) || '家长只问第一步，不追完整答案。',
+      nextDayReview: current.revisit || (current.nextPracticePlan && current.nextPracticePlan.nextPracticeText) || '换一题，只回访第一步和错因。',
+      exitGate: current.exitGate || 'child_can_say_first_step',
+      flowTraceId: current.flowTraceId || '',
+      evidenceThreadId: evidenceThread ? evidenceThread.id : '',
+      topicCardId: evidenceThread ? evidenceThread.topicCardId : '',
+      topicCardLine: reviewEvidenceThreadLine(evidenceThread ? evidenceThread.topicCardId : ''),
+      day7Gate: evidenceThread ? evidenceThread.day7Gate : '',
+      day7GateLine: reviewReadableDay7GateLine(evidenceThread ? evidenceThread.day7Gate : ''),
+      frames,
+      blockedFields,
+      boundary: '不展示原题、不展示完整答案、不做分数/排名/天赋结论；只放行第一步、错因和明天回访。'
+    };
   },
 
   refresh() {
@@ -95,7 +356,14 @@ Page({
     const tonightPlan = storage.loadTonightPlan ? storage.loadTonightPlan() : null;
     const companionPreference = storage.loadCompanionPreference ? storage.loadCompanionPreference() : null;
     const limit = (summary.deck && summary.deck.dailyLimit) || 5;
-    const cards = reviewCards.sessionCards(this.data.sessionMode, limit);
+    const activeMiniLessonContext = storage.loadActiveMiniLessonResumeContext
+      ? storage.loadActiveMiniLessonResumeContext()
+      : null;
+    const reportSourceContext = activeMiniLessonContext || this.data.reportSourceContext || this.buildReportSourceContext();
+    const cards = this.prioritizeReportSourceCards(reviewCards.sessionCards(this.data.sessionMode, limit), reportSourceContext);
+    const current = cards[0] || null;
+    const reviewEvents = storage.loadReviewEvents ? storage.loadReviewEvents() : [];
+    const profile = storage.loadGameProfile ? storage.loadGameProfile() : {};
     const gameRunway = this.buildGameRunway(summary, cards);
     const focusProgress = todayFocus ? Number(todayFocus.progress || 0) : gameRunway.percent;
     const reviewViewModel = reviewViewModels.buildReviewViewModel({
@@ -106,14 +374,17 @@ Page({
     this.setData({
       summary,
       cards,
-      current: cards[0] || null,
+      current,
+      reportSourceContext,
+      reportSourcePanel: this.buildReportSourcePanel(reportSourceContext, current, cards),
+      miniLessonReturnPanel: this.buildMiniLessonReturnPanel(current),
       index: 0,
       showAnswer: false,
       done: !cards.length,
       progressText: cards.length ? `1/${cards.length}` : '0/0',
       feedbackText: '',
-      editQuestion: cards[0] ? cards[0].question : '',
-      editAnswer: cards[0] ? cards[0].answer : '',
+      editQuestion: current ? current.question : '',
+      editAnswer: current ? current.answer : '',
       editOpen: false,
       dailyLimit: (summary.deck && summary.deck.dailyLimit) || 5,
       desiredRetention: Math.round(((summary.deck && summary.deck.desiredRetention) || 0.9) * 100),
@@ -135,6 +406,18 @@ Page({
       miniActionText: todayFocus && todayFocus.miniActionText ? todayFocus.miniActionText : this.data.miniActionText,
       tonightPlan,
       routeStrip: this.buildRouteStrip('repair', tonightPlan),
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('review') : null,
+      unifiedNextAction: storage.buildUnifiedNextActionController ? storage.buildUnifiedNextActionController({ surface: 'review' }) : null,
+      memoryPrescriptionPanel: this.buildMemoryPrescriptionPanel(summary, cards, reviewEvents, profile, todayFocus),
+      ruleRetestPanel: this.buildRuleRetestPanel(current, cards),
+      transferPractice: this.buildTransferPracticePanel(current),
+      outcomeCheck: this.buildOutcomeCheckPanel(current),
+      postRepairBridge: this.buildPostRepairBridge(current, {
+        todayFocus,
+        done: !cards.length,
+        summary,
+        gameRunway
+      }),
       companionPreference,
       companionCopy: {
         review: storage.getCompanionStageCopy ? storage.getCompanionStageCopy('review_focus', companionPreference) : '咕点陪你只修这一小步，不讲完整答案。'
@@ -159,6 +442,242 @@ Page({
     return {
       text: '今晚路线：这里承接最值得修的一个卡点。',
       steps: steps.map((step) => Object.assign({}, step, { active: step.id === active }))
+    };
+  },
+
+  buildTransferPracticePanel(card) {
+    if (!card || !storage.buildTransferPracticeSet) return null;
+    const set = (card.nextPracticePlan && card.nextPracticePlan.transferPracticeSet)
+      || storage.buildTransferPracticeSet({
+        taskType: card.taskType,
+        subject: card.subject,
+        stuckPointText: card.stuckPointText || card.question,
+        childArticulatedStep: card.childArticulatedStep || card.answer,
+        wrongCauseBucket: card.wrongCauseBucket,
+        wrongCauseLabel: card.wrongCauseLabel,
+        parentPrompt: card.parentPrompt
+      });
+    const attempts = Array.isArray(set.attempts) ? set.attempts : [];
+    const completed = new Set(attempts.map((item) => item && item.promptId).filter(Boolean));
+    const prompts = (set.prompts || []).map((item) => Object.assign({}, item, {
+      done: completed.has(item.id),
+      actionLabel: completed.has(item.id) ? '已记录' : '记录这一步'
+    }));
+    return {
+      cardId: card.id,
+      title: '举一反三小练',
+      subtitle: set.safetyLine || '只练迁移方法，不给最终答案。',
+      parentPrompt: set.parentPrompt || '',
+      prompts,
+      completedCount: completed.size,
+      totalCount: prompts.length,
+      statusLine: completed.size
+        ? `已完成 ${completed.size}/${prompts.length} 个迁移动作`
+        : '先做一个同类小变式，再换场景说相同点。'
+    };
+  },
+
+  buildOutcomeCheckPanel(card) {
+    if (!card || !storage.buildMasteryRubric || !storage.buildOutcomeReviewSummary) return null;
+    const rubric = storage.buildMasteryRubric();
+    const summary = storage.buildOutcomeReviewSummary();
+    return {
+      cardId: card.id,
+      title: '结果复核',
+      masteryStage: rubric.stage,
+      score: rubric.score,
+      nextLevel: rubric.nextLevel ? rubric.nextLevel.label : '继续真实回访',
+      line: summary.line,
+      actions: [
+        { id: 'explain', label: '孩子能讲清', field: 'childCanExplain' },
+        { id: 'transfer', label: '换题也能用', field: 'transferWorked' },
+        { id: 'tomorrow', label: '明天还记得', field: 'nextDayRemembered' }
+      ]
+    };
+  },
+
+  buildPostRepairBridge(card, context = {}) {
+    const focus = context.todayFocus || this.data.todayFocus || {};
+    const summary = context.summary || this.data.summary || {};
+    const runway = context.gameRunway || this.data.gameRunway || {};
+    const cardTitle = card && (card.weakPoint || card.question) ? (card.weakPoint || card.question) : (focus.title || '今天这个卡点');
+    const completed = !!(focus && focus.repairStatus === 'completed') || !!context.done;
+    const evidenceLine = completed
+      ? '已留下第一步、回访卡和下一次复核入口。'
+      : `当前还有 ${Number(runway.due || (summary.dueCount || 0) || 0)} 张需要轻回访。`;
+    const actions = [
+      {
+        id: 'arcade',
+        label: '5分钟轻练',
+        route: '/pages/arcade/arcade',
+        reason: '把修过的卡点放进主动回忆，不靠照抄结果。',
+        capabilityId: 'game'
+      },
+      {
+        id: 'profile',
+        label: '给家长看',
+        route: '/pages/profile/profile',
+        reason: '让家长看到修复证据、迁移尝试和明天复核。',
+        capabilityId: 'parent_action'
+      },
+      {
+        id: 'tutor',
+        label: '再拆一步',
+        route: '/pages/tutor/tutor?from=review_post_repair',
+        reason: '如果还卡住，回到苏格拉底第一步。',
+        capabilityId: 'socratic'
+      }
+    ];
+    return {
+      title: completed ? '修完之后怎么收口' : '修卡点之后别断',
+      headline: completed ? '今天先到这里，明天只复核这一小步' : `围绕「${cardTitle}」继续补证据`,
+      evidenceLine,
+      parentLine: '家长只看三件事：孩子能否自己说第一步、能否换题、明天是否还记得。',
+      actions
+    };
+  },
+
+  buildMemoryPrescriptionPanel(summary = {}, cards = [], reviewEvents = [], profile = {}, todayFocus = {}) {
+    const wrongToday = (Array.isArray(reviewEvents) ? reviewEvents : []).filter((event) => {
+      const rating = event && event.rating;
+      return rating === 'again' || rating === 'hard';
+    }).length;
+    const weakKey = (todayFocus && (todayFocus.wrongCauseLabel || todayFocus.issueType || todayFocus.title))
+      || (summary.wrongCause && summary.wrongCause.top && summary.wrongCause.top.label)
+      || '第一步';
+    const loop = gameLogic.buildHighFrequencyPracticeLoop
+      ? gameLogic.buildHighFrequencyPracticeLoop(profile || {}, cards || [], reviewEvents || [], {
+        wrong: wrongToday,
+        accuracy: wrongToday ? Math.max(35, 100 - wrongToday * 18) : 82
+      }, {}, {}, { weakKey })
+      : {};
+    const daily = loop.dailyMemoryPrescription || {};
+    const combo = loop.ninetySecondRecallComboEngine || {};
+    const recallCards = (loop.recallCards || cards || []).slice(0, 3).map((card, index) => ({
+      id: card.id || `memory_card_${index}`,
+      label: card.weakPoint || card.subject || `第 ${index + 1} 张`,
+      question: card.question || card.prompt || '先说出这张卡的第一步',
+      action: '遮住答案，先说第一步和错因；点开核对前不展示答案。',
+      source: card.source || card.taskType || '本地复习卡'
+    }));
+    const activeRecallProtocol = {
+      title: '主动回忆处方',
+      localRule: '本地代码只按到期、错因、材料来源和负荷上限排队；AI 只能改写追问，不决定掌握度。',
+      todayMustCards: recallCards.map((card, index) => ({
+        id: `today_must_${card.id || index}`,
+        label: `今日第 ${index + 1} 张`,
+        cardLabel: card.label,
+        prompt: card.question,
+        action: '先遮答案，说出第一步和错因，再点核对。',
+        ratingRule: '忘了=again，模糊=hard，记得=good，轻松=easy'
+      })),
+      ratingScale: [
+        { id: 'again', label: '忘了', rule: '明天必须回访，先回点拨拆第一步。' },
+        { id: 'hard', label: '模糊', rule: '缩短间隔，保留同一错因小题。' },
+        { id: 'good', label: '记得', rule: '进入正常间隔，明天只查关键第一步。' },
+        { id: 'easy', label: '轻松', rule: '拉长间隔，但第 7 天仍要做小变式。' }
+      ],
+      tomorrowReturnCard: recallCards[0]
+        ? {
+          id: `tomorrow_${recallCards[0].id}`,
+          label: '明日回访',
+          prompt: recallCards[0].question,
+          action: '换一个数字、条件或材料，只问第一步，不追完整答案。'
+        }
+        : null,
+      day7VariantCard: recallCards[1] || recallCards[0]
+        ? {
+          id: `day7_${(recallCards[1] || recallCards[0]).id}`,
+          label: '第 7 天小变式',
+          prompt: (recallCards[1] || recallCards[0]).question,
+          action: '同一错因换题型入口，验证能不能迁移。'
+        }
+        : null,
+      releaseGateLine: recallCards.length >= 3
+        ? '今日只放 3 张必修卡；完成主动回忆和明日回访前，不继续扩新卡。'
+        : '卡片不足 3 张时，先补真实错题或上传材料，不用假题充数。',
+      shareBoundary: '分享只带错因、第一步、回访窗口和下一证据，不带原题、答案、照片、分数、排名或完整对话。'
+    };
+    const incomingShare = storage.loadIncomingShare ? storage.loadIncomingShare() : null;
+    const receiverShareRelayPanel = incomingShare && incomingShare.share_code
+      ? {
+        id: 'receiver_own_material_share_relay',
+        title: '接力回访卡',
+        shareCode: incomingShare.share_code,
+        receiverMaterial: '用自己的作业材料，不复述对方原题',
+        receiverFirstStep: incomingShare.relay_receiver_action || incomingShare.receiver_own_challenge_line || '先写下自己这道题的第一步',
+        receiverWrongCause: '只写自己的卡点或错因，不带原题、答案、照片、分数、排名',
+        nextRevisit: incomingShare.relay_next_revisit || '明天遮住答案再说一次第一步',
+        completionEvent: 'share_relay_receiver_completion',
+        blockedFields: incomingShare.relay_blocked_fields || 'original_question,full_answer,photo,score,ranking,full_dialogue',
+        localRule: '完成时只写 receiverMaterial、receiverFirstStep、receiverWrongCause、nextRevisit；不保存发送者原题或答案。'
+      }
+      : null;
+    const reviewWindows = (loop.spacedReviewPlan || [
+      { id: 'tomorrow', label: '明天', action: '只回访同一张卡的第一步' },
+      { id: 'day3', label: '第 3 天', action: '换一个同类小变式' },
+      { id: 'day7', label: '第 7 天', action: '确认能否迁移到新题' }
+    ]).slice(0, 3).map((item, index) => ({
+      id: item.id || `window_${index}`,
+      label: item.label || item.window || `第 ${index + 1} 次`,
+      action: item.action || item.rule || item.releaseGate || '先回忆，再核对'
+    }));
+    const mustDo = (daily.mustDo || []).slice(0, 3).map((item, index) => ({
+      id: item.id || `must_${index}`,
+      label: item.label || `动作 ${index + 1}`,
+      action: item.action || item.rule || '主动回忆，不看答案'
+    }));
+    const releaseQueue = (daily.releaseQueue || []).slice(0, 3).map((item, index) => ({
+      id: item.id || `release_${index}`,
+      label: item.label || `放行 ${index + 1}`,
+      status: item.status || 'hold',
+      rule: item.rule || '证据不足时不放新卡'
+    }));
+    return {
+      title: '今日记忆处方',
+      subtitle: daily.reasonLine || '本地规则只挑今天最该回忆的 3 张卡，先修错因，再放新卡。',
+      doseLine: `今日剂量：${recallCards.length || 0} 张主动回忆卡，${daily.dailyCap && daily.dailyCap.maxMinutes ? daily.dailyCap.maxMinutes : 5} 分钟内收口。`,
+      weakKey,
+      recallCards,
+      activeRecallProtocol,
+      receiverShareRelayPanel,
+      mustDo,
+      reviewWindows,
+      releaseQueue,
+      comboLine: combo.totalSeconds ? `${combo.totalSeconds} 秒主动回忆：先说第一步，再说错因，最后核对。` : '90 秒主动回忆：先说第一步，再说错因，最后核对。',
+      xpRule: daily.antiCramRule || 'XP 只奖励主动回忆、错因回放和明天回访，不奖励速度或分数比较。',
+      parentLine: daily.parentLine || `家长只问一句：这张卡第一步为什么先做「${weakKey}」？`,
+      shareLine: daily.shareLine || '分享只带错因和下一步，不带原题、答案、分数或完整对话。',
+      nextRoute: '/pages/arcade/arcade?from=memory_prescription'
+    };
+  },
+
+  buildRuleRetestPanel(card, cards = []) {
+    const ruleCards = (Array.isArray(cards) ? cards : []).filter((item) => item && item.type === 'real_trial_rule_retest');
+    const active = card && card.type === 'real_trial_rule_retest' ? card : ruleCards[0];
+    if (!active) return null;
+    const retest = active.realTrialRuleRetest || {};
+    const cadence = Array.isArray(retest.cadence) && retest.cadence.length
+      ? retest.cadence
+      : [
+        { id: 'tonight', label: '今晚', action: '只说第一步和错因' },
+        { id: 'tomorrow', label: '明天', action: '换一道同类材料再说一次' },
+        { id: 'day7', label: '第 7 天', action: '确认能不能迁移' }
+      ];
+    return {
+      id: 'rule_retest_panel',
+      title: '规则复测卡',
+      badge: '不看答案 · 不比速度',
+      line: active.question || active.prompt || '换一道同类小题，只说第一步和错因。',
+      parentLine: active.parentPrompt || '家长只问：这次第一步是什么？为什么先做这一步？',
+      blackboardLine: active.blackboardHint || '小黑板只画第一步关系，不画完整解法。',
+      xpRule: active.xpRule || '奖励说清第一步、错因和回访，不奖励速度或分数比较。',
+      releaseGate: retest.releaseGate || '三段复测证据齐之前，不写长期掌握结论。',
+      arcadeRoute: active.nextPracticePlan && active.nextPracticePlan.arcadeRoute
+        ? active.nextPracticePlan.arcadeRoute
+        : '/pages/arcade/arcade?from=rule_retest',
+      count: ruleCards.length,
+      cadence
     };
   },
 
@@ -636,7 +1155,19 @@ Page({
     const rating = event.currentTarget.dataset.rating || 'good';
     const current = this.data.current;
     if (!current) return;
-    reviewCards.reviewCard(current.id, rating);
+    const reviewedCard = reviewCards.reviewCard(current.id, rating);
+    if (current.type === 'three_minute_mini_lesson_return' && storage.recordMiniLessonReviewResult) {
+      storage.recordMiniLessonReviewResult({
+        cardId: current.id,
+        rating,
+        reviewedCard,
+        evidenceThread: current.evidenceThread || null,
+        source: 'review_mini_lesson_return'
+      }, {
+        source: 'review_rate',
+        reportSourceContext: this.data.reportSourceContext || null
+      });
+    }
     api.gradeReview({
       card: current,
       rating,
@@ -673,6 +1204,14 @@ Page({
       progressText: done ? `${cards.length}/${cards.length}` : `${nextIndex + 1}/${cards.length}`,
       summary,
       gameRunway: this.buildGameRunway(summary, done ? [] : cards.slice(nextIndex)),
+      transferPractice: this.buildTransferPracticePanel(done ? null : cards[nextIndex]),
+      outcomeCheck: this.buildOutcomeCheckPanel(done ? null : cards[nextIndex]),
+      postRepairBridge: this.buildPostRepairBridge(done ? current : cards[nextIndex], {
+        todayFocus: this.data.todayFocus,
+        done,
+        summary,
+        gameRunway: this.buildGameRunway(summary, done ? [] : cards.slice(nextIndex))
+      }),
       feedbackText,
       editQuestion: done ? '' : cards[nextIndex].question,
       editAnswer: done ? '' : cards[nextIndex].answer,
@@ -682,6 +1221,56 @@ Page({
     });
     this.syncQuietly();
     if (done) this.refresh();
+  },
+
+  recordTransferPractice(event) {
+    const promptId = event.currentTarget.dataset.promptId || 'near_transfer';
+    const current = this.data.current || {};
+    if (!current.id || !storage.recordTransferPracticeAttempt) return;
+    const target = storage.recordTransferPracticeAttempt({
+      cardId: current.id,
+      promptId,
+      result: 'attempted',
+      childExplanation: current.childArticulatedStep || current.answer || '',
+      parentChecked: promptId === 'teach_back'
+    });
+    this.setData({
+      current: target || current,
+      transferPractice: this.buildTransferPracticePanel(target || current),
+      outcomeCheck: this.buildOutcomeCheckPanel(target || current),
+      postRepairBridge: this.buildPostRepairBridge(target || current, {
+        todayFocus: this.data.todayFocus,
+        summary: this.data.summary,
+        gameRunway: this.data.gameRunway
+      }),
+      feedbackText: '已写回迁移练习记录。下一步看孩子能不能换题也说出同一个第一步。'
+    });
+    this.syncQuietly();
+  },
+
+  recordOutcomeCheck(event) {
+    const field = event.currentTarget.dataset.field || 'childCanExplain';
+    const current = this.data.current || {};
+    if (!current.id || !storage.recordOutcomeCheck) return;
+    const payload = {
+      cardId: current.id,
+      masteryStage: this.data.outcomeCheck && this.data.outcomeCheck.masteryStage,
+      childCanExplain: field === 'childCanExplain',
+      transferWorked: field === 'transferWorked',
+      nextDayRemembered: field === 'nextDayRemembered',
+      parentVerified: true
+    };
+    storage.recordOutcomeCheck(payload);
+    this.setData({
+      outcomeCheck: this.buildOutcomeCheckPanel(current),
+      postRepairBridge: this.buildPostRepairBridge(current, {
+        todayFocus: this.data.todayFocus,
+        summary: this.data.summary,
+        gameRunway: this.data.gameRunway
+      }),
+      feedbackText: '已记录一次结果复核。这里看的是会不会迁移和隔天是否记得，不看最终答案。'
+    });
+    this.syncQuietly();
   },
 
   completeTodayRepair() {
@@ -712,9 +1301,38 @@ Page({
         focus_title: focus && focus.title
       });
     }
+    if (storage.recordShareRelayCompletion) {
+      storage.recordShareRelayCompletion({
+        firstStep: miniActionText,
+        wrongCause: focus && (focus.wrongCauseLabel || focus.weakPoint || focus.title),
+        receiverMaterial: focus && (focus.title || focus.subject || focus.weakPoint),
+        nextRevisit: '明天回访同一第一步',
+        route: '/pages/review/review',
+        evidence: 'receiver_first_step_repair_completed',
+        title: '接收者完成修卡点第一步'
+      });
+    }
+    const reportRevisitContext = this.resolveReportRevisitContext(focus || {});
+    if (storage.recordReportRevisitEvidence && reportRevisitContext.reportId) {
+      storage.recordReportRevisitEvidence(reportRevisitContext.reportId, {
+        status: 'review_completed',
+        nextDayRevisit: true,
+        firstStep: miniActionText,
+        wrongCause: focus.wrongCauseLabel || focus.weakPoint || focus.title || '',
+        parentCheck: '家长只确认第一步和错因，不升级长期画像。',
+        route: '/pages/review/review',
+        flowTraceId: reportRevisitContext.flowTraceId
+      });
+    }
     this.setData({
       todayFocus: focus || this.data.todayFocus,
       gameRunway: Object.assign({}, this.data.gameRunway || {}, { percent: 100 }),
+      postRepairBridge: this.buildPostRepairBridge(this.data.current, {
+        todayFocus: focus || this.data.todayFocus,
+        done: true,
+        summary: this.data.summary,
+        gameRunway: Object.assign({}, this.data.gameRunway || {}, { percent: 100 })
+      }),
       feedbackText: '今天这个卡点先修到这里。明天只轻轻回看这一步。'
     });
   },
@@ -965,6 +1583,82 @@ Page({
     });
   },
 
+  runPostRepairBridgeAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const bridge = this.data.postRepairBridge || {};
+    const route = dataset.route || '/pages/arcade/arcade';
+    const action = {
+      source: 'review_post_repair_bridge',
+      sourceLabel: '修卡后行动桥',
+      actionId: dataset.id || 'arcade',
+      actionLabel: dataset.label || '5分钟轻练',
+      route,
+      reasonLine: dataset.reason || bridge.headline || '',
+      evidenceLine: bridge.evidenceLine || '',
+      shareIntent: bridge.parentLine || ''
+    };
+    if (storage.recordUnifiedNextAction) {
+      storage.recordUnifiedNextAction(Object.assign({}, action, { surface: 'review' }));
+    }
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: 'review',
+        dimensionId: action.actionId,
+        label: action.actionLabel,
+        route,
+        readiness: 'review_post_repair_bridge',
+        capabilityId: dataset.capabilityId || 'game'
+      });
+    }
+    if (storage.appendReviewEvent) {
+      storage.appendReviewEvent({
+        kind: 'review_post_repair_bridge_action',
+        action_id: action.actionId,
+        route,
+        evidence: action.evidenceLine
+      });
+    }
+    api.submitEvent({
+      event: 'review_post_repair_bridge_action',
+      source: 'review_post_repair',
+      entity_id: action.actionId,
+      page: 'review',
+      payload: {
+        route,
+        action_label: action.actionLabel,
+        evidence: action.evidenceLine,
+        reason: action.reasonLine
+      }
+    }).catch(() => {});
+    navigation.navigateLearningRoute(route);
+  },
+
+  runRuleRetestAction() {
+    const panel = this.data.ruleRetestPanel || {};
+    const route = panel.arcadeRoute || '/pages/arcade/arcade?from=rule_retest';
+    if (storage.recordUnifiedNextAction) {
+      storage.recordUnifiedNextAction({
+        surface: 'review',
+        source: 'rule_retest_panel',
+        sourceLabel: '规则复测卡',
+        actionId: 'rule_retest_arcade',
+        actionLabel: '去做复测挑战',
+        route,
+        reasonLine: panel.line || '',
+        evidenceLine: panel.releaseGate || '',
+        shareIntent: panel.parentLine || ''
+      });
+    }
+    if (storage.appendReviewEvent) {
+      storage.appendReviewEvent({
+        kind: 'rule_retest_review_action',
+        route,
+        card_count: panel.count || 0
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
   goTutor() {
     const current = this.data.lastWrongCard || this.data.current;
     if (current) {
@@ -989,11 +1683,11 @@ Page({
       });
       storage.set(storage.KEYS.selectedHomeworkSource, `review:${current.id}`);
     }
-    wx.navigateTo({ url: '/pages/tutor/tutor' });
+    navigation.navigateLearningRoute('/pages/tutor/tutor?from=review');
   },
 
   goUpload() {
-    wx.navigateTo({ url: '/pages/upload/upload' });
+    navigation.navigateLearningRoute('/pages/upload/upload?from=review');
   },
 
   goHome() {
@@ -1001,14 +1695,47 @@ Page({
   },
 
   goTools() {
-    wx.switchTab({ url: '/pages/tools/tools' });
+    navigation.navigateLearningRoute('/pages/tools/tools?from=review');
   },
 
   goFocus() {
-    wx.switchTab({ url: '/pages/focus/focus' });
+    navigation.navigateLearningRoute('/pages/focus/focus?from=review');
   },
 
   goProfile() {
     wx.switchTab({ url: '/pages/profile/profile' });
-  }
+  },
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
+  runUnifiedNextAction() {
+    const next = this.data.unifiedNextAction || {};
+    if (storage.recordUnifiedNextAction) {
+      storage.recordUnifiedNextAction(Object.assign({}, next, { surface: 'review' }));
+    }
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: 'review',
+        dimensionId: next.source || 'unified_next_action',
+        label: next.actionLabel || '',
+        route: next.route || '',
+        readiness: 'unified_next_action'
+      });
+    }
+    navigation.navigateLearningRoute(next.route || '/pages/tutor/tutor');
+  },
+
 });

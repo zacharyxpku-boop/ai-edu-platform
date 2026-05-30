@@ -1,5 +1,5 @@
 <view class="page safe-bottom profile-page">
-  <view class="page-positioning profile-positioning">
+  <view class="page-positioning profile-positioning" wx:if="{{showLegacyEntryContent}}">
     <view class="positioning-kicker">家长复盘</view>
     <view class="positioning-title">家长今晚只问一句：刚才你第一步先看了哪里？</view>
     <view class="positioning-flow">先看今晚真实证据，再决定去修卡点、专注舱或轻回访；不是报表墙。</view>
@@ -9,6 +9,101 @@
 
   <scroll-view class="profile-scroll" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="profile-shell">
+      <view class="ux-entry ux-entry-parent ux-kit-screen ux-kit-parent parent-hero-shell">
+        <view class="parent-dash-top">
+          <view class="parent-dash-brand">
+            <image class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+            <view>
+              <text>原点智学</text>
+              <text>证据与下一步</text>
+            </view>
+          </view>
+          <view class="parent-dash-pill">5 秒看懂</view>
+        </view>
+        <view class="parent-dash-hero">
+          <view class="parent-dash-copy">
+            <view class="parent-dash-kicker">今晚不用盯全程</view>
+            <view class="parent-dash-title">只看孩子有没有走出第一步</view>
+            <view class="parent-dash-sub">把测评、成绩、错题和复习回访合成一张家长行动卡：先看证据，再问一句，明天再验证。</view>
+          </view>
+          <image class="parent-dash-art" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+        </view>
+        <view class="parent-dash-proof-grid">
+          <view class="parent-dash-proof primary">
+            <text>今晚结论</text>
+            <text>先稳住一个真实卡点</text>
+          </view>
+          <view class="parent-dash-proof">
+            <text>第一步证据</text>
+            <text>孩子能说出从哪看起</text>
+          </view>
+          <view class="parent-dash-proof">
+            <text>明天回访</text>
+            <text>用 90 秒复述验证</text>
+          </view>
+        </view>
+        <view class="parent-dash-evidence">
+          <view class="parent-dash-section-head">
+            <text>证据来源</text>
+            <text>不靠感觉判断</text>
+          </view>
+          <view class="parent-report-preview" data-scene="parent" bindtap="openEntryDetail">
+            <image class="parent-report-thumb" mode="aspectFill" src="/assets/reference/entry-report.png" />
+            <view class="parent-report-copy">
+              <text>个性化报告预览</text>
+              <text>把天赋画像、成绩波动、错题卡点合成一张家长能看懂的下一步。</text>
+            </view>
+            <view class="parent-report-badge">查看</view>
+          </view>
+          <view class="parent-dash-evidence-grid">
+            <view><text>测评报告</text><text>天赋画像</text></view>
+            <view><text>成绩单</text><text>科目波动</text></view>
+            <view><text>错题</text><text>真实卡点</text></view>
+            <view><text>回访</text><text>方法有效性</text></view>
+          </view>
+        </view>
+        <view class="ux-kit-jump-grid">
+          <view class="ux-kit-jump-card primary parent-jump-card" data-scene="parent" bindtap="openEntryDetail">
+            <text>今晚安排</text>
+            <text>看行动卡</text>
+          </view>
+          <view class="ux-kit-jump-card parent-jump-card" data-scene="upload" bindtap="openEntryDetail">
+            <text>补充材料</text>
+            <text>上传新证据</text>
+          </view>
+          <view class="ux-kit-jump-card parent-jump-card" data-scene="review" bindtap="openEntryDetail">
+            <text>复习回访</text>
+            <text>验证是否迁移</text>
+          </view>
+        </view>
+        <view class="parent-dash-route">
+          <view class="parent-route-node active">上传</view>
+          <view class="parent-route-line active"></view>
+          <view class="parent-route-node active">分析</view>
+          <view class="parent-route-line"></view>
+          <view class="parent-route-node">回访</view>
+          <view class="parent-route-line"></view>
+          <view class="parent-route-node">周报</view>
+        </view>
+        <view class="parent-dash-action-row">
+          <view class="ux-kit-primary parent-primary" data-scene="parent" bindtap="openEntryDetail">看今晚行动卡</view>
+          <view class="ux-kit-secondary parent-secondary" data-scene="upload" bindtap="openEntryDetail">补一份材料</view>
+        </view>
+      </view>
+      <view class="parent-subcheck ux-kit-subcheck">
+        <view class="subcheck-main" data-scene="parent" bindtap="openEntryDetail">
+          <view class="subcheck-copy">
+            <text>家长今晚只看三件事</text>
+            <text>证据从哪来、孩子卡在哪、明天怎么验证。</text>
+          </view>
+          <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+        </view>
+        <view class="subcheck-side">
+          <view data-scene="upload" bindtap="openEntryDetail"><text>材料缺口</text><text>补测评/错题</text></view>
+          <view data-scene="review" bindtap="openEntryDetail"><text>明天回访</text><text>90 秒复述</text></view>
+        </view>
+      </view>
+      <block wx:if="{{showLegacyEntryContent}}">
       <view class="v1-topbar">
         <view class="profile-brand">
           <view class="profile-logo"><view class="profile-logo-leaf"></view></view>
@@ -31,17 +126,69 @@
         </view>
 
         <view class="family-summary-card rc14-main-card friend-profile-core">
-          <view class="family-summary-title">今晚卡住、只问一句、最近小结</view>
+          <view class="family-summary-title">今晚决策首页：5 秒行动卡，听一句、问一句、明天回访</view>
           <view class="family-summary-body family-readable">
             <view class="profile-empty-state" wx:if="{{profileSafeSummary.isEmpty}}">再用两晚后，咕点会帮你看见模式。</view>
+            <view class="parent-brief-block tonight-parent-decision-card" wx:if="{{learningReportSummary.tonightParentDecisionCard}}">
+              <text class="parent-brief-label">{{learningReportSummary.tonightParentDecisionCard.title}}</text>
+              <text>{{learningReportSummary.tonightParentDecisionCard.subtitle}}</text>
+              <text wx:for="{{learningReportSummary.tonightParentDecisionCardRows}}" wx:key="id">{{item.label}}：{{item.text}}</text>
+              <text>{{learningReportSummary.tonightParentDecisionCard.evidenceLine}}</text>
+              <text>{{learningReportSummary.tonightParentDecisionCard.safetyLine}}</text>
+              <button class="copy-action family-decision-primary" wx:if="{{learningReportSummary.tonightParentDecisionCardRoute}}" bindtap="runFamilyDecisionHomepageAction">{{learningReportSummary.tonightParentDecisionCardCtaLabel}}</button>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepage}}">
+              <text class="parent-brief-label">今晚结论</text>
+              <text>{{learningReportSummary.familyDecisionHomepageHeadline}}</text>
+              <text>状态：{{learningReportSummary.familyDecisionHomepageStatus}}</text>
+              <text wx:if="{{learningReportSummary.familyDecisionHomepagePrimaryBlocker}}">当前缺口：{{learningReportSummary.familyDecisionHomepagePrimaryBlocker}}</text>
+              <text wx:if="{{learningReportSummary.familyDecisionHomepageNextLocalAction}}">下一步：{{learningReportSummary.familyDecisionHomepageNextLocalAction}}</text>
+              <text wx:if="{{learningReportSummary.familyDecisionHomepageSourceLine}}">依据：{{learningReportSummary.familyDecisionHomepageSourceLine}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepageStatusSteps.length}}">
+              <text class="parent-brief-label">证据状态条</text>
+              <text wx:for="{{learningReportSummary.familyDecisionHomepageStatusSteps}}" wx:key="id">{{item.label}}：{{item.status}} · {{item.line}}</text>
+            </view>
+            <view class="parent-action-snapshot">
+              <view class="parent-action-head">
+                <text>今晚做 / 不做 / 明天验收</text>
+                <text>{{profileSafeSummary.confidenceLabel}}</text>
+              </view>
+              <view class="parent-action-grid">
+                <view class="parent-action-chip" wx:for="{{profileSafeSummary.parentActionChecklist}}" wx:key="id">
+                  <text class="parent-action-label">{{item.label}}</text>
+                  <text class="parent-action-text">{{item.text}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepageDoList.length}}">
+              <text class="parent-brief-label">今晚做</text>
+              <text wx:for="{{learningReportSummary.familyDecisionHomepageDoList}}" wx:key="*this">{{item}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepageDontList.length}}">
+              <text class="parent-brief-label">今晚不做</text>
+              <text wx:for="{{learningReportSummary.familyDecisionHomepageDontList}}" wx:key="*this">{{item}}</text>
+            </view>
             <view class="parent-brief-block">
               <text class="parent-brief-label">今晚卡住</text>
               <text>{{profileSafeSummary.stuckLine}}</text>
             </view>
             <view class="parent-brief-block">
+              <text class="parent-brief-label">第一步证据</text>
+              <text>{{profileSafeSummary.firstStepLine}}</text>
+            </view>
+            <view class="parent-brief-block">
               <text class="parent-brief-label">只问一句</text>
               <text>{{profileSafeSummary.parentQuestion}}</text>
               <button class="copy-action" bindtap="copyParentOneQuestion">复制</button>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">明天回访</text>
+              <text>{{learningReportSummary.familyDecisionHomepageTomorrow || profileSafeSummary.tomorrowRevisit}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepageEvidenceList.length}}">
+              <text class="parent-brief-label">证据来自</text>
+              <text wx:for="{{learningReportSummary.familyDecisionHomepageEvidenceList}}" wx:key="*this">{{item}}</text>
             </view>
             <view class="parent-brief-block">
               <text class="parent-brief-label">最近小结</text>
@@ -50,6 +197,308 @@
               <text wx:if="{{profileSafeSummary.sevenNightSummary}}">{{profileSafeSummary.sevenNightSummary}}</text>
               <text wx:if="{{profileSafeSummary.weeklySummary}}">{{profileSafeSummary.weeklySummary}}</text>
             </view>
+            <view class="parent-brief-reason" wx:if="{{learningReportSummary.reportEvidenceTopLine}}">报告一口径：{{learningReportSummary.reportEvidenceTopLine}}</view>
+            <view class="parent-brief-reason" wx:if="{{learningReportSummary.nextEvidenceTopLine}}">下一证据：{{learningReportSummary.nextEvidenceTopLine}}</view>
+            <view class="parent-brief-reason">{{learningReportSummary.familyDecisionHomepageLocalAiSplitLine}}</view>
+            <view class="parent-brief-reason" wx:if="{{learningReportSummary.familyDecisionHomepageShareBoundary}}">{{learningReportSummary.familyDecisionHomepageShareBoundary}}</view>
+            <view class="parent-brief-reason">{{profileSafeSummary.evidenceBoundaryLine}}</view>
+            <button class="copy-action family-decision-primary" wx:if="{{learningReportSummary.familyDecisionHomepageRoute}}" bindtap="runFamilyDecisionHomepageAction">{{learningReportSummary.familyDecisionHomepageCtaLabel}}</button>
+          </view>
+        </view>
+
+        <view class="family-summary-card profile-material-decision-snapshot" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossier}}">
+          <view class="family-summary-title">测评/错题资料决策卡</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.personalizedParentReportPreview}}">
+              <text class="parent-brief-label">标准版 HTML 报告</text>
+              <text>{{learningReportSummary.personalizedParentReportTitle}}</text>
+              <text>标准版本：{{learningReportSummary.personalizedParentReportStandardVersion}}｜格式：{{learningReportSummary.personalizedParentReportFormat}}</text>
+              <text>导出规则：{{learningReportSummary.personalizedParentReportExportLine}}</text>
+              <text wx:if="{{learningReportSummary.personalizedParentReportPrintRule}}">PDF：{{learningReportSummary.personalizedParentReportPrintRule}}</text>
+              <text wx:for="{{learningReportSummary.personalizedParentReportQualityGates}}" wx:key="*this">质量门槛：{{item}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.personalizedParentReportSop && showAdvancedProfile}}">
+              <text class="parent-brief-label">报告 SOP</text>
+              <text>录入：{{learningReportSummary.personalizedParentReportSop.intake}}</text>
+              <text>归一：{{learningReportSummary.personalizedParentReportSop.normalize}}</text>
+              <text>分析：{{learningReportSummary.personalizedParentReportSop.analyze}}</text>
+              <text>验证：{{learningReportSummary.personalizedParentReportSop.validate}}</text>
+              <text>交付：{{learningReportSummary.personalizedParentReportSop.deliver}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.personalizedParentReportCompetitorBenchmarks.length && showAdvancedProfile}}">
+              <text class="parent-brief-label">外部优秀做法后的闭环动作</text>
+              <text wx:for="{{learningReportSummary.personalizedParentReportCompetitorBenchmarks}}" wx:key="id">{{item.outsideLine}}｜我们承接：{{item.productAnswer}}｜入口：{{item.route}}｜回流：{{item.evidenceReturn}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.personalizedParentReportMiniappPlan && showAdvancedProfile}}">
+              <text class="parent-brief-label">小程序/轻量 APP 承接</text>
+              <text>{{learningReportSummary.personalizedParentReportMiniappPlan.primarySurface}}</text>
+              <text>{{learningReportSummary.personalizedParentReportMiniappPlan.lightAppSurface}}</text>
+              <text wx:for="{{learningReportSummary.personalizedParentReportMiniappPlan.nextBuildOrder}}" wx:key="*this">顺序：{{item}}</text>
+              <text>禁止捷径：{{learningReportSummary.personalizedParentReportMiniappPlan.blockedShortcut}}</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">{{learningReportSummary.uploadedMaterialDecisionDossierTitle}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierSummary}}</text>
+              <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate.status === 'portrait_candidate'}}">{{learningReportSummary.uploadedMaterialDecisionDossierChildStrengthLine}}</text>
+              <text wx:else>方法候选：先用真实错题、隔天回访和第 7 天小变式验证，不贴天赋或人格标签。</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">怎么学更好</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierHowToLearnBetter}}" wx:key="id">{{item.label}}：{{item.method}}｜验证：{{item.verifyWith}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierWrongPaperDiagnosisCards}}" wx:key="id">错题修复：{{item.label}}｜{{item.nextAction}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMethodCandidateCards.length}}">
+              <text class="parent-brief-label">方法候选卡</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMethodCandidateCards}}" wx:key="id">{{item.label}}｜今晚：{{item.tonightTry}}｜明天：{{item.parentQuestionTomorrow}}｜第7天：{{item.day7Evidence}}</text>
+            </view>
+            <button class="copy-action family-decision-primary" wx:if="{{!showAdvancedProfile}}" bindtap="toggleAdvancedProfile">查看更多证据和方法依据</button>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyGuide && showAdvancedProfile}}">
+              <text class="parent-brief-label">{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyGuideTitle}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyGuideSummary}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyGuidePrimary}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyGuideServiceMode}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyCards}}" wx:key="id">{{item.label}}｜适用：{{item.useWhen}}｜报告写法：{{item.reportLine}}｜验证：{{item.evidenceGate}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyRules}}" wx:key="*this">报告规则：{{item}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierDecisionHeatmap.length && showAdvancedProfile}}">
+              <text class="parent-brief-label">决策热区</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierDecisionHeatmap}}" wx:key="id">{{item.label}}｜{{item.status}}｜证据：{{item.evidence}}｜下一步：{{item.nextAction}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyActionStack.length && showAdvancedProfile}}">
+              <text class="parent-brief-label">家庭行动栈</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyActionStack}}" wx:key="id">{{item.label}}｜{{item.action}}｜门槛：{{item.gate}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityGate && showAdvancedProfile}}">
+              <text class="parent-brief-label">AI解析质量门控</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityLine}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityPlan}}" wx:key="id">{{item.label}}｜{{item.status}}｜{{item.action}}｜证据：{{item.evidence}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorSolutionPack && showAdvancedProfile}}">
+              <text class="parent-brief-label">家庭私教方案｜{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorSolutionPack.title}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorSolutionPack.positioning}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorSolutionPack.primaryPromise}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.modeCards}}" wx:key="id">{{item.label}}｜{{item.whenLine}}｜{{item.gateLine}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorDeliveryLoop}}" wx:key="day">{{item.label}}｜{{item.action}}｜证据：{{item.evidence}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierPrivateTutorMoatSignals}}" wx:key="*this">护城河：{{item}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint && showAdvancedProfile}}">
+              <text class="parent-brief-label">个性化学习方案蓝图</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint.recommendedMode.label}}：{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint.recommendedMode.why}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint.servicePathwayHint}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.solutionCards}}" wx:key="id">{{item.label}}｜{{item.triggerLine}}｜{{item.gateLine}}｜{{item.aiLine}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionFusionRules}}" wx:key="id">{{item.label}}｜用于：{{item.useFor}}｜验证：{{item.mustVerifyWith}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionOwnership}}" wx:key="id">{{item.label}}：{{item.reason}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialServiceHandoffPack && showAdvancedProfile}}">
+              <text class="parent-brief-label">{{learningReportSummary.uploadedMaterialServiceHandoffTitle}}</text>
+              <text>{{learningReportSummary.uploadedMaterialServiceHandoffSummary}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialServiceHandoffCards}}" wx:key="id">{{item.label}}｜{{item.line}}｜{{item.evidenceLine}}</text>
+              <text>{{learningReportSummary.uploadedMaterialServiceHandoffReleaseLine}}</text>
+              <text>{{learningReportSummary.uploadedMaterialServiceHandoffBlockedLine}}</text>
+              <view class="profile-action-row" wx:if="{{learningReportSummary.uploadedMaterialServiceHandoffActions.length}}">
+                <button class="profile-small-primary" wx:for="{{learningReportSummary.uploadedMaterialServiceHandoffActions}}" wx:key="id" data-id="{{item.id}}" data-label="{{item.label}}" data-route="{{item.route}}" data-reason="{{item.reason}}" bindtap="runUploadedMaterialDossierAction">{{item.label}}</button>
+              </view>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.reportRevisitEvidence && showAdvancedProfile}}">
+              <text class="parent-brief-label">报告回访验证</text>
+              <text>当前阶段：{{learningReportSummary.reportRevisitValidationStage}}｜次日回访 {{learningReportSummary.reportRevisitNextDayCount}} 次</text>
+              <text>长期画像：{{learningReportSummary.reportRevisitLongTermPortraitRelease}}｜第7天证据：{{learningReportSummary.reportRevisitDay7Ready ? '已就绪' : '未就绪'}}</text>
+              <text>{{learningReportSummary.reportRevisitLocalRule}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyDecisionCalendar && showAdvancedProfile}}">
+              <text class="parent-brief-label">{{learningReportSummary.uploadedMaterialDecisionDossierFamilyDecisionCalendar.title}}</text>
+              <text>{{learningReportSummary.uploadedMaterialDecisionDossierFamilyDecisionCalendar.summary}}</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyDecisionWeeks}}" wx:key="id">{{item.label}}｜家长判断：{{item.parentDecision}}｜孩子证据：{{item.childEvidence}}｜门槛：{{item.releaseGate}}</text>
+              <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMonthlyReview}}">月度复盘：{{learningReportSummary.uploadedMaterialDecisionDossierMonthlyReview.decision}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierDetailedSections.length && showAdvancedProfile}}">
+              <text class="parent-brief-label">详细报告章节</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierDetailedSections}}" wx:key="id">{{item.label}}｜{{item.status}}｜{{item.body}}</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">资料入口</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMaterialLanes}}" wx:key="id">{{item.label}}：{{item.collected ? '已接入' : '待补充'}}｜{{item.output}}</text>
+            </view>
+            <view class="parent-brief-reason">{{learningReportSummary.uploadedMaterialDecisionDossierTalentRule}}</view>
+            <view class="parent-brief-reason">{{learningReportSummary.uploadedMaterialDecisionDossierWrongPaperRule}}</view>
+            <view class="parent-brief-reason" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate}}">放行门槛：{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate.status}}</view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMethodValidationStages.length && showAdvancedProfile}}">
+              <text class="parent-brief-label">方法验证链</text>
+              <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.methodValidationCards}}" wx:key="id">{{item.label}}｜{{item.ownerLine}}｜{{item.unlockLine}}</text>
+              <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMethodValidationReleaseRule}}">{{learningReportSummary.uploadedMaterialDeliveryView.releaseLine}}</text>
+              <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMethodValidationNextAction}}">下一步：{{learningReportSummary.uploadedMaterialDecisionDossierMethodValidationNextAction}}</text>
+            </view>
+            <view class="profile-action-row" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierRouteActions.length && showAdvancedProfile}}">
+              <button class="profile-small-primary" wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierRouteActions}}" wx:key="id" data-id="{{item.id}}" data-label="{{item.label}}" data-route="{{item.route}}" data-reason="{{item.reason}}" bindtap="runUploadedMaterialDossierAction">{{item.label}}</button>
+            </view>
+          </view>
+        </view>
+
+        <view class="family-summary-card profile-partner-workbench" wx:if="{{learningReportSummary.partnerDeliveryWorkbench && showAdvancedProfile}}">
+          <view class="family-summary-title">{{learningReportSummary.partnerWorkbenchTitle}}</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">交付状态</text>
+              <text>{{learningReportSummary.partnerWorkbenchStatusLine}}</text>
+              <text wx:if="{{learningReportSummary.partnerWorkbenchChildRecord}}">孩子档案：{{learningReportSummary.partnerWorkbenchChildRecord.id}}｜{{learningReportSummary.partnerWorkbenchChildRecord.gradeBand}}｜{{learningReportSummary.partnerWorkbenchChildRecord.evidenceStage}}</text>
+              <text>{{learningReportSummary.partnerWorkbenchNextAction}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchMaterialLedger.length}}">
+              <text class="parent-brief-label">材料台账</text>
+              <text wx:for="{{learningReportSummary.partnerWorkbenchMaterialLedger}}" wx:key="id">{{item.title}}｜{{item.kind}}｜{{item.status}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchSolutionPipeline.length}}">
+              <text class="parent-brief-label">方案流水线</text>
+              <text wx:for="{{learningReportSummary.partnerWorkbenchSolutionPipeline}}" wx:key="id">{{item.label}}｜{{item.owner}}｜{{item.status}}｜{{item.releaseGate}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchAdvisorQueue.length}}">
+              <text class="parent-brief-label">顾问下一步</text>
+              <text wx:for="{{learningReportSummary.partnerWorkbenchAdvisorQueue}}" wx:key="id">{{item.priority}}. {{item.action}}｜{{item.status}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchCrmExport}}">
+              <text class="parent-brief-label">CRM 安全字段</text>
+              <text>允许：{{learningReportSummary.partnerWorkbenchCrmAllowedLine}}</text>
+              <text>禁止：{{learningReportSummary.partnerWorkbenchCrmBlockedLine}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchPilotReadiness}}">
+              <text class="parent-brief-label">试点就绪 {{learningReportSummary.partnerWorkbenchPilotReadiness.score}}%</text>
+              <text>{{learningReportSummary.partnerWorkbenchPilotStatusLine}}</text>
+              <text wx:for="{{learningReportSummary.partnerWorkbenchPilotDisplayRows}}" wx:key="id">{{item.label}}｜{{item.readyText}}｜{{item.nextAction}}</text>
+              <text>{{learningReportSummary.partnerWorkbenchPilotReadiness.operatorScript}}</text>
+              <text>{{learningReportSummary.partnerWorkbenchPilotReadiness.stopRule}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerWorkbenchRevenueDisplayRows.length}}">
+              <text class="parent-brief-label">服务包节点</text>
+              <text wx:for="{{learningReportSummary.partnerWorkbenchRevenueDisplayRows}}" wx:key="id">{{item.label}}｜{{item.statusText}}｜{{item.gate}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerPilotDeliveryPacket}}">
+              <text class="parent-brief-label">{{learningReportSummary.partnerPilotDeliveryPacket.title}}</text>
+              <text>{{learningReportSummary.partnerPilotDeliveryPacket.statusLine}}</text>
+              <text>{{learningReportSummary.partnerPilotDeliveryPacket.offerLine}}</text>
+              <text wx:for="{{learningReportSummary.partnerPilotDeliveryRows}}" wx:key="id">{{item.label}}｜{{item.owner}}｜{{item.action}}｜{{item.releaseGate}}</text>
+              <text wx:for="{{learningReportSummary.partnerPilotTalkTrack}}" wx:key="*this">合作话术：{{item}}</text>
+              <text>禁止承诺：{{learningReportSummary.partnerPilotBlockedPromises}}</text>
+              <text>{{learningReportSummary.partnerPilotDeliveryPacket.revenueGateLine}}</text>
+              <text>下一步：{{learningReportSummary.partnerPilotDeliveryPacket.closeNextAction}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{learningReportSummary.partnerServiceReviewCard}}">
+              <text class="parent-brief-label">{{learningReportSummary.partnerServiceReviewTitle}}</text>
+              <text>{{learningReportSummary.partnerServiceReviewStatusLine}}</text>
+              <text>{{learningReportSummary.partnerServiceReviewDecisionLine}}</text>
+              <text>{{learningReportSummary.partnerServiceReviewEvidenceLine}}</text>
+              <text>{{learningReportSummary.partnerServiceReviewNextActionLine}}</text>
+              <text>{{learningReportSummary.partnerServiceReviewReleaseLine}}</text>
+              <view class="profile-action-row" wx:if="{{learningReportSummary.partnerServiceReviewActions.length}}">
+                <button class="profile-small-primary" wx:for="{{learningReportSummary.partnerServiceReviewActions}}" wx:key="id" data-id="{{item.id}}" data-label="{{item.label}}" data-route="{{item.route}}" data-reason="{{item.reason}}" bindtap="runUploadedMaterialDossierAction">{{item.label}}</button>
+              </view>
+            </view>
+            <view class="parent-brief-reason" wx:if="{{learningReportSummary.partnerWorkbenchPrivacyGate}}">合作方只看脱敏交付视图；原题、照片、完整对话、敏感比较信息、天赋标签不出本机/服务端安全域。</view>
+          </view>
+        </view>
+
+        <view class="family-summary-card profile-readiness-snapshot" wx:if="{{profileReadinessSnapshot}}">
+          <view class="family-summary-title">{{profileReadinessSnapshot.title}}</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">结论</text>
+              <text>{{profileReadinessSnapshot.conclusion}}</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">流转</text>
+              <text>{{profileReadinessSnapshot.flowLine}}</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">证据</text>
+              <text>{{profileReadinessSnapshot.evidenceLine}}</text>
+            </view>
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">下一步</text>
+              <text>{{profileReadinessSnapshot.nextActionReason}}</text>
+              <button class="profile-small-primary" bindtap="runUnifiedNextAction">{{profileReadinessSnapshot.nextActionLabel}}</button>
+            </view>
+            <view class="parent-brief-reason">{{profileReadinessSnapshot.boundaryLine}}</view>
+            <view class="ai-boundary-panel" wx:if="{{profileReadinessSnapshot.aiBoundaryRows}}">
+              <view class="ai-boundary-head">
+                <text>{{profileReadinessSnapshot.aiBoundaryTitle}}</text>
+                <text>{{profileReadinessSnapshot.aiBoundarySummary}}</text>
+              </view>
+              <view class="ai-boundary-row" wx:for="{{profileReadinessSnapshot.aiBoundaryRows}}" wx:key="id">
+                <text class="ai-boundary-label">{{item.label}}</text>
+                <text class="ai-boundary-body">{{item.body}}</text>
+              </view>
+              <view class="ai-boundary-rule">{{profileReadinessSnapshot.aiBoundaryReleaseRule}}</view>
+            </view>
+            <view class="final-target-panel" wx:if="{{profileReadinessSnapshot.finalTargetRows}}">
+              <view class="ai-boundary-head">
+                <text>{{profileReadinessSnapshot.finalTargetTitle}} · {{profileReadinessSnapshot.finalTargetScore}}%</text>
+                <text>{{profileReadinessSnapshot.finalTargetLine}}</text>
+              </view>
+              <view class="final-target-row" wx:for="{{profileReadinessSnapshot.finalTargetRows}}" wx:key="id">
+                <text class="ai-boundary-label">{{item.label}}｜{{item.status}}｜{{item.progress}}%</text>
+                <text class="ai-boundary-body">{{item.nextAction}}</text>
+                <button class="profile-small-primary" data-id="{{item.id}}" data-route="{{item.route}}" bindtap="runFinalTargetAction">去推进</button>
+              </view>
+              <view class="ai-boundary-rule">下一步：{{profileReadinessSnapshot.finalTargetNextAction}}</view>
+              <view class="ai-boundary-rule">汇报节奏：{{profileReadinessSnapshot.finalTargetCadence}}</view>
+              <view class="ai-boundary-rule">边际规则：{{profileReadinessSnapshot.finalTargetStopRule}}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="family-summary-card profile-subtle-card" wx:if="{{profileReadinessSnapshot.competitiveMoatBoardRows.length}}">
+          <view class="family-summary-title">{{profileReadinessSnapshot.competitiveMoatBoardTitle}} · {{profileReadinessSnapshot.competitiveMoatBoardScore}}%</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">推进判断</text>
+              <text>{{profileReadinessSnapshot.competitiveMoatBoardSummary}}</text>
+              <text>{{profileReadinessSnapshot.competitiveMoatBoardDistanceLine}}</text>
+            </view>
+            <view class="module-flow-mini-grid">
+              <view class="module-flow-mini-chip" wx:for="{{profileReadinessSnapshot.competitiveMoatBoardRows}}" wx:key="id" data-id="{{item.id}}" data-route="{{item.route}}" bindtap="runFinalTargetAction">{{item.label}} {{item.progress}}%</view>
+            </view>
+            <view class="parent-brief-reason">下一步：{{profileReadinessSnapshot.competitiveMoatBoardNextAction}}</view>
+            <view class="parent-brief-reason">{{profileReadinessSnapshot.competitiveMoatBoardStopRule}}</view>
+          </view>
+        </view>
+
+        <view class="family-summary-card capability-ledger-card" wx:if="{{capabilityEvidenceLedger}}">
+          <view class="family-summary-title">{{capabilityEvidenceLedger.title}}</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">总账</text>
+              <text>{{capabilityEvidenceLedger.readyCount}} / {{capabilityEvidenceLedger.totalCount}} · {{capabilityEvidenceLedger.summary}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{capabilityEvidenceLedger.nextCapability}}">
+              <text class="parent-brief-label">先补哪条</text>
+              <text>{{capabilityEvidenceLedger.nextCapability.label}} · {{capabilityEvidenceLedger.nextCapability.nextAction}}</text>
+              <button class="profile-small-primary" data-route="{{capabilityEvidenceLedger.nextCapability.route}}" bindtap="goCapabilityLedgerRoute">去处理</button>
+            </view>
+            <view class="module-flow-mini-grid">
+              <view class="module-flow-mini-chip {{item.ready ? 'ready' : ''}}" wx:for="{{capabilityEvidenceLedger.rows}}" wx:key="id">{{item.label}}</view>
+            </view>
+            <view class="parent-brief-reason">{{capabilityEvidenceLedger.moatLine}}</view>
+          </view>
+        </view>
+
+        <view class="family-summary-card capability-ledger-card" wx:if="{{capabilityMaturityQueue}}">
+          <view class="family-summary-title">{{capabilityMaturityQueue.title}}</view>
+          <view class="family-summary-body family-readable">
+            <view class="parent-brief-block">
+              <text class="parent-brief-label">商用厚度</text>
+              <text>{{capabilityMaturityQueue.readyCount}} / {{capabilityMaturityQueue.totalCount}} · {{capabilityMaturityQueue.summary}}</text>
+            </view>
+            <view class="parent-brief-block" wx:if="{{capabilityMaturityQueue.next}}">
+              <text class="parent-brief-label">先补这里</text>
+              <text>{{capabilityMaturityQueue.next.label}} · {{capabilityMaturityQueue.next.nextAction}}</text>
+              <text>{{capabilityMaturityQueue.next.acceptanceLine}}</text>
+              <text>{{capabilityMaturityQueue.next.fallbackLine}}</text>
+              <text>{{capabilityMaturityQueue.next.parentCheckLine}}</text>
+              <button class="profile-small-primary" data-id="{{capabilityMaturityQueue.next.id}}" data-route="{{capabilityMaturityQueue.next.route}}" bindtap="runCapabilityMaturityAction">去推进</button>
+            </view>
+            <view class="module-flow-mini-grid">
+              <view class="module-flow-mini-chip {{item.ready ? 'ready' : ''}}" wx:for="{{capabilityMaturityQueue.items}}" wx:key="id" data-id="{{item.id}}" data-route="{{item.route}}" bindtap="runCapabilityMaturityAction">{{item.label}} {{item.score}}%</view>
+            </view>
+            <view class="parent-brief-reason">{{capabilityMaturityQueue.positioningLine}}</view>
           </view>
         </view>
 
@@ -104,6 +553,142 @@
         </view>
       </view>
 
+      <view class="family-summary-card profile-subtle-card light-evidence-card" wx:if="{{lightFeatureEvidence}}">
+        <view class="family-summary-title">{{lightFeatureEvidence.title}}</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">轻入口</text>
+            <text>{{lightFeatureEvidence.summary}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">可回流</text>
+            <text>{{lightFeatureEvidence.parentLine}}</text>
+          </view>
+          <view class="module-flow-mini-grid" wx:if="{{lightFeatureEvidence.cards.length}}">
+            <view class="module-flow-mini-chip ready" wx:for="{{lightFeatureEvidence.cards}}" wx:key="id">{{item.label}} {{item.count}}</view>
+          </view>
+          <view class="parent-brief-reason">{{lightFeatureEvidence.nextAction}}</view>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{learningDepthMap && showAdvancedProfile}}">
+        <view class="family-summary-title">{{learningDepthMap.title}}</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">厚度进度</text>
+            <text>{{learningDepthMap.readyCount}} / {{learningDepthMap.totalCount}} · {{learningDepthMap.summary}}</text>
+          </view>
+          <view class="parent-brief-block" wx:for="{{learningDepthMap.dimensions}}" wx:key="id">
+            <text class="parent-brief-label">{{item.label}}</text>
+            <text>{{item.ready ? '已接上' : '待补齐'}} · {{item.evidence}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">下一步</text>
+            <text>{{learningDepthMap.nextBestAction}}</text>
+          </view>
+          <view class="parent-brief-reason">{{learningDepthMap.summary}}</view>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{learningQuestArc && showAdvancedProfile}}">
+        <view class="family-summary-title">{{learningQuestArc.title}}</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">当前剧情</text>
+            <text>{{learningQuestArc.currentLabel}} · {{learningQuestArc.currentTitle}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">完成进度</text>
+            <text>{{learningQuestArc.doneCount}} / {{learningQuestArc.totalCount}} · {{learningQuestArc.summary}}</text>
+          </view>
+          <view class="parent-brief-block" wx:for="{{learningQuestArc.stages}}" wx:key="id">
+            <text class="parent-brief-label">{{item.displayLabel}}</text>
+            <text>{{item.done ? '已接上' : '下一步'}} · {{item.body}}</text>
+          </view>
+          <view class="parent-brief-reason">{{learningQuestArc.parentHook}}</view>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{moduleFlowCompass && showAdvancedProfile}}">
+        <view class="family-summary-title">模块流转罗盘</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">闭环进度</text>
+            <text>{{moduleFlowCompass.readyCount}} / {{moduleFlowCompass.totalCount}} · {{moduleFlowCompass.summary}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">当前断点</text>
+            <text>{{moduleFlowCompass.currentLabel}} · {{moduleFlowCompass.currentNextAction}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">证据</text>
+            <text>{{moduleFlowCompass.currentEvidence}}</text>
+          </view>
+          <view class="module-flow-mini-grid">
+            <view class="module-flow-mini-chip {{item.ready ? 'ready' : ''}}" wx:for="{{moduleFlowCompass.modules}}" wx:key="id">{{item.displayLabel}}</view>
+          </view>
+          <view class="parent-brief-reason">{{moduleFlowCompass.summary}}</view>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{surfaceDepthPack && showAdvancedProfile}}">
+        <view class="family-summary-title">{{surfaceDepthPack.title}}</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">板块结论</text>
+            <text>{{surfaceDepthPack.summary}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">下一步</text>
+            <text>{{surfaceDepthPack.nextAction}}</text>
+          </view>
+          <view class="module-flow-mini-grid">
+            <view class="module-flow-mini-chip {{item.ready ? 'ready' : ''}}" wx:for="{{surfaceDepthPack.cards}}" wx:key="id">{{item.displayLabel}}</view>
+          </view>
+          <view class="parent-brief-reason">{{surfaceDepthPack.familyLine}}</view>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{unifiedNextAction && showAdvancedProfile}}">
+        <view class="family-summary-title">{{unifiedNextAction.title}}</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">{{unifiedNextAction.sourceLabel}}</text>
+            <text>{{unifiedNextAction.actionLabel}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">为什么</text>
+            <text>{{unifiedNextAction.reasonLine}}</text>
+          </view>
+          <view class="module-flow-mini-grid">
+            <view class="module-flow-mini-chip" wx:for="{{unifiedNextAction.candidates}}" wx:key="source">{{item.sourceLabel}}</view>
+          </view>
+          <view class="parent-brief-reason">{{unifiedNextAction.readinessLine}}</view>
+          <button class="profile-small-primary" bindtap="runUnifiedNextAction">{{unifiedNextAction.actionLabel}}</button>
+        </view>
+      </view>
+
+      <view class="family-summary-card profile-subtle-card" wx:if="{{surfaceDepthActionSummary && showAdvancedProfile}}">
+        <view class="family-summary-title">妯″潡琛屽姩璁板綍</view>
+        <view class="family-summary-body family-readable">
+          <view class="parent-brief-block">
+            <view wx:if="{{globalEvidenceBrief.latestUnifiedAction}}">
+              <text class="parent-brief-label">建议已执行</text>
+              <text>{{globalEvidenceBrief.latestUnifiedAction.displayLabel}}</text>
+            </view>
+            <text class="parent-brief-label">{{surfaceDepthActionSummary.routeEvidenceLabel}}</text>
+            <text>{{surfaceDepthActionSummary.label}}</text>
+          </view>
+          <view class="parent-brief-block">
+            <text class="parent-brief-label">{{surfaceDepthActionSummary.latestActionLabel}}</text>
+            <text>{{surfaceDepthActionSummary.parentLine}}</text>
+          </view>
+          <view class="module-flow-mini-grid">
+            <view class="module-flow-mini-chip" wx:for="{{surfaceDepthActionSummary.recent}}" wx:key="id">{{item.displayLabel}}</view>
+          </view>
+        </view>
+      </view>
+
       <view class="family-summary-card profile-subtle-card" wx:if="{{parentActionGuide && showAdvancedProfile}}">
         <view class="family-summary-title">家长行动指南</view>
         <view class="family-summary-body family-readable">
@@ -118,6 +703,46 @@
           <view class="parent-brief-block">
             <text class="parent-brief-label">下周一句</text>
             <text>{{parentActionGuide.monthSuggestion}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.parentPhraseTraining}}">
+            <text class="parent-brief-label">今晚话术</text>
+            <text>{{parentActionGuide.parentPhraseTraining.tonightScript}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.parentPhraseTraining}}">
+            <text class="parent-brief-label">答不上来</text>
+            <text>{{parentActionGuide.parentPhraseTraining.cannotAnswerFallback}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.parentPhraseTraining}}">
+            <text class="parent-brief-label">先肯定</text>
+            <text>{{parentActionGuide.parentPhraseTraining.praiseLine}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.parentReflectionSummary}}">
+            <text class="parent-brief-label">追问回执</text>
+            <text>{{parentActionGuide.parentReflectionSummary.line}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.weeklyPatternSynthesis}}">
+            <text class="parent-brief-label">一周归因</text>
+            <text>{{parentActionGuide.weeklyPatternSynthesis.summary}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.learningDecisionPath}}">
+            <text class="parent-brief-label">下一步</text>
+            <text>{{parentActionGuide.learningDecisionPath.action}}：{{parentActionGuide.learningDecisionPath.reason}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.masteryRubric}}">
+            <text class="parent-brief-label">掌握度</text>
+            <text>{{parentActionGuide.masteryRubric.line}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.interventionPlaybook}}">
+            <text class="parent-brief-label">干预打法</text>
+            <text>{{parentActionGuide.interventionPlaybook.summary}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{parentActionGuide.outcomeReviewSummary}}">
+            <text class="parent-brief-label">结果复核</text>
+            <text>{{parentActionGuide.outcomeReviewSummary.line}}</text>
+          </view>
+          <view class="parent-brief-block" wx:for="{{parentActionGuide.sevenDayParentPlan}}" wx:key="day">
+            <text class="parent-brief-label">第 {{item.day}} 晚</text>
+            <text>{{item.action}}：{{item.script}}</text>
           </view>
         </view>
       </view>
@@ -195,6 +820,9 @@
             <text>{{item.label}}：</text>{{item.text}}
           </view>
         </view>
+        <view class="process-summary-line" wx:if="{{tutorProcessSummary.fallbackRecoveryLine}}">{{tutorProcessSummary.fallbackRecoveryLine}}</view>
+        <view class="process-summary-line" wx:if="{{tutorProcessSummary.fallbackParentDecisionLine}}">{{tutorProcessSummary.fallbackParentDecisionLine}}</view>
+        <view class="process-summary-line" wx:if="{{tutorProcessSummary.fallbackShareBoundary}}">{{tutorProcessSummary.fallbackShareBoundary}}</view>
       </view>
 
       <view class="family-summary-card teacher-lite profile-subtle-card">
@@ -323,6 +951,10 @@
           <view class="weekly-text" wx:else>先录入一道真实错题，完成一次回访后，这里会生成可以一起看的问题。</view>
           <view class="weekly-status">{{hasParentEvidence ? '来自真实记录' : '先完成一次点拨'}}</view>
         </view>
+        <view class="weekly-quote diagnosis-question" wx:if="{{parentReport.thinkingProbeLine}}">
+          <view class="weekly-text">{{parentReport.thinkingProbeLine}}</view>
+          <view class="weekly-status">来自思路记录</view>
+        </view>
       </view>
       </block>
 
@@ -362,23 +994,663 @@
           <text class="parent-brief-label">资料完整度</text>
           <text>{{learningReportSummary.modeLabel}} · {{learningReportSummary.statusLabel}}</text>
         </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionHomepage}}">
+          <text class="parent-brief-label">{{learningReportSummary.familyDecisionHomepageTitle}}</text>
+          <text>{{learningReportSummary.familyDecisionHomepageHeadline}}</text>
+          <text>状态：{{learningReportSummary.familyDecisionHomepageStatus}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepagePrimaryAction}}">今日动作：{{learningReportSummary.familyDecisionHomepagePrimaryAction}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepageParentQuestion}}">家长只问：{{learningReportSummary.familyDecisionHomepageParentQuestion}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepageChildLine}}">孩子只做：{{learningReportSummary.familyDecisionHomepageChildLine}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepageTomorrow}}">明天回访：{{learningReportSummary.familyDecisionHomepageTomorrow}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepageSourceLine}}">来源判断：{{learningReportSummary.familyDecisionHomepageSourceLine}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceTopLine}}">报告一口径：{{learningReportSummary.reportEvidenceTopLine}}</text>
+          <text wx:if="{{learningReportSummary.nextEvidenceTopLine}}">下一证据：{{learningReportSummary.nextEvidenceTopLine}}</text>
+          <text>{{learningReportSummary.familyDecisionHomepageLocalAiSplitLine}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionHomepageHomeSchoolLine}}">家校交接：{{learningReportSummary.familyDecisionHomepageHomeSchoolLine}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionHomepageDoList}}" wx:key="*this">今晚做：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionHomepageDontList}}" wx:key="*this">今晚不做：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionHomepageEvidenceList}}" wx:key="*this">证据：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionHomepageAllowedFields}}" wx:key="*this">可分享：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionHomepageBlockedFields}}" wx:key="*this">不分享：{{item}}</text>
+          <text>{{learningReportSummary.familyDecisionHomepageShareBoundary}}</text>
+          <button bindtap="goLearningReportCta">{{learningReportSummary.familyDecisionHomepageCtaLabel}}</button>
+        </view>
+        <view class="parent-brief-block borrow-workbench-card" wx:if="{{learningReportSummary.openMaicBorrowWorkbench}}">
+          <text class="parent-brief-label">{{learningReportSummary.openMaicBorrowWorkbench.title}}</text>
+          <text>{{learningReportSummary.openMaicBorrowWorkbench.summary}}</text>
+          <text>{{learningReportSummary.openMaicBorrowWorkbench.statusLine}}</text>
+          <text>{{learningReportSummary.openMaicBorrowWorkbench.sourcePolicyLine}}</text>
+          <view class="borrow-workbench-grid">
+            <view class="borrow-workbench-lane" wx:for="{{learningReportSummary.openMaicBorrowWorkbenchLanes}}" wx:key="id" data-route="{{item.route}}" data-id="{{item.id}}" data-label="{{item.label}}" bindtap="runBorrowWorkbenchAction">
+              <text class="borrow-workbench-label">{{item.label}} · {{item.owner}}</text>
+              <text>{{item.action}}</text>
+            </view>
+          </view>
+          <text>{{learningReportSummary.openMaicBorrowWorkbench.releaseLine}}</text>
+          <view class="borrow-workbench-blocked">
+            <text wx:for="{{learningReportSummary.openMaicBorrowWorkbenchBlockedClaims}}" wx:key="*this">禁用：{{item}}</text>
+          </view>
+          <view class="borrow-workbench-actions">
+            <button wx:for="{{learningReportSummary.openMaicBorrowWorkbenchNextRoutes}}" wx:key="id" data-route="{{item.route}}" data-id="{{item.id}}" data-label="{{item.label}}" bindtap="runBorrowWorkbenchAction">{{item.label}}</button>
+          </view>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.openMaicMiniLessonReport}}">
+          <text class="parent-brief-label">{{learningReportSummary.openMaicMiniLessonTitle}}</text>
+          <text>{{learningReportSummary.openMaicMiniLessonBoundary}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonTriggerLine}}">触发：{{learningReportSummary.openMaicMiniLessonTriggerLine}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonConceptGap}}">概念缺口：{{learningReportSummary.openMaicMiniLessonConceptGap}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonTopicLabel}}">题型卡：{{learningReportSummary.openMaicMiniLessonTopicLabel}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonTopicLocalGate}}">放行证据：{{learningReportSummary.openMaicMiniLessonTopicLocalGate}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonBlackboardLine}}">小黑板：{{learningReportSummary.openMaicMiniLessonBlackboardLine}}</text>
+          <view wx:if="{{learningReportSummary.openMaicMiniLessonBlackboardFrames.length}}">
+            <text wx:for="{{learningReportSummary.openMaicMiniLessonBlackboardFrames}}" wx:key="id">{{item.title}}：{{item.draw}}｜{{item.say}}</text>
+          </view>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonBlackboardRenderPrompt}}">板书规则：{{learningReportSummary.openMaicMiniLessonBlackboardRenderPrompt}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonMisconceptionLine}}">误区：{{learningReportSummary.openMaicMiniLessonMisconceptionLine}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonCheckQuestion}}">检查题：{{learningReportSummary.openMaicMiniLessonCheckQuestion}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonParentLine}}">家长只问：{{learningReportSummary.openMaicMiniLessonParentLine}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonTopicPractice}}">轻练习：{{learningReportSummary.openMaicMiniLessonTopicPractice.prompt}}</text>
+          <view wx:if="{{learningReportSummary.openMaicMiniLessonActiveRecallLadder.length}}">
+            <text>主动回忆梯：今晚 90 秒 / 明天回访 / 第 7 天变式</text>
+          </view>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonNextDayReview}}">明天回访：{{learningReportSummary.openMaicMiniLessonNextDayReview}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonExitGate}}">退出门：{{learningReportSummary.openMaicMiniLessonExitGate}}</text>
+          <text wx:if="{{learningReportSummary.openMaicMiniLessonTeacherSchoolBridge}}">老师观察：{{learningReportSummary.openMaicMiniLessonTeacherSchoolBridge.teacherObserve}}</text>
+          <text wx:if="{{learningReportSummary.openMaicHomeSchoolMiniLessonPacket}}">家校交接：{{learningReportSummary.openMaicHomeSchoolMiniLessonPacket.evidenceRule}}</text>
+        </view>
         <view class="parent-brief-block">
           <text class="parent-brief-label">画像总览</text>
           <text>{{learningReportSummary.overviewLine}}</text>
           <text wx:if="{{learningReportSummary.evidenceLine}}">依据：{{learningReportSummary.evidenceLine}}</text>
+          <text wx:if="{{learningReportSummary.liveEvidenceLine}}">{{learningReportSummary.liveEvidenceLine}}</text>
+          <text wx:if="{{learningReportSummary.liveEvidenceSummary}}">{{learningReportSummary.liveEvidenceSummary}}</text>
+          <text wx:if="{{learningReportSummary.capabilityProgressLine}}">{{learningReportSummary.capabilityProgressLine}}</text>
+          <text wx:if="{{learningReportSummary.subjectSkillDepthLine}}">题型：{{learningReportSummary.subjectSkillDepthLine}}</text>
+          <text wx:if="{{learningReportSummary.subjectSkillDepthEvidence}}">题型证据：{{learningReportSummary.subjectSkillDepthEvidence}}</text>
+          <text wx:if="{{learningReportSummary.curriculumReportLine}}">课程骨架：{{learningReportSummary.curriculumReportLine}}</text>
+          <text wx:if="{{learningReportSummary.curriculumVisualBoardLine}}">{{learningReportSummary.curriculumVisualBoardLine}}</text>
+          <text wx:if="{{learningReportSummary.visualSocraticReportLine}}">图解追问：{{learningReportSummary.visualSocraticReportLine}}</text>
+          <text wx:if="{{learningReportSummary.visualSocraticBoundary}}">{{learningReportSummary.visualSocraticBoundary}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitReportLine}}">单元判断：{{learningReportSummary.courseUnitReportLine}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitParentDecisionLine}}">{{learningReportSummary.courseUnitParentDecisionLine}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitClassroomLine}}">{{learningReportSummary.courseUnitClassroomLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.courseUnitDecisionBoard}}">
+          <text class="parent-brief-label">{{learningReportSummary.courseUnitDecisionBoard.title}}</text>
+          <text>{{learningReportSummary.courseUnitDecisionBoard.summary}}</text>
+          <text>{{learningReportSummary.courseUnitDecisionBoard.blackboardLine}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitDecisionBoard.questionTypes}}" wx:key="*this">题型动作：{{item}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitDecisionBoard.wrongCauseAtlas}}" wx:key="*this">错因谱：{{item}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitDecisionBoard.diagnosticProbes}}" wx:key="*this">诊断追问：{{item}}</text>
+          <text>{{learningReportSummary.courseUnitDecisionBoard.sevenDayReviewLine}}</text>
+          <text>{{learningReportSummary.courseUnitDecisionBoard.shareContract}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.courseUnitMasteryTrajectory}}">
+          <text class="parent-brief-label">{{learningReportSummary.courseUnitMasteryTrajectory.title}}</text>
+          <text>{{learningReportSummary.courseUnitMasteryTrajectory.summary}}</text>
+          <text>{{learningReportSummary.courseUnitTrajectoryLine}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitTrajectoryParentLine}}">{{learningReportSummary.courseUnitTrajectoryParentLine}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitTrajectoryRows}}" wx:key="id">{{item.masteryLine}} · 下一证据：{{item.nextEvidence}} · 家长：{{item.parentInterventionLevel}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.courseUnitQuestionBank}}">
+          <text class="parent-brief-label">{{learningReportSummary.courseUnitQuestionBank.title}}</text>
+          <text>{{learningReportSummary.courseUnitQuestionBank.summary}}</text>
+          <text>{{learningReportSummary.courseUnitQuestionBankLine}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitQuestionBankCards}}" wx:key="id">题库卡：{{item.label}} · {{item.prompt}} · {{item.answerBoundary}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitQuestionBankCards}}" wx:key="id">样例证据：{{item.sampleStem}}｜第一步：{{item.firstStepHint}}｜家长：{{item.parentCheck}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitQuestionBankCards}}" wx:key="id">进阶证据：{{item.progression.parentEvidence}}｜掌握门槛：{{item.progression.masteryGate}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitQuestionBankCards}}" wx:key="id">回访安排：{{item.progression.nextDayRevisit}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitDepthExpansionAtlas}}">题型深度：{{learningReportSummary.courseUnitDepthExpansionLine}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitDepthExpansionArchetypes}}" wx:key="id">原型题：{{item.label}}｜小黑板：{{item.visualBoardTemplate.opening}}｜家长话术：{{item.parentCheckScript}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitDepthExpansionArchetypes}}" wx:key="id">安全复习：{{item.gameHook}}｜{{item.shareSafeLine}}</text>
+          <text wx:if="{{learningReportSummary.courseUnitTransferLadderLine}}">{{learningReportSummary.courseUnitTransferLadderLine}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitTransferLadders}}" wx:key="id">迁移路径：{{item.title}}｜{{item.summary}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitTransferLadders}}" wx:key="id">路径家长判断：{{item.parentDecisionRule}}</text>
+          <text wx:for="{{learningReportSummary.courseUnitTransferLadders}}" wx:key="id">路径分享边界：{{item.shareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.commercialDepthRunway}}">
+          <text class="parent-brief-label">{{learningReportSummary.commercialDepthRunway.title}}</text>
+          <text>{{learningReportSummary.commercialDepthRunway.summary}}</text>
+          <text>{{learningReportSummary.commercialDepthRunway.boundary}}</text>
+          <text>{{learningReportSummary.commercialDepthRunwayLine}}</text>
+          <text wx:for="{{learningReportSummary.commercialDepthRunwayLanes}}" wx:key="id">加厚线：{{item.label}}｜{{item.evidenceLine}}｜{{item.nextAction}}</text>
+          <text wx:for="{{learningReportSummary.commercialDepthParentRubric}}" wx:key="*this">家长判断：{{item}}</text>
+          <text wx:for="{{learningReportSummary.commercialDepthVisualBoardMoves}}" wx:key="*this">小黑板：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.realHomeworkCoverageMatrix}}">
+          <text class="parent-brief-label">{{learningReportSummary.realHomeworkCoverageMatrix.title}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.summary}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageLine}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.publicSourceLine}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.openSourceResourceLine}}</text>
+          <text wx:if="{{learningReportSummary.realHomeworkPublicResourceTriageBoard}}">{{learningReportSummary.realHomeworkPublicResourceTriageBoard.reportLine}}</text>
+          <text wx:if="{{learningReportSummary.realHomeworkPublicResourceTriageBoard}}">{{learningReportSummary.realHomeworkPublicResourceTriageBoard.marginalRule}}</text>
+          <text wx:if="{{learningReportSummary.realHomeworkLocalAiRunway}}">{{learningReportSummary.realHomeworkLocalAiRunway.positioning}}</text>
+          <text wx:if="{{learningReportSummary.realHomeworkLocalAiRunway}}">本地/AI 分工：{{learningReportSummary.realHomeworkLocalAiRunway.moduleCount}} 个模块，{{learningReportSummary.realHomeworkLocalAiRunway.resourceCount}} 类公开/OER 来源。</text>
+          <text wx:for="{{learningReportSummary.realHomeworkLocalAiRunwayModules}}" wx:key="id">本地/AI路线：{{item.label}}｜本地管：{{item.localCodeOwns[0]}}｜AI管：{{item.aiBetterFor[0]}}｜门槛：{{item.acceptanceGate[0]}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkLocalAiResourceCoverage}}" wx:key="id">来源落地：{{item.label}}｜复用级别：{{item.reuseLevel}}｜模块：{{item.targetModules[0]}}｜禁用：{{item.blockedUse[0]}}</text>
+          <text wx:if="{{learningReportSummary.realHomeworkLocalAiRunway}}">停止规则：{{learningReportSummary.realHomeworkLocalAiRunway.stopRule}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.homeworkIntakeQueueLine}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.intakeChallengeDeckLine}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.publicWorkbenchLine}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.clusterRunwayLine}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkPublicResourceTriageLanes}}" wx:key="id">资料决策：{{item.label}}｜负责人：{{item.owner}}｜用途：{{item.use[0]}}｜门槛：{{item.gate[0]}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkPublicResourceTriageCards}}" wx:key="id">资料卡：{{item.label}}｜本地代码：{{item.localCodeUse[0]}}｜AI：{{item.aiUse[0]}}｜拒绝：{{item.rejectedUse[0]}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkPublicResourceChallengeSeeds}}" wx:key="id">来源挑战种子：{{item.title}}｜{{item.prompt}}｜门槛：{{item.acceptanceGate[0]}}</text>
+          <text wx:if="{{learningReportSummary.pressureFailureTypeAudit}}">反向抽检：{{learningReportSummary.pressureFailureTypeAudit.summary}}</text>
+          <text wx:if="{{learningReportSummary.pressureFailureTypeAudit}}">反向抽检规则：{{learningReportSummary.pressureFailureTypeAudit.localRuleLine}}</text>
+          <text wx:for="{{learningReportSummary.pressureFailureTypeRisks}}" wx:key="id">待查类型：{{item.label}}｜{{item.count}} 条｜修复：{{item.localFix}}</text>
+          <text wx:for="{{learningReportSummary.pressureFailureTypeSubjects}}" wx:key="id">学科待查：{{item.label}}｜{{item.weak}}/{{item.total}}｜下一步：{{item.nextAction}}</text>
+          <text wx:for="{{learningReportSummary.pressureFailureTypeSamples}}" wx:key="id">待修样本：{{item.subject}}｜{{item.taskType}}｜{{item.localFix}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkUseWorkbench}}" wx:key="id">资料工作台：{{item.label}}｜可直接用：{{item.directUse[0]}}｜本地代码：{{item.localizeAsCode[0]}}｜AI：{{item.aiBetterFor[0]}}｜禁用：{{item.mustNotUse[0]}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.parentLine}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkPublicSources}}" wx:key="id">资料账本：{{item.label}}｜本地规则：{{item.localRuleUse[0]}}｜AI：{{item.aiUse[0]}}｜禁用：{{item.blockedUse[0]}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkOpenSourceResources}}" wx:key="id">开源资料：{{item.label}}｜来源：{{item.sourceUrl}}｜使用判断：{{item.commercialDecision}}｜许可提醒：{{item.licenseSignal}}｜本地化：{{item.localizeAsCode[0]}}｜AI：{{item.aiBetterFor[0]}}｜禁用：{{item.mustNotUse[0]}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkIntakeQueue}}" wx:key="id">采集队列：{{item.subject}}｜{{item.observedHomeworkShape}}｜本地化：{{item.localPressureTransform}}｜追问：{{item.socraticProbe}}｜游戏：{{item.gameUse}}｜分享：{{item.shareHook}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkIntakeChallengeDeck}}" wx:key="id">可玩采集卡：{{item.title}}｜{{item.firstStepPrompt}}｜游戏：{{item.gameUse}}｜边界：{{item.answerBoundary}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkImplementationDecisions}}" wx:key="id">实现判断：{{item.productQuestion}}｜{{item.decision}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkQuestionTypeClusters}}" wx:key="id">题型簇：{{item.subject}}｜{{item.pressureFamily}}｜小黑板：{{item.boardMove}}｜回访：{{item.memoryCadence}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkCoverageSubjects}}" wx:key="id">{{item.label}}：{{item.count}} 个压力样本｜待补：{{item.nextGap}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkCoverageClusters}}" wx:key="id">真实卡点：{{item.label}}｜第一步：{{item.firstStep}}｜家长：{{item.parentCheck}}</text>
+          <text wx:for="{{learningReportSummary.realHomeworkCoverageTypes}}" wx:key="id">题型入口：{{item.label}}｜{{item.firstStep}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.boundary}}</text>
+          <text>{{learningReportSummary.realHomeworkCoverageMatrix.publicSourceBlockedLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.realTrialRecoveryLoop}}">
+          <text class="parent-brief-label">{{learningReportSummary.realTrialRecoveryLoop.title}}</text>
+          <text>{{learningReportSummary.realTrialRecoveryLoop.summary}}</text>
+          <text>{{learningReportSummary.realTrialRecoveryLine}}</text>
+          <text>{{learningReportSummary.realTrialPressureCandidateLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialPressureCandidateCards}}" wx:key="id">压力候选：{{item.subject}}｜{{item.taskType}}｜第一步：{{item.firstStep}}｜待查：{{item.auditReasons[0]}}｜下一步进点拨/回访/挑战</text>
+          <text>{{learningReportSummary.realTrialSocraticStressLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialSocraticStressRows}}" wx:key="id">压测结果：{{item.subject}}｜{{item.status}}｜待修：{{item.risks[0]}}｜{{item.localRepair}}</text>
+          <text>{{learningReportSummary.realTrialStressRepairLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialStressRepairCards}}" wx:key="id">修复队列：{{item.label}}｜{{item.repairAction}}｜追问：{{item.socraticProbe}}</text>
+          <text>{{learningReportSummary.realTrialRuleWritebackLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRuleWritebackLanes}}" wx:key="id">规则回写：{{item.label}}｜{{item.localTarget}}｜{{item.count}} 条</text>
+          <text wx:for="{{learningReportSummary.realTrialRuleWritebackPatches}}" wx:key="id">复测计划：{{item.laneLabel}}｜{{item.retestScenario}}｜{{item.reportGate}}</text>
+          <text>{{learningReportSummary.realTrialRuleRetestLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRuleRetestCards}}" wx:key="id">复测卡：{{item.title}}｜{{item.prompt}}｜{{item.xpRule}}</text>
+          <text>{{learningReportSummary.realTrialRuleRetestReviewLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRuleRetestReviewCards}}" wx:key="id">复测入队：{{item.title}}｜{{item.question}}｜{{item.parentPrompt}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRuleRetestChallengeCards}}" wx:key="id">复测挑战：{{item.title}}｜{{item.gameRule}}｜{{item.shareHook}}</text>
+          <text>{{learningReportSummary.realTrialRecoveryLoop.reviewQueueLine}}</text>
+          <text>{{learningReportSummary.realTrialGameChallengeLine}}</text>
+          <text wx:for="{{learningReportSummary.realTrialGameChallengeCards}}" wx:key="id">真实试用挑战：{{item.title}}｜{{item.gameRule}}｜{{item.shareHook}}</text>
+          <text>本地规则：{{learningReportSummary.realTrialRecoveryLoop.localRuleLine}}</text>
+          <text>AI 边界：{{learningReportSummary.realTrialRecoveryLoop.aiUseLine}}</text>
+          <text>分享边界：{{learningReportSummary.realTrialRecoveryLoop.shareBoundary}}</text>
+          <text>边际规则：{{learningReportSummary.realTrialRecoveryLoop.marginalRule}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRecoveryRisks}}" wx:key="id">试用风险：{{item.label}} × {{item.count}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRecoveryQueue}}" wx:key="id">待转压力样本：{{item.subject}}｜{{item.taskType}}｜{{item.localTransform}}</text>
+          <text wx:for="{{learningReportSummary.realTrialRecoveryLatest}}" wx:key="id">最近试用：{{item.subject}}｜第一步：{{item.firstStep}}｜错因：{{item.wrongCause}}</text>
+          <view class="real-trial-actions">
+            <button class="profile-small-primary" data-mode="zero_help" bindtap="recordRealTrialSample">记录一次零帮助完成</button>
+            <button class="profile-small-secondary" data-mode="needs_help" bindtap="recordRealTrialSample">记录一次卡住样本</button>
+          </view>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.reportPressureTruthAudit}}">
+          <text class="parent-brief-label">{{learningReportSummary.reportPressureTruthAudit.title}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.summary}}</text>
+          <text>{{learningReportSummary.reportPressureTruthLine}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.localRuleLine}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.aiUseLine}}</text>
+          <text wx:for="{{learningReportSummary.reportPressureTruthRows}}" wx:key="id">压测簇：{{item.label}}｜{{item.sampleCount}} 个｜第一步：{{item.firstStep}}｜报告用法：{{item.reportUse}}</text>
+          <text wx:for="{{learningReportSummary.reportPressureFailureTraps}}" wx:key="id">虚胖风险：{{item.label}}｜{{item.risk}}｜退回：{{item.fallback}}</text>
+          <text wx:for="{{learningReportSummary.reportPressureGates}}" wx:key="id">报告门槛：{{item.label}}｜{{item.evidence}}</text>
+          <text wx:for="{{learningReportSummary.reportPressureSourceDecision}}" wx:key="id">实现判断：{{item.label}}｜{{item.use}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.handoffLine}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.shareBoundary}}</text>
+          <text>{{learningReportSummary.reportPressureTruthAudit.nextExpansionLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.weeklyEvidenceFlywheel}}">
+          <text class="parent-brief-label">{{learningReportSummary.weeklyEvidenceFlywheel.title}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheel.summary}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheelLine}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheel.portraitLine}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheel.privacyBoundary}}</text>
+          <text wx:for="{{learningReportSummary.weeklyEvidenceFlywheelDays}}" wx:key="day">第{{item.day}}天 {{item.label}}：{{item.childAction}}｜证据 {{item.evidence}}｜家长 {{item.parentDecision}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheel.acceptanceLine}}</text>
+          <text>{{learningReportSummary.weeklyEvidenceFlywheel.moatLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.sevenSubjectMasterySprint}}">
+          <text class="parent-brief-label">{{learningReportSummary.sevenSubjectMasterySprint.title}}</text>
+          <text>{{learningReportSummary.sevenSubjectMasterySprint.summary}}</text>
+          <text>{{learningReportSummary.sevenSubjectMasterySprintLine}}</text>
+          <text wx:for="{{learningReportSummary.sevenSubjectMasterySprintLanes}}" wx:key="id">{{item.label}}：{{item.target}}</text>
+          <text wx:for="{{learningReportSummary.sevenSubjectMasterySprintSubjects}}" wx:key="id">{{item.label}}：{{item.parentDecisionTarget}}｜{{item.shareRelayTarget}}</text>
+          <text>{{learningReportSummary.sevenSubjectMasterySprint.shareBoundaryLine}}</text>
+          <text>{{learningReportSummary.sevenSubjectMasterySprint.moatLine}}</text>
         </view>
         <view class="parent-brief-block">
           <text class="parent-brief-label">学业矩阵</text>
           <text>{{learningReportSummary.diagnosisLine}}</text>
         </view>
+        <view class="parent-brief-block">
+          <text class="parent-brief-label">结论依据</text>
+          <text>置信度：{{learningReportSummary.solutionConfidence}}</text>
+          <text wx:if="{{learningReportSummary.solutionEvidenceLine}}">依据：{{learningReportSummary.solutionEvidenceLine}}</text>
+          <text wx:if="{{learningReportSummary.solutionMissingLine}}">可补充：{{learningReportSummary.solutionMissingLine}}</text>
+        </view>
         <view class="parent-brief-block" wx:if="{{learningReportSummary.tendencyLines.length}}">
           <text class="parent-brief-label">能力倾向</text>
           <text wx:for="{{learningReportSummary.tendencyLines}}" wx:key="*this">{{item}}</text>
         </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.portraitConfidenceStatusLine}}">
+          <text class="parent-brief-label">画像放行状态</text>
+          <text>{{learningReportSummary.portraitConfidenceStatusLine}}</text>
+          <text wx:if="{{learningReportSummary.portraitConfidenceStageReason}}">{{learningReportSummary.portraitConfidenceStageReason}}</text>
+          <text wx:if="{{learningReportSummary.longTermPortraitLockedLine}}">暂不定性：{{learningReportSummary.longTermPortraitLockedLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.longTermPortraitLine && learningReportSummary.longTermPortraitCanRender}}">
+          <text class="parent-brief-label">长期画像</text>
+          <text>{{learningReportSummary.longTermPortraitLine}}</text>
+          <text wx:if="{{learningReportSummary.longTermPortraitStabilityLine}}">{{learningReportSummary.longTermPortraitStabilityLine}}</text>
+          <text wx:if="{{learningReportSummary.longTermPortraitRiskLine}}">{{learningReportSummary.longTermPortraitRiskLine}}</text>
+          <text wx:for="{{learningReportSummary.longTermPortraitDimensions}}" wx:key="id">画像维度：{{item.label}}｜{{item.signal}}｜证据 {{item.evidence}}</text>
+          <text wx:for="{{learningReportSummary.longTermPortraitTrajectoryFlags}}" wx:key="*this">趋势旗标：{{item}}</text>
+          <text wx:for="{{learningReportSummary.longTermPortraitConfidenceRubric}}" wx:key="*this">置信规则：{{item}}</text>
+          <text wx:for="{{learningReportSummary.longTermPortraitEvidence}}" wx:key="*this">下次证据：{{item}}</text>
+          <text wx:for="{{learningReportSummary.longTermPortraitObservationLoop}}" wx:key="*this">观察闭环：{{item}}</text>
+          <text wx:if="{{learningReportSummary.longTermPortraitParentRule}}">家长判断：{{learningReportSummary.longTermPortraitParentRule}}</text>
+          <text wx:if="{{learningReportSummary.longTermPortraitTeacherConference}}">沟通老师：{{learningReportSummary.longTermPortraitTeacherConference}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.portraitConfidenceTitle}}">
+          <text class="parent-brief-label">长期画像可信度账本</text>
+          <text>置信等级：{{learningReportSummary.portraitConfidenceLevel}}｜证据分：{{learningReportSummary.portraitConfidenceScore}}</text>
+          <text>{{learningReportSummary.portraitConfidenceSummary}}</text>
+          <text wx:for="{{learningReportSummary.portraitConfidenceLedger}}" wx:key="id">证据账本：{{item.label}}｜{{item.status}}｜{{item.proof}}</text>
+          <text wx:for="{{learningReportSummary.portraitDecisionThresholds}}" wx:key="id">决策阈值：{{item.label}}｜{{item.rule}}</text>
+          <text wx:for="{{learningReportSummary.portraitObservationCadence}}" wx:key="day">观察周期：{{item.day}}｜{{item.check}}｜{{item.action}}</text>
+          <text wx:if="{{learningReportSummary.portraitParentTrustContract}}">{{learningReportSummary.portraitParentTrustContract.line}}</text>
+          <text wx:if="{{learningReportSummary.portraitParentTrustContract}}">分享边界：{{learningReportSummary.portraitParentTrustContract.shareLine}}</text>
+          <text wx:if="{{learningReportSummary.portraitConfidenceEscalationRule}}">升级/降级：{{learningReportSummary.portraitConfidenceEscalationRule}}</text>
+          <text wx:if="{{learningReportSummary.portraitConfidenceFamilyDecisionLine}}">家庭决策：{{learningReportSummary.portraitConfidenceFamilyDecisionLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.longitudinalPortraitTimeline}}">
+          <text class="parent-brief-label">长期画像时间轴</text>
+          <text wx:if="{{learningReportSummary.longitudinalPortraitTimelineTitle}}">{{learningReportSummary.longitudinalPortraitTimelineTitle}}</text>
+          <text>状态：{{learningReportSummary.longitudinalPortraitTimelineStatus}}</text>
+          <text>{{learningReportSummary.longitudinalPortraitTimelineSummary}}</text>
+          <text>{{learningReportSummary.longitudinalPortraitTimelineParentLine}}</text>
+          <text wx:for="{{learningReportSummary.longitudinalPortraitTimelineRows}}" wx:key="id">时间轴：{{item.day}}｜{{item.portraitQuestion}}｜证据 {{item.evidence}}｜{{item.decision}}</text>
+          <text wx:for="{{learningReportSummary.longitudinalPortraitUpdateGates}}" wx:key="id">画像门槛：{{item.label}}｜{{item.rule}}</text>
+          <text wx:for="{{learningReportSummary.longitudinalPortraitRiskTransitions}}" wx:key="*this">转向规则：{{item}}</text>
+          <text wx:for="{{learningReportSummary.longitudinalPortraitEvidenceBacklog}}" wx:key="*this">待补证据：{{item}}</text>
+          <text wx:if="{{learningReportSummary.longitudinalPortraitShareBoundary}}">分享边界：{{learningReportSummary.longitudinalPortraitShareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.portraitEvidenceMaturityTitle}}">
+          <text class="parent-brief-label">长期画像证据成熟度</text>
+          <text>成熟等级：{{learningReportSummary.portraitEvidenceMaturityLevel}}｜成熟分：{{learningReportSummary.portraitEvidenceMaturityScore}}</text>
+          <text>{{learningReportSummary.portraitEvidenceMaturitySummary}}</text>
+          <text wx:for="{{learningReportSummary.portraitEvidenceMaturityLanes}}" wx:key="id">证据层：{{item.label}}｜可做：{{item.allowedDecision}}｜不可做：{{item.blockedDecision}}</text>
+          <text wx:for="{{learningReportSummary.portraitEvidenceDecisionLocks}}" wx:key="id">决策锁：{{item.lock}}｜放行条件：{{item.release}}</text>
+          <text wx:for="{{learningReportSummary.portraitEvidenceUpdateGates}}" wx:key="id">画像更新镜像：{{item.label}}｜{{item.rule}}</text>
+          <text wx:if="{{learningReportSummary.portraitEvidenceMaturityParentAction}}">家长动作：{{learningReportSummary.portraitEvidenceMaturityParentAction}}</text>
+          <text wx:if="{{learningReportSummary.portraitEvidenceMaturityShareBoundary}}">分享边界：{{learningReportSummary.portraitEvidenceMaturityShareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.parentDecisionTrustTitle}}">
+          <text class="parent-brief-label">家长决策可信度</text>
+          <text>决策等级：{{learningReportSummary.parentDecisionTrustLevel}}｜可信分：{{learningReportSummary.parentDecisionTrustScore}}</text>
+          <text>{{learningReportSummary.parentDecisionTrustLine}}</text>
+          <text wx:for="{{learningReportSummary.parentDecisionTrustDeck}}" wx:key="id">决策卡：{{item.label}}｜{{item.verdict}}｜{{item.action}}｜证据 {{item.evidence}}</text>
+          <text wx:for="{{learningReportSummary.parentDecisionTrustGuardrails}}" wx:key="*this">护栏：{{item}}</text>
+          <text wx:for="{{learningReportSummary.parentDecisionTrustGaps}}" wx:key="*this">证据缺口：{{item}}</text>
+          <text wx:for="{{learningReportSummary.parentDecisionTrustWeeklyReview}}" wx:key="day">复核：{{item.day}}｜{{item.check}}｜{{item.action}}</text>
+          <text wx:if="{{learningReportSummary.parentDecisionTrustShareBoundary}}">分享边界：{{learningReportSummary.parentDecisionTrustShareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.socraticMemoryReportBridge}}">
+          <text class="parent-brief-label">点拨质量到长期画像</text>
+          <text>{{learningReportSummary.socraticMemoryReportSummary}}</text>
+          <text>{{learningReportSummary.socraticMemoryReportPrimaryAction}}</text>
+          <text>{{learningReportSummary.socraticMemoryReportDecisionLine}}</text>
+          <text>不加题规则：{{learningReportSummary.socraticMemoryReportNoIncreaseRule}}</text>
+          <text>家长证据：{{learningReportSummary.socraticMemoryReportParentProofLine}}</text>
+          <text>分享边界：{{learningReportSummary.socraticMemoryReportShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.socraticMemoryReportActions}}" wx:key="id">报告动作：{{item.label}}｜{{item.action}}｜证据 {{item.evidence}}</text>
+          <text wx:for="{{learningReportSummary.socraticMemoryReportEvidence}}" wx:key="*this">可信证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.crossWeekTrendBoard}}">
+          <text class="parent-brief-label">{{learningReportSummary.crossWeekTrendTitle}}</text>
+          <text>{{learningReportSummary.crossWeekTrendSummary}}</text>
+          <text>{{learningReportSummary.crossWeekTrendParentLine}}</text>
+          <text wx:for="{{learningReportSummary.crossWeekTrendRows}}" wx:key="id">跨周观察：{{item.label}}｜{{item.signal}}｜{{item.decision}}</text>
+          <text wx:if="{{learningReportSummary.crossWeekTrendUpdateRule}}">更新规则：{{learningReportSummary.crossWeekTrendUpdateRule}}</text>
+          <text wx:if="{{learningReportSummary.crossWeekTrendRegressionRule}}">退回规则：{{learningReportSummary.crossWeekTrendRegressionRule}}</text>
+          <text wx:if="{{learningReportSummary.crossWeekTrendShareBoundary}}">分享边界：{{learningReportSummary.crossWeekTrendShareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.homeSchoolCollaborationDigest}}">
+          <text class="parent-brief-label">{{learningReportSummary.homeSchoolDigestTitle}}</text>
+          <text>{{learningReportSummary.homeSchoolDigestTeacherQuestion}}</text>
+          <text>{{learningReportSummary.homeSchoolDigestParentQuestion}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolEvidencePacket}}" wx:key="*this">证据包：{{item}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolTeacherDo}}" wx:key="*this">老师侧：{{item}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolParentDo}}" wx:key="*this">家长侧：{{item}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolDoNotShare}}" wx:key="*this">不分享：{{item}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolHandoffCadence}}" wx:key="id">交接节奏：{{item.label}}｜{{item.action}}</text>
+          <text wx:if="{{learningReportSummary.homeSchoolShareBoundary}}">分享边界：{{learningReportSummary.homeSchoolShareBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.homeSchoolConferenceKit}}">
+          <text class="parent-brief-label">{{learningReportSummary.homeSchoolConferenceTitle}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolConferenceTeacherQuestions}}" wx:key="id">问老师：{{item.question}}｜证据：{{item.evidenceNeeded}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolConferenceObservationRequest}}" wx:key="id">课堂观察：{{item.observe}}｜{{item.why}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolConferenceParentLog}}" wx:key="id">家里记录：{{item.log}}｜{{item.proof}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolConferenceFeedbackLoop}}" wx:key="day">第 {{item.day}} 天：{{item.action}}｜{{item.releaseGate}}</text>
+          <text wx:if="{{learningReportSummary.homeSchoolConferenceReleaseGate}}">放行规则：{{learningReportSummary.homeSchoolConferenceReleaseGate.rule}}</text>
+          <text wx:for="{{learningReportSummary.homeSchoolConferenceBlockedFields}}" wx:key="*this">不带字段：{{item}}</text>
+          <text wx:if="{{learningReportSummary.homeSchoolConferenceShareBoundary}}">分享边界：{{learningReportSummary.homeSchoolConferenceShareBoundary}}</text>
+          <text wx:if="{{learningReportSummary.homeSchoolConferenceAiBoundary}}">AI 边界：{{learningReportSummary.homeSchoolConferenceAiBoundary}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.socraticPromptQualityJudge}}">
+          <text class="parent-brief-label">{{learningReportSummary.socraticPromptJudgeTitle}}</text>
+          <text>{{learningReportSummary.socraticPromptJudgeSummary}}</text>
+          <text>{{learningReportSummary.socraticPromptParentDecisionLine}}</text>
+          <text wx:for="{{learningReportSummary.socraticPromptEffectivePrompts}}" wx:key="id">有效追问：{{item.label}}｜{{item.why}}</text>
+          <text wx:for="{{learningReportSummary.socraticPromptMisleadingPrompts}}" wx:key="id">误导追问：{{item.label}}｜{{item.risk}}</text>
+          <text wx:for="{{learningReportSummary.socraticPromptStopConditions}}" wx:key="id">停止条件：{{item.label}}｜{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.socraticPromptParentRules}}" wx:key="id">家长判断：{{item.label}}｜{{item.rule}}</text>
+          <text>分享边界：{{learningReportSummary.socraticPromptShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.socraticPromptJudgeEvidence}}" wx:key="*this">质量证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.questionBankDecisionBridge}}">
+          <text class="parent-brief-label">{{learningReportSummary.questionBankDecisionTitle}}</text>
+          <text>{{learningReportSummary.questionBankDecisionSummary}}</text>
+          <text>{{learningReportSummary.questionBankDecisionLine}}</text>
+          <text>{{learningReportSummary.questionBankDecisionParentAction}}</text>
+          <text>不加题规则：{{learningReportSummary.questionBankDecisionXpGate}}</text>
+          <text>{{learningReportSummary.questionBankDecisionConfidenceLine}}</text>
+          <text wx:for="{{learningReportSummary.questionBankDecisionDeck}}" wx:key="id">题型卡：{{item.label}}｜第一步：{{item.firstStep}}｜掌握门槛：{{item.masteryGate}}</text>
+          <text wx:for="{{learningReportSummary.questionBankDecisionReviewWindows}}" wx:key="id">{{item.label}}回访：{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.questionBankDecisionEvidence}}" wx:key="*this">决策证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.questionBankRecallReportBridge}}">
+          <text class="parent-brief-label">{{learningReportSummary.questionBankRecallReportTitle}}</text>
+          <text>{{learningReportSummary.questionBankRecallReportSummary}}</text>
+          <text>{{learningReportSummary.questionBankRecallReportPortraitDecision}}</text>
+          <text>{{learningReportSummary.questionBankRecallReportParentAction}}</text>
+          <text wx:if="{{learningReportSummary.questionBankRecallReportIntensityLine}}">{{learningReportSummary.questionBankRecallReportIntensityLine}}</text>
+          <text wx:if="{{learningReportSummary.questionBankRecallReportReturnWindowLine}}">{{learningReportSummary.questionBankRecallReportReturnWindowLine}}</text>
+          <text wx:if="{{learningReportSummary.questionBankRecallReportGreenWordLine}}">绿色考点：{{learningReportSummary.questionBankRecallReportGreenWordLine}}</text>
+          <text wx:for="{{learningReportSummary.questionBankRecallReportGreenWordCards}}" wx:key="id">挖空卡：{{item.label}}｜关键词：{{item.targetKeyword}}｜{{item.clozePrompt}}</text>
+          <text wx:for="{{learningReportSummary.questionBankRecallReportGreenWordModes}}" wx:key="id">渐进测验：{{item.label}}｜{{item.rule}}</text>
+          <text>不刷量规则：{{learningReportSummary.questionBankRecallReportNoCramRule}}</text>
+          <text>分享边界：{{learningReportSummary.questionBankRecallReportShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.questionBankRecallReportCards}}" wx:key="id">训练卡：{{item.label}}｜{{item.action}}｜证据 {{item.proof}}</text>
+          <text wx:for="{{learningReportSummary.questionBankRecallReportPhases}}" wx:key="id">训练阶段：{{item.label}}｜{{item.rule}}</text>
+          <text wx:for="{{learningReportSummary.questionBankRecallReportEvidence}}" wx:key="*this">画像证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.memoryRiskReleaseModel}}">
+          <text class="parent-brief-label">{{learningReportSummary.memoryRiskReleaseTitle}}</text>
+          <text>放行状态：{{learningReportSummary.memoryRiskReleaseLevel}}</text>
+          <text>{{learningReportSummary.memoryRiskReleaseSummary}}</text>
+          <text>{{learningReportSummary.memoryRiskParentDecisionLine}}</text>
+          <text>{{learningReportSummary.memoryRiskXpReleaseLine}}</text>
+          <text wx:for="{{learningReportSummary.memoryRiskSignals}}" wx:key="id">记忆风险：{{item.label}}｜{{item.level}}｜{{item.evidence}}</text>
+          <text wx:for="{{learningReportSummary.memoryForgettingWarnings}}" wx:key="id">遗忘预警：{{item.label}}｜{{item.warning}}｜{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.memoryVariantReleaseGates}}" wx:key="id">变式放行：{{item.label}}｜{{item.status}}｜{{item.rule}}</text>
+          <text>分享边界：{{learningReportSummary.memoryRiskShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.memoryRiskEvidence}}" wx:key="*this">记忆证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.portraitDecisionReleaseSystem}}">
+          <text class="parent-brief-label">长期画像放行建议</text>
+          <text wx:if="{{learningReportSummary.portraitDecisionReleaseTitle}}">{{learningReportSummary.portraitDecisionReleaseTitle}}</text>
+          <text>放行等级：{{learningReportSummary.portraitDecisionReleaseLevel}}｜放行分：{{learningReportSummary.portraitDecisionReleaseScore}}</text>
+          <text>{{learningReportSummary.portraitDecisionReleaseSummary}}</text>
+          <text>{{learningReportSummary.portraitDecisionReleaseParentLine}}</text>
+          <text wx:for="{{learningReportSummary.portraitDecisionReleaseLanes}}" wx:key="id">{{item.readableLine}}</text>
+          <text wx:for="{{learningReportSummary.portraitDecisionReleaseLocks}}" wx:key="*this">画像锁：{{item}}</text>
+          <text wx:for="{{learningReportSummary.portraitDecisionReleaseQueue}}" wx:key="id">下一步：{{item.label}}｜证据 {{item.evidence}}</text>
+          <text wx:if="{{learningReportSummary.portraitDecisionReleaseXpLine}}">{{learningReportSummary.portraitDecisionReleaseXpLine}}</text>
+          <text wx:if="{{learningReportSummary.portraitDecisionReleaseShareBoundary}}">分享边界：{{learningReportSummary.portraitDecisionReleaseShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.portraitDecisionReleaseEvidence}}" wx:key="*this">放行证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.reportEvidenceReleaseGate}}">
+          <text class="parent-brief-label">报告证据放行闸</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceReleaseGateTitle}}">{{learningReportSummary.reportEvidenceReleaseGateTitle}}</text>
+          <text>报告放行：{{learningReportSummary.reportEvidenceReleaseDecision}}</text>
+          <text>{{learningReportSummary.reportEvidenceReleaseSummary}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceTopLine}}">{{learningReportSummary.reportEvidenceTopLine}}</text>
+          <text wx:if="{{learningReportSummary.nextEvidenceTopLine}}">下一证据：{{learningReportSummary.nextEvidenceTopLine}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceSingleSampleLock}}">单题锁：{{learningReportSummary.reportEvidenceSingleSampleLock.rule}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceDay7Gate}}">第7天闸：{{learningReportSummary.reportEvidenceDay7Gate.status}}｜{{learningReportSummary.reportEvidenceDay7Gate.rule}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceTwoWeekGate}}">两周稳定闸：{{learningReportSummary.reportEvidenceTwoWeekGate.status}}｜{{learningReportSummary.reportEvidenceTwoWeekGate.rule}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceSafeHandoff}}">家校交接：{{learningReportSummary.reportEvidenceSafeHandoff.status}}｜{{learningReportSummary.reportEvidenceSafeHandoff.handoffRule}}</text>
+          <text wx:for="{{learningReportSummary.reportEvidenceAllowedFields}}" wx:key="*this">可传字段：{{item}}</text>
+          <text wx:for="{{learningReportSummary.reportEvidenceBlockedFields}}" wx:key="*this">禁传字段：{{item}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceConfidenceFloor}}">证据底线：{{learningReportSummary.reportEvidenceConfidenceFloor.rule}}</text>
+          <text wx:if="{{learningReportSummary.reportEvidenceAiBoundary}}">AI 边界：{{learningReportSummary.reportEvidenceAiBoundary}}</text>
+          <text wx:for="{{learningReportSummary.reportEvidenceRequired}}" wx:key="*this">审计证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.gameReturnEvidence}}">
+          <text class="parent-brief-label">{{learningReportSummary.gameReturnEvidenceTitle}}</text>
+          <text>状态：{{learningReportSummary.gameReturnEvidenceStatus}}</text>
+          <text wx:if="{{learningReportSummary.gameReturnEvidenceWeakKey}}">回流卡点：{{learningReportSummary.gameReturnEvidenceWeakKey}}</text>
+          <text wx:if="{{learningReportSummary.gameReturnEvidenceNextRoute}}">下一路由：{{learningReportSummary.gameReturnEvidenceNextRoute}}</text>
+          <text wx:if="{{learningReportSummary.gameReturnEvidenceReleaseGate}}">放行门槛：{{learningReportSummary.gameReturnEvidenceReleaseGate}}</text>
+          <text wx:if="{{learningReportSummary.gameReturnEvidenceDay7Requirement}}">第7天要求：{{learningReportSummary.gameReturnEvidenceDay7Requirement}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceNextDayCardIds}}" wx:key="*this">次日回访卡：{{item}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceAllowedFields}}" wx:key="*this">可分享字段：{{item}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceBlockedFields}}" wx:key="*this">禁传字段：{{item}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceLocalCodeOwns}}" wx:key="*this">本地代码负责：{{item}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceAiMayRewrite}}" wx:key="*this">AI 可改写：{{item}}</text>
+          <text wx:for="{{learningReportSummary.gameReturnEvidenceRequired}}" wx:key="*this">审计证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.aiLocalImplementationMatrix}}">
+          <text class="parent-brief-label">{{learningReportSummary.aiLocalImplementationTitle}}</text>
+          <text>{{learningReportSummary.aiLocalImplementationSummary}}</text>
+          <text wx:if="{{learningReportSummary.aiLocalImplementationBoundary}}">{{learningReportSummary.aiLocalImplementationBoundary}}</text>
+          <text wx:if="{{learningReportSummary.aiLocalImplementationReleaseGate}}">新增能力门槛：{{learningReportSummary.aiLocalImplementationReleaseGate}}</text>
+          <text wx:for="{{learningReportSummary.aiLocalImplementationRows}}" wx:key="id">能力分工：{{item.label}}｜本地规则管放行，AI 只改写提示表达。</text>
+          <text wx:for="{{learningReportSummary.aiLocalImplementationNextBuildOrder}}" wx:key="*this">下一加厚：{{item}}</text>
+          <text wx:for="{{learningReportSummary.aiLocalImplementationBlockedFields}}" wx:key="*this">禁止字段：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.sourceEvidenceLedger}}">
+          <text class="parent-brief-label">{{learningReportSummary.sourceEvidenceLedgerTitle}}</text>
+          <text>{{learningReportSummary.sourceEvidenceLedgerSummary}}</text>
+          <text>下一步：{{learningReportSummary.sourceEvidenceSafestNextAction}}</text>
+          <text>{{learningReportSummary.sourceEvidenceLedgerLocalRule}}</text>
+          <text>AI 边界：{{learningReportSummary.sourceEvidenceLedgerAiBoundary}}</text>
+          <text wx:for="{{learningReportSummary.sourceEvidenceLanes}}" wx:key="id">资料链路：{{item.label}}｜{{item.status}}｜可生成：{{item.canProduce}}｜还缺：{{item.evidenceMissing[0]}}｜禁用：{{item.aiBlocked}}</text>
+          <text wx:for="{{learningReportSummary.sourceEvidenceRequired}}" wx:key="*this">报告证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossier}}">
+          <text class="parent-brief-label">{{learningReportSummary.uploadedMaterialDecisionDossierTitle}}</text>
+          <text>{{learningReportSummary.uploadedMaterialDecisionDossierSummary}}</text>
+          <text>{{learningReportSummary.uploadedMaterialDecisionDossierReportUseRule}}</text>
+          <text>{{learningReportSummary.uploadedMaterialDecisionDossierTalentRule}}</text>
+          <text>{{learningReportSummary.uploadedMaterialDecisionDossierWrongPaperRule}}</text>
+          <text>{{learningReportSummary.uploadedMaterialDecisionDossierSchoolRule}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate.status === 'portrait_candidate'}}">{{learningReportSummary.uploadedMaterialDecisionDossierChildStrengthLine}}</text>
+          <text wx:else>方法候选：先用真实错题、隔天回访和第 7 天小变式验证，不贴天赋或人格标签。</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMaterialLanes}}" wx:key="id">上传链路：{{item.label}}｜{{item.collected ? '已接入' : '待补充'}}｜可说：{{item.canSay}}｜不可说：{{item.cannotSay}}｜产出：{{item.output}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierHowToLearnBetter}}" wx:key="id">怎么学候选：{{item.label}}｜证据：{{item.evidence}}｜验证：{{item.verifyWith}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierMethodologyCards}}" wx:key="id">方法论：{{item.label}}｜{{item.principle}}｜验证：{{item.evidenceGate}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierDecisionHeatmap}}" wx:key="id">决策热区：{{item.label}}｜{{item.status}}｜{{item.nextAction}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyActionStack}}" wx:key="id">家庭行动：{{item.label}}｜{{item.action}}｜{{item.gate}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityGate}}">AI解析质量：{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityLine}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierAiQualityPlan}}" wx:key="id">质量核验：{{item.label}}｜{{item.status}}｜{{item.evidence}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint}}">个性化学习方案：{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint.recommendedMode.label}}｜{{learningReportSummary.uploadedMaterialDecisionDossierSolutionBlueprint.recommendedMode.why}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.solutionCards}}" wx:key="id">方案流转：{{item.label}}｜{{item.triggerLine}}｜{{item.gateLine}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionFusionRules}}" wx:key="id">材料融合：{{item.label}}｜{{item.useFor}}｜{{item.mustVerifyWith}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierSolutionOwnership}}" wx:key="id">AI/本地：{{item.label}}｜{{item.reason}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierFamilyDecisionWeeks}}" wx:key="id">决策日历：{{item.label}}｜{{item.parentDecision}}｜{{item.releaseGate}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierMonthlyReview}}">月度复盘：{{learningReportSummary.uploadedMaterialDecisionDossierMonthlyReview.decision}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierWrongPaperDiagnosisCards}}" wx:key="id">错题诊断：{{item.label}}｜{{item.rule}}｜{{item.nextAction}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierDetailedSections}}" wx:key="id">详细章节：{{item.label}}｜{{item.status}}｜{{item.body}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierParentDecisionSections}}" wx:key="id">报告章节：{{item.label}}｜{{item.body}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.aiLocalCards}}" wx:key="id">AI/本地分工：{{item.label}}｜{{item.ownsLine}}｜{{item.boundaryLine}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate}}">放行门槛：{{learningReportSummary.uploadedMaterialDecisionDossierReleaseGate.status}}</text>
+          <text wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierShareSafePayload}}">分享安全：只带第一步、错因和回访动作，不带原题、完整结果、分数或比较信息。</text>
+          <view class="parent-brief-block" wx:if="{{learningReportSummary.servicePathway}}">
+            <text class="parent-brief-label">{{learningReportSummary.servicePathwayTitle}}</text>
+            <text>路径状态：{{learningReportSummary.servicePathwayStatus}}｜{{learningReportSummary.servicePathwayNextAction}}</text>
+            <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.serviceModeCards}}" wx:key="id">模式：{{item.label}}｜{{item.actionLine}}｜{{item.gateLine}}</text>
+            <text wx:if="{{learningReportSummary.servicePathwayModeChoiceProtocol}}">家庭模式选择：{{learningReportSummary.servicePathwayModeChoicePositioning}}</text>
+            <text wx:for="{{learningReportSummary.servicePathwayModeChoiceCards}}" wx:key="id">路径卡：{{item.recommended ? '推荐' : '可选'}}｜{{item.label}}｜{{item.choiceRole}}｜{{item.childCanChoose ? '孩子可选' : item.lockReason}}</text>
+            <text wx:for="{{learningReportSummary.servicePathwayModeChoiceGuardrails}}" wx:key="id">护栏：{{item.rule}}</text>
+            <text wx:if="{{learningReportSummary.servicePathwayModeChoiceReleaseGate}}">模式放行：{{learningReportSummary.servicePathwayModeChoiceReleaseGate}}</text>
+            <text wx:for="{{learningReportSummary.servicePathwayTiers}}" wx:key="id">服务：{{item.label}}｜{{item.entryGate}}</text>
+            <text wx:for="{{learningReportSummary.servicePathwayValidationPlan}}" wx:key="day">7天验证：{{item.label}}｜{{item.action}}｜证据 {{item.evidence}}</text>
+            <text wx:for="{{learningReportSummary.uploadedMaterialDeliveryView.aiLocalCards}}" wx:key="id">AI/本地：{{item.label}}｜{{item.ownsLine}}</text>
+            <text wx:if="{{learningReportSummary.servicePathwayReleaseGate}}">{{learningReportSummary.uploadedMaterialDeliveryView.releaseLine}}</text>
+            <text wx:if="{{learningReportSummary.servicePathwayMoatLine}}">{{learningReportSummary.servicePathwayMoatLine}}</text>
+          </view>
+          <view class="parent-brief-block" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierHandoff}}">
+            <text class="parent-brief-label">刚上传资料</text>
+            <text>{{learningReportSummary.uploadedMaterialDecisionDossierHandoffTitle}}</text>
+            <text>{{learningReportSummary.uploadedMaterialDecisionDossierHandoffLine}}</text>
+            <text>资料链路：{{learningReportSummary.uploadedMaterialDecisionDossierHandoffSourceSchemaId}}｜报告 {{learningReportSummary.uploadedMaterialDecisionDossierHandoffReportId}}</text>
+          </view>
+          <view class="profile-action-row" wx:if="{{learningReportSummary.uploadedMaterialDecisionDossierRouteActions.length}}">
+            <button class="profile-small-primary" wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierRouteActions}}" wx:key="id" data-id="{{item.id}}" data-label="{{item.label}}" data-route="{{item.route}}" data-reason="{{item.reason}}" bindtap="runUploadedMaterialDossierAction">{{item.label}}</button>
+          </view>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierNextEvidenceQueue}}" wx:key="id">下一证据：{{item.laneLabel}}｜{{item.label}}｜{{item.reason}}</text>
+          <text wx:for="{{learningReportSummary.uploadedMaterialDecisionDossierEvidenceRequired}}" wx:key="*this">卷宗证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.questionBankShareRelayDeck}}">
+          <text class="parent-brief-label">{{learningReportSummary.questionBankShareRelayTitle}}</text>
+          <text>{{learningReportSummary.questionBankShareRelayLine}}</text>
+          <text>{{learningReportSummary.questionBankShareRelayGameRule}}</text>
+          <text>{{learningReportSummary.questionBankShareRelayParentDecision}}</text>
+          <text>{{learningReportSummary.questionBankShareRelayShareLine}}</text>
+          <text wx:for="{{learningReportSummary.questionBankShareRelayCards}}" wx:key="id">接力卡：{{item.label}}｜第一步：{{item.firstStep}}｜家长检查：{{item.parentCheck}}</text>
+          <text wx:for="{{learningReportSummary.questionBankShareRelayWindows}}" wx:key="id">{{item.label}}：{{item.action}}</text>
+          <text wx:if="{{learningReportSummary.questionBankShareRelayPayload}}">可分享字段：{{learningReportSummary.questionBankShareRelayPayload.allowed_fields}}</text>
+          <text wx:if="{{learningReportSummary.questionBankShareRelayPayload}}">禁止字段：{{learningReportSummary.questionBankShareRelayPayload.blocked_fields}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.fallbackRecoveryReportBridge}}">
+          <text class="parent-brief-label">{{learningReportSummary.fallbackRecoveryTitle}}</text>
+          <text>{{learningReportSummary.fallbackRecoveryReportLine}}</text>
+          <text>下一小步：{{learningReportSummary.fallbackRecoveryNextAction}}</text>
+          <text>{{learningReportSummary.fallbackRecoveryParentDecision}}</text>
+          <text>{{learningReportSummary.fallbackRecoveryShareBoundary}}</text>
+          <text wx:for="{{learningReportSummary.fallbackRecoverySequence}}" wx:key="id">兜底流转：{{item.label}}｜{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.fallbackRecoveryEvidence}}" wx:key="*this">兜底证据：{{item}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.classroomDecisionLine}}">
+          <text class="parent-brief-label">课堂级决策板</text>
+          <text>{{learningReportSummary.classroomDecisionLine}}</text>
+          <text wx:if="{{learningReportSummary.classroomTeacherLens}}">{{learningReportSummary.classroomTeacherLens}}</text>
+          <text wx:if="{{learningReportSummary.classroomParentLens}}">家长：{{learningReportSummary.classroomParentLens}}</text>
+          <text wx:for="{{learningReportSummary.classroomObservation}}" wx:key="*this">{{item}}</text>
+          <text wx:for="{{learningReportSummary.classroomObservationRubric}}" wx:key="id">课堂量表：{{item.label}}｜{{item.metric}}｜{{item.rule}}</text>
+          <text wx:for="{{learningReportSummary.classroomInterventionLadder}}" wx:key="level">干预梯度 {{item.level}}：{{item.label}}｜{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.classroomEvidencePacket}}" wx:key="*this">课堂证据包：{{item}}</text>
+          <text wx:if="{{learningReportSummary.classroomCadence}}">节奏：{{learningReportSummary.classroomCadence}}</text>
+          <text wx:if="{{learningReportSummary.classroomEvidenceRule}}">证据：{{learningReportSummary.classroomEvidenceRule}}</text>
+          <text wx:if="{{learningReportSummary.classroomStopRule}}">停止规则：{{learningReportSummary.classroomStopRule}}</text>
+          <text wx:if="{{learningReportSummary.classroomEscalationRule}}">升级规则：{{learningReportSummary.classroomEscalationRule}}</text>
+          <text wx:if="{{learningReportSummary.classroomSuccessRule}}">成功规则：{{learningReportSummary.classroomSuccessRule}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.familyDecisionTitle}}">
+          <text class="parent-brief-label">{{learningReportSummary.familyDecisionTitle}}</text>
+          <text>{{learningReportSummary.familyDecisionTonight}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionCard}}">决策卡：{{learningReportSummary.familyDecisionCard.shareTitle}}｜{{learningReportSummary.familyDecisionCard.shareSummary}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionDoNotDo}}" wx:key="*this">今晚不做：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionEvidenceChecklist}}" wx:key="*this">证据清单：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionParentMeetingScript}}" wx:key="*this">复盘问题：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionIntakeSourcePlan}}" wx:key="id">可录入：{{item.label}}｜{{item.whatToUpload}}｜本地：{{item.localRule}}｜AI：{{item.aiUse}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionPublicK12SourceStrategy}}">公开资料：{{learningReportSummary.familyDecisionPublicK12SourceStrategy.useAs}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionPublicK12SourceStrategy}}">不用作：{{learningReportSummary.familyDecisionPublicK12SourceStrategy.doNotUseAs}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionAiLocalWorkSplit}}" wx:key="id">{{item.label}}：{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionWeeklyReviewAgenda}}" wx:key="*this">周复盘：{{item}}</text>
+          <text wx:for="{{learningReportSummary.familyDecisionParentActionLadder}}" wx:key="level">家长动作 {{item.level}}：{{item.label}}｜{{item.action}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionSevenDayGate}}">7天继续：{{learningReportSummary.familyDecisionSevenDayGate.continueRule}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionSevenDayGate}}">7天降级：{{learningReportSummary.familyDecisionSevenDayGate.reduceRule}}</text>
+          <text wx:if="{{learningReportSummary.familyDecisionShareLine}}">{{learningReportSummary.familyDecisionShareLine}}</text>
+        </view>
+        <view class="parent-brief-block" wx:if="{{learningReportSummary.tonightDecisionBrief}}">
+          <text class="parent-brief-label">{{learningReportSummary.tonightDecisionTitle}}</text>
+          <text>{{learningReportSummary.tonightDecisionHeadline}}</text>
+          <text>家长话术：{{learningReportSummary.tonightDecisionParentScript}}</text>
+          <text>孩子只做：{{learningReportSummary.tonightDecisionChildScript}}</text>
+          <text wx:for="{{learningReportSummary.tonightDecisionDo}}" wx:key="*this">今晚做：{{item}}</text>
+          <text wx:for="{{learningReportSummary.tonightDecisionDoNot}}" wx:key="*this">今晚不做：{{item}}</text>
+          <text wx:for="{{learningReportSummary.tonightDecisionStopConditions}}" wx:key="id">停止条件：{{item.label}}｜{{item.action}}</text>
+          <text wx:for="{{learningReportSummary.tonightDecisionParentRules}}" wx:key="id">家长规则：{{item.label}}｜{{item.rule}}</text>
+          <text>明天回访：{{learningReportSummary.tonightDecisionTomorrowRevisit}}</text>
+          <text>放行门槛：{{learningReportSummary.tonightDecisionReleaseGate}}</text>
+          <text wx:for="{{learningReportSummary.tonightDecisionEvidenceChecklist}}" wx:key="*this">证据：{{item}}</text>
+          <text>{{learningReportSummary.tonightDecisionShareLine}}</text>
+        </view>
+        <view class="family-decision-bridge" wx:if="{{learningReportSummary.familyDecisionActionBridge}}">
+          <view class="family-decision-bridge-title">{{learningReportSummary.familyDecisionActionBridge.title}}</view>
+          <view class="family-decision-bridge-summary">{{learningReportSummary.familyDecisionActionBridge.summary}}</view>
+          <view class="family-decision-bridge-line">{{learningReportSummary.familyDecisionActionBridge.subjectLine}}</view>
+          <view class="family-decision-bridge-grid">
+            <button
+              class="family-decision-bridge-action"
+              wx:for="{{learningReportSummary.familyDecisionActionBridge.actions}}"
+              wx:key="id"
+              data-id="{{item.id}}"
+              data-label="{{item.label}}"
+              data-route="{{item.route}}"
+              data-reason="{{item.reason}}"
+              data-evidence="{{item.evidence}}"
+              data-share-intent="{{item.shareIntent}}"
+              bindtap="runFamilyDecisionBridgeAction"
+            >
+              <text class="family-decision-bridge-action-label">{{item.label}}</text>
+              <text class="family-decision-bridge-action-reason">{{item.reason}}</text>
+            </button>
+          </view>
+          <view class="family-decision-bridge-evidence">证据：{{learningReportSummary.familyDecisionActionBridge.evidenceLine}}</view>
+          <view class="family-decision-bridge-stop">停止规则：{{learningReportSummary.familyDecisionActionBridge.stopRule}}</view>
+        </view>
         <view class="parent-brief-block">
           <text class="parent-brief-label">下一步方案</text>
           <text>{{learningReportSummary.planLine}}</text>
+          <text wx:if="{{learningReportSummary.howToLearnBetter}}">怎么学更好：{{learningReportSummary.howToLearnBetter}}</text>
           <text>{{learningReportSummary.ctaReason}}</text>
+        </view>
+        <view class="parent-brief-block">
+          <text class="parent-brief-label">行动闭环</text>
+          <text>家长：{{learningReportSummary.parentScript}}</text>
+          <text>孩子：{{learningReportSummary.childScript}}</text>
+          <text>下次看：{{learningReportSummary.nextEvidenceLine}}</text>
+          <text wx:if="{{learningReportSummary.capabilityNextLine}}">{{learningReportSummary.capabilityNextLine}}</text>
+          <text wx:if="{{learningReportSummary.capabilityEvidenceLine}}">{{learningReportSummary.capabilityEvidenceLine}}</text>
+          <text wx:if="{{learningReportSummary.subjectSkillDepthParentQuestion}}">家长题型追问：{{learningReportSummary.subjectSkillDepthParentQuestion}}</text>
+          <text wx:if="{{learningReportSummary.curriculumParentDecisionLine}}">{{learningReportSummary.curriculumParentDecisionLine}}</text>
+          <text>{{learningReportSummary.reviewTrigger}}</text>
+        </view>
+        <view class="report-action-board" wx:if="{{learningReportSummary.sevenDayActionBoard}}">
+          <view class="report-action-board-title">{{learningReportSummary.sevenDayActionBoard.title}}</view>
+          <view class="report-action-row" wx:if="{{learningReportSummary.reportTodayActionLine}}">
+            <text class="report-action-label">今日队列</text>
+            <text>{{learningReportSummary.reportTodayActionLine}}</text>
+          </view>
+          <view class="report-action-row" wx:if="{{learningReportSummary.reportScoreReturnCard}}">
+            <text class="report-action-label">成绩回访卡</text>
+            <text>{{learningReportSummary.reportScoreReturnLine}}</text>
+            <text>{{learningReportSummary.reportScoreReturnXpGate}}</text>
+          </view>
+          <view class="report-action-row">
+            <text class="report-action-label">今天</text>
+            <text>{{learningReportSummary.sevenDayActionBoard.today}}</text>
+          </view>
+          <view class="report-action-row">
+            <text class="report-action-label">明天</text>
+            <text>{{learningReportSummary.sevenDayActionBoard.tomorrow}}</text>
+          </view>
+          <view class="report-action-row">
+            <text class="report-action-label">第7天</text>
+            <text>{{learningReportSummary.sevenDayActionBoard.review}}</text>
+          </view>
+          <view class="report-action-row">
+            <text class="report-action-label">家长只问</text>
+            <text>{{learningReportSummary.sevenDayActionBoard.parentScript}}</text>
+          </view>
+          <view class="report-action-row">
+            <text class="report-action-label">证据</text>
+            <text>{{learningReportSummary.sevenDayActionBoard.evidenceLine}}</text>
+          </view>
+          <view class="report-day-strip" wx:if="{{learningReportSummary.sevenDayPlan.length}}">
+            <view class="report-day-chip" wx:for="{{learningReportSummary.sevenDayPlan}}" wx:key="day">
+              <text>第{{item.day}}天</text>
+              <text>{{item.minutes}}分钟</text>
+            </view>
+          </view>
         </view>
         <view class="parent-brief-block" wx:if="{{learningReportSummary.missingLine}}">
           <text class="parent-brief-label">可补充项</text>
@@ -434,6 +1706,13 @@
           <text class="parent-brief-label">先用哪个能力</text>
           <text>{{learningAssessment.capability.label}} · {{learningAssessment.capability.reason}}</text>
         </view>
+        <view class="parent-brief-block" wx:if="{{learningAssessment.talentLearningMethodPlan}}">
+          <text class="parent-brief-label">{{learningAssessment.talentLearningMethodPlan.title}}</text>
+          <text>{{learningAssessment.talentLearningMethodPlan.parentLine}}</text>
+          <text>{{learningAssessment.talentLearningMethodPlan.nextAction}}</text>
+          <text wx:for="{{learningAssessment.talentLearningMethodPlan.confirmWithEvidence}}" wx:key="*this">确认：{{item}}</text>
+          <text wx:for="{{learningAssessment.talentLearningMethodPlan.blockedClaims}}" wx:key="*this">不做：{{item}}</text>
+        </view>
         <view class="teacher-actions">
           <button bindtap="generateLearningReport">生成学习画像</button>
           <button bindtap="goLearningReportCta">{{learningReportSummary.ctaLabel}}</button>
@@ -442,7 +1721,6 @@
         </view>
       </view>
       </block>
-
       <block wx:if="{{profilePanel === 'teacher'}}">
       <view class="parent-section-card teacher-card" wx:if="{{parentReport}}">
         <view class="section-title-row compact">
@@ -516,15 +1794,214 @@
         </view>
         <view class="share-headline">{{dailyShareCard.title}}</view>
         <view class="share-subtitle">{{dailyShareCard.subtitle}}</view>
+        <view class="share-family-action-line" wx:if="{{dailyShareCard.unifiedNextAction}}">下一步：{{dailyShareCard.unifiedNextAction.actionLabel}}</view>
+        <view class="share-family-action-line" wx:if="{{dailyShareCard.globalEvidenceBrief}}">{{dailyShareCard.globalEvidenceBrief.shareLine}}</view>
+        <view class="share-family-action-line" wx:if="{{dailyShareCard.reportDailyAction.ready}}">今日行动：{{dailyShareCard.reportDailyAction.actionLine}}</view>
         <view class="share-level-row">
           <view class="share-level">{{dailyShareCard.levelText}}</view>
           <view class="share-achievement">{{dailyShareCard.achievementText}}</view>
+        </view>
+        <view class="share-family-action" wx:if="{{dailyShareCard.familyActionCard}}">
+          <view class="share-family-action-title">{{dailyShareCard.familyActionCard.title}}</view>
+          <view class="share-family-action-line">{{dailyShareCard.familyActionCard.judgement}}</view>
+          <view class="share-family-action-line">今晚：{{dailyShareCard.familyActionCard.tonightAction}}</view>
+          <view class="share-family-action-line">家长只问：{{dailyShareCard.familyActionCard.parentQuestion}}</view>
+          <view class="share-family-action-line">明天复核：{{dailyShareCard.familyActionCard.tomorrowCheck}}</view>
+          <view class="share-family-action-evidence">{{dailyShareCard.familyActionCard.evidenceLine}}</view>
+          <view class="share-family-action-evidence" wx:if="{{dailyShareCard.familyActionCard.capabilityLine}}">{{dailyShareCard.familyActionCard.capabilityLine}}</view>
+          <view class="share-family-action-evidence" wx:if="{{dailyShareCard.familyActionCard.subjectDepthLine}}">题型：{{dailyShareCard.familyActionCard.subjectDepthLine}}</view>
+          <view class="share-family-action-boundary">{{dailyShareCard.familyActionCard.boundary}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.subjectSkillDepth}}">
+          <view class="share-conversation-title">{{dailyShareCard.subjectSkillDepth.label}}</view>
+          <view>第一步：{{dailyShareCard.subjectSkillDepth.firstStep}}</view>
+          <view>家长只问：{{dailyShareCard.subjectSkillDepth.parentQuestion}}</view>
+          <view wx:if="{{dailyShareCard.subjectSkillDepth.reportSignal}}">{{dailyShareCard.subjectSkillDepth.reportSignal}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.curriculumSpine}}">
+          <view class="share-conversation-title">{{dailyShareCard.curriculumSpine.title}}</view>
+          <view>{{dailyShareCard.curriculumSpine.shareLine}}</view>
+          <view>{{dailyShareCard.curriculumSpine.parentDecisionLine}}</view>
+          <view wx:for="{{dailyShareCard.curriculumSpine.progression}}" wx:key="id">{{item.order}}. {{item.label}}：{{item.evidence}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.visualSocraticMatrix}}">
+          <view class="share-conversation-title">{{dailyShareCard.visualSocraticMatrix.title}}</view>
+          <view>{{dailyShareCard.visualSocraticMatrix.visualBoundary}}</view>
+          <view wx:for="{{dailyShareCard.visualSocraticMatrix.boardMoves}}" wx:key="id">{{item.order}}. {{item.drawAction}}</view>
+          <view wx:for="{{dailyShareCard.visualSocraticMatrix.socraticQuestions}}" wx:key="id">追问{{item.order}}：{{item.question}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.capabilityGap}}">
+          <view class="share-conversation-title">{{dailyShareCard.capabilityGap.label}}</view>
+          <view>{{dailyShareCard.capabilityGap.nextAction}}</view>
+          <view wx:if="{{dailyShareCard.capabilityGap.evidenceLine}}">{{dailyShareCard.capabilityGap.evidenceLine}}</view>
+          <view wx:if="{{dailyShareCard.capabilityGap.ledgerLine}}">{{dailyShareCard.capabilityGap.ledgerLine}}</view>
         </view>
         <view class="share-stat-grid">
           <view class="share-stat" wx:for="{{dailyShareCard.stats}}" wx:key="id">
             <view class="share-stat-value">{{item.value}}</view>
             <view class="share-stat-label">{{item.label}}</view>
           </view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.parentConversationPlan}}">
+          <view class="share-conversation-title">今晚这样问</view>
+          <view>开场：{{dailyShareCard.parentConversationPlan.open}}</view>
+          <view>追问：{{dailyShareCard.parentConversationPlan.follow}}</view>
+          <view>边界：{{dailyShareCard.parentConversationPlan.avoid}}</view>
+          <view wx:if="{{dailyShareCard.shareOutcome}}">明天：{{dailyShareCard.shareOutcome.nextAction}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.shareChallengePlan}}">
+          <view class="share-conversation-title">{{dailyShareCard.shareChallengePlan.title}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.goal}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.noRankingLine}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.modeLine}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.steps}}" wx:key="id">{{item.label}}：{{item.text}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.reviewCadence}}" wx:key="id">{{item.label}}回访：{{item.text}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.privacyBoundary}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.peerSafeLine}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.evidenceContractLine}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.relayChain}}" wx:key="id">{{item.label}}接力：{{item.text}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.returnPathContract}}" wx:key="id">{{item.label}}：{{item.text}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.parentEvidenceLine}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.successRule}}</view>
+          <view>{{dailyShareCard.shareChallengePlan.failureFallback}}</view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.naturalSpreadLoop}}">
+            自然接力：{{dailyShareCard.shareChallengePlan.naturalSpreadLoop.inviteLine}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.naturalSpreadLoop}}">
+            接收者：{{dailyShareCard.shareChallengePlan.naturalSpreadLoop.receiverPrompt}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.naturalSpreadLoop}}">
+            家长放心：{{dailyShareCard.shareChallengePlan.naturalSpreadLoop.parentReassuranceLine}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.naturalSpreadLoop}}">
+            裂变护栏：{{dailyShareCard.shareChallengePlan.naturalSpreadLoop.viralGuardrails}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.spreadReadinessGate}}">
+            传播门槛：{{dailyShareCard.shareChallengePlan.spreadReadinessGate.shareModeLine}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.spreadReadinessGate}}">
+            降级规则：{{dailyShareCard.shareChallengePlan.spreadReadinessGate.fallbackLine}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.peerRelaySeasonArc}}">
+            7天接力赛季：{{dailyShareCard.shareChallengePlan.peerRelaySeasonArc.seasonLine}}
+          </view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.peerRelaySeasonArc.milestones}}" wx:key="id">赛季节点：{{item.day}}｜{{item.title}}｜{{item.action}}｜证据 {{item.evidence}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.peerRelaySeasonArc.badgeRules}}" wx:key="id">徽章门槛：{{item.rule}}</view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.safeRelayChallengePacket}}">
+            {{dailyShareCard.shareChallengePlan.safeRelayChallengePacket.title}}：{{dailyShareCard.shareChallengePlan.safeRelayChallengePacket.evidenceContract}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.safeRelayChallengePacket}}">
+            接收动作：{{dailyShareCard.shareChallengePlan.safeRelayChallengePacket.receiverAction}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.safeRelayChallengePacket}}">
+            {{dailyShareCard.shareChallengePlan.safeRelayChallengePacket.noRankingRule}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack}}">
+            {{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.title}}：{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.wrongCause}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack}}">
+            错因第一步：{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.firstStep}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack}}">
+            接收动作：{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.receiverAction}}
+          </view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.hooks}}" wx:key="id">错因挑战钩子：{{item.label}}｜{{item.line}}</view>
+          <view wx:for="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.receiverSteps}}" wx:key="id">接收步骤：{{item.label}}｜{{item.action}}｜证据 {{item.evidence}}</view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack}}">
+            本地门禁：{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.localReleaseGate.status}}｜{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.localReleaseGate.rule}}
+          </view>
+          <view wx:if="{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack}}">
+            隐私边界：{{dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack.privacyBoundary}}
+          </view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.socraticMemoryRelay}}">
+          <view class="share-conversation-title">{{dailyShareCard.socraticMemoryRelay.title}}</view>
+          <view>点拨行动：{{dailyShareCard.socraticMemoryRelay.action}}</view>
+          <view>家长判断：{{dailyShareCard.socraticMemoryRelay.decision}}</view>
+          <view>不加题规则：{{dailyShareCard.socraticMemoryRelay.noIncreaseRule}}</view>
+          <view>分享边界：{{dailyShareCard.socraticMemoryRelay.shareBoundary}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.tonightDecisionRelay}}">
+          <view class="share-conversation-title">{{dailyShareCard.tonightDecisionRelay.title}}</view>
+          <view>{{dailyShareCard.tonightDecisionRelay.headline}}</view>
+          <view>家长只问：{{dailyShareCard.tonightDecisionRelay.parentQuestion}}</view>
+          <view>明天回访：{{dailyShareCard.tonightDecisionRelay.tomorrow}}</view>
+          <view>分享边界：{{dailyShareCard.tonightDecisionRelay.shareLine}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.questionBankShareRelayDeck}}">
+          <view class="share-conversation-title">{{dailyShareCard.questionBankShareRelayDeck.title}}</view>
+          <view>{{dailyShareCard.questionBankShareRelayDeck.gameRule}}</view>
+          <view>{{dailyShareCard.questionBankShareRelayDeck.parentDecisionLine}}</view>
+          <view>{{dailyShareCard.questionBankShareRelayDeck.shareLine}}</view>
+          <view wx:for="{{dailyShareCard.questionBankShareRelayDeck.relayCards}}" wx:key="id">题型接力：{{item.label}}｜第一步：{{item.firstStep}}</view>
+          <view wx:for="{{dailyShareCard.questionBankShareRelayDeck.reviewWindows}}" wx:key="id">{{item.label}}：{{item.action}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{dailyShareCard.questionBankVisualShareRelayDeck}}">
+          <view class="share-conversation-title">{{dailyShareCard.questionBankVisualShareRelayDeck.title}}</view>
+          <view>接力题型：{{dailyShareCard.questionBankVisualShareRelayDeck.relayTitle}}</view>
+          <view wx:for="{{dailyShareCard.questionBankVisualShareRelayDeck.boardLayers}}" wx:key="id">小黑板：{{item.label}}｜{{item.drawAction}}｜孩子说：{{item.studentLine}}</view>
+          <view wx:for="{{dailyShareCard.questionBankVisualShareRelayDeck.exitCriteria}}" wx:key="*this">退出标准：{{item}}</view>
+          <view>家长检查：{{dailyShareCard.questionBankVisualShareRelayDeck.parentLine}}</view>
+          <view>分享边界：{{dailyShareCard.questionBankVisualShareRelayDeck.shareBoundary}}</view>
+          <view>不带字段：{{dailyShareCard.questionBankVisualShareRelayDeck.blockedFields}}</view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{communityShareRelayBoard}}">
+          <view class="share-conversation-title">{{communityShareRelayBoard.title}}</view>
+          <view>{{communityShareRelayBoard.summary}}</view>
+          <view>{{communityShareRelayBoard.noRankingLine}}</view>
+          <view wx:if="{{communityShareRelayBoard.returnRateLabel}}">{{communityShareRelayBoard.returnRateLabel}}</view>
+          <view>{{communityShareRelayBoard.privacyBoundary}}</view>
+          <view>{{communityShareRelayBoard.peerSafeLine}}</view>
+          <view wx:if="{{communityShareRelayBoard.naturalSpreadLoop}}">
+            自然裂变：{{communityShareRelayBoard.naturalSpreadLoop.inviteLine}}｜{{communityShareRelayBoard.naturalSpreadLoop.proofOfLifeSignal}}
+          </view>
+          <view wx:if="{{communityShareRelayBoard.spreadReadinessGate}}">
+            传播状态：{{communityShareRelayBoard.spreadReadinessGate.status}}｜{{communityShareRelayBoard.spreadReadinessGate.shareModeLine}}
+          </view>
+          <view wx:if="{{communityShareRelayBoard.peerRelayChallengeLadder}}">
+            同伴接力：{{communityShareRelayBoard.peerRelayChallengeLadder.title}}｜{{communityShareRelayBoard.peerRelayChallengeLadder.boundary}}
+          </view>
+          <view wx:if="{{communityShareRelayBoard.peerRelaySeasonArc}}">
+            赛季接力：{{communityShareRelayBoard.peerRelaySeasonArc.title}}｜{{communityShareRelayBoard.peerRelaySeasonArc.seasonLine}}
+          </view>
+          <view wx:for="{{communityShareRelayBoard.peerRelaySeasonArc.milestones}}" wx:key="id">赛季节点：{{item.day}}｜{{item.title}}｜{{item.evidence}}</view>
+          <view wx:for="{{communityShareRelayBoard.peerRelayChallengeLadder.stages}}" wx:key="id">接力阶梯：{{item.label}}｜{{item.visibleLine}}｜{{item.receiverAction}}｜证据 {{item.proofRequired}}</view>
+          <view wx:for="{{communityShareRelayBoard.copyableChallengeTemplates}}" wx:key="id">可复制挑战：{{item.title}}｜{{item.copy}}｜证据 {{item.proofRequired}}</view>
+          <view wx:for="{{communityShareRelayBoard.sourceBackedChallengeDeck}}" wx:key="id">来源挑战：{{item.title}}｜{{item.receiverPrompt}}｜使用判断 {{item.commercialDecision}}｜许可 {{item.licenseSignal}}</view>
+          <view wx:for="{{communityShareRelayBoard.publicK12IntakeChallengeDeck}}" wx:key="id">公开作业挑战：{{item.title}}｜{{item.firstStepPrompt}}｜{{item.shareHook}}｜禁止 {{item.blockedUse[0]}}</view>
+          <view wx:if="{{communityShareRelayBoard.localSpreadReleaseGate}}">
+            本地放行门禁：{{communityShareRelayBoard.localSpreadReleaseGate.status}}｜{{communityShareRelayBoard.localSpreadReleaseGate.rule}}
+          </view>
+          <view wx:for="{{communityShareRelayBoard.lanes}}" wx:key="id">{{item.label}}：{{item.action}}｜{{item.evidence}}</view>
+          <view wx:for="{{communityShareRelayBoard.visualRelayProtocol}}" wx:key="id">小黑板接力协议：{{item.label}}｜{{item.action}}｜证据 {{item.evidence}}｜禁止 {{item.blocked}}</view>
+          <view wx:for="{{communityShareRelayBoard.visualRelayProofChecklist}}" wx:key="*this">小黑板证据清单：{{item}}</view>
+          <view wx:if="{{communityShareRelayBoard.visualRelayBoundary}}">小黑板接力边界：{{communityShareRelayBoard.visualRelayBoundary}}</view>
+          <view wx:for="{{communityShareRelayBoard.recentRuns}}" wx:key="id">接力记录：{{item.code}} · {{item.evidence}}</view>
+          <view wx:for="{{communityShareRelayBoard.challengeCompletions}}" wx:key="id">完成回流：{{item.share_code || item.code}} · {{item.completion_kind || item.type}}</view>
+          <view>{{communityShareRelayBoard.contractLine}}</view>
+          <view>{{communityShareRelayBoard.returnPathLine}}</view>
+          <view wx:if="{{communityShareRelayBoard.safeRelayChallengePacket}}">
+            安全字段：{{communityShareRelayBoard.safeRelayChallengePacket.allowedFields}}
+          </view>
+          <view wx:if="{{communityShareRelayBoard.safeRelayChallengePacket}}">
+            不带字段：{{communityShareRelayBoard.safeRelayChallengePacket.blockedFields}}
+          </view>
+          <view wx:if="{{communityShareRelayBoard.wrongCauseViralChallengePack}}">
+            错因挑战传播包：{{communityShareRelayBoard.wrongCauseViralChallengePack.wrongCause}}｜{{communityShareRelayBoard.wrongCauseViralChallengePack.receiverAction}}
+          </view>
+          <view wx:for="{{communityShareRelayBoard.wrongCauseViralChallengePack.hooks}}" wx:key="id">错因传播钩子：{{item.label}}｜{{item.line}}</view>
+          <view wx:for="{{communityShareRelayBoard.wrongCauseViralChallengePack.receiverSteps}}" wx:key="id">错因接收步骤：{{item.label}}｜{{item.action}}</view>
+          <view wx:if="{{communityShareRelayBoard.wrongCauseViralChallengePack}}">
+            错因传播边界：{{communityShareRelayBoard.wrongCauseViralChallengePack.blockedFields}}
+          </view>
+        </view>
+        <view class="share-conversation-card" wx:if="{{learningReportSummary.weeklyEvidenceFlywheel}}">
+          <view class="share-conversation-title">{{learningReportSummary.weeklyEvidenceFlywheel.title}}</view>
+          <view>{{learningReportSummary.weeklyEvidenceFlywheel.shareLine}}</view>
+          <view>{{learningReportSummary.weeklyEvidenceFlywheel.privacyBoundary}}</view>
+          <view wx:for="{{learningReportSummary.weeklyEvidenceFlywheelDays}}" wx:key="day">第{{item.day}}天：{{item.label}}｜{{item.evidence}}</view>
+          <view>可分享字段：{{learningReportSummary.weeklyEvidenceFlywheelSharePayload.allowed_fields}}</view>
+          <view>禁止字段：{{learningReportSummary.weeklyEvidenceFlywheelSharePayload.blocked_fields}}</view>
         </view>
         <view class="share-invite">{{dailyShareCard.inviteLine}}</view>
         <view class="wechat-share-row">
@@ -638,6 +2115,7 @@
           <button class="primary-button" bindtap="initSession">{{loginText}}</button>
           <button class="secondary-button" bindtap="syncNow">同步本地记录</button>
         </view>
+      </block>
       </block>
     </view>
   </scroll-view>

@@ -53,8 +53,10 @@ function loadCommonJs(filePath, requireMap = {}) {
   return sandbox.module.exports;
 }
 
+const productReadiness = loadCommonJs(path.join('miniprogram', 'utils', 'product-readiness.js'));
 const storage = loadCommonJs(path.join('miniprogram', 'utils', 'storage.js'), {
-  './learning-priority': {}
+  './learning-priority': {},
+  './product-readiness': productReadiness
 });
 const serviceAccess = loadCommonJs(path.join('miniprogram', 'utils', 'service-access.js'), {
   './storage': storage
@@ -89,10 +91,20 @@ const mathResult = lightFeatures.submitDailyMath(Array(10).fill('0'), math);
 assert(mathResult.feedback.includes('先回看这一步'), 'Daily math does not become pure answer checking');
 assert.strictEqual(mathResult.shareCard.showScore, false, 'Share card hides score');
 assert.strictEqual(mathResult.shareCard.showRank, false, 'Share card hides ranking');
+const dailyMathJs = read('miniprogram/pages/daily-math/daily-math.js');
+assert(dailyMathJs.includes("require('../../utils/share-relay-schema')"), 'Daily math share uses the safe share relay schema');
+assert(dailyMathJs.includes('buildDailyMathSharePayload') && dailyMathJs.includes("shareRelaySchema.buildShareRelayQuery('/pages/home/home'"), 'Daily math share routes through home safe-relay landing');
+assert(dailyMathJs.includes('daily_math_safe_share_ready') && dailyMathJs.includes('daily_math_share_sent'), 'Daily math share writes ready and sent share-run evidence');
+assert(['original_question', 'full_answer', 'photo', 'score', 'ranking', 'full_dialogue'].every((field) => dailyMathJs.includes(field)), 'Daily math safe share blocks unsafe fields');
 
 const dictation = lightFeatures.submitDictation('春天 田野', '我先看字形');
 assert(dictation.firstStepPrompt.includes('先看了拼音还是字形'), 'Dictation asks first-step question');
 assert.strictEqual(dictation.event.source, 'dictation', 'Dictation writes shared first-step event');
+const dictationWithMistake = lightFeatures.submitDictation('春天 田野', '我先看字形', '偏旁少一笔');
+assert.strictEqual(dictationWithMistake.mistakeType.id, 'shape', 'Dictation classifies visible mistake type');
+assert(dictationWithMistake.reviewCard && dictationWithMistake.reviewCard.type === 'dictation_mistake_return', 'Dictation creates a next-day review card');
+assert(dictationWithMistake.reviewCard.blockedFields.includes('score') && dictationWithMistake.reviewCard.blockedFields.includes('ranking'), 'Dictation review card blocks score and ranking');
+assert(read('miniprogram/pages/dictation/dictation.js').includes('mistakeText') && read('miniprogram/pages/dictation/dictation.wxml').includes('onMistakeInput'), 'Dictation UI captures mistake text before review card creation');
 
 const diagnosis = lightFeatures.confirmLightDiagnosis('应用题不知道怎么圈条件', '我先圈出题干条件');
 assert.strictEqual(diagnosis.requiresManualConfirmation, true, 'Light diagnosis is manual-confirmation first');
@@ -101,11 +113,37 @@ assert(!/答案|秒解/.test(diagnosis.suggestedFirstStep), 'Light diagnosis doe
 const englishDiagnosis = lightFeatures.buildLightDiagnosis('英语句子看不懂', { subject: 'english', stuckStep: 'other' });
 assert(englishDiagnosis.suggestedFirstStep.includes('主语和谓语'), 'English light diagnosis uses subject-appropriate first step');
 assert(!englishDiagnosis.suggestedFirstStep.includes('未知数'), 'English light diagnosis does not leak math template');
+const physicsDiagnosis = lightFeatures.buildLightDiagnosis('物理电路图不会画', { subject: 'physics', stuckStep: 'other' });
+assert.strictEqual(physicsDiagnosis.taskType, 'physics_diagram', 'Physics light diagnosis uses visual physics task type');
+assert(physicsDiagnosis.suggestedFirstStep.includes('研究对象'), 'Physics light diagnosis starts from object and diagram');
+const geographyDiagnosis = lightFeatures.buildLightDiagnosis('地理地图题不会看', { subject: 'geography', stuckStep: 'other' });
+assert.strictEqual(geographyDiagnosis.taskType, 'geography_map', 'Geography light diagnosis uses map-reading task type');
+assert(geographyDiagnosis.suggestedFirstStep.includes('方向和图例'), 'Geography light diagnosis starts from map evidence');
 const formulaDiagnosis = lightFeatures.buildLightDiagnosis('数学应用题', { subject: 'math', stuckStep: 'formula' });
 assert(formulaDiagnosis.suggestedFirstStep.includes('题目问什么'), 'Formula stuck state gets question-first scaffold');
 
 const profile = storage.loadUserFirstStepProfile();
 assert(profile.events.length >= 3, 'Light feature events flow into shared first-step profile');
+const lightEvidence = storage.buildLightFeatureEvidenceSummary();
+assert.strictEqual(lightEvidence.ready, true, 'Light feature evidence summary becomes ready after light entries');
+assert(lightEvidence.summary.includes('第一步记录'), 'Light feature evidence summary is parent-readable');
+assert(lightEvidence.cards.some((item) => item.id === 'daily_math'), 'Light feature evidence includes daily math');
+assert(lightEvidence.cards.some((item) => item.id === 'dictation'), 'Light feature evidence includes dictation');
+assert(lightEvidence.cards.some((item) => item.id === 'light_diagnosis'), 'Light feature evidence includes manual diagnosis');
+const globalEvidence = storage.buildGlobalEvidenceBrief();
+assert(globalEvidence.cards.some((item) => item.id === 'light_entry' && item.ready), 'Global evidence brief includes light-entry evidence');
+const readiness = storage.buildProductReadiness();
+assert(readiness.dimensions.some((item) => item.id === 'light_entry_evidence' && item.ready), 'Product readiness includes light-entry evidence as a real dimension');
+const subjectSeedLibrary = storage.buildSubjectSeedLibrary({ subject: 'physics' });
+assert.strictEqual(subjectSeedLibrary.subjectCount, 7, 'Manual diagnosis exposes seven-subject seed library');
+assert(subjectSeedLibrary.active.label === '物理' && subjectSeedLibrary.active.seeds.length >= 3, 'Selected subject gets visible first-step seeds');
+assert(subjectSeedLibrary.subjects.some((item) => item.label === '化学' && item.seeds.some((seed) => seed.blackboardLine.includes('化学'))), 'Subject seed library carries science blackboard lines');
+['daily_math', 'dictation', 'light_diagnosis'].forEach((feature) => {
+  const bank = storage.buildLightEntrySeedBank(feature);
+  assert(bank.reusableCount >= 5, `${feature} carries five reusable light-entry models`);
+  assert(bank.modelLine && bank.evidenceLine && bank.routeLine, `${feature} explains model, evidence, and route closure`);
+  assert(bank.seeds.every((seed) => seed.modelLine && seed.blackboardLine && seed.evidenceLine && seed.loopLine), `${feature} seeds expose model, blackboard, evidence, and loop lines`);
+});
 const pattern = storage.loadTaskTypePattern();
 assert(pattern.byTaskType.daily_math, 'Task type pattern stores daily math');
 assert(pattern.byTaskType.dictation, 'Task type pattern stores dictation');
@@ -150,8 +188,10 @@ access = serviceAccess.canAccess('deep_scaffolding');
 assert.strictEqual(access.allowed, true, 'Configured service unlocks deep scaffolding');
 
 const guide = storage.buildParentActionGuide();
-assert(guide.monthSuggestion.includes('每晚只问这一句'), 'Profile parent guide gives one actionable sentence');
-assert(guide.parentPhraseTraining.title.includes('21 天'), 'Parent training camp entry exists');
+assert(guide.monthSuggestion.includes('7 天') && guide.monthSuggestion.includes('第一步'), 'Profile parent guide gives a seven-day first-step plan');
+assert(guide.parentPhraseTraining.title.includes('7 天'), 'Parent coaching script is locally usable now');
+assert(guide.parentPhraseTraining.cannotAnswerFallback.includes('不讲完整过程'), 'Parent guide includes a fallback for stuck children');
+assert(Array.isArray(guide.sevenDayParentPlan) && guide.sevenDayParentPlan.length === 7, 'Parent guide has a full seven-day plan');
 const checklist = storage.buildExperienceChecklist();
 assert(checklist.some((item) => item.field === 'light_feature_daily_active'), 'Experience checklist defines light DAU field');
 assert(checklist.some((item) => item.field === 'parent_phrase_used'), 'Trial checklist defines parent phrase usage field');
@@ -182,10 +222,13 @@ assert(visible.includes('听写小助手'), 'Home exposes dictation entry');
 assert(visible.includes('手动选题型'), 'Home exposes honest manual task-type entry');
 assert(visible.includes('这道题是什么科目？'), 'Light diagnosis asks subject before suggestion');
 assert(visible.includes('你现在卡在哪一步？'), 'Light diagnosis asks stuck step before suggestion');
+assert(visible.includes('七科第一步种子库'), 'Light diagnosis exposes seven-subject first-step seeds');
+assert(visible.includes('物理') && visible.includes('化学') && visible.includes('地理'), 'Light diagnosis subject picker covers science and geography');
 assert(visible.includes('不是自动识别答案'), 'Light diagnosis does not pretend to OCR');
 assert(visible.includes('好，我就从这一步开始，专注 15 分钟'), 'Light diagnosis can route into focus');
 assert(visible.includes('报这个词'), 'Dictation has local voice playback control');
 assert(visible.includes('家长暂停键'), 'Focus exposes parent pause key');
+assert(visible.includes('lightFeatureEvidence') && visible.includes('轻入口'), 'Profile exposes light-entry evidence to parents');
 assert(visible.includes('isDevMode && isBetaTester'), 'Profile keeps trial checklist behind dev mode');
 
 console.log('All light-heavy service loop tests pass.');

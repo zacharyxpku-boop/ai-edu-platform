@@ -166,7 +166,7 @@ const profileVm = profileViewModels.buildProfileViewModel({
   reviewEvents: storage.loadReviewEvents()
 });
 assert(profileVm.parentRecap.parentOneQuestion.includes('刚才你第一步先看了哪里'), 'Profile includes parent one question');
-assert(profileVm.parentRecap.trustBoundaryNote.includes('没有给答案'), 'Profile includes trust boundary');
+assert(profileVm.parentRecap.trustBoundaryNote.includes('没有直接给结果'), 'Profile includes trust boundary');
 assert(profileVm.primaryCard.sections[0].id === 'tonightRecap', 'Profile prioritizes tonight recap first');
 
 const proofOne = focusCabin.proofSummary([], null);

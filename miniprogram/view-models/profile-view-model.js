@@ -109,8 +109,8 @@ function buildParentRecap(input = {}) {
     recentFocusEvidence: focusLine,
     recentRevisitEvidence: proof.recentRevisitEvidence ? `已留下 ${proof.recentRevisitEvidence} 次轻回访痕迹。` : '明天轻轻回访后会留下记录。',
     trustBoundaryNote: evidence.hasChildStep
-      ? '咕点没有给答案，只记录了孩子自己说出的第一步。'
-      : '咕点没有给答案，只先整理一个可开始的第一步。',
+      ? '咕点没有给答案，也没有直接给结果，只记录孩子自己说出的第一步。'
+      : '咕点没有给答案，也没有直接给结果，只先整理一个可开始的第一步。',
     oneNightProof: proof.oneNightProof,
     threeNightPattern: proof.threeNightPattern,
     sevenNightReadiness: proof.sevenNightReadiness,

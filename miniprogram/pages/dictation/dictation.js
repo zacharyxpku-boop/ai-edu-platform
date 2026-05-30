@@ -1,5 +1,6 @@
 const lightFeatures = require('../../utils/light-features');
 const storage = require('../../utils/storage');
+const navigation = require('../../utils/navigation');
 
 let wordAudio = null;
 
@@ -7,12 +8,22 @@ Page({
   data: {
     wordsText: '',
     firstStepText: '',
+    mistakeText: '',
     session: null,
     result: null,
     transitionPrompt: null,
     currentIndex: 0,
     voiceState: 'idle',
-    voiceLine: '先输入今晚要听写的词语。'
+    voiceLine: '先输入今晚要听写的词语。',
+    surfaceDepthPack: null,
+    lightSeedBank: null
+  },
+
+  onLoad() {
+    this.setData({
+      surfaceDepthPack: storage.buildSurfaceDepthPack ? storage.buildSurfaceDepthPack('dictation') : null,
+      lightSeedBank: storage.buildLightEntrySeedBank ? storage.buildLightEntrySeedBank('dictation') : null
+    });
   },
 
   onUnload() {
@@ -26,6 +37,10 @@ Page({
 
   onFirstStepInput(event) {
     this.setData({ firstStepText: event.detail.value });
+  },
+
+  onMistakeInput(event) {
+    this.setData({ mistakeText: event.detail.value });
   },
 
   build() {
@@ -85,10 +100,12 @@ Page({
   },
 
   submit() {
-    const result = lightFeatures.submitDictation(this.data.wordsText, this.data.firstStepText);
+    const result = lightFeatures.submitDictation(this.data.wordsText, this.data.firstStepText, this.data.mistakeText);
     storage.recordLightEntryCompletion && storage.recordLightEntryCompletion('dictation', {
       dictationCompletionTime: new Date().toISOString(),
-      wordCount: (result.session.words || []).length
+      wordCount: (result.session.words || []).length,
+      mistakeType: result.mistakeType && result.mistakeType.id,
+      reviewCardId: result.reviewCard && result.reviewCard.id
     });
     this.setData({
       session: result.session,
@@ -109,7 +126,7 @@ Page({
     storage.recordCoreLoopEntry && storage.recordCoreLoopEntry('dictation_transition', {
       feature: 'dictation'
     });
-    wx.navigateTo({ url: '/pages/upload/upload?from=dictation' });
+    navigation.navigateLearningRoute('/pages/upload/upload?from=dictation');
   },
 
   dismissDictationTransition() {
@@ -117,5 +134,22 @@ Page({
       dictationToDiagnosisClick: false
     });
     this.setData({ transitionPrompt: null });
-  }
+  },
+
+  runSurfaceDepthAction(event) {
+    const dataset = event.currentTarget.dataset || {};
+    const pack = this.data.surfaceDepthPack || {};
+    const route = dataset.route || pack.primaryRoute;
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: pack.surface || dataset.surface || '',
+        dimensionId: dataset.dimensionId || '',
+        label: dataset.label || '',
+        route,
+        readiness: pack.surfaceReadiness || ''
+      });
+    }
+    navigation.navigateLearningRoute(route);
+  },
+
 });

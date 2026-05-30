@@ -60,6 +60,43 @@
         return 'https://www.yuandianzhixue.com/tools/' + source + '.html?utm_source=share&utm_medium=png&utm_campaign=' + source;
     }
 
+    function getLearningLoopSnapshot() {
+        try {
+            if (!global.LearningStore || !global.LearningStore.buildLearningLoopSnapshot) return null;
+            var snap = global.LearningStore.buildLearningLoopSnapshot();
+            return snap && snap.ready ? snap : null;
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function enrichOptsWithLoopEvidence(opts) {
+        var snap = getLearningLoopSnapshot();
+        var timeline = null;
+        try {
+            if (global.LearningStore && global.LearningStore.buildLearningEvidenceTimeline) {
+                timeline = global.LearningStore.buildLearningEvidenceTimeline({ limit: 3 });
+            }
+        } catch (_) {}
+        if (!snap && (!timeline || !timeline.ready)) return opts;
+        var counts = snap ? (snap.counts || {}) : {};
+        var nextAction = snap ? (snap.nextAction || '') : '';
+        var metrics = (opts.metrics || []).slice(0, 4);
+        [
+            { label: '计划', value: String(counts.plans || 0) },
+            { label: '练习', value: String(counts.practice || 0) },
+            { label: '错题', value: String(counts.dueErrors || 0) }
+        ].forEach(function (m) {
+            if (metrics.length < 4 && !metrics.some(function (x) { return x.label === m.label; })) metrics.push(m);
+        });
+        return Object.assign({}, opts, {
+            subtitle: opts.subtitle || snap.parentLine || snap.shareLine || (timeline && timeline.parentSummary) || nextAction,
+            metrics: metrics,
+            quote: opts.quote || (nextAction ? '下一步：' + nextAction : ((timeline && timeline.parentSummary) || '')),
+            shareEvidenceLine: (timeline && timeline.shareLine) || (snap && snap.shareLine) || nextAction
+        });
+    }
+
     function ensureHtml2Canvas(cb) {
         if (typeof html2canvas === 'function') { cb(); return; }
         var s = document.createElement('script');
@@ -102,6 +139,7 @@
                 '<div style="font-size:44px;line-height:1;margin-bottom:16px">'+preset.emoji+'</div>' +
                 '<div style="font-size:22px;font-weight:900;line-height:1.4;color:'+BRAND.ink+';margin-bottom:10px">'+escapeHtml(opts.title)+'</div>' +
                 '<div style="font-size:14px;color:'+BRAND.ink2+';line-height:1.7">'+escapeHtml(opts.subtitle||'')+'</div>' +
+                (opts.shareEvidenceLine ? '<div style="margin-top:12px;font-size:12px;color:'+BRAND.cta+';line-height:1.6;font-weight:700">'+escapeHtml(opts.shareEvidenceLine)+'</div>' : '') +
                 metricsHtml +
                 quoteHtml +
             '</div>' +
@@ -127,7 +165,7 @@
         var old = document.getElementById('ydzx-share-modal');
         if (old) old.remove();
 
-        var shareText = opts.title + ' — ' + (opts.subtitle||'') + '\n原点智学 yuandianzhixue.com';
+        var shareText = opts.title + ' — ' + (opts.subtitle||'') + (opts.shareEvidenceLine ? '\n' + opts.shareEvidenceLine : '') + '\n原点智学 yuandianzhixue.com';
         var shareUrl = opts.url || buildURL(opts.source);
         var modal = document.createElement('div');
         modal.id = 'ydzx-share-modal';
@@ -185,6 +223,7 @@
             console.warn('YdzxShare.open 需要 source 和 title');
             return;
         }
+        opts = enrichOptsWithLoopEvidence(opts);
         ensureHtml2Canvas(function(){
             var cardHtml = buildCard(opts);
             var holder = document.createElement('div');

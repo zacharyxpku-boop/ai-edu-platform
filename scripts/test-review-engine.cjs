@@ -5,6 +5,8 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const reviewPageCode = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
+assert(!reviewPageCode.includes('遮住答案，先说：${String(card.answer)'), 'active recall prescription does not leak answer before reveal');
 
 const store = {
   reviewDeck: null,
@@ -96,14 +98,16 @@ const storage = {
     store.gameProfile = Object.assign({}, this.loadGameProfile(), profile || {});
     return store.gameProfile;
   },
-  addGameXP(amount) {
+  addGameXP(amount, reason = '', evidence = {}) {
     const current = this.loadGameProfile();
+    const gatePass = !!(evidence.student_first_step && evidence.wrong_cause_named && evidence.next_day_revisit_locked);
     const accepted = Math.max(0, Number(amount || 0));
     return {
-      accepted,
+      accepted: gatePass ? accepted : 0,
       capped: false,
+      gate: { pass: gatePass },
       profile: this.saveGameProfile(Object.assign({}, current, {
-        xp: Number(current.xp || 0) + accepted
+        xp: Number(current.xp || 0) + (gatePass ? accepted : 0)
       }))
     };
   },
@@ -207,6 +211,34 @@ const storage = {
       streak: progress.streak || 0,
       isSelf: true
     }];
+  },
+  recordAnswerBoundaryEvidence(evidence = {}, context = {}) {
+    if (!evidence || evidence.eventType !== 'answer_request_blocked') return null;
+    const card = {
+      id: `answer_boundary_review_${store.reviewCards.length + 1}`,
+      source: 'tutor_answer_boundary',
+      title: evidence.reviewSeed && evidence.reviewSeed.title ? evidence.reviewSeed.title : '先不拿答案，复查第一步',
+      prompt: evidence.firstStepRequired || '',
+      wrongCause: evidence.wrongCauseBucket || '',
+      revisit: evidence.nextRevisitWindow || '',
+      due: true
+    };
+    store.reviewCards = [card].concat(store.reviewCards);
+    const event = {
+      type: 'answer_boundary_review_seeded',
+      source: 'tutor',
+      cardId: card.id,
+      firstStepRequired: evidence.firstStepRequired || '',
+      selected_id: context.selected_id || ''
+    };
+    this.appendReviewEvent(event);
+    this.appendSyncMutation('answer_boundary_evidence', {
+      id: evidence.id || card.id,
+      card_id: card.id,
+      first_step_required: evidence.firstStepRequired || '',
+      wrong_cause_bucket: evidence.wrongCauseBucket || ''
+    });
+    return { card, event };
   }
 };
 
@@ -337,6 +369,8 @@ function run() {
   const importedCauseCard = store.reviewCards.find((card) => card.question && card.question.includes('应用题'));
   assert(importedCauseCard && importedCauseCard.wrongCauseBucket, 'imported review cards carry wrong-cause bucket');
   assert(importedCauseCard.nextPracticePlan && importedCauseCard.nextPracticePlan.nextPracticeText, 'imported review cards carry next practice plan');
+  assert(importedCauseCard.sourceMaterialType && importedCauseCard.highFrequency && importedCauseCard.nextRevisitWindow, 'imported review cards carry material source, high-frequency recall, and revisit metadata');
+  assert(importedCauseCard.highFrequency.releaseGate.includes('不奖励速度、分数或排名'), 'imported high-frequency metadata blocks score/ranking rewards');
   const preview = review.previewImport('单位换算: 先统一单位', { subject: '数学' });
   assert(preview.length >= 1, 'previews imports before saving');
   assert(preview[0].quality >= 50, 'preview includes quality');
@@ -408,6 +442,8 @@ function run() {
   assert(importedSummary.contentEngine && importedSummary.contentEngine.generated >= 3, 'summary includes content engine status');
   assert(importedSummary.contentEngine.provider === review.CONTENT_ENGINE_PROVIDERS.local, 'summary exposes content engine provider');
   assert(importedSummary.contentEngine.endpointReady && importedSummary.contentEngine.endpoint === '/api/mini/content-engine', 'summary exposes content engine endpoint');
+  assert(importedSummary.materialMemoryBridge && importedSummary.materialMemoryBridge.importedCardCount >= 1, 'summary exposes material-to-memory bridge');
+  assert(importedSummary.materialMemoryBridge.nextRevisitWindow && importedSummary.materialMemoryBridge.releaseGate.includes('不抓链接'), 'material bridge carries revisit window and import boundary');
   assert(importedSummary.sync && importedSummary.sync.pending >= 1, 'summary exposes local sync queue');
   assert(store.syncQueue.some((item) => item.type === 'review_event'), 'review events queue sync mutations');
   assert(importedSummary.sync.diagnostics && importedSummary.sync.diagnostics.byType.length >= 1, 'summary exposes sync diagnostics');
@@ -614,25 +650,32 @@ function run() {
   assert(review.noteCardTemplates(updated).length >= 2, 'note can expand to multiple templates');
 
   const readMini = (...parts) => fs.readFileSync(path.join(__dirname, '..', 'miniprogram', ...parts), 'utf8');
-  const pageJson = ['home', 'tools', 'review', 'profile'].map((page) => JSON.parse(readMini('pages', page, page + '.json')));
+  const pageJson = ['home', 'tutor', 'arcade', 'profile', 'upload'].map((page) => JSON.parse(readMini('pages', page, page + '.json')));
   assert(pageJson.every((json) => json.navigationStyle === 'custom'), 'V1 key pages use custom navigation instead of double top bars');
   const customTabWxml = readMini('custom-tab-bar', 'index.wxml');
   const customTabJs = readMini('custom-tab-bar', 'index.js');
-  assert(customTabWxml.includes('v1-tabbar') && customTabWxml.includes('作业点拨') && customTabWxml.includes('轻回访') && customTabWxml.includes('修卡点') && customTabWxml.includes('我的'), 'custom tabbar mirrors the four-story shell');
+  assert(customTabWxml.includes('v1-tabbar') && customTabWxml.includes('今天') && customTabWxml.includes('AI私教') && customTabWxml.includes('复习岛') && customTabWxml.includes('家长') && customTabWxml.includes('上传'), 'custom tabbar mirrors the five-entry child-parent shell');
   assert(customTabJs.includes('getCurrentPages') && customTabJs.includes('selected'), 'custom tabbar syncs selected page state');
   const reviewWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.wxml'), 'utf8');
+  const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
   assert(reviewWxml.includes('class="v1-topbar"'), 'review page keeps V1 top bar shell');
   assert(!/v1-statusbar|v1-time|v1-system-icons|v1-signal|v1-wifi|v1-battery|9:41/.test(reviewWxml), 'review page does not render fake device status UI');
-  assert(customTabJs.includes('/pages/review/review'), 'wrong-question loop is available as a first-class tab');
+  assert(customTabJs.includes('/pages/arcade/arcade'), 'wrong-question transfer loop is available through the review island tab');
   assert(reviewWxml.includes('5 分钟轻回访') && reviewWxml.includes('quest-panel rc-after-repair') && reviewWxml.includes("repairStatus === 'completed'"), 'review page keeps the 5-minute recall after repair instead of as a competing first-screen center');
   assert(reviewWxml.includes('class="review-title"'), 'review page exposes quest title');
   assert(reviewWxml.includes('class="review-due-pill"'), 'review page exposes due-card pill');
   assert(reviewWxml.includes('class="review-question-card"'), 'review page exposes recall card');
   assert(reviewWxml.includes('bindtap="reveal"'), 'review page exposes reveal action');
   assert(reviewWxml.includes('data-rating="good"'), 'review page exposes rating action');
+  assert(reviewJs.includes('buildMemoryPrescriptionPanel') && reviewJs.includes('buildHighFrequencyPracticeLoop'), 'review page builds today memory prescription from the local high-frequency loop');
+  assert(reviewWxml.includes('memoryPrescriptionPanel') && reviewWxml.includes('memoryPrescriptionPanel.title') && reviewWxml.includes('90 秒'), 'review page visibly exposes the daily active-recall prescription');
+  assert(reviewWxml.includes('memoryPrescriptionPanel.recallCards') && reviewWxml.includes('回访窗口') && reviewWxml.includes('新卡放行'), 'review prescription shows active recall, revisit windows, and release gates');
+  assert(reviewJs.includes('activeRecallProtocol') && reviewJs.includes('todayMustCards') && reviewJs.includes('ratingScale') && reviewJs.includes('tomorrowReturnCard') && reviewJs.includes('day7VariantCard'), 'review builds a Gizmo-style local active-recall protocol with today, tomorrow, and day-7 cards');
+  assert(reviewWxml.includes('activeRecallProtocol.todayMustCards') && reviewWxml.includes('activeRecallProtocol.ratingScale') && reviewWxml.includes('activeRecallProtocol.releaseGateLine'), 'review visibly exposes the active-recall prescription and local release gate');
+  assert(reviewWxml.includes('不奖励速度或分数比较') || reviewJs.includes('不奖励速度或分数比较'), 'review prescription blocks score-comparison-driven rewards');
+  assert(reviewJs.includes('不带原题、答案、分数或完整对话'), 'review prescription keeps share payload privacy-safe');
   assert(reviewWxml.includes('class="pack-primary review-main-cta"'), 'review page exposes primary quest CTA');
   assert(reviewWxml.includes('toggleAdvancedReview'), 'review page keeps advanced controls behind a toggle');
-  const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
   assert(reviewJs.includes('buildReviewPlaybook'), 'review page builds review playbook');
   assert(reviewJs.includes('thinking_receipt') || fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'utils', 'review-cards.js'), 'utf8').includes('generatedFromThinkingReceipts'), 'review engine converts thinking receipts into review assets');
   assert(reviewJs.includes('runPlaybookAction'), 'review page can run playbook actions');
@@ -684,7 +727,7 @@ function run() {
   assert(homeJs.includes('buildLearningStages'), 'home page builds scientific learning stages');
   assert(homeJs.includes('buildArcadeEntry'), 'home page builds one compact knowledge arcade entry');
   assert(homeJs.includes('buildWrongbookEntry'), 'home page builds a dedicated wrongbook story entry');
-  assert(homeJs.includes("wx.navigateTo({ url: `/pages/arcade/arcade${query}` })"), 'home page opens knowledge arcade as a subpage with share attribution when present');
+  assert(homeJs.includes("navigation.navigateLearningRoute(`/pages/arcade/arcade${query}`)"), 'home page opens knowledge arcade through tab-safe navigation with share attribution when present');
   assert(homeJs.includes('buildMissionCards'), 'home page builds V1 mission flow');
   assert(homeJs.includes('buildContentEntry'), 'home page builds learning pack entry');
   assert(homeJs.includes('buildParentSnapshot'), 'home page builds parent evidence snapshot');
@@ -711,17 +754,20 @@ function run() {
   assert(homeJs.includes('todayActions'), 'home page still computes actionable next moves');
   assert(homeJs.includes('goTools') && homeJs.includes('buildContentEntry'), 'home page links light-review cockpit');
   assert(homeJs.includes('5 分钟轻回访') && homeJs.includes('featured'), 'home page keeps review as a lower-priority tool path');
-  assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.text), ['作业点拨', '修卡点', '专注舱', '轻回访', '我的'], 'miniapp tabBar keeps Homework Help / Repair / Focus Cabin / Light Review / My');
-  assert(homeJs.includes("wx.switchTab({ url: '/pages/review/review' })"), 'home page opens wrong-question loop as a tab');
-  assert(appJson.pages.includes('pages/arcade/arcade'), 'knowledge arcade is registered as a miniapp subpage');
+  assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.text), ['今天', 'AI私教', '复习岛', '家长', '上传'], 'miniapp tabBar keeps the five-entry child-parent product shell');
+  assert(homeJs.includes("navigation.navigateLearningRoute('/pages/review/review"), 'home page opens wrong-question loop through tab-safe navigation');
+  assert(appJson.tabBar.list.some((item) => item.pagePath === 'pages/arcade/arcade'), 'knowledge arcade is registered as the review-island tab');
   const arcadeJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.js'), 'utf8');
   const arcadeWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.wxml'), 'utf8');
   const arcadeEngineJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'utils', 'arcade-engine.js'), 'utf8');
   assert(arcadeJs.includes('reviewCards.sessionCards') && arcadeJs.includes('reviewCards.reviewCard'), 'arcade uses real review cards and writes back review results');
+  assert(reviewJs.includes('buildReportSourceContext') && reviewJs.includes('prioritizeReportSourceCards') && reviewJs.includes('reportSourcePanel'), 'review page prioritizes uploaded-material source cards from a persisted handoff');
+  assert(arcadeJs.includes('buildReportSourceContext') && arcadeJs.includes('prioritizeReportSourceCards') && arcadeJs.includes('reportSourcePanel'), 'arcade prioritizes uploaded-material source cards from a persisted handoff');
   assert(arcadeJs.includes('appendSyncMutation') && arcadeJs.includes('arcade_attempt'), 'arcade queues learning evidence for sync');
   assert(arcadeJs.includes('visibleRecommendations'), 'arcade precomputes visible recommendations for miniapp templates');
   assert(arcadeJs.includes('activeGame'), 'arcade tracks active game metadata for explainable recommendations');
   assert(arcadeJs.includes('loopBoundCards') && arcadeJs.includes('wrongCauseForLoop'), 'arcade prioritizes today task type and wrong-cause cards');
+  assert(arcadeJs.includes('course_unit_question_bank') && arcadeJs.includes('fallback_recent_task_type') && arcadeJs.includes('arcadeLoopReason'), 'arcade uses question-bank/public-K12 cards before falling back to hard-coded recent-task cards');
   assert(arcadeJs.includes('wrongCauseBucket') && arcadeJs.includes('rewardLine'), 'arcade writes wrong-cause reward evidence back to todaySession');
   assert(arcadeJs.includes('buildRoundForGame') && arcadeJs.includes('arcade.buildQuestRound'), 'arcade can route to the concept-quest game');
   assert(arcadeJs.includes('arcade.buildSnakeRound') && arcadeJs.includes('tapSnakeTile'), 'arcade can route to the sequence snake game');
@@ -741,20 +787,20 @@ function run() {
   assert(arcadeEngineJs.includes("id: 'whack'") && arcadeEngineJs.includes("status: 'ready'"), 'arcade engine marks whack mode as the first playable game');
   assert(arcadeEngineJs.includes("id: 'quiz'") && arcadeEngineJs.includes("status: 'ready'"), 'arcade engine marks quest mode ready only after integration');
   assert(arcadeEngineJs.includes("id: 'snake'") && arcadeEngineJs.includes("status: 'ready'"), 'arcade engine marks sequence snake mode ready only after integration');
-  assert(arcadeEngineJs.includes("id: 'match'") && arcadeEngineJs.includes("status: 'needs_material'"), 'arcade engine keeps low-fun matching mode material-gated until enough evidence exists');
+  assert(arcadeEngineJs.includes("id: 'match'") && arcadeEngineJs.includes("status: 'ready'"), 'arcade engine unlocks matching mode while recommendation gating still requires enough real pairs');
   assert(arcadeEngineJs.includes('isQuickRecallCard') && arcadeEngineJs.includes('answer.length > 14'), 'arcade keeps whack-a-mole for short active-recall cards');
   assert(arcadeEngineJs.includes('isQuestCard') && arcadeEngineJs.includes('buildQuestRound'), 'arcade has a separate concept-quest pipeline');
   assert(arcadeEngineJs.includes('isSequenceCard') && arcadeEngineJs.includes('buildSnakeRound'), 'arcade has a separate sequence-game pipeline');
   assert(arcadeEngineJs.includes('pitch:'), 'arcade recommendations include player-facing fit explanation');
-  const tabRoutes = ['home', 'tools', 'review', 'profile'];
-  const subpageRoutes = ['arcade', 'tutor', 'radar', 'upload', 'diagnosis', 'module', 'legal'];
+  const tabRoutes = ['home', 'tutor', 'arcade', 'profile', 'upload'];
+  const subpageRoutes = ['tools', 'review', 'focus', 'radar', 'diagnosis', 'module', 'legal'];
   const jsFiles = fs.readdirSync(path.join(__dirname, '..', 'miniprogram', 'pages'))
     .flatMap((dir) => {
       const file = path.join(__dirname, '..', 'miniprogram', 'pages', dir, `${dir}.js`);
       return fs.existsSync(file) ? [fs.readFileSync(file, 'utf8')] : [];
     }).join('\n');
   for (const route of tabRoutes) {
-    assert(jsFiles.includes(`wx.switchTab({ url: '/pages/${route}/${route}' })`), `${route} tab route can be opened with switchTab`);
+    assert(customTabJs.includes(`/pages/${route}/${route}`), `${route} tab route is present in the custom tabbar`);
   }
   for (const route of subpageRoutes) {
     assert(!jsFiles.includes(`wx.switchTab({ url: '/pages/${route}/${route}' })`), `${route} subpage is not opened with switchTab`);
@@ -770,10 +816,10 @@ function run() {
   const toolsViewModelJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'view-models', 'tools-view-model.js'), 'utf8');
   const toolsWxssForLayout = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'tools', 'tools.wxss'), 'utf8');
   const visualAudit = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'miniapp-visual-audit.cjs'), 'utf8');
-  ['05-upload-homework', '06-tutor-xiaodian', '07-learning-radar', '08-diagnosis-snap', '09-module-session'].forEach((screenId) => {
+  ['01-miniapp-home', '02-mobile-home', '03-mobile-report', '04-upload-desktop', '07-review-desktop', '09-map-desktop'].forEach((screenId) => {
     assert(visualAudit.includes(screenId), `visual audit covers ${screenId}`);
   });
-  assert(visualAudit.includes('子页 / 轻回访') && visualAudit.includes('subpage: true'), 'visual audit treats review as a subpage, not a fourth tab');
+  assert(visualAudit.includes("REFERENCE UI ONLY") && visualAudit.includes("historical proxy UI is not allowed"), "visual audit is reference-only and does not regenerate historical proxy UI");
   assert(toolsJs.includes('buildAdaptivePath'), 'tools cockpit reads adaptive module path');
   assert(toolsJs.includes('reviewSummary'), 'tools page reads review summary');
   assert(toolsJs.includes('focusDueReviewCards') && toolsJs.includes("source: 'today_focus'"), 'tools page reads due cards generated from repaired today focus');
@@ -798,6 +844,7 @@ function run() {
   assert(!toolsWxml.includes('预留') && !toolsWxml.includes('示例'), 'tools page removes placeholder wording from V1 UI');
   const uploadJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'upload', 'upload.js'), 'utf8');
   const uploadWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'upload', 'upload.wxml'), 'utf8');
+  const uploadWxss = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'upload', 'upload.wxss'), 'utf8');
   assert(uploadJs.includes('updatePreview'), 'upload page builds live triage preview');
   assert(uploadJs.includes('buildUploadPlaybook'), 'upload page builds upload playbook');
   assert(uploadJs.includes('buildMaterialPreview'), 'upload page builds material-to-memory preview');
@@ -806,6 +853,10 @@ function run() {
   assert(uploadWxml.includes('学习包') || uploadWxml.includes('知识关卡') || uploadWxml.includes('MATERIAL TO MEMORY ENGINE'), 'upload page exposes material-to-memory engine');
   assert(uploadWxml.includes('导入轻回访') || uploadWxml.includes('Import to review'), 'upload page exposes material import action');
   assert(uploadWxml.includes('今晚预览') || uploadWxml.includes('Tonight preview'), 'upload page exposes tonight preview');
+  assert(uploadJs.includes('wechat_article') && uploadJs.includes('web_article') && uploadJs.includes('pdf_excerpt'), 'upload page recognizes Chinese/web/PDF material types');
+  assert(uploadWxml.includes('公众号摘录') && uploadWxml.includes('网页摘录') && uploadWxml.includes('PDF 摘录'), 'upload page offers source chips for Chinese internet materials');
+  assert(uploadWxml.includes('只处理你粘贴的内容，不自动抓取链接') || uploadJs.includes('不自动抓取链接'), 'upload page states import boundary for pasted sources');
+  assert(uploadWxss.includes('.material-source-tabs') && uploadWxss.includes('.material-source-chip') && uploadWxss.includes('.material-boundary'), 'upload page styles source chips and boundary note');
   const radarJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'radar', 'radar.js'), 'utf8');
   const radarWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'radar', 'radar.wxml'), 'utf8');
   assert(radarJs.includes('buildDecisionBoard'), 'radar page builds decision board');
@@ -837,6 +888,8 @@ function run() {
   assert(tutorWxml.includes('别急着要答案') || tutorWxml.includes('COPY-PASTE RISK GATE'), 'tutor page exposes copy-paste risk gate');
   assert(storageJs.includes('loadTodayFocus') && storageJs.includes('saveTodayFocusFromThought') && storageJs.includes('updateTodayFocusRepair'), 'storage links tutor thoughts, review repair, and family recap through today focus');
   assert(storageJs.includes('ensureTodayFocusReviewCard') && storageJs.includes('sourceFocusId') && storageJs.includes('reviewPromptForIssueType'), 'completed today focus generates a linked active-recall review card');
+  assert(storageJs.includes('buildSpacedCadenceReviewCards') && storageJs.includes('next_day_revisit') && storageJs.includes('day7_variant') && storageJs.includes('two_week_stability_check'), 'completed today focus generates semantic next-day/day-7/two-week review cadence cards');
+  assert(storageJs.includes('buildSpacedReviewEvidenceLedger') && storageJs.includes('spaced_review_evidence_ledger') && storageJs.includes('releaseGate'), 'storage builds a local spaced-review evidence ledger with release gates');
   assert(storageJs.includes('issueTypeFromThought') && storageJs.includes('thoughtHistory') && storageJs.includes('shouldCreateNewFocus'), 'today focus handles issue typing, repeated thoughts, and new stuck focus after completion');
   assert(storageJs.includes("repairStatus: 'completed'") && storageJs.includes('hasMiniActionDone'), 'today focus completion is gated by mini action');
   assert(storageJs.includes('thinkingReceiptSummary'), 'storage summarizes thinking receipts');

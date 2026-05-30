@@ -12,6 +12,18 @@ function Invoke-Step {
   & $Action
 }
 
+function Invoke-Native {
+  param(
+    [string]$Command,
+    [string[]]$Arguments
+  )
+
+  & $Command @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "$Command $($Arguments -join ' ') failed with exit code $LASTEXITCODE."
+  }
+}
+
 function Assert-NoSecrets {
   $files = Get-ChildItem -Recurse -File miniprogram, scripts | Where-Object {
     $_.Extension -in '.js', '.cjs', '.mjs', '.ts', '.tsx', '.ps1'
@@ -53,19 +65,37 @@ function Invoke-OptionalUploadGate {
 Write-Host "Repository verification started" -ForegroundColor Green
 
 Invoke-Step "Syntax" {
-  node --check miniprogram/utils/review-cards.js
-  node --check miniprogram/pages/review/review.js
-  node --check api/mini/content-engine.js
-  node --check api/mini/sync.js
-  node --check scripts/test-review-engine.cjs
+  Invoke-Native "node" @("--check", "miniprogram/utils/review-cards.js")
+  Invoke-Native "node" @("--check", "miniprogram/utils/openmaic-inspired-plan.js")
+  Invoke-Native "node" @("--check", "miniprogram/pages/review/review.js")
+  Invoke-Native "node" @("--check", "scripts/test-openmaic-inspired-plan.cjs")
+  Invoke-Native "node" @("--check", "api/mini/content-engine.js")
+  Invoke-Native "node" @("--check", "api/mini/sync.js")
+  Invoke-Native "node" @("--check", "scripts/test-review-engine.cjs")
+  Invoke-Native "node" @("--check", "scripts/check-miniapp-wxml-compiler.cjs")
+  Invoke-Native "node" @("--check", "scripts/check-product-boundaries.cjs")
+  Invoke-Native "node" @("--check", "apps/web/scripts/check-web-surface.cjs")
+  Invoke-Native "node" @("scripts/check-miniapp-wxml-compiler.cjs")
+  Invoke-Native "node" @("scripts/check-product-boundaries.cjs")
+  Invoke-Native "node" @("apps/web/scripts/check-web-surface.cjs")
 }
 
 Invoke-Step "Miniapp Fullcheck" {
-  npm.cmd run miniapp:fullcheck
+  Invoke-Native "npm.cmd" @("run", "miniapp:fullcheck")
+}
+
+Invoke-Step "Miniapp Standalone Sync Dry Run" {
+  Invoke-Native "node" @("--check", "scripts/sync-miniapp-repo.cjs")
+  Invoke-Native "node" @("scripts/sync-miniapp-repo.cjs", "--dry-run")
+}
+
+Invoke-Step "Miniapp Depth Audit" {
+  Invoke-Native "node" @("--check", "scripts/miniapp-depth-audit.cjs")
+  Invoke-Native "node" @("scripts/miniapp-depth-audit.cjs")
 }
 
 Invoke-Step "Test Suite" {
-  npm.cmd test
+  Invoke-Native "npm.cmd" @("test")
 }
 
 Invoke-Step "Security Scan" {
@@ -78,7 +108,7 @@ Invoke-Step "Upload Gate" {
 }
 
 Invoke-Step "Diff Stat" {
-  git diff --stat
+  git -c safe.directory="$((Resolve-Path -LiteralPath .).Path.Replace('\', '/'))" diff --stat
 }
 
 Write-Host ""

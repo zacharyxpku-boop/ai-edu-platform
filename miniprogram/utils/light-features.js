@@ -163,18 +163,75 @@ function buildDictation(wordsText = '') {
   };
 }
 
-function submitDictation(wordsText = '', firstStepText = '') {
+function classifyDictationMistake(mistakeText = '', firstStepText = '') {
+  const text = `${mistakeText || ''}\n${firstStepText || ''}`;
+  if (/拼音|读音|声母|韵母|音|听错/.test(text)) return { id: 'sound', label: '音近/听辨', firstStep: '先把读音慢读一遍，再写第一个容易混的字。' };
+  if (/偏旁|部首|字形|少一笔|多一笔|结构|形近/.test(text)) return { id: 'shape', label: '字形/部件', firstStep: '先拆偏旁和剩下部分，再写最容易错的那一笔。' };
+  if (/意思|词义|语境|句子|不会用/.test(text)) return { id: 'meaning', label: '词义/语境', firstStep: '先用这个词说一句短句，再写。' };
+  if (/粗心|漏|快|没检查|跳过/.test(text)) return { id: 'careless', label: '检查/节奏', firstStep: '写完先停三秒，检查有没有漏字或多笔。' };
+  return { id: 'unknown', label: '待验证错字类型', firstStep: '先说你最不确定的是读音、字形还是意思。' };
+}
+
+function ensureDictationReviewCard(session = {}, mistakeType = {}, options = {}) {
+  if (!storage.loadReviewCards || !storage.saveReviewCards) return null;
+  const words = Array.isArray(session.words) ? session.words : [];
+  const key = String(options.evidenceId || `dictation_${mistakeType.id || 'unknown'}_${words.slice(0, 3).join('_') || Date.now()}`).replace(/[^\w-]+/g, '_').slice(0, 80);
+  const id = `dictation_review_${key}`;
+  const cards = storage.loadReviewCards();
+  const existing = cards.find((card) => card && card.id === id);
+  if (existing) return existing;
+  const now = new Date();
+  const card = {
+    id,
+    type: 'dictation_mistake_return',
+    source: 'dictation',
+    title: '听写错字回访',
+    question: words.length ? `遮住答案，先回访：${words.slice(0, 3).join(' / ')}` : '遮住答案，回访今天最不稳的一个词。',
+    answer: '',
+    weakPoint: mistakeType.label || '听写错字',
+    wrongCauseBucket: mistakeType.id || 'unknown',
+    wrongCauseLabel: mistakeType.label || '待验证错字类型',
+    firstStep: mistakeType.firstStep || '先说读音、字形还是意思。',
+    revisit: '明天只回访 1 个最不稳的词，不做整组判分。',
+    due: true,
+    dueDate: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(),
+    blockedFields: ['score', 'ranking', 'full_answer'],
+    releaseGate: 'child_can_name_dictation_mistake_type'
+  };
+  storage.saveReviewCards([card].concat(cards).slice(0, 80));
+  if (storage.appendReviewEvent) {
+    storage.appendReviewEvent({
+      type: 'dictation_review_card_created',
+      cardId: id,
+      mistakeType: mistakeType.id || 'unknown',
+      source: 'dictation',
+      createdAt: now.toISOString()
+    });
+  }
+  return card;
+}
+
+function submitDictation(wordsText = '', firstStepText = '', mistakeText = '') {
   const session = buildDictation(wordsText);
   const childStep = firstStepText || '我先看字形';
+  const mistakeType = classifyDictationMistake(mistakeText, childStep);
   const event = storage.recordLightFeatureFirstStep('dictation', {
     stuckPointText: session.currentWord || '听写第一个词',
     systemSuggestedStep: session.prompt,
     childArticulatedStep: childStep,
-    childStepQuality: storage.childStepQuality(childStep)
+    childStepQuality: storage.childStepQuality(childStep),
+    dictationMistakeText: mistakeText || '',
+    dictationMistakeType: mistakeType.id,
+    dictationMistakeLabel: mistakeType.label
+  });
+  const reviewCard = ensureDictationReviewCard(session, mistakeType, {
+    evidenceId: `${event.id || 'dictation'}_${mistakeType.id}`
   });
   return {
     session,
     firstStepPrompt: session.prompt,
+    mistakeType,
+    reviewCard,
     event
   };
 }
@@ -182,7 +239,11 @@ function submitDictation(wordsText = '', firstStepText = '') {
 const SUBJECT_LABELS = {
   math: '数学',
   chinese: '语文',
-  english: '英语'
+  english: '英语',
+  physics: '物理',
+  chemistry: '化学',
+  biology: '生物',
+  geography: '地理'
 };
 
 const STUCK_LABELS = {
@@ -193,7 +254,7 @@ const STUCK_LABELS = {
 };
 
 function normalizeLightDiagnosisOptions(options = {}) {
-  const subject = ['math', 'chinese', 'english'].includes(options.subject) ? options.subject : 'math';
+  const subject = ['math', 'chinese', 'english', 'physics', 'chemistry', 'biology', 'geography'].includes(options.subject) ? options.subject : 'math';
   const stuckStep = ['read', 'formula', 'writing', 'other'].includes(options.stuckStep) ? options.stuckStep : 'read';
   return { subject, stuckStep };
 }
@@ -203,6 +264,10 @@ function suggestLightDiagnosisStep(subject, stuckStep) {
   if (stuckStep === 'formula') return '先写出题目问什么，把它变成一个问题句。';
   if (subject === 'english') return '先找主语和谓语，再看这一句在问什么。';
   if (subject === 'chinese') return '先看题目问的是细节、主旨还是原因。';
+  if (subject === 'physics') return '先画研究对象和方向，再标出已知和要求。';
+  if (subject === 'chemistry') return '先写反应前后物质，再看颜色、气体或沉淀怎么来。';
+  if (subject === 'biology') return '先说结构对应什么功能，再排过程顺序。';
+  if (subject === 'geography') return '先看方向和图例，再定位区域和原因链。';
   if (stuckStep === 'writing') return '先写一句最简单的开头，不急着写完整。';
   return '先圈出题干里已经给你的条件。';
 }
@@ -210,6 +275,10 @@ function suggestLightDiagnosisStep(subject, stuckStep) {
 function taskTypeFromLightDiagnosis(subject, stuckStep, inputText) {
   if (subject === 'english') return 'english_sentence';
   if (subject === 'chinese') return 'reading_question';
+  if (subject === 'physics') return 'physics_diagram';
+  if (subject === 'chemistry') return 'chemistry_experiment';
+  if (subject === 'biology') return 'biology_process';
+  if (subject === 'geography') return 'geography_map';
   if (stuckStep === 'formula') return 'equation_setup';
   return storage.detectTaskType(inputText, 'light_diagnosis');
 }
@@ -218,6 +287,14 @@ function buildLightDiagnosis(inputText = '', options = {}) {
   const normalized = normalizeLightDiagnosisOptions(options);
   const taskType = taskTypeFromLightDiagnosis(normalized.subject, normalized.stuckStep, inputText);
   const suggestion = suggestLightDiagnosisStep(normalized.subject, normalized.stuckStep);
+  const visualBlackboard = storage.buildFirstStepBlackboardBlueprint
+    ? storage.buildFirstStepBlackboardBlueprint({
+      subject: normalized.subject,
+      taskType,
+      sourceText: inputText,
+      firstStep: suggestion
+    })
+    : null;
   return {
     title: '手动选题型',
     requiresManualConfirmation: true,
@@ -229,6 +306,7 @@ function buildLightDiagnosis(inputText = '', options = {}) {
     taskType,
     typeLabel: storage.taskTypeLabel ? storage.taskTypeLabel(taskType) : '当前题型',
     suggestedFirstStep: suggestion,
+    visualBlackboard,
     boundary: '这不是解题答案，只是准备开始的第一步。'
   };
 }
@@ -250,6 +328,8 @@ module.exports = {
   buildDailyMath,
   submitDailyMath,
   buildDictation,
+  classifyDictationMistake,
+  ensureDictationReviewCard,
   submitDictation,
   buildLightDiagnosis,
   confirmLightDiagnosis,
