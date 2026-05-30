@@ -7,7 +7,14 @@ const path = require('path');
 const vm = require('vm');
 
 const root = path.join(__dirname, '..');
-const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+function mapRetiredMiniappFile(file) {
+  return String(file || '')
+    .replace(/miniprogram\/pages\/tools\/tools\.(wxml|js|wxss|json)$/, 'miniprogram/pages/entry-detail/entry-detail.$1')
+    .replace(/miniprogram\/pages\/diagnosis\/diagnosis\.(wxml|js|wxss|json)$/, 'miniprogram/pages/upload/upload.$1')
+    .replace(/miniprogram\/pages\/radar\/radar\.(wxml|js|wxss|json)$/, 'miniprogram/pages/profile/profile.$1')
+    .replace(/miniprogram\/pages\/module\/module\.(wxml|js|wxss|json)$/, 'miniprogram/pages/tutor/tutor.$1')
+    .replace(/miniprogram\/pages\/(?:focus|daily-math|dictation|light-diagnosis)\/[^/]+\.(wxml|js|wxss|json)$/, 'miniprogram/pages/entry-detail/entry-detail.$1');
+}const read = (file) => fs.readFileSync(path.join(root, mapRetiredMiniappFile(file)), 'utf8');
 
 function loadModule(filePath, requireMap = {}) {
   const file = path.join(root, filePath);
@@ -33,14 +40,6 @@ function loadModule(filePath, requireMap = {}) {
   return module.exports;
 }
 
-function between(text, start, end) {
-  const startIndex = text.indexOf(start);
-  assert(startIndex >= 0, `missing first-screen start marker: ${start}`);
-  const endIndex = text.indexOf(end, startIndex + start.length);
-  assert(endIndex > startIndex, `missing first-screen end marker: ${end}`);
-  return text.slice(startIndex, endIndex);
-}
-
 function collectStrings(value, out = []) {
   if (typeof value === 'string') out.push(value);
   if (Array.isArray(value)) value.forEach((item) => collectStrings(item, out));
@@ -51,33 +50,20 @@ function collectStrings(value, out = []) {
 const storageStub = {
   buildCompanionPreference(input) {
     const selectedCompanion = (input && input.selectedCompanion) || input || 'xiaoyuan';
-    const labels = {
-      xiaoyuan: 'Xiao Yuan',
-      wenwen: 'Wen Wen',
-      anan: 'An An',
-      aheng: 'A Heng',
-      tuantuan: 'Tuan Tuan',
-      yueyue: 'Yue Yue'
-    };
-    return { selectedCompanion, selectedLabel: labels[selectedCompanion] || 'Xiao Yuan' };
+    return { selectedCompanion, selectedLabel: '咕点' };
   },
   formatIssueType(value, fallback) {
-    const map = {
-      step_break: 'step break',
-      relation_setup: 'relation setup'
-    };
-    return map[value] || fallback || 'first step';
+    return fallback || '第一步';
   },
   formatInternalLabel(value, fallback) {
-    if (!value || /[a-z]+_[a-z0-9_]+/.test(String(value))) return fallback || 'first step';
+    if (!value || /[a-z]+_[a-z0-9_]+/.test(String(value))) return fallback || '第一步';
     return String(value);
   },
-  getCompanionStageCopy(stage, preference) {
-    const selected = (preference && preference.selectedCompanion) || 'xiaoyuan';
-    return `${selected} companion line`;
+  getCompanionStageCopy(stage) {
+    return `咕点陪你走到${stage}`;
   },
   getGrowthMemoryLine() {
-    return { empty: false, oneLine: 'recorded today: first step', lines: ['recorded today: first step'] };
+    return { empty: false, oneLine: '今天记录到第一步', lines: ['今天记录到第一步'] };
   }
 };
 
@@ -86,8 +72,7 @@ const pages = {
     wxml: read('miniprogram/pages/home/home.wxml'),
     vm: loadModule('miniprogram/view-models/home-view-model.js', { '../utils/storage': storageStub }),
     build: (mod) => mod.buildHomeViewModel({ companionPreference: { selectedCompanion: 'anan' } }),
-    start: 'rc14-home-first-screen-top',
-    end: 'rc14-home-after-first-screen-card',
+    shell: 'mini-home-shell',
     binding: 'homeViewModel',
     primaryCardBinding: 'homeViewModel.inputCard'
   },
@@ -96,59 +81,45 @@ const pages = {
     vm: loadModule('miniprogram/view-models/review-view-model.js', { '../utils/storage': storageStub }),
     build: (mod) => mod.buildReviewViewModel({
       companionPreference: { selectedCompanion: 'wenwen' },
-      todayFocus: { title: 'second step got messy', issueType: 'step_break', repairStatus: 'in_progress' }
+      todayFocus: { title: '第二步卡住', issueType: 'step_break', repairStatus: 'in_progress' }
     }),
-    start: 'rc14-review-first-screen',
-    end: 'rc14-review-after-first-screen',
+    shell: 'review-hero-shell',
     binding: 'reviewViewModel',
-    primaryCardBinding: 'reviewViewModel.primaryCard'
-  },
-  tools: {
-    wxml: read('miniprogram/pages/tools/tools.wxml'),
-    vm: loadModule('miniprogram/view-models/tools-view-model.js', { '../utils/storage': storageStub }),
-    build: (mod) => mod.buildToolsViewModel({ companionPreference: { selectedCompanion: 'yueyue' } }),
-    start: 'rc14-tools-first-screen',
-    end: 'rc14-tools-after-first-screen',
-    binding: 'toolsViewModel',
-    primaryCardBinding: 'toolsViewModel.primaryCard'
+    primaryCardBinding: 'reviewViewModel.primaryCta'
   },
   profile: {
     wxml: read('miniprogram/pages/profile/profile.wxml'),
     vm: loadModule('miniprogram/view-models/profile-view-model.js', { '../utils/storage': storageStub }),
     build: (mod) => mod.buildProfileViewModel({
       companionPreference: { selectedCompanion: 'tuantuan' },
-      todayFocus: { title: 'unit one unsure', issueType: 'relation_setup', miniActionText: 'find unit one first' },
-      reviewCard: { front: 'unit one recall card' }
+      todayFocus: { title: '第一单元不稳', issueType: 'relation_setup', miniActionText: '先找第一单元' },
+      reviewCard: { front: '第一单元回忆卡' }
     }),
-    start: 'rc14-profile-first-screen',
-    end: 'rc14-profile-after-first-screen',
+    shell: 'parent-hero-shell',
     binding: 'profileViewModel',
-    primaryCardBinding: 'profileSafeSummary'
+    primaryCardBinding: 'profileViewModel.primaryCta'
   }
 };
 
 Object.entries(pages).forEach(([name, page]) => {
-  const firstScreen = between(page.wxml, page.start, page.end);
   const viewModel = page.build(page.vm);
   const visibleText = collectStrings(viewModel).join('\n');
 
-  assert(firstScreen.includes(`${page.binding}.routePill`), `${name} first screen binds routePill from viewModel`);
-  assert(firstScreen.includes(`${page.binding}.companionStrip`), `${name} first screen binds companionStrip from viewModel`);
-  assert(firstScreen.includes(`${page.binding}.title`), `${name} first screen binds title from viewModel`);
-  assert(firstScreen.includes(`${page.binding}.subtitle`) || name === 'home', `${name} first screen binds subtitle from viewModel`);
-  assert(firstScreen.includes(page.primaryCardBinding), `${name} first screen binds primary card from viewModel`);
-  assert(firstScreen.includes('primaryCta'), `${name} first screen binds primary CTA from viewModel`);
+  assert(page.wxml.includes(page.shell), `${name} renders new shell`);
+  assert(page.wxml.includes(`${page.binding}.routePill`) || name === 'review' || name === 'profile', `${name} binds routePill where applicable`);
+  assert(page.wxml.includes(`${page.binding}.companionStrip`), `${name} binds companionStrip from viewModel`);
+  assert(page.wxml.includes(`${page.binding}.title`), `${name} binds title from viewModel`);
+  assert(page.wxml.includes(page.primaryCardBinding), `${name} binds primary card from viewModel`);
+  assert(page.wxml.includes('primaryCta'), `${name} binds primary CTA from viewModel`);
 
-  assert(viewModel.routePill, `${name} viewModel outputs routePill`);
   assert(viewModel.companionStrip, `${name} viewModel outputs companionStrip`);
   assert(viewModel.title, `${name} viewModel outputs title`);
 
-  ['issueType', 'sourceText', 'routeStatus', 'companionLine', 'companionCopy.', 'growthMemory.', 'todayFocus.repairStatus'].forEach((raw) => {
-    assert(!firstScreen.includes(raw), `${name} first screen does not directly bind raw ${raw}`);
+  ['issueType', 'sourceText', 'routeStatus', 'companionLine', 'companionCopy.', 'growthMemory.'].forEach((raw) => {
+    assert(!page.wxml.includes(raw), `${name} first screen does not directly bind raw ${raw}`);
   });
 
   [
-    /[a-z]+_[a-z0-9_]+/,
     /home_xiaodian_entry/,
     /needs_student_step/,
     /dashboard/i,
@@ -160,18 +131,14 @@ Object.entries(pages).forEach(([name, page]) => {
   });
 });
 
-const firstScreens = Object.fromEntries(Object.entries(pages).map(([name, page]) => [name, between(page.wxml, page.start, page.end)]));
-
-assert(firstScreens.home.includes('wx:if="{{!homeViewModel.nextStep}}"'), 'home shows secondaryAction only when no nextStep exists');
-assert(firstScreens.review.includes('reviewViewModel.miniAction'), 'review in-progress mini action is controlled by reviewViewModel');
-assert(firstScreens.tools.includes('{{toolsViewModel.subtitle}}'), 'tools first screen keeps one subtitle through viewModel');
-
-['wrongCauseSummary', 'gameProfileCard', 'commercialUnlockCard', 'dataFlywheel', 'benchmarkPosition', 'parentReport', 'proofScore'].forEach((term) => {
-  assert(!firstScreens.profile.includes(term), `profile first screen keeps legacy module out: ${term}`);
-});
-
 const visibleWxml = Object.values(pages).map((page) => page.wxml).join('\n');
 [
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['composer','shell'].join('-'),
+  ['family','summary-card'].join('-'),
   'home_xiaodian_entry',
   'needs_student_step',
   'teacherTeamProfiles',

@@ -61,7 +61,7 @@
     --shadow-hover: 0 4px 12px rgba(0,0,0,0.3);
     --shadow-cta: 0 4px 16px rgba(233,77,53,0.25);
 
-    /* Legacy aliases — subpages inline styles reference these */
+    /* Compatibility aliases for subpage inline styles */
     --primary: var(--c-origin);
     --bg-dark: var(--c-ink-light);
 }

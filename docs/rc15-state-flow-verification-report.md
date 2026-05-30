@@ -8,7 +8,7 @@
 
 1. 本轮是否改代码：
    - 改了测试：`scripts/test-learning-evidence-flow.cjs`
-   - 保留前一轮 P0 状态流修复：`miniprogram/pages/tools/tools.js`
+   - 保留前一轮 P0 状态流修复：`miniprogram/pages/entry-detail/entry-detail.js`
    - 新增文档：`docs/rc15-state-flow-checklist.md`、`docs/rc15-known-limitations.md`、`docs/rc15-state-flow-verification-report.md`
 
 2. 是否只修 P0 状态流问题：

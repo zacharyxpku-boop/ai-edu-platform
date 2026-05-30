@@ -184,10 +184,10 @@ function buildProfileViewModel(input = {}) {
     primaryCard: buildPrimaryCard(input),
     primaryCta: '完成今日复盘',
     growthMemoryCard: buildGrowthMemoryCard(input),
-    collapsedSections: [
-      { id: 'legacy1', title: '更多学习记录', legacy: true, collapsed: true },
-      { id: 'legacy2', title: '复盘卡与分享记录', legacy: true, collapsed: true },
-      { id: 'legacy3', title: '轻练习记录', legacy: true, collapsed: true }
+    quickSections: [
+      { id: 'learning-records', title: '更多学习记录', collapsed: true },
+      { id: 'review-share', title: '复盘卡与分享记录', collapsed: true },
+      { id: 'light-practice', title: '轻练习记录', collapsed: true }
     ],
     emptyState: hasFocus ? null : '今天还没有第一步记录。先让孩子说一句卡在哪里，咕点再整理给家长看。',
     nextStep: hasFocus ? parentRecap.oneNightProof : '',

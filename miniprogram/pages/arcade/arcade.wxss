@@ -1,4 +1,4 @@
-.arcade-page {
+﻿.arcade-page {
   min-height: 100vh;
   background: #F5F3ED;
   color: #1A1A1A;
@@ -410,7 +410,6 @@
   line-height: 1.45;
 }
 
-.hero-stats,
 .result-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -418,7 +417,6 @@
   margin-top: 26rpx;
 }
 
-.hero-stat,
 .result-grid > view {
   min-width: 0;
   padding: 18rpx 12rpx;
@@ -427,14 +425,12 @@
   text-align: center;
 }
 
-.hero-stat-num,
 .result-num {
   color: #F2D479;
   font-size: 32rpx;
   font-weight: 1000;
 }
 
-.hero-stat-label,
 .result-label {
   margin-top: 6rpx;
   color: rgba(255, 255, 255, 0.68);
@@ -442,14 +438,6 @@
   font-weight: 760;
 }
 
-.challenge-brief-card {
-  margin: 0 28rpx 22rpx;
-  padding: 26rpx;
-  border-radius: 28rpx;
-  background: #FFF7E1;
-  border: 2rpx solid rgba(242, 212, 121, 0.6);
-  box-shadow: 0 14rpx 32rpx rgba(42, 34, 18, 0.08);
-}
 
 .challenge-brief-top {
   display: flex;
@@ -1417,14 +1405,6 @@
   word-break: break-all;
 }
 
-.daily-return-card {
-  margin: 0 28rpx 22rpx;
-  padding: 24rpx;
-  border-radius: 24rpx;
-  background: #FFFFFF;
-  border: 2rpx solid rgba(27, 67, 50, 0.10);
-  box-shadow: 0 12rpx 30rpx rgba(27, 67, 50, 0.06);
-}
 
 .daily-return-top {
   display: flex;
@@ -1971,3 +1951,4 @@
   border-radius: 999rpx;
   font-size: 24rpx;
 }
+

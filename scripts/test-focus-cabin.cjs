@@ -59,9 +59,9 @@ const focusCabin = loadCommonJs(path.join('miniprogram', 'utils', 'focus-cabin.j
 storage.clearLearningData();
 
 const appJson = JSON.parse(read('miniprogram/app.json'));
-assert(appJson.pages.includes('pages/focus/focus'), 'Focus cabin page is registered');
-assert(!appJson.tabBar.list.some((item) => item.pagePath === 'pages/focus/focus'), 'Focus cabin is now a child route instead of a crowded bottom tab');
-assert(read('miniprogram/utils/navigation.js').includes('navigateLearningRoute'), 'Focus cabin is reachable through the shared route helper');
+assert(!appJson.pages.includes('pages/focus/focus'), 'Retired focus cabin page is not registered in the active miniapp shell');
+assert(!appJson.tabBar.list.some((item) => item.pagePath === 'pages/focus/focus'), 'Focus cabin is not a crowded bottom tab');
+assert(read('miniprogram/utils/navigation.js').includes('RETIRED_ROUTE_MAP'), 'Retired focus routes are remapped through the shared route helper');
 
 let state = focusCabin.pageState();
 assert(state.currentSession, 'Focus cabin has safe first-load session state');
@@ -132,9 +132,10 @@ assert.strictEqual(state.focusTarget.source, 'today_focus', 'Focus cabin binds c
 
 const profileJs = read('miniprogram/pages/profile/profile.js');
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
-const focusJs = read('miniprogram/pages/focus/focus.js');
-const focusWxml = read('miniprogram/pages/focus/focus.wxml');
-const focusWxss = read('miniprogram/pages/focus/focus.wxss');
+const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
+const tutorWxml = read('miniprogram/pages/tutor/tutor.wxml');
+const reviewWxml = read('miniprogram/pages/review/review.wxml');
 [
   ['miniprogram/assets/focus/night-desk.png', 300 * 1024],
   ['miniprogram/assets/focus/morning-window.png', 300 * 1024],
@@ -149,23 +150,13 @@ const focusWxss = read('miniprogram/pages/focus/focus.wxss');
   assert(fs.statSync(full).size > 1000, `${file} is not empty`);
   assert(fs.statSync(full).size < maxBytes, `${file} stays small enough for local package`);
 });
+assert(!fs.existsSync(path.join(root, 'miniprogram/pages/focus')), 'retired focus page directory has been physically removed');
 assert(profileJs.includes('focus-cabin'), 'Profile imports focus cabin summary');
-assert(profileWxml.includes('今晚专注痕迹'), 'Profile renders focus cabin recap as parent evidence');
-assert(focusJs.includes('wx.createInnerAudioContext'), 'Focus uses miniapp audio context for ambient sound');
-assert(focusJs.includes('/assets/focus/rain.mp3') && focusJs.includes('/assets/focus/cafe.mp3') && focusJs.includes('/assets/focus/campfire.mp3') && focusJs.includes('/assets/focus/ding.mp3'), 'Focus JS uses local audio files');
-assert(focusWxml.includes('focus-progress'), 'Focus renders circular progress feedback');
-assert(focusWxml.includes('复制话术'), 'Focus parent pause can copy phrase');
-assert(focusWxml.includes('休息一下再来'), 'Focus interruption gives rest option');
-assert(focusJs.includes('ensureFocusReviewCard') && focusWxml.includes('reviewCard.firstStep'), 'Focus completion visibly routes into a next-day review card');
-assert(focusWxss.includes('/assets/focus/night-desk.png') && focusWxss.includes('/assets/focus/morning-window.png') && focusWxss.includes('/assets/focus/quiet-forest.png'), 'Focus WXSS uses local wallpaper files');
-assert(focusWxss.includes('scene-night-desk') && focusWxss.includes('scene-morning-window') && focusWxss.includes('scene-quiet-forest'), 'Focus has three experience gradients');
+assert(!profileWxml.includes('focusCabinSummary'), 'Profile no longer renders the retired focus cabin recap panel');
+assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail replaces focus UI with child scene routes');
+assert(tutorWxml.includes('tutor-hero-shell') && reviewWxml.includes('review-hero-shell'), 'Focus work is now handled by tutor and review active shells');
 
-const visibleText = [
-  focusWxml,
-  read('miniprogram/pages/home/home.wxml'),
-  read('miniprogram/pages/review/review.wxml'),
-  profileWxml
-].join('\n');
+const visibleText = [entryDetailWxml, tutorWxml, reviewWxml, profileWxml].join('\n');
 [
   '六个老师',
   '老师矩阵',
@@ -183,5 +174,4 @@ const visibleText = [
 ].forEach((term) => {
   assert(!visibleText.includes(term), `Focus cabin visible copy avoids ${term}`);
 });
-
 console.log('All focus cabin tests pass.');

@@ -65,11 +65,11 @@
   - 首屏绑定 reviewViewModel。
   - miniActionText 证据流区域保持原逻辑。
 
-- `miniprogram/pages/tools/tools.js`
+- `miniprogram/pages/entry-detail/entry-detail.js`
   - 引入 buildToolsViewModel。
   - 根据 companionPreference 和 today-focus review cards 构建 toolsViewModel。
 
-- `miniprogram/pages/tools/tools.wxml`
+- `miniprogram/pages/entry-detail/entry-detail.wxml`
   - 首屏绑定 toolsViewModel。
   - 旧玩法、材料输入、小游戏入口仍在首屏之后或折叠区域。
 

@@ -1023,7 +1023,7 @@ function buildUploadIntakePacket(text = '', imagePaths = [], materialType = '') 
   const requiredNextEvidence = buildRequiredNextEvidence(intakeSourceSchema, kind);
   const schemaStructuredCapturePrompts = buildStructuredCapturePromptsForSchema(intakeSourceSchema);
   const requiredTextFields = schemaStructuredCapturePrompts.map((item) => item.id);
-  const legacyStructuredCapturePrompts = [
+  const fallbackStructuredCapturePrompts = [
     { id: 'question_type', label: '题型', prompt: '这份材料更像哪类题：审题、列式、概念、实验、阅读、表达，还是记忆？' },
     { id: 'child_original_thought', label: '孩子原想法', prompt: '孩子当时第一反应是什么？只写一句原话或近似表达。' },
     { id: 'stuck_first_step', label: '卡住第一步', prompt: '他卡在读题、找条件、列关系、套概念、检查，还是迁移？' },
@@ -1031,7 +1031,7 @@ function buildUploadIntakePacket(text = '', imagePaths = [], materialType = '') 
   ];
   const structuredCapturePrompts = schemaStructuredCapturePrompts.length
     ? schemaStructuredCapturePrompts
-    : legacyStructuredCapturePrompts;
+    : fallbackStructuredCapturePrompts;
   const photoEvidencePolicy = {
     mode: 'local_file_reference_only',
     ocrClaim: false,

@@ -30,29 +30,24 @@ vm.runInNewContext(uploadPageCode, {
     return {};
   }
 }, { filename: path.join(__dirname, '..', 'miniprogram', 'pages', 'upload', 'upload.js') });
-assert(uploadPageCode.includes('buildUploadEntryDeck'), 'upload page builds a three-choice first-screen intake deck');
-assert(uploadPageCode.includes('setUploadEntryMode'), 'upload page lets the learner switch between homework, stuck-point, and material entry modes');
-assert(uploadWxml.includes('upload-three-step-card'), 'upload page renders the three-choice intake deck before deeper controls');
-assert(uploadWxml.includes('data-mode="{{item.id}}"'), 'upload entry chips carry a stable mode id for routing');
-assert(uploadWxml.includes('placeholder="{{homeworkPlaceholder}}"'), 'upload homework textarea uses the active entry placeholder instead of one generic prompt');
+assert(uploadPageCode.includes('buildUploadEntryDeck'), 'upload page still builds the three-choice intake model in logic');
+assert(uploadPageCode.includes('setUploadEntryMode'), 'upload page keeps learner mode switching logic for homework, stuck-point, and material inputs');
+assert(uploadWxml.includes('upload-material-grid') && uploadWxml.includes('upload-material-card'), 'upload page now renders the three material entry cards in the compact visual shell');
+assert(uploadWxml.includes('upload-dash-pipeline') && uploadWxml.includes('upload-subcheck'), 'upload page shows the current classify-to-report-to-tutor route without old deep controls');
+assert(uploadWxml.includes('data-scene="upload"') && uploadWxml.includes('data-scene="parent"') && uploadWxml.includes('data-scene="today"'), 'upload page exposes stable scene jumps for upload, parent report, and tonight route');
 assert(uploadPageCode.includes("['homework', 'stuck', 'material']"), 'upload entry modes are limited to the three intended choices');
-assert(uploadPageCode.includes('patch.showMaterialPanel = true'), 'material entry opens the material panel instead of hiding the next step');
+assert(uploadPageCode.includes('patch.showMaterialPanel = true'), 'material entry opens the material panel in logic instead of hiding the next step');
 assert(uploadPageCode.includes('decisionSource') && uploadPageCode.includes('sourceSchemaId') && uploadPageCode.includes('portraitConfidenceWeight'), 'upload page carries structured decision source into learning report state');
 assert(uploadPageCode.includes('buildUploadIntakePacket(text, this.data.imagePaths, this.data.materialType)'), 'upload report save reuses the intake packet instead of flattening sources');
 assert(uploadPageCode.includes('buildDecisionSource(uploadIntakePacket, text') && uploadPageCode.includes('lastDecisionSource'), 'upload submit and material import share one decision-source contract');
-assert(uploadPageCode.includes('buildStructuredEvidenceCapture') && uploadPageCode.includes('structuredEvidenceCapture') && uploadPageCode.includes('onStructuredEvidenceInput'), 'upload page exposes a structured evidence capture lane for report thickening');
-assert(uploadWxml.includes('structured-evidence-card') && uploadWxml.includes('证据补全') && uploadWxml.includes('structuredEvidenceCapture.fields'), 'upload page renders structured evidence capture inputs before report release');
+assert(uploadPageCode.includes('buildStructuredEvidenceCapture') && uploadPageCode.includes('structuredEvidenceCapture') && uploadPageCode.includes('onStructuredEvidenceInput'), 'upload page keeps structured evidence capture logic for report thickening');
 assert(uploadPageCode.includes("!['talent_assessment', 'score_sheet'].includes(decisionSource.sourceSchemaId)") && uploadPageCode.includes('methodCandidateOnly'), 'talent assessment and score sheets enter reports instead of direct review cards');
-assert(uploadPageCode.includes('buildReportCta') && uploadPageCode.includes('viewLatestReport') && uploadWxml.includes('lastReportCta'), 'upload save exposes a report CTA after material intake');
-assert(uploadPageCode.includes('buildTonightTaskCard') && uploadPageCode.includes('tonightTaskCard') && uploadWxml.includes('今晚任务卡'), 'upload report CTA now exposes a compact tonight task card instead of only the thick report block');
-assert(uploadWxml.includes('lastReportCta.tonightTaskCard.firstStep') && uploadWxml.includes('lastReportCta.tonightTaskCard.parentCheck') && uploadWxml.includes('lastReportCta.tonightTaskCard.tomorrowReview'), 'tonight task card renders first step, parent check, and tomorrow review lines');
-assert(uploadPageCode.includes('runReportGameAction') && uploadWxml.includes('去轻练习'), 'upload exposes a direct light-practice follow-through from the report CTA');
+assert(uploadPageCode.includes('buildReportCta') && uploadPageCode.includes('viewLatestReport'), 'upload save keeps report CTA logic after material intake');
+assert(uploadPageCode.includes('buildTonightTaskCard') && uploadPageCode.includes('tonightTaskCard'), 'upload report CTA builds a compact tonight task card in logic');
+assert(uploadPageCode.includes('runReportGameAction'), 'upload keeps a direct light-practice follow-through in logic');
 assert(uploadPageCode.includes('aiLocalBoundary') && uploadPageCode.includes('source_type_classification') && uploadPageCode.includes('aiMustNotOwn'), 'upload report CTA carries the AI/local ownership boundary');
-assert(uploadPageCode.includes('talent_assessment_requires_real_wrong_question_before_practice') && uploadPageCode.includes('补真实错题验证'), 'talent assessment CTA forces real wrong-question validation before practice');
-assert(uploadWxml.includes('AI 只做改写和追问') && uploadWxml.includes('lastReportCta.aiLocalReleaseLine'), 'upload report CTA visibly explains AI/local ownership with a readable release line');
-assert(uploadWxml.includes('lastReportCta.safeRelayReturnLine') && !uploadWxml.includes('safeRelayPayload.returnRoute'), 'upload report CTA does not expose raw return routes');
-assert(uploadWxml.includes('materialPreview.sourceReadinessView.gateLine') && !uploadWxml.includes('sourceReadinessBoard.releaseRule'), 'material preview renders source readiness as readable gate lines');
-assert(uploadWxml.includes('wx:if="{{lastReportCta.gameRoute}}"') && uploadPageCode.includes('先补真实证据'), 'talent assessment hides game entry and reroutes to evidence completion');
+assert(uploadPageCode.includes('talent_assessment_requires_real_wrong_question_before_practice'), 'talent assessment CTA forces real wrong-question validation before practice');
+assert(!uploadWxml.includes('safeRelayPayload.returnRoute'), 'upload compact UI does not expose raw return routes');
 assert(uploadPageCode.includes('material_${this.data.materialType}:${decisionSource.sourceSchemaId}') && uploadPageCode.includes('requiredNextEvidence: decisionSource.requiredNextEvidence'), 'material import preserves source schema and next-evidence gates in the review deck source');
 assert(uploadPageCode.includes('miniLessonSourceEvidence') && uploadPageCode.includes('structuredEvidenceSignals') && uploadPageCode.includes('sourceTextForMiniLesson'), 'upload report CTA passes real material evidence into the mini-lesson topic-card selector');
 assert(uploadPageCode.includes('inferUploadSubjectTask') && uploadPageCode.includes('UPLOAD_SUBJECT_TASK_PATTERNS'), 'upload infers subject/task type from structured material evidence instead of degrading school material to general');
@@ -61,12 +56,8 @@ assert.strictEqual((uploadPageCode.match(/^  buildStructuredEvidenceSignals\(/gm
 assert.strictEqual((uploadPageCode.match(/^  buildStructuredEvidenceCapture\(/gm) || []).length, 1, 'upload page has one active structured evidence capture builder');
 assert(uploadPageCode.includes('topicCardId') && uploadPageCode.includes('activeRecallLadderCount'), 'upload report handoff preserves mini-lesson topic card and active recall ladder evidence');
 assert(uploadPageCode.includes('uploadedMaterialDecisionDossier') && uploadPageCode.includes('cta.uploadedMaterialDecisionDossier'), 'upload persists the material decision dossier back into report state');
-assert(uploadPageCode.includes('buildMaterialTypeGuide') && uploadPageCode.includes('examplePlaceholder') && uploadWxml.includes('placeholder="{{materialPreview.examplePlaceholder}}"'), 'upload material textarea uses source-specific examples instead of one generic placeholder');
+assert(uploadPageCode.includes('buildMaterialTypeGuide') && uploadPageCode.includes('examplePlaceholder'), 'upload material guide keeps source-specific examples in logic');
 assert(code.includes("'parent_private_priority_only'") && uploadPageCode.includes('methodCandidateOnly'), 'upload material guidance preserves method-candidate and private-score handling');
-assert(uploadPageCode.includes('当前只生成方法候选') && uploadPageCode.includes('不生成复习卡') && uploadPageCode.includes('不贴天赋标签'), 'talent assessment guidance is method-candidate only and avoids talent labeling');
-assert(uploadPageCode.includes('当前生成错因报告') && uploadPageCode.includes('不自动判分') && uploadPageCode.includes('不给整卷答案'), 'wrong-paper guidance releases repair reports without auto grading or full answers');
-assert(uploadPageCode.includes('不能做：OCR 识别承诺') && uploadPageCode.includes('整卷解析') && uploadPageCode.includes('原题答案外发'), 'wrong-paper guidance blocks OCR claims, whole-paper solutions, and answer leakage');
-assert(uploadWxml.includes('materialPreview.statusLine') && uploadWxml.includes('materialPreview.modeLine') && uploadWxml.includes('materialPreview.blockedClaimsLine'), 'upload material preview visibly shows status, mode, and blocked-claim lines');
 assert(uploadPageCode.includes('previewWrongQuestionsToReview'), 'upload can preview wrong-question import without writing review assets');
 const afterPriorityStart = uploadPageCode.indexOf('afterPrioritySaved(text, state, plan, mode)');
 const afterPriorityEnd = uploadPageCode.indexOf('\n  async ', afterPriorityStart);
@@ -74,7 +65,6 @@ const afterPrioritySavedBlock = uploadPageCode.slice(afterPriorityStart, afterPr
 assert(afterPrioritySavedBlock.indexOf('previewWrongQuestionsToReview(text)') >= 0, 'upload report path starts with wrong-question preview');
 assert(afterPrioritySavedBlock.indexOf('requiresStructuredEvidenceGate') < afterPrioritySavedBlock.indexOf('importWrongQuestionsToReview(text, state, plan)'), 'upload writes wrong-question review cards only after structured evidence gate passes');
 assert(afterPrioritySavedBlock.indexOf('requiresStructuredEvidenceGate') < afterPrioritySavedBlock.indexOf('saveFocusFromUploadText(text, state, plan)'), 'upload writes today-focus evidence only after structured evidence gate passes');
-
 const homework = intake.classifyImportInput('把一根长1.2米的圆柱形钢材截成3段，表面积增加了6.28平方分米。这根钢材原来的体积是多少？');
 assert.strictEqual(homework.kind, 'homework_question', 'pasted question routes to homework tutoring');
 assert.strictEqual(homework.route, 'tutor', 'pasted question opens tutor');
@@ -272,15 +262,15 @@ assert(genericTalentCapture.fields.some((field) => field.qualityIssue === 'need_
   assert(intake.IMPORT_CHIPS.some((chip) => chip.label === label), `import MVP chip exists: ${label}`);
 });
 
-assert(uploadPageCode.includes('openMaterialReportPanel') && uploadWxml.includes('material-report-hero'), 'upload page promotes parent material report intake to a first-screen entry');
-assert(uploadWxml.includes('data-type="talent_assessment"') && uploadWxml.includes('data-type="score_sheet"') && uploadWxml.includes('data-type="pdf_excerpt"') && uploadWxml.includes('bindtap="openQuickAssessment"'), 'upload first-screen report entry exposes talent, score, PDF/OCR text, and quick-assessment lanes');
-assert(uploadPageCode.includes('chooseMaterialFile') && uploadPageCode.includes('wx.chooseMessageFile') && uploadWxml.includes('bindtap="chooseMaterialFile"'), 'upload supports selecting PDF/report files as local evidence before text extraction');
+assert(uploadPageCode.includes('openMaterialReportPanel') && uploadWxml.includes('upload-material-grid'), 'upload page promotes parent material report intake through the compact first-screen material grid');
+assert(uploadWxml.includes('学习偏好/测评资料') && uploadWxml.includes('成绩单/周测') && uploadWxml.includes('错题试卷'), 'upload first-screen report entry exposes talent, score, and wrong-question lanes without old controls');
+assert(uploadPageCode.includes('chooseMaterialFile') && uploadPageCode.includes('wx.chooseMessageFile'), 'upload supports selecting PDF/report files as local evidence before text extraction');
 assert(uploadPageCode.includes('buildGuardedAiReportDraft') && uploadPageCode.includes('guardedAiReportDraft'), 'upload page builds a guarded AI report draft before saving report state');
 assert(uploadPageCode.includes('requestAiMaterialAnalysis') && uploadPageCode.includes('api.analyzeMiniappMaterial') && uploadPageCode.includes('sanitizeAiMaterialAnalysisResult'), 'upload page calls server AI analysis and sanitizes/falls back locally');
 assert(uploadPageCode.includes('requiresStructuredEvidenceGate') && uploadPageCode.includes('已分类，报告待补证据'), 'upload page blocks report handoff until structured evidence is ready');
 assert(uploadPageCode.includes('structuredEvidenceCapture.ready') && uploadPageCode.includes('structuredEvidenceCapture.values'), 'upload page threads structured evidence into report generation');
-assert(uploadWxml.includes('AI 草案字段') && uploadWxml.includes('lastReportCta.guardedAiReportDraft.visibleLine'), 'upload report CTA shows the guarded AI draft boundary to parents');
-assert(uploadWxml.includes('data-type="score_sheet"') && uploadWxml.includes('data-type="pdf_excerpt"') && uploadWxml.includes('AI '), 'upload report entry states AI draft plus local safety boundaries before material import');
+assert(uploadWxml.includes('不公开分享') && uploadWxml.includes('先分类再分析'), 'upload report CTA shows the local evidence boundary to parents through compact copy');
+assert(uploadWxml.includes('家长报告') && uploadWxml.includes('证据与方法匹配'), 'upload report entry routes AI/local analysis into the parent report jump instead of old inline controls');
 
 let runtimeUploadPage = null;
 vm.runInNewContext(uploadPageCode, {

@@ -8,6 +8,17 @@ const TAB_ROUTES = [
   '/pages/upload/upload'
 ];
 
+const RETIRED_ROUTE_MAP = {
+  '/pages/daily-math/daily-math': '/pages/entry-detail/entry-detail?scene=today',
+  '/pages/dictation/dictation': '/pages/entry-detail/entry-detail?scene=today',
+  '/pages/light-diagnosis/light-diagnosis': '/pages/entry-detail/entry-detail?scene=today',
+  '/pages/focus/focus': '/pages/entry-detail/entry-detail?scene=today',
+  '/pages/tools/tools': '/pages/entry-detail/entry-detail?scene=today',
+  '/pages/module/module': '/pages/entry-detail/entry-detail?scene=tutor',
+  '/pages/radar/radar': '/pages/entry-detail/entry-detail?scene=parent',
+  '/pages/diagnosis/diagnosis': '/pages/entry-detail/entry-detail?scene=upload'
+};
+
 function normalizeRoute(route) {
   const value = typeof route === 'string' ? route.trim() : '';
   if (!value) return '';
@@ -22,6 +33,15 @@ function routeQuery(route) {
   const url = normalizeRoute(route);
   const index = url.indexOf('?');
   return index >= 0 ? url.slice(index + 1) : '';
+}
+
+function activeRoute(route) {
+  const url = normalizeRoute(route);
+  const base = baseRoute(url);
+  const replacement = RETIRED_ROUTE_MAP[base];
+  if (!replacement) return url;
+  const query = routeQuery(url);
+  return query ? `${replacement}&retiredFrom=${encodeURIComponent(base)}&${query}` : replacement;
 }
 
 function rememberTabRouteContext(route) {
@@ -82,7 +102,7 @@ function shouldOpenFunctionalTab(options = {}) {
 }
 
 function navigateLearningRoute(route) {
-  const url = normalizeRoute(route);
+  const url = activeRoute(route);
   if (!url || typeof wx === 'undefined') return false;
   const base = baseRoute(url);
   if (TAB_ROUTES.includes(base)) {
@@ -102,5 +122,6 @@ module.exports = {
   parseQuery,
   rememberTabRouteContext,
   consumePendingTabRouteContext,
-  shouldOpenFunctionalTab
+  shouldOpenFunctionalTab,
+  activeRoute
 };

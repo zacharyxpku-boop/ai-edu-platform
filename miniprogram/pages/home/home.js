@@ -102,7 +102,6 @@ Page({
     incomingShare: null,
     incomingShareRelay: null,
     updatedText: '',
-    legacyStuckAnchor: { title: '卡住了，先说想法' },
     showFirstRunOverlay: false,
     showLightTools: false,
     yesterdayReviewCard: null,
@@ -450,12 +449,9 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 0 });
     }
-    const pendingRoute = navigation.consumePendingTabRouteContext
-      ? navigation.consumePendingTabRouteContext('/pages/home/home')
-      : null;
-    this.setData({
-      showLegacyEntryContent: false
-    });
+    if (navigation.consumePendingTabRouteContext) {
+      navigation.consumePendingTabRouteContext('/pages/home/home');
+    }
     setTimeout(() => {
       this.refresh();
     }, 0);
@@ -1983,7 +1979,7 @@ Page({
   },
 
   goDiagnosis() {
-    wx.navigateTo({ url: '/pages/diagnosis/diagnosis' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=upload&from=diagnosis' });
   },
 
   goReviewInput() {
@@ -1996,21 +1992,21 @@ Page({
 
   goTools() {
     this.trackShareActivation('challenge_started', {
-      next: 'tools'
+      next: 'entry-detail'
     });
-    navigation.navigateLearningRoute('/pages/tools/tools');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today' });
   },
 
   goDailyMath() {
-    wx.navigateTo({ url: '/pages/daily-math/daily-math' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=daily_math' });
   },
 
   goDictation() {
-    wx.navigateTo({ url: '/pages/dictation/dictation' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=dictation' });
   },
 
   goLightDiagnosis() {
-    wx.navigateTo({ url: '/pages/light-diagnosis/light-diagnosis' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=light_diagnosis' });
   },
 
   goHome() {
@@ -2098,7 +2094,7 @@ Page({
       wx.showToast({ title: '先回咕点确认今晚第一步，才能进专注舱。', icon: 'none' });
       return;
     }
-    navigation.navigateLearningRoute('/pages/focus/focus');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=focus_cabin' });
   },
 
   continueYesterdayReview() {
@@ -2172,6 +2168,27 @@ Page({
       visual_board_relay_boundary: incoming.visual_board_relay_boundary || ''
     });
     if (!navigation.navigateLearningRoute(target)) navigation.navigateLearningRoute('/pages/arcade/arcade');
+  },
+
+  continueShareRelay() {
+    const relay = this.data.incomingShareRelay || {};
+    const firstCard = Array.isArray(relay.relayPackCards) && relay.relayPackCards.length
+      ? relay.relayPackCards[0]
+      : null;
+    const route = navigation.normalizeRoute(
+      (firstCard && firstCard.route) || relay.receiverOwnMaterialChallengeRoute || relay.challengeRoute || '/pages/arcade/arcade',
+      '/pages/arcade/arcade'
+    );
+    if (storage.recordSurfaceDepthAction) {
+      storage.recordSurfaceDepthAction({
+        surface: 'home',
+        dimensionId: (firstCard && firstCard.id) || 'incoming_share_relay_continue',
+        label: (firstCard && firstCard.title) || '同伴接力继续',
+        route,
+        readiness: 'incoming_share_relay'
+      });
+    }
+    if (!navigation.navigateLearningRoute(route)) this.goSharedChallenge();
   },
 
   runIncomingShareRelayAction(event) {
@@ -2260,7 +2277,7 @@ Page({
   },
 
   goRadar() {
-    wx.navigateTo({ url: '/pages/radar/radar' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=parent&from=report_preview' });
   },
 
   goProfile() {

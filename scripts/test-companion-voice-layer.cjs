@@ -82,12 +82,12 @@ stages.forEach((stage) => {
   ['review', 'review_focus'],
   ['tools', 'tools_recall'],
   ['profile', 'profile_summary']
-].forEach(([legacy, modern]) => {
+].forEach(([retired, modern]) => {
   storage.COMPANION_OPTIONS.forEach((companion) => {
     assert.strictEqual(
-      storage.getCompanionStageCopy(legacy, { selectedCompanion: companion.id }),
+      storage.getCompanionStageCopy(retired, { selectedCompanion: companion.id }),
       storage.getCompanionStageCopy(modern, { selectedCompanion: companion.id }),
-      `${legacy} remains compatible with ${modern} for ${companion.id}`
+      `${retired} remains compatible with ${modern} for ${companion.id}`
     );
   });
 });
@@ -98,7 +98,7 @@ const anan = [
   storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'anan' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'anan' })
 ].join('\n');
-assert(anan.includes('咕点') && anan.includes('第一步'), 'legacy 安安 id resolves to mascot voice across tabs');
+assert(anan.includes('咕点') && anan.includes('第一步'), 'retired 安安 id resolves to mascot voice across tabs');
 
 const wenwen = [
   storage.getCompanionStageCopy('home_plan', { selectedCompanion: 'wenwen' }),
@@ -106,7 +106,7 @@ const wenwen = [
   storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'wenwen' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'wenwen' })
 ].join('\n');
-assert(wenwen.includes('咕点') && wenwen.includes('第一步'), 'legacy 问问 id resolves to mascot first-step voice');
+assert(wenwen.includes('咕点') && wenwen.includes('第一步'), 'retired 问问 id resolves to mascot first-step voice');
 
 const yueyue = [
   storage.getCompanionStageCopy('home_plan', { selectedCompanion: 'yueyue' }),
@@ -114,7 +114,7 @@ const yueyue = [
   storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'yueyue' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'yueyue' })
 ].join('\n');
-assert(yueyue.includes('咕点') && !/排行榜|PK|冲榜|一小关/.test(yueyue), 'legacy 跃跃 id no longer exposes challenge framing');
+assert(yueyue.includes('咕点') && !/排行榜|PK|冲榜|一小关/.test(yueyue), 'retired 跃跃 id no longer exposes challenge framing');
 
 const allVoiceCopy = storage.COMPANION_OPTIONS
   .flatMap((companion) => stages.map((stage) => storage.getCompanionStageCopy(stage, { selectedCompanion: companion.id })))
@@ -125,19 +125,23 @@ const allVoiceCopy = storage.COMPANION_OPTIONS
 
 const homeJs = read('miniprogram/pages/home/home.js');
 const reviewJs = read('miniprogram/pages/review/review.js');
-const toolsJs = read('miniprogram/pages/tools/tools.js');
+const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 const profileJs = read('miniprogram/pages/profile/profile.js');
 [
   ['home', homeJs, 'home_plan'],
   ['review', reviewJs, 'review_focus'],
-  ['tools', toolsJs, 'tools_recall'],
+  ['entryDetail', entryDetailJs, 'entry-detail-scenes'],
   ['profile', profileJs, 'profile_summary']
 ].forEach(([name, text, stage]) => {
+  if (name === 'entryDetail') {
+    assert(text.includes('SCENES') && text.includes('openScene'), `${name} uses child scene routing`);
+    return;
+  }
   assert(text.includes('getCompanionStageCopy'), `${name} uses shared companion voice formatter`);
   assert(text.includes(stage), `${name} uses detailed companion stage ${stage}`);
 });
 
-const tabCode = [homeJs, reviewJs, toolsJs, profileJs].join('\n');
+const tabCode = [homeJs, reviewJs, entryDetailJs, profileJs].join('\n');
 [
   /page\s*===\s*['"]home['"]/,
   /page\s*===\s*['"]review['"]/,

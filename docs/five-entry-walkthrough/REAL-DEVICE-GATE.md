@@ -1,6 +1,6 @@
 # Real Device Gate
 
-Generated: 2026-05-30T06:42:18.577Z
+Generated: 2026-05-30T13:42:42.608Z
 
 Status: BLOCKED
 
@@ -9,14 +9,14 @@ Status: BLOCKED
 - WeChat DevTools CLI: C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat
 - Service port 9420: closed
 - Project path: C:\Users\86136\Desktop\claude\ai-edu-platform\miniprogram
-- Latest miniapp source mtime: 2026-05-30T06:40:47.849Z
+- Latest miniapp source mtime: 2026-05-30T13:31:20.028Z
 
 ## Required Screenshots
 
 - tab-today.png: invalid
   - route: /pages/home/home
   - action: Open Today tab directly
-  - expected: Short entry screen only; no long legacy content below the first screen
+  - expected: Short entry screen only; no dense retired content below the first screen
   - size: 585x1266
   - captured: 2026-05-25T01:57:22.550Z
   - freshness: stale or missing
@@ -82,6 +82,41 @@ Status: BLOCKED
   - expected: Returns to upload with open=flow and visible material intake function area
   - size: 585x1266
   - captured: 2026-05-25T01:58:51.427Z
+  - freshness: stale or missing
+- entry-detail-today.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=today
+  - action: Open Today child detail page before tapping primary action
+  - expected: Graphical child page with brand mark, scene hero, three-step path, numbered evidence cards, and cross-entry jump cards
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
+- entry-detail-tutor.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=tutor
+  - action: Open Tutor child detail page before tapping primary action
+  - expected: Graphical AI tutor child page with visual hero and clear next-action buttons
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
+- entry-detail-review.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=review
+  - action: Open Review child detail page before tapping primary action
+  - expected: Graphical review child page with memory/transfer explanation and cross-entry jump cards
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
+- entry-detail-parent.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=parent
+  - action: Open Parent child detail page before tapping primary action
+  - expected: Graphical parent child page focused on evidence, method reasoning, and next action
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
+- entry-detail-upload.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=upload
+  - action: Open Upload child detail page before tapping primary action
+  - expected: Graphical upload child page focused on material classification and stable SOP
+  - size: n/a
+  - captured: n/a
   - freshness: stale or missing
 
 ## Rule

@@ -1,19 +1,11 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/daily-math/daily-math",
-    "pages/dictation/dictation",
-    "pages/light-diagnosis/light-diagnosis",
-    "pages/focus/focus",
-    "pages/tools/tools",
-    "pages/module/module",
     "pages/review/review",
     "pages/arcade/arcade",
     "pages/entry-detail/entry-detail",
     "pages/tutor/tutor",
-    "pages/radar/radar",
     "pages/profile/profile",
-    "pages/diagnosis/diagnosis",
     "pages/upload/upload",
     "pages/legal/legal"
   ],

@@ -109,19 +109,22 @@ const visibleText = collectStrings([completed, interrupted, empty]).join('\n');
   assert(!pattern.test(visibleText), `toolsViewModel avoids unsafe visible text: ${pattern}`);
 });
 
-const toolsJs = read('miniprogram/pages/tools/tools.js');
-const toolsWxml = read('miniprogram/pages/tools/tools.wxml');
-assert(toolsJs.includes('tools-view-model'), 'tools page imports tools viewModel');
-assert(toolsJs.includes('latestFocusSession'), 'tools page passes latest focus evidence');
-
-const firstScreen = toolsWxml.slice(
-  toolsWxml.indexOf('rc14-tools-first-screen'),
-  toolsWxml.indexOf('rc14-tools-after-first-screen')
-);
-assert(firstScreen.includes('toolsViewModel.routePill'), 'first screen reads routePill from toolsViewModel');
-assert(firstScreen.includes('toolsViewModel.primaryCard'), 'first screen renders primary card from toolsViewModel');
-assert(firstScreen.includes('toolsViewModel.primaryCta.text'), 'first screen renders primary CTA from toolsViewModel');
-assert(firstScreen.includes('bindtap="goFirstStep"'), 'empty revisit CTA returns to first-step tutor instead of arcade');
-assert(toolsJs.includes("goFirstStep()") && toolsJs.includes("/pages/tutor/tutor?from=tools_empty_revisit"), 'tools empty loop has a real first-step route');
+const appJson = JSON.parse(read('miniprogram/app.json'));
+assert(!appJson.pages.includes('pages/tools/tools'), 'retired tools page is not registered');
+assert(!fs.existsSync(path.join(root, 'miniprogram/pages/tools')), 'retired tools page directory has been physically removed');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
+const reviewWxml = read('miniprogram/pages/review/review.wxml');
+assert(entryDetailWxml.includes('entry-jump-grid') && entryDetailWxml.includes('bindtap="openScene"'), 'entry detail replaces tools with clickable child scenes');
+assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('data-scene="tutor"'), 'review can return to tutor without retired tools page');
+[
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['composer','shell'].join('-'),
+  ['family','summary-card'].join('-')
+].forEach((term) => {
+  assert(!entryDetailWxml.includes(term) && !reviewWxml.includes(term), `active shells do not carry retired UI marker: ${term}`);
+});
 
 console.log('All tools view model tests pass.');

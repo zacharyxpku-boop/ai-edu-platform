@@ -37,7 +37,7 @@ Search user-visible and review-facing surfaces for:
 
 Allowed exceptions:
 
-- Stable internal route or data identifiers such as `/pages/radar`, `weak_points`, `xp`, or test fixture names.
+- Stable internal route or data identifiers such as `/pages/profile`, `weak_points`, `xp`, or test fixture names.
 - Historical product docs not used for current review or real-device smoke.
 - Guardrail docs that explicitly describe what must not happen.
 

@@ -84,7 +84,7 @@ Checked:
 
 - `miniprogram/pages/home/home.wxml`
 - `miniprogram/pages/review/review.wxml`
-- `miniprogram/pages/tools/tools.wxml`
+- `miniprogram/pages/entry-detail/entry-detail.wxml`
 - `miniprogram/pages/profile/profile.wxml`
 
 Result:

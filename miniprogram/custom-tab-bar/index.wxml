@@ -1,47 +1,47 @@
-﻿<view class="v1-tabbar">
+﻿<view class="yd-tabbar">
   <view
-    class="v1-tab-item {{selected === 0 ? 'active' : ''}}"
+    class="yd-tab-item {{selected === 0 ? 'active' : ''}}"
     data-index="0"
     data-path="/pages/home/home"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon home"></view></view>
-    <view class="v1-tab-text">今天</view>
+    <view class="yd-tab-icon-wrap"><view class="yd-tab-icon home"></view></view>
+    <view class="yd-tab-text">今天</view>
   </view>
   <view
-    class="v1-tab-item {{selected === 1 ? 'active' : ''}}"
+    class="yd-tab-item {{selected === 1 ? 'active' : ''}}"
     data-index="1"
     data-path="/pages/tutor/tutor"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon tutor"></view></view>
-    <view class="v1-tab-text">AI私教</view>
+    <view class="yd-tab-icon-wrap"><view class="yd-tab-icon tutor"></view></view>
+    <view class="yd-tab-text">AI私教</view>
   </view>
   <view
-    class="v1-tab-item {{selected === 2 ? 'active' : ''}}"
+    class="yd-tab-item {{selected === 2 ? 'active' : ''}}"
     data-index="2"
     data-path="/pages/arcade/arcade"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon island"></view></view>
-    <view class="v1-tab-text">复习岛</view>
+    <view class="yd-tab-icon-wrap"><view class="yd-tab-icon island"></view></view>
+    <view class="yd-tab-text">复习岛</view>
   </view>
   <view
-    class="v1-tab-item {{selected === 3 ? 'active' : ''}}"
+    class="yd-tab-item {{selected === 3 ? 'active' : ''}}"
     data-index="3"
     data-path="/pages/profile/profile"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon parent"></view></view>
-    <view class="v1-tab-text">家长</view>
+    <view class="yd-tab-icon-wrap"><view class="yd-tab-icon parent"></view></view>
+    <view class="yd-tab-text">家长</view>
   </view>
   <view
-    class="v1-tab-item {{selected === 4 ? 'active' : ''}}"
+    class="yd-tab-item {{selected === 4 ? 'active' : ''}}"
     data-index="4"
     data-path="/pages/upload/upload"
     bindtap="switchTab"
   >
-    <view class="v1-tab-icon-wrap"><view class="v1-tab-icon upload"></view></view>
-    <view class="v1-tab-text">上传</view>
+    <view class="yd-tab-icon-wrap"><view class="yd-tab-icon upload"></view></view>
+    <view class="yd-tab-text">上传</view>
   </view>
 </view>

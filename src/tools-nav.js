@@ -100,7 +100,7 @@ function renderQuickNav(currentToolFile) {
     quickNavEl.innerHTML = html;
 }
 
-// 多个工具页已有 hamburger onclick，但旧版没有实现函数。
+// 多个工具页已有 hamburger onclick，这里补齐统一的移动菜单函数。
 // 这里集中注入一个轻量移动菜单，避免每个工具页各自复制。
 function bindLearningLoopDockRefresh(currentToolFile) {
     if (window.__ydzxToolLoopDockBound) return;

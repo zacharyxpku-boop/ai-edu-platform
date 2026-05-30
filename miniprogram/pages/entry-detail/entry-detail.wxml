@@ -1,14 +1,22 @@
 <view class="entry-detail-page">
   <view class="entry-detail-top">
     <button class="entry-back" bindtap="goBack">‹</button>
-    <view class="entry-brand">原点智学</view>
+    <view class="entry-brand">
+      <image mode="aspectFit" src="/assets/reference/brand-house.png" />
+      <text>原点智学</text>
+    </view>
   </view>
 
-  <view class="entry-detail-hero">
+  <view class="entry-detail-hero scene-{{sceneKey}}">
     <view>
       <view class="entry-badge">{{scene.badge}}</view>
       <view class="entry-title">{{scene.title}}</view>
       <view class="entry-subtitle">{{scene.subtitle}}</view>
+      <view class="entry-mini-path">
+        <text>依据</text>
+        <text>行动</text>
+        <text>回流</text>
+      </view>
     </view>
     <image class="entry-image" mode="aspectFill" src="{{scene.heroImage}}" />
   </view>
@@ -20,13 +28,19 @@
 
   <view class="entry-card-grid">
     <view class="entry-card" wx:for="{{scene.cards}}" wx:key="label">
-      <view class="entry-card-label">{{item.label}}</view>
-      <view class="entry-card-value">{{item.value}}</view>
+      <view class="entry-card-icon">{{index + 1}}</view>
+      <view>
+        <view class="entry-card-label">{{item.label}}</view>
+        <view class="entry-card-value">{{item.value}}</view>
+      </view>
     </view>
   </view>
 
   <view class="entry-jump-section">
-    <view class="entry-jump-title">继续看其他入口</view>
+    <view class="entry-jump-title">
+      <text>继续看其他入口</text>
+      <text>切换后仍在当前子页面，不回到长下拉</text>
+    </view>
     <view class="entry-jump-grid">
       <button class="entry-jump-card" wx:for="{{sceneLinks}}" wx:key="key" data-scene="{{item.key}}" bindtap="openScene">
         <image mode="aspectFit" src="{{item.image}}" />

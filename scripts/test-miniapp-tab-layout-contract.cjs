@@ -8,6 +8,30 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
+function auditTapHandlers() {
+  const pagesRoot = path.join(root, 'miniprogram', 'pages');
+  const missing = [];
+  fs.readdirSync(pagesRoot).forEach((page) => {
+    const dir = path.join(pagesRoot, page);
+    const wxmlPath = path.join(dir, `${page}.wxml`);
+    const jsPath = path.join(dir, `${page}.js`);
+    if (!fs.existsSync(wxmlPath) || !fs.existsSync(jsPath)) return;
+    const wxml = fs.readFileSync(wxmlPath, 'utf8');
+    const js = fs.readFileSync(jsPath, 'utf8');
+    const handlers = Array.from(wxml.matchAll(/(?:bindtap|catchtap)="([^"{][^"]*)"/g))
+      .map((match) => match[1])
+      .filter((name) => name && !name.includes('{{'));
+    Array.from(new Set(handlers)).forEach((name) => {
+      const functionPattern = new RegExp(`\\b${name}\\s*\\(`);
+      const propertyPattern = new RegExp(`\\b${name}\\s*:`);
+      if (!functionPattern.test(js) && !propertyPattern.test(js)) {
+        missing.push(`${page}.${name}`);
+      }
+    });
+  });
+  assert.deepStrictEqual(missing, [], `all visible tap handlers must be implemented: ${missing.join(', ')}`);
+}
+
 const tabContracts = [
   {
     id: 'tutor',
@@ -48,10 +72,9 @@ const tabContracts = [
 ];
 
 function focusedLaunchSlice(wxml, launchShell) {
-  const legacyStart = wxml.indexOf('<block wx:if="{{showLegacyEntryContent}}">');
   const shellStart = wxml.indexOf(launchShell);
   assert(shellStart >= 0, `missing launch shell: ${launchShell}`);
-  return wxml.slice(shellStart, legacyStart > shellStart ? legacyStart : undefined);
+  return wxml.slice(shellStart);
 }
 
 function assertRuleContains(css, selector, prop, value, message) {
@@ -69,7 +92,7 @@ tabContracts.forEach((tab) => {
   const wxss = read(tab.wxss);
   const launch = focusedLaunchSlice(wxml, tab.launchShell);
 
-  assert(launch.includes(tab.launchShell), `${tab.id} renders the new focused launch shell before legacy content`);
+  assert(launch.includes(tab.launchShell), `${tab.id} renders the new focused launch shell`);
   assert.strictEqual((launch.match(/ux-kit-jump-card/g) || []).length, 3, `${tab.id} launch screen keeps exactly 3 jump cards`);
   assert((launch.match(/bindtap="openEntryDetail"/g) || []).length >= 3, `${tab.id} launch cards jump to child/detail pages`);
   assert(launch.includes(tab.primaryAction), `${tab.id} launch screen keeps one obvious primary action`);
@@ -89,13 +112,13 @@ tabContracts.forEach((tab) => {
 
 const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 const entryDetailWxss = read('miniprogram/pages/entry-detail/entry-detail.wxss');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 const tutorWxml = read('miniprogram/pages/tutor/tutor.wxml');
 const homeWxml = read('miniprogram/pages/home/home.wxml');
 const parentWxml = read('miniprogram/pages/profile/profile.wxml');
 const arcadeWxml = read('miniprogram/pages/arcade/arcade.wxml');
 const uploadWxml = read('miniprogram/pages/upload/upload.wxml');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-const reviewWxss = read('miniprogram/pages/review/review.wxss');
 ['today', 'tutor', 'review', 'parent', 'upload'].forEach((scene) => {
   assert(entryDetailJs.includes(`${scene}: {`), `entry-detail supports child scene: ${scene}`);
 });
@@ -107,9 +130,12 @@ assert(tutorWxml.includes('class="tutor-dash-mark" mode="aspectFit" src="/assets
 assert(!tutorWxml.includes('<view class="tutor-dash-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
 assert(arcadeWxml.includes('class="arcade-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(!arcadeWxml.includes('<view class="arcade-dash-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
-assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before legacy review content');
+assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
 assert(reviewWxml.includes('review-subcheck ux-kit-subcheck'), 'review child flow keeps a compact subcheck preview under the launch shell');
-assert(reviewWxss.includes('.v1-topbar') && reviewWxss.includes('display: none'), 'review child flow hides the old topbar that caused clipped screenshots');
+assert(reviewWxml.includes('class="subcheck-main" data-scene="review" bindtap="openEntryDetail"'), 'review child flow main subcheck jumps into the shared child detail scene');
+assert(reviewWxml.includes('data-scene="tutor" bindtap="openEntryDetail"') && reviewWxml.includes('data-scene="today" bindtap="openEntryDetail"'), 'review child flow side jumps use scene-based entry-detail navigation');
+assert(read('miniprogram/pages/review/review.js').includes('openEntryDetail(event)') && read('miniprogram/pages/review/review.js').includes('/pages/entry-detail/entry-detail?scene='), 'review child flow implements scene-based entry-detail navigation');
+assert(!reviewWxml.includes(['v','1-topbar'].join('')), 'review child flow removes the old topbar instead of hiding it with CSS');
 assert(uploadWxml.includes('class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'upload tab brand mark uses the visual reference asset instead of an arrow placeholder');
 assert(!uploadWxml.includes('<view class="upload-dash-mark">↑</view>'), 'upload tab never regresses to the text-only arrow mark');
 assert(parentWxml.includes('class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'parent tab brand mark uses the visual reference asset instead of a text placeholder');
@@ -123,16 +149,25 @@ assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail ch
 assert(entryDetailWxss.includes('grid-template-columns: 1fr'), 'entry-detail child page uses readable evidence rows instead of cramped mini cards');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'entry-detail child page cross-entry jumps render as a two-column visual grid');
 assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child page clamps hero copy to avoid a text wall');
-assert(read('miniprogram/pages/entry-detail/entry-detail.wxml').includes('entry-proof-strip'), 'entry-detail child page shows a compact three-step proof strip');
+assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');
+assert(entryDetailWxml.includes('entry-mini-path') && entryDetailWxss.includes('.entry-mini-path'), 'entry-detail child page shows a graphic three-step path inside the hero');
+assert(entryDetailWxml.includes('entry-card-icon') && entryDetailWxss.includes('.entry-card-icon'), 'entry-detail child page uses numbered visual evidence cards instead of plain text blocks');
+assert(entryDetailWxml.includes('entry-proof-strip'), 'entry-detail child page shows a compact three-step proof strip');
 
 const appWxss = read('miniprogram/app.wxss');
 const tabbarWxss = read('miniprogram/custom-tab-bar/index.wxss');
+const tabbarWxml = read('miniprogram/custom-tab-bar/index.wxml');
+auditTapHandlers();
 assert(appWxss.includes('.ux-kit-screen ~ .ux-kit-subcheck'), 'focused tab screens allow the compact subcheck preview to render');
 assert(appWxss.includes('grid-template-columns: minmax(0, 1fr)'), 'subcheck preview avoids squeezed two-column mobile composition');
 assert(appWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'subcheck side actions stay as two compact jump cards');
 assert(appWxss.includes('.subcheck-art'), 'subcheck preview styles a dedicated image asset block');
 assert(!tabbarWxss.includes('scale(0.88)'), 'custom tabbar labels render at real size instead of being visually scaled down');
 assert(tabbarWxss.includes('position: absolute') && tabbarWxss.includes('bottom: 6rpx'), 'custom tabbar active indicator does not take layout space from labels');
+const retiredTabbarClass = ['v', '1-tabbar'].join('');
+const retiredClassPattern = new RegExp(`\\b${['v', '1-'].join('')}|${['module', 'v', '1'].join('-')}`);
+assert(tabbarWxml.includes('yd-tabbar') && !tabbarWxml.includes(retiredTabbarClass), 'custom tabbar uses the current reference design shell');
+assert(!retiredClassPattern.test(appWxss + tabbarWxss + tabbarWxml + entryDetailWxml + entryDetailWxss), 'retired shell class names are removed from active miniapp screens');
 
 const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
 [
@@ -145,9 +180,16 @@ const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
   'child-tutor-flow.png',
   'child-review-recall.png',
   'child-parent-report.png',
-  'child-upload-material.png'
+  'child-upload-material.png',
+  'entry-detail-today.png',
+  'entry-detail-tutor.png',
+  'entry-detail-review.png',
+  'entry-detail-parent.png',
+  'entry-detail-upload.png'
 ].forEach((name) => {
   assert(realDeviceGate.includes(name), `real-device gate requires screenshot: ${name}`);
 });
+const captureRealDevice = read('scripts/capture-miniapp-real-device.cjs');
+assert(captureRealDevice.includes('childEntryShots') && captureRealDevice.includes('entry-detail-upload.png'), 'real-device capture script records child detail screens before tapping primary actions');
 
 console.log('All miniapp tab layout contract tests pass.');

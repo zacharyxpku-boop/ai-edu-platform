@@ -1,4 +1,4 @@
-.v1-tabbar {
+.yd-tabbar {
   position: fixed;
   left: 20rpx;
   right: 20rpx;
@@ -18,7 +18,7 @@
   box-sizing: border-box;
 }
 
-.v1-tab-item {
+.yd-tab-item {
   position: relative;
   display: grid;
   grid-template-rows: 44rpx 34rpx;
@@ -41,13 +41,13 @@
   box-sizing: border-box;
 }
 
-.v1-tab-item.active {
+.yd-tab-item.active {
   color: #0C4A3B;
   background: #F1FAEF;
   border-color: transparent;
 }
 
-.v1-tab-item.active::after {
+.yd-tab-item.active::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -59,7 +59,7 @@
   transform: translateX(-50%);
 }
 
-.v1-tab-text {
+.yd-tab-text {
   display: block;
   width: 100%;
   height: 34rpx;
@@ -70,7 +70,7 @@
   white-space: nowrap;
 }
 
-.v1-tab-icon-wrap {
+.yd-tab-icon-wrap {
   display: flex;
   width: 100%;
   height: 44rpx;
@@ -79,7 +79,7 @@
   overflow: hidden;
 }
 
-.v1-tab-item.active .v1-tab-icon-wrap {
+.yd-tab-item.active .yd-tab-icon-wrap {
   width: 52rpx;
   height: 44rpx;
   justify-self: center;
@@ -87,7 +87,7 @@
   background: rgba(34, 185, 92, 0.12);
 }
 
-.v1-tab-icon {
+.yd-tab-icon {
   position: relative;
   width: 34rpx;
   height: 34rpx;
@@ -95,15 +95,15 @@
   color: #403D37;
 }
 
-.v1-tab-item.active .v1-tab-icon {
+.yd-tab-item.active .yd-tab-icon {
   color: #0C4A3B;
 }
 
-.v1-tab-item.active .v1-tab-icon::after {
+.yd-tab-item.active .yd-tab-icon::after {
   box-shadow: none;
 }
 
-.v1-tab-icon.home::before {
+.yd-tab-icon.home::before {
   content: "";
   position: absolute;
   left: 5rpx;
@@ -115,7 +115,7 @@
   border-radius: 2rpx 2rpx 7rpx 7rpx;
 }
 
-.v1-tab-icon.home::after {
+.yd-tab-icon.home::after {
   content: "";
   position: absolute;
   left: 7rpx;
@@ -128,7 +128,7 @@
   border-radius: 4rpx 0 0 0;
 }
 
-.v1-tab-icon.pack::before {
+.yd-tab-icon.pack::before {
   content: "";
   position: absolute;
   left: 4rpx;
@@ -139,7 +139,7 @@
   border-radius: 6rpx;
 }
 
-.v1-tab-icon.pack::after {
+.yd-tab-icon.pack::after {
   content: "";
   position: absolute;
   left: 7rpx;
@@ -151,15 +151,15 @@
   border-radius: 6rpx 6rpx 0 0;
 }
 
-.v1-tab-icon.parent::before,
-.v1-tab-icon.parent::after {
+.yd-tab-icon.parent::before,
+.yd-tab-icon.parent::after {
   content: "";
   position: absolute;
   border: 3rpx solid currentColor;
   border-radius: 999rpx;
 }
 
-.v1-tab-icon.tutor::before {
+.yd-tab-icon.tutor::before {
   content: "";
   position: absolute;
   left: 4rpx;
@@ -170,7 +170,7 @@
   border-radius: 10rpx;
 }
 
-.v1-tab-icon.tutor::after {
+.yd-tab-icon.tutor::after {
   content: "";
   position: absolute;
   left: 12rpx;
@@ -182,7 +182,7 @@
   box-shadow: 10rpx 0 0 currentColor, 5rpx 8rpx 0 -1rpx currentColor;
 }
 
-.v1-tab-icon.island::before {
+.yd-tab-icon.island::before {
   content: "";
   position: absolute;
   left: 3rpx;
@@ -194,7 +194,7 @@
   border-radius: 0 0 18rpx 18rpx;
 }
 
-.v1-tab-icon.island::after {
+.yd-tab-icon.island::after {
   content: "";
   position: absolute;
   left: 10rpx;
@@ -207,7 +207,7 @@
   border-radius: 0 0 0 8rpx;
 }
 
-.v1-tab-icon.upload::before {
+.yd-tab-icon.upload::before {
   content: "";
   position: absolute;
   left: 4rpx;
@@ -218,7 +218,7 @@
   border-radius: 7rpx;
 }
 
-.v1-tab-icon.upload::after {
+.yd-tab-icon.upload::after {
   content: "";
   position: absolute;
   left: 13rpx;
@@ -230,7 +230,7 @@
   transform: rotate(45deg);
 }
 
-.v1-tab-icon.loop::before {
+.yd-tab-icon.loop::before {
   content: "";
   position: absolute;
   left: 6rpx;
@@ -242,7 +242,7 @@
   border-radius: 50%;
 }
 
-.v1-tab-icon.loop::after {
+.yd-tab-icon.loop::after {
   content: "";
   position: absolute;
   left: 6rpx;
@@ -255,7 +255,7 @@
   border-radius: 2rpx;
 }
 
-.v1-tab-icon.focus::before {
+.yd-tab-icon.focus::before {
   content: "";
   position: absolute;
   left: 5rpx;
@@ -266,7 +266,7 @@
   border-radius: 50%;
 }
 
-.v1-tab-icon.focus::after {
+.yd-tab-icon.focus::after {
   content: "";
   position: absolute;
   left: 14rpx;
@@ -278,8 +278,8 @@
   box-shadow: 0 0 0 7rpx rgba(15, 79, 61, .12);
 }
 
-.v1-tab-icon.mine::before,
-.v1-tab-icon.mine::after {
+.yd-tab-icon.mine::before,
+.yd-tab-icon.mine::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -287,28 +287,28 @@
   transform: translateX(-50%);
 }
 
-.v1-tab-icon.mine::before {
+.yd-tab-icon.mine::before {
   top: 5rpx;
   width: 13rpx;
   height: 13rpx;
   border-radius: 50%;
 }
 
-.v1-tab-icon.mine::after {
+.yd-tab-icon.mine::after {
   bottom: 4rpx;
   width: 26rpx;
   height: 14rpx;
   border-radius: 18rpx 18rpx 5rpx 5rpx;
 }
 
-.v1-tab-icon.parent::before {
+.yd-tab-icon.parent::before {
   left: 3rpx;
   top: 4rpx;
   width: 14rpx;
   height: 14rpx;
 }
 
-.v1-tab-icon.parent::after {
+.yd-tab-icon.parent::after {
   right: 2rpx;
   top: 11rpx;
   width: 12rpx;

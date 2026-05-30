@@ -42,17 +42,17 @@
 | `pages/home` | 今晚入口、续接卡片、分享回流 | 唯一主入口：决定今晚先做哪一步 |
 | `pages/tutor` | 作业点拨、追问、私教对话 | Khanmigo 式私教：追问第一步、拦截答案、小课堂/家长转交 |
 | `pages/review` | 修卡点、错题回访 | 把卡点修成错因、回访卡和下一步 |
-| `pages/focus` | 专注舱 | 围绕已确认第一步坐一段，留下完成证据 |
-| `pages/tools` | 轻回访、工具集合、练习入口 | 回访页：今天只回看一小步，游戏和材料都降级为补位入口 |
+| `pages/entry-detail?scene=today` | 专注舱 | 围绕已确认第一步坐一段，留下完成证据 |
+| `pages/entry-detail?scene=today` | 轻回访、工具集合、练习入口 | 回访页：今天只回看一小步，游戏和材料都降级为补位入口 |
 | `pages/arcade` | 轻练习、游戏化回忆 | Gizmo 式主动回忆游戏：奖励来自真实学习证据，不做假社交 |
 | `pages/profile` | 家长复盘、报告、行动卡 | 家长 5 秒复盘：孩子第一步、回访、报告动作和明天一句话 |
 | `pages/upload` | 作业/错题/报告材料入口 | 材料入口：作业、成绩、错题、测评报告进入分析并回到行动 |
-| `pages/radar` | 弱点雷达/家长判断 | 辅助决策页，不能抢 Profile 首屏 |
-| `pages/diagnosis` | 轻诊断/卡点分类 | 服务 Tutor 和 Review 的卡点分类，不做独立诊断墙 |
-| `pages/module` | 小学习局/模块学习 | 3 分钟小课堂或小学习局，专门补“第一步说不出”的那一层 |
-| `pages/daily-math` | 每日轻口算 | 轻入口，只制造第一步证据和回访卡 |
-| `pages/dictation` | 听写小助手 | 轻入口，只记录字形/错因和回访动作 |
-| `pages/light-diagnosis` | 手动选题型/轻诊断 | 轻入口，帮孩子把“不会”翻成可问的第一步 |
+| `pages/profile` | 弱点雷达/家长判断 | 辅助决策页，不能抢 Profile 首屏 |
+| `pages/upload` | 轻诊断/卡点分类 | 服务 Tutor 和 Review 的卡点分类，不做独立诊断墙 |
+| `pages/tutor` | 小学习局/模块学习 | 3 分钟小课堂或小学习局，专门补“第一步说不出”的那一层 |
+| `pages/entry-detail?scene=today` | 每日轻口算 | 轻入口，只制造第一步证据和回访卡 |
+| `pages/entry-detail?scene=today` | 听写小助手 | 轻入口，只记录字形/错因和回访动作 |
+| `pages/entry-detail?scene=today` | 手动选题型/轻诊断 | 轻入口，帮孩子把“不会”翻成可问的第一步 |
 | `pages/legal` | 协议/隐私 | 上线必备，不进入学习主线 |
 
 ### 3.2 桥接能力

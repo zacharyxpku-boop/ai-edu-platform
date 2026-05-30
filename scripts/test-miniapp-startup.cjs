@@ -158,15 +158,15 @@ assert(homePage.data.homeViewModel && homePage.data.homeViewModel.title, 'Home h
 assert(homePage.data.companionPreference && homePage.data.companionPreference.selectedCompanion, 'Home companionPreference is non-null before first render');
 
 const homeWxml = read(`${launchPage}.wxml`);
-assert(homeWxml.includes('homeViewModel.title'), 'Home WXML binds launch viewModel title');
+assert(homeWxml.includes('mini-hero-card') && homeWxml.includes('mini-entry-grid') && homeWxml.includes('mini-route-card'), 'Home WXML renders the new reference-style launch surface');
 assert(!/companionPreference\.selectedCompanion/.test(homeWxml) || homePage.data.companionPreference.selectedCompanion, 'Home direct companion binding has a first-render default');
 
 const tabStartupExpectations = {
   'pages/home/home': ['homeViewModel'],
-  'pages/focus/focus': ['cabin'],
-  'pages/review/review': ['reviewViewModel'],
-  'pages/tools/tools': ['toolsViewModel'],
-  'pages/profile/profile': ['profileViewModel']
+  'pages/tutor/tutor': ['quickActions'],
+  'pages/arcade/arcade': ['selectedGame'],
+  'pages/profile/profile': ['profileViewModel'],
+  'pages/upload/upload': ['uploadEntryDeck']
 };
 
 Object.entries(tabStartupExpectations).forEach(([pagePath, fields]) => {
@@ -175,9 +175,28 @@ Object.entries(tabStartupExpectations).forEach(([pagePath, fields]) => {
   assert(page && page.data, `${pagePath} Page definition loads`);
   fields.forEach((field) => {
     assert(page.data[field], `${pagePath} has launch-time ${field}`);
-    if (field === 'cabin') {
-      assert(page.data[field].currentSession, `${pagePath} has launch-time focus session state`);
-      assert(wxml.includes(`${field}.currentSession`), `${pagePath} WXML binds focus session state`);
+    if (pagePath === 'pages/home/home') {
+      assert(wxml.includes('mini-hero-card') && wxml.includes('mini-entry-grid'), `${pagePath} WXML renders the new home launch shell`);
+      return;
+    }
+    if (pagePath === 'pages/profile/profile') {
+      assert(wxml.includes('parent-hero-shell') && wxml.includes('parent-report-preview'), `${pagePath} WXML renders the new parent report launch shell`);
+      return;
+    }
+    if (pagePath === 'pages/review/review') {
+      assert(wxml.includes('review-hero-shell') && wxml.includes('review-challenge-grid'), `${pagePath} WXML renders the new review challenge launch shell`);
+      return;
+    }
+    if (pagePath === 'pages/tutor/tutor') {
+      assert(wxml.includes('tutor-hero-shell') && wxml.includes('tutor-entry-grid'), `${pagePath} WXML renders the new tutor launch shell`);
+      return;
+    }
+    if (pagePath === 'pages/arcade/arcade') {
+      assert(wxml.includes('arcade-hero-shell') && wxml.includes('arcade-map-card'), `${pagePath} WXML renders the new arcade launch shell`);
+      return;
+    }
+    if (pagePath === 'pages/upload/upload') {
+      assert(wxml.includes('upload-hero-shell') && wxml.includes('upload-material-grid'), `${pagePath} WXML renders the new upload launch shell`);
       return;
     }
     assert(page.data[field].title, `${pagePath} has launch-time ${field} title`);

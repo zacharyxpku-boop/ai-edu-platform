@@ -212,7 +212,7 @@ function buildPrimaryHomeNextAction(input = {}) {
       body: safeText(input.todayFocus.systemSuggestedStep || input.todayFocus.childArticulatedStep, '先把这一小步做完。'),
       cta: '去专注舱',
       action: 'focus',
-      route: '/pages/focus/focus?from=home_primary_next'
+      route: '/pages/entry-detail/entry-detail?scene=today&from=home_primary_next'
     });
   }
   const selected = candidates.sort((a, b) => a.priority - b.priority)[0];

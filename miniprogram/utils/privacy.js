@@ -1,7 +1,7 @@
 function requirePrivacy(scopeName) {
   return new Promise((resolve, reject) => {
     if (!wx.requirePrivacyAuthorize) {
-      resolve({ ok: true, legacy: true });
+      resolve({ ok: true, mode: 'privacy_api_unavailable' });
       return;
     }
     wx.requirePrivacyAuthorize({

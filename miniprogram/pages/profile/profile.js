@@ -3090,12 +3090,9 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
     }
-    const pendingRoute = navigation.consumePendingTabRouteContext
-      ? navigation.consumePendingTabRouteContext('/pages/profile/profile')
-      : null;
-    this.setData({
-      showLegacyEntryContent: false
-    });
+    if (navigation.consumePendingTabRouteContext) {
+      navigation.consumePendingTabRouteContext('/pages/profile/profile');
+    }
     this.refresh();
   },
 
@@ -3910,7 +3907,7 @@ Page({
       { id: 'decision', label: '作业决策', value: safeNumber(calibration.homework && calibration.homework.accuracyRate, 0) + '%', source: '反馈校准' },
       { id: 'tutor', label: '思路记录', value: safeNumber(thinking.total, 0), source: '作业点拨' },
       { id: 'memory', label: '记忆卡', value: safeNumber(review.total, 0), source: '复习引擎' },
-      { id: 'module', label: '关卡适配', value: safeNumber(modules.useful, 0), source: '学习方法' },
+      { id: 'method_fit', label: '方法适配', value: safeNumber(modules.useful, 0), source: '学习方法' },
       { id: 'factory', label: '关卡生成', value: safeNumber(factory.generated, 0), source: '材料 -> 关卡' }
     ];
     const loopScore = Math.min(100, 58
@@ -3959,7 +3956,7 @@ Page({
       actions.push({ id: 'safety', priority: 'P1', title: '收紧抄结果拦截', body: '任何解释前都先问第一想法和卡点。' });
     }
     if (Number(modules.feedback || 0) < 3) {
-      actions.push({ id: 'modules', priority: 'P2', title: '收集关卡适配反馈', body: '每次关卡结束后标记有用/无用，让推荐逐渐收敛。' });
+      actions.push({ id: 'method_feedback', priority: 'P2', title: '收集方法适配反馈', body: '每次练习结束后标记有用/无用，让推荐逐渐收敛。' });
     }
     if (Number(thinking.total || 0) < 3) {
       actions.push({ id: 'thinking', priority: 'P2', title: '积累更多思路记录', body: '每次点拨都以一句自己能复述的话结束。' });
@@ -4101,10 +4098,10 @@ Page({
       return;
     }
     const routeTargets = {
-      tools: '/pages/tools/tools',
+      tools: '/pages/entry-detail/entry-detail?scene=today&from=parent_tools',
       review: '/pages/review/review',
       upload: '/pages/upload/upload',
-      radar: '/pages/radar/radar',
+      radar: '/pages/entry-detail/entry-detail?scene=parent&from=parent_report',
       arcade: '/pages/arcade/arcade',
       tutor: '/pages/tutor/tutor'
     };
@@ -4174,11 +4171,11 @@ Page({
   },
 
   goTools() {
-    navigation.navigateLearningRoute('/pages/tools/tools');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=parent' });
   },
 
   goFocus() {
-    navigation.navigateLearningRoute('/pages/focus/focus');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=parent_focus' });
   },
 
   goProfile() {

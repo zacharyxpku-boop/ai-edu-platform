@@ -149,8 +149,8 @@ const inProgressVm = reviewVm.buildReviewViewModel({
 assert(inProgressVm.blackboard && inProgressVm.blackboard.title === '审题小黑板', 'blackboard appears during repair state');
 assert(inProgressVm.blackboard.layers && inProgressVm.blackboard.layers.length === 3, 'blackboard exposes three visible first-step layers');
 assert(inProgressVm.blackboard.stopRuleLine && inProgressVm.blackboard.stopRuleLine.includes('第一步'), 'blackboard exposes a stop rule for first-step teaching');
-assert(reviewWxml.includes('reviewViewModel.blackboard'), 'review page renders blackboard from viewModel');
-assert(reviewWxml.includes('reviewViewModel.blackboard.layers'), 'review page renders visual blackboard layers from viewModel');
+assert(!reviewWxml.includes('reviewViewModel.blackboard'), 'review page no longer renders dense blackboard panels on the active first screen');
+assert(!reviewWxml.includes('reviewViewModel.blackboard.layers'), 'review page keeps visual blackboard layers out of the compact shell');
 
 storage.clearLearningData();
 let relationFocus = storage.saveTodayFocusFromThought('我不确定单位1是谁', { source: 'rc31_real_device_flow' });

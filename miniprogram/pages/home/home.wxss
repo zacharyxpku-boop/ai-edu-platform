@@ -1618,16 +1618,6 @@
   height: 300rpx;
 }
 
-.composer-shell {
-  position: relative;
-  z-index: 30;
-  display: block;
-  margin: 8rpx 16rpx 0;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-}
-
 .quick-actions {
   display: flex;
   flex-wrap: wrap;
@@ -2241,9 +2231,7 @@
     font-size: 46rpx;
   }
 
-  .composer-shell {
-    padding-top: 12rpx;
-  }
+
 }
 
 /* RC0.6 visual reduction: keep the first screen focused on tonight planning. */
@@ -2932,20 +2920,6 @@
   font-size: 22rpx;
   color: #6d675f;
 }
-.friend-primary-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20rpx;
-}
-
-.friend-primary-card {
-  padding: 28rpx;
-  border-radius: 28rpx;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1rpx solid rgba(31, 79, 61, 0.12);
-  box-shadow: 0 18rpx 48rpx rgba(28, 46, 39, 0.08);
-}
-
 .friend-primary-title {
   font-size: 34rpx;
   font-weight: 700;

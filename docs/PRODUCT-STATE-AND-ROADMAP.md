@@ -49,8 +49,8 @@
 | `pages/home` | 今晚主入口 | 已有单一主行动 `primaryNextAction`，但页面仍偏拥挤 | 继续收束 |
 | `pages/tutor` | 三问私教 | 已成主边界页 | 保留 |
 | `pages/review` | 修卡点 | 已成回访与错因页 | 保留 |
-| `pages/focus` | 专注完成一小段 | 已成“坐住一小段”容器 | 保留 |
-| `pages/tools` | 轻回访 | 已成轻复盘页 | 保留但不要工具化 |
+| `pages/entry-detail?scene=today` | 专注完成一小段 | 已成“坐住一小段”容器 | 保留 |
+| `pages/entry-detail?scene=today` | 轻回访 | 已成轻复盘页 | 保留但不要工具化 |
 | `pages/profile` | 家长 5 秒复盘 | 已能承接报告与家长问题 | 保留但不要报告化 |
 | `pages/upload` | 材料入口 | 已能接报告/错题/测评 | 保留但要继续守边界 |
 
@@ -58,12 +58,12 @@
 
 | 端口 | 角色 | 现在状态 | 判断 |
 |---|---|---|---|
-| `pages/daily-math` | 轻入口 | 适合当分流入口，不应抢主首页 | 下沉 |
-| `pages/dictation` | 听写入口 | 适合材料/任务入口，不应变成独立主线 | 下沉 |
-| `pages/light-diagnosis` | 轻诊断 | 适合做“不会”的翻译器 | 下沉 |
-| `pages/diagnosis` | 三问/卡点归类 | 适合做导流和补位 | 下沉 |
-| `pages/module` | 小课堂/模块 | 适合做补口和练习包 | 下沉 |
-| `pages/radar` | 决策辅助 | 适合给家长和内部判断，不宜首屏化 | 下沉 |
+| `pages/entry-detail?scene=today` | 轻入口 | 适合当分流入口，不应抢主首页 | 下沉 |
+| `pages/entry-detail?scene=today` | 听写入口 | 适合材料/任务入口，不应变成独立主线 | 下沉 |
+| `pages/entry-detail?scene=today` | 轻诊断 | 适合做“不会”的翻译器 | 下沉 |
+| `pages/upload` | 三问/卡点归类 | 适合做导流和补位 | 下沉 |
+| `pages/tutor` | 小课堂/模块 | 适合做补口和练习包 | 下沉 |
+| `pages/profile` | 决策辅助 | 适合给家长和内部判断，不宜首屏化 | 下沉 |
 | `pages/legal` | 合规边界 | 必须保留 | 保留 |
 
 ### 机制层能力

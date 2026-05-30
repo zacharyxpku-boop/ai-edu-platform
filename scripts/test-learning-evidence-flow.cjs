@@ -159,15 +159,16 @@ assert.notStrictEqual(relationCard.front, stepCard.front, 'different issue types
 
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js');
-assert(profileWxml.includes('今晚卡住') && profileWxml.includes('只问一句') && profileWxml.includes('最近小结'), 'profile summary renders friend-safe first-screen sections');
+assert(['parent-dash-evidence', 'parent-report-preview', 'parent-dash-action-row'].every((token) => profileWxml.includes(token)), 'profile summary renders the new parent evidence and next-action sections');
 assert(profileViewModelJs.includes('他先迈出的第一步'), 'profile viewModel labels first-step evidence');
 assert(profileViewModelJs.includes('刚才你第一步先看了哪里'), 'profile viewModel parent question can use first-step evidence');
 const parentQuestion = `你昨天说第一步是「${storage.loadTodayFocus().miniActionText}」，今天还记得为什么吗？`;
 assert(parentQuestion.includes(miniActionText), 'profile parent one-question can be generated from the saved miniActionText');
 
-const toolsJs = read('miniprogram/pages/tools/tools.js');
-assert(toolsJs.includes("cardBrowser({ source: 'today_focus', status: 'due'"), 'knowledge playground checks due today-focus cards first');
-assert(toolsJs.includes("cardBrowser({ source: 'today_focus', status: 'all'"), 'knowledge playground falls back to generated today-focus cards');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
+const reviewWxml = read('miniprogram/pages/review/review.wxml');
+assert(entryDetailWxml.includes('entry-jump-grid') && entryDetailWxml.includes('bindtap="openScene"'), 'entry detail replaces the retired knowledge playground with clickable scene jumps');
+assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('data-scene="tutor"'), 'review shell keeps today-focus repair reachable without the retired tools page');
 
 storage.clearLearningData();
 const singleMemoryFocus = storage.saveTodayFocus({
@@ -206,8 +207,8 @@ assert(repeatedMemoryLine.includes('最近常卡在'), 'two same-kind records ma
 
 const tabCopy = [
   read('miniprogram/pages/home/home.wxml'),
-  read('miniprogram/pages/review/review.wxml'),
-  read('miniprogram/pages/tools/tools.wxml'),
+  reviewWxml,
+  entryDetailWxml,
   profileWxml
 ].join('\n');
 [

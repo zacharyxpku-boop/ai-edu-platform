@@ -266,7 +266,7 @@ async function main() {
   assert.strictEqual(tutorFast.json.coach_step, 'fast_mode', 'fast mode keeps requested step');
   assert.strictEqual(tutorFast.json.mastery_signal.status, 'fast_check', 'fast mode mastery status');
 
-  const diagnosis = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/diagnosis/diagnosis.js'), 'utf8');
+  const entryDetail = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/entry-detail/entry-detail.js'), 'utf8');
   const upload = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/upload/upload.js'), 'utf8');
   const homePage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/home/home.js'), 'utf8');
   const miniApi = fs.readFileSync(path.join(ROOT, 'miniprogram/utils/api.js'), 'utf8');
@@ -275,9 +275,9 @@ async function main() {
   const reviewPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/review/review.js'), 'utf8');
   const tutorPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.js'), 'utf8');
   const tutorWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/tutor/tutor.wxml'), 'utf8');
-  const radarPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.js'), 'utf8');
-  const radarWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/radar/radar.wxml'), 'utf8');
-  assert.ok(diagnosis.includes('api.buildPriority'), 'diagnosis uses server priority');
+  const radarPage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/profile/profile.js'), 'utf8');
+  const radarWxml = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/profile/profile.wxml'), 'utf8');
+  assert.ok(entryDetail.includes('const SCENES') && entryDetail.includes("primaryRoute: '/pages/upload/upload"), 'entry-detail replaces retired diagnosis with upload scene routing');
   assert.ok(upload.includes('api.buildPriority'), 'upload uses server priority');
   assert.ok(upload.includes('mini-upload-wrong-question'), 'upload imports detected wrong questions into review deck');
   assert.ok(appidAssistant.includes('--dry-run') && appidAssistant.includes('looksLikePlaceholderAppId'), 'AppID replacement supports safe dry-run and rejects placeholder values');
@@ -289,7 +289,7 @@ async function main() {
   assert.ok(homePage.includes("event: 'share_clicked'"), 'home page records incoming share clicks for growth attribution');
   assert.ok(homePage.includes("navigation.navigateLearningRoute(url)") && homePage.includes("'/pages/tutor/tutor?from=home'"), 'home primary AI input opens Xiaodian tutor through tab-safe navigation');
   assert.ok(homePage.includes('trackShareActivation') && homePage.includes("event,") && homePage.includes('share_code: incoming.share_code'), 'home attaches share attribution to activation events');
-  assert.ok(profileWxml.includes('hero-identity-card') && profileWxml.includes('dailyShareCard.identityTag'), 'profile first screen promotes a shareable learning identity card');
+  assert.ok(profileWxml.includes('parent-report-preview') && profileWxml.includes('/assets/reference/entry-report.png'), 'profile first screen promotes a visual parent report evidence preview');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
   const profilePage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/profile/profile.js'), 'utf8');
   const leadApi = fs.readFileSync(path.join(ROOT, 'api/lead.js'), 'utf8');
@@ -297,17 +297,17 @@ async function main() {
   assert.ok(profilePage.includes("event: 'share_card_generated'") && profilePage.includes("event: 'lead_submitted'"), 'profile records share card generation and lead conversion');
   assert.ok(profilePage.includes('mode=same_identity'), 'profile share links invite same-identity challenge without fake leaderboard');
   assert.ok(profilePage.includes('shareIntent') && profilePage.includes('parent_card') && profilePage.includes('peer_challenge'), 'profile uses WeChat share intents for parent recap and peer same-challenge paths');
-  assert.ok(profileWxml.includes('发给家长看') && profileWxml.includes('继续轻回访'), 'profile share panel exposes parent and peer native WeChat share actions');
+  assert.ok(profileWxml.includes('parent-primary') && profileWxml.includes('parent-secondary'), 'profile first screen exposes clear parent next actions without the retired share panel');
   assert.ok(profilePage.includes('share_code') && profilePage.includes('evidence_done') && profilePage.includes('identity_tag'), 'profile lead/share payload carries evidence context');
   assert.ok(leadApi.includes('evidence_done') && leadApi.includes('identity_tag') && leadApi.includes('share_code'), 'lead endpoint accepts learning evidence fields');
   assert.ok(reviewPage.includes('lastWrongCard'), 'review page routes just-missed card back to tutor');
   assert.ok(tutorPage.includes('coach_step'), 'tutor consumes structured coach step');
   assert.ok(tutorPage.includes('QUICK_ACTIONS'), 'tutor has mastery quick actions');
-  assert.ok(tutorWxml.includes('今晚怎么一起往下走'), 'tutor renders guided learning loop');
-  assert.ok(tutorWxml.includes('sendQuick'), 'tutor exposes mastery quick buttons');
-  assert.ok(radarPage.includes('api.buildWeekly'), 'radar uses server weekly review');
-  assert.ok(radarPage.includes('api.submitFeedback'), 'radar submits family feedback');
-  assert.ok(radarWxml.includes('markFeedback'), 'radar exposes feedback controls');
+  assert.ok(tutorWxml.includes('tutor-ladder'), 'tutor renders the compact guided learning ladder');
+  assert.ok(tutorWxml.includes('tutor-primary') && tutorWxml.includes('openEntryDetail'), 'tutor exposes a focused first-step child flow action');
+  assert.ok(radarPage.includes('buildParentReport') && radarPage.includes('buildWeeklyGrowthMemory'), 'profile replaces retired radar with parent weekly evidence');
+  assert.ok(radarPage.includes('saveLocalFeedback'), 'profile records family feedback locally');
+  assert.ok(radarWxml.includes('parent-dash-evidence') && radarWxml.includes('parent-report-preview'), 'profile exposes report/evidence controls');
 
   console.log('All miniapp production hardening checks pass.');
 }

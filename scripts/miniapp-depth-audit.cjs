@@ -97,24 +97,16 @@ const storage = loadCommonJs(path.join('miniprogram', 'utils', 'storage.js'), {
 const app = JSON.parse(read('miniprogram/app.json'));
 const pageToSurface = {
   'pages/home/home': 'home',
-  'pages/daily-math/daily-math': 'daily_math',
-  'pages/dictation/dictation': 'dictation',
-  'pages/light-diagnosis/light-diagnosis': 'light_diagnosis',
-  'pages/focus/focus': 'focus',
-  'pages/tools/tools': 'tools',
-  'pages/module/module': 'module',
   'pages/review/review': 'review',
   'pages/arcade/arcade': 'arcade',
   'pages/entry-detail/entry-detail': 'home',
   'pages/tutor/tutor': 'tutor',
-  'pages/radar/radar': 'radar',
   'pages/profile/profile': 'profile',
-  'pages/diagnosis/diagnosis': 'diagnosis',
   'pages/upload/upload': 'upload',
   'pages/legal/legal': 'legal'
 };
 
-assert(Array.isArray(app.pages) && app.pages.length >= 15, 'Miniapp must expose at least fifteen pages');
+assert(Array.isArray(app.pages) && app.pages.length === 8, 'Miniapp must expose only the eight active pages');
 const missingSurface = app.pages.filter((page) => !pageToSurface[page]);
 assert.strictEqual(missingSurface.length, 0, `Every page needs a product surface mapping: ${missingSurface.join(',')}`);
 
@@ -477,18 +469,20 @@ assert(Array.isArray(openMaicTaskPlan.miniLesson.blackboard.frames) && openMaicT
 assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHomeworkCoverageMatrix.contentExpansionQueue.length >= 7, 'Real homework matrix exposes subject-level content expansion queue');
 
 [
-  'dailyShareCard.shareChallengePlan.wrongCauseViralChallengePack',
-  'communityShareRelayBoard.wrongCauseViralChallengePack',
-  'learningReportSummary.reportPressureTruthAudit',
-  'learningReportSummary.weeklyEvidenceFlywheel',
-  'thinkingReceipt.realHomeworkCoverageMatrix',
-  'thinkingReceipt.three_round_socratic_protocol',
-  'thinkingReceipt.openMaicInspiredTaskPlan',
-  'thinkingReceipt.miniLesson'
+  'parent-report-preview',
+  'parent-dash-evidence-grid',
+  'tutor-ladder',
+  'tutor-entry-card',
+  'mini-report-card',
+  'upload-material-grid',
+  'arcade-map-card',
+  'ux-kit-subcheck'
 ].forEach((needle) => {
   const visible = read('miniprogram/pages/profile/profile.wxml').includes(needle)
     || read('miniprogram/pages/tutor/tutor.wxml').includes(needle)
-    || read('miniprogram/pages/home/home.wxml').includes(needle);
+    || read('miniprogram/pages/home/home.wxml').includes(needle)
+    || read('miniprogram/pages/upload/upload.wxml').includes(needle)
+    || read('miniprogram/pages/arcade/arcade.wxml').includes(needle);
   assert(visible, `Visible miniapp surface must include ${needle}`);
 });
 

@@ -144,11 +144,11 @@ const homeWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'page
 const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
 const reviewWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.wxml'), 'utf8');
 const profileJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'profile', 'profile.js'), 'utf8');
-assert(homeJs.includes('incomingShareCode') && homeJs.includes('query.share_code') && homeJs.includes('query.invite_code'), 'home accepts safe schema share aliases, not only legacy share query');
+assert(homeJs.includes('incomingShareCode') && homeJs.includes('query.share_code') && homeJs.includes('query.invite_code'), 'home accepts safe schema share aliases, not only retired share query');
 assert(profileJs.includes('parent_invite') && profileJs.includes('buildSchemaSharePath(safePayload)') && !profileJs.includes('/pages/home/home?ref=${localUserId}'), 'parent invite uses safe share payload instead of a bare ref link');
 assert(fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'utils', 'storage.js'), 'utf8').includes('shareFollowUpQueue'), 'storage has a share-code follow-up queue beyond raw share logs');
-assert(reviewJs.includes('storage.loadIncomingShare') && reviewJs.includes('receiverShareRelayPanel') && reviewJs.includes('share_relay_receiver_completion'), 'review builds a receiver own-material share relay panel');
-assert(reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel') && reviewWxml.includes('第一步：') && reviewWxml.includes('错因：') && reviewWxml.includes('明天：'), 'review renders receiver own-material first-step, wrong-cause, and revisit prompts');
+assert(reviewJs.includes('storage.loadIncomingShare') && reviewJs.includes('receiverShareRelayPanel') && reviewJs.includes('share_relay_receiver_completion'), 'review builds a receiver own-material share relay panel in logic');
+assert(!reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel') && reviewWxml.includes('review-challenge-card'), 'review no longer renders receiver own-material detail panels on the compact first screen');
 assert(homeJs.includes('relayPackCards'), 'home builds compact relay pack cards');
 assert(homeJs.includes('buildReceiverOwnMaterialChallenge') && homeJs.includes("id: 'receiver_own_material'"), 'home builds a receiver own-material action before generic challenges');
 assert(homeJs.includes('receiverOwnMaterialChallengeLine') && homeWxml.includes('incomingShareRelay.receiverOwnMaterialChallengeLine'), 'home renders receiver own-material challenge evidence');

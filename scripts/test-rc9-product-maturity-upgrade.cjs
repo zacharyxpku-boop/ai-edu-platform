@@ -177,10 +177,8 @@ assert(proofOne.sevenNightReadiness.includes('再用几晚后'), '7-night proof 
 const visibleText = [
   read('miniprogram/pages/home/home.wxml'),
   read('miniprogram/pages/upload/upload.wxml'),
-  read('miniprogram/pages/diagnosis/diagnosis.wxml'),
+  read('miniprogram/pages/entry-detail/entry-detail.wxml'),
   read('miniprogram/pages/review/review.wxml'),
-  read('miniprogram/pages/focus/focus.wxml'),
-  read('miniprogram/pages/tools/tools.wxml'),
   read('miniprogram/pages/profile/profile.wxml'),
   read('miniprogram/view-models/review-view-model.js'),
   read('miniprogram/view-models/tools-view-model.js'),

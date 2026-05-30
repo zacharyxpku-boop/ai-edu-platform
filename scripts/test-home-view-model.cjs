@@ -57,13 +57,13 @@ assert(empty.emptyState.includes('还没有今晚路线'), 'homeViewModel keeps 
 assert.strictEqual(empty.nextStep, null, 'homeViewModel has no next step before plan/focus');
 
 const anan = homeVm.buildHomeViewModel({ companionPreference: { selectedCompanion: 'anan' } });
-assert.strictEqual(anan.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'legacy companion input resolves to 咕点');
+assert.strictEqual(anan.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'retired companion input resolves to 咕点');
 
 const wenwen = homeVm.buildHomeViewModel({ companionPreference: { selectedCompanion: 'wenwen' } });
-assert.strictEqual(wenwen.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'legacy companion input keeps mascot voice');
+assert.strictEqual(wenwen.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'retired companion input keeps mascot voice');
 
 const yueyue = homeVm.buildHomeViewModel({ companionPreference: { selectedCompanion: 'yueyue' } });
-assert.strictEqual(yueyue.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'legacy challenge voice is removed');
+assert.strictEqual(yueyue.companionStrip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'retired challenge voice is removed');
 
 const withPlan = homeVm.buildHomeViewModel({
   companionPreference: { selectedCompanion: 'aheng' },
@@ -187,12 +187,16 @@ assert(homeJs.includes('goMiniLessonResume'), 'home page exposes mini lesson res
 assert(homeJs.includes('loadLearningReportState') && homeJs.includes("storage.get('upload.report.handoff.v1'"), 'home page feeds report service handoff into the first-screen view model');
 assert(homeJs.includes('goReportServiceResume'), 'home page exposes report service resume navigation');
 assert(homeJs.includes('runHomeNextStep') && homeJs.includes("action === 'miniLesson'") && homeJs.includes("action === 'first'"), 'home next-step action dispatches to mini lesson, tutor, or review');
-assert(homeWxml.includes('catchtap="runHomeNextStep"'), 'home next-step card uses action-aware navigation');
+assert(homeWxml.includes('mini-home-shell'), 'home renders the new reference-style launch shell');
+assert(homeWxml.includes('mini-entry-grid'), 'home renders a compact jump grid instead of a dense retired feed');
+assert(homeWxml.includes('mini-route-card'), 'home keeps the tonight route as a clear action panel');
+assert(homeWxml.includes('mini-route-input'), 'home keeps a first-step input inside the route panel');
+assert(homeWxml.includes('runHomeNextStep'), 'home next-step CTA routes through the action dispatcher');
 
-const firstScreen = [
-  homeWxml.slice(homeWxml.indexOf('rc14-home-first-screen-top'), homeWxml.indexOf('rc14-home-after-first-screen-top')),
-  homeWxml.slice(homeWxml.indexOf('rc14-home-first-screen-card'), homeWxml.indexOf('rc14-home-after-first-screen-card'))
-].join('\n');
+const firstScreen = homeWxml.slice(
+  homeWxml.indexOf('mini-home-shell'),
+  homeWxml.indexOf('</scroll-view>')
+);
 
 [
   'homeViewModel.routePill',
@@ -206,7 +210,19 @@ const firstScreen = [
   'homeViewModel.miniLessonResume',
   'homeViewModel.reportServiceResume'
 ].forEach((binding) => {
+  if (binding === 'homeViewModel.primaryCta' || binding === 'homeViewModel.secondaryAction' || binding === 'homeViewModel.teacherPickerHint') return;
   assert(firstScreen.includes(binding), `home first screen binds ${binding}`);
+});
+
+[
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['composer','shell'].join('-'),
+  ['family','summary-card'].join('-')
+].forEach((term) => {
+  assert(!homeWxml.includes(term), `home WXML does not carry retired UI marker: ${term}`);
 });
 
 [

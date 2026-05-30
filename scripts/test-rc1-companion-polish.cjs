@@ -58,7 +58,7 @@ assert(!/[a-z]+_[a-z_]+/.test(storage.formatSourceLabel('home_xiaodian_entry')),
 assert(!/[a-z]+_[a-z_]+/.test(storage.formatInternalLabel('needs_student_step')), 'internal label never returns snake_case');
 
 const strip = storage.formatCompanionLine('anan');
-assert.strictEqual(strip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'legacy companion strip resolves to mascot');
+assert.strictEqual(strip, '咕点：我懂你卡住了，我陪你先迈出第一步。', 'retired companion strip resolves to mascot');
 
 storage.saveCompanionPreference('wenwen');
 assert.strictEqual(storage.getCompanionStageCopy('home'), '咕点陪你先找今晚第一步。', 'stage copy follows mascot');
@@ -71,8 +71,8 @@ const files = {
   reviewWxml: read('miniprogram/pages/review/review.wxml'),
   reviewJs: read('miniprogram/pages/review/review.js'),
   reviewViewModelJs: read('miniprogram/view-models/review-view-model.js'),
-  toolsWxml: read('miniprogram/pages/tools/tools.wxml'),
-  toolsJs: read('miniprogram/pages/tools/tools.js'),
+  entryDetailWxml: read('miniprogram/pages/entry-detail/entry-detail.wxml'),
+  entryDetailJs: read('miniprogram/pages/entry-detail/entry-detail.js'),
   toolsViewModelJs: read('miniprogram/view-models/tools-view-model.js'),
   profileWxml: read('miniprogram/pages/profile/profile.wxml'),
   profileJs: read('miniprogram/pages/profile/profile.js'),
@@ -82,14 +82,14 @@ const files = {
   reviewCardsJs: read('miniprogram/utils/review-cards.js')
 };
 
-const tabWxml = [files.homeWxml, files.reviewWxml, files.toolsWxml, files.profileWxml].join('\n');
-assert.strictEqual((tabWxml.match(/\{\{homeViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{companionLine\}\}/g) || []).length + (tabWxml.match(/\{\{reviewViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{toolsViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{profileViewModel\.companionStrip\}\}/g) || []).length, 4, 'four tabs show a shared mascot strip');
+const tabWxml = [files.homeWxml, files.reviewWxml, files.entryDetailWxml, files.profileWxml].join('\n');
+assert.strictEqual((tabWxml.match(/\{\{homeViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{companionLine\}\}/g) || []).length + (tabWxml.match(/\{\{reviewViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{toolsViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{profileViewModel\.companionStrip\}\}/g) || []).length, 3, 'active mascot strips remain on home/review/profile after retiring tools page');
 assert(files.homeWxml.includes('{{homeViewModel.companionStrip}}'), 'home renders mascot strip through homeViewModel');
 assert(files.reviewWxml.includes('{{reviewViewModel.companionStrip}}'), 'review renders mascot strip');
-assert(files.toolsWxml.includes('{{toolsViewModel.companionStrip}}'), 'tools renders mascot strip');
+assert(files.entryDetailWxml.includes('entry-jump-grid'), 'entry detail renders scene jump grid');
 assert(files.profileWxml.includes('{{profileViewModel.companionStrip}}'), 'profile renders mascot strip');
 
-const tabRenderSource = [tabWxml, files.homeJs, files.homeViewModelJs, files.reviewJs, files.reviewViewModelJs, files.toolsJs, files.toolsViewModelJs, files.profileJs, files.profileViewModelJs].join('\n');
+const tabRenderSource = [tabWxml, files.homeJs, files.homeViewModelJs, files.reviewJs, files.reviewViewModelJs, files.entryDetailJs, files.toolsViewModelJs, files.profileJs, files.profileViewModelJs].join('\n');
 ['今晚路线 · 第 1 步：排顺序', '今晚路线 · 第 3 步：修卡点', '今晚路线 · 第 4 步：明天轻轻回访', '今晚路线 · 第 5 步：家长 5 秒复盘'].forEach((routeText) => {
   assert(tabRenderSource.includes(routeText), `current route stage is visible: ${routeText}`);
 });
@@ -97,9 +97,13 @@ const tabRenderSource = [tabWxml, files.homeJs, files.homeViewModelJs, files.rev
 [
   [files.homeJs + files.homeViewModelJs, 'home'],
   [files.reviewJs, 'review'],
-  [files.toolsJs, 'tools'],
+  [files.entryDetailJs, 'entryDetail'],
   [files.profileJs, 'profile']
 ].forEach(([text, name]) => {
+  if (name === 'entryDetail') {
+    assert(text.includes('SCENES') && text.includes('openScene'), `${name} uses current child-scene routing`);
+    return;
+  }
   assert(text.includes('formatCompanionLine') || text.includes('buildHomeViewModel') || text.includes('COMPANION_HOME_COPY'), `${name} uses shared/viewModel companion strip logic`);
   assert(text.includes('getCompanionStageCopy') || text.includes('buildHomeViewModel') || text.includes('COMPANION_HOME_COPY'), `${name} uses shared/viewModel stage copy logic`);
 });
@@ -111,7 +115,7 @@ assert(files.profileJs.includes('formatIssueType'), 'profile maps issue type bef
 const visibleSource = [
   files.homeWxml,
   files.reviewWxml,
-  files.toolsWxml,
+  files.entryDetailWxml,
   files.profileWxml,
   files.tutorWxml
 ].join('\n');
@@ -121,7 +125,7 @@ const visibleSource = [
 });
 
 const userFacingStringPattern = /['"`]([^'"`]*(?:home_xiaodian_entry|needs_student_step)[^'"`]*)['"`]/g;
-[files.homeJs, files.reviewJs, files.toolsJs, files.profileJs, files.tutorJs, files.reviewCardsJs].forEach((text) => {
+[files.homeJs, files.reviewJs, files.entryDetailJs, files.profileJs, files.tutorJs, files.reviewCardsJs].forEach((text) => {
   let hit;
   while ((hit = userFacingStringPattern.exec(text))) {
     const snippet = hit[1];

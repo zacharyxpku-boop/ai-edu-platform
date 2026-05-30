@@ -1,11 +1,11 @@
 export const WEB_SURFACE_ROUTES = [
   {
     id: 'home',
-    label: '首页总览',
+    label: '学习主界面',
     path: '/',
     miniappParity: 'pages/home/home',
     primaryAction: '选择今晚第一步',
-    promise: '一屏看懂资料、报告、私教、复习和家长下一步。'
+    promise: '一屏看懂上传、报告、私教、复习和家长下一步。'
   },
   {
     id: 'upload',
@@ -19,13 +19,13 @@ export const WEB_SURFACE_ROUTES = [
     id: 'report',
     label: '个性化报告',
     path: '/report',
-    miniappParity: 'pages/radar/radar + pages/profile/profile',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
     primaryAction: '查看报告与导出 PDF',
     promise: '先讲证据，再讲天赋和方法匹配，最后给家长今晚能做的一步。'
   },
   {
     id: 'tutor',
-    label: 'AI私教',
+    label: 'AI 私教',
     path: '/tutor',
     miniappParity: 'pages/tutor/tutor',
     primaryAction: '开始第一问',
@@ -45,13 +45,13 @@ export const WEB_SURFACE_ROUTES = [
     path: '/parent',
     miniappParity: 'pages/profile/profile',
     primaryAction: '看证据和下一步',
-    promise: '让家长知道孩子为什么这样学、今晚问什么、下一次看什么证据。'
+    promise: '让家长知道孩子为什么这样学、今晚问什么、下次看什么证据。'
   },
   {
     id: 'map',
     label: '学习地图',
     path: '/map',
-    miniappParity: 'pages/tools/tools + pages/arcade/arcade',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=today + pages/arcade/arcade',
     primaryAction: '查看今晚和未来 7 天路径',
     promise: '把上传、报告、私教、复习和家长回访串成一条能走完、能验证的学习路线。'
   }

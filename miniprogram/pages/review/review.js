@@ -104,7 +104,6 @@ Page({
     companionCopy: { review: '咕点陪你只修这一小步，不讲完整答案。' },
     companionLine: '咕点：我懂你卡住了，我陪你先迈出第一步。',
     growthMemory: { review: '' },
-    showAdvancedReview: false,
     lastWrongCard: null,
     reportSourceContext: null,
     reportSourcePanel: null,
@@ -945,8 +944,7 @@ Page({
       return;
     }
     if (action === 'import') {
-      this.setData({ showAdvancedReview: true });
-      wx.pageScrollTo({ selector: '.import-panel', duration: 220 });
+      navigation.navigateLearningRoute('/pages/upload/upload?type=wrong_question&from=review');
       return;
     }
     if (action === 'quiz') {
@@ -966,13 +964,11 @@ Page({
     this.refresh();
   },
 
-  toggleAdvancedReview() {
-    this.setData({ showAdvancedReview: !this.data.showAdvancedReview });
-  },
-
-  openImportPanel() {
-    this.setData({ showAdvancedReview: true });
-    wx.pageScrollTo({ selector: '.import-panel', duration: 220 });
+  openEntryDetail(event) {
+    const scene = event && event.currentTarget && event.currentTarget.dataset
+      ? event.currentTarget.dataset.scene
+      : 'review';
+    wx.navigateTo({ url: `/pages/entry-detail/entry-detail?scene=${scene || 'review'}` });
   },
 
   copyChallengeCard() {
@@ -1695,11 +1691,11 @@ Page({
   },
 
   goTools() {
-    navigation.navigateLearningRoute('/pages/tools/tools?from=review');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=review' });
   },
 
   goFocus() {
-    navigation.navigateLearningRoute('/pages/focus/focus?from=review');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=review_focus' });
   },
 
   goProfile() {

@@ -148,8 +148,10 @@ const checks = [
       && standard.evidenceProtocol.selectedCaseIds.includes('mixed_materials')
       && standard.methodologyBackbone.some((item) => item.id === 'socratic')
       && standard.methodologyBackbone.some((item) => item.id === 'retrieval_spaced')
-      && profileWxml.includes('标准版 HTML 报告')
-      && profileWxml.includes('报告 SOP')
+      && profileWxml.includes('个性化报告预览')
+      && profileWxml.includes('证据来源')
+      && profileWxml.includes('天赋画像')
+      && profileWxml.includes('回访验证方法有效性')
     ),
     evidence: [
       `标准版本：${preview.standardVersion}`,
@@ -184,7 +186,8 @@ const checks = [
       && highFrequencyLoop.reviewReturnSeed
       && highFrequencyLoop.nextDayReturnEvidence
       && reviewJs.includes('recordReportRevisitEvidence')
-      && arcadeWxml.includes('小讲堂回流')
+      && arcadeWxml.includes('小课堂回流')
+      && arcadeWxml.includes('复习岛不是刷题')
       && standard.competitorClosureBenchmarks.some((item) => item.route.includes('/pages/arcade/arcade'))
     ),
     evidence: [
@@ -200,8 +203,8 @@ const checks = [
     passed: !!(
       profileJs.includes('personalizedParentReportCompetitorBenchmarks')
       && profileJs.includes('personalizedParentReportMiniappPlan')
-      && profileWxml.includes('外部优秀做法后的闭环动作')
-      && profileWxml.includes('小程序/轻量 APP 承接')
+      && profileWxml.includes('家长今晚只看三件事')
+      && profileWxml.includes('证据从哪来、孩子卡在哪、明天怎么验证')
       && profileWxml.includes('下一证据')
     ),
     evidence: [

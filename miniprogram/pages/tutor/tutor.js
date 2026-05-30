@@ -946,12 +946,9 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 1 });
     }
-    const pendingRoute = navigation.consumePendingTabRouteContext
-      ? navigation.consumePendingTabRouteContext('/pages/tutor/tutor')
-      : null;
-    this.setData({
-      showLegacyEntryContent: false
-    });
+    if (navigation.consumePendingTabRouteContext) {
+      navigation.consumePendingTabRouteContext('/pages/tutor/tutor');
+    }
     const state = storage.loadState();
     const routeOptions = currentRouteOptions();
     const publicK12Challenge = findPublicK12Challenge(routeOptions);
@@ -1093,7 +1090,7 @@ Page({
         });
         return;
       }
-      wx.navigateTo({ url: '/pages/radar/radar' });
+      wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=parent&from=pick_step_empty' });
       return;
     }
     this.setData({ input: `带我做这项必须做：${selected.text}` });
@@ -1734,7 +1731,7 @@ Page({
   },
 
   goRadar() {
-    wx.navigateTo({ url: '/pages/radar/radar' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=parent&from=tutor_report' });
   },
 
   goHome() {
@@ -1757,7 +1754,7 @@ Page({
       wx.showToast({ title: '先回咕点确认今晚第一步，才能进专注舱。', icon: 'none' });
       return;
     }
-    navigation.navigateLearningRoute('/pages/focus/focus');
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=tutor_focus' });
   },
 
   goReview() {

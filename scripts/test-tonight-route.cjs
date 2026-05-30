@@ -126,8 +126,8 @@ const files = {
   reviewWxml: readProjectFile('miniprogram', 'pages', 'review', 'review.wxml'),
   reviewJs: readProjectFile('miniprogram', 'pages', 'review', 'review.js'),
   reviewViewModelJs: readProjectFile('miniprogram', 'view-models', 'review-view-model.js'),
-  toolsWxml: readProjectFile('miniprogram', 'pages', 'tools', 'tools.wxml'),
-  toolsJs: readProjectFile('miniprogram', 'pages', 'tools', 'tools.js'),
+  entryDetailWxml: readProjectFile('miniprogram', 'pages', 'entry-detail', 'entry-detail.wxml'),
+  entryDetailJs: readProjectFile('miniprogram', 'pages', 'entry-detail', 'entry-detail.js'),
   toolsViewModelJs: readProjectFile('miniprogram', 'view-models', 'tools-view-model.js'),
   profileWxml: readProjectFile('miniprogram', 'pages', 'profile', 'profile.wxml'),
   profileJs: readProjectFile('miniprogram', 'pages', 'profile', 'profile.js'),
@@ -140,17 +140,17 @@ const allPageCopy = [
   files.homeViewModelJs,
   files.reviewWxml,
   files.reviewViewModelJs,
-  files.toolsWxml,
+  files.entryDetailWxml,
   files.toolsViewModelJs,
   files.profileViewModelJs || '',
   files.profileWxml
 ].join('\n');
 
-assert.ok(files.homeWxml.includes('{{homeViewModel.primaryCta}}') && files.homeViewModelJs.includes('primaryCta'), 'home renders Tonight Route primary CTA through homeViewModel');
-assert.ok(files.homeWxml.includes('{{homeViewModel.secondaryAction}}') && files.homeViewModelJs.includes('secondaryAction'), 'home keeps first-step secondary entry through homeViewModel');
-assert.ok(files.reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && allPageCopy.includes('开始 5 分钟修复'), 'review keeps repair primary CTA through viewModel');
-assert.ok(files.toolsWxml.includes('{{toolsViewModel.primaryCta.text}}') && files.toolsViewModelJs.includes('先去说第一步'), 'tools empty state routes back to a real stuck point');
-assert.ok(files.profileWxml.includes('{{profileViewModel.primaryCta}}') && allPageCopy.includes('完成今日复盘'), 'profile keeps parent recap primary CTA through viewModel');
+assert.ok(files.homeWxml.includes('mini-route-card') && files.homeWxml.includes('mini-main-cta') && files.homeWxml.includes('runHomeNextStep'), 'home renders the new Tonight Route card and first-step CTA');
+assert.ok(files.homeWxml.includes('mini-entry-grid') && files.homeWxml.includes('openEntryDetail'), 'home keeps clear child-flow entry jumps in the new launch shell');
+assert.ok(files.reviewWxml.includes('review-main-cta') && files.reviewWxml.includes('runPlaybookAction'), 'review keeps a direct challenge CTA in the new visual launch shell');
+assert.ok(files.entryDetailWxml.includes('entry-jump-grid') && files.entryDetailJs.includes('const SCENES') && files.toolsViewModelJs.includes('先去说第一步'), 'entry-detail replaces the retired tools shell while preserving the stuck-point state model');
+assert.ok(['parent-dash-evidence', 'parent-report-preview', 'parent-dash-route'].every((token) => files.profileWxml.includes(token)), 'profile shows a condensed parent-readable route summary in the new launch shell');
 
 ['排顺序', '说第一步', '修卡点', '轻回访', '家长看'].forEach((label) => {
   assert.ok(allPageCopy.includes(label), `route stage ${label} is visible in tab pages`);
@@ -158,22 +158,27 @@ assert.ok(files.profileWxml.includes('{{profileViewModel.primaryCta}}') && allPa
 
 assert.ok(files.homeJs.includes("buildRouteStrip('plan'"), 'home highlights planning stage');
 assert.ok(files.reviewJs.includes("buildRouteStrip('repair'"), 'review highlights repair stage');
-assert.ok(files.toolsJs.includes("buildRouteStrip('review'"), 'tools highlights light review stage');
+assert.ok(files.entryDetailJs.includes("review: {") && files.entryDetailJs.includes("primaryRoute: '/pages/review/review"), 'entry-detail owns the light review stage route');
 assert.ok(files.profileJs.includes("buildRouteStrip('parent'"), 'profile highlights parent stage');
 
 assert.ok(files.homeJs.includes('createTonightPlanFromInput') && files.homeJs.includes('planTonight'), 'home can generate tonightPlan');
 assert.ok(files.homeViewModelJs.includes('tonightPlan'), 'home guides user to follow the route after planning through homeViewModel');
 assert.ok(files.homeViewModelJs.includes('todayFocus') && files.homeViewModelJs.includes("action: 'review'"), 'home guides stuck user to repair focus through homeViewModel');
-assert.ok(files.reviewWxml.includes('已生成明天回访卡。下一步：去轻轻回访。') && files.reviewWxml.includes('去轻回访'), 'review completion leads to light review');
-assert.ok(files.toolsJs.includes("source: 'today_focus'") && files.toolsWxml.includes('{{toolsViewModel.primaryCard.title}}') && files.toolsViewModelJs.includes('回看昨天那一步') && files.toolsViewModelJs.includes('轻轻回看'), 'tools reads today-focus review cards');
 assert.ok(
-  files.profileWxml.includes('今晚卡住')
-    && files.profileWxml.includes('只问一句')
-    && files.profileWxml.includes('最近小结')
+  files.reviewWxml.includes('review-subcheck')
+    && files.reviewWxml.includes('data-scene="today"')
+    && files.reviewJs.includes('/pages/entry-detail/entry-detail?scene='),
+  'review completion leads to the current entry-detail jump shell instead of restoring old content below the visual shell'
+);
+assert.ok(files.entryDetailWxml.includes('entry-secondary') && files.toolsViewModelJs.includes('回看昨天那一步') && files.toolsViewModelJs.includes('轻轻回看'), 'review revisit state remains available without the retired tools page');
+assert.ok(
+  files.profileWxml.includes('parent-dash-evidence')
+    && files.profileWxml.includes('parent-report-preview')
+    && files.profileWxml.includes('parent-dash-route')
     && files.profileViewModelJs.includes('今晚孩子卡在')
     && files.profileViewModelJs.includes('家长只问一句')
     && files.profileViewModelJs.includes('信任边界'),
-  'profile shows a condensed parent-readable route summary through viewModel'
+  'profile shows a condensed parent-readable route summary through the new launch shell'
 );
 assert.ok(files.profileJs.includes("review: '/pages/review/review'") && files.profileJs.includes('wx.switchTab'), 'profile review action switches to tab page');
 assert.ok(!/这项不用做|秒解|拍照出答案|答案已生成/.test(allPageCopy), 'tab pages avoid banned answer-tool and school-conflict copy');

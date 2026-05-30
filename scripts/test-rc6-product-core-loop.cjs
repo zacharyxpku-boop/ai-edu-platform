@@ -70,11 +70,11 @@ const { buildProfileViewModel } = loadCommonJs(path.join('miniprogram', 'view-mo
 
 const homeWxml = read('miniprogram/pages/home/home.wxml');
 const uploadJs = read('miniprogram/pages/upload/upload.js');
-const diagnosisJs = read('miniprogram/pages/diagnosis/diagnosis.js');
+const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 assert(homeWxml.includes('bindtap="submitAiDraft"'), 'Home has a valid text-input submit action');
 assert(homeWxml.includes('catchtap="planTonight"'), 'Home primary route action is wired');
 assert(uploadJs.includes('saveFocusFromUploadText'), 'Upload can hand off a stuck point into todayFocus');
-assert(diagnosisJs.includes('saveDiagnosisFocus'), 'Diagnosis can hand off the three-question first-step state');
+assert(entryDetailJs.includes('upload: {') && entryDetailJs.includes("primaryRoute: '/pages/upload/upload"), 'Entry detail hands former diagnosis intake into active upload flow');
 
 storage.clearLearningData();
 assert(buildHomeViewModel({}).emptyState, 'Home empty state guides first input');
@@ -82,9 +82,9 @@ assert(buildReviewViewModel({}).emptyState, 'Review empty state is safe without 
 assert(buildToolsViewModel({}).emptyState, 'Tools empty state is safe without a revisit card');
 assert(buildProfileViewModel({}).emptyState, 'Profile empty state is safe without history');
 
-const legacyPreference = storage.saveCompanionPreference('xiaoyuan');
-assert.strictEqual(legacyPreference.selectedCompanion, 'gudian', 'legacy companion ids normalize to the single mascot');
-assert.strictEqual(legacyPreference.selectedLabel, '咕点', 'legacy companion labels normalize to 咕点');
+const retiredPreference = storage.saveCompanionPreference('xiaoyuan');
+assert.strictEqual(retiredPreference.selectedCompanion, 'gudian', 'retired companion ids normalize to the single mascot');
+assert.strictEqual(retiredPreference.selectedLabel, '咕点', 'retired companion labels normalize to 咕点');
 
 const focus = storage.saveTodayFocusFromThought('我卡在应用题列式关系，不知道第一步怎么写。', {
   source: 'rc6-core-loop-test'
@@ -92,7 +92,7 @@ const focus = storage.saveTodayFocusFromThought('我卡在应用题列式关系�
 assert(focus && focus.isStuck, 'Input can create a current stuck point');
 assert.strictEqual(storage.loadTodayFocus().id, focus.id, 'Current stuck point persists locally');
 
-const reviewVm = buildReviewViewModel({ todayFocus: focus, companionPreference: legacyPreference });
+const reviewVm = buildReviewViewModel({ todayFocus: focus, companionPreference: retiredPreference });
 assert(reviewVm.primaryCard.sections.length >= 3, 'Review can render where/look/say first-step sections');
 assert.strictEqual(reviewVm.primaryCta.action, 'review', 'Review starts the repair action for a new focus');
 
@@ -113,14 +113,14 @@ assert((reviewCard.front || reviewCard.question || '').includes(miniActionText),
 
 const toolsVm = buildToolsViewModel({
   reviewCards: reviewCards.cardBrowser({ source: 'today_focus', status: 'all', limit: 3 }),
-  companionPreference: legacyPreference
+  companionPreference: retiredPreference
 });
 assert.strictEqual(toolsVm.primaryCard.hasReviewCard, true, 'Tools can surface the light revisit item');
 
 const profileVm = buildProfileViewModel({
   todayFocus: storage.loadTodayFocus(),
   reviewCards: storage.loadReviewCards(),
-  companionPreference: legacyPreference
+  companionPreference: retiredPreference
 });
 const profileText = profileVm.primaryCard.sections.map((item) => item.text).join('\n');
 assert(profileText.includes(miniActionText), 'Profile recap includes the child first-step sentence');
@@ -129,11 +129,9 @@ assert(!profileVm.emptyState, 'Profile has a parent recap after the core loop');
 const visibleCoreText = [
   homeWxml,
   read('miniprogram/pages/upload/upload.wxml'),
-  read('miniprogram/pages/diagnosis/diagnosis.wxml'),
+  read('miniprogram/pages/entry-detail/entry-detail.wxml'),
   read('miniprogram/pages/review/review.wxml'),
-  read('miniprogram/pages/tools/tools.wxml'),
   read('miniprogram/pages/profile/profile.wxml'),
-  read('miniprogram/pages/radar/radar.json'),
   read('package.json')
 ].join('\n');
 [

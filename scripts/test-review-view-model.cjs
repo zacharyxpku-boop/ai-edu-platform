@@ -171,18 +171,27 @@ const reviewJs = read('miniprogram/pages/review/review.js');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
 assert(reviewJs.includes('review-view-model'), 'review page imports review viewModel');
 assert(reviewJs.includes('buildReviewViewModel'), 'review page builds reviewViewModel');
-assert(reviewJs.includes('reviewReadableRouteLine') && reviewWxml.includes('reportSourcePanel.returnRouteLine'), 'review report source renders readable return-route copy');
-assert(reviewJs.includes('reviewEvidenceThreadLine') && reviewWxml.includes('miniLessonReturnPanel.topicCardLine'), 'review mini lesson return hides internal topic ids behind a readable evidence line');
-assert(!reviewWxml.includes('reportSourcePanel.returnRoute}}</view>') && !reviewWxml.includes('miniLessonReturnPanel.topicCardId}}</text>'), 'review UI does not expose raw return routes or topic card ids');
+assert(reviewJs.includes('reviewReadableRouteLine'), 'review logic still builds readable return-route copy');
+assert(reviewJs.includes('reviewEvidenceThreadLine'), 'review logic still hides internal topic ids behind a readable evidence line');
+assert(!reviewWxml.includes('reportSourcePanel') && !reviewWxml.includes('miniLessonReturnPanel'), 'review first screen does not render retired report-source panels');
 
 const firstScreen = reviewWxml.slice(
-  reviewWxml.indexOf('rc14-review-first-screen'),
-  reviewWxml.indexOf('rc14-review-after-first-screen')
+  reviewWxml.indexOf('review-hero-shell'),
+  reviewWxml.indexOf('review-subcheck')
 );
-assert(firstScreen.includes('reviewViewModel.routePill'), 'first screen reads routePill from reviewViewModel');
-assert(firstScreen.includes('reviewViewModel.primaryCard.sections'), 'first screen renders primary card sections from reviewViewModel');
-assert(firstScreen.includes('reviewViewModel.repairContract.rows') && firstScreen.includes('repair-contract-boundary'), 'first screen renders the repair contract before secondary review machinery');
-assert(firstScreen.includes('reviewViewModel.blackboard.layers') && firstScreen.includes('blackboard-layer-board'), 'first screen renders three-layer visual blackboard');
-assert(firstScreen.includes('reviewViewModel.blackboard.stopRuleLine'), 'first screen renders visual blackboard stop rule');
+assert(firstScreen.includes('review-hero-shell'), 'review renders the new reference-style launch shell');
+assert(firstScreen.includes('review-challenge-grid'), 'review exposes jump cards instead of a dense retired feed');
+assert(firstScreen.includes('{{reviewViewModel.primaryCta.text}}'), 'first screen renders one primary action from reviewViewModel');
+assert(firstScreen.includes('review-challenge-card'), 'review keeps compact challenge jump cards');
+assert(!firstScreen.includes('reportSourcePanel') && !firstScreen.includes('miniLessonReturnPanel'), 'review report evidence is no longer dumped into the first screen');
+[
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['family','summary-card'].join('-')
+].forEach((term) => {
+  assert(!reviewWxml.includes(term), `review WXML does not carry retired UI marker: ${term}`);
+});
 
 console.log('All review view model tests pass.');

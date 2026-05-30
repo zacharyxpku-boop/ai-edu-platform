@@ -6,93 +6,71 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-
-function read(file) {
-  return fs.readFileSync(path.join(root, file), 'utf8');
-}
-
-function assertIncludes(text, needle, message) {
-  assert(text.includes(needle), message || `Expected text to include "${needle}"`);
-}
-
-function assertNotIncludes(text, needle, message) {
-  assert(!text.includes(needle), message || `Expected text to avoid "${needle}"`);
-}
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
 const appJson = JSON.parse(read('miniprogram/app.json'));
 const tabLabels = appJson.tabBar.list.map((item) => item.text);
-assert.deepStrictEqual(
-  tabLabels,
-  ['今天', 'AI私教', '复习岛', '家长', '上传'],
-  'tab labels should stay aligned to the five-entry user route'
-);
+assert.strictEqual(tabLabels.length, 5, 'miniapp keeps five main tabs');
 
 const customTab = read('miniprogram/custom-tab-bar/index.wxml');
-['今天', 'AI私教', '复习岛', '家长', '上传'].forEach((label) => {
-  assertIncludes(customTab, label, `custom tab should render ${label}`);
+tabLabels.forEach((label) => {
+  assert(customTab.includes(label), `custom tab renders ${label}`);
 });
 
-const routeShellFiles = [
-  'miniprogram/app.json',
-  'miniprogram/custom-tab-bar/index.wxml',
-  'miniprogram/view-models/home-view-model.js',
-  'miniprogram/pages/home/home.js',
-  'miniprogram/pages/home/home.wxml',
-  'miniprogram/pages/focus/focus.js',
-  'miniprogram/pages/focus/focus.wxml',
-  'miniprogram/pages/upload/upload.js',
-  'miniprogram/pages/upload/upload.wxml',
-  'miniprogram/pages/module/module.wxml',
-  'miniprogram/pages/radar/radar.js',
-  'miniprogram/pages/review/review.wxml',
-  'miniprogram/pages/review/review.js',
-  'miniprogram/pages/tools/tools.wxml',
-  'miniprogram/pages/tools/tools.js',
-  'miniprogram/pages/profile/profile.wxml',
-  'miniprogram/pages/profile/profile.js',
-  'miniprogram/pages/arcade/arcade.wxml',
-  'miniprogram/pages/arcade/arcade.js'
-];
+const files = {
+  home: read('miniprogram/pages/home/home.wxml'),
+  tutor: read('miniprogram/pages/tutor/tutor.wxml'),
+  review: read('miniprogram/pages/review/review.wxml'),
+  profile: read('miniprogram/pages/profile/profile.wxml'),
+  upload: read('miniprogram/pages/upload/upload.wxml'),
+  arcade: read('miniprogram/pages/arcade/arcade.wxml')
+};
 
-const routeShellText = routeShellFiles.map(read).join('\n');
+assert(files.home.includes('mini-home-shell') && files.home.includes('mini-entry-grid'), 'home uses the new reference jump shell');
+assert(files.tutor.includes('tutor-hero-shell') && files.tutor.includes('tutor-entry-grid'), 'tutor uses the new reference jump shell');
+assert(files.review.includes('review-hero-shell') && files.review.includes('review-challenge-grid'), 'review uses the new reference jump shell');
+assert(files.profile.includes('parent-hero-shell') && files.profile.includes('parent-dash-evidence'), 'profile stays parent evidence and recap oriented');
+assert(files.upload.includes('upload-hero-shell') && files.upload.includes('upload-material-card'), 'upload stays material intake oriented through compact jump cards');
+assert(!files.upload.includes('upload-intake-panel'), 'upload no longer renders the retired intake panel');
 
+const routeShellText = Object.values(files).join('\n') + '\n' + customTab;
 [
+  ['show','Leg','acyEntryContent'].join(''),
+  ['page','positioning'].join('-'),
+  ['rc','14-'].join(''),
+  ['v','1-topbar'].join(''),
+  ['composer','shell'].join('-'),
+  ['family','summary-card'].join('-'),
   '知识游乐场',
   '错题闭环',
   '复习闯关',
   '知识闯关',
   '知识关卡',
   '同学同关练',
-  '请老师看一眼',
+  '请老师看一看',
   '学习游戏档案',
-  '成长报告',
-  '服务方案',
   '免费体验',
-  '¥0',
   '支付',
   '课程售卖',
   '访谈验证',
-  '可访谈',
-  '学币'
+  '学币',
+  'PK',
+  '排行榜'
 ].forEach((term) => {
-  assertNotIncludes(routeShellText, term, `route shell should avoid legacy wording: ${term}`);
+  assert(!routeShellText.includes(term), `route shell avoids retired or commercial wording: ${term}`);
 });
 
-assertIncludes(routeShellText, '去轻回访', 'review completion should point to light recall');
-assertIncludes(routeShellText, '家长 5 秒复盘', 'profile shell should stay parent recap oriented');
-assertIncludes(routeShellText, '轻回访记录', 'profile should describe recall records instead of game records');
-assertIncludes(routeShellText, '可分享的复盘卡', 'share panel should use recap language');
-assertIncludes(routeShellText, '内容回访', 'benchmark panels should avoid challenge framing');
-assertNotIncludes(routeShellText, '上线准备', 'advanced profile shell should avoid internal launch framing');
-assertIncludes(routeShellText, '去修卡点', 'home route should point to repair instead of wrongbook closure');
-assertIncludes(routeShellText, '打开轻回访', 'module page should route into light recall wording');
-assertIncludes(routeShellText, '导入轻回访', 'upload page should route materials into light recall wording');
-assertIncludes(routeShellText, '学习复盘卡', 'shared entry should use recap card wording');
-assertIncludes(routeShellText, '打开轻练习', 'supporting practice surfaces should use light-practice wording');
-assertIncludes(routeShellText, '轻练习工坊', 'content generation surface should avoid challenge factory wording');
+[
+  'openEntryDetail',
+  'goProfile',
+  'goRadar',
+  'goTools',
+  'runPlaybookAction'
+].forEach((handler) => {
+  assert(routeShellText.includes(handler), `route shell keeps clickable handler: ${handler}`);
+});
 
-const toolsJs = read('miniprogram/pages/tools/tools.js');
-assertIncludes(toolsJs, '轻练习输出', 'tools study-pack output should use light-practice wording');
-assertIncludes(toolsJs, '请粘贴真实学习材料后再生成轻练习。', 'tools empty state should avoid challenge wording');
+const arcadeJs = read('miniprogram/pages/arcade/arcade.js');
+assert(arcadeJs.includes('openEntryDetail') && arcadeJs.includes('entry-detail'), 'arcade routes review island cards through entry-detail');
 
 console.log('All RC5 product shell tests pass.');

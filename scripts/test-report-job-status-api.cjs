@@ -38,7 +38,7 @@ async function main() {
     },
     productRoutes: [
       { id: 'upload', state: 'has_parsed_real_evidence', routeHint: '/pages/upload/upload' },
-      { id: 'report', state: 'prompts_ready', routeHint: '/pages/radar/radar' }
+      { id: 'report', state: 'prompts_ready', routeHint: '/pages/profile/profile?from=report_ready' }
     ],
     nextBestAction: 'Provide an Image 2/OpenAI image provider.',
     externalBlockers: [{ id: 'image_provider_missing', env: 'OPENAI_API_KEY' }],
@@ -77,4 +77,3 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
-

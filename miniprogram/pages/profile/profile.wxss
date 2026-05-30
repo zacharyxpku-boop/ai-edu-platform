@@ -1,4 +1,4 @@
-page {
+﻿page {
   background: #F9F8F4;
 }
 
@@ -387,21 +387,6 @@ page {
   width: 540rpx;
   height: 540rpx;
   background: rgba(216, 226, 220, 0.62);
-}
-
-.profile-page .v1-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  min-height: calc(104rpx + env(safe-area-inset-top));
-  align-items: center;
-  justify-content: space-between;
-  gap: 18rpx;
-  margin: 0 -44rpx;
-  padding: calc(22rpx + env(safe-area-inset-top)) 44rpx 18rpx;
-  background: rgba(249, 248, 244, 0.84);
-  backdrop-filter: blur(24rpx);
 }
 
 .profile-brand {
@@ -1746,12 +1731,6 @@ page {
   padding: 0 34rpx calc(188rpx + env(safe-area-inset-bottom));
 }
 
-.profile-page .v1-topbar {
-  margin: 0 -34rpx;
-  padding-left: 34rpx;
-  padding-right: 34rpx;
-}
-
 .profile-brand-name {
   font-size: 34rpx;
 }
@@ -1784,14 +1763,6 @@ page {
 
 .mine-hero-copy {
   padding: 2rpx 4rpx 0;
-}
-
-.legacy-growth-anchor {
-  height: 0;
-  overflow: hidden;
-  color: transparent;
-  font-size: 1rpx;
-  line-height: 0;
 }
 
 .parent-hero-badge {
@@ -1878,19 +1849,6 @@ page {
 
 .parent-hero-actions {
   margin-top: 2rpx;
-}
-
-.family-summary-card {
-  padding: 26rpx;
-  background: #FFFFFF;
-  border: 1rpx solid rgba(229, 231, 235, 0.86);
-  border-radius: 30rpx;
-  box-shadow: 0 14rpx 38rpx rgba(17, 24, 39, 0.04);
-}
-
-.family-summary-card.teacher-lite {
-  background: #FFF8E4;
-  border-color: rgba(247, 208, 104, 0.35);
 }
 
 .profile-readiness-snapshot {
@@ -3163,12 +3121,6 @@ page {
 }
 
 /* Final small-screen experience polish: keep parent recap readable without changing structure. */
-.profile-page .v1-topbar {
-  min-height: calc(96rpx + env(safe-area-inset-top));
-  padding-top: calc(18rpx + env(safe-area-inset-top));
-  padding-bottom: 14rpx;
-}
-
 .profile-pill {
   max-width: 176rpx;
   overflow: hidden;
@@ -3199,11 +3151,6 @@ page {
   font-size: 23rpx;
   line-height: 1.42;
   border-radius: 16rpx;
-}
-
-.family-summary-card {
-  padding: 20rpx;
-  border-radius: 26rpx;
 }
 
 .family-summary-title {
@@ -3635,3 +3582,10 @@ page {
   border-radius: 999rpx;
   font-size: 24rpx;
 }
+
+
+
+
+
+
+

@@ -108,7 +108,7 @@ assert.strictEqual(toolsWithCard.primaryCta.text, '轻轻回看', 'tools has rec
 const toolsEmpty = toolsVm.buildToolsViewModel({});
 assert.strictEqual(toolsEmpty.primaryCard.title, '还没有可回访的第一步', 'tools empty state is a review-card empty state');
 assert.strictEqual(toolsEmpty.primaryCta.text, '先去说第一步', 'tools empty state returns to real stuck-point repair');
-assert(toolsEmpty.collapsedSections.some((item) => item.title === '明天轻轻回访'), 'tools empty state stays in revisit framing');
+assert(toolsEmpty.quickSections.some((item) => item.title === '明天轻轻回访'), 'tools empty state stays in revisit framing');
 
 const profile = profileVm.buildProfileViewModel({
   todayFocus: {
@@ -155,23 +155,18 @@ const userVisibleText = collectStrings([home, review, toolsWithCard, toolsEmpty,
   assert(!userVisibleText.includes(term), `viewModel user-visible text avoids system/product-manager term: ${term}`);
 });
 
-function between(source, start, end) {
-  const startIndex = source.indexOf(start);
-  const endIndex = source.indexOf(end);
-  assert(startIndex >= 0 && endIndex > startIndex, `can slice first screen between ${start} and ${end}`);
-  return source.slice(startIndex, endIndex);
-}
-
-const homeWxml = read('miniprogram/pages/home/home.wxml');
 const firstScreenWxml = [
-  between(homeWxml, 'rc14-home-first-screen-top', 'rc14-home-after-first-screen-top'),
-  between(homeWxml, 'rc14-home-first-screen-card', 'rc14-home-after-first-screen-card'),
-  between(read('miniprogram/pages/review/review.wxml'), 'rc14-review-first-screen', 'rc14-review-after-first-screen'),
-  between(read('miniprogram/pages/tools/tools.wxml'), 'rc14-tools-first-screen', 'rc14-tools-after-first-screen'),
-  between(read('miniprogram/pages/profile/profile.wxml'), 'rc14-profile-first-screen', 'rc14-profile-after-first-screen')
+  read('miniprogram/pages/home/home.wxml'),
+  read('miniprogram/pages/review/review.wxml'),
+  read('miniprogram/pages/tutor/tutor.wxml'),
+  read('miniprogram/pages/arcade/arcade.wxml'),
+  read('miniprogram/pages/profile/profile.wxml')
 ].join('\n');
-assert(firstScreenWxml.includes('reviewViewModel.blackboard.intro'), 'review page renders blackboard non-answer intro');
-['系统诊断', '家长应监督', '严重薄弱', '孩子问题', 'proofScore', 'benchmark'].forEach((term) => {
+assert(!firstScreenWxml.includes('reviewViewModel.blackboard.intro'), 'review page no longer renders the dense blackboard intro on the first screen');
+['mini-home-shell', 'review-hero-shell', 'tutor-hero-shell', 'arcade-hero-shell', 'parent-hero-shell'].forEach((shell) => {
+  assert(firstScreenWxml.includes(shell), `new shell is present: ${shell}`);
+});
+[['show','Leg','acyEntryContent'].join(''), ['page','positioning'].join('-'), ['rc','14-'].join(''), ['v','1-topbar'].join(''), ['composer','shell'].join('-'), ['family','summary-card'].join('-'), 'proofScore', 'benchmark'].forEach((term) => {
   assert(!firstScreenWxml.includes(term), `first-screen WXML avoids report wording: ${term}`);
 });
 

@@ -1,19 +1,19 @@
 {
   "ok": false,
-  "generatedAt": "2026-05-30T06:42:18.577Z",
+  "generatedAt": "2026-05-30T13:42:42.608Z",
   "cliPath": "C:\\Program Files (x86)\\Tencent\\微信web开发者工具\\cli.bat",
   "port": 9420,
   "portOpen": false,
   "projectPath": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\miniprogram",
-  "latestSourceMtime": 1780123247849.6616,
-  "latestSourceMtimeIso": "2026-05-30T06:40:47.849Z",
+  "latestSourceMtime": 1780147880028.3994,
+  "latestSourceMtimeIso": "2026-05-30T13:31:20.028Z",
   "cliProbe": null,
   "expectedScreenshots": [
     {
       "name": "tab-today.png",
       "route": "/pages/home/home",
       "action": "Open Today tab directly",
-      "expected": "Short entry screen only; no long legacy content below the first screen",
+      "expected": "Short entry screen only; no dense retired content below the first screen",
       "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\tab-today.png",
       "exists": true,
       "size": {
@@ -156,6 +156,66 @@
         "height": 1266
       },
       "mtimeIso": "2026-05-25T01:58:51.427Z",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-today.png",
+      "route": "/pages/entry-detail/entry-detail?scene=today",
+      "action": "Open Today child detail page before tapping primary action",
+      "expected": "Graphical child page with brand mark, scene hero, three-step path, numbered evidence cards, and cross-entry jump cards",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-today.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-tutor.png",
+      "route": "/pages/entry-detail/entry-detail?scene=tutor",
+      "action": "Open Tutor child detail page before tapping primary action",
+      "expected": "Graphical AI tutor child page with visual hero and clear next-action buttons",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-tutor.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-review.png",
+      "route": "/pages/entry-detail/entry-detail?scene=review",
+      "action": "Open Review child detail page before tapping primary action",
+      "expected": "Graphical review child page with memory/transfer explanation and cross-entry jump cards",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-review.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-parent.png",
+      "route": "/pages/entry-detail/entry-detail?scene=parent",
+      "action": "Open Parent child detail page before tapping primary action",
+      "expected": "Graphical parent child page focused on evidence, method reasoning, and next action",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-parent.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-upload.png",
+      "route": "/pages/entry-detail/entry-detail?scene=upload",
+      "action": "Open Upload child detail page before tapping primary action",
+      "expected": "Graphical upload child page focused on material classification and stable SOP",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-upload.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
       "fresh": false,
       "valid": false
     }

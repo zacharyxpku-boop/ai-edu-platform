@@ -33,6 +33,14 @@ const childFlows = [
   ['upload', 'child-upload-material.png']
 ];
 
+const childEntryShots = [
+  ['today', 'entry-detail-today.png'],
+  ['tutor', 'entry-detail-tutor.png'],
+  ['review', 'entry-detail-review.png'],
+  ['parent', 'entry-detail-parent.png'],
+  ['upload', 'entry-detail-upload.png']
+];
+
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -111,6 +119,17 @@ async function launchOrConnect() {
       const current = await withTimeout(app.currentPage(), 8000, `currentPage after ${scene}`);
       await screenshotWithRetry(app, path.join(outDir, name));
       console.log(`flow ${name} ${current && current.path}`);
+    }
+
+    for (const [scene, name] of childEntryShots) {
+      await withTimeout(
+        app.reLaunch(`/pages/entry-detail/entry-detail?scene=${scene}`),
+        16000,
+        `reLaunch entry-detail visual ${scene}`
+      );
+      await wait(1600);
+      await screenshotWithRetry(app, path.join(outDir, name));
+      console.log(`entry ${name} ${scene}`);
     }
   } finally {
     if (app && app.disconnect) app.disconnect();

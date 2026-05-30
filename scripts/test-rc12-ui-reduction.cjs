@@ -49,14 +49,14 @@ const files = {
   homeViewModelJs: read('miniprogram/view-models/home-view-model.js'),
   reviewWxml: read('miniprogram/pages/review/review.wxml'),
   reviewViewModelJs: read('miniprogram/view-models/review-view-model.js'),
-  toolsWxml: read('miniprogram/pages/tools/tools.wxml'),
-  toolsViewModelJs: read('miniprogram/view-models/tools-view-model.js'),
+  tutorWxml: read('miniprogram/pages/tutor/tutor.wxml'),
+  arcadeWxml: read('miniprogram/pages/arcade/arcade.wxml'),
   profileWxml: read('miniprogram/pages/profile/profile.wxml'),
   profileViewModelJs: read('miniprogram/view-models/profile-view-model.js'),
   packageJson: read('package.json')
 };
 
-const tabWxml = [files.homeWxml, files.reviewWxml, files.toolsWxml, files.profileWxml].join('\n');
+const tabWxml = [files.homeWxml, files.reviewWxml, files.tutorWxml, files.arcadeWxml, files.profileWxml].join('\n');
 
 assert(files.homeWxml.includes('{{homeViewModel.title}}') && files.homeViewModelJs.includes('title:'), 'home keeps one main question through homeViewModel');
 assert(files.homeWxml.includes('{{homeViewModel.primaryCta}}') && files.homeViewModelJs.includes('primaryCta'), 'home main CTA remains through homeViewModel');
@@ -66,34 +66,34 @@ assert(!files.homeWxml.includes('{{companionCopy.home}}'), 'home does not stack 
 
 assert(files.reviewWxml.includes('{{reviewViewModel.title}}') && files.reviewViewModelJs.includes('今晚只修一个卡点'), 'review keeps one main question');
 assert(files.reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && files.reviewViewModelJs.includes('开始 5 分钟修复'), 'review main CTA remains');
-assert(files.reviewWxml.includes('{{reviewViewModel.emptyState.cta}}') && files.reviewViewModelJs.includes('去说第一步'), 'review empty state has one clear action');
+assert(files.reviewWxml.includes("{{reviewViewModel.primaryCta.text}}") && files.reviewViewModelJs.includes("emptyState"), "review empty state stays in view-model logic without adding a second first-screen CTA");
 assert(!files.reviewWxml.includes('{{companionCopy.review}}'), 'review does not stack a second companion explanation');
 assert(!files.reviewWxml.includes('growthMemory.review'), 'review growth memory is not stacked in the hero');
 
-assert(files.toolsWxml.includes('{{toolsViewModel.title}}') && files.toolsViewModelJs.includes('今天只回看这一小步'), 'tools keeps one recall question');
-assert(files.toolsWxml.includes('{{toolsViewModel.primaryCta.text}}') && files.toolsViewModelJs.includes('先去说第一步'), 'tools fallback CTA routes back to stuck-point repair');
-assert(files.toolsWxml.includes('{{toolsViewModel.primaryCta.text}}') && files.toolsViewModelJs.includes('轻轻回看'), 'tools review-card CTA is visible when there is a card');
-assert(!files.toolsWxml.includes('quick-play-panel featured'), 'tools avoids a second primary trial recommendation below the main card');
-assert(!files.toolsWxml.includes('wx:if="{{false}}"') && files.toolsWxml.includes('tools-secondary-games') && files.toolsWxml.includes('class="material-panel"'), 'tools secondary practice is available below the main recall card');
-assert(!files.toolsWxml.includes('{{companionCopy.tools}}'), 'tools does not stack a second companion explanation');
-assert(!files.toolsWxml.includes('growthMemory.tools'), 'tools growth memory is not stacked in the hero');
+assert(files.tutorWxml.includes("tutor-hero-shell") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps one first-step jump shell");
+assert(files.arcadeWxml.includes("arcade-hero-shell") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
+assert(!files.tutorWxml.includes("{{companionCopy.tools}}") && !files.arcadeWxml.includes("{{companionCopy.tools}}"), "retired tools companion explanation is not stacked on active tabs");
+assert(!files.tutorWxml.includes("growthMemory.tools") && !files.arcadeWxml.includes("growthMemory.tools"), "retired tools growth memory is not stacked on active tabs");
 
-assert(files.profileWxml.includes('{{profileViewModel.title}}') && files.profileViewModelJs.includes('今晚家长只问这一句'), 'profile main question is the parent one-question moment');
-assert(files.profileWxml.includes('今晚卡住') && files.profileWxml.includes('只问一句') && files.profileWxml.includes('最近小结') && files.profileViewModelJs.includes('家长只问一句'), 'profile first screen includes the friend-safe one-question shell');
+assert(files.profileWxml.includes('parent-hero-shell') && files.profileWxml.includes('parent-dash-evidence') && files.profileWxml.includes('profileViewModel.title') && files.profileViewModelJs.includes('title:'), 'profile first screen includes the parent one-question shell');
 assert(files.profileViewModelJs.includes('今晚孩子卡在'), 'profile hero card keeps current stuck point');
 assert(files.profileViewModelJs.includes('信任边界'), 'profile hero card keeps trust boundary');
 assert(files.profileWxml.includes('{{profileViewModel.primaryCta}}') && files.profileViewModelJs.includes('完成今日复盘'), 'profile main CTA remains');
 assert(!files.profileWxml.includes('{{companionCopy.profile}}'), 'profile does not stack a second companion explanation');
-assert(files.profileWxml.includes('profile-secondary-process') && files.profileWxml.includes('showAdvancedProfile'), 'profile process summary is folded behind advanced profile');
+assert(files.profileWxml.includes("parent-subcheck") && files.profileWxml.includes("parent-dash-route"), "profile keeps secondary process as compact jump cards below the parent launch shell");
+assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile does not render retired detailed report ledger");
 
 [
   ['home', files.homeWxml, 'homeViewModel.routePill'],
   ['review', files.reviewWxml, 'route-note short'],
-  ['tools', files.toolsWxml, 'toolsViewModel.routePill'],
+  ['tutor', files.tutorWxml, 'tutor-entry-grid'],
+  ['arcade', files.arcadeWxml, 'arcade-subcheck'],
   ['profile', files.profileWxml, 'route-strip compact']
 ].forEach(([name, text, marker]) => {
   assert(text.includes(marker), `${name} keeps one route marker`);
-  assert.strictEqual((text.match(/companion-route-strip/g) || []).length, 1, `${name} has exactly one companion strip`);
+  if (name === 'home' || name === 'review' || name === 'profile') {
+    assert.strictEqual((text.match(/companion-route-strip/g) || []).length, 1, `${name} has exactly one companion strip`);
+  }
 });
 
 [

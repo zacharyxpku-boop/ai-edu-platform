@@ -498,8 +498,8 @@ Do not put payment UI into the product yet.
 | P1 | Legacy deep pages still exist conceptually | module/arcade/tutor/radar can reintroduce old platform smell if surfaced | In UI redesign, hide from primary flow or rename/reframe under tonight route | `miniprogram/app.json`, page WXML/JS, navigation handlers | Product structure |
 | P1 | Profile advanced panels still too heavy | Parent recap can turn into report/commercial/service center | Keep advanced panels inaccessible in UI prototype; make parent recap the only first impression | `pages/profile`, `profile-view-model` | Product + copy |
 | P1 | Child trust around Profile unproven | Children may feel reported on | Test child reaction to parent recap; phrase as “帮你少被问一堆” | Prototype copy, `pages/profile` later | Research + copy |
-| P1 | 三问 friction unproven | If too slow, children will abandon | UI should make 三问 feel like short guided prompts, not a form | `pages/diagnosis`, `pages/review` later | UX |
-| P1 | 专注舱 still has many atmosphere options | Too many controls may distract from task | In UI, collapse scenes/audio under one small atmosphere row | `pages/focus` later | UI structure |
+| P1 | 三问 friction unproven | If too slow, children will abandon | UI should make 三问 feel like short guided prompts, not a form | `pages/upload`, `pages/review` later | UX |
+| P1 | 专注舱 still has many atmosphere options | Too many controls may distract from task | In UI, collapse scenes/audio under one small atmosphere row | `pages/entry-detail?scene=today` later | UI structure |
 | P1 | 咕点 lacks visual proof | Mascot role may remain copy-only | Create one strong 咕点 visual system before final UI | assets/design later | Visual |
 | P2 | Learning evidence quality not measured | Cannot claim improvement | Add validation rubric for first-step quality in user testing | docs/research first | Research |
 | P2 | Upload may still trigger answer-tool expectation | Input/photo affordance can imply solve | UI copy must say “说卡点，不求答案” | `pages/upload` later | Copy |

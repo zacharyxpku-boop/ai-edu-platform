@@ -8,10 +8,10 @@
 
 - `miniprogram/`：原生微信小程序骨架，可直接用微信开发者工具打开。
 - `pages/home`：今晚学习决策台。
-- `pages/tools`：诊断入口，保留测评诊断、作业录入、家长雷达、原小点执行四个主流程。
-- `pages/diagnosis`：成绩 + 错题描述 + 作业清单生成能力雷达。
+- `pages/entry-detail?scene=today`：诊断入口，保留测评诊断、作业录入、家长雷达、原小点执行四个主流程。
+- `pages/upload`：成绩 + 错题描述 + 作业清单生成能力雷达。
 - `pages/upload`：作业照片留档 + 手动清单录入，不承诺自动图片识别。
-- `pages/radar`：雷达弱点 + 作业三分类。
+- `pages/profile`：雷达弱点 + 作业三分类。
 - `pages/tutor`：原小点只引导高优先级任务和关键错因。
 - `pages/profile/legal`：家长授权、隐私、协议、未成年人保护入口。
 - `api/mini/session`：小程序会话初始化；配置微信 AppID/AppSecret 后可换 openid。

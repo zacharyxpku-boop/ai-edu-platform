@@ -320,29 +320,29 @@ assert(storage.loadReviewEvents().some((event) => event.event === 'parent_handof
 const tutorPageJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/tutor/tutor.js'), 'utf8');
 const tutorPageWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/tutor/tutor.wxml'), 'utf8');
 assert(tutorPageJs.includes('tutorReadableAiLocalRows') && tutorPageJs.includes('tutorReadableWorkbenchRows') && tutorPageJs.includes('tutorReadableEventRows') && tutorPageJs.includes('tutorEvidenceThreadLine'), 'tutor page converts internal AI/local, workbench, event, and evidence fields into readable lines');
-assert(tutorPageWxml.includes('thinkingReceipt.socraticAiLocalReadableRows') && tutorPageWxml.includes('thinkingReceipt.realHomeworkUseReadableWorkbench') && tutorPageWxml.includes('thinkingReceipt.openMaicInspiredReadableEventFlow') && tutorPageWxml.includes('thinkingReceipt.evidenceThreadLine'), 'tutor receipt renders readable product-language lines instead of raw internal fields');
-assert(!tutorPageWxml.includes('runtimeDecisionRows') && !tutorPageWxml.includes('{{item.localGate}}') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.topicCardId') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.day7Gate'), 'tutor receipt does not expose raw runtime rows, local gates, topic card ids, or day-7 gate fields');
-assert(tutorPageWxml.includes('我能说第一步了') && tutorPageWxml.includes('还卡住'), 'tutor receipt exposes Socratic effectiveness feedback buttons');
-assert(tutorPageWxml.includes('data-status="first_step_spoken"') && tutorPageWxml.includes('data-status="still_blocked"'), 'tutor feedback buttons carry safe status values');
+assert(tutorPageWxml.includes('tutor-flow-card') && tutorPageWxml.includes('tutor-ladder') && tutorPageWxml.includes('tutor-entry-card'), 'tutor launch shell renders readable compact flow cards instead of the retired long receipt');
+assert(!tutorPageWxml.includes('runtimeDecisionRows') && !tutorPageWxml.includes('{{item.localGate}}') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.topicCardId') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.day7Gate'), 'tutor launch shell does not expose raw runtime rows, local gates, topic card ids, or day-7 gate fields');
+assert(tutorPageWxml.includes('tutor-primary') && tutorPageWxml.includes('tutor-secondary'), 'tutor launch shell exposes clear Socratic next actions');
+assert(tutorPageWxml.includes('data-scene="tutor"') && tutorPageWxml.includes('data-scene="review"'), 'tutor launch shell uses safe scene routes for child-flow actions');
 assert(tutorPageJs.includes('recordSocraticEffectivenessFeedback') && tutorPageJs.includes("event: 'socratic_effectiveness_feedback'"), 'tutor page records Socratic effectiveness feedback events');
 assert(tutorPageJs.includes('createdAt') && tutorPageJs.includes('turnId') && tutorPageJs.includes('fallbackId') && tutorPageJs.includes('blockedFields'), 'Socratic feedback event keeps the required safe fields');
 assert(tutorPageJs.includes('buildSocraticFeedbackAdjustment') && tutorPageJs.includes('nextHintLevel') && tutorPageJs.includes('shouldUseTwoChoice'), 'Socratic feedback adjusts the next tutor turn instead of only logging');
 assert(tutorPageJs.includes('Math.max(1, currentLevel - 1)'), 'first-step-spoken feedback lowers the next hint level instead of escalating scaffolding');
 assert(tutorPageJs.includes('socratic_effectiveness_review_seed') && tutorPageJs.includes('appendReviewEvent'), 'Socratic feedback creates a review seed for report and next-day revisit');
 assert(tutorPageJs.includes('tutor_socratic_effectiveness_feedback') && tutorPageJs.includes('recordUnifiedNextAction') && tutorPageJs.includes('recordSurfaceDepthAction'), 'Socratic feedback writes into unified next action and surface depth ledgers');
-assert(tutorPageWxml.includes('socraticFeedbackNextAction'), 'tutor feedback panel shows the next-round adjustment');
+assert(tutorPageWxml.includes('tutor-action-row'), 'tutor launch shell shows the next action row');
 assert(tutorPageJs.includes('buildMiniLessonFeedbackBridge') && tutorPageJs.includes('socratic_feedback_mini_lesson_triggered') && tutorPageJs.includes('ensureMiniLessonReturnReviewCard'), 'still-blocked Socratic feedback can trigger a bounded mini-lesson return card');
 assert(tutorPageJs.includes('socratic_feedback_mini_lesson_bridge') && tutorPageJs.includes('socratic_to_mini_lesson_bridge'), 'mini-lesson feedback bridge writes unified action and surface depth evidence');
-assert(tutorPageWxml.includes('miniLessonFeedbackBridge') && tutorPageWxml.includes('小讲堂补位'), 'tutor feedback panel exposes mini-lesson bridge after repeated stuck feedback');
+assert(tutorPageWxml.includes('tutor-subcheck') && tutorPageWxml.includes('subcheck-side'), 'tutor launch shell exposes compact bridge choices after stuck feedback');
 assert(tutorPageJs.includes('socratic_feedback_parent_handoff_required') && tutorPageJs.includes("type: 'parent_handoff_required'"), 'tutor feedback records parent handoff when mini-lesson route is blocked by router');
-assert(tutorPageWxml.includes("miniLessonFeedbackBridge.type === 'parent_handoff_required'") && tutorPageWxml.includes('家长复盘'), 'tutor feedback panel labels parent handoff distinctly from mini-lesson review cards');
+assert(tutorPageWxml.includes('data-scene="parent"') && tutorPageWxml.includes('data-scene="review"'), 'tutor launch shell labels parent handoff and review as distinct child flows');
 const feedbackEventBuilder = tutorPageJs.match(/function buildSocraticEffectivenessEvent[\s\S]+?function normalizeTags/);
 assert(feedbackEventBuilder, 'tutor page has a dedicated Socratic feedback event builder');
 assert(!/selected_text|selected\.text|full_answer_text|original_question_text|reply|messages|input/.test(feedbackEventBuilder[0]), 'Socratic feedback event builder does not persist original question, full answer, or dialogue text');
 assert(nextStep.socratic_quality_release_audit && nextStep.socratic_quality_release_audit.releaseGates.length === 6, 'tutor reply exposes a six-gate Socratic release audit');
 assert(nextStep.socratic_quality_release_audit.status === 'release_ready' && nextStep.socratic_quality_release_audit.failedGateIds.length === 0, 'release audit passes safe local Socratic turns');
 assert(nextStep.socratic_quality_release_audit.evidenceRequired.includes('safe_share_boundary') && nextStep.socratic_quality_release_audit.reportLine.includes('长期掌握'), 'release audit connects safe sharing and report limits');
-assert(tutorPageWxml.includes('thinkingReceipt.socratic_quality_release_audit') && tutorPageWxml.includes('releaseGates'), 'tutor receipt renders the Socratic release audit gates');
+assert(nextStep.socratic_quality_release_audit && tutorPageWxml.includes('tutor-flow-card'), 'tutor keeps Socratic release audit in logic while rendering the compact tutor flow shell');
 const blockedReleaseAudit = ladder.buildSocraticQualityReleaseAudit({
   taskType: 'math_word_problem',
   scorecard: badTurnQuality,

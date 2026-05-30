@@ -87,11 +87,11 @@ assert(ananPlan.summaryLine.includes(ananMemory), 'tonightPlan summary line can 
 
 storage.saveCompanionPreference('wenwen');
 const wenwenLine = storage.getGrowthMemoryLine(null, { selectedCompanion: 'wenwen' });
-assert(wenwenLine.oneLine.includes('今天记录到'), 'single-record memory line stays honest for legacy ids');
+assert(wenwenLine.oneLine.includes('今天记录到'), 'single-record memory line stays honest for retired ids');
 assert.strictEqual(
   storage.growthMemoryCopyFor('home'),
   '今天记录到：第一步怎么开始。咕点先帮你留住这一小步。',
-  'home memory reason follows 咕点 after legacy id'
+  'home memory reason follows 咕点 after retired id'
 );
 assert.strictEqual(
   storage.growthMemoryCopyFor('review'),
@@ -105,7 +105,7 @@ assert.strictEqual(
 );
 
 storage.saveCompanionPreference('aheng');
-assert(storage.growthMemoryCopyFor('home').includes('今天记录到'), 'single-record legacy memory stays honest');
+assert(storage.growthMemoryCopyFor('home').includes('今天记录到'), 'single-record retired memory stays honest');
 storage.saveCompanionPreference('tuantuan');
 assert(!storage.growthMemoryCopyFor('profile').includes('阿衡'), 'profile memory does not force 阿衡');
 assert(storage.growthMemoryCopyFor('profile').includes('今天记录到') && storage.growthMemoryCopyFor('profile').includes('咕点'), 'profile memory follows mascot voice');
@@ -144,19 +144,20 @@ assert.strictEqual(JSON.stringify(emptyWeekly.lines), JSON.stringify(['本周还
 
 const homeJs = read('miniprogram/pages/home/home.js');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-const toolsWxml = read('miniprogram/pages/tools/tools.wxml');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 const profileJs = read('miniprogram/pages/profile/profile.js');
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js');
-const visibleText = [homeJs, reviewWxml, toolsWxml, profileJs, profileWxml, profileViewModelJs].join('\n');
+const visibleText = [homeJs, reviewWxml, entryDetailWxml, profileJs, profileWxml, profileViewModelJs].join('\n');
 
 assert(homeJs.includes("growthMemoryCopyFor('home'"), 'home reads growth memory reason');
 assert(!reviewWxml.includes('{{growthMemory.review}}'), 'review keeps growth memory out of the crowded first screen');
-assert(!toolsWxml.includes('{{growthMemory.tools}}'), 'tools keeps growth memory out of the crowded first screen');
+assert(!entryDetailWxml.includes('{{growthMemory.tools}}'), 'tools keeps growth memory out of the crowded first screen');
 assert(homeJs.includes('getGrowthMemoryLine'), 'home uses human growth memory line helper');
-assert(profileWxml.includes('profileViewModel.growthMemoryCard') && profileViewModelJs.includes('这几晚先看第一步'), 'profile renders light weekly memory card');
+assert(!profileWxml.includes("profileViewModel.growthMemoryCard") && profileViewModelJs.includes("growthMemoryCard"), "profile keeps weekly memory in the view-model without rendering another first-screen card");
 assert(profileViewModelJs.includes('再用几晚后'), 'profile memory card avoids fake trend claims when evidence is thin');
-assert(profileWxml.indexOf('growth-memory-card') < profileWxml.indexOf('teacher-lite'), 'weekly memory card sits before teacher advice');
+assert(!profileWxml.includes("growth-memory-card") && profileWxml.includes("parent-dash-route"), "weekly memory no longer renders as a separate card on the compact parent shell");
+assert(!profileWxml.includes('parent-report-capability-panel'), 'weekly memory no longer points to the retired detailed report panel');
 assert(profileJs.includes('buildWeeklyGrowthMemory'), 'profile builds weekly memory from shared helper');
 assert(!profileJs.includes("selectedCompanion === 'aheng'") && !profileJs.includes("selectedCompanion === 'tuantuan'"), 'profile does not hard-bind memory to 阿衡 or 团团');
 ['近 7 天错误类型分布', '百分比', '系统诊断', '家长应监督', '严重薄弱', '落后', '完全本地运行', '秒解', '答案已生成', '拍照出答案'].forEach((term) => {

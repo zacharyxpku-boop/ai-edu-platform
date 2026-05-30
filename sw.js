@@ -5,7 +5,7 @@
    - 静态资源 (src/*, /*.js, /*.css) → cache-first，后台更新
    - 其余 → 直通网络
 */
-const VER = 'ydzx-v1-2026-04-21';
+const VER = 'ydzx-shell-2026-05-30';
 const CORE = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', (e) => {

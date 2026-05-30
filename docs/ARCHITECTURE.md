@@ -105,9 +105,9 @@ sequenceDiagram
 ```text
 miniprogram/
   pages/home        今日入口
-  pages/tools       诊断入口
+  pages/entry-detail?scene=today       诊断入口
   pages/upload      作业/试卷录入
-  pages/radar       家长雷达 + 三分类 + 周复盘
+  pages/profile       家长雷达 + 三分类 + 周复盘
   pages/tutor       原小点执行端
   pages/profile     家长资料和内测咨询
   pages/legal       隐私、协议、未成年人保护

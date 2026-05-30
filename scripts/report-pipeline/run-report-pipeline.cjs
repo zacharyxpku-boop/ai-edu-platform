@@ -2415,7 +2415,7 @@ function buildProductHandoff(manifest = buildInputManifest()) {
       id: 'report',
       surface: 'miniapp/app/web',
       entry: 'parent report preview',
-      routeHint: '/pages/radar/radar or report detail',
+      routeHint: '/pages/profile/profile?from=report_ready',
       purpose: 'Show evidence-first explanation, cross-validation, method matching, and package status before sending a parent-facing PDF.',
       currentState: promptBatchesReady ? 'prompts_ready' : 'needs_prompt_batches',
       requiredInput: ['child_profile.md', 'questionnaire_profile.md', 'cross_validation.md', 'deck plan', 'Image 2 prompts', 'approved images'],

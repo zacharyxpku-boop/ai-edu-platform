@@ -515,7 +515,7 @@ No P0 implementation blocker was found in RC8. Do not change code in this sprint
 | P0 | None | Current loop can be validated | No implementation | N/A | N/A |
 | P1 | Child-facing copy boundaries need to stay enforced | A single “report/weakness/ranking” leak can break child trust | Add a copy QA checklist before UI and release | pages/*, view-models, docs | Copy/Product structure |
 | P1 | Evidence naming should distinguish child articulation from system suggestion | Learning proof depends on child agency | Later add explicit local fields | utils/storage.js, utils/focus-cabin.js | Data |
-| P1 | Keep study-room/social backstage | Social pressure can dilute the promise | UI must not hero room/leaderboard/check-in | pages/focus, focus-cabin.js | Product structure |
+| P1 | Keep study-room/social backstage | Social pressure can dilute the promise | UI must not hero room/leaderboard/check-in | pages/entry-detail?scene=today, focus-cabin.js | Product structure |
 | P1 | Parent recap needs one-question discipline | Profile can drift into report wall | Keep parent question as first value | pages/profile, view-models | Copy/Product structure |
 | P2 | Add child self-explanation quality rubric later | Needed for learning-outcome proof | Add simple rubric after validation | diagnosis/review/storage | Data/Research |
 | P2 | Validate subject-specific first-step quality | Math and reading may need different prompts | Run pilot by subject | diagnosis/review | Research |

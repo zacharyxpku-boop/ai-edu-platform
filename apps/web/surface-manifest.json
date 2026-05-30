@@ -16,7 +16,7 @@
   "primaryEntries": [
     {
       "id": "home",
-      "label": "首页总览",
+      "label": "学习主界面",
       "path": "/",
       "miniappParity": "pages/home/home",
       "job": "Show the whole learning loop at a glance and route users into the next best action.",
@@ -34,13 +34,13 @@
       "id": "report",
       "label": "个性化报告",
       "path": "/report",
-      "miniappParity": "pages/radar/radar + pages/profile/profile",
+      "miniappParity": "pages/entry-detail/entry-detail?scene=parent + pages/profile/profile",
       "job": "Explain evidence, talent-method fit, learning plan, and PDF export.",
       "webAdaptation": "Use report chapters, visual evidence panels, and sticky export/share actions."
     },
     {
       "id": "tutor",
-      "label": "AI私教",
+      "label": "AI 私教",
       "path": "/tutor",
       "miniappParity": "pages/tutor/tutor",
       "job": "Start with the first Socratic question and keep the answer-safe tutoring boundary.",
@@ -66,7 +66,7 @@
       "id": "map",
       "label": "学习地图",
       "path": "/map",
-      "miniappParity": "pages/tools/tools + pages/arcade/arcade",
+      "miniappParity": "pages/entry-detail/entry-detail?scene=today + pages/arcade/arcade",
       "job": "Show the full learning route across tonight and the next 7 days.",
       "webAdaptation": "Use a visual route board that connects upload, report, tutor, review, parent check, and next evidence."
     }

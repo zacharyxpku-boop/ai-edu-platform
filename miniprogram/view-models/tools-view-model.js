@@ -116,9 +116,9 @@ function buildToolsViewModel(input = {}) {
           action: 'profile'
         }
       : null,
-    collapsedSections: [
-      { id: 'light', title: '明天轻轻回访', collapsed: true, legacy: false },
-      { id: 'custom', title: '自选练习先收起', collapsed: true, legacy: true }
+    quickSections: [
+      { id: 'light', title: '明天轻轻回访', collapsed: true },
+      { id: 'custom', title: '自选练习先收起', collapsed: true }
     ],
     debugWarnings: []
   };

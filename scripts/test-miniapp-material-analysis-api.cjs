@@ -30,10 +30,10 @@ assert(code.includes('buildAnalysisQualityGate') && code.includes('fallback_or_m
 assert(code.includes('fallback_required: true'), 'material analysis API returns a clear fallback when server keys are not configured');
 assert(miniappApiCode.includes('function analyzeMiniappMaterial') && miniappApiCode.includes("request('/api/miniapp-material-analysis'") && miniappApiCode.includes('analyzeMiniappMaterial'), 'miniapp client exposes material analysis API call');
 assert(uploadJsCode.includes('personalizedParentReportPreviewMeta') && uploadJsCode.includes('reportExportPolicy') && uploadJsCode.includes('reportPreviewRoute'), 'upload page persists personalized HTML report metadata and export policy');
-assert(uploadWxmlCode.includes('标准版家长 HTML 报告') && uploadWxmlCode.includes('预览 HTML/PDF'), 'upload page exposes the standard HTML/PDF report entry');
+assert(uploadWxmlCode.includes('家长报告') && uploadWxmlCode.includes('证据与方法匹配'), 'upload page exposes the parent report entry through the compact material grid');
 assert(profileJsCode.includes('personalizedParentReportStandardVersion') && profileJsCode.includes('personalizedParentReportSop'), 'profile summary exposes report standard version and SOP');
 assert(profileJsCode.includes('personalizedParentReportCompetitorBenchmarks') && profileJsCode.includes('personalizedParentReportMiniappPlan'), 'profile summary exposes competitor-informed closure plan');
-assert(profileWxmlCode.includes('标准版 HTML 报告') && profileWxmlCode.includes('报告 SOP') && profileWxmlCode.includes('导出规则'), 'profile page renders personalized report and export guidance');
-assert(profileWxmlCode.includes('外部优秀做法后的闭环动作') && profileWxmlCode.includes('小程序/轻量 APP 承接'), 'profile page renders competitor-informed miniapp closure plan');
+assert(profileWxmlCode.includes('个性化报告预览') && profileWxmlCode.includes('证据来源') && profileWxmlCode.includes('查看'), 'profile page renders personalized report guidance through the compact report preview');
+assert(profileWxmlCode.includes('家长今晚只看三件事') && profileWxmlCode.includes('上传') && profileWxmlCode.includes('回访'), 'profile page renders competitor-informed closure as a compact route plan');
 
 console.log('Miniapp material analysis API tests pass.');

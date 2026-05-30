@@ -67,7 +67,7 @@ const profileVm = loadCommonJs(path.join('miniprogram', 'view-models', 'profile-
 
 const homeWxml = read('miniprogram/pages/home/home.wxml');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-const toolsWxml = read('miniprogram/pages/tools/tools.wxml');
+const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const firstScreenSource = [
   read('miniprogram/view-models/home-view-model.js'),
@@ -76,7 +76,7 @@ const firstScreenSource = [
   read('miniprogram/view-models/profile-view-model.js'),
   homeWxml,
   reviewWxml,
-  toolsWxml,
+  entryDetailWxml,
   profileWxml
 ].join('\n');
 

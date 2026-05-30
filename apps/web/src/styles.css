@@ -150,7 +150,7 @@ img {
 .mascot {
   min-height: 132px;
   background:
-    url("../assets/brand/gudian-prototype-avatar.png") center 42% / 112% auto no-repeat,
+    url("../assets/reference/hero-mascot.png") center 54% / 112% auto no-repeat,
     radial-gradient(circle at 35% 36%, rgba(255, 255, 255, 0.88), transparent 32%),
     radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.6), transparent 22%),
     linear-gradient(180deg, #eef8ef, #dff2df);
@@ -410,9 +410,9 @@ img {
   min-width: 0;
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(680px, 1fr) 350px;
+  grid-template-columns: minmax(760px, 1fr) 360px;
   gap: 24px;
-  padding: 22px 24px 24px;
+  padding: 22px 24px 20px;
 }
 
 .content-panel,
@@ -680,11 +680,11 @@ img {
 .buddy-message {
   position: relative;
   display: grid;
-  grid-template-columns: 188px minmax(0, 1fr);
+  grid-template-columns: 218px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
-  min-height: 216px;
-  padding: 16px 20px 12px 10px;
+  min-height: 232px;
+  padding: 12px 20px 8px 4px;
   overflow: hidden;
   background:
     radial-gradient(circle at 9% 30%, rgba(248, 198, 34, 0.28) 0 8px, transparent 9px),
@@ -710,13 +710,13 @@ img {
   order: 1;
   right: auto;
   bottom: auto;
-  width: 250px;
-  height: 232px;
+  width: 286px;
+  height: 252px;
   object-fit: contain;
   align-self: end;
   justify-self: center;
   filter: drop-shadow(0 18px 24px rgba(39, 72, 43, 0.12));
-  transform: translate(-8px, 8px);
+  transform: translate(-12px, 7px);
 }
 
 .buddy-message h2 {
@@ -777,14 +777,59 @@ img {
 
 .preview-body {
   display: grid;
-  grid-template-columns: 148px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 178px minmax(0, 1fr);
+  gap: 18px;
   align-items: center;
+}
+
+.mini-radar {
+  position: relative;
+  width: 178px;
+  height: 170px;
+}
+
+.mini-radar span {
+  position: absolute;
+  color: #5d6962;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.mini-radar span:nth-child(1) {
+  left: 52px;
+  top: 0;
+}
+
+.mini-radar span:nth-child(2) {
+  right: 0;
+  top: 42px;
+}
+
+.mini-radar span:nth-child(3) {
+  right: 4px;
+  bottom: 20px;
+}
+
+.mini-radar span:nth-child(4) {
+  left: 54px;
+  bottom: 0;
+}
+
+.mini-radar span:nth-child(5) {
+  left: 0;
+  bottom: 22px;
+}
+
+.mini-radar span:nth-child(6) {
+  left: 0;
+  top: 42px;
 }
 
 .radar-shape {
   position: relative;
-  width: 148px;
+  top: 29px;
+  width: 116px;
   aspect-ratio: 1;
   margin: 0 auto;
   border-radius: 26px;
@@ -1150,7 +1195,7 @@ img {
 
 .learning-route {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .report-title {
@@ -2930,8 +2975,8 @@ img {
 }
 
 .route-line button {
-  min-height: 92px;
-  padding: 12px 10px;
+  min-height: 82px;
+  padding: 10px 10px;
   display: grid;
   justify-items: center;
   gap: 6px;
@@ -2979,7 +3024,7 @@ img {
 
 .right-rail {
   display: grid;
-  gap: 18px;
+  gap: 14px;
   align-content: start;
 }
 
@@ -3020,7 +3065,7 @@ img {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .step-list li {
@@ -3028,7 +3073,7 @@ img {
   grid-template-columns: 30px minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 16px;
   background: #f8faf5;
   border: 1px solid rgba(229, 234, 223, 0.95);
@@ -3083,7 +3128,7 @@ img {
 }
 
 .evidence-strip span {
-  min-height: 88px;
+  min-height: 74px;
   padding: 12px 10px;
   border-radius: 18px;
   border: 1px solid rgba(229, 234, 223, 0.95);
@@ -3101,7 +3146,7 @@ img {
 
 .streak strong {
   display: block;
-  font-size: 38px;
+  font-size: 34px;
   line-height: 1;
   color: var(--orange);
   font-weight: 900;
@@ -3130,7 +3175,7 @@ img {
 .warm p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
 .page-guide {

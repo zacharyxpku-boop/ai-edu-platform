@@ -14,7 +14,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  /* v2 spec tokens */
+  /* current theme tokens */
   --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;
   --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
   --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
@@ -24,7 +24,7 @@
   --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
   --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
   --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
-  /* legacy aliases */
+  /* compatibility aliases */
   --primary:var(--accent-primary);
   --bg:var(--bg-primary);--bg-2:var(--bg-secondary);
   --card:var(--bg-elevated);
@@ -246,7 +246,7 @@ function getOutcomes(){
 function setOutcome(id, result, q){
   const o = getOutcomes();
   const entry = { r: result, d: new Date().toISOString().slice(0,10) };
-  // v2 schema: 把题目对应的教材章节存进 outcome value，让 paths.html 能做章节级 mastery
+  // Current schema: 把题目对应的教材章节存进 outcome value，让 paths.html 能做章节级 mastery
   if (q && q.textbook_ref){
     if (q.textbook_ref.path) entry.book = q.textbook_ref.path;
     if (q.textbook_ref.ch != null) entry.ch = q.textbook_ref.ch;

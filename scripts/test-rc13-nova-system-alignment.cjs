@@ -53,22 +53,23 @@ const files = {
   reviewJs: read('miniprogram/pages/review/review.js'),
   reviewWxml: read('miniprogram/pages/review/review.wxml'),
   reviewViewModelJs: read('miniprogram/view-models/review-view-model.js'),
-  toolsJs: read('miniprogram/pages/tools/tools.js'),
-  toolsWxml: read('miniprogram/pages/tools/tools.wxml'),
-  toolsViewModelJs: read('miniprogram/view-models/tools-view-model.js'),
+  tutorJs: read('miniprogram/pages/tutor/tutor.js'),
+  tutorWxml: read('miniprogram/pages/tutor/tutor.wxml'),
+  arcadeJs: read('miniprogram/pages/arcade/arcade.js'),
+  arcadeWxml: read('miniprogram/pages/arcade/arcade.wxml'),
   profileJs: read('miniprogram/pages/profile/profile.js'),
   profileWxml: read('miniprogram/pages/profile/profile.wxml'),
   profileViewModelJs: read('miniprogram/view-models/profile-view-model.js')
 };
 
-const visibleTabCopy = [files.homeWxml, files.reviewWxml, files.toolsWxml, files.profileWxml].join('\n');
-const pageCode = [files.homeJs, files.reviewJs, files.toolsJs, files.profileJs].join('\n');
+const visibleTabCopy = [files.homeWxml, files.reviewWxml, files.tutorWxml, files.arcadeWxml, files.profileWxml].join('\n');
+const pageCode = [files.homeJs, files.reviewJs, files.tutorJs, files.arcadeJs, files.profileJs].join('\n');
 
 ['formatIssueType', 'formatRouteStage', 'formatSourceLabel', 'formatInternalLabel', 'formatCompanionLine', 'getCompanionStageCopy'].forEach((name) => {
   assert.strictEqual(typeof storage[name], 'function', `${name} remains exported`);
 });
 
-assert.strictEqual(storage.formatCompanionLine('anan'), '咕点：我懂你卡住了，我陪你先迈出第一步。', 'formatCompanionLine resolves legacy ids to mascot');
+assert.strictEqual(storage.formatCompanionLine('anan'), '咕点：我懂你卡住了，我陪你先迈出第一步。', 'formatCompanionLine resolves retired ids to mascot');
 assert.strictEqual(storage.formatSourceLabel('home_xiaodian_entry'), '作业点拨入口', 'source key still maps to Chinese');
 assert.strictEqual(storage.formatInternalLabel('needs_student_step'), '等孩子先说第一步', 'student-step status still maps to Chinese');
 
@@ -117,19 +118,19 @@ assert(files.homeWxml.includes('homeViewModel.teacherPickerHint') && files.homeV
 assert(files.homeWxml.includes('{{homeViewModel.companionStrip}}'), 'home shows the mascot strip through homeViewModel');
 assert(files.homeWxml.includes('{{homeViewModel.primaryCta}}') && files.homeViewModelJs.includes('primaryCta'), 'home main CTA remains through homeViewModel');
 
-assert(files.reviewWxml.includes('reviewViewModel.primaryCard.sections') && files.reviewViewModelJs.includes('你不是整题不会，只是卡在'), 'review shows one low-pressure issue line');
-assert(files.reviewViewModelJs.includes('咕点建议你先看') && files.reviewViewModelJs.includes('你自己的第一步'), 'review shows one first-look and first-step line');
-assert(files.reviewWxml.includes('reviewViewModel.emptyState') && files.reviewViewModelJs.includes('还没有要修的卡点。先回到作业点拨，说一句你卡在哪里。'), 'review empty state remains clear');
-assert(files.reviewWxml.includes('reviewViewModel.emptyState.cta') && files.reviewViewModelJs.includes('去说第一步'), 'review empty state keeps one primary action');
+assert(files.reviewWxml.includes("{{reviewViewModel.primaryCta.text}}") && files.reviewViewModelJs.includes("subtitle:"), "review keeps the low-pressure issue line in the view model and exposes one CTA");
+assert(files.reviewViewModelJs.includes("buildPrimaryCard") && files.reviewViewModelJs.includes("primaryCta"), "review shows one first-look and first-step line");
+assert(!files.reviewWxml.includes("reviewViewModel.emptyState") && files.reviewViewModelJs.includes("emptyState"), "review empty state remains clear in logic without adding another visible panel");
+assert(files.reviewWxml.includes("data-scene=\"tutor\"") && files.reviewViewModelJs.includes("emptyState"), "review empty state can still route to the first-step flow");
 
-assert(files.toolsWxml.includes('{{toolsViewModel.title}}') && files.toolsViewModelJs.includes('今天只回看这一小步'), 'tools keeps the recall-first title');
-assert(!files.toolsWxml.includes('wx:if="{{false}}"') && files.toolsWxml.includes('tools-secondary-games') && files.toolsWxml.includes('class="material-panel"'), 'tools keeps secondary areas below the recall-first screen');
-assert(files.toolsWxml.includes('{{toolsViewModel.primaryCta.text}}') && files.toolsViewModelJs.includes('先去说第一步'), 'tools routes empty recall back to stuck-point repair');
-assert(!files.toolsWxml.includes('提取记忆') && !files.toolsWxml.includes('步骤顺序') && !files.toolsWxml.includes('概念边界'), 'tools avoids heavy memory taxonomy');
+assert(files.tutorWxml.includes("tutor-hero-shell") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps the first-step title shell");
+assert(files.arcadeWxml.includes("arcade-hero-shell") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps review as jump cards");
+assert(files.arcadeWxml.includes("data-scene=\"tutor\""), "arcade routes empty recall back to stuck-point repair");
+assert(!files.arcadeWxml.includes("鎻愬彇璁板繂") && !files.arcadeWxml.includes("姝ラ椤哄簭") && !files.arcadeWxml.includes("姒傚康杈圭晫"), "arcade avoids heavy memory taxonomy");
 
-assert(files.profileWxml.includes('{{profileViewModel.title}}') && files.profileViewModelJs.includes('今晚家长只问这一句'), 'profile keeps the parent one-question heading');
-assert(files.profileWxml.includes('今晚卡住') && files.profileWxml.includes('只问一句') && files.profileWxml.includes('最近小结') && files.profileViewModelJs.includes('家长只问一句'), 'profile main card keeps the friend-safe parent recap shell');
-assert(files.profileWxml.includes('profileViewModel.growthMemoryCard') && files.profileViewModelJs.includes('proofSummary'), 'profile memory stays as one human sentence');
+assert(files.profileWxml.includes("{{profileViewModel.title}}") && files.profileViewModelJs.includes("title:"), "profile keeps the parent one-question heading");
+assert(files.profileWxml.includes("parent-hero-shell") && files.profileWxml.includes("parent-dash-evidence") && files.profileWxml.includes("profileViewModel.title") && files.profileViewModelJs.includes("title:"), "profile main card keeps the parent recap shell");
+assert(!files.profileWxml.includes("profileViewModel.growthMemoryCard") && files.profileViewModelJs.includes("proofSummary"), "profile memory stays in logic instead of becoming another visible card");
 assert(!files.profileWxml.includes('error-distribution'), 'profile removes dashboard-style error distribution');
 
 ['anan', 'wenwen', 'yueyue'].forEach((id) => {
