@@ -125,6 +125,7 @@ assert(fs.existsSync(path.join(root, 'miniprogram/assets/brand/gudian-reader.png
 assert(homeWxml.includes('class="mini-brand-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'home top brand uses the reference brand-house image, not a text placeholder');
 assert.strictEqual((homeWxml.match(/class="mini-entry-visual" mode="aspectFill"/g) || []).length, 6, 'home six entry illustrations fill their cards like the reference UI');
 assert.strictEqual((homeWxml.match(/class="mini-entry-card[\s\S]*?bindtap="openEntryDetail"/g) || []).length, 6, 'home six entry cards all open focused child scenes before running functional flows');
+assert.strictEqual((homeWxml.match(/mini-entry-card ux-kit-jump-card/g) || []).length, 6, 'home six entry cards all use the shared reference jump-card visual system');
 ['data-scene="upload"', 'data-scene="report"', 'data-scene="tutor"', 'data-scene="review"', 'data-scene="parent"', 'data-scene="today"'].forEach((sceneToken) => {
   assert(homeWxml.includes(sceneToken), `home six-entry grid exposes child scene token: ${sceneToken}`);
 });
@@ -174,6 +175,7 @@ assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail ch
 assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
 assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
 assert(entryDetailJs.includes("report: {") && entryDetailJs.includes("badge: '个性化报告'"), 'entry-detail separates report evidence from parent-center actions');
+assert(entryDetailJs.includes("secondaryRoute: '/pages/profile/profile?from=entry_upload_quiz&panel=assessment&quick_assessment=1'"), 'upload child secondary action jumps to the parent quick assessment questionnaire instead of looping back to itself');
 assert(entryDetailJs.includes('今晚路线板') && entryDetailJs.includes('材料分类板') && entryDetailJs.includes('私教追问板') && entryDetailJs.includes('复习闯关板') && entryDetailJs.includes('报告决策板') && entryDetailJs.includes('家长行动卡'), 'entry-detail gives every child scene a dedicated decision panel');
 assert(entryDetailWxml.includes('entry-spotlight') && entryDetailWxml.includes('scene.spotlight.metrics') && entryDetailWxml.includes('scene.spotlight.points'), 'entry-detail renders scene-specific spotlight panels instead of one generic child layout');
 assert(entryDetailWxss.includes('.entry-spotlight.scene-tutor') && entryDetailWxss.includes('.entry-spotlight.scene-review') && entryDetailWxss.includes('.entry-spotlight.scene-report') && entryDetailWxss.includes('.entry-spotlight.scene-parent') && entryDetailWxss.includes('.entry-spotlight.scene-upload'), 'entry-detail styles child scenes with distinct visual treatments');
@@ -292,17 +294,19 @@ const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
   'child-today-first-step.png',
   'child-tutor-flow.png',
   'child-review-recall.png',
+  'child-report-evidence.png',
   'child-parent-report.png',
   'child-upload-material.png',
   'entry-detail-today.png',
   'entry-detail-tutor.png',
   'entry-detail-review.png',
+  'entry-detail-report.png',
   'entry-detail-parent.png',
   'entry-detail-upload.png'
 ].forEach((name) => {
   assert(realDeviceGate.includes(name), `real-device gate requires screenshot: ${name}`);
 });
 const captureRealDevice = read('scripts/capture-miniapp-real-device.cjs');
-assert(captureRealDevice.includes('childEntryShots') && captureRealDevice.includes('entry-detail-upload.png'), 'real-device capture script records child detail screens before tapping primary actions');
+assert(captureRealDevice.includes('childEntryShots') && captureRealDevice.includes('entry-detail-report.png') && captureRealDevice.includes('child-report-evidence.png'), 'real-device capture script records all six child detail screens and child flows before tapping primary actions');
 
 console.log('All miniapp tab layout contract tests pass.');

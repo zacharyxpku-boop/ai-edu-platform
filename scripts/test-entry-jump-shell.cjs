@@ -94,7 +94,8 @@ tabPages.forEach(([name, wxmlPath, jsPath]) => {
   });
   assert(wxml.includes('ux-kit-screen'), `${name} keeps a focused entry screen`);
   assert(wxml.includes('ux-kit-jump-grid'), `${name} entry exposes clear jump cards instead of a long scroll brief`);
-  assert.strictEqual(jumpCardCount, 3, `${name} direct tab entry exposes exactly three jump cards`);
+  const expectedJumpCards = name === 'home' ? 6 : 3;
+  assert.strictEqual(jumpCardCount, expectedJumpCards, `${name} direct tab entry exposes the expected focused jump cards`);
   retiredUiMarkers.forEach((marker) => {
     assert(!wxml.includes(marker), `${name} WXML must not carry retired UI marker: ${marker}`);
   });

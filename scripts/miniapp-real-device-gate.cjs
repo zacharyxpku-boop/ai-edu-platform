@@ -68,6 +68,12 @@ const expectedScreenshots = [
     expected: 'Opens recall/review child flow for memory and transfer validation'
   },
   {
+    name: 'child-report-evidence.png',
+    route: '/pages/entry-detail/entry-detail?scene=report',
+    action: 'Report primary CTA -> entry detail -> primary action',
+    expected: 'Returns to parent report/evidence area with report reasoning visible'
+  },
+  {
     name: 'child-parent-report.png',
     route: '/pages/entry-detail/entry-detail?scene=parent',
     action: 'Parent primary CTA -> entry detail -> primary action',
@@ -96,6 +102,12 @@ const expectedScreenshots = [
     route: '/pages/entry-detail/entry-detail?scene=review',
     action: 'Open Review child detail page before tapping primary action',
     expected: 'Graphical review child page with memory/transfer explanation and cross-entry jump cards'
+  },
+  {
+    name: 'entry-detail-report.png',
+    route: '/pages/entry-detail/entry-detail?scene=report',
+    action: 'Open Report child detail page before tapping primary action',
+    expected: 'Graphical report child page focused on evidence, confidence, and method matching before parent handoff'
   },
   {
     name: 'entry-detail-parent.png',

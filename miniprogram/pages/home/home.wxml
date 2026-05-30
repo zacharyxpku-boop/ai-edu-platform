@@ -57,7 +57,7 @@
           <text>文档、试卷、错题</text>
           <view class="mini-entry-arrow">›</view>
         </view>
-        <view class="mini-entry-card blue" data-scene="report" bindtap="openEntryDetail">
+        <view class="mini-entry-card ux-kit-jump-card blue" data-scene="report" bindtap="openEntryDetail">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-report.png" />
           <text>个性化报告</text>
           <text>待提升点与建议</text>
@@ -75,13 +75,13 @@
           <text>趣味挑战练习</text>
           <view class="mini-entry-arrow orange">›</view>
         </view>
-        <view class="mini-entry-card orange" data-scene="parent" bindtap="openEntryDetail">
+        <view class="mini-entry-card ux-kit-jump-card orange" data-scene="parent" bindtap="openEntryDetail">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-parent.png" />
           <text>家长中心</text>
           <text>一起见证成长</text>
           <view class="mini-entry-arrow orange">›</view>
         </view>
-        <view class="mini-entry-card map" data-scene="today" bindtap="openEntryDetail">
+        <view class="mini-entry-card ux-kit-jump-card map" data-scene="today" bindtap="openEntryDetail">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-map.png" />
           <text>学习地图</text>
           <text>任务进度与目标</text>

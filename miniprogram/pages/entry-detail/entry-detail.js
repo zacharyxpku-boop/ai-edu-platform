@@ -178,7 +178,7 @@ const SCENES = {
     primaryLabel: '选择文件/图片',
     primaryRoute: '/pages/upload/upload?from=entry_upload_file&open=flow',
     secondaryLabel: '没有报告，做快测',
-    secondaryRoute: '/pages/entry-detail/entry-detail?scene=upload&from=entry_upload_quiz',
+    secondaryRoute: '/pages/profile/profile?from=entry_upload_quiz&panel=assessment&quick_assessment=1',
     cards: [
       { label: '天赋/测评', value: '提取学习偏好、注意力和优势通道。', icon: '/assets/reference/entry-report.png' },
       { label: '成绩/错题', value: '提取学科卡点、错因和回访优先级。', icon: '/assets/reference/entry-review.png' },

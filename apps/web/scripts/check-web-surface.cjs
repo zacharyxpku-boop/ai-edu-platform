@@ -181,6 +181,7 @@ for (const redirect of Array.isArray(vercelConfig.redirects) ? vercelConfig.redi
 }
 
 for (const requiredRoute of [
+  'pages/entry-detail/entry-detail?scene=report',
   'pages/entry-detail/entry-detail?scene=parent',
   'pages/entry-detail/entry-detail?scene=today'
 ]) {

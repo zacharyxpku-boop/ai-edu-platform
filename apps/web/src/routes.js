@@ -19,7 +19,7 @@ export const WEB_SURFACE_ROUTES = [
     id: 'report',
     label: '个性化报告',
     path: '/report',
-    miniappParity: 'pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=report + pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
     primaryAction: '查看报告与导出 PDF',
     promise: '先讲证据，再讲天赋和方法匹配，最后给家长今晚能做的一步。'
   },

@@ -34,7 +34,7 @@
       "id": "report",
       "label": "个性化报告",
       "path": "/report",
-      "miniappParity": "pages/entry-detail/entry-detail?scene=parent + pages/profile/profile",
+      "miniappParity": "pages/entry-detail/entry-detail?scene=report + pages/entry-detail/entry-detail?scene=parent + pages/profile/profile",
       "job": "Explain evidence, talent-method fit, learning plan, and PDF export.",
       "webAdaptation": "Use report chapters, visual evidence panels, and sticky export/share actions."
     },

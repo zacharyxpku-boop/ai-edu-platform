@@ -29,6 +29,7 @@ const childFlows = [
   ['today', 'child-today-first-step.png'],
   ['tutor', 'child-tutor-flow.png'],
   ['review', 'child-review-recall.png'],
+  ['report', 'child-report-evidence.png'],
   ['parent', 'child-parent-report.png'],
   ['upload', 'child-upload-material.png']
 ];
@@ -37,6 +38,7 @@ const childEntryShots = [
   ['today', 'entry-detail-today.png'],
   ['tutor', 'entry-detail-tutor.png'],
   ['review', 'entry-detail-review.png'],
+  ['report', 'entry-detail-report.png'],
   ['parent', 'entry-detail-parent.png'],
   ['upload', 'entry-detail-upload.png']
 ];

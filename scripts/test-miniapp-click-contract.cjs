@@ -89,6 +89,15 @@ assert.strictEqual(failures.length, 0, failures.join('\n'));
 const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 const sceneKeys = [...entryDetailJs.matchAll(/^  ([a-z]+): \{/gm)].map((match) => match[1]).filter((key) => allowedScenes.has(key));
 assert.deepStrictEqual(new Set(sceneKeys), allowedScenes, 'entry-detail implements every supported child scene');
+for (const [, prop, route] of entryDetailJs.matchAll(/\b(primaryRoute|secondaryRoute): '([^']+)'/g)) {
+  const base = route.split('?')[0];
+  assert(
+    activePageRoutes.has(base) || tabRoutes.has(base),
+    `entry-detail ${prop} points to an unregistered page: ${route}`
+  );
+  assert(!retiredRoute.test(route), `entry-detail ${prop} points to a retired route: ${route}`);
+}
+assert(!entryDetailJs.includes("secondaryRoute: '/pages/entry-detail/entry-detail?scene=upload"), 'upload secondary CTA must not self-loop inside entry-detail');
 
 const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 assert(entryDetailWxml.includes('bindtap="openScene"'), 'entry-detail child scene cards can switch in place');
