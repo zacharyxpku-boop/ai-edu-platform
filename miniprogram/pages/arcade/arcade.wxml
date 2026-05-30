@@ -53,16 +53,19 @@
         <view><text>{{round.total || 0}}</text><text>本局题数</text></view>
         <view><text>{{xpGained || 0}}</text><text>留证回访</text></view>
       </view>
-      <view class="ux-kit-jump-grid">
+        <view class="ux-kit-jump-grid">
         <view class="ux-kit-jump-card primary arcade-jump-card" data-scene="review" bindtap="openEntryDetail">
+          <image mode="aspectFill" src="/assets/reference/entry-review.png" />
           <text>90 秒回忆</text>
           <text>先说第一步</text>
         </view>
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="tutor" bindtap="openEntryDetail">
+          <image mode="aspectFill" src="/assets/reference/entry-tutor.png" />
           <text>卡住求助</text>
           <text>回原小点追问</text>
         </view>
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="parent" bindtap="openEntryDetail">
+          <image mode="aspectFill" src="/assets/reference/entry-parent.png" />
           <text>给家长看</text>
           <text>只看证据</text>
         </view>

@@ -47,7 +47,7 @@ function recommendCapability(text) {
   }
   if (/复习|练习|巩固|回访/i.test(value)) {
     return {
-      id: 'tools',
+      id: 'revisit',
       label: '轻回访与练习',
       reason: '先回看昨天那一步，再做一小局轻练习'
     };
@@ -109,7 +109,7 @@ function buildTalentLearningMethodPlan(seed = {}) {
       action: '把错题拆成一张错因卡，明天只回访同一错因。',
       route: '/pages/review/review?from=talent_method_plan'
     },
-    tools: {
+    revisit: {
       label: '先轻回忆',
       action: '先做 90 秒主动回忆，再决定是否进入轻练习。',
       route: '/pages/arcade/arcade?from=talent_method_plan'
@@ -218,7 +218,7 @@ function buildLearningAssessment(text) {
     tutor: '用咕点追问，让孩子把第一步说出来。',
     focus: '先进入专注舱，围绕这一小步坐一段。',
     review: '先修错题卡点，留下下次检查点。',
-    tools: '先做轻回访，再进小游戏轻练习。'
+    revisit: '先做轻回访，再进小游戏轻练习。'
   }[capability.id] || '先从最小动作开始。';
 
   return {

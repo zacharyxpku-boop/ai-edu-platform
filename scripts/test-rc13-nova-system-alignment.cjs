@@ -140,7 +140,7 @@ assert(!files.profileWxml.includes('error-distribution'), 'profile removes dashb
     storage.formatCompanionLine(preference),
     storage.getCompanionStageCopy('home', preference),
     storage.getCompanionStageCopy('review', preference),
-    storage.getCompanionStageCopy('tools', preference),
+    storage.getCompanionStageCopy('revisit', preference),
     storage.getCompanionStageCopy('profile', preference)
   ].join('\n');
   assert.strictEqual(preference.selectedCompanion, 'gudian', `${id} resolves to the single mascot`);

@@ -5,7 +5,7 @@
 - [x] RC2 architecture audit completed in `docs/rc2-architecture-audit.md`.
 - [x] profile first screen routed through `profileViewModel`.
 - [x] review first screen routed through `reviewViewModel`.
-- [x] tools first screen routed through `toolsViewModel`.
+- [x] tools first screen routed through `revisitViewModel`.
 - [x] profile / review / tools viewModel tests added and included in `npm test`.
 - [x] `npm.cmd test` passed.
 - [x] `scripts/verify.ps1` passed.

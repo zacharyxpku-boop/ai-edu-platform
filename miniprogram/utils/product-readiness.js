@@ -103,7 +103,7 @@ const MODULE_FLOW_CONTRACTS = [
   },
   {
     id: 'material_to_review',
-    module: 'upload_or_tools',
+    module: 'upload_or_revisit',
     entry: 'home_or_upload',
     output: 'review_card',
     requiredDimensionIds: ['material_to_review']
@@ -116,8 +116,8 @@ const MODULE_FLOW_CONTRACTS = [
     requiredDimensionIds: ['material_to_review', 'report_to_solution', 'local_resilience']
   },
   {
-    id: 'tools_to_practice_asset',
-    module: 'tools',
+    id: 'revisit_to_practice_asset',
+    module: 'revisit',
     entry: 'tool_entry',
     output: 'review_or_practice_asset',
     requiredDimensionIds: ['light_entry_evidence', 'material_to_review', 'game_retention']
@@ -172,9 +172,9 @@ const MODULE_FLOW_CONTRACTS = [
     requiredDimensionIds: ['share_return', 'decision_path']
   },
   {
-    id: 'radar_to_family_action',
-    module: 'radar',
-    entry: 'parent_decision_radar',
+    id: 'report_to_family_action',
+    module: 'profile',
+    entry: 'parent_decision_report',
     output: 'family_action_or_intervention',
     requiredDimensionIds: ['decision_path', 'weekly_pattern', 'intervention_playbook']
   },
@@ -212,7 +212,7 @@ const USER_TRIAL_SCENARIOS = [
   {
     id: 'child_low_motivation_revisit',
     persona: 'child_wants_light_practice',
-    entry: 'tools_or_arcade',
+    entry: 'revisit_or_arcade',
     targetOutcome: 'light game writes learning evidence and missed cards return to review',
     requiredDimensionIds: ['game_retention', 'spaced_recall', 'parent_evidence']
   },

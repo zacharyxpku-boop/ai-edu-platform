@@ -128,7 +128,7 @@ const files = {
   reviewViewModelJs: readProjectFile('miniprogram', 'view-models', 'review-view-model.js'),
   entryDetailWxml: readProjectFile('miniprogram', 'pages', 'entry-detail', 'entry-detail.wxml'),
   entryDetailJs: readProjectFile('miniprogram', 'pages', 'entry-detail', 'entry-detail.js'),
-  toolsViewModelJs: readProjectFile('miniprogram', 'view-models', 'tools-view-model.js'),
+  revisitViewModelJs: readProjectFile('miniprogram', 'view-models', 'revisit-view-model.js'),
   profileWxml: readProjectFile('miniprogram', 'pages', 'profile', 'profile.wxml'),
   profileJs: readProjectFile('miniprogram', 'pages', 'profile', 'profile.js'),
   profileViewModelJs: readProjectFile('miniprogram', 'view-models', 'profile-view-model.js')
@@ -141,7 +141,7 @@ const allPageCopy = [
   files.reviewWxml,
   files.reviewViewModelJs,
   files.entryDetailWxml,
-  files.toolsViewModelJs,
+  files.revisitViewModelJs,
   files.profileViewModelJs || '',
   files.profileWxml
 ].join('\n');
@@ -149,7 +149,7 @@ const allPageCopy = [
 assert.ok(files.homeWxml.includes('mini-route-card') && files.homeWxml.includes('mini-main-cta') && files.homeWxml.includes('runHomeNextStep'), 'home renders the new Tonight Route card and first-step CTA');
 assert.ok(files.homeWxml.includes('mini-entry-grid') && files.homeWxml.includes('openEntryDetail'), 'home keeps clear child-flow entry jumps in the new launch shell');
 assert.ok(files.reviewWxml.includes('review-main-cta') && files.reviewWxml.includes('runPlaybookAction'), 'review keeps a direct challenge CTA in the new visual launch shell');
-assert.ok(files.entryDetailWxml.includes('entry-jump-grid') && files.entryDetailJs.includes('const SCENES') && files.toolsViewModelJs.includes('先去说第一步'), 'entry-detail replaces the retired tools shell while preserving the stuck-point state model');
+assert.ok(files.entryDetailWxml.includes('entry-jump-grid') && files.entryDetailJs.includes('const SCENES') && files.revisitViewModelJs.includes('先去说第一步'), 'entry-detail replaces the retired tools shell while preserving the stuck-point state model');
 assert.ok(['parent-dash-evidence', 'parent-report-preview', 'parent-dash-route'].every((token) => files.profileWxml.includes(token)), 'profile shows a condensed parent-readable route summary in the new launch shell');
 
 ['排顺序', '说第一步', '修卡点', '轻回访', '家长看'].forEach((label) => {
@@ -170,7 +170,7 @@ assert.ok(
     && files.reviewJs.includes('/pages/entry-detail/entry-detail?scene='),
   'review completion leads to the current entry-detail jump shell instead of restoring old content below the visual shell'
 );
-assert.ok(files.entryDetailWxml.includes('entry-secondary') && files.toolsViewModelJs.includes('回看昨天那一步') && files.toolsViewModelJs.includes('轻轻回看'), 'review revisit state remains available without the retired tools page');
+assert.ok(files.entryDetailWxml.includes('entry-secondary') && files.revisitViewModelJs.includes('回看昨天那一步') && files.revisitViewModelJs.includes('轻轻回看'), 'review revisit state remains available without the retired tools page');
 assert.ok(
   files.profileWxml.includes('parent-dash-evidence')
     && files.profileWxml.includes('parent-report-preview')

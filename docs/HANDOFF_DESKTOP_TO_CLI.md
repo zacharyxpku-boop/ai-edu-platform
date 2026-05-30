@@ -16,7 +16,7 @@
 
 - profile 首屏从旧 dashboard / 报告墙风险中收口为“家长 5 秒复盘”。
 - review 首屏从页面直接读取原始状态，改为消费 reviewViewModel。
-- tools 首屏从 WXML 静态文案和 raw reviewCard 读取，改为消费 toolsViewModel。
+- tools 首屏从 WXML 静态文案和 raw reviewCard 读取，改为消费 revisitViewModel。
 - 保持 miniActionText / reviewCard / companionPreference / tutor ladder 等核心学习状态流不变。
 
 ## 2. 已完成内容
@@ -26,8 +26,8 @@
 - profile 首屏改为绑定 profileViewModel，旧模块保留但下沉 / legacy 化，不再污染首屏。
 - 新增 reviewViewModel，让“错题闭环”首屏只输出修一个卡点所需内容。
 - review 首屏改为绑定 reviewViewModel，修复证据流仍保留在原页面逻辑中。
-- 新增 toolsViewModel，让“知识游乐场 / 轻回访”首屏只输出轻回访所需内容。
-- tools 首屏改为绑定 toolsViewModel，玩法和材料生成仍保留在首屏之后。
+- 新增 revisitViewModel，让“知识游乐场 / 轻回访”首屏只输出轻回访所需内容。
+- tools 首屏改为绑定 revisitViewModel，玩法和材料生成仍保留在首屏之后。
 - 新增并接入 profile / review / tools viewModel 相关测试。
 - 更新旧静态测试：WXML 检查 viewModel 绑定，用户可见文案检查 viewModel 文件。
 - 已运行完整测试和仓库验证，均通过。
@@ -46,7 +46,7 @@
   - review 首屏用户可见输出层。
   - 输出路线 pill、老师陪伴语气、主标题、主卡、主 CTA、空态和下一步。
 
-- `miniprogram/view-models/tools-view-model.js`
+- `miniprogram/view-models/revisit-view-model.js`
   - tools 首屏用户可见输出层。
   - 输出轻回访路线 pill、老师陪伴语气、回访卡 / 试玩空态、主 CTA、去我的页下一步。
 
@@ -66,11 +66,11 @@
   - miniActionText 证据流区域保持原逻辑。
 
 - `miniprogram/pages/entry-detail/entry-detail.js`
-  - 引入 buildToolsViewModel。
-  - 根据 companionPreference 和 today-focus review cards 构建 toolsViewModel。
+  - 引入 buildRevisitViewModel。
+  - 根据 companionPreference 和 today-focus review cards 构建 revisitViewModel。
 
 - `miniprogram/pages/entry-detail/entry-detail.wxml`
-  - 首屏绑定 toolsViewModel。
+  - 首屏绑定 revisitViewModel。
   - 旧玩法、材料输入、小游戏入口仍在首屏之后或折叠区域。
 
 ### 测试
@@ -81,8 +81,8 @@
 - `scripts/test-review-view-model.cjs`
   - 覆盖 reviewViewModel 输出、空态、修复 CTA、完成态。
 
-- `scripts/test-tools-view-model.cjs`
-  - 覆盖 toolsViewModel 输出、回访卡态、试玩空态、nextStep、安全文案、WXML 绑定。
+- `scripts/test-revisit-view-model.cjs`
+  - 覆盖 revisitViewModel 输出、回访卡态、试玩空态、nextStep、安全文案、WXML 绑定。
 
 - `scripts/test-rc14-ui-first-screen.cjs`
   - 更新为允许 profile/review/tools 文案来自 viewModel。
@@ -91,7 +91,7 @@
   - 更新 tools/profile/review 静态断言来源。
 
 - `scripts/test-rc1-companion-polish.cjs`
-  - 更新四个 Tab companion strip 统计，纳入 toolsViewModel。
+  - 更新四个 Tab companion strip 统计，纳入 revisitViewModel。
 
 - `scripts/test-rc11-first-day.cjs`
   - 更新 tools 首日空态 / 下一步 / CTA 的断言来源。
@@ -112,8 +112,8 @@
   - 更新 tools CTA / recall entry 的断言来源。
 
 - `package.json`
-  - 将 `scripts/test-tools-view-model.cjs` 加入 `npm test`。
-  - 新增 `test:tools-view-model` 脚本。
+  - 将 `scripts/test-revisit-view-model.cjs` 加入 `npm test`。
+  - 新增 `test:revisit-view-model` 脚本。
 
 ### 文档
 
@@ -199,7 +199,7 @@ CLI 启动后建议优先阅读：
 8. `package.json`
 9. `miniprogram/view-models/profile-view-model.js`
 10. `miniprogram/view-models/review-view-model.js`
-11. `miniprogram/view-models/tools-view-model.js`
+11. `miniprogram/view-models/revisit-view-model.js`
 
 如果存在 `docs/AI_CONTEXT.md`，也可以阅读；当前本次交接未依赖该文件。
 

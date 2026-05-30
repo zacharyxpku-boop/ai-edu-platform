@@ -139,7 +139,7 @@ const vmCompleted = reviewVm.buildReviewViewModel({
     childArticulatedStep: '我先找等量关系'
   }
 });
-assert.strictEqual(vmCompleted.primaryCta.action, 'tools', 'completed CTA action is light recall');
+assert.strictEqual(vmCompleted.primaryCta.action, 'revisit', 'completed CTA action is light recall');
 assert.strictEqual(vmCompleted.repairContract.status, '已完成', 'completed repair contract is visibly closed');
 
 const vmEmpty = reviewVm.buildReviewViewModel({});

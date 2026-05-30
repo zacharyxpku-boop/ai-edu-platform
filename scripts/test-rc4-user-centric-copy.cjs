@@ -59,7 +59,7 @@ const homeVm = loadCommonJs(path.join('miniprogram', 'view-models', 'home-view-m
 const reviewVm = loadCommonJs(path.join('miniprogram', 'view-models', 'review-view-model.js'), {
   '../utils/storage': storage
 });
-const toolsVm = loadCommonJs(path.join('miniprogram', 'view-models', 'tools-view-model.js'), {
+const revisitVm = loadCommonJs(path.join('miniprogram', 'view-models', 'revisit-view-model.js'), {
   '../utils/storage': storage
 });
 const profileVm = loadCommonJs(path.join('miniprogram', 'view-models', 'profile-view-model.js'), {
@@ -95,20 +95,20 @@ assert(review.miniAction.question.includes('我先'), 'miniAction is child-facin
 assert(review.miniAction.placeholder.includes('我先圈出题干条件'), 'miniAction placeholder is concrete');
 assert(review.blackboard.intro.includes('不直接讲答案'), 'blackboard says it does not directly explain the answer');
 
-const toolsWithCard = toolsVm.buildToolsViewModel({
+const revisitWithCard = revisitVm.buildRevisitViewModel({
   reviewCard: {
     front: '你昨天说的第一步是：「我先找题目问什么」。今天还记得为什么先这样做吗？'
   }
 });
-assert.strictEqual(toolsWithCard.title, '今天只回看这一小步', 'tools centers on recall');
-assert.strictEqual(toolsWithCard.primaryCard.title, '回看昨天那一步', 'tools card is a tomorrow-review card');
-assert(toolsWithCard.primaryCard.body.includes('轻轻回看'), 'tools card recalls the first step');
-assert.strictEqual(toolsWithCard.primaryCta.text, '轻轻回看', 'tools has recall CTA');
+assert.strictEqual(revisitWithCard.title, '今天只回看这一小步', 'revisit centers on recall');
+assert.strictEqual(revisitWithCard.primaryCard.title, '回看昨天那一步', 'revisit card is a tomorrow-review card');
+assert(revisitWithCard.primaryCard.body.includes('轻轻回看'), 'revisit card recalls the first step');
+assert.strictEqual(revisitWithCard.primaryCta.text, '轻轻回看', 'revisit has recall CTA');
 
-const toolsEmpty = toolsVm.buildToolsViewModel({});
-assert.strictEqual(toolsEmpty.primaryCard.title, '还没有可回访的第一步', 'tools empty state is a review-card empty state');
-assert.strictEqual(toolsEmpty.primaryCta.text, '先去说第一步', 'tools empty state returns to real stuck-point repair');
-assert(toolsEmpty.quickSections.some((item) => item.title === '明天轻轻回访'), 'tools empty state stays in revisit framing');
+const revisitEmpty = revisitVm.buildRevisitViewModel({});
+assert.strictEqual(revisitEmpty.primaryCard.title, '还没有可回访的第一步', 'revisit empty state is a review-card empty state');
+assert.strictEqual(revisitEmpty.primaryCta.text, '先去说第一步', 'revisit empty state returns to real stuck-point repair');
+assert(revisitEmpty.quickSections.some((item) => item.title === '明天轻轻回访'), 'revisit empty state stays in revisit framing');
 
 const profile = profileVm.buildProfileViewModel({
   todayFocus: {
@@ -130,7 +130,7 @@ assert(profile.primaryCard.sections.some((item) => item.label === '他先迈出�
 assert(profile.primaryCard.sections.some((item) => item.label === '信任边界'), 'profile includes trust boundary evidence');
 assert(profile.primaryCard.sections.some((item) => item.label === '家长只问一句'), 'profile includes one parent question');
 
-const userVisibleText = collectStrings([home, review, toolsWithCard, toolsEmpty, profile]).join('\n');
+const userVisibleText = collectStrings([home, review, revisitWithCard, revisitEmpty, profile]).join('\n');
 [
   'todayFocus',
   'reviewCard',

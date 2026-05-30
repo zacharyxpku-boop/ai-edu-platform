@@ -61,7 +61,7 @@ const { buildHomeViewModel } = loadCommonJs(path.join('miniprogram', 'view-model
 const { buildReviewViewModel } = loadCommonJs(path.join('miniprogram', 'view-models', 'review-view-model.js'), {
   '../utils/storage': storage
 });
-const { buildToolsViewModel } = loadCommonJs(path.join('miniprogram', 'view-models', 'tools-view-model.js'), {
+const { buildRevisitViewModel } = loadCommonJs(path.join('miniprogram', 'view-models', 'revisit-view-model.js'), {
   '../utils/storage': storage
 });
 const { buildProfileViewModel } = loadCommonJs(path.join('miniprogram', 'view-models', 'profile-view-model.js'), {
@@ -79,7 +79,7 @@ assert(entryDetailJs.includes('upload: {') && entryDetailJs.includes("primaryRou
 storage.clearLearningData();
 assert(buildHomeViewModel({}).emptyState, 'Home empty state guides first input');
 assert(buildReviewViewModel({}).emptyState, 'Review empty state is safe without a focus');
-assert(buildToolsViewModel({}).emptyState, 'Tools empty state is safe without a revisit card');
+assert(buildRevisitViewModel({}).emptyState, 'Revisit empty state is safe without a revisit card');
 assert(buildProfileViewModel({}).emptyState, 'Profile empty state is safe without history');
 
 const retiredPreference = storage.saveCompanionPreference('xiaoyuan');
@@ -111,11 +111,11 @@ const reviewCard = storage.loadReviewCards().find((card) => card.source === 'tod
 assert(reviewCard, 'Completed repair creates a light revisit card');
 assert((reviewCard.front || reviewCard.question || '').includes(miniActionText), 'Review card keeps the child first-step wording');
 
-const toolsVm = buildToolsViewModel({
+const revisitVm = buildRevisitViewModel({
   reviewCards: reviewCards.cardBrowser({ source: 'today_focus', status: 'all', limit: 3 }),
   companionPreference: retiredPreference
 });
-assert.strictEqual(toolsVm.primaryCard.hasReviewCard, true, 'Tools can surface the light revisit item');
+assert.strictEqual(revisitVm.primaryCard.hasReviewCard, true, 'Revisit can surface the light revisit item');
 
 const profileVm = buildProfileViewModel({
   todayFocus: storage.loadTodayFocus(),

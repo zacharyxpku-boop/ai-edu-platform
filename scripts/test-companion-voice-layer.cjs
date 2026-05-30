@@ -50,8 +50,8 @@ const stages = [
   'review_focus',
   'review_repairing',
   'review_completed',
-  'tools_recall',
-  'tools_empty',
+  'revisit_recall',
+  'revisit_empty',
   'profile_summary',
   'profile_empty',
   'parent_question',
@@ -80,7 +80,7 @@ stages.forEach((stage) => {
 [
   ['home', 'home_plan'],
   ['review', 'review_focus'],
-  ['tools', 'tools_recall'],
+  ['revisit', 'revisit_recall'],
   ['profile', 'profile_summary']
 ].forEach(([retired, modern]) => {
   storage.COMPANION_OPTIONS.forEach((companion) => {
@@ -95,7 +95,7 @@ stages.forEach((stage) => {
 const anan = [
   storage.getCompanionStageCopy('home_plan', { selectedCompanion: 'anan' }),
   storage.getCompanionStageCopy('review_focus', { selectedCompanion: 'anan' }),
-  storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'anan' }),
+  storage.getCompanionStageCopy('revisit_recall', { selectedCompanion: 'anan' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'anan' })
 ].join('\n');
 assert(anan.includes('咕点') && anan.includes('第一步'), 'retired 安安 id resolves to mascot voice across tabs');
@@ -103,7 +103,7 @@ assert(anan.includes('咕点') && anan.includes('第一步'), 'retired 安安 id
 const wenwen = [
   storage.getCompanionStageCopy('home_plan', { selectedCompanion: 'wenwen' }),
   storage.getCompanionStageCopy('review_focus', { selectedCompanion: 'wenwen' }),
-  storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'wenwen' }),
+  storage.getCompanionStageCopy('revisit_recall', { selectedCompanion: 'wenwen' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'wenwen' })
 ].join('\n');
 assert(wenwen.includes('咕点') && wenwen.includes('第一步'), 'retired 问问 id resolves to mascot first-step voice');
@@ -111,7 +111,7 @@ assert(wenwen.includes('咕点') && wenwen.includes('第一步'), 'retired 问�
 const yueyue = [
   storage.getCompanionStageCopy('home_plan', { selectedCompanion: 'yueyue' }),
   storage.getCompanionStageCopy('review_focus', { selectedCompanion: 'yueyue' }),
-  storage.getCompanionStageCopy('tools_recall', { selectedCompanion: 'yueyue' }),
+  storage.getCompanionStageCopy('revisit_recall', { selectedCompanion: 'yueyue' }),
   storage.getCompanionStageCopy('profile_summary', { selectedCompanion: 'yueyue' })
 ].join('\n');
 assert(yueyue.includes('咕点') && !/排行榜|PK|冲榜|一小关/.test(yueyue), 'retired 跃跃 id no longer exposes challenge framing');

@@ -89,7 +89,7 @@ Checked:
 
 Result:
 
-- First-screen main copy is bound through `homeViewModel`, `reviewViewModel`, `toolsViewModel`, and `profileViewModel`.
+- First-screen main copy is bound through `homeViewModel`, `reviewViewModel`, `revisitViewModel`, and `profileViewModel`.
 - `source` hits in WXML are CSS class names or below-fold legacy panels, not raw user-facing key output.
 - `profile` still contains legacy panels such as wrong-cause, game profile, daily share, parent report, and unlock card areas, but they are after the first screen or behind panel navigation.
 - `tools` advanced practice area is below the first-screen review card.
@@ -142,7 +142,7 @@ Targeted tests run and passed:
 - `node scripts/test-learning-evidence-flow.cjs`
 - `node scripts/test-rc3-teacher-blackboard.cjs`
 - `node scripts/test-profile-view-model.cjs`
-- `node scripts/test-tools-view-model.cjs`
+- `node scripts/test-revisit-view-model.cjs`
 - `node scripts/test-review-view-model.cjs`
 - `node scripts/test-home-view-model.cjs`
 - `node scripts/test-companion-voice-layer.cjs`

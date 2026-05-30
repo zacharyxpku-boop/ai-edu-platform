@@ -404,7 +404,7 @@ function contentFactoryPacks(state = {}, reviewSummary = {}) {
         `trap: do not repeat the old wrong cause; say the check before answering.`,
         `cloze: the first checkpoint is ____ before calculation or writing.`
       ].join('\n'),
-      reason: 'Turns radar weakness into a ready review pack.'
+      reason: 'Turns report evidence into a ready review pack.'
     },
     {
       id: 'factory_exam_cram',

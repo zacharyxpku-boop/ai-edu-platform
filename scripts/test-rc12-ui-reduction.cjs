@@ -72,8 +72,8 @@ assert(!files.reviewWxml.includes('growthMemory.review'), 'review growth memory 
 
 assert(files.tutorWxml.includes("tutor-hero-shell") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps one first-step jump shell");
 assert(files.arcadeWxml.includes("arcade-hero-shell") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
-assert(!files.tutorWxml.includes("{{companionCopy.tools}}") && !files.arcadeWxml.includes("{{companionCopy.tools}}"), "retired tools companion explanation is not stacked on active tabs");
-assert(!files.tutorWxml.includes("growthMemory.tools") && !files.arcadeWxml.includes("growthMemory.tools"), "retired tools growth memory is not stacked on active tabs");
+assert(!files.tutorWxml.includes("{{companionCopy.revisit}}") && !files.arcadeWxml.includes("{{companionCopy.revisit}}"), "retired tools companion explanation is not stacked on active tabs");
+assert(!files.tutorWxml.includes("growthMemory.revisit") && !files.arcadeWxml.includes("growthMemory.revisit"), "retired tools growth memory is not stacked on active tabs");
 
 assert(files.profileWxml.includes('parent-hero-shell') && files.profileWxml.includes('parent-dash-evidence') && files.profileWxml.includes('profileViewModel.title') && files.profileViewModelJs.includes('title:'), 'profile first screen includes the parent one-question shell');
 assert(files.profileViewModelJs.includes('今晚孩子卡在'), 'profile hero card keeps current stuck point');
@@ -107,7 +107,7 @@ assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile d
     storage.formatCompanionLine(preference),
     storage.getCompanionStageCopy('home', preference),
     storage.getCompanionStageCopy('review', preference),
-    storage.getCompanionStageCopy('tools', preference),
+    storage.getCompanionStageCopy('revisit', preference),
     storage.getCompanionStageCopy('profile', preference)
   ].join('\n');
   expectations.forEach((copy) => {

@@ -51,7 +51,7 @@ assert(talentSeed.reportInputPatch.behaviorSignals.talentLearningMethodPlan.rout
 
 const english = assessment.buildLearningAssessment('英语单词听写会，阅读题慢，语法题总错');
 assert.strictEqual(english.subject, '英语', 'english text should be detected as english');
-assert(['tutor', 'focus', 'review', 'tools'].includes(english.capability.id), 'english text should produce an explicit capability recommendation');
+assert(['tutor', 'focus', 'review', 'revisit'].includes(english.capability.id), 'english text should produce an explicit capability recommendation');
 assert(english.methodHint.length > 0, 'english text should produce a method hint');
 
 const quiet = assessment.buildLearningAssessment('');

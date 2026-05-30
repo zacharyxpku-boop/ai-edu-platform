@@ -92,7 +92,7 @@ Existing tests continue to guard:
 Four main Tab first screens remain viewModel-driven:
 - Home: `homeViewModel`
 - Review: `reviewViewModel`
-- Tools: `toolsViewModel`
+- Tools: `revisitViewModel`
 - Profile: `profileViewModel`
 
 No first-screen dashboard, teacher division, or report-wall module was found in the RC2 first-screen path. Legacy modules still exist below the fold / advanced areas, as expected for RC2.

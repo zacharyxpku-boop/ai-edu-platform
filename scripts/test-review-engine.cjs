@@ -709,7 +709,7 @@ function run() {
   const importIntakeJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'utils', 'import-intake.js'), 'utf8');
   const entryDetailWxmlForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'entry-detail', 'entry-detail.wxml'), 'utf8');
   const entryDetailJsForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'entry-detail', 'entry-detail.js'), 'utf8');
-  const toolsViewModelJsForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'view-models', 'tools-view-model.js'), 'utf8');
+  const revisitViewModelJsForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'view-models', 'revisit-view-model.js'), 'utf8');
   const reviewViewModelJsForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'view-models', 'review-view-model.js'), 'utf8');
   const profileJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'profile', 'profile.js'), 'utf8');
   const profileWxmlForCta = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'profile', 'profile.wxml'), 'utf8');

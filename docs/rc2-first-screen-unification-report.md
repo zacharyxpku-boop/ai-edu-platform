@@ -42,12 +42,12 @@
 知识游乐场只回答“今天回访一小步”。
 
 首屏保留：
-- `toolsViewModel.routePill`
-- `toolsViewModel.companionStrip`
-- `toolsViewModel.title`
-- `toolsViewModel.subtitle`
-- `toolsViewModel.primaryCard`
-- `toolsViewModel.primaryCta`
+- `revisitViewModel.routePill`
+- `revisitViewModel.companionStrip`
+- `revisitViewModel.title`
+- `revisitViewModel.subtitle`
+- `revisitViewModel.primaryCard`
+- `revisitViewModel.primaryCta`
 
 轻微收口：补充了首屏 subtitle 绑定，玩法区继续折叠在首屏之后。
 

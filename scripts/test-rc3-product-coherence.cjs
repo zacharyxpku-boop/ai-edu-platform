@@ -58,7 +58,7 @@ const homeVm = loadCommonJs(path.join('miniprogram', 'view-models', 'home-view-m
 const reviewVm = loadCommonJs(path.join('miniprogram', 'view-models', 'review-view-model.js'), {
   '../utils/storage': storage
 });
-const toolsVm = loadCommonJs(path.join('miniprogram', 'view-models', 'tools-view-model.js'), {
+const revisitVm = loadCommonJs(path.join('miniprogram', 'view-models', 'revisit-view-model.js'), {
   '../utils/storage': storage
 });
 const profileVm = loadCommonJs(path.join('miniprogram', 'view-models', 'profile-view-model.js'), {
@@ -72,7 +72,7 @@ const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const firstScreenSource = [
   read('miniprogram/view-models/home-view-model.js'),
   read('miniprogram/view-models/review-view-model.js'),
-  read('miniprogram/view-models/tools-view-model.js'),
+  read('miniprogram/view-models/revisit-view-model.js'),
   read('miniprogram/view-models/profile-view-model.js'),
   homeWxml,
   reviewWxml,
@@ -120,8 +120,8 @@ const unsupportedReview = reviewVm.buildReviewViewModel({
 });
 assert.strictEqual(unsupportedReview.blackboard, null, 'unsupported issueType does not force a blackboard');
 
-const tools = toolsVm.buildToolsViewModel({});
-assert.strictEqual(tools.title, '今天只回看这一小步', 'tools keeps active recall as the main question');
+const revisit = revisitVm.buildRevisitViewModel({});
+assert.strictEqual(revisit.title, '今天只回看这一小步', 'revisit keeps active recall as the main question');
 const profile = profileVm.buildProfileViewModel({
   todayFocus: {
     id: 'focus_profile_blackboard',

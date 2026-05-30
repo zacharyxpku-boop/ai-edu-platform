@@ -38,17 +38,17 @@ const storageStub = {
     return { selectedCompanion: 'gudian', selectedLabel: '咕点' };
   },
   getCompanionStageCopy(stage) {
-    if (stage === 'tools_empty') return '还没有回访卡。先修过一小步，明天咕点再来轻轻看。';
+    if (stage === 'revisit_empty') return '还没有回访卡。先修过一小步，明天咕点再来轻轻看。';
     return '咕点陪你轻轻回访。';
   }
 };
 
-const vmPath = path.join('miniprogram', 'view-models', 'tools-view-model.js');
-assert(fs.existsSync(path.join(root, vmPath)), 'tools-view-model.js exists');
-const toolsVm = loadModule(vmPath, { '../utils/storage': storageStub });
-assert.strictEqual(typeof toolsVm.buildToolsViewModel, 'function', 'buildToolsViewModel is exported');
+const vmPath = path.join('miniprogram', 'view-models', 'revisit-view-model.js');
+assert(fs.existsSync(path.join(root, vmPath)), 'revisit-view-model.js exists');
+const revisitVm = loadModule(vmPath, { '../utils/storage': storageStub });
+assert.strictEqual(typeof revisitVm.buildRevisitViewModel, 'function', 'buildRevisitViewModel is exported');
 
-const completed = toolsVm.buildToolsViewModel({
+const completed = revisitVm.buildRevisitViewModel({
   companionPreference: { selectedCompanion: 'gudian' },
   latestFocusSession: {
     completionType: 'completed',
@@ -60,7 +60,7 @@ const completed = toolsVm.buildToolsViewModel({
 
 assert.strictEqual(completed.routePill, '今晚路线 · 第 4 步：明天轻轻回访', 'viewModel outputs routePill');
 assert(completed.companionStrip.includes('咕点'), 'viewModel outputs mascot strip');
-assert.strictEqual(completed.title, '今天只回看这一小步', 'viewModel keeps one tools title');
+assert.strictEqual(completed.title, '今天只回看这一小步', 'viewModel keeps one revisit title');
 assert.strictEqual(completed.primaryCard.title, '回看昨天那一步', 'primary card names light revisit');
 assert(completed.primaryCard.body.includes('已经坐过一段'), 'completed focus evidence gets completed revisit copy');
 assert(completed.primaryCard.reviewTitle.includes('我先圈出题干条件'), 'primary card uses exact first step');
@@ -69,7 +69,7 @@ assert.strictEqual(completed.primaryCta.text, '轻轻回看', 'review evidence k
 assert.strictEqual(completed.primaryCta.action, 'review', 'review CTA action is stable');
 assert(completed.nextStep && completed.nextStep.cta === '去我的页', 'review card state points to profile');
 
-const interrupted = toolsVm.buildToolsViewModel({
+const interrupted = revisitVm.buildRevisitViewModel({
   latestFocusSession: {
     completionType: 'interrupted',
     taskBound: true,
@@ -79,7 +79,7 @@ const interrupted = toolsVm.buildToolsViewModel({
 });
 assert(interrupted.primaryCard.body.includes('停在这里'), 'interrupted focus evidence gets gentle continuation copy');
 
-const empty = toolsVm.buildToolsViewModel({
+const empty = revisitVm.buildRevisitViewModel({
   companionPreference: { selectedCompanion: 'gudian' },
   reviewCards: []
 });
@@ -106,7 +106,7 @@ const visibleText = collectStrings([completed, interrupted, empty]).join('\n');
   /答案已生成/,
   /拍照出答案/
 ].forEach((pattern) => {
-  assert(!pattern.test(visibleText), `toolsViewModel avoids unsafe visible text: ${pattern}`);
+  assert(!pattern.test(visibleText), `revisitViewModel avoids unsafe visible text: ${pattern}`);
 });
 
 const appJson = JSON.parse(read('miniprogram/app.json'));
@@ -114,7 +114,7 @@ assert(!appJson.pages.includes('pages/tools/tools'), 'retired tools page is not 
 assert(!fs.existsSync(path.join(root, 'miniprogram/pages/tools')), 'retired tools page directory has been physically removed');
 const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-assert(entryDetailWxml.includes('entry-jump-grid') && entryDetailWxml.includes('bindtap="openScene"'), 'entry detail replaces tools with clickable child scenes');
+assert(entryDetailWxml.includes('entry-jump-grid') && entryDetailWxml.includes('bindtap="openScene"'), 'entry detail replaces old tool pages with clickable child scenes');
 assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('data-scene="tutor"'), 'review can return to tutor without retired tools page');
 [
   ['show','Leg','acyEntryContent'].join(''),
@@ -127,4 +127,4 @@ assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('data
   assert(!entryDetailWxml.includes(term) && !reviewWxml.includes(term), `active shells do not carry retired UI marker: ${term}`);
 });
 
-console.log('All tools view model tests pass.');
+console.log('All revisit view model tests pass.');

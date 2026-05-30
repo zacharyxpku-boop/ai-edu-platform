@@ -207,7 +207,7 @@ const COMPANION_OPTIONS = [
     copy: {
       home: '咕点陪你先找今晚第一步。',
       review: '咕点陪你只修这一小步，不讲完整答案。',
-      tools: '咕点陪你轻轻回访昨天那一步。',
+      revisit: '咕点陪你轻轻回访昨天那一步。',
       profile: '咕点帮你整理成家长能看懂的一句话。'
     }
   }
@@ -219,7 +219,7 @@ const INTERNAL_LABELS = {
   home_top_must: '今晚关键任务',
   auto_first_must: '今晚第一项任务',
   quick_start_auto: '快速开始',
-  radar_first_must: '今晚安排建议',
+  report_first_must: '今晚安排建议',
   needs_student_step: '等孩子先说第一步',
   thinking_started: '已经开始说想法',
   needs_repair: '需要修这一小步',
@@ -278,8 +278,8 @@ const STAGE_ALIASES = {
   review: 'review_focus',
   repair: 'review_repairing',
   completed: 'review_completed',
-  tools: 'tools_recall',
-  recall: 'tools_recall',
+  revisit: 'revisit_recall',
+  recall: 'revisit_recall',
   profile: 'profile_summary',
   parent: 'parent_question'
 };
@@ -291,8 +291,8 @@ const COMPANION_STAGE_COPY = {
     review_focus: '咕点陪你只修这一小步，不讲完整答案。',
     review_repairing: '咕点陪你先看第一眼，再说出自己的第一步。',
     review_completed: '咕点帮你记下这一小步，明天轻轻回访。',
-    tools_recall: '咕点陪你轻轻回访昨天那一步。',
-    tools_empty: '还没有回访卡。先修过一小步，明天咕点再来轻轻看。',
+    revisit_recall: '咕点陪你轻轻回访昨天那一步。',
+    revisit_empty: '还没有回访卡。先修过一小步，明天咕点再来轻轻看。',
     profile_summary: '咕点帮你整理成家长能看懂的一句话。',
     profile_empty: '完成一次卡点修复后，咕点会整理给家长看。',
     parent_question: '咕点建议家长只问一句：这题第一步先看哪里？',
@@ -701,7 +701,7 @@ function growthMemoryCopyFor(stage, preference) {
   if (stage === 'review') {
     return `你不是整题不会，只是卡在${memory.issueType}。对应修法：先说第一步，再做一道小变式。`;
   }
-  if (stage === 'tools') {
+  if (stage === 'revisit') {
     return '咕点陪你轻轻回访一下，不用一次做很多。';
   }
   if (stage === 'profile') {
@@ -949,7 +949,7 @@ function reportRouteTarget(path = '') {
   if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'focus';
   if (value.indexOf('/pages/profile/profile') === 0) return 'profile';
   if (value.indexOf('/pages/arcade/arcade') === 0) return 'arcade';
-  if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'tools';
+  if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'revisit';
   return 'tutor';
 }
 
@@ -2925,7 +2925,7 @@ function buildCapabilityMaturityQueue(options = {}) {
     {
       id: 'material_factory',
       label: '材料到资产',
-      surface: 'tools',
+      surface: 'revisit',
       route: '/pages/entry-detail/entry-detail?scene=today',
       capabilities: ['light_entry', 'module_flow', 'game', 'next_action'],
       competitorLine: '对标 Gizmo 的导入能力：现阶段先把本地材料稳定转成复习资产。',
@@ -11976,7 +11976,7 @@ function buildSurfaceDepthPack(surface = 'home', options = {}) {
       nextAction: '确认边界后，回到家长复盘或补一条真实材料。',
       benchmark: '信任页不是静态条款，是让家庭敢试用的边界说明。'
     },
-    tools: {
+    revisit: {
       title: '工具厚度包',
       summary: '工具页要把材料、错题、轻练习和回访都导回学习资产。',
       focusIds: ['light_entry_evidence', 'material_to_review', 'spaced_recall', 'game_retention', 'depth_compounding'],
@@ -12011,7 +12011,7 @@ function buildSurfaceDepthPack(surface = 'home', options = {}) {
       nextAction: '先完成一个小局，再把方法加入回访。',
       benchmark: '模块不是内容页，是一个可沉淀的小学习闭环。'
     },
-    radar: {
+    report: {
       title: '决策雷达厚度包',
       summary: '雷达要把弱点、优先级和下一步行动放在同一张图里。',
       focusIds: ['decision_path', 'weekly_pattern', 'parent_evidence', 'intervention_playbook'],
@@ -12065,12 +12065,12 @@ function buildSurfaceDepthPack(surface = 'home', options = {}) {
     arcade: ['game', 'socratic', 'parent_action', 'next_action'],
     profile: ['report', 'share', 'parent_action', 'surface_action', 'next_action'],
     legal: ['parent_action', 'report', 'share', 'next_action'],
-    tools: ['light_entry', 'module_flow', 'game', 'next_action'],
+    revisit: ['light_entry', 'module_flow', 'game', 'next_action'],
     upload: ['report', 'socratic', 'module_flow', 'next_action'],
     diagnosis: ['socratic', 'report', 'module_flow', 'next_action'],
     focus: ['socratic', 'parent_action', 'surface_action', 'next_action'],
     module: ['module_flow', 'socratic', 'game', 'next_action'],
-    radar: ['report', 'parent_action', 'module_flow', 'next_action'],
+    report: ['report', 'parent_action', 'module_flow', 'next_action'],
     daily_math: ['light_entry', 'game', 'socratic', 'next_action'],
     dictation: ['light_entry', 'socratic', 'parent_action', 'next_action'],
     light_diagnosis: ['light_entry', 'socratic', 'module_flow', 'next_action']

@@ -52,7 +52,7 @@
           <text>查看 →</text>
         </view>
         <view class="mini-report-body">
-          <view class="mini-radar"><view></view></view>
+          <view class="mini-signal-chart"><view></view></view>
           <view class="mini-report-tags">
             <text class="ok">逻辑思维强</text>
             <text class="ok">阅读理解好</text>

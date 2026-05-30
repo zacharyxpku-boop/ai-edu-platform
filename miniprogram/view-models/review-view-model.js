@@ -85,7 +85,7 @@ function buildPrimaryCard(input) {
 function buildPrimaryCta(todayFocus) {
   if (!todayFocus) return { text: '去说第一步', action: 'home', completed: false };
   if (todayFocus.repairStatus === 'completed') {
-    return { text: '今天这个卡点先修到这里', action: 'tools', completed: true };
+    return { text: '今天这个卡点先修到这里', action: 'revisit', completed: true };
   }
   if (todayFocus.childArticulatedStep || todayFocus.hasMiniActionDone) {
     return { text: '完成今日修复', action: 'complete', completed: false };

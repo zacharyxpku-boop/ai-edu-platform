@@ -99,9 +99,9 @@ assert.strictEqual(
   'review memory explains issue type with natural low-pressure repair action'
 );
 assert.strictEqual(
-  storage.growthMemoryCopyFor('tools'),
+  storage.growthMemoryCopyFor('revisit'),
   '咕点陪你轻轻回访一下，不用一次做很多。',
-  'tools recall wording follows 咕点'
+  'revisit recall wording follows 咕点'
 );
 
 storage.saveCompanionPreference('aheng');
@@ -152,7 +152,7 @@ const visibleText = [homeJs, reviewWxml, entryDetailWxml, profileJs, profileWxml
 
 assert(homeJs.includes("growthMemoryCopyFor('home'"), 'home reads growth memory reason');
 assert(!reviewWxml.includes('{{growthMemory.review}}'), 'review keeps growth memory out of the crowded first screen');
-assert(!entryDetailWxml.includes('{{growthMemory.tools}}'), 'tools keeps growth memory out of the crowded first screen');
+assert(!entryDetailWxml.includes('{{growthMemory.revisit}}'), 'revisit keeps growth memory out of the crowded first screen');
 assert(homeJs.includes('getGrowthMemoryLine'), 'home uses human growth memory line helper');
 assert(!profileWxml.includes("profileViewModel.growthMemoryCard") && profileViewModelJs.includes("growthMemoryCard"), "profile keeps weekly memory in the view-model without rendering another first-screen card");
 assert(profileViewModelJs.includes('再用几晚后'), 'profile memory card avoids fake trend claims when evidence is thin');

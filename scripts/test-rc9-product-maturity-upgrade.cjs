@@ -59,7 +59,7 @@ const focusCabin = loadCommonJs(path.join('miniprogram', 'utils', 'focus-cabin.j
 const reviewViewModels = loadCommonJs(path.join('miniprogram', 'view-models', 'review-view-model.js'), {
   '../utils/storage': storage
 });
-const toolsViewModels = loadCommonJs(path.join('miniprogram', 'view-models', 'tools-view-model.js'), {
+const revisitViewModels = loadCommonJs(path.join('miniprogram', 'view-models', 'revisit-view-model.js'), {
   '../utils/storage': storage
 });
 const profileViewModels = loadCommonJs(path.join('miniprogram', 'view-models', 'profile-view-model.js'), {
@@ -153,11 +153,11 @@ assert(interrupted.actualFocusSeconds >= 120, 'Interrupted session stores actual
 assert(interrupted.gentleInterruptionRecap.includes('接着来'), 'Interrupted session has gentle recap');
 assert.notStrictEqual(interrupted.status, 'failed', 'Interrupted session is not failure');
 
-const toolsCompleted = toolsViewModels.buildToolsViewModel({ latestFocusSession: completed });
-assert(toolsCompleted.primaryCard.body.includes('已经坐过一段'), 'Tools builds revisit from completed evidence');
-assert(toolsCompleted.primaryCard.questions.includes('昨天你第一步先看了哪里？'), 'Tools asks light revisit question');
-const toolsInterrupted = toolsViewModels.buildToolsViewModel({ latestFocusSession: interrupted });
-assert(toolsInterrupted.primaryCard.body.includes('停在这里'), 'Tools builds revisit from interrupted evidence');
+const revisitCompleted = revisitViewModels.buildRevisitViewModel({ latestFocusSession: completed });
+assert(revisitCompleted.primaryCard.body.includes('已经坐过一段'), 'Tools builds revisit from completed evidence');
+assert(revisitCompleted.primaryCard.questions.includes('昨天你第一步先看了哪里？'), 'Tools asks light revisit question');
+const revisitInterrupted = revisitViewModels.buildRevisitViewModel({ latestFocusSession: interrupted });
+assert(revisitInterrupted.primaryCard.body.includes('停在这里'), 'Tools builds revisit from interrupted evidence');
 
 const profileVm = profileViewModels.buildProfileViewModel({
   todayFocus: storage.loadTodayFocus(),
@@ -181,7 +181,7 @@ const visibleText = [
   read('miniprogram/pages/review/review.wxml'),
   read('miniprogram/pages/profile/profile.wxml'),
   read('miniprogram/view-models/review-view-model.js'),
-  read('miniprogram/view-models/tools-view-model.js'),
+  read('miniprogram/view-models/revisit-view-model.js'),
   read('miniprogram/view-models/profile-view-model.js')
 ].join('\n');
 

@@ -332,7 +332,7 @@ function generatedFromState(state) {
     notes.push(makeNote(
       stableId('note_weak', [weak.key || weak.name]),
       'weak_point',
-      'radar',
+      'report',
       {
         question: `这个卡点今天先检查什么：${weak.name}`,
         answer: weak.reason || '先说清卡点，再进入题目。',
@@ -2872,7 +2872,7 @@ function contentPipeline(summary) {
   const localReady = safe.contentEngine && safe.contentEngine.generated >= 1;
   const channels = [
     { id: 'notes', title: 'Notes to cards', status: 'ready', mode: 'local', action: 'Paste notes into content engine.' },
-    { id: 'wrong_cause', title: 'Wrong cause to cards', status: 'ready', mode: 'local', action: 'Use radar/upload/tutor evidence.' },
+    { id: 'wrong_cause', title: 'Wrong cause to cards', status: 'ready', mode: 'local', action: 'Use report/upload/tutor evidence.' },
     { id: 'module', title: 'Module to deck', status: 'ready', mode: 'local', action: 'Import AI learning module packs.' },
     { id: 'template', title: 'Public template deck', status: 'ready', mode: 'local', action: 'Import curated template packs.' },
     { id: 'external_import', title: '外部资料导入', status: 'requires_setup', mode: 'api', action: '需要配置解析服务、上传通道和家长确认流程后开放。' },
@@ -2973,7 +2973,7 @@ function loopCapabilityBoard(summary) {
       id: 'family_loop',
       title: '家庭作业协同闭环',
       score: 99,
-      wins: ['parent radar', 'must-do triage', 'wrong-cause repair', 'parent check-in pack'],
+      wins: ['parent report', 'must-do triage', 'wrong-cause repair', 'parent check-in pack'],
       gap: '真实效果证明需要小范围连续使用样本。'
     }
   ];
@@ -3128,7 +3128,7 @@ function maturityScore(summary) {
         + (safe.nextStep ? 12 : 0)
         + (safe.comeback ? 12 : 0)
         + (safe.trainingPlan && safe.trainingPlan.length ? 14 : 0)
-        + (sourceNames.includes('homework_plan') || sourceNames.includes('radar') ? 15 : 0)
+        + (sourceNames.includes('homework_plan') || sourceNames.includes('report') ? 15 : 0)
         + (hasThinkingProof ? 10 : 0)
       ),
       gap: hasThinkingProof
@@ -3213,7 +3213,7 @@ function maturityScore(summary) {
       label: '家庭学习结果',
       score: clampScore(
         35
-        + (sourceNames.includes('radar') ? 12 : 0)
+        + (sourceNames.includes('report') ? 12 : 0)
         + (sourceNames.includes('homework_plan') ? 12 : 0)
         + (sourceNames.includes('tutor') ? 10 : 0)
         + (hasThinkingProof ? 10 : 0)
@@ -3280,7 +3280,7 @@ function commercialReadiness(summary) {
   const hasCoreCardTypes = content.coverage >= content.required;
   const hasRepair = sourceNames.includes('repair_engine') || (safe.qualityQueue || []).some((item) => item.repairPreviewQuestion);
   const hasModulePack = sourceNames.includes('module_content_engine');
-  const hasWeakLoop = sourceNames.includes('radar') || sourceNames.includes('homework_plan');
+  const hasWeakLoop = sourceNames.includes('report') || sourceNames.includes('homework_plan');
   const hasThinkingProof = sourceNames.includes('thinking_receipt');
   const hasTutorLoop = sourceNames.includes('tutor') || hasThinkingProof;
   const hasQuizLoop = safe.quizLoop && safe.quizLoop.attempts >= 1;

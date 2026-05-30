@@ -16,7 +16,7 @@ function companionPreference(input) {
 function companionStrip(input, hasEvidence) {
   const preference = companionPreference(input);
   const line = storage.getCompanionStageCopy
-    ? storage.getCompanionStageCopy(hasEvidence ? 'tools_recall' : 'tools_empty', preference)
+    ? storage.getCompanionStageCopy(hasEvidence ? 'revisit_recall' : 'revisit_empty', preference)
     : '咕点陪你轻轻回访昨天那一步。';
   return safeText(line, '咕点陪你轻轻回访昨天那一步。');
 }
@@ -99,7 +99,7 @@ function buildPrimaryCta(hasReviewCard) {
     : { text: '先去说第一步', action: 'review' };
 }
 
-function buildToolsViewModel(input = {}) {
+function buildRevisitViewModel(input = {}) {
   const primaryCard = buildPrimaryCard(input);
   return {
     routePill: '今晚路线 · 第 4 步：明天轻轻回访',
@@ -125,5 +125,5 @@ function buildToolsViewModel(input = {}) {
 }
 
 module.exports = {
-  buildToolsViewModel
+  buildRevisitViewModel
 };

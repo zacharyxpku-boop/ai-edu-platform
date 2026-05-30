@@ -66,7 +66,7 @@ expectedOptions.forEach(([id, label, short, desc]) => {
   assert.strictEqual(option.desc, desc, `${label} option explains mascot promise`);
 });
 
-const stageNames = ['home', 'review', 'tools', 'profile'];
+const stageNames = ['home', 'review', 'revisit', 'profile'];
 storage.COMPANION_OPTIONS.forEach((option) => {
   storage.saveCompanionPreference(option.id);
   const current = storage.loadCompanionPreference();
@@ -82,7 +82,7 @@ const retiredPreference = storage.loadCompanionPreference();
 assert.strictEqual(retiredPreference.selectedCompanion, 'gudian', 'retired six-teacher ids resolve to 咕点');
 assert.strictEqual(storage.companionCopyFor('home'), '咕点陪你先找今晚第一步。', 'home copy follows 咕点');
 assert.strictEqual(storage.companionCopyFor('review'), '咕点陪你只修这一小步，不讲完整答案。', 'review copy follows 咕点');
-assert.strictEqual(storage.companionCopyFor('tools'), '咕点陪你轻轻回访昨天那一步。', 'tools copy follows 咕点');
+assert.strictEqual(storage.companionCopyFor('revisit'), '咕点陪你轻轻回访昨天那一步。', 'revisit copy follows 咕点');
 assert.strictEqual(storage.companionCopyFor('profile'), '咕点帮你整理成家长能看懂的一句话。', 'profile copy follows 咕点');
 
 const homeJs = read('miniprogram/pages/home/home.js');
@@ -94,7 +94,7 @@ const reviewWxml = read('miniprogram/pages/review/review.wxml');
 const reviewViewModelJs = read('miniprogram/view-models/review-view-model.js');
 const entryDetailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
 const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
-const toolsViewModelJs = read('miniprogram/view-models/tools-view-model.js');
+const revisitViewModelJs = read('miniprogram/view-models/revisit-view-model.js');
 const profileJs = read('miniprogram/pages/profile/profile.js');
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js');
@@ -106,7 +106,7 @@ assert(!homeWxml.includes('{{item.short}}') && !homeWxml.includes('{{item.desc}}
 [
   ['home', homeWxml, '{{companionCopy.home}}', 'mini-hero-mascot'],
   ['review', reviewWxml, '{{companionCopy.review}}', 'review-hero-shell'],
-  ['entryDetail', entryDetailWxml, '{{companionCopy.tools}}', 'entry-jump-grid'],
+  ['entryDetail', entryDetailWxml, '{{companionCopy.revisit}}', 'entry-jump-grid'],
   ['profile', profileWxml, '{{companionCopy.profile}}', 'parent-hero-shell']
 ].forEach(([name, wxml, stackedCopy, companionBinding]) => {
   assert(wxml.includes(companionBinding || '{{companionLine}}'), `${name} renders one mascot strip`);
@@ -134,7 +134,7 @@ assert(teacherDoc.includes('孩子今天选择谁，谁就陪孩子走完整条 
 assert(!teacherDoc.includes('作业点拨默认用小原或问问'), 'teacher doc no longer describes page-fixed teachers');
 assert(!teacherDoc.includes('我的页家长复盘使用团团'), 'teacher doc no longer forces 团团 on profile');
 
-const tabPages = [homeWxml, homeViewModelJs, reviewWxml, reviewViewModelJs, entryDetailWxml, toolsViewModelJs, profileWxml].join('\n');
+const tabPages = [homeWxml, homeViewModelJs, reviewWxml, reviewViewModelJs, entryDetailWxml, revisitViewModelJs, profileWxml].join('\n');
 ['帮我安排今晚学习', '先去说第一步'].forEach((cta) => {
   assert(tabPages.includes(cta), `main CTA remains: ${cta}`);
 });

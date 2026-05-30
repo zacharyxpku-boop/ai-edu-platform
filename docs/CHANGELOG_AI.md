@@ -7,10 +7,10 @@
 - 完成 RC2 Foundation Rebuild 的桌面端收口阶段。
 - 新增并接入 `profileViewModel`，让我的页首屏聚焦“家长 5 秒复盘”。
 - 新增并接入 `reviewViewModel`，让错题闭环首屏聚焦“今晚只修一个卡点”。
-- 新增并接入 `toolsViewModel`，让知识游乐场首屏聚焦“今天回访一小步”。
+- 新增并接入 `revisitViewModel`，让知识游乐场首屏聚焦“今天回访一小步”。
 - 保留旧模块但下沉 / 隔离，不再让 profile/review/tools 首屏直接消费旧 dashboard / raw storage 文案。
 - 更新静态测试，让 WXML 检查 viewModel 绑定，让用户可见文案检查 viewModel 文件。
-- 新增 `scripts/test-tools-view-model.cjs`，并加入 `npm test`。
+- 新增 `scripts/test-revisit-view-model.cjs`，并加入 `npm test`。
 - 创建桌面端到 CLI 交接文档。
 
 ### Verification

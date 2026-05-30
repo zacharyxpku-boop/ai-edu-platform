@@ -220,7 +220,7 @@ miniprogram/
   view-models/
     home-view-model.js
     review-view-model.js
-    tools-view-model.js
+    revisit-view-model.js
     profile-view-model.js
 ```
 

@@ -52,14 +52,17 @@
         </view>
         <view class="ux-kit-jump-grid">
           <view class="ux-kit-jump-card primary parent-jump-card" data-scene="parent" bindtap="openEntryDetail">
+            <image mode="aspectFill" src="/assets/reference/entry-parent.png" />
             <text>今晚安排</text>
             <text>看行动卡</text>
           </view>
           <view class="ux-kit-jump-card parent-jump-card" data-scene="upload" bindtap="openEntryDetail">
+            <image mode="aspectFill" src="/assets/reference/entry-upload.png" />
             <text>补充材料</text>
             <text>上传新证据</text>
           </view>
           <view class="ux-kit-jump-card parent-jump-card" data-scene="review" bindtap="openEntryDetail">
+            <image mode="aspectFill" src="/assets/reference/entry-review.png" />
             <text>复习回访</text>
             <text>验证是否迁移</text>
           </view>

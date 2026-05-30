@@ -357,7 +357,7 @@
   margin-top: 20rpx;
 }
 
-.mini-radar {
+.mini-signal-chart {
   width: 168rpx;
   height: 168rpx;
   display: flex;
@@ -367,7 +367,7 @@
   background: linear-gradient(135deg, rgba(34, 185, 92, 0.18), rgba(76, 159, 255, 0.09));
 }
 
-.mini-radar view {
+.mini-signal-chart view {
   width: 58rpx;
   height: 58rpx;
   border-radius: 50%;

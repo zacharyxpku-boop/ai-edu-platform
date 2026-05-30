@@ -12,6 +12,7 @@
 - 防回归已经进入 `scripts/test-miniapp-tab-layout-contract.cjs`，后续这些旧 class 不能重新出现在活跃页面 WXML/WXSS 中。
 - `entry-detail` 子界面中部证据卡已从数字卡改为参考图资产卡，避免子页退回“方框 + 数字 + 文字”的旧结构。
 - 5 个主 tab 的 `subcheck` 子流程跳转区已从纯文字侧卡改成“参考图 icon + 两行说明”的视觉卡，降低首屏下方空白和文档感。
+- 家长页和复习岛的主跳转卡已补齐参考图插画；全局 `ux-kit-jump-card` 标题样式改为 `first-of-type/last-of-type`，避免有图片后标题退化成普通文字。
 
 ## 参考资产处理
 
@@ -61,6 +62,7 @@
 - `npm.cmd run miniapp:wxml-compile`
 - `node scripts/test-current-ui-first-screen.cjs`
 - `node scripts/test-miniapp-tab-layout-contract.cjs`
+- `node scripts/check-miniapp-encoding.cjs`
 - `npm.cmd run miniapp:five-entry-walkthrough`
 - `npm.cmd test`
 - `npm.cmd run web:check`
