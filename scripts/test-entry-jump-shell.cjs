@@ -111,7 +111,7 @@ tabPages.forEach(([name, wxmlPath, jsPath]) => {
 
 const detailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');
 const detailJs = read('miniprogram/pages/entry-detail/entry-detail.js');
-['today', 'tutor', 'review', 'parent', 'upload'].forEach((scene) => {
+['today', 'tutor', 'review', 'report', 'parent', 'upload'].forEach((scene) => {
   assert(detailJs.includes(`${scene}: {`), `entry detail supports ${scene} scene`);
 });
 assert(detailWxml.includes('entry-primary') && detailWxml.includes('entry-secondary'), 'entry detail exposes clear next actions');
@@ -131,12 +131,12 @@ let sceneMatch;
 const sceneRoutes = {};
 while ((sceneMatch = sceneBodyPattern.exec(detailJs))) {
   const [, scene, body] = sceneMatch;
-  if (!['today', 'tutor', 'review', 'parent', 'upload'].includes(scene)) continue;
+  if (!['today', 'tutor', 'review', 'report', 'parent', 'upload'].includes(scene)) continue;
   const primary = (body.match(/primaryRoute: '([^']+)'/) || [])[1] || '';
   const secondary = (body.match(/secondaryRoute: '([^']+)'/) || [])[1] || '';
   sceneRoutes[scene] = { primary, secondary };
 }
-assert.strictEqual(Object.keys(sceneRoutes).length, 5, 'entry detail defines routes for five child scenes');
+assert.strictEqual(Object.keys(sceneRoutes).length, 6, 'entry detail defines routes for six child scenes');
 Object.entries(sceneRoutes).forEach(([scene, routes]) => {
   assert(routes.primary && routes.secondary, `${scene} child scene has primary and secondary routes`);
   Object.entries(routes).forEach(([kind, route]) => {
@@ -148,6 +148,7 @@ Object.entries(sceneRoutes).forEach(([scene, routes]) => {
   });
 });
 assert(sceneRoutes.today.primary.includes('/pages/tutor/tutor'), 'today primary goes to AI tutor first step');
+assert(sceneRoutes.report.primary.includes('/pages/profile/profile'), 'report primary goes to evidence report view');
 assert(sceneRoutes.tutor.secondary.includes('/pages/review/review'), 'tutor secondary deposits into review');
 assert(sceneRoutes.review.secondary.includes('/pages/tutor/tutor'), 'review secondary can return to tutor');
 assert(sceneRoutes.parent.secondary.includes('/pages/upload/upload'), 'parent secondary can add evidence');

@@ -2,7 +2,7 @@ const navigation = require('../../utils/navigation');
 
 const PROOF_FLOW = [
   { scene: 'upload', label: '材料', hint: '先分类', icon: '/assets/reference/entry-upload.png' },
-  { scene: 'parent', label: '报告', hint: '看依据', icon: '/assets/reference/entry-report.png' },
+  { scene: 'report', label: '报告', hint: '看依据', icon: '/assets/reference/entry-report.png' },
   { scene: 'tutor', label: '私教', hint: '说一步', icon: '/assets/reference/entry-tutor.png' },
   { scene: 'review', label: '回访', hint: '验迁移', icon: '/assets/reference/entry-review.png' },
   { scene: 'parent', label: '家长', hint: '下一步', icon: '/assets/reference/entry-parent.png' }
@@ -63,14 +63,30 @@ const SCENES = {
     ],
     proofSteps: proofFlow('review')
   },
+  report: {
+    badge: '个性化报告',
+    title: '先讲清楚证据，再匹配学习方法',
+    subtitle: '报告页不是营销页。它要说明材料从哪里来、天赋信号和成绩表现是否互相支持，以及为什么推荐这一组学习方法。',
+    heroImage: '/assets/reference/entry-report.png',
+    primaryLabel: '查看证据报告',
+    primaryRoute: '/pages/profile/profile?from=entry_report_evidence&open=flow',
+    secondaryLabel: '补充测评/错题',
+    secondaryRoute: '/pages/upload/upload?from=entry_report_material',
+    cards: [
+      { label: '证据来源', value: '测评、成绩、错题、对话和复习记录分开标注，不混成一句结论。', icon: '/assets/reference/entry-upload.png' },
+      { label: '天赋匹配', value: '先解释孩子适合怎样输入、输出和反馈，再落到具体方法。', icon: '/assets/reference/entry-report.png' },
+      { label: '方法依据', value: '把费曼、苏格拉底追问、短周期回访变成可执行动作。', icon: '/assets/reference/entry-tutor.png' }
+    ],
+    proofSteps: proofFlow('report')
+  },
   parent: {
     badge: '家长视图',
-    title: '只看证据、判断和下一步',
-    subtitle: '家长不需要看完整过程。先看孩子的天赋/材料证据，再看今晚该怎么帮。',
+    title: '家长只看该问什么和下一步',
+    subtitle: '家长不需要替孩子学习，也不需要被制造焦虑。这里把报告结论、第一步证据和明天回访动作收成一张家庭行动卡。',
     heroImage: '/assets/reference/entry-parent.png',
-    primaryLabel: '查看详细报告',
+    primaryLabel: '打开家长中心',
     primaryRoute: '/pages/profile/profile?from=entry_parent_report&open=flow',
-    secondaryLabel: '补测评/错题材料',
+    secondaryLabel: '补一条证据',
     secondaryRoute: '/pages/upload/upload?from=entry_parent_material',
     cards: [
       { label: '证据来自哪里', value: '测评、成绩、错题、对话和复习记录。', icon: '/assets/reference/entry-report.png' },
@@ -100,16 +116,18 @@ const SCENES = {
 const SCENE_NAV = {
   today: { label: '今晚主线', image: '/assets/reference/entry-map.png' },
   upload: { label: '上传材料', image: '/assets/reference/entry-upload.png' },
+  report: { label: '个性化报告', image: '/assets/reference/entry-report.png' },
   tutor: { label: '原小点', image: '/assets/reference/entry-tutor.png' },
   review: { label: '复习小关', image: '/assets/reference/entry-review.png' },
-  parent: { label: '家长报告', image: '/assets/reference/entry-parent.png' }
+  parent: { label: '家长中心', image: '/assets/reference/entry-parent.png' }
 };
 
 const LOOP_NODES = [
   { key: 'upload', label: '上传', image: '/assets/reference/entry-upload.png' },
-  { key: 'parent', label: '报告', image: '/assets/reference/entry-report.png' },
+  { key: 'report', label: '报告', image: '/assets/reference/entry-report.png' },
   { key: 'tutor', label: '点拨', image: '/assets/reference/entry-tutor.png' },
-  { key: 'review', label: '回访', image: '/assets/reference/entry-review.png' }
+  { key: 'review', label: '回访', image: '/assets/reference/entry-review.png' },
+  { key: 'parent', label: '家长', image: '/assets/reference/entry-parent.png' }
 ];
 
 function buildSceneLinks(activeKey) {

@@ -118,12 +118,16 @@ const parentWxml = read('miniprogram/pages/profile/profile.wxml');
 const arcadeWxml = read('miniprogram/pages/arcade/arcade.wxml');
 const uploadWxml = read('miniprogram/pages/upload/upload.wxml');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-['today', 'tutor', 'review', 'parent', 'upload'].forEach((scene) => {
+['today', 'tutor', 'review', 'report', 'parent', 'upload'].forEach((scene) => {
   assert(entryDetailJs.includes(`${scene}: {`), `entry-detail supports child scene: ${scene}`);
 });
 assert(fs.existsSync(path.join(root, 'miniprogram/assets/brand/gudian-reader.png')), 'high-quality Gudian reader asset is available');
 assert(homeWxml.includes('class="mini-brand-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'home top brand uses the reference brand-house image, not a text placeholder');
 assert.strictEqual((homeWxml.match(/class="mini-entry-visual" mode="aspectFill"/g) || []).length, 6, 'home six entry illustrations fill their cards like the reference UI');
+assert.strictEqual((homeWxml.match(/class="mini-entry-card[\s\S]*?bindtap="openEntryDetail"/g) || []).length, 6, 'home six entry cards all open focused child scenes before running functional flows');
+['data-scene="upload"', 'data-scene="report"', 'data-scene="tutor"', 'data-scene="review"', 'data-scene="parent"', 'data-scene="today"'].forEach((sceneToken) => {
+  assert(homeWxml.includes(sceneToken), `home six-entry grid exposes child scene token: ${sceneToken}`);
+});
 assert(homeWxml.includes('mini-route-node') && homeWxml.includes('mini-route-icon'), 'home tonight route uses visual nodes and reference icons instead of old number/check boxes');
 ['entry-upload.png', 'entry-report.png', 'entry-tutor.png', 'entry-review.png', 'entry-parent.png'].forEach((asset) => {
   assert(homeWxml.includes(`/assets/reference/${asset}`), `home route rail uses reference asset: ${asset}`);
@@ -169,6 +173,7 @@ assert(entryDetailWxss.includes('env(safe-area-inset-top)'), 'entry-detail child
 assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail child page reserves bottom safe area');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
 assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
+assert(entryDetailJs.includes("report: {") && entryDetailJs.includes("badge: '个性化报告'"), 'entry-detail separates report evidence from parent-center actions');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'entry-detail child page cross-entry jumps render as a two-column visual grid');
 assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child page clamps hero copy to avoid a text wall');
 assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');

@@ -49,7 +49,7 @@ function literalValues(source, attr) {
 const appJson = JSON.parse(read('miniprogram/app.json'));
 const activePageRoutes = new Set((appJson.pages || []).map((item) => `/${item}`));
 const tabRoutes = new Set(((appJson.tabBar && appJson.tabBar.list) || []).map((item) => `/${item.pagePath}`));
-const allowedScenes = new Set(['today', 'upload', 'tutor', 'review', 'parent']);
+const allowedScenes = new Set(['today', 'upload', 'report', 'tutor', 'review', 'parent']);
 const retiredRoute = /\/pages\/(?:daily-math|dictation|light-diagnosis|focus|tools|module|radar|diagnosis)\//;
 
 const failures = [];

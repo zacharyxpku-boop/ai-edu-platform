@@ -64,11 +64,11 @@ const routeShellText = Object.values(files).join('\n') + '\n' + customTab;
   'openEntryDetail',
   'goProfile',
   'goReportPreview',
-  'goLearningMap',
   'runPlaybookAction'
 ].forEach((handler) => {
   assert(routeShellText.includes(handler), `route shell keeps clickable handler: ${handler}`);
 });
+assert(files.home.includes('data-scene="today"') && files.home.includes('bindtap="openEntryDetail"'), 'learning map entry opens a focused child scene before the route action');
 
 const arcadeJs = read('miniprogram/pages/arcade/arcade.js');
 assert(arcadeJs.includes('openEntryDetail') && arcadeJs.includes('entry-detail'), 'arcade routes review island cards through entry-detail');
