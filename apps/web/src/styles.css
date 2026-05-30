@@ -140,21 +140,20 @@ img {
   padding: 8px 4px 0;
 }
 
-.mascot-img,
-.mascot {
+.mascot-img {
   width: 100%;
   height: auto;
   border-radius: 24px;
 }
 
-.mascot {
-  min-height: 132px;
-  background:
-    url("../assets/reference/hero-mascot.png") center 54% / 112% auto no-repeat,
-    radial-gradient(circle at 35% 36%, rgba(255, 255, 255, 0.88), transparent 32%),
-    radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.6), transparent 22%),
-    linear-gradient(180deg, #eef8ef, #dff2df);
-  box-shadow: inset 0 0 0 1px rgba(34, 185, 92, 0.08), 0 18px 28px rgba(34, 58, 42, 0.08);
+.mascot-side {
+  width: 176px;
+  height: 148px;
+  object-fit: contain;
+  padding: 4px;
+  background: linear-gradient(180deg, #eef8ef, #dff2df);
+  border: 1px solid rgba(34, 185, 92, 0.08);
+  box-shadow: 0 18px 28px rgba(34, 58, 42, 0.08);
 }
 
 .buddy-card strong {
@@ -958,14 +957,6 @@ img {
   border-radius: 24px;
 }
 
-.entry-visual::before,
-.entry-visual::after,
-.entry-visual span {
-  content: "";
-  position: absolute;
-  display: block;
-}
-
 .entry-card.green .entry-visual {
   background-color: #effaf0;
 }
@@ -980,158 +971,6 @@ img {
 
 .entry-card.orange .entry-visual {
   background-color: #fff2eb;
-}
-
-.art-folder::before {
-  left: 18px;
-  top: 42px;
-  width: 76px;
-  height: 48px;
-  border-radius: 10px 10px 16px 16px;
-  background: linear-gradient(180deg, #74d971, #22b95c);
-  box-shadow: inset 0 -8px 0 rgba(11, 96, 47, 0.1);
-}
-
-.art-folder::after {
-  left: 22px;
-  top: 32px;
-  width: 42px;
-  height: 18px;
-  border-radius: 9px 12px 0 0;
-  background: #98e689;
-}
-
-.art-folder span,
-.art-report span,
-.art-map span {
-  display: none;
-}
-
-.art-folder {
-  background:
-    radial-gradient(circle at 72% 74%, #ffffff 0 13px, transparent 14px),
-    radial-gradient(circle at 72% 74%, #22b95c 0 22px, transparent 23px),
-    linear-gradient(180deg, #ffffff, #effaf0);
-}
-
-.art-report::before {
-  left: 30px;
-  top: 18px;
-  width: 54px;
-  height: 76px;
-  border: 3px solid #4c9fff;
-  border-radius: 14px;
-  background:
-    linear-gradient(90deg, #cfe7ff 0 20px, transparent 21px),
-    linear-gradient(#f8c622 0 0) 30px 20px / 15px 15px no-repeat,
-    linear-gradient(#22b95c 0 0) 30px 42px / 15px 15px no-repeat,
-    #ffffff;
-  box-shadow: 0 10px 18px rgba(76, 159, 255, 0.18);
-}
-
-.art-report::after {
-  right: 14px;
-  bottom: 14px;
-  width: 36px;
-  height: 36px;
-  border: 5px solid #4c9fff;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 13px 13px 0 -6px #4c9fff;
-}
-
-.art-bot::before {
-  left: 24px;
-  top: 36px;
-  width: 64px;
-  height: 48px;
-  border-radius: 24px 24px 18px 18px;
-  background: #1f2a24;
-  box-shadow: 0 12px 20px rgba(31, 42, 36, 0.16);
-}
-
-.art-bot::after {
-  left: 42px;
-  top: 51px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #8dffb2;
-  box-shadow: 21px 0 0 #8dffb2, 40px -24px 0 -3px #22b95c;
-}
-
-.art-gamepad::before {
-  left: 17px;
-  top: 46px;
-  width: 78px;
-  height: 44px;
-  border-radius: 18px 18px 28px 28px;
-  background: linear-gradient(180deg, #ffd84a, #f8b617);
-  box-shadow: 0 14px 22px rgba(248, 198, 34, 0.2);
-}
-
-.art-gamepad::after {
-  left: 34px;
-  top: 58px;
-  width: 28px;
-  height: 8px;
-  border-radius: 8px;
-  background: #2a3440;
-  box-shadow:
-    10px -10px 0 -1px #2a3440,
-    10px 10px 0 -1px #2a3440,
-    50px -2px 0 -1px #22b95c,
-    64px -9px 0 -2px #ff7a45,
-    65px 8px 0 -2px #4c9fff;
-}
-
-.art-family::before {
-  left: 16px;
-  bottom: 19px;
-  width: 80px;
-  height: 48px;
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 22px 16px, #ffd9bd 0 11px, transparent 12px),
-    radial-gradient(circle at 42px 11px, #ffd9bd 0 12px, transparent 13px),
-    radial-gradient(circle at 60px 19px, #ffd9bd 0 10px, transparent 11px),
-    linear-gradient(90deg, #ff9c6a 0 33%, #3f94e8 33% 66%, #22b95c 66%);
-  box-shadow: 0 12px 20px rgba(255, 122, 69, 0.15);
-}
-
-.art-family::after {
-  left: 26px;
-  top: 35px;
-  width: 60px;
-  height: 18px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 6px 7px, #5a3926 0 5px, transparent 6px),
-    radial-gradient(circle at 28px 5px, #5a3926 0 6px, transparent 7px),
-    radial-gradient(circle at 50px 8px, #5a3926 0 5px, transparent 6px);
-}
-
-.art-map::before {
-  left: 20px;
-  top: 28px;
-  width: 72px;
-  height: 64px;
-  clip-path: polygon(0 8%, 32% 0, 66% 8%, 100% 0, 100% 92%, 68% 100%, 34% 92%, 0 100%);
-  background:
-    linear-gradient(130deg, transparent 0 38%, rgba(76, 159, 255, 0.55) 39% 45%, transparent 46%),
-    linear-gradient(35deg, transparent 0 48%, rgba(34, 185, 92, 0.55) 49% 55%, transparent 56%),
-    linear-gradient(90deg, #dff3d9 0 34%, #ffffff 34% 66%, #dcefff 66%);
-  box-shadow: 0 12px 20px rgba(34, 185, 92, 0.12);
-}
-
-.art-map::after {
-  right: 26px;
-  top: 22px;
-  width: 22px;
-  height: 34px;
-  border-radius: 8px 8px 8px 0;
-  background: #ff7a45;
-  box-shadow: -12px 4px 0 -7px #14854a;
 }
 
 .entry-card strong,

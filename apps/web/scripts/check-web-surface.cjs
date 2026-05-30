@@ -287,6 +287,22 @@ if (appJs.includes('⇧ 选择文件')) {
   fail('web upload CTA must not use symbolic arrow text from the old design');
 }
 
+for (const retiredVisualCss of [
+  '.art-folder',
+  '.art-report',
+  '.art-bot',
+  '.art-gamepad',
+  '.art-family',
+  '.art-map',
+  '.entry-visual::before',
+  '.entry-visual::after',
+  '.mascot {'
+]) {
+  if (appHtml.includes(retiredVisualCss) || appJs.includes(retiredVisualCss) || appCss.includes(retiredVisualCss)) {
+    fail(`web UI must not keep retired CSS-drawn visual system: ${retiredVisualCss}`);
+  }
+}
+
 for (const requiredCss of [
   '.brand-mark',
   '.nav-list a img',
