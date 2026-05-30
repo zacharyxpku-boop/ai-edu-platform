@@ -31,7 +31,7 @@ const screens = {
   ['review', files.reviewWxml, 'yd-review-screen', 'reviewViewModel.title', 'reviewViewModel.primaryCta.text', 'review-challenge-grid'],
   ['tutor', files.tutorWxml, 'yd-tutor-screen', 'tutor-entry-grid', 'openEntryDetail', 'tutor-entry-grid'],
   ['arcade', files.arcadeWxml, 'yd-arcade-screen', 'ux-kit-jump-grid', 'openEntryDetail', 'ux-kit-jump-grid'],
-  ['profile', files.profileWxml, 'yd-parent-screen', 'profileViewModel.title', 'profileViewModel.primaryCta', 'yd-parent-evidence']
+  ['profile', files.profileWxml, 'yd-parent-screen', 'profileViewModel.title', 'profileViewModel.primaryCta', 'yd-parent-sources']
 ].forEach(([name, wxml, shell, title, cta, jump]) => {
   assert(wxml.includes(shell), `${name} renders the new reference shell`);
   assert(wxml.includes(title), `${name} first screen keeps the one main question`);
@@ -60,7 +60,7 @@ assert(files.arcadeWxml.includes('arcade-map-icon'), 'arcade route map is icon b
 assert(!files.arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'arcade route map does not show old numbered boxes');
 
 assert(!files.profileWxml.includes('profileViewModel.growthMemoryCard') && files.profileViewModelJs.includes('growthMemoryCard'), 'profile keeps memory in logic instead of another visible card');
-assert(files.profileWxml.includes('yd-parent-route'), 'profile shows family next step as a compact route');
+assert(files.profileWxml.includes('yd-parent-loop'), 'profile shows family next step as a compact route');
 
 const visibleTabCopy = Object.values(screens).join('\n');
 [

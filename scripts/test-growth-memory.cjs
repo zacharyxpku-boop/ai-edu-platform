@@ -156,7 +156,7 @@ assert(!entryDetailWxml.includes('{{growthMemory.revisit}}'), 'revisit keeps gro
 assert(homeJs.includes('getGrowthMemoryLine'), 'home uses human growth memory line helper');
 assert(!profileWxml.includes("profileViewModel.growthMemoryCard") && profileViewModelJs.includes("growthMemoryCard"), "profile keeps weekly memory in the view-model without rendering another first-screen card");
 assert(profileViewModelJs.includes('再用几晚后'), 'profile memory card avoids fake trend claims when evidence is thin');
-assert(!profileWxml.includes("growth-memory-card") && profileWxml.includes("yd-parent-route"), "weekly memory no longer renders as a separate card on the compact parent shell");
+assert(!profileWxml.includes("growth-memory-card") && profileWxml.includes("yd-parent-loop"), "weekly memory no longer renders as a separate card on the compact parent shell");
 assert(!profileWxml.includes('parent-report-capability-panel'), 'weekly memory no longer points to the retired detailed report panel');
 assert(profileJs.includes('buildWeeklyGrowthMemory'), 'profile builds weekly memory from shared helper');
 assert(!profileJs.includes("selectedCompanion === 'aheng'") && !profileJs.includes("selectedCompanion === 'tuantuan'"), 'profile does not hard-bind memory to 阿衡 or 团团');

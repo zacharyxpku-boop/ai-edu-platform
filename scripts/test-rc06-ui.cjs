@@ -27,8 +27,8 @@ assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-ch
 assert(reviewWxml.includes('review-main-cta') && reviewWxml.includes('review-challenge-grid'), 'review keeps primary action and compact visual entry cards');
 assert(reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && reviewWxml.includes('review-challenge-card'), 'review keeps the actionable verdict and compact challenge cards');
 
-assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'profile uses the new parent evidence shell');
-assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('yd-parent-route'), 'profile keeps report preview and next-step jump cards');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'profile uses the new parent evidence shell');
+assert(profileWxml.includes('yd-parent-decision') && profileWxml.includes('yd-parent-loop'), 'profile keeps report preview and next-step jump cards');
 assert(!profileWxml.includes('parent-report-capability-panel'), 'profile retired detailed evidence ledger is not rendered');
 
 [homeWxss, tutorWxss, arcadeWxss, reviewWxss, profileWxss].forEach((css) => {

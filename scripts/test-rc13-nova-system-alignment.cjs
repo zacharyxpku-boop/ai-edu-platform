@@ -129,7 +129,7 @@ assert(files.arcadeWxml.includes("data-scene=\"tutor\""), "arcade routes empty r
 assert(!files.arcadeWxml.includes("鎻愬彇璁板繂") && !files.arcadeWxml.includes("姝ラ椤哄簭") && !files.arcadeWxml.includes("姒傚康杈圭晫"), "arcade avoids heavy memory taxonomy");
 
 assert(files.profileWxml.includes("{{profileViewModel.title}}") && files.profileViewModelJs.includes("title:"), "profile keeps the parent one-question heading");
-assert(files.profileWxml.includes("yd-parent-screen") && files.profileWxml.includes("yd-parent-evidence") && files.profileWxml.includes("profileViewModel.title") && files.profileViewModelJs.includes("title:"), "profile main card keeps the parent recap shell");
+assert(files.profileWxml.includes("yd-parent-screen") && files.profileWxml.includes("yd-parent-sources") && files.profileWxml.includes("profileViewModel.title") && files.profileViewModelJs.includes("title:"), "profile main card keeps the parent recap shell");
 assert(!files.profileWxml.includes("profileViewModel.growthMemoryCard") && files.profileViewModelJs.includes("proofSummary"), "profile memory stays in logic instead of becoming another visible card");
 assert(!files.profileWxml.includes('error-distribution'), 'profile removes dashboard-style error distribution');
 

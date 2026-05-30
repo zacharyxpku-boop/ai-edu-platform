@@ -148,10 +148,10 @@ const checks = [
       && standard.evidenceProtocol.selectedCaseIds.includes('mixed_materials')
       && standard.methodologyBackbone.some((item) => item.id === 'socratic')
       && standard.methodologyBackbone.some((item) => item.id === 'retrieval_spaced')
-      && profileWxml.includes('个性化报告预览')
-      && profileWxml.includes('证据来源')
-      && profileWxml.includes('天赋画像')
-      && profileWxml.includes('回访验证方法有效性')
+      && profileWxml.includes('今晚结论')
+      && profileWxml.includes('判断依据')
+      && profileWxml.includes('资料')
+      && profileWxml.includes('家长看回访')
     ),
     evidence: [
       `标准版本：${preview.standardVersion}`,
@@ -203,9 +203,9 @@ const checks = [
     passed: !!(
       profileJs.includes('personalizedParentReportCompetitorBenchmarks')
       && profileJs.includes('personalizedParentReportMiniappPlan')
-      && profileWxml.includes('家长今晚只看三件事')
-      && profileWxml.includes('证据从哪来、孩子卡在哪、明天怎么验证')
-      && profileWxml.includes('下一证据')
+      && profileWxml.includes('今晚只看一个决策')
+      && profileWxml.includes('不靠感觉下结论')
+      && profileWxml.includes('下一步')
     ),
     evidence: [
       '家长页展示报告标准、导出规则、闭环动作和下一证据。',

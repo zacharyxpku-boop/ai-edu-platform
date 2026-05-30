@@ -226,9 +226,9 @@ function renderParent() {
     ${sceneSwitch('parent')}
     <section class="parent-dashboard"><article class="student-parent-card card"><div class="student-face"><img src="${referenceAsset('entry-parent.png')}" alt="孩子画像"></div><div><h2>小明（四年级）</h2><p>数学 · 本周复盘</p><strong>孩子不是不会学，是方法还没有稳定匹配。</strong></div><img class="parent-mini-mascot" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article><article class="weekly-overview card"><h2>本周学习概览 <small>7 天</small></h2><div class="overview-metrics"><span><i class="blue-dot"></i><b>5.6</b>小时<em>较上周 +1.2</em></span><span><i class="green-dot"></i><b>18</b>/24<em>任务完成</em></span><span><i class="orange-dot"></i><b>84%</b><em>回访正确率</em></span></div></article></section>
     ${pageGuide('parent')}
-    <section class="evidence-summary card"><div class="card-head"><h3>证据汇总</h3><button class="soft-button mini" data-action="parent-evidence-all">查看全部证据</button></div><div class="parent-evidence-grid">${evidence.map(([title, main, sub, image]) => `<article><img src="${referenceAsset(image)}" alt=""><div><h3>${title}</h3><b>${main}</b><p>${sub}</p></div></article>`).join('')}</div></section>
+    <section class="parent-proof-console card"><div class="card-head"><h3>证据判断台</h3><button class="soft-button mini" data-action="parent-proof-all">查看全部证据</button></div><div class="parent-proof-grid">${evidence.map(([title, main, sub, image]) => `<article><img src="${referenceAsset(image)}" alt=""><div><h3>${title}</h3><b>${main}</b><p>${sub}</p></div></article>`).join('')}</div></section>
     <section class="parent-action-grid"><article class="tonight-question card"><h2>今晚该问什么？</h2><ol><li>今天你学到最有意思的是什么？</li><li>哪道题一开始没想到，后来怎么想通的？</li><li>哪个知识点还不熟，想再练一练？</li></ol><button class="primary-cta" data-action="parent-question">保存今晚问题</button></article><article class="method-advice card"><h2>方法建议</h2><ul><li><b>先复盘再学习：</b>先让孩子说思路，再看答案和解析。</li><li><b>用“讲给你听”：</b>让孩子把思路讲给你听，能更好发现盲点。</li><li><b>鼓励具体：</b>具体表扬努力或策略，会更有效。</li></ul><button class="soft-button" data-action="parent-methods">查看更多方法建议</button></article></section>
-    <section class="parent-bottom-grid"><article class="fixed-points card"><h2>已修复卡点</h2><p>单位换算、应用题审题、小数加减法。</p><button class="soft-button" data-action="parent-evidence">查看修复记录</button></article><article class="watch-list card"><h2>待关注问题</h2><p>多步计算、长题审题和表达完整度。</p><button class="soft-button" data-action="parent-evidence-all">去专项练习</button></article></section>
+    <section class="parent-next-grid"><article class="parent-resolved-card card"><h2>已修复卡点</h2><p>单位换算、应用题审题、小数加减法。</p><button class="soft-button" data-action="parent-proof">查看修复记录</button></article><article class="parent-watch-card card"><h2>待关注问题</h2><p>多步计算、长题审题和表达完整度。</p><button class="soft-button" data-action="parent-proof-all">去专项练习</button></article></section>
   `;
 }
 
@@ -294,8 +294,8 @@ function handleAction(action, target) {
   else if (action === 'review-level') showToast(`已进入${target?.dataset.level || '复习关卡'}。`);
   else if (action === 'review-challenge') showToast(`变式挑战已打开：先说第一步再作答。`);
   else if (action === 'parent-question') showToast('今晚问题已保存，明天会回访证据。');
-  else if (action === 'parent-evidence') showToast('已打开本周修复证据。');
-  else if (action === 'parent-evidence-all') showToast('已展开全部学习证据。');
+  else if (action === 'parent-proof') showToast('已打开本周修复证据。');
+  else if (action === 'parent-proof-all') showToast('已展开全部学习证据。');
   else if (action === 'parent-methods') showToast('已打开家长支持方法清单。');
   else if (action === 'student-menu') showToast('当前为小明（四年级）样例档案。');
   else if (action === 'notifications') showToast('今日有 3 条学习提醒。');

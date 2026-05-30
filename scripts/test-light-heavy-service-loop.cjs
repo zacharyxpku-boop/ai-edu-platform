@@ -28,7 +28,7 @@ assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('bindt
 assert(entryDetailJs.includes("primaryRoute: '/pages/tutor/tutor") && entryDetailJs.includes("primaryRoute: '/pages/review/review"), 'Entry detail sends light actions into active tutor/review pages');
 assert(tutorWxml.includes('yd-tutor-screen'), 'Tutor owns first-step work in the active shell');
 assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'Review owns recall and transfer in the active shell');
-assert(!profileWxml.includes('focusCabinSummary') && profileWxml.includes('yd-parent-evidence'), 'Profile exposes parent evidence without the retired focus cabin panel');
+assert(!profileWxml.includes('focusCabinSummary') && profileWxml.includes('yd-parent-sources'), 'Profile exposes parent evidence without the retired focus cabin panel');
 
 const visible = [homeWxml, entryDetailWxml, tutorWxml, reviewWxml, profileWxml].join('\n');
 ['PK', '冲榜', '排名', '提分', '秒解答案', '答案已生成', '必须打卡'].forEach((term) => {

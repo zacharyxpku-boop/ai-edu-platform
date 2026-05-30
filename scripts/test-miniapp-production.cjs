@@ -289,7 +289,7 @@ async function main() {
   assert.ok(homePage.includes("event: 'share_clicked'"), 'home page records incoming share clicks for growth attribution');
   assert.ok(homePage.includes("navigation.navigateLearningRoute(url)") && homePage.includes("'/pages/tutor/tutor?from=home'"), 'home primary AI input opens Xiaodian tutor through tab-safe navigation');
   assert.ok(homePage.includes('trackShareActivation') && homePage.includes("event,") && homePage.includes('share_code: incoming.share_code'), 'home attaches share attribution to activation events');
-  assert.ok(profileWxml.includes('parent-report-preview') && profileWxml.includes('/assets/reference/entry-report.png'), 'profile first screen promotes a visual parent report evidence preview');
+  assert.ok(profileWxml.includes('yd-parent-decision') && profileWxml.includes('/assets/reference/entry-report.png'), 'profile first screen promotes a visual parent report evidence preview');
   assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
   const profilePage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/profile/profile.js'), 'utf8');
   const leadApi = fs.readFileSync(path.join(ROOT, 'api/lead.js'), 'utf8');
@@ -307,7 +307,7 @@ async function main() {
   assert.ok(tutorWxml.includes('tutor-primary') && tutorWxml.includes('openEntryDetail'), 'tutor exposes a focused first-step child flow action');
   assert.ok(radarPage.includes('buildParentReport') && radarPage.includes('buildWeeklyGrowthMemory'), 'profile replaces retired radar with parent weekly evidence');
   assert.ok(radarPage.includes('saveLocalFeedback'), 'profile records family feedback locally');
-  assert.ok(radarWxml.includes('yd-parent-evidence') && radarWxml.includes('parent-report-preview'), 'profile exposes report/evidence controls');
+  assert.ok(radarWxml.includes('yd-parent-sources') && radarWxml.includes('yd-parent-decision'), 'profile exposes report/evidence controls');
 
   console.log('All miniapp production hardening checks pass.');
 }

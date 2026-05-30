@@ -21,8 +21,8 @@ assert((homeWxml.match(/bindtap="openEntryDetail"/g) || []).length >= 6 && homeW
 
 assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail replaces retired child pages');
 assert(entryDetailWxml.includes('entry-primary') && entryDetailWxml.includes('entry-secondary'), 'Entry detail child scenes have clear actions');
-assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'Profile first screen is parent evidence oriented');
-assert(profileWxml.includes('profileViewModel.primaryCta') && profileWxml.includes('yd-parent-route'), 'Profile keeps one CTA and family next step');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'Profile first screen is parent evidence oriented');
+assert(profileWxml.includes('profileViewModel.primaryCta') && profileWxml.includes('yd-parent-loop'), 'Profile keeps one CTA and family next step');
 assert(profileJs.includes('saveLocalFeedback'), 'Profile feedback is local instead of customer service chat');
 
 assert(reviewWxml.includes('yd-review-screen') && !reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair without rendering dense blackboard evidence in the new shell');

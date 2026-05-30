@@ -21,7 +21,7 @@ assert(homeJs.includes('yesterdayReviewCard') && homeJs.includes('continueYester
 assert(homeWxml.includes('route-next-lite') && homeWxml.includes('runHomeNextStep'), 'home renders a compact cross-day next-step route');
 assert(reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && reviewWxml.includes('review-challenge-card'), 'review carries the repaired first-step evidence as compact actions');
 assert(tutorWxml.includes('tutor-entry-grid') && arcadeWxml.includes('data-scene="tutor"'), 'tutor and arcade can continue or return to the first step');
-assert(profileWxml.includes('yd-parent-route'), 'profile closes the loop with a family next step');
+assert(profileWxml.includes('yd-parent-loop'), 'profile closes the loop with a family next step');
 assert(storageJs.includes('isYesterday') && storageJs.includes('archiveYesterdaySession'), 'storage supports cross-day review boundary');
 
 console.log('All single-loop punchthrough tests pass.');

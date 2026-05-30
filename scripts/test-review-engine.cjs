@@ -770,9 +770,9 @@ function run() {
   assert(profileJs.includes('buildParentReport'), 'profile page builds learner progress report');
   assert(profileJs.includes('buildTutorProcessSummary'), 'profile page builds parent-visible tutor process summary');
   assert(profileJs.includes('runParentReportAction'), 'profile page can route learner profile actions');
-  assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'profile page uses the new parent evidence shell');
+  assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'profile page uses the new parent evidence shell');
   assert(!retiredDeviceChromePattern.test(profileWxml), 'profile page does not render fake device status UI');
-  assert(profileWxml.includes('yd-parent-action-row') && profileWxml.includes('parent-report-preview'), 'profile page offers parent recap and evidence review entry buttons');
+  assert(profileWxml.includes('yd-parent-action-row') && profileWxml.includes('yd-parent-decision'), 'profile page offers parent recap and evidence review entry buttons');
   assert(!profileWxml.includes('parent-report-capability-panel'), 'profile page does not render the retired detailed report ledger panel');
   const activePageCopy = [homeWxml, entryDetailWxmlForCta, reviewWxml, arcadeWxml, uploadWxml, profileWxml].join('\n');
   ['秒解', '拍照出答案', '核对答案', '拍题', '答案已生成', '直接答案'].forEach((term) => {

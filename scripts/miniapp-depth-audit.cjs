@@ -469,8 +469,8 @@ assert(Array.isArray(openMaicTaskPlan.miniLesson.blackboard.frames) && openMaicT
 assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHomeworkCoverageMatrix.contentExpansionQueue.length >= 7, 'Real homework matrix exposes subject-level content expansion queue');
 
 [
-  'parent-report-preview',
-  'yd-parent-evidence-grid',
+  'yd-parent-decision',
+  'yd-parent-source-row',
   'tutor-ladder',
   'tutor-entry-card',
   'mini-report-card',

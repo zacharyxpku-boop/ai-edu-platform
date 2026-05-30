@@ -180,7 +180,7 @@ Object.entries(tabStartupExpectations).forEach(([pagePath, fields]) => {
       return;
     }
     if (pagePath === 'pages/profile/profile') {
-      assert(wxml.includes('yd-parent-screen') && wxml.includes('parent-report-preview'), `${pagePath} WXML renders the new parent report launch shell`);
+      assert(wxml.includes('yd-parent-screen') && wxml.includes('yd-parent-decision'), `${pagePath} WXML renders the new parent report launch shell`);
       return;
     }
     if (pagePath === 'pages/review/review') {

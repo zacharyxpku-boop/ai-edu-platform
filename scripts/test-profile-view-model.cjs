@@ -23,11 +23,11 @@ const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js')
 
 [
   'yd-parent-screen',
-  'yd-parent-evidence',
-  'parent-report-preview',
+  'yd-parent-sources',
+  'yd-parent-decision',
   'yd-parent-action-row',
-  'yd-parent-route',
-  'yd-parent-route'
+  'yd-parent-loop',
+  'yd-parent-loop'
 ].forEach((token) => {
   assert(profileWxml.includes(token), `profile WXML keeps new-shell capability: ${token}`);
 });

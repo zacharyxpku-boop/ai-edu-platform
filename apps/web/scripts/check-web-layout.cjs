@@ -442,8 +442,8 @@ async function inspectActions(debugPort, base) {
     await clickAction('review', '[data-action="review-challenge"][data-level="变式挑战"]', 'review challenge');
     await clickAction('review', '[data-action="start-review"]', 'start review');
     await clickAction('parent', '[data-action="parent-question"]', 'parent question');
-    await clickAction('parent', '[data-action="parent-evidence"]', 'parent evidence');
-    await clickAction('parent', '[data-action="parent-evidence-all"]', 'parent evidence all');
+    await clickAction('parent', '[data-action="parent-proof"]', 'parent evidence');
+    await clickAction('parent', '[data-action="parent-proof-all"]', 'parent evidence all');
     await clickAction('parent', '[data-action="parent-methods"]', 'parent methods');
   } finally {
     cdp.close();

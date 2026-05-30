@@ -150,7 +150,7 @@ assert.ok(files.homeWxml.includes('mini-route-card') && files.homeWxml.includes(
 assert.ok(files.homeWxml.includes('mini-entry-grid') && files.homeWxml.includes('openEntryDetail'), 'home keeps clear child-flow entry jumps in the new launch shell');
 assert.ok(files.reviewWxml.includes('review-main-cta') && files.reviewWxml.includes('runPlaybookAction'), 'review keeps a direct challenge CTA in the new visual launch shell');
 assert.ok(files.entryDetailWxml.includes('entry-jump-grid') && files.entryDetailJs.includes('const SCENES') && files.revisitViewModelJs.includes('先去说第一步'), 'entry-detail replaces the retired tools shell while preserving the stuck-point state model');
-assert.ok(['yd-parent-evidence', 'parent-report-preview', 'yd-parent-route'].every((token) => files.profileWxml.includes(token)), 'profile shows a condensed parent-readable route summary in the new launch shell');
+assert.ok(['yd-parent-sources', 'yd-parent-decision', 'yd-parent-loop'].every((token) => files.profileWxml.includes(token)), 'profile shows a condensed parent-readable route summary in the new launch shell');
 
 ['排顺序', '说第一步', '修卡点', '轻回访', '家长看'].forEach((label) => {
   assert.ok(allPageCopy.includes(label), `route stage ${label} is visible in tab pages`);
@@ -172,9 +172,9 @@ assert.ok(
 );
 assert.ok(files.entryDetailWxml.includes('entry-secondary') && files.revisitViewModelJs.includes('回看昨天那一步') && files.revisitViewModelJs.includes('轻轻回看'), 'review revisit state remains available without the retired tools page');
 assert.ok(
-  files.profileWxml.includes('yd-parent-evidence')
-    && files.profileWxml.includes('parent-report-preview')
-    && files.profileWxml.includes('yd-parent-route')
+  files.profileWxml.includes('yd-parent-sources')
+    && files.profileWxml.includes('yd-parent-decision')
+    && files.profileWxml.includes('yd-parent-loop')
     && files.profileViewModelJs.includes('今晚孩子卡在')
     && files.profileViewModelJs.includes('家长只问一句')
     && files.profileViewModelJs.includes('信任边界'),

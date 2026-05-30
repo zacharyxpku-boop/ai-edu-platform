@@ -311,9 +311,9 @@ assert(miniLesson.executionContract && Array.isArray(miniLesson.recoveryBranches
 const profileJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.js'), 'utf8');
 const profileWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.wxml'), 'utf8');
 assert(profileJs.includes('openMaicMiniLessonReport') && profileJs.includes('openMaicHomeSchoolMiniLessonPacket'), 'profile summary carries mini-lesson report and home-school packet');
-assert(profileJs.includes('openMaicMiniLessonReport') && profileWxml.includes('yd-parent-evidence'), 'profile keeps mini-lesson family decision evidence behind the new parent evidence panel');
-assert(profileJs.includes('openMaicMiniLessonTopicLabel') && profileWxml.includes('parent-report-preview'), 'profile keeps topic-card evidence behind the new report preview');
-assert(profileJs.includes('openMaicMiniLessonActiveRecallLadder') && profileWxml.includes('yd-parent-route'), 'profile keeps active-recall ladder in logic and shows the compact parent route');
+assert(profileJs.includes('openMaicMiniLessonReport') && profileWxml.includes('yd-parent-sources'), 'profile keeps mini-lesson family decision evidence behind the new parent evidence panel');
+assert(profileJs.includes('openMaicMiniLessonTopicLabel') && profileWxml.includes('yd-parent-decision'), 'profile keeps topic-card evidence behind the new report preview');
+assert(profileJs.includes('openMaicMiniLessonActiveRecallLadder') && profileWxml.includes('yd-parent-loop'), 'profile keeps active-recall ladder in logic and shows the compact parent route');
 
 assert(tutorJs.includes('renderGate.canRender') && tutorWxml.includes('yd-tutor-screen'), 'tutor keeps render-gate logic while rendering the compact hero shell');
 assert(tutorJs.includes('diagnosticReceipt.miniLesson.renderGate') && tutorJs.includes('diagnosticReceipt.miniLesson.renderGate.canRender'), 'tutor only writes mini-lesson review seeds after the same render gate');

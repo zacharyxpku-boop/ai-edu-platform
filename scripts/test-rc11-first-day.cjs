@@ -34,7 +34,7 @@ assert(files.arcadeWxml.includes('yd-arcade-screen') && files.arcadeWxml.include
 assert(files.arcadeWxml.includes('data-scene="tutor"') && files.arcadeWxml.includes('data-scene="parent"'), 'arcade routes back to tutor and parent evidence instead of a retired tools page');
 
 assert(files.profileWxml.includes('yd-parent-screen'), 'profile uses the new parent shell');
-assert(files.profileWxml.includes('yd-parent-route') && files.profileVm.includes('oneNightProof'), 'profile keeps the family next-step proof line');
+assert(files.profileWxml.includes('yd-parent-loop') && files.profileVm.includes('oneNightProof'), 'profile keeps the family next-step proof line');
 assert(!files.profileWxml.includes('growth-memory-card') && files.profileVm.includes('growthMemoryCard'), 'profile keeps growth memory in logic without rendering another card');
 
 [

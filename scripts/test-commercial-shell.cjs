@@ -30,8 +30,8 @@ assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('yd-revi
 assert(arcadeJs.includes('openMaicBridgeStatus') && arcadeWxml.includes('yd-arcade-screen'), 'Arcade preserves upload decision-bridge status in logic while keeping compact shell');
 assert(!reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel'), 'Review does not render receiver own-material relay panel on compact first screen');
 
-assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'Profile is parent evidence oriented');
-assert(!profileWxml.includes('鏈嶅姟鐘舵€?') && profileWxml.includes('yd-parent-route'), 'Profile keeps service readiness out of the compact first screen');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'Profile is parent evidence oriented');
+assert(!profileWxml.includes('鏈嶅姟鐘舵€?') && profileWxml.includes('yd-parent-loop'), 'Profile keeps service readiness out of the compact first screen');
 assert(profileJs.includes('uploadedMaterialDecisionDossierMethodValidationStages') && !profileWxml.includes('uploadedMaterialDecisionDossierMethodValidationStages'), 'Profile keeps method validation chain in logic without rendering a ledger');
 assert(!profileWxml.includes('uploadedMaterialDecisionDossierMethodValidationReleaseRule'), 'Profile does not render method release ledger on compact first screen');
 assert(learningReport.includes('methodValidationStages') && learningReport.includes('methodCandidateCards'), 'Learning report carries method validation and candidate methods');

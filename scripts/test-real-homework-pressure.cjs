@@ -907,7 +907,7 @@ assert(localAiRunway.blockedClaims.includes('full_ai_classroom') && localAiRunwa
 const profilePageJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.js'), 'utf8');
 const profilePageWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.wxml'), 'utf8');
 assert(profilePageJs.includes('realHomeworkLocalAiRunwayModules') && profilePageJs.includes('realHomeworkLocalAiResourceCoverage'), 'profile page exposes local/AI runway modules and resource coverage to the report view');
-assert(profilePageWxml.includes('yd-parent-evidence') && profilePageWxml.includes('parent-report-preview') && profilePageWxml.includes('yd-parent-action-row'), 'profile report renders the new parent evidence preview and next-action copy');
+assert(profilePageWxml.includes('yd-parent-sources') && profilePageWxml.includes('yd-parent-decision') && profilePageWxml.includes('yd-parent-action-row'), 'profile report renders the new parent evidence preview and next-action copy');
 const unifiedSourceRegistry = realHomeworkCoverage.buildUnifiedK12SourceRegistry();
 const curriculumAssetSourceAudit = realHomeworkCoverage.buildCurriculumAssetSourceAudit({ registry: unifiedSourceRegistry });
 assert(unifiedSourceRegistry.length >= PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER.length + 4, 'unified source registry includes OER/public rows plus textbook, learning-asset, generated-question, and family-upload sources');

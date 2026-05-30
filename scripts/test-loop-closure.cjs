@@ -106,7 +106,7 @@ assert(tutorWxml.includes('yd-tutor-screen') && tutorJs.includes('openEntryDetai
 assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'Review handles recall and transfer');
 assert(profileJs.includes('profileEmptyGuide') && profileWxml.includes('yd-parent-screen'), 'Profile empty state and parent shell are present');
 assert(profileJs.includes('buildParentReport') && profileJs.includes('buildWeeklyGrowthMemory'), 'Profile builds parent report and weekly memory from real evidence');
-assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('yd-parent-route'), 'Profile first screen keeps report preview and next route modules');
+assert(profileWxml.includes('yd-parent-decision') && profileWxml.includes('yd-parent-loop'), 'Profile first screen keeps report preview and next route modules');
 
 function isoDaysAgo(days) {
   return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();

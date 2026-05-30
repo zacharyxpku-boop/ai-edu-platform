@@ -168,7 +168,7 @@ const profileWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'p
 const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
 const arcadeJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.js'), 'utf8');
 
-assert(profileJs.includes('reportRevisitEvidence') && profileWxml.includes('复习回访') && profileWxml.includes('明天回访'), 'profile exposes report revisit validation through compact parent route cards');
+assert(profileJs.includes('reportRevisitEvidence') && profileWxml.includes('复习回访') && profileWxml.includes('明天'), 'profile exposes report revisit validation through compact parent route cards');
 assert(reviewJs.includes('recordReportRevisitEvidence') && reviewJs.includes('nextDayRevisit'), 'review completion writes report revisit evidence');
 assert(reviewJs.includes('resolveReportRevisitContext') && reviewJs.includes('reportSourceContext.reportId') && reviewJs.includes('evidenceThread.reportId'), 'review report revisit evidence keeps upload/report context even when focus lacks reportId');
 assert(reviewJs.includes('readyHandoff') && reviewJs.includes("handoff.status === 'ready'"), 'review tab route can resume upload report handoff even when switchTab drops query');

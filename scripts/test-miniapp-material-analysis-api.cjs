@@ -33,7 +33,7 @@ assert(uploadJsCode.includes('personalizedParentReportPreviewMeta') && uploadJsC
 assert(uploadWxmlCode.includes('家长报告') && uploadWxmlCode.includes('证据与方法匹配'), 'upload page exposes the parent report entry through the compact material grid');
 assert(profileJsCode.includes('personalizedParentReportStandardVersion') && profileJsCode.includes('personalizedParentReportSop'), 'profile summary exposes report standard version and SOP');
 assert(profileJsCode.includes('personalizedParentReportCompetitorBenchmarks') && profileJsCode.includes('personalizedParentReportMiniappPlan'), 'profile summary exposes competitor-informed closure plan');
-assert(profileWxmlCode.includes('个性化报告预览') && profileWxmlCode.includes('证据来源') && profileWxmlCode.includes('查看'), 'profile page renders personalized report guidance through the compact report preview');
-assert(profileWxmlCode.includes('今晚不用盯全程') && profileWxmlCode.includes('上传') && profileWxmlCode.includes('回访'), 'profile page renders competitor-informed closure as a compact route plan');
+assert(profileWxmlCode.includes('今晚结论') && profileWxmlCode.includes('判断依据') && profileWxmlCode.includes('查看'), 'profile page renders personalized report guidance through the compact report preview');
+assert(profileWxmlCode.includes('今晚只看一个决策') && profileWxmlCode.includes('资料进来') && profileWxmlCode.includes('家长看回访'), 'profile page renders competitor-informed closure as a compact route plan');
 
 console.log('Miniapp material analysis API tests pass.');
