@@ -125,6 +125,11 @@ const reviewWxml = read('miniprogram/pages/review/review.wxml');
 assert(fs.existsSync(path.join(root, 'miniprogram/assets/brand/gudian-reader.png')), 'high-quality Gudian reader asset is available');
 assert(homeWxml.includes('class="mini-brand-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'home top brand uses the reference brand-house image, not a text placeholder');
 assert.strictEqual((homeWxml.match(/class="mini-entry-visual" mode="aspectFill"/g) || []).length, 6, 'home six entry illustrations fill their cards like the reference UI');
+assert(homeWxml.includes('mini-route-node') && homeWxml.includes('mini-route-icon'), 'home tonight route uses visual nodes and reference icons instead of old number/check boxes');
+['entry-upload.png', 'entry-report.png', 'entry-tutor.png', 'entry-review.png', 'entry-parent.png'].forEach((asset) => {
+  assert(homeWxml.includes(`/assets/reference/${asset}`), `home route rail uses reference asset: ${asset}`);
+});
+assert(!homeWxml.includes('<view class="active"><text>3</text>'), 'home route rail never regresses to number-only active boxes');
 assert(tutorWxml.includes('/assets/brand/gudian-reader.png'), 'AI tutor uses the Gudian learning companion instead of a generic robot as the main guide');
 assert(tutorWxml.includes('class="tutor-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'AI tutor tab brand mark uses the visual reference asset instead of a robot emoji placeholder');
 assert(!tutorWxml.includes('<view class="tutor-dash-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
@@ -132,6 +137,11 @@ assert(tutorWxml.includes('tutor-ladder-node') && tutorWxml.includes('tutor-ladd
 assert(!tutorWxml.includes('<view class="active"><text>1</text>'), 'AI tutor flow ladder never regresses to number-only boxes');
 assert(arcadeWxml.includes('class="arcade-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(!arcadeWxml.includes('<view class="arcade-dash-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
+assert(arcadeWxml.includes('arcade-map-icon'), 'review island route map uses visual icons, not number-only nodes');
+['entry-review.png', 'entry-tutor.png', 'entry-map.png', 'entry-parent.png'].forEach((asset) => {
+  assert(arcadeWxml.includes(`/assets/reference/${asset}`), `review island route map uses reference asset: ${asset}`);
+});
+assert(!arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'review island route map never regresses to number-only boxes');
 assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
 assert(reviewWxml.includes('review-subcheck ux-kit-subcheck'), 'review child flow keeps a compact subcheck preview under the launch shell');
 assert(reviewWxml.includes('class="subcheck-main" data-scene="review" bindtap="openEntryDetail"'), 'review child flow main subcheck jumps into the shared child detail scene');
@@ -170,6 +180,7 @@ assert(!entryDetailWxml.includes('<view><text>1</text>'), 'entry-detail proof st
 const appWxss = read('miniprogram/app.wxss');
 const tabbarWxss = read('miniprogram/custom-tab-bar/index.wxss');
 const tabbarWxml = read('miniprogram/custom-tab-bar/index.wxml');
+const arcadeWxss = read('miniprogram/pages/arcade/arcade.wxss');
 auditTapHandlers();
 assert(appWxss.includes('.ux-kit-screen ~ .ux-kit-subcheck'), 'focused tab screens allow the compact subcheck preview to render');
 assert(appWxss.includes('grid-template-columns: minmax(0, 1fr)'), 'subcheck preview avoids squeezed two-column mobile composition');
@@ -181,6 +192,7 @@ const retiredTabbarClass = ['v', '1-tabbar'].join('');
 const retiredClassPattern = new RegExp(`\\b${['v', '1-'].join('')}|${['module', 'v', '1'].join('-')}`);
 assert(tabbarWxml.includes('yd-tabbar') && !tabbarWxml.includes(retiredTabbarClass), 'custom tabbar uses the current reference design shell');
 assert(!retiredClassPattern.test(appWxss + tabbarWxss + tabbarWxml + entryDetailWxml + entryDetailWxss), 'retired shell class names are removed from active miniapp screens');
+assert(!/mole-(grid|hole|face|label)/.test(arcadeWxml + arcadeWxss), 'retired mole arcade UI is removed from active review island code');
 
 const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
 [

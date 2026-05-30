@@ -616,53 +616,82 @@
 .mini-route-line {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12rpx;
+  gap: 10rpx;
   margin-top: 20rpx;
 }
 
-.mini-route-line view {
+.mini-route-node {
+  position: relative;
   min-width: 0;
-  padding: 16rpx 6rpx;
+  padding: 12rpx 6rpx 11rpx;
   display: grid;
   justify-items: center;
-  gap: 7rpx;
+  gap: 6rpx;
   border: 1rpx solid rgba(232, 238, 230, 0.95);
-  border-radius: 18rpx;
-  background: #f8faf5;
+  border-radius: 22rpx;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faf5 100%);
+  box-shadow: 0 10rpx 22rpx rgba(38, 58, 43, 0.06);
 }
 
-.mini-route-line text:first-child {
-  width: 48rpx;
-  height: 48rpx;
-  border-radius: 50%;
-  color: #5f6d65;
+.mini-route-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 42rpx;
+  left: calc(50% + 32rpx);
+  width: calc(100% - 38rpx);
+  height: 3rpx;
+  border-radius: 999rpx;
+  background: rgba(34, 185, 92, 0.22);
+}
+
+.mini-route-icon {
+  position: relative;
+  z-index: 1;
+  width: 58rpx;
+  height: 58rpx;
+  display: block;
+  border-radius: 20rpx;
   background: #ffffff;
-  font-size: 20rpx;
-  font-weight: 950;
-  line-height: 48rpx;
-  text-align: center;
+  box-shadow: 0 8rpx 16rpx rgba(38, 58, 43, 0.08);
 }
 
-.mini-route-line text:last-child {
-  color: #526158;
+.mini-route-node text {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-route-node text:nth-child(2) {
+  color: #25312a;
   font-size: 21rpx;
-  font-weight: 820;
+  font-weight: 950;
+  line-height: 1.15;
+}
+
+.mini-route-node text:nth-child(3) {
+  color: #526158;
+  font-size: 18rpx;
+  font-weight: 780;
   line-height: 1.2;
-  text-align: center;
 }
 
-.mini-route-line .done text:first-child {
-  color: #ffffff;
-  background: #22b95c;
+.mini-route-node.done {
+  background: linear-gradient(180deg, #ffffff 0%, #ecfaee 100%);
 }
 
-.mini-route-line .active {
-  background: #edf6ff;
+.mini-route-node.active {
+  border-color: rgba(76, 159, 255, 0.28);
+  background: linear-gradient(180deg, #ffffff 0%, #edf6ff 100%);
+  box-shadow: 0 14rpx 28rpx rgba(76, 159, 255, 0.12);
 }
 
-.mini-route-line .active text:first-child {
-  color: #ffffff;
-  background: #4c9fff;
+.mini-route-node.final {
+  background: linear-gradient(180deg, #ffffff 0%, #fff4eb 100%);
 }
 
 .mini-main-cta {
@@ -828,41 +857,28 @@
   margin-top: 18rpx;
 }
 
-.mini-route-line view {
-  position: relative;
-  padding: 8rpx 4rpx 4rpx;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+.mini-route-node {
+  padding: 10rpx 4rpx 9rpx;
+  border-radius: 20rpx;
 }
 
-.mini-route-line view:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 36rpx;
-  left: calc(50% + 34rpx);
-  width: calc(100% - 54rpx);
-  height: 2rpx;
-  border-top: 3rpx dashed rgba(77, 91, 102, 0.5);
+.mini-route-node:not(:last-child)::after {
+  top: 39rpx;
+  left: calc(50% + 30rpx);
+  width: calc(100% - 36rpx);
 }
 
-.mini-route-line text:first-child {
-  width: 64rpx;
-  height: 64rpx;
-  color: #ffffff;
-  background: #f8c622;
-  font-size: 22rpx;
-  line-height: 64rpx;
-  box-shadow: 0 10rpx 22rpx rgba(38, 58, 43, 0.1);
+.mini-route-icon {
+  width: 54rpx;
+  height: 54rpx;
 }
 
-.mini-route-line text:last-child {
-  color: #17211d;
-  font-size: 22rpx;
+.mini-route-node text:nth-child(2) {
+  font-size: 20rpx;
 }
 
-.mini-route-line .active {
-  background: transparent;
+.mini-route-node text:nth-child(3) {
+  font-size: 17rpx;
 }
 
 .mini-main-cta {

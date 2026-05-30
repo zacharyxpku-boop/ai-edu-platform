@@ -26,10 +26,26 @@
           <text>短、轻、可回访</text>
         </view>
         <view class="arcade-map-line">
-          <view class="arcade-map-node active"><text>1</text><text>回忆</text></view>
-          <view class="arcade-map-node active"><text>2</text><text>核对</text></view>
-          <view class="arcade-map-node"><text>3</text><text>变式</text></view>
-          <view class="arcade-map-node"><text>4</text><text>回流</text></view>
+          <view class="arcade-map-node active">
+            <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-review.png" />
+            <text>回忆</text>
+            <text>先自己说</text>
+          </view>
+          <view class="arcade-map-node active">
+            <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
+            <text>核对</text>
+            <text>原小点追问</text>
+          </view>
+          <view class="arcade-map-node">
+            <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
+            <text>变式</text>
+            <text>换题迁移</text>
+          </view>
+          <view class="arcade-map-node final">
+            <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+            <text>回流</text>
+            <text>家长看证据</text>
+          </view>
         </view>
       </view>
       <view class="arcade-stats-grid">

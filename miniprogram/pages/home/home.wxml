@@ -116,11 +116,31 @@
         <view class="mini-subtitle" wx:if="{{homeViewModel.reportServiceResume}}">{{homeViewModel.reportServiceResume.title}}</view>
         <textarea class="mini-route-input" value="{{thoughtInput}}" placeholder="{{homeViewModel.inputCard.placeholder}}" maxlength="500" auto-height bindinput="onThoughtInput" />
         <view class="mini-route-line">
-          <view class="done"><text>✓</text><text>上传资料</text></view>
-          <view class="done"><text>✓</text><text>生成报告</text></view>
-          <view class="active"><text>3</text><text>说第一步</text></view>
-          <view><text>4</text><text>回访</text></view>
-          <view><text>5</text><text>家长看</text></view>
+          <view class="mini-route-node done">
+            <image class="mini-route-icon" mode="aspectFill" src="/assets/reference/entry-upload.png" />
+            <text>上传资料</text>
+            <text>材料进来</text>
+          </view>
+          <view class="mini-route-node done">
+            <image class="mini-route-icon" mode="aspectFill" src="/assets/reference/entry-report.png" />
+            <text>生成报告</text>
+            <text>依据清楚</text>
+          </view>
+          <view class="mini-route-node active">
+            <image class="mini-route-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
+            <text>说第一步</text>
+            <text>原小点点拨</text>
+          </view>
+          <view class="mini-route-node">
+            <image class="mini-route-icon" mode="aspectFill" src="/assets/reference/entry-review.png" />
+            <text>回访</text>
+            <text>验证迁移</text>
+          </view>
+          <view class="mini-route-node final">
+            <image class="mini-route-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+            <text>家长看</text>
+            <text>只看下一步</text>
+          </view>
         </view>
         <view class="mini-subtitle" wx:if="{{homeViewModel.emptyState}}">{{homeViewModel.emptyState}}</view>
         <view class="mini-subtitle" wx:if="{{homeViewModel.teacherPickerHint}}">{{homeViewModel.teacherPickerHint}}</view>

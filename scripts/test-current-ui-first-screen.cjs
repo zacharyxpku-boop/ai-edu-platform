@@ -45,12 +45,16 @@ const screens = {
 assert(files.homeWxml.includes('homeViewModel.inputCard.title') && files.homeViewModelJs.includes('inputCard'), 'home main card is the input card through homeViewModel');
 assert(files.homeWxml.includes('homeViewModel.teacherPickerLabel') && files.homeViewModelJs.includes('teacherPickerLabel'), 'home keeps mascot cue through homeViewModel');
 assert(files.homeWxml.includes('mini-route-card') && files.homeWxml.includes('route-next-lite'), 'home keeps tonight route and next step compact');
+assert(files.homeWxml.includes('mini-route-node') && files.homeWxml.includes('mini-route-icon'), 'home route is a visual rail, not old number/check boxes');
+assert(!files.homeWxml.includes('<view class="active"><text>3</text>'), 'home route does not show old active number boxes');
 
 assert(files.reviewWxml.includes('{{reviewViewModel.primaryCta.text}}'), 'review main card renders one repair CTA from viewModel');
 assert(!files.reviewWxml.includes('reviewViewModel.emptyState.cta') && files.reviewViewModelJs.includes('emptyState'), 'review empty state stays in logic without adding a second visible CTA');
 assert(files.reviewWxml.includes('review-challenge-card'), 'review keeps compact challenge cards in the shell');
 
 assert(files.tutorWxml.includes('data-scene="review"') && files.arcadeWxml.includes('data-scene="tutor"'), 'tutor and arcade cross-link first-step and review flows');
+assert(files.arcadeWxml.includes('arcade-map-icon'), 'arcade route map is icon based');
+assert(!files.arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'arcade route map does not show old numbered boxes');
 
 assert(!files.profileWxml.includes('profileViewModel.growthMemoryCard') && files.profileViewModelJs.includes('growthMemoryCard'), 'profile keeps memory in logic instead of another visible card');
 assert(files.profileWxml.includes('parent-dash-route'), 'profile shows family next step as a compact route');
