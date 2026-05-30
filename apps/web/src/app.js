@@ -15,7 +15,7 @@ const routes = [
   ['home', '学习主界面', 'brand-house.png'],
   ['upload', '上传资料', 'entry-upload.png'],
   ['report', '个性化报告', 'entry-report.png'],
-  ['tutor', 'AI 私教', 'entry-tutor.png'],
+  ['tutor', '原小点', 'entry-tutor.png'],
   ['review', '复习游戏', 'entry-review.png'],
   ['parent', '家长中心', 'entry-parent.png'],
   ['map', '学习地图', 'entry-map.png']
@@ -173,7 +173,7 @@ function renderReport() {
 
 function renderTutor() {
   return `
-    <section class="page-title tutor-title"><div><h1>AI 私教 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section>
+    <section class="page-title tutor-title"><div><h1>原小点 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section>
     <section class="tutor-lab"><article class="chat-card tutor-chat card"><div class="chat-head"><img class="chat-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><h2>咕点</h2><p>像朋友一样陪你想，不替你写答案。</p></div><span>AI</span></div><div class="bubble coach">遇到难题很正常。先说说：你准备从哪一步开始？</div><div class="bubble me">我先算一共用了多少米彩带。</div><div class="bubble coach">很好。那你准备把哪几部分加在一起？</div><div class="chat-actions"><button class="soft-button" data-action="tutor-stuck">我有点卡住</button><button class="soft-button" data-action="tutor-hint">给我一点提示</button><button class="soft-button" data-action="tutor-retry">我想再试一次</button></div><div class="input-line"><input id="tutorInput" placeholder="告诉我你的想法..."><button data-action="send-tutor">发送</button></div><p class="tutor-boundary">边界：只做思路提示和追问，不提供整题代写。</p></article><article class="problem-board card"><div class="card-head"><h3>题目与思路板</h3><button class="soft-button mini" data-action="tutor-hint">提示</button></div><div class="problem-card"><span>应用题</span><p>活动场地买了红色 45 米、蓝色 27 米、黄色 18 米彩带。一共买了多少米？</p><b>先想：要求“一共”，要把哪些数量合并在一起？</b></div><div class="board-and-ladder"><div class="thinking-canvas"><h3>我的思路</h3><div class="canvas-empty">写下你的步骤、图示或列式。</div></div><div class="hint-ladder"><h3>提示阶梯</h3><ol><li class="active"><b>第 1 步</b><p>先理解题目问什么。</p></li><li><b>第 2 步</b><p>找出需要合并的数量。</p></li><li><b>第 3 步</b><p>列式并检查结果。</p></li></ol></div></div></article></section>
     ${pageGuide('tutor')}
   `;
@@ -199,7 +199,7 @@ function renderParent() {
   const evidence = [
     ['课堂练习', '正确率 86%', '18 次', 'entry-report.png'],
     ['错题巩固', '已订正 12 道', '正确率 83%', 'entry-review.png'],
-    ['AI 私教互动', '对话 9 次', '掌握度提升', 'entry-tutor.png'],
+    ['原小点互动', '对话 9 次', '掌握度提升', 'entry-tutor.png'],
     ['知识掌握', '掌握 23 个', '薄弱 6 个', 'entry-map.png']
   ];
   return `

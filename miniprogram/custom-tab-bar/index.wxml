@@ -1,4 +1,4 @@
-﻿<view class="yd-tabbar">
+<view class="yd-tabbar">
   <view
     class="yd-tab-item {{selected === 0 ? 'active' : ''}}"
     data-index="0"
@@ -15,7 +15,7 @@
     bindtap="switchTab"
   >
     <view class="yd-tab-icon-wrap"><view class="yd-tab-icon tutor"></view></view>
-    <view class="yd-tab-text">AI私教</view>
+    <view class="yd-tab-text">原小点</view>
   </view>
   <view
     class="yd-tab-item {{selected === 2 ? 'active' : ''}}"

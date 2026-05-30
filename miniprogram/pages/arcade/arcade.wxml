@@ -44,7 +44,7 @@
         </view>
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="tutor" bindtap="openEntryDetail">
           <text>卡住求助</text>
-          <text>回私教追问</text>
+          <text>回原小点追问</text>
         </view>
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="parent" bindtap="openEntryDetail">
           <text>给家长看</text>
@@ -66,7 +66,7 @@
         <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-review.png" />
       </view>
       <view class="subcheck-side">
-        <view data-scene="tutor" bindtap="openEntryDetail"><text>不会开始</text><text>回私教追问</text></view>
+        <view data-scene="tutor" bindtap="openEntryDetail"><text>不会开始</text><text>回原小点追问</text></view>
         <view data-scene="parent" bindtap="openEntryDetail"><text>完成后</text><text>给家长看证据</text></view>
       </view>
     </view>

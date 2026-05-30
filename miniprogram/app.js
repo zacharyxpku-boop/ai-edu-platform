@@ -4,7 +4,7 @@ const storage = require('./utils/storage');
 App({
   globalData: {
     apiBase: 'https://yuandianzhixue.com',
-    productName: '原点私教',
+    productName: '原点智学',
     tutorName: '咕点'
   },
 

@@ -3019,7 +3019,7 @@ Page({
     unifiedNextAction: storage.buildUnifiedNextActionController ? storage.buildUnifiedNextActionController({ surface: 'profile' }) : null,
     learningAssessment: {
       title: '孩子测评与学习方法建议',
-      body: '上传一次成绩或测评描述，原点私教会把学科短板、学习方法和适合使用的能力入口放在一起看。',
+      body: '上传一次成绩或测评描述，原点智学会把学科短板、学习方法和适合使用的能力入口放在一起看。',
       scoreInput: '',
       talentLine: '先看孩子愿意怎么想，再决定用苏格拉底、专注舱、错题修复还是轻练习。',
       methodLine: '如果总是没思路，先用咕点追问；如果坐不住，先用专注舱；如果反复错，先进错题卡点修复。',
@@ -3473,7 +3473,7 @@ Page({
   generateWeeklySummaryImage() {
     const summary = this.data.profileSafeSummary || {};
     const count = this.weeklyFirstStepCount();
-    const title = '原点私教本周小结';
+    const title = '原点智学本周小结';
     const body = summary.recentSummary || this.data.profileEmptyGuide || '今晚还没有足够记录，先让孩子说出自己的第一步。';
     const action = summary.parentQuestion || '你可以只问：刚才你第一步先看了哪里？';
     const badge = `本周 ${count} 天确认第一步`;
@@ -4202,7 +4202,7 @@ Page({
       identity_tag: share.identityTag || '',
       invite_code: share.inviteCode || share.code || '',
       share_code: share.inviteCode || share.code || '',
-      tier_label: '小程序 MVP 咨询'
+      tier_label: '小程序上线咨询'
     }).then((result) => {
       sendMiniEvent({
         event: 'lead_submitted',

@@ -5,7 +5,7 @@ export const WEB_SURFACE_ROUTES = [
     path: '/',
     miniappParity: 'pages/home/home',
     primaryAction: '选择今晚第一步',
-    promise: '一屏看懂上传、报告、私教、复习和家长下一步。'
+    promise: '一屏看懂上传、报告、原小点、复习和家长下一步。'
   },
   {
     id: 'upload',
@@ -25,7 +25,7 @@ export const WEB_SURFACE_ROUTES = [
   },
   {
     id: 'tutor',
-    label: 'AI 私教',
+    label: '原小点',
     path: '/tutor',
     miniappParity: 'pages/tutor/tutor',
     primaryAction: '开始第一问',
@@ -53,7 +53,7 @@ export const WEB_SURFACE_ROUTES = [
     path: '/map',
     miniappParity: 'pages/entry-detail/entry-detail?scene=today + pages/arcade/arcade',
     primaryAction: '查看今晚和未来 7 天路径',
-    promise: '把上传、报告、私教、复习和家长回访串成一条能走完、能验证的学习路线。'
+    promise: '把上传、报告、原小点、复习和家长回访串成一条能走完、能验证的学习路线。'
   }
 ];
 

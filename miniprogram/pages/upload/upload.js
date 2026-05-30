@@ -204,7 +204,7 @@ function buildUploadPersonalizedClosureView(bridge = {}) {
     id: 'upload_personalized_closure_view',
     title: '个性化闭环执行桥',
     statusLine: bridge.status === 'ready_for_guided_execution'
-      ? '已具备真实任务证据：可以进入私教、修卡点、回访和家长报告。'
+      ? '已具备真实任务证据：可以进入原小点、修卡点、回访和家长报告。'
       : '先补真实任务证据：资料/成绩只能生成方法候选，不能直接放行游戏或服务。',
     contentLine: `内容密度：${bridge.contentScalePlan ? bridge.contentScalePlan.density : 'pending'}；题型：${bridge.questionType || 'unknown'}；学科：${bridge.subject || 'unknown'}`,
     socraticLine: bridge.socraticStressFallback
@@ -723,7 +723,7 @@ function buildMaterialTypeGuide(type) {
       examplePlaceholder: '照片只做本地证据，请补一句文字：\n这张错题是应用题；\n孩子说“我不知道先设哪个量”；\n我怀疑错在等量关系。',
       statusLine: '当前只把照片作为本地证据，必须有文字卡点后才生成小讲堂或回访卡。',
       modeLine: '验证方式：照片留档 + 一句卡点 + 一句错因，组合成错题修复资产。',
-      blockedClaimsLine: '不能做：假装 OCR、拍照秒解、自动出答案。'
+      blockedClaimsLine: '不能做：夸大识别能力、替孩子作答、自动给完整答案。'
     },
     school_material: {
       examplePlaceholder: '粘贴老师反馈即可：\n老师说课堂能听懂，但作业列式慢；\n建议家长先看孩子能否复述题意；\n本周重点是应用题条件整理。',

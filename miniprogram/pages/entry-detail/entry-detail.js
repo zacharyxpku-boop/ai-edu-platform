@@ -81,7 +81,7 @@ const SCENES = {
 const SCENE_NAV = {
   today: { label: '今晚主线', image: '/assets/reference/entry-map.png' },
   upload: { label: '上传材料', image: '/assets/reference/entry-upload.png' },
-  tutor: { label: 'AI私教', image: '/assets/reference/entry-tutor.png' },
+  tutor: { label: '原小点', image: '/assets/reference/entry-tutor.png' },
   review: { label: '复习小关', image: '/assets/reference/entry-review.png' },
   parent: { label: '家长报告', image: '/assets/reference/entry-parent.png' }
 };

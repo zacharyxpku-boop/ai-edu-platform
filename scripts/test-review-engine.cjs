@@ -654,7 +654,7 @@ function run() {
   assert(pageJson.every((json) => json.navigationStyle === 'custom'), 'V1 key pages use custom navigation instead of double top bars');
   const customTabWxml = readMini('custom-tab-bar', 'index.wxml');
   const customTabJs = readMini('custom-tab-bar', 'index.js');
-  assert(customTabWxml.includes('yd-tabbar') && customTabWxml.includes('今天') && customTabWxml.includes('AI私教') && customTabWxml.includes('复习岛') && customTabWxml.includes('家长') && customTabWxml.includes('上传'), 'custom tabbar mirrors the five-entry child-parent shell');
+  assert(customTabWxml.includes('yd-tabbar') && customTabWxml.includes('今天') && customTabWxml.includes('原小点') && customTabWxml.includes('复习岛') && customTabWxml.includes('家长') && customTabWxml.includes('上传'), 'custom tabbar mirrors the five-entry child-parent shell');
   assert(customTabJs.includes('getCurrentPages') && customTabJs.includes('selected'), 'custom tabbar syncs selected page state');
   const reviewWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.wxml'), 'utf8');
   const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');

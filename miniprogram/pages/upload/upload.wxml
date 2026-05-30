@@ -52,7 +52,7 @@
           <view class="done"><text>1</text><text>分类材料</text></view>
           <view><text>2</text><text>提取证据</text></view>
           <view><text>3</text><text>生成报告</text></view>
-          <view><text>4</text><text>进入私教</text></view>
+          <view><text>4</text><text>进入原小点</text></view>
         </view>
         <view class="upload-dash-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
       </view>

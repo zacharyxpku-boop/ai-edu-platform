@@ -87,7 +87,7 @@
         </view>
         <view class="mini-entry-card ux-kit-jump-card green" data-scene="tutor" bindtap="openEntryDetail">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
-          <text>AI私教</text>
+          <text>原小点</text>
           <text>智能答疑与讲解</text>
           <view class="mini-entry-arrow">›</view>
         </view>

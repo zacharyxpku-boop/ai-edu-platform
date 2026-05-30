@@ -8,7 +8,7 @@
             <view class="tutor-dash-brand">
               <image class="tutor-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
               <view>
-                <text>AI私教</text>
+                <text>原小点</text>
                 <text>只追问第一步</text>
               </view>
             </view>
@@ -29,7 +29,7 @@
 
           <view class="tutor-flow-card">
             <view class="tutor-section-head">
-              <text>私教对话边界</text>
+              <text>原小点点拨边界</text>
               <text>先启动，再迁移</text>
             </view>
             <view class="tutor-ladder">
