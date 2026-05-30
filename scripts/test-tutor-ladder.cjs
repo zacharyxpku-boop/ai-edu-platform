@@ -321,6 +321,11 @@ const tutorPageJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/page
 const tutorPageWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/tutor/tutor.wxml'), 'utf8');
 assert(tutorPageJs.includes('tutorReadableAiLocalRows') && tutorPageJs.includes('tutorReadableWorkbenchRows') && tutorPageJs.includes('tutorReadableEventRows') && tutorPageJs.includes('tutorEvidenceThreadLine'), 'tutor page converts internal AI/local, workbench, event, and evidence fields into readable lines');
 assert(tutorPageWxml.includes('tutor-flow-card') && tutorPageWxml.includes('tutor-ladder') && tutorPageWxml.includes('tutor-entry-card'), 'tutor launch shell renders readable compact flow cards instead of the retired long receipt');
+assert(tutorPageWxml.includes('tutor-ladder-node') && tutorPageWxml.includes('tutor-ladder-icon'), 'tutor flow ladder uses visual nodes and reference icons');
+['entry-tutor.png', 'entry-report.png', 'entry-map.png', 'entry-review.png'].forEach((asset) => {
+  assert(tutorPageWxml.includes(asset), `tutor flow ladder uses reference asset: ${asset}`);
+});
+assert(!tutorPageWxml.includes('<view class="active"><text>1</text>'), 'tutor flow ladder never regresses to number-only boxes');
 assert(!tutorPageWxml.includes('runtimeDecisionRows') && !tutorPageWxml.includes('{{item.localGate}}') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.topicCardId') && !tutorPageWxml.includes('thinkingReceipt.evidenceThread.day7Gate'), 'tutor launch shell does not expose raw runtime rows, local gates, topic card ids, or day-7 gate fields');
 assert(tutorPageWxml.includes('tutor-primary') && tutorPageWxml.includes('tutor-secondary'), 'tutor launch shell exposes clear Socratic next actions');
 assert(tutorPageWxml.includes('data-scene="tutor"') && tutorPageWxml.includes('data-scene="review"'), 'tutor launch shell uses safe scene routes for child-flow actions');

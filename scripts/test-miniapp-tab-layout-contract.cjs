@@ -128,6 +128,8 @@ assert.strictEqual((homeWxml.match(/class="mini-entry-visual" mode="aspectFill"/
 assert(tutorWxml.includes('/assets/brand/gudian-reader.png'), 'AI tutor uses the Gudian learning companion instead of a generic robot as the main guide');
 assert(tutorWxml.includes('class="tutor-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'AI tutor tab brand mark uses the visual reference asset instead of a robot emoji placeholder');
 assert(!tutorWxml.includes('<view class="tutor-dash-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
+assert(tutorWxml.includes('tutor-ladder-node') && tutorWxml.includes('tutor-ladder-icon'), 'AI tutor flow ladder uses visual nodes and reference icons');
+assert(!tutorWxml.includes('<view class="active"><text>1</text>'), 'AI tutor flow ladder never regresses to number-only boxes');
 assert(arcadeWxml.includes('class="arcade-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(!arcadeWxml.includes('<view class="arcade-dash-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
 assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');

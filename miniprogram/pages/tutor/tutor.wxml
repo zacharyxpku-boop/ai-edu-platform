@@ -33,10 +33,26 @@
               <text>先启动，再迁移</text>
             </view>
             <view class="tutor-ladder">
-              <view class="active"><text>1</text><text>说卡点</text></view>
-              <view><text>2</text><text>问依据</text></view>
-              <view><text>3</text><text>小提示</text></view>
-              <view><text>4</text><text>进复习</text></view>
+              <view class="tutor-ladder-node active">
+                <image class="tutor-ladder-icon" mode="aspectFit" src="/assets/reference/entry-tutor.png" />
+                <text>说卡点</text>
+                <text>孩子先讲</text>
+              </view>
+              <view class="tutor-ladder-node">
+                <image class="tutor-ladder-icon" mode="aspectFit" src="/assets/reference/entry-report.png" />
+                <text>问依据</text>
+                <text>不猜答案</text>
+              </view>
+              <view class="tutor-ladder-node">
+                <image class="tutor-ladder-icon" mode="aspectFit" src="/assets/reference/entry-map.png" />
+                <text>小提示</text>
+                <text>只给一步</text>
+              </view>
+              <view class="tutor-ladder-node final">
+                <image class="tutor-ladder-icon" mode="aspectFit" src="/assets/reference/entry-review.png" />
+                <text>进复习</text>
+                <text>留下证据</text>
+              </view>
             </view>
           </view>
 
