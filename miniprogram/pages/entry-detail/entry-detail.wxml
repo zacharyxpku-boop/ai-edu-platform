@@ -63,8 +63,17 @@
   </view>
 
   <view class="entry-proof-strip">
-    <view><text>1</text><text>先看依据</text></view>
-    <view><text>2</text><text>再做一步</text></view>
-    <view><text>3</text><text>回流证据</text></view>
+    <view class="entry-proof-node">
+      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-report.png" />
+      <text>先看依据</text>
+    </view>
+    <view class="entry-proof-node">
+      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-tutor.png" />
+      <text>再做一步</text>
+    </view>
+    <view class="entry-proof-node final">
+      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-parent.png" />
+      <text>回流证据</text>
+    </view>
   </view>
 </view>

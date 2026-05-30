@@ -118,6 +118,11 @@ assert(detailWxml.includes('entry-primary') && detailWxml.includes('entry-second
 assert(detailWxml.includes('entry-jump-grid') && detailWxml.includes('bindtap="openScene"'), 'entry detail child page exposes clickable cross-entry jumps');
 assert(detailJs.includes('openScene(event)') && detailJs.includes('setScene(key'), 'entry detail can switch child entry scenes in place');
 assert(detailJs.includes('open=flow'), 'entry detail marks tab-return actions as explicit functional flows');
+assert(detailWxml.includes('entry-proof-node') && detailWxml.includes('entry-proof-icon'), 'entry detail proof strip uses visual evidence nodes');
+['entry-report.png', 'entry-tutor.png', 'entry-parent.png'].forEach((asset) => {
+  assert(detailWxml.includes(asset), `entry detail proof strip uses reference asset: ${asset}`);
+});
+assert(!detailWxml.includes('<view><text>1</text>'), 'entry detail proof strip never regresses to number-only boxes');
 
 const sceneBodyPattern = /(\w+): \{([\s\S]*?)\n  \},/g;
 let sceneMatch;

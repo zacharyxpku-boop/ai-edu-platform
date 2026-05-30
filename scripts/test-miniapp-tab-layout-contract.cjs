@@ -164,7 +164,8 @@ assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child pa
 assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');
 assert(entryDetailWxml.includes('entry-mini-path') && entryDetailWxss.includes('.entry-mini-path'), 'entry-detail child page shows a graphic three-step path inside the hero');
 assert(entryDetailWxml.includes('entry-card-icon') && entryDetailWxss.includes('.entry-card-icon'), 'entry-detail child page uses numbered visual evidence cards instead of plain text blocks');
-assert(entryDetailWxml.includes('entry-proof-strip'), 'entry-detail child page shows a compact three-step proof strip');
+assert(entryDetailWxml.includes('entry-proof-strip') && entryDetailWxml.includes('entry-proof-icon'), 'entry-detail child page shows a compact visual proof strip');
+assert(!entryDetailWxml.includes('<view><text>1</text>'), 'entry-detail proof strip never regresses to number-only boxes');
 
 const appWxss = read('miniprogram/app.wxss');
 const tabbarWxss = read('miniprogram/custom-tab-bar/index.wxss');
