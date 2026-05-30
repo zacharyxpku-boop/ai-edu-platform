@@ -65,13 +65,26 @@
           </view>
         </view>
         <view class="parent-dash-route">
-          <view class="parent-route-node active">上传</view>
-          <view class="parent-route-line active"></view>
-          <view class="parent-route-node active">分析</view>
-          <view class="parent-route-line"></view>
-          <view class="parent-route-node">回访</view>
-          <view class="parent-route-line"></view>
-          <view class="parent-route-node">周报</view>
+          <view class="parent-route-node active">
+            <image class="parent-route-icon" mode="aspectFit" src="/assets/reference/entry-upload.png" />
+            <text>上传</text>
+            <text>证据进来</text>
+          </view>
+          <view class="parent-route-node active">
+            <image class="parent-route-icon" mode="aspectFit" src="/assets/reference/entry-report.png" />
+            <text>分析</text>
+            <text>看方法匹配</text>
+          </view>
+          <view class="parent-route-node">
+            <image class="parent-route-icon" mode="aspectFit" src="/assets/reference/entry-review.png" />
+            <text>回访</text>
+            <text>验证迁移</text>
+          </view>
+          <view class="parent-route-node final">
+            <image class="parent-route-icon" mode="aspectFit" src="/assets/reference/entry-parent.png" />
+            <text>周报</text>
+            <text>家长看下一步</text>
+          </view>
         </view>
         <view class="parent-dash-action-row">
           <view class="ux-kit-primary parent-primary" data-scene="parent" bindtap="openEntryDetail">{{profileViewModel.primaryCta}}</view>

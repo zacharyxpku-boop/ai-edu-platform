@@ -318,41 +318,91 @@
 
 .parent-dash-route {
   display: grid;
-  grid-template-columns: auto minmax(20rpx, 1fr) auto minmax(20rpx, 1fr) auto minmax(20rpx, 1fr) auto;
-  align-items: center;
-  gap: 8rpx;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12rpx;
   margin-top: 18rpx;
-  padding: 18rpx;
-  border: 1rpx solid rgba(232, 238, 230, 0.95);
-  border-radius: 26rpx;
-  background: rgba(255, 255, 255, 0.82);
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .parent-route-node {
-  min-width: 70rpx;
-  padding: 10rpx 8rpx;
+  position: relative;
+  min-width: 0;
+  min-height: 126rpx;
+  padding: 13rpx 7rpx 12rpx;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 5rpx;
+  border: 1rpx solid rgba(232, 238, 230, 0.95);
+  border-radius: 24rpx;
+  color: #17211d;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faf5 100%);
+  box-shadow: 0 12rpx 24rpx rgba(41, 65, 52, 0.07);
+  overflow: visible;
+}
+
+.parent-route-node::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -18rpx;
+  width: 24rpx;
+  height: 4rpx;
   border-radius: 999rpx;
-  color: #657069;
-  background: #edf2ec;
+  background: #dce8dc;
+  transform: translateY(-50%);
+}
+
+.parent-route-node:last-child::after {
+  display: none;
+}
+
+.parent-route-node.active {
+  border-color: rgba(34, 185, 92, 0.28);
+  background: linear-gradient(180deg, #effbf2 0%, #ffffff 100%);
+}
+
+.parent-route-node.final {
+  border-color: rgba(248, 198, 34, 0.34);
+  background: linear-gradient(180deg, #fff8df 0%, #ffffff 100%);
+}
+
+.parent-route-icon {
+  width: 48rpx;
+  height: 48rpx;
+  padding: 7rpx;
+  border-radius: 17rpx;
+  background: #f0f8ee;
+}
+
+.parent-route-node.active .parent-route-icon {
+  background: #dff7e6;
+}
+
+.parent-route-node.final .parent-route-icon {
+  background: #fff1bd;
+}
+
+.parent-route-node text:nth-child(2) {
+  max-width: 100%;
+  color: #17211d;
   font-size: 20rpx;
-  font-weight: 900;
+  font-weight: 950;
+  line-height: 1.18;
   text-align: center;
   white-space: nowrap;
 }
 
-.parent-route-node.active {
-  color: #ffffff;
-  background: #16a34a;
-}
-
-.parent-route-line {
-  height: 6rpx;
-  border-radius: 999rpx;
-  background: #e2eadf;
-}
-
-.parent-route-line.active {
-  background: #f8c622;
+.parent-route-node text:nth-child(3) {
+  max-width: 100%;
+  color: #526158;
+  font-size: 17rpx;
+  font-weight: 780;
+  line-height: 1.18;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .parent-dash-action-row {
@@ -3560,16 +3610,34 @@
 }
 
 .parent-dash-route {
-  gap: 6rpx;
+  gap: 9rpx;
   margin-top: 12rpx;
-  padding: 10rpx;
-  border-radius: 22rpx;
 }
 
 .parent-route-node {
-  min-width: 58rpx;
-  padding: 8rpx 6rpx;
+  min-height: 108rpx;
+  padding: 10rpx 4rpx;
+  border-radius: 19rpx;
+}
+
+.parent-route-node::after {
+  right: -14rpx;
+  width: 18rpx;
+}
+
+.parent-route-icon {
+  width: 42rpx;
+  height: 42rpx;
+  padding: 6rpx;
+  border-radius: 15rpx;
+}
+
+.parent-route-node text:nth-child(2) {
   font-size: 18rpx;
+}
+
+.parent-route-node text:nth-child(3) {
+  font-size: 16rpx;
 }
 
 .parent-dash-action-row {

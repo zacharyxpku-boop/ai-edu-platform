@@ -147,6 +147,11 @@ assert(!uploadWxml.includes('<view class="done"><text>1</text>'), 'upload tab ne
 assert(parentWxml.includes('class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'parent tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(parentWxml.includes('parent-report-preview'), 'parent tab evidence section includes a compact report preview visual card');
 assert(parentWxml.includes('class="parent-report-thumb" mode="aspectFill" src="/assets/reference/entry-report.png"'), 'parent tab report preview uses the report reference illustration');
+assert(parentWxml.includes('parent-route-icon'), 'parent tab route uses visual evidence-loop icons');
+['entry-upload.png', 'entry-report.png', 'entry-review.png', 'entry-parent.png'].forEach((asset) => {
+  assert(parentWxml.includes(asset), `parent route uses reference asset: ${asset}`);
+});
+assert(!parentWxml.includes('parent-route-line'), 'parent tab route no longer uses thin text-only connector lines');
 ['entry-map.png', 'entry-tutor.png', 'entry-review.png', 'entry-parent.png', 'entry-upload.png'].forEach((asset) => {
   assert(entryDetailJs.includes(`/assets/reference/${asset}`), `entry-detail child scene uses reference illustration ${asset}`);
 });
