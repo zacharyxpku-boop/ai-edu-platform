@@ -1,7 +1,4 @@
 <view class="page safe-bottom profile-page">
-  <view class="profile-glow glow-one"></view>
-  <view class="profile-glow glow-two"></view>
-
   <scroll-view class="profile-scroll" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="profile-shell">
       <view class="ux-entry ux-entry-parent ux-kit-screen ux-kit-parent parent-hero-shell">

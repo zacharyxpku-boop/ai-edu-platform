@@ -1,8 +1,4 @@
 <view class="home-page">
-  <view class="home-bg home-bg-dots"></view>
-  <view class="home-glow gold"></view>
-  <view class="home-glow green"></view>
-
   <view class="first-run-overlay" wx:if="{{showFirstRunOverlay}}" catchtap="closeFirstRunOverlay">
     <view class="first-run-card">
       <view>咕点不直接给结果</view>

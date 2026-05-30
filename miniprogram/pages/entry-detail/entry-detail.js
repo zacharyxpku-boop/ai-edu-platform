@@ -1,5 +1,19 @@
 const navigation = require('../../utils/navigation');
 
+const PROOF_FLOW = [
+  { scene: 'upload', label: '材料', hint: '先分类', icon: '/assets/reference/entry-upload.png' },
+  { scene: 'parent', label: '报告', hint: '看依据', icon: '/assets/reference/entry-report.png' },
+  { scene: 'tutor', label: '私教', hint: '说一步', icon: '/assets/reference/entry-tutor.png' },
+  { scene: 'review', label: '回访', hint: '验迁移', icon: '/assets/reference/entry-review.png' },
+  { scene: 'parent', label: '家长', hint: '下一步', icon: '/assets/reference/entry-parent.png' }
+];
+
+function proofFlow(activeScene) {
+  return PROOF_FLOW.map((item) => Object.assign({}, item, {
+    active: item.scene === activeScene || (activeScene === 'today' && item.scene === 'tutor')
+  }));
+}
+
 const SCENES = {
   today: {
     badge: '今晚主线',
@@ -14,7 +28,8 @@ const SCENES = {
       { label: '先定优先级', value: '把必须做、可放后、明天回访分开。', icon: '/assets/reference/entry-upload.png' },
       { label: '再说第一步', value: '孩子先说准备从哪里开始，私教只追问下一句。', icon: '/assets/reference/entry-tutor.png' },
       { label: '最后留证据', value: '完成后进入复习小关或家长进展卡。', icon: '/assets/reference/entry-review.png' }
-    ]
+    ],
+    proofSteps: proofFlow('today')
   },
   tutor: {
     badge: '原小点提示',
@@ -29,7 +44,8 @@ const SCENES = {
       { label: '孩子说', value: '我准备先看哪个条件/哪句话。', icon: '/assets/reference/entry-tutor.png' },
       { label: 'AI 问', value: '下一步只问一个更小的问题。', icon: '/assets/reference/entry-map.png' },
       { label: '家长看', value: '只看第一步证据和明天怎么回访。', icon: '/assets/reference/entry-parent.png' }
-    ]
+    ],
+    proofSteps: proofFlow('tutor')
   },
   review: {
     badge: '复习小关',
@@ -44,7 +60,8 @@ const SCENES = {
       { label: '记忆', value: '能不能说出关键概念。', icon: '/assets/reference/entry-review.png' },
       { label: '迁移', value: '换一道同类题还会不会开始。', icon: '/assets/reference/entry-map.png' },
       { label: '证据', value: '只记录第一步、错因和明天回访。', icon: '/assets/reference/entry-report.png' }
-    ]
+    ],
+    proofSteps: proofFlow('review')
   },
   parent: {
     badge: '家长视图',
@@ -59,7 +76,8 @@ const SCENES = {
       { label: '证据来自哪里', value: '测评、成绩、错题、对话和复习记录。', icon: '/assets/reference/entry-report.png' },
       { label: '为什么这样学', value: '从学习偏好和当前卡点匹配方法。', icon: '/assets/reference/entry-tutor.png' },
       { label: '今晚怎么做', value: '只给一张家庭行动卡，不制造焦虑。', icon: '/assets/reference/entry-parent.png' }
-    ]
+    ],
+    proofSteps: proofFlow('parent')
   },
   upload: {
     badge: '材料入口',
@@ -74,7 +92,8 @@ const SCENES = {
       { label: '天赋/测评', value: '提取学习偏好、注意力和优势通道。', icon: '/assets/reference/entry-report.png' },
       { label: '成绩/错题', value: '提取学科卡点、错因和回访优先级。', icon: '/assets/reference/entry-review.png' },
       { label: '家长观察', value: '补足情绪、习惯和家庭配合线索。', icon: '/assets/reference/entry-parent.png' }
-    ]
+    ],
+    proofSteps: proofFlow('upload')
   }
 };
 

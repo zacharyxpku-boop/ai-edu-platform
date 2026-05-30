@@ -6,49 +6,6 @@
   background: #f9f8f5;
 }
 
-.home-bg,
-.home-glow {
-  position: absolute;
-  pointer-events: none;
-}
-
-.home-bg-dots {
-  inset: 0;
-  opacity: 0.82;
-  background-image: radial-gradient(#e2e0d8 2rpx, transparent 2rpx);
-  background-size: 48rpx 48rpx;
-}
-
-.home-bg-dots::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(249, 248, 245, 0.18), rgba(249, 248, 245, 0.88) 72%, #f9f8f5),
-    linear-gradient(90deg, rgba(249, 248, 245, 0.38), transparent 28%, transparent 72%, rgba(249, 248, 245, 0.38));
-}
-
-.home-glow {
-  width: 420rpx;
-  height: 420rpx;
-  border-radius: 50%;
-  filter: blur(76rpx);
-  opacity: 0.16;
-}
-
-.home-glow.gold {
-  top: -170rpx;
-  right: -150rpx;
-  background: #f7d068;
-}
-
-.home-glow.green {
-  top: 290rpx;
-  left: -190rpx;
-  background: #1a5336;
-  opacity: 0.09;
-}
-
 .home-header {
   position: relative;
   z-index: 3;

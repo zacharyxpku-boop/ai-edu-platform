@@ -119,9 +119,11 @@ assert(detailWxml.includes('entry-jump-grid') && detailWxml.includes('bindtap="o
 assert(detailJs.includes('openScene(event)') && detailJs.includes('setScene(key'), 'entry detail can switch child entry scenes in place');
 assert(detailJs.includes('open=flow'), 'entry detail marks tab-return actions as explicit functional flows');
 assert(detailWxml.includes('entry-proof-node') && detailWxml.includes('entry-proof-icon'), 'entry detail proof strip uses visual evidence nodes');
-['entry-report.png', 'entry-tutor.png', 'entry-parent.png'].forEach((asset) => {
-  assert(detailWxml.includes(asset), `entry detail proof strip uses reference asset: ${asset}`);
+assert(detailWxml.includes('wx:for="{{scene.proofSteps}}"') && detailWxml.includes('class="entry-proof-hint"'), 'entry detail proof strip is data-driven instead of a hardcoded three-step tail');
+['entry-upload.png', 'entry-report.png', 'entry-tutor.png', 'entry-review.png', 'entry-parent.png'].forEach((asset) => {
+  assert(detailJs.includes(asset), `entry detail proof flow uses reference asset: ${asset}`);
 });
+assert(detailJs.includes('const PROOF_FLOW') && detailJs.includes("label: '材料'") && detailJs.includes("label: '家长'"), 'entry detail proof flow covers the full upload-report-tutor-review-parent loop');
 assert(!detailWxml.includes('<view><text>1</text>'), 'entry detail proof strip never regresses to number-only boxes');
 
 const sceneBodyPattern = /(\w+): \{([\s\S]*?)\n  \},/g;

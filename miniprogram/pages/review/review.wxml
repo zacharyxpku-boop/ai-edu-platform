@@ -1,8 +1,4 @@
 <view class="review-page">
-  <view class="review-bg dots"></view>
-  <view class="review-glow amber"></view>
-  <view class="review-glow mint"></view>
-
   <scroll-view class="content-area" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="content-inner">
       <view class="review-hero-shell ux-entry ux-entry-review ux-kit-screen ux-kit-review">

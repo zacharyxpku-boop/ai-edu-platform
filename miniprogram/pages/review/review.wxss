@@ -10,45 +10,6 @@
   background: #f9f8f5;
 }
 
-.review-bg,
-.review-glow {
-  position: absolute;
-  pointer-events: none;
-}
-
-.review-bg.dots {
-  inset: 0;
-  opacity: 0.72;
-  background-image: radial-gradient(#d8d4c9 2rpx, transparent 2rpx);
-  background-size: 36rpx 36rpx;
-}
-
-.review-bg.dots::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(249, 248, 245, 0.14), #f9f8f5 86%);
-}
-
-.review-glow {
-  width: 420rpx;
-  height: 420rpx;
-  border-radius: 50%;
-  filter: blur(88rpx);
-}
-
-.review-glow.amber {
-  top: -150rpx;
-  right: -180rpx;
-  background: rgba(247, 208, 104, 0.18);
-}
-
-.review-glow.mint {
-  top: 410rpx;
-  left: -210rpx;
-  background: rgba(26, 83, 54, 0.08);
-}
-
 .review-brand-text {
   color: #1a5336;
   font-size: 44rpx;

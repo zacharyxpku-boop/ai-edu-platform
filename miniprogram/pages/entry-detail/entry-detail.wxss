@@ -402,8 +402,8 @@
 
 .entry-proof-strip {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12rpx;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8rpx;
   margin-top: 12rpx;
   padding: 0;
   border: 0;
@@ -414,16 +414,17 @@
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 106rpx;
+  min-height: 112rpx;
   justify-items: center;
   align-content: center;
-  gap: 6rpx;
-  padding: 12rpx 8rpx;
+  gap: 4rpx;
+  padding: 10rpx 4rpx;
   border: 1rpx solid #e8eee6;
-  border-radius: 24rpx;
+  border-radius: 22rpx;
   background: linear-gradient(180deg, #ffffff 0%, #f8faf5 100%);
   box-shadow: 0 12rpx 24rpx rgba(32, 49, 39, 0.05);
   overflow: visible;
+  line-height: 1.15;
 }
 
 .entry-proof-node::after {
@@ -447,10 +448,16 @@
   background: linear-gradient(180deg, #fff8df 0%, #ffffff 100%);
 }
 
+.entry-proof-node.active {
+  border-color: rgba(34, 185, 92, 0.34);
+  background: linear-gradient(180deg, #eaf9ef 0%, #ffffff 100%);
+  box-shadow: inset 0 0 0 2rpx rgba(34, 185, 92, 0.12);
+}
+
 .entry-proof-icon {
-  width: 44rpx;
-  height: 44rpx;
-  padding: 6rpx;
+  width: 40rpx;
+  height: 40rpx;
+  padding: 5rpx;
   border-radius: 16rpx;
   background: #eef7ff;
 }
@@ -463,12 +470,18 @@
   overflow: hidden;
   max-width: 100%;
   color: #17211d;
-  font-size: 18rpx;
+  font-size: 17rpx;
   font-weight: 950;
   line-height: 1.18;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.entry-proof-hint {
+  color: #6c7970 !important;
+  font-size: 15rpx !important;
+  font-weight: 760 !important;
 }
 
 @media (max-height: 760px) {

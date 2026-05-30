@@ -63,17 +63,16 @@
   </view>
 
   <view class="entry-proof-strip">
-    <view class="entry-proof-node">
-      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-report.png" />
-      <text>先看依据</text>
-    </view>
-    <view class="entry-proof-node">
-      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-tutor.png" />
-      <text>再做一步</text>
-    </view>
-    <view class="entry-proof-node final">
-      <image class="entry-proof-icon" mode="aspectFit" src="/assets/reference/entry-parent.png" />
-      <text>回流证据</text>
-    </view>
+    <button
+      class="entry-proof-node {{item.active ? 'active' : ''}} {{index === scene.proofSteps.length - 1 ? 'final' : ''}}"
+      wx:for="{{scene.proofSteps}}"
+      wx:key="label"
+      data-scene="{{item.scene}}"
+      bindtap="openScene"
+    >
+      <image class="entry-proof-icon" mode="aspectFit" src="{{item.icon}}" />
+      <text>{{item.label}}</text>
+      <text class="entry-proof-hint">{{item.hint}}</text>
+    </button>
   </view>
 </view>

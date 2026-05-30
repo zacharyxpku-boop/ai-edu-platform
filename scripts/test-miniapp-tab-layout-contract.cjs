@@ -177,6 +177,8 @@ assert(entryDetailWxml.includes('<image class="entry-card-icon"') && entryDetail
 assert(!entryDetailWxml.includes('{{index + 1}}'), 'entry-detail child page does not regress to number-only evidence cards');
 assert(entryDetailJs.includes("icon: '/assets/reference/entry-tutor.png'") && entryDetailJs.includes("icon: '/assets/reference/entry-parent.png'"), 'entry-detail child card copy is backed by reference illustrations');
 assert(entryDetailWxml.includes('entry-proof-strip') && entryDetailWxml.includes('entry-proof-icon'), 'entry-detail child page shows a compact visual proof strip');
+assert(entryDetailWxml.includes('wx:for="{{scene.proofSteps}}"') && entryDetailJs.includes('const PROOF_FLOW'), 'entry-detail proof strip uses the full data-driven loop, not a hardcoded old tail');
+assert(entryDetailWxss.includes('grid-template-columns: repeat(5, minmax(0, 1fr))'), 'entry-detail proof strip shows the five-stage product loop');
 assert(!entryDetailWxml.includes('<view><text>1</text>'), 'entry-detail proof strip never regresses to number-only boxes');
 
 const appWxss = read('miniprogram/app.wxss');
@@ -217,6 +219,16 @@ assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.inclu
   'mini-art-'
 ].forEach((term) => {
   assert(!activePageUiSource.includes(term) && !appWxss.includes(term), `active miniapp styles do not keep retired visual system: ${term}`);
+});
+[
+  'home-glow',
+  'review-glow',
+  'profile-glow',
+  'hero-orbit',
+  'hero-core',
+  'hero-dot'
+].forEach((term) => {
+  assert(!activePageUiSource.includes(term), `active miniapp pages do not keep old decorative layer: ${term}`);
 });
 assert(!tabbarWxss.includes('scale(0.88)'), 'custom tabbar labels render at real size instead of being visually scaled down');
 assert(tabbarWxss.includes('position: absolute') && tabbarWxss.includes('bottom: 6rpx'), 'custom tabbar active indicator does not take layout space from labels');

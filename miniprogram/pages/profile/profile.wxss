@@ -415,33 +415,6 @@
   margin-top: 0;
 }
 
-.profile-glow {
-  position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: 999rpx;
-  filter: blur(58rpx);
-}
-
-.glow-one {
-  top: -80rpx;
-  right: -120rpx;
-  width: 480rpx;
-  height: 480rpx;
-  background: rgba(242, 212, 121, 0.38);
-}
-
-.glow-two {
-  top: 250rpx;
-  left: -180rpx;
-  width: 540rpx;
-  height: 540rpx;
-  background: rgba(216, 226, 220, 0.62);
-}
-
-.
-
-/* Later-tab visual pass: parent tab enters directly below the WeChat capsule. */
 .profile-shell {
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(138rpx + env(safe-area-inset-bottom));
 }
