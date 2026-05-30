@@ -16,82 +16,8 @@ page {
   min-height: 100vh;
 }
 
-.top-nav {
-  position: relative;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 112rpx minmax(0, 1fr) 140rpx;
-  min-height: calc(112rpx + env(safe-area-inset-top));
-  align-items: center;
-  gap: 14rpx;
-  padding: calc(30rpx + env(safe-area-inset-top)) 24rpx 14rpx;
-  background: linear-gradient(180deg, #F4F2EC 78%, rgba(244, 242, 236, 0) 100%);
-}
-
-.home-back {
-  display: flex;
-  min-height: 54rpx;
-  align-items: center;
-  justify-content: center;
-  color: #1B4332;
-  background: #FFFFFF;
-  border: 1rpx solid #E5E2D9;
-  border-radius: 999rpx;
-  box-shadow: 0 4rpx 16rpx rgba(45, 44, 42, 0.025);
-  font-size: 22rpx;
-  font-weight: 900;
-}
-
-.nav-brand {
-  min-width: 0;
-}
-
-.brand-title {
-  overflow: hidden;
-  color: #2D2C2A;
-  font-size: 32rpx;
-  font-weight: 1000;
-  line-height: 1.1;
-  letter-spacing: 1rpx;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.brand-subtitle {
-  margin-top: 4rpx;
-  overflow: hidden;
-  color: #8B8982;
-  font-size: 21rpx;
-  font-weight: 740;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nav-pill {
-  display: flex;
-  min-height: 52rpx;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  padding: 0 16rpx;
-  color: #5A5854;
-  background: #FFFFFF;
-  border: 1rpx solid #E5E2D9;
-  border-radius: 999rpx;
-  box-shadow: 0 4rpx 16rpx rgba(45, 44, 42, 0.025);
-  font-size: 22rpx;
-  font-weight: 800;
-}
-
-.nav-dot {
-  width: 12rpx;
-  height: 12rpx;
-  background: #F2D479;
-  border-radius: 999rpx;
-}
-
 .tutor-main {
-  height: calc(100vh - 112rpx - env(safe-area-inset-top));
+  height: 100vh;
 }
 
 .main-inner {
@@ -424,14 +350,6 @@ page {
   background: #ebf9ed;
 }
 
-.hero {
-  position: relative;
-  padding-top: 4rpx;
-}
-
-.
-
-/* Later-tab visual pass: keep the first tutor screen dense and card-like. */
 .main-inner {
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(138rpx + env(safe-area-inset-bottom));
 }
@@ -550,13 +468,4 @@ page {
   height: 70rpx;
   font-size: 24rpx;
   line-height: 70rpx;
-}
-
-/* Child-flow polish: entry-detail jumps should not show the older capsule row. */
-.top-nav {
-  display: none;
-}
-
-.tutor-main {
-  height: 100vh;
 }

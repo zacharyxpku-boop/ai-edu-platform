@@ -174,9 +174,9 @@ assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail ch
 assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
 assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
 assert(entryDetailJs.includes("report: {") && entryDetailJs.includes("badge: '个性化报告'"), 'entry-detail separates report evidence from parent-center actions');
-assert(entryDetailJs.includes('报告决策板') && entryDetailJs.includes('家长行动卡'), 'entry-detail gives report and parent child scenes dedicated decision panels');
+assert(entryDetailJs.includes('今晚路线板') && entryDetailJs.includes('材料分类板') && entryDetailJs.includes('私教追问板') && entryDetailJs.includes('复习闯关板') && entryDetailJs.includes('报告决策板') && entryDetailJs.includes('家长行动卡'), 'entry-detail gives every child scene a dedicated decision panel');
 assert(entryDetailWxml.includes('entry-spotlight') && entryDetailWxml.includes('scene.spotlight.metrics') && entryDetailWxml.includes('scene.spotlight.points'), 'entry-detail renders scene-specific spotlight panels instead of one generic child layout');
-assert(entryDetailWxss.includes('.entry-spotlight.scene-report') && entryDetailWxss.includes('.entry-spotlight.scene-parent'), 'entry-detail styles report and parent child scenes with distinct visual treatments');
+assert(entryDetailWxss.includes('.entry-spotlight.scene-tutor') && entryDetailWxss.includes('.entry-spotlight.scene-review') && entryDetailWxss.includes('.entry-spotlight.scene-report') && entryDetailWxss.includes('.entry-spotlight.scene-parent') && entryDetailWxss.includes('.entry-spotlight.scene-upload'), 'entry-detail styles child scenes with distinct visual treatments');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'entry-detail child page cross-entry jumps render as a two-column visual grid');
 assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child page clamps hero copy to avoid a text wall');
 assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');
@@ -260,6 +260,27 @@ assert(!/mole-(grid|hole|face|label)/.test(arcadeWxml + arcadeWxss), 'retired mo
 ].forEach((term) => {
   assert(!activePageUiSource.includes(term), `active miniapp pages do not keep retired UI class: ${term}`);
 });
+[
+  'top-nav',
+  'upload-nav',
+  'arcade-topbar',
+  'nav-back',
+  'nav-title',
+  'hero-kicker',
+  'hero-title',
+  'challenge-brief',
+  'game-chip',
+  'whack-stage',
+  'quest-stage',
+  'snake-stage',
+  'bubble-stage',
+  'retention-loop-card',
+  'next-day-return-card'
+].forEach((term) => {
+  assert(!activePageUiSource.includes(term), `active miniapp CSS no longer carries hidden old shell/game class: ${term}`);
+});
+assert(!/^\s*\.\s*$/m.test(activePageUiSource), 'active miniapp WXSS has no malformed bare dot selector');
+assert(!/^\s*\.[a-z0-9-]+-\s*$/im.test(activePageUiSource), 'active miniapp WXSS has no truncated selector fragments');
 
 const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
 [

@@ -29,6 +29,21 @@ const SCENES = {
       { label: '再说第一步', value: '孩子先说准备从哪里开始，私教只追问下一句。', icon: '/assets/reference/entry-tutor.png' },
       { label: '最后留证据', value: '完成后进入复习小关或家长进展卡。', icon: '/assets/reference/entry-review.png' }
     ],
+    spotlight: {
+      kicker: '今晚路线板',
+      title: '入口只做一件事：决定从哪一步开始',
+      image: '/assets/reference/entry-map.png',
+      metrics: [
+        { label: '任务拆解', value: '3步' },
+        { label: '预计用时', value: '15分' },
+        { label: '回流证据', value: '1条' }
+      ],
+      points: [
+        '先把今晚任务变成可执行动作，不在首页堆满说明。',
+        '孩子先说第一步，系统再决定去私教、复习还是家长页。',
+        '每次完成都留下证据，明天能接着回访。'
+      ]
+    },
     proofSteps: proofFlow('today')
   },
   tutor: {
@@ -45,6 +60,21 @@ const SCENES = {
       { label: 'AI 问', value: '下一步只问一个更小的问题。', icon: '/assets/reference/entry-map.png' },
       { label: '家长看', value: '只看第一步证据和明天怎么回访。', icon: '/assets/reference/entry-parent.png' }
     ],
+    spotlight: {
+      kicker: '私教追问板',
+      title: '不直接给答案，只追问下一小步',
+      image: '/assets/reference/entry-tutor.png',
+      metrics: [
+        { label: '提示层级', value: '3层' },
+        { label: '答案边界', value: '守住' },
+        { label: '沉淀卡点', value: '可回访' }
+      ],
+      points: [
+        '先确认孩子已经说出的第一步，而不是替他开讲。',
+        '只给最小提示：条件、依据、反例三选一。',
+        '对话结束后生成复习卡，避免一次讲完就忘。'
+      ]
+    },
     proofSteps: proofFlow('tutor')
   },
   review: {
@@ -61,6 +91,21 @@ const SCENES = {
       { label: '迁移', value: '换一道同类题还会不会开始。', icon: '/assets/reference/entry-map.png' },
       { label: '证据', value: '只记录第一步、错因和明天回访。', icon: '/assets/reference/entry-report.png' }
     ],
+    spotlight: {
+      kicker: '复习闯关板',
+      title: '先回忆，再迁移，最后回流证据',
+      image: '/assets/reference/entry-review.png',
+      metrics: [
+        { label: '单局长度', value: '90秒' },
+        { label: '验证目标', value: '迁移' },
+        { label: '奖励来源', value: '真回忆' }
+      ],
+      points: [
+        '游戏不是刷分，而是验证昨天那一步还记不记得。',
+        '换一道同类题，看孩子能不能自己启动。',
+        '只把错因和可迁移动作回流给报告和家长。'
+      ]
+    },
     proofSteps: proofFlow('review')
   },
   report: {
@@ -139,6 +184,21 @@ const SCENES = {
       { label: '成绩/错题', value: '提取学科卡点、错因和回访优先级。', icon: '/assets/reference/entry-review.png' },
       { label: '家长观察', value: '补足情绪、习惯和家庭配合线索。', icon: '/assets/reference/entry-parent.png' }
     ],
+    spotlight: {
+      kicker: '材料分类板',
+      title: '先识别材料类型，再进入报告 SOP',
+      image: '/assets/reference/entry-upload.png',
+      metrics: [
+        { label: '可上传', value: '6类' },
+        { label: '弱证据', value: '待确认' },
+        { label: '输出格式', value: '稳定' }
+      ],
+      points: [
+        '测评、成绩、错题、老师反馈、家长观察分开处理。',
+        '材料不足时先生成待补清单，不硬下结论。',
+        '所有材料最后都进入同一个报告和学习闭环。'
+      ]
+    },
     proofSteps: proofFlow('upload')
   }
 };

@@ -8,66 +8,8 @@ page {
   background: #FAF9F5;
 }
 
-.upload-nav {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 84rpx minmax(0, 1fr) 96rpx;
-  min-height: calc(96rpx + env(safe-area-inset-top));
-  align-items: center;
-  gap: 12rpx;
-  padding: env(safe-area-inset-top) 32rpx 0;
-  background: rgba(250, 249, 245, 0.92);
-  border-bottom: 1rpx solid rgba(234, 230, 223, 0.55);
-  backdrop-filter: blur(18rpx);
-}
-
-.nav-back {
-  width: 64rpx;
-  height: 64rpx;
-}
-
-.nav-back {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  color: #33312E;
-}
-
-.nav-back-icon {
-  font-size: 54rpx;
-  line-height: 1;
-}
-
-.nav-title {
-  min-width: 0;
-  overflow: hidden;
-  color: #33312E;
-  font-size: 30rpx;
-  font-weight: 700;
-  letter-spacing: 1rpx;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nav-home {
-  display: flex;
-  min-height: 52rpx;
-  align-items: center;
-  justify-content: center;
-  color: #1E4233;
-  background: #FFFFFF;
-  border: 1rpx solid #E8E2D5;
-  border-radius: 999rpx;
-  font-size: 22rpx;
-  font-weight: 900;
-  line-height: 52rpx;
-}
-
 .upload-scroll {
-  height: calc(100vh - 96rpx - env(safe-area-inset-top));
+  height: 100vh;
 }
 
 .upload-content {
@@ -390,9 +332,6 @@ page {
   text-align: center;
 }
 
-.
-
-/* Later-tab visual pass: upload tab mirrors the home-tab density. */
 .upload-content {
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(132rpx + env(safe-area-inset-bottom));
 }
@@ -514,13 +453,4 @@ page {
   margin-top: 16rpx;
   font-size: 25rpx;
   line-height: 72rpx;
-}
-
-/* Child-flow polish: new upload surface owns its own safe area. */
-.upload-nav {
-  display: none;
-}
-
-.upload-scroll {
-  height: 100vh;
 }
