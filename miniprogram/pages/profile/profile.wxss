@@ -1,4 +1,4 @@
-﻿page {
+page {
   background: #F9F8F4;
 }
 
@@ -22,7 +22,7 @@
   padding: 0 44rpx calc(170rpx + env(safe-area-inset-bottom));
 }
 
-.parent-hero-shell {
+.yd-parent-screen {
   position: relative;
   margin: 18rpx 0 26rpx;
   padding: 24rpx;
@@ -36,23 +36,23 @@
   box-shadow: 0 22rpx 60rpx rgba(38, 58, 43, 0.08);
 }
 
-.parent-dash-top,
-.parent-dash-brand,
-.parent-dash-hero,
-.parent-dash-section-head,
-.parent-dash-action-row {
+.yd-parent-top,
+.yd-parent-brand,
+.yd-parent-hero,
+.yd-parent-section-head,
+.yd-parent-action-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18rpx;
 }
 
-.parent-dash-brand {
+.yd-parent-brand {
   min-width: 0;
   justify-content: flex-start;
 }
 
-.parent-dash-mark {
+.yd-parent-mark {
   width: 52rpx;
   height: 52rpx;
   flex: 0 0 auto;
@@ -64,7 +64,7 @@
   box-shadow: 0 14rpx 26rpx rgba(34, 185, 92, 0.24);
 }
 
-.parent-dash-brand text {
+.yd-parent-brand text {
   display: block;
   max-width: 340rpx;
   overflow: hidden;
@@ -72,21 +72,21 @@
   white-space: nowrap;
 }
 
-.parent-dash-brand text:first-child {
+.yd-parent-brand text:first-child {
   color: #18211d;
   font-size: 30rpx;
   font-weight: 950;
   line-height: 1.15;
 }
 
-.parent-dash-brand text:last-child {
+.yd-parent-brand text:last-child {
   margin-top: 3rpx;
   color: #6a766f;
   font-size: 21rpx;
   font-weight: 760;
 }
 
-.parent-dash-pill {
+.yd-parent-pill {
   flex: 0 0 auto;
   padding: 13rpx 18rpx;
   color: #14854a;
@@ -98,14 +98,14 @@
   white-space: nowrap;
 }
 
-.parent-dash-hero {
+.yd-parent-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 172rpx;
   align-items: center;
   margin-top: 28rpx;
 }
 
-.parent-dash-kicker {
+.yd-parent-kicker {
   width: max-content;
   max-width: 100%;
   padding: 9rpx 15rpx;
@@ -116,7 +116,7 @@
   font-weight: 900;
 }
 
-.parent-dash-title {
+.yd-parent-title {
   margin-top: 14rpx;
   color: #101a16;
   font-size: 42rpx;
@@ -125,61 +125,61 @@
   letter-spacing: 0;
 }
 
-.parent-dash-sub {
+.yd-parent-sub {
   margin-top: 12rpx;
   color: #64706a;
   font-size: 23rpx;
   line-height: 1.5;
 }
 
-.parent-dash-art {
+.yd-parent-art {
   width: 186rpx;
   height: 164rpx;
   border-radius: 34rpx;
   background: #fff1ea;
 }
 
-.parent-dash-proof-grid {
+.yd-parent-proof-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12rpx;
   margin-top: 22rpx;
 }
 
-.parent-dash-proof,
-.parent-dash-evidence {
+.yd-parent-proof,
+.yd-parent-evidence {
   border: 1rpx solid rgba(232, 238, 230, 0.95);
   border-radius: 26rpx;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 12rpx 28rpx rgba(38, 58, 43, 0.05);
 }
 
-.parent-dash-proof {
+.yd-parent-proof {
   min-width: 0;
   min-height: 116rpx;
   padding: 18rpx 14rpx;
 }
 
-.parent-dash-proof.primary {
+.yd-parent-proof.primary {
   background: #ecf9ed;
   border-color: rgba(34, 185, 92, 0.18);
 }
 
-.parent-dash-proof text {
+.yd-parent-proof text {
   display: block;
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
 }
 
-.parent-dash-proof text:first-child {
+.yd-parent-proof text:first-child {
   color: #173f31;
   font-size: 24rpx;
   font-weight: 950;
   white-space: nowrap;
 }
 
-.parent-dash-proof text:last-child {
+.yd-parent-proof text:last-child {
   margin-top: 8rpx;
   color: #657069;
   font-size: 20rpx;
@@ -187,25 +187,25 @@
   line-height: 1.32;
 }
 
-.parent-dash-evidence {
+.yd-parent-evidence {
   margin-top: 18rpx;
   padding: 20rpx;
 }
 
-.parent-dash-section-head text:first-child {
+.yd-parent-section-head text:first-child {
   color: #18211d;
   font-size: 27rpx;
   font-weight: 950;
 }
 
-.parent-dash-section-head text:last-child {
+.yd-parent-section-head text:last-child {
   color: #738077;
   font-size: 20rpx;
   font-weight: 780;
   white-space: nowrap;
 }
 
-.parent-dash-evidence-grid {
+.yd-parent-evidence-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10rpx;
@@ -277,7 +277,7 @@
   white-space: nowrap;
 }
 
-.parent-dash-evidence-grid view {
+.yd-parent-evidence-grid view {
   min-width: 0;
   padding: 16rpx 8rpx;
   border-radius: 20rpx;
@@ -285,27 +285,27 @@
   text-align: center;
 }
 
-.parent-dash-evidence-grid text {
+.yd-parent-evidence-grid text {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.parent-dash-evidence-grid text:first-child {
+.yd-parent-evidence-grid text:first-child {
   color: #174533;
   font-size: 21rpx;
   font-weight: 950;
 }
 
-.parent-dash-evidence-grid text:last-child {
+.yd-parent-evidence-grid text:last-child {
   margin-top: 6rpx;
   color: #728078;
   font-size: 19rpx;
   font-weight: 780;
 }
 
-.parent-hero-shell .ux-kit-jump-grid {
+.yd-parent-screen .ux-kit-jump-grid {
   gap: 12rpx;
   margin-top: 18rpx;
 }
@@ -316,7 +316,7 @@
     #ffffff;
 }
 
-.parent-dash-route {
+.yd-parent-route {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12rpx;
@@ -405,7 +405,7 @@
   white-space: nowrap;
 }
 
-.parent-dash-action-row {
+.yd-parent-action-row {
   margin-top: 18rpx;
 }
 
@@ -419,7 +419,7 @@
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(138rpx + env(safe-area-inset-bottom));
 }
 
-.parent-hero-shell {
+.yd-parent-screen {
   margin-top: 0;
   padding: 18rpx;
   border-radius: 34rpx;

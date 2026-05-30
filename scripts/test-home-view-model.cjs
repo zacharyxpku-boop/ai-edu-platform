@@ -187,14 +187,14 @@ assert(homeJs.includes('goMiniLessonResume'), 'home page exposes mini lesson res
 assert(homeJs.includes('loadLearningReportState') && homeJs.includes("storage.get('upload.report.handoff.v1'"), 'home page feeds report service handoff into the first-screen view model');
 assert(homeJs.includes('goReportServiceResume'), 'home page exposes report service resume navigation');
 assert(homeJs.includes('runHomeNextStep') && homeJs.includes("action === 'miniLesson'") && homeJs.includes("action === 'first'"), 'home next-step action dispatches to mini lesson, tutor, or review');
-assert(homeWxml.includes('mini-home-shell'), 'home renders the new reference-style launch shell');
+assert(homeWxml.includes('yd-home-screen'), 'home renders the new reference-style launch shell');
 assert(homeWxml.includes('mini-entry-grid'), 'home renders a compact jump grid instead of a dense retired feed');
 assert(homeWxml.includes('mini-route-card'), 'home keeps the tonight route as a clear action panel');
 assert(homeWxml.includes('mini-route-input'), 'home keeps a first-step input inside the route panel');
 assert(homeWxml.includes('runHomeNextStep'), 'home next-step CTA routes through the action dispatcher');
 
 const firstScreen = homeWxml.slice(
-  homeWxml.indexOf('mini-home-shell'),
+  homeWxml.indexOf('yd-home-screen'),
   homeWxml.indexOf('</scroll-view>')
 );
 

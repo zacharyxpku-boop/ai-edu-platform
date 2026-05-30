@@ -3,21 +3,21 @@
 
     <scroll-view class="tutor-main" scroll-y enhanced show-scrollbar="{{false}}">
       <view class="main-inner">
-        <view class="tutor-hero-shell ux-entry ux-entry-tutor ux-kit-screen ux-kit-tutor">
-          <view class="tutor-dash-top">
-            <view class="tutor-dash-brand">
-              <image class="tutor-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+        <view class="yd-tutor-screen ux-entry ux-entry-tutor ux-kit-screen ux-kit-tutor">
+          <view class="yd-tutor-top">
+            <view class="yd-tutor-brand">
+              <image class="yd-tutor-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
               <view>
                 <text>原小点</text>
                 <text>只追问第一步</text>
               </view>
             </view>
-            <view class="tutor-dash-pill" bindtap="goReportPreview">看报告</view>
+            <view class="yd-tutor-pill" bindtap="goReportPreview">看报告</view>
           </view>
 
-          <view class="tutor-dash-hero">
-            <image class="tutor-dash-mascot" mode="aspectFill" src="/assets/brand/gudian-reader.png" />
-            <view class="tutor-dash-bubble">
+          <view class="yd-tutor-hero">
+            <image class="yd-tutor-mascot" mode="aspectFill" src="/assets/brand/gudian-reader.png" />
+            <view class="yd-tutor-bubble">
               <view>你先说第一步</view>
               <text>咕点不会替你写答案。你说题目或卡点，它只问下一句最小提示。</text>
               <view class="tutor-chip-row">

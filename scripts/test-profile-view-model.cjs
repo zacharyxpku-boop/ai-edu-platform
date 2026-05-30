@@ -22,12 +22,12 @@ const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js')
 });
 
 [
-  'parent-hero-shell',
-  'parent-dash-evidence',
+  'yd-parent-screen',
+  'yd-parent-evidence',
   'parent-report-preview',
-  'parent-dash-action-row',
-  'parent-dash-route',
-  'parent-dash-route'
+  'yd-parent-action-row',
+  'yd-parent-route',
+  'yd-parent-route'
 ].forEach((token) => {
   assert(profileWxml.includes(token), `profile WXML keeps new-shell capability: ${token}`);
 });

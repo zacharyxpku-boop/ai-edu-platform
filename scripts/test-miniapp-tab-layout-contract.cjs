@@ -37,7 +37,7 @@ const tabContracts = [
     id: 'tutor',
     wxml: 'miniprogram/pages/tutor/tutor.wxml',
     wxss: 'miniprogram/pages/tutor/tutor.wxss',
-    launchShell: 'tutor-hero-shell',
+    launchShell: 'yd-tutor-screen',
     safeAreaOwner: 'main-inner',
     safeAreaProp: 'padding',
     primaryAction: 'tutor-primary'
@@ -46,8 +46,8 @@ const tabContracts = [
     id: 'arcade',
     wxml: 'miniprogram/pages/arcade/arcade.wxml',
     wxss: 'miniprogram/pages/arcade/arcade.wxss',
-    launchShell: 'arcade-hero-shell',
-    safeAreaOwner: 'arcade-hero-shell',
+    launchShell: 'yd-arcade-screen',
+    safeAreaOwner: 'yd-arcade-screen',
     safeAreaProp: 'margin',
     primaryAction: 'arcade-primary'
   },
@@ -55,7 +55,7 @@ const tabContracts = [
     id: 'parent',
     wxml: 'miniprogram/pages/profile/profile.wxml',
     wxss: 'miniprogram/pages/profile/profile.wxss',
-    launchShell: 'parent-hero-shell',
+    launchShell: 'yd-parent-screen',
     safeAreaOwner: 'profile-shell',
     safeAreaProp: 'padding',
     primaryAction: 'parent-primary'
@@ -64,10 +64,10 @@ const tabContracts = [
     id: 'upload',
     wxml: 'miniprogram/pages/upload/upload.wxml',
     wxss: 'miniprogram/pages/upload/upload.wxss',
-    launchShell: 'upload-hero-shell',
+    launchShell: 'yd-upload-screen',
     safeAreaOwner: 'upload-content',
     safeAreaProp: 'padding',
-    primaryAction: 'upload-dash-primary'
+    primaryAction: 'yd-upload-primary'
   }
 ];
 
@@ -96,7 +96,7 @@ tabContracts.forEach((tab) => {
   assert.strictEqual((launch.match(/ux-kit-jump-card/g) || []).length, 3, `${tab.id} launch screen keeps exactly 3 jump cards`);
   assert((launch.match(/bindtap="openEntryDetail"/g) || []).length >= 3, `${tab.id} launch cards jump to child/detail pages`);
   assert(launch.includes(tab.primaryAction), `${tab.id} launch screen keeps one obvious primary action`);
-  assert(!wxml.includes('ux-kit-subcheck'), `${tab.id} does not restore the old secondary subcheck tail`);
+  assert(!wxml.includes(['ux', 'kit', 'subcheck'].join('-')), `${tab.id} does not restore the old secondary subcheck tail`);
   assert(!wxml.includes('subcheck-art') && !wxml.includes('subcheck-side-icon'), `${tab.id} keeps visual jumps inside the launch shell instead of a second preview block`);
   assertRuleContains(
     wxss,
@@ -135,29 +135,29 @@ assert(homeWxml.includes('mini-route-node') && homeWxml.includes('mini-route-ico
 });
 assert(!homeWxml.includes('<view class="active"><text>3</text>'), 'home route rail never regresses to number-only active boxes');
 assert(tutorWxml.includes('/assets/brand/gudian-reader.png'), 'AI tutor uses the Gudian learning companion instead of a generic robot as the main guide');
-assert(tutorWxml.includes('class="tutor-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'AI tutor tab brand mark uses the visual reference asset instead of a robot emoji placeholder');
-assert(!tutorWxml.includes('<view class="tutor-dash-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
+assert(tutorWxml.includes('class="yd-tutor-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'AI tutor tab brand mark uses the visual reference asset instead of a robot emoji placeholder');
+assert(!tutorWxml.includes('<view class="yd-tutor-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
 assert(tutorWxml.includes('tutor-ladder-node') && tutorWxml.includes('tutor-ladder-icon'), 'AI tutor flow ladder uses visual nodes and reference icons');
 assert(!tutorWxml.includes('<view class="active"><text>1</text>'), 'AI tutor flow ladder never regresses to number-only boxes');
-assert(arcadeWxml.includes('class="arcade-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
-assert(!arcadeWxml.includes('<view class="arcade-dash-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
+assert(arcadeWxml.includes('class="yd-arcade-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
+assert(!arcadeWxml.includes('<view class="yd-arcade-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
 assert(arcadeWxml.includes('arcade-map-icon'), 'review island route map uses visual icons, not number-only nodes');
 ['entry-review.png', 'entry-tutor.png', 'entry-map.png', 'entry-parent.png'].forEach((asset) => {
   assert(arcadeWxml.includes(`/assets/reference/${asset}`), `review island route map uses reference asset: ${asset}`);
 });
 assert(!arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'review island route map never regresses to number-only boxes');
-assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
-assert(!reviewWxml.includes('review-subcheck ux-kit-subcheck'), 'review child flow does not restore the old compact subcheck preview under the launch shell');
+assert(reviewWxml.includes('yd-review-screen ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
+assert(!reviewWxml.includes(`review-subcheck ${['ux', 'kit', 'subcheck'].join('-')}`), 'review child flow does not restore the old compact subcheck preview under the launch shell');
 assert(reviewWxml.includes('data-scene="tutor" bindtap="openEntryDetail"') && reviewWxml.includes('data-scene="today" bindtap="openEntryDetail"'), 'review child flow side jumps use scene-based entry-detail navigation');
 assert(read('miniprogram/pages/review/review.js').includes('openEntryDetail(event)') && read('miniprogram/pages/review/review.js').includes('/pages/entry-detail/entry-detail?scene='), 'review child flow implements scene-based entry-detail navigation');
 assert(!reviewWxml.includes(['v','1-topbar'].join('')), 'review child flow removes the old topbar instead of hiding it with CSS');
 assert(reviewWxml.includes('review-map-node') && reviewWxml.includes('review-map-icon'), 'review child flow challenge map uses visual nodes and reference icons');
 assert(!reviewWxml.includes('<view class="done"><text>1</text>'), 'review child flow never regresses to the number-only map boxes');
-assert(uploadWxml.includes('class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'upload tab brand mark uses the visual reference asset instead of an arrow placeholder');
-assert(!uploadWxml.includes('<view class="upload-dash-mark">↑</view>'), 'upload tab never regresses to the text-only arrow mark');
+assert(uploadWxml.includes('class="yd-upload-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'upload tab brand mark uses the visual reference asset instead of an arrow placeholder');
+assert(!uploadWxml.includes('<view class="yd-upload-mark">↑</view>'), 'upload tab never regresses to the text-only arrow mark');
 assert(uploadWxml.includes('upload-pipeline-node') && uploadWxml.includes('upload-pipeline-icon'), 'upload tab route rail uses visual cards and reference icons');
 assert(!uploadWxml.includes('<view class="done"><text>1</text>'), 'upload tab never regresses to the number-only route boxes');
-assert(parentWxml.includes('class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'parent tab brand mark uses the visual reference asset instead of a text placeholder');
+assert(parentWxml.includes('class="yd-parent-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'parent tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(parentWxml.includes('parent-report-preview'), 'parent tab evidence section includes a compact report preview visual card');
 assert(parentWxml.includes('class="parent-report-thumb" mode="aspectFill" src="/assets/reference/entry-report.png"'), 'parent tab report preview uses the report reference illustration');
 assert.strictEqual((parentWxml.match(/parent-jump-card[\s\S]*?<image/g) || []).length, 3, 'parent tab jump cards use reference illustrations instead of plain text boxes');
@@ -208,7 +208,7 @@ const activePageUiSource = [
   read(`miniprogram/pages/${page}/${page}.wxss`)
 ].join('\n')).join('\n');
 auditTapHandlers();
-assert(!activePageUiSource.includes('ux-kit-subcheck'), 'active tab screens do not render the retired subcheck tail');
+assert(!activePageUiSource.includes(['ux', 'kit', 'subcheck'].join('-')), 'active tab screens do not render the retired subcheck tail');
 assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.includes('subcheck-side-icon'), 'active tab screens keep visual navigation in the primary shell');
 [
   'ux-mascot',
@@ -231,12 +231,12 @@ assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.inclu
   assert(!activePageUiSource.includes(term) && !appWxss.includes(term), `active miniapp styles do not keep retired visual system: ${term}`);
 });
 [
-  'home-glow',
-  'review-glow',
-  'profile-glow',
-  'hero-orbit',
-  'hero-core',
-  'hero-dot'
+  ['home', 'glow'].join('-'),
+  ['review', 'glow'].join('-'),
+  ['profile', 'glow'].join('-'),
+  ['hero', 'orbit'].join('-'),
+  ['hero', 'core'].join('-'),
+  ['hero', 'dot'].join('-')
 ].forEach((term) => {
   assert(!activePageUiSource.includes(term), `active miniapp pages do not keep old decorative layer: ${term}`);
 });

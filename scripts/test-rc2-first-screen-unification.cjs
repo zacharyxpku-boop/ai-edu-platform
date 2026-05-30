@@ -72,7 +72,7 @@ const pages = {
     wxml: read('miniprogram/pages/home/home.wxml'),
     vm: loadModule('miniprogram/view-models/home-view-model.js', { '../utils/storage': storageStub }),
     build: (mod) => mod.buildHomeViewModel({ companionPreference: { selectedCompanion: 'anan' } }),
-    shell: 'mini-home-shell',
+    shell: 'yd-home-screen',
     binding: 'homeViewModel',
     primaryCardBinding: 'homeViewModel.inputCard'
   },
@@ -83,7 +83,7 @@ const pages = {
       companionPreference: { selectedCompanion: 'wenwen' },
       todayFocus: { title: '第二步卡住', issueType: 'step_break', repairStatus: 'in_progress' }
     }),
-    shell: 'review-hero-shell',
+    shell: 'yd-review-screen',
     binding: 'reviewViewModel',
     primaryCardBinding: 'reviewViewModel.primaryCta'
   },
@@ -95,7 +95,7 @@ const pages = {
       todayFocus: { title: '第一单元不稳', issueType: 'relation_setup', miniActionText: '先找第一单元' },
       reviewCard: { front: '第一单元回忆卡' }
     }),
-    shell: 'parent-hero-shell',
+    shell: 'yd-parent-screen',
     binding: 'profileViewModel',
     primaryCardBinding: 'profileViewModel.primaryCta'
   }

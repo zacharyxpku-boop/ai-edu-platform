@@ -123,13 +123,13 @@ assert(files.reviewViewModelJs.includes("buildPrimaryCard") && files.reviewViewM
 assert(!files.reviewWxml.includes("reviewViewModel.emptyState") && files.reviewViewModelJs.includes("emptyState"), "review empty state remains clear in logic without adding another visible panel");
 assert(files.reviewWxml.includes("data-scene=\"tutor\"") && files.reviewViewModelJs.includes("emptyState"), "review empty state can still route to the first-step flow");
 
-assert(files.tutorWxml.includes("tutor-hero-shell") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps the first-step title shell");
-assert(files.arcadeWxml.includes("arcade-hero-shell") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps review as jump cards");
+assert(files.tutorWxml.includes("yd-tutor-screen") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps the first-step title shell");
+assert(files.arcadeWxml.includes("yd-arcade-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps review as jump cards");
 assert(files.arcadeWxml.includes("data-scene=\"tutor\""), "arcade routes empty recall back to stuck-point repair");
 assert(!files.arcadeWxml.includes("鎻愬彇璁板繂") && !files.arcadeWxml.includes("姝ラ椤哄簭") && !files.arcadeWxml.includes("姒傚康杈圭晫"), "arcade avoids heavy memory taxonomy");
 
 assert(files.profileWxml.includes("{{profileViewModel.title}}") && files.profileViewModelJs.includes("title:"), "profile keeps the parent one-question heading");
-assert(files.profileWxml.includes("parent-hero-shell") && files.profileWxml.includes("parent-dash-evidence") && files.profileWxml.includes("profileViewModel.title") && files.profileViewModelJs.includes("title:"), "profile main card keeps the parent recap shell");
+assert(files.profileWxml.includes("yd-parent-screen") && files.profileWxml.includes("yd-parent-evidence") && files.profileWxml.includes("profileViewModel.title") && files.profileViewModelJs.includes("title:"), "profile main card keeps the parent recap shell");
 assert(!files.profileWxml.includes("profileViewModel.growthMemoryCard") && files.profileViewModelJs.includes("proofSummary"), "profile memory stays in logic instead of becoming another visible card");
 assert(!files.profileWxml.includes('error-distribution'), 'profile removes dashboard-style error distribution');
 

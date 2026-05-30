@@ -33,7 +33,7 @@ vm.runInNewContext(uploadPageCode, {
 assert(uploadPageCode.includes('buildUploadEntryDeck'), 'upload page still builds the three-choice intake model in logic');
 assert(uploadPageCode.includes('setUploadEntryMode'), 'upload page keeps learner mode switching logic for homework, stuck-point, and material inputs');
 assert(uploadWxml.includes('upload-material-grid') && uploadWxml.includes('upload-material-card'), 'upload page now renders the three material entry cards in the compact visual shell');
-assert(uploadWxml.includes('upload-dash-pipeline') && uploadWxml.includes('upload-material-grid') && uploadWxml.includes('upload-dash-primary'), 'upload page shows the current classify-to-report-to-tutor route without old deep controls');
+assert(uploadWxml.includes('yd-upload-pipeline') && uploadWxml.includes('upload-material-grid') && uploadWxml.includes('yd-upload-primary'), 'upload page shows the current classify-to-report-to-tutor route without old deep controls');
 assert(uploadWxml.includes('data-scene="upload"') && uploadWxml.includes('data-scene="parent"') && uploadWxml.includes('data-scene="today"'), 'upload page exposes stable scene jumps for upload, parent report, and tonight route');
 assert(uploadPageCode.includes("['homework', 'stuck', 'material']"), 'upload entry modes are limited to the three intended choices');
 assert(uploadPageCode.includes('patch.showMaterialPanel = true'), 'material entry opens the material panel in logic instead of hiding the next step');

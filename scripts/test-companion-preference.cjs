@@ -100,14 +100,14 @@ const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js');
 const teacherDoc = read('docs/teacher-companion-system.md');
 
-assert(homeWxml.includes('mini-hero-mascot') && homeViewModelJs.includes('teacherPickerLabel'), 'home has a mascot entry in the new reference shell');
+assert(homeWxml.includes('yd-home-hero-mascot') && homeViewModelJs.includes('teacherPickerLabel'), 'home has a mascot entry in the new reference shell');
 assert(!homeWxml.includes('companion-picker') && !homeWxml.includes('teacher-grid'), 'home no longer renders a teacher selector');
 assert(!homeWxml.includes('{{item.short}}') && !homeWxml.includes('{{item.desc}}'), 'home no longer renders companion style cards');
 [
-  ['home', homeWxml, '{{companionCopy.home}}', 'mini-hero-mascot'],
-  ['review', reviewWxml, '{{companionCopy.review}}', 'review-hero-shell'],
+  ['home', homeWxml, '{{companionCopy.home}}', 'yd-home-hero-mascot'],
+  ['review', reviewWxml, '{{companionCopy.review}}', 'yd-review-screen'],
   ['entryDetail', entryDetailWxml, '{{companionCopy.revisit}}', 'entry-jump-grid'],
-  ['profile', profileWxml, '{{companionCopy.profile}}', 'parent-hero-shell']
+  ['profile', profileWxml, '{{companionCopy.profile}}', 'yd-parent-screen']
 ].forEach(([name, wxml, stackedCopy, companionBinding]) => {
   assert(wxml.includes(companionBinding || '{{companionLine}}'), `${name} renders one mascot strip`);
   assert(!wxml.includes(stackedCopy), `${name} does not stack an extra companion explanation`);

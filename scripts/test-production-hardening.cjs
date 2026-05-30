@@ -449,7 +449,7 @@ const apiJs = read('miniprogram/utils/api.js');
 const sessionApi = read('api/mini/session.js');
 const tutorApi = read('api/mini/tutor-message.js');
 assert(profileJs.includes('buildRecentLearningSummary'), 'profile page reads real 3/7-night summary');
-assert(!profileWxml.includes('threeNightSummary') && !profileWxml.includes('sevenNightSummary') && profileWxml.includes('parent-dash-evidence'), 'profile page keeps real summaries in logic without rendering dense summary panels');
+assert(!profileWxml.includes('threeNightSummary') && !profileWxml.includes('sevenNightSummary') && profileWxml.includes('yd-parent-evidence'), 'profile page keeps real summaries in logic without rendering dense summary panels');
 assert(arcadeJs.includes('recordGameSessionResult'), 'arcade completion records retention evidence');
 assert(arcadeJs.includes('canPlayGameAction'), 'arcade page has a centralized gameBlocked action guard');
 [

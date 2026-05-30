@@ -16,7 +16,7 @@ page {
   padding: 26rpx 40rpx 96rpx;
 }
 
-.upload-hero-shell {
+.yd-upload-screen {
   position: relative;
   margin-bottom: 30rpx;
   padding: 24rpx;
@@ -30,30 +30,30 @@ page {
   overflow: hidden;
 }
 
-.upload-dash-top,
-.upload-dash-brand,
-.upload-dash-proof,
-.upload-dash-hero,
+.yd-upload-top,
+.yd-upload-brand,
+.yd-upload-proof,
+.yd-upload-hero,
 .upload-material-grid,
-.upload-dash-pipeline {
+.yd-upload-pipeline {
   box-sizing: border-box;
 }
 
-.upload-dash-top {
+.yd-upload-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18rpx;
 }
 
-.upload-dash-brand {
+.yd-upload-brand {
   display: flex;
   min-width: 0;
   align-items: center;
   gap: 14rpx;
 }
 
-.upload-dash-mark {
+.yd-upload-mark {
   width: 52rpx;
   height: 52rpx;
   flex: 0 0 auto;
@@ -65,7 +65,7 @@ page {
   box-shadow: 0 14rpx 26rpx rgba(34, 185, 92, 0.24);
 }
 
-.upload-dash-brand text {
+.yd-upload-brand text {
   display: block;
   max-width: 340rpx;
   overflow: hidden;
@@ -73,21 +73,21 @@ page {
   white-space: nowrap;
 }
 
-.upload-dash-brand text:first-child {
+.yd-upload-brand text:first-child {
   color: #18211d;
   font-size: 30rpx;
   font-weight: 950;
   line-height: 1.15;
 }
 
-.upload-dash-brand text:last-child {
+.yd-upload-brand text:last-child {
   margin-top: 3rpx;
   color: #6a766f;
   font-size: 21rpx;
   font-weight: 760;
 }
 
-.upload-dash-pill {
+.yd-upload-pill {
   flex: 0 0 auto;
   padding: 13rpx 18rpx;
   color: #14854a;
@@ -98,7 +98,7 @@ page {
   font-weight: 900;
 }
 
-.upload-dash-hero {
+.yd-upload-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 170rpx;
   gap: 20rpx;
@@ -106,7 +106,7 @@ page {
   margin-top: 30rpx;
 }
 
-.upload-dash-title {
+.yd-upload-title {
   color: #101a16;
   font-size: 44rpx;
   font-weight: 950;
@@ -114,21 +114,21 @@ page {
   letter-spacing: 0;
 }
 
-.upload-dash-sub {
+.yd-upload-sub {
   margin-top: 12rpx;
   color: #64706a;
   font-size: 24rpx;
   line-height: 1.55;
 }
 
-.upload-dash-proof {
+.yd-upload-proof {
   display: flex;
   flex-wrap: wrap;
   gap: 10rpx;
   margin-top: 18rpx;
 }
 
-.upload-dash-proof text {
+.yd-upload-proof text {
   padding: 8rpx 14rpx;
   color: #26754c;
   background: #f0fbf0;
@@ -157,7 +157,7 @@ page {
   white-space: nowrap;
 }
 
-.upload-dash-mascot {
+.yd-upload-mascot {
   width: 196rpx;
   height: 176rpx;
   border-radius: 34rpx;
@@ -225,7 +225,7 @@ page {
   line-height: 1.35;
 }
 
-.upload-dash-pipeline {
+.yd-upload-pipeline {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12rpx;
@@ -319,7 +319,7 @@ page {
   background: #fff1bd;
 }
 
-.upload-dash-primary {
+.yd-upload-primary {
   height: 78rpx;
   margin-top: 22rpx;
   color: #1d261f;
@@ -336,24 +336,24 @@ page {
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(132rpx + env(safe-area-inset-bottom));
 }
 
-.upload-hero-shell {
+.yd-upload-screen {
   margin-bottom: 22rpx;
   padding: 18rpx;
   border-radius: 34rpx;
 }
 
-.upload-dash-hero {
+.yd-upload-hero {
   grid-template-columns: minmax(0, 1fr) 150rpx;
   gap: 12rpx;
   margin-top: 20rpx;
 }
 
-.upload-dash-title {
+.yd-upload-title {
   font-size: 35rpx;
   line-height: 1.1;
 }
 
-.upload-dash-sub {
+.yd-upload-sub {
   display: -webkit-box;
   margin-top: 9rpx;
   overflow: hidden;
@@ -363,12 +363,12 @@ page {
   -webkit-line-clamp: 2;
 }
 
-.upload-dash-proof {
+.yd-upload-proof {
   gap: 8rpx;
   margin-top: 12rpx;
 }
 
-.upload-dash-proof text {
+.yd-upload-proof text {
   padding: 7rpx 12rpx;
   font-size: 19rpx;
 }
@@ -382,7 +382,7 @@ page {
   font-size: 17rpx;
 }
 
-.upload-dash-mascot {
+.yd-upload-mascot {
   width: 148rpx;
   height: 128rpx;
   overflow: hidden;
@@ -416,7 +416,7 @@ page {
   font-size: 18rpx;
 }
 
-.upload-dash-pipeline {
+.yd-upload-pipeline {
   gap: 9rpx;
   margin-top: 16rpx;
 }
@@ -448,7 +448,7 @@ page {
   font-size: 16rpx;
 }
 
-.upload-dash-primary {
+.yd-upload-primary {
   height: 72rpx;
   margin-top: 16rpx;
   font-size: 25rpx;

@@ -1,4 +1,4 @@
-﻿page {
+page {
   background: #f9f8f5;
 }
 
@@ -21,7 +21,7 @@
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(138rpx + env(safe-area-inset-bottom));
 }
 
-.review-hero-shell {
+.yd-review-screen {
   position: relative;
   margin-bottom: 24rpx;
   padding: 24rpx;
@@ -35,9 +35,9 @@
   overflow: hidden;
 }
 
-.review-dash-top,
-.review-dash-brand,
-.review-dash-hero,
+.yd-review-top,
+.yd-review-brand,
+.yd-review-hero,
 .review-chip-row,
 .review-section-head,
 .review-map-line,
@@ -45,8 +45,8 @@
   box-sizing: border-box;
 }
 
-.review-dash-top,
-.review-dash-brand,
+.yd-review-top,
+.yd-review-brand,
 .review-section-head {
   display: flex;
   align-items: center;
@@ -54,12 +54,12 @@
   gap: 18rpx;
 }
 
-.review-dash-brand {
+.yd-review-brand {
   min-width: 0;
   justify-content: flex-start;
 }
 
-.review-dash-mark {
+.yd-review-mark {
   width: 52rpx;
   height: 52rpx;
   flex: 0 0 auto;
@@ -71,7 +71,7 @@
   box-shadow: 0 14rpx 26rpx rgba(248, 198, 34, 0.18);
 }
 
-.review-dash-brand text {
+.yd-review-brand text {
   display: block;
   max-width: 340rpx;
   overflow: hidden;
@@ -79,21 +79,21 @@
   white-space: nowrap;
 }
 
-.review-dash-brand text:first-child {
+.yd-review-brand text:first-child {
   color: #18211d;
   font-size: 30rpx;
   font-weight: 950;
   line-height: 1.15;
 }
 
-.review-dash-brand text:last-child {
+.yd-review-brand text:last-child {
   margin-top: 3rpx;
   color: #6a766f;
   font-size: 21rpx;
   font-weight: 760;
 }
 
-.review-dash-pill {
+.yd-review-pill {
   flex: 0 0 auto;
   padding: 13rpx 18rpx;
   color: #14854a;
@@ -105,13 +105,13 @@
   white-space: nowrap;
 }
 
-.review-hero-shell {
+.yd-review-screen {
   margin-bottom: 18rpx;
   padding: 18rpx;
   border-radius: 34rpx;
 }
 
-.review-dash-hero {
+.yd-review-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 150rpx;
   gap: 12rpx;
@@ -119,7 +119,7 @@
   margin-top: 18rpx;
 }
 
-.review-dash-title {
+.yd-review-title {
   color: #101a16;
   font-size: 35rpx;
   font-weight: 950;
@@ -127,7 +127,7 @@
   letter-spacing: 0;
 }
 
-.review-dash-sub {
+.yd-review-sub {
   display: -webkit-box;
   margin-top: 9rpx;
   overflow: hidden;
@@ -155,7 +155,7 @@
   white-space: nowrap;
 }
 
-.review-dash-art {
+.yd-review-art {
   width: 148rpx;
   height: 128rpx;
   overflow: hidden;

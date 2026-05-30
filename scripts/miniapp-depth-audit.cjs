@@ -470,7 +470,7 @@ assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHo
 
 [
   'parent-report-preview',
-  'parent-dash-evidence-grid',
+  'yd-parent-evidence-grid',
   'tutor-ladder',
   'tutor-entry-card',
   'mini-report-card',

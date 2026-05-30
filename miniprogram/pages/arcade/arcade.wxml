@@ -1,24 +1,24 @@
 <view class="page arcade-page safe-bottom">
   <scroll-view class="arcade-scroll" scroll-y enhanced show-scrollbar="{{false}}">
-    <view class="ux-entry ux-entry-island ux-kit-screen ux-kit-review arcade-hero-shell">
+    <view class="ux-entry ux-entry-island ux-kit-screen ux-kit-review yd-arcade-screen">
       <view class="arcade-evidence-panel">小课堂回流</view>
-      <view class="arcade-dash-top">
-        <view class="arcade-dash-brand">
-          <image class="arcade-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+      <view class="yd-arcade-top">
+        <view class="yd-arcade-brand">
+          <image class="yd-arcade-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
           <view>
             <text>轻练习岛</text>
             <text>5 分钟迁移验证</text>
           </view>
         </view>
-        <view class="arcade-dash-pill">不排行</view>
+        <view class="yd-arcade-pill">不排行</view>
       </view>
-      <view class="arcade-dash-hero">
-        <view class="arcade-dash-copy">
-          <view class="arcade-dash-kicker">先回忆，再核对</view>
-          <view class="arcade-dash-title">把一个卡点玩成可验证的小关</view>
-          <view class="arcade-dash-sub">每局只练一个知识点：说出第一步、核对过程、做一张变式卡，最后把证据回流给家长。</view>
+      <view class="yd-arcade-hero">
+        <view class="yd-arcade-copy">
+          <view class="yd-arcade-kicker">先回忆，再核对</view>
+          <view class="yd-arcade-title">把一个卡点玩成可验证的小关</view>
+          <view class="yd-arcade-sub">每局只练一个知识点：说出第一步、核对过程、做一张变式卡，最后把证据回流给家长。</view>
         </view>
-        <image class="arcade-dash-art" mode="aspectFill" src="/assets/reference/entry-map.png" />
+        <image class="yd-arcade-art" mode="aspectFill" src="/assets/reference/entry-map.png" />
       </view>
       <view class="arcade-map-card">
         <view class="arcade-map-head">
@@ -70,7 +70,7 @@
           <text>只看证据</text>
         </view>
       </view>
-      <view class="arcade-dash-action-row">
+      <view class="yd-arcade-action-row">
         <view class="ux-kit-primary arcade-primary" data-scene="review" bindtap="openEntryDetail">开始这一关</view>
         <view class="ux-kit-secondary arcade-secondary" data-scene="tutor" bindtap="openEntryDetail">卡住就追问</view>
       </view>

@@ -26,11 +26,11 @@ const files = {
   arcade: read('miniprogram/pages/arcade/arcade.wxml')
 };
 
-assert(files.home.includes('mini-home-shell') && files.home.includes('mini-entry-grid'), 'home uses the new reference jump shell');
-assert(files.tutor.includes('tutor-hero-shell') && files.tutor.includes('tutor-entry-grid'), 'tutor uses the new reference jump shell');
-assert(files.review.includes('review-hero-shell') && files.review.includes('review-challenge-grid'), 'review uses the new reference jump shell');
-assert(files.profile.includes('parent-hero-shell') && files.profile.includes('parent-dash-evidence'), 'profile stays parent evidence and recap oriented');
-assert(files.upload.includes('upload-hero-shell') && files.upload.includes('upload-material-card'), 'upload stays material intake oriented through compact jump cards');
+assert(files.home.includes('yd-home-screen') && files.home.includes('mini-entry-grid'), 'home uses the new reference jump shell');
+assert(files.tutor.includes('yd-tutor-screen') && files.tutor.includes('tutor-entry-grid'), 'tutor uses the new reference jump shell');
+assert(files.review.includes('yd-review-screen') && files.review.includes('review-challenge-grid'), 'review uses the new reference jump shell');
+assert(files.profile.includes('yd-parent-screen') && files.profile.includes('yd-parent-evidence'), 'profile stays parent evidence and recap oriented');
+assert(files.upload.includes('yd-upload-screen') && files.upload.includes('upload-material-card'), 'upload stays material intake oriented through compact jump cards');
 assert(!files.upload.includes('upload-intake-panel'), 'upload no longer renders the retired intake panel');
 
 const routeShellText = Object.values(files).join('\n') + '\n' + customTab;

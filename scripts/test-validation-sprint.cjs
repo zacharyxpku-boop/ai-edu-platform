@@ -11,8 +11,8 @@ assert(serviceAccessJs.includes('local_service_notice'), 'Service access has hon
 assert(serviceAccessJs.includes('configured'), 'Service access has configured-service mode');
 
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
-assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-proof-grid'), 'Profile first screen keeps parent proof recap');
-assert(profileWxml.includes('parent-dash-evidence') && profileWxml.includes('parent-dash-route'), 'Profile first screen keeps evidence and next step');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-proof-grid'), 'Profile first screen keeps parent proof recap');
+assert(profileWxml.includes('yd-parent-evidence') && profileWxml.includes('yd-parent-route'), 'Profile first screen keeps evidence and next step');
 assert(!profileWxml.includes('订阅') && !profileWxml.includes('解锁') && !profileWxml.includes('价格'), 'Profile shell hides payment copy');
 
 console.log('All validation sprint tests pass.');

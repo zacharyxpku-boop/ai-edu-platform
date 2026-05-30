@@ -307,7 +307,7 @@ async function main() {
   assert.ok(tutorWxml.includes('tutor-primary') && tutorWxml.includes('openEntryDetail'), 'tutor exposes a focused first-step child flow action');
   assert.ok(radarPage.includes('buildParentReport') && radarPage.includes('buildWeeklyGrowthMemory'), 'profile replaces retired radar with parent weekly evidence');
   assert.ok(radarPage.includes('saveLocalFeedback'), 'profile records family feedback locally');
-  assert.ok(radarWxml.includes('parent-dash-evidence') && radarWxml.includes('parent-report-preview'), 'profile exposes report/evidence controls');
+  assert.ok(radarWxml.includes('yd-parent-evidence') && radarWxml.includes('parent-report-preview'), 'profile exposes report/evidence controls');
 
   console.log('All miniapp production hardening checks pass.');
 }

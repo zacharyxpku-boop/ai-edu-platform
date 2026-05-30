@@ -69,7 +69,7 @@
   padding-bottom: calc(130rpx + env(safe-area-inset-bottom));
 }
 
-.mini-home-shell {
+.yd-home-screen {
   position: relative;
   z-index: 3;
   margin: 2rpx 36rpx 28rpx;
@@ -81,8 +81,8 @@
   overflow: visible;
 }
 
-.mini-home-shell view,
-.mini-home-shell text {
+.yd-home-screen view,
+.yd-home-screen text {
   box-sizing: border-box;
 }
 
@@ -185,7 +185,7 @@
   font-weight: 950;
 }
 
-.mini-hero-card,
+.yd-home-hero-card,
 .mini-report-card,
 .mini-route-card {
   margin-top: 24rpx;
@@ -196,7 +196,7 @@
   box-shadow: 0 18rpx 42rpx rgba(38, 58, 43, 0.07);
 }
 
-.mini-hero-card {
+.yd-home-hero-card {
   position: relative;
   display: grid;
   min-height: 310rpx;
@@ -210,7 +210,7 @@
   overflow: hidden;
 }
 
-.mini-hero-mascot {
+.yd-home-hero-mascot {
   position: absolute;
   right: 0;
   bottom: -2rpx;
@@ -251,7 +251,7 @@
   font-weight: 1000;
 }
 
-.mini-hero-bubble {
+.yd-home-hero-bubble {
   min-width: 0;
   padding: 24rpx;
   border: 1rpx solid rgba(232, 238, 230, 0.95);
@@ -259,14 +259,14 @@
   background: linear-gradient(180deg, #ffffff 0%, #f9fbf5 100%);
 }
 
-.mini-hero-bubble view:first-child {
+.yd-home-hero-bubble view:first-child {
   color: #111a16;
   font-size: 32rpx;
   font-weight: 950;
   line-height: 1.15;
 }
 
-.mini-hero-bubble > text {
+.yd-home-hero-bubble > text {
   display: block;
   margin-top: 10rpx;
   color: #5f6d65;
@@ -618,7 +618,7 @@
   font-size: 42rpx;
 }
 
-.mini-home-shell {
+.yd-home-screen {
   margin: 0 36rpx 28rpx;
   border: 0;
   border-radius: 0;
@@ -628,12 +628,12 @@
   font-size: 46rpx;
 }
 
-.mini-hero-card,
+.yd-home-hero-card,
 .mini-route-card {
   margin-top: 22rpx;
 }
 
-.mini-hero-card {
+.yd-home-hero-card {
   min-height: 300rpx;
   padding: 48rpx 30rpx 34rpx 40rpx;
   background:
@@ -644,7 +644,7 @@
     linear-gradient(180deg, #fffef8 0%, #f9fbf2 100%);
 }
 
-.mini-hero-mascot {
+.yd-home-hero-mascot {
   bottom: -4rpx;
   width: 358rpx;
   height: 342rpx;

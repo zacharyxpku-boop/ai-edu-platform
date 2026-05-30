@@ -18,7 +18,7 @@
   </view>
 
   <scroll-view scroll-y enhanced show-scrollbar="{{false}}" class="home-scroll">
-    <view class="mini-home-shell ux-kit-screen ux-kit-home">
+    <view class="yd-home-screen ux-kit-screen ux-kit-home">
       <view class="mini-topline">
         <view class="mini-brand">
           <image class="mini-brand-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
@@ -30,14 +30,14 @@
         <view class="mini-family-pill" bindtap="goProfile">小明家</view>
       </view>
 
-      <view class="mini-hero-card">
-        <view class="mini-hero-copy">
+      <view class="yd-home-hero-card">
+        <view class="yd-home-hero-copy">
           <view class="mini-streak-pill"><text class="mini-streak-dot"></text><text>{{homeViewModel.routePill}}</text></view>
           <view class="mini-title">{{homeViewModel.title}}</view>
           <view class="mini-subtitle">{{homeViewModel.subtitle}}</view>
           <view class="mini-streak-pill"><text class="mini-streak-dot"></text><text>连续学习</text><text>7</text><text>天</text></view>
         </view>
-        <image class="mini-hero-mascot" mode="aspectFit" src="/assets/reference/hero-mascot.png" />
+        <image class="yd-home-hero-mascot" mode="aspectFit" src="/assets/reference/hero-mascot.png" />
       </view>
 
       <view class="mini-report-card" wx:if="{{incomingShareRelay}}">

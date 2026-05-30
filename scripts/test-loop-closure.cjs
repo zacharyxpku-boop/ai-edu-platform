@@ -102,11 +102,11 @@ assert(homeWxml.includes('mini-entry-grid') && homeWxml.includes('mini-route-car
 assert(homeJs.includes('openEntryDetail') && !/\/pages\/(?:daily-math|dictation|light-diagnosis|focus|tools|module|radar|diagnosis)\//.test(homeJs), 'Home routes retired entries through the active child shell');
 assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail owns child-scene routing');
 assert(entryDetailJs.includes("primaryRoute: '/pages/tutor/tutor") && entryDetailJs.includes("primaryRoute: '/pages/review/review"), 'Child scenes route to tutor and review');
-assert(tutorWxml.includes('tutor-hero-shell') && tutorJs.includes('openEntryDetail'), 'Tutor handles first-step work and active child-scene entry');
-assert(reviewWxml.includes('review-hero-shell') && reviewWxml.includes('review-challenge-grid'), 'Review handles recall and transfer');
-assert(profileJs.includes('profileEmptyGuide') && profileWxml.includes('parent-hero-shell'), 'Profile empty state and parent shell are present');
+assert(tutorWxml.includes('yd-tutor-screen') && tutorJs.includes('openEntryDetail'), 'Tutor handles first-step work and active child-scene entry');
+assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'Review handles recall and transfer');
+assert(profileJs.includes('profileEmptyGuide') && profileWxml.includes('yd-parent-screen'), 'Profile empty state and parent shell are present');
 assert(profileJs.includes('buildParentReport') && profileJs.includes('buildWeeklyGrowthMemory'), 'Profile builds parent report and weekly memory from real evidence');
-assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('parent-dash-route'), 'Profile first screen keeps report preview and next route modules');
+assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('yd-parent-route'), 'Profile first screen keeps report preview and next route modules');
 
 function isoDaysAgo(days) {
   return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();

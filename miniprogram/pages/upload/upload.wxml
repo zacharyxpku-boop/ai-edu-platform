@@ -1,23 +1,23 @@
 <view class="upload-page">
   <scroll-view class="upload-scroll" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="upload-content">
-      <view class="upload-hero-shell ux-entry ux-entry-upload ux-kit-screen ux-kit-upload">
-        <view class="upload-dash-top">
-          <view class="upload-dash-brand">
-            <image class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+      <view class="yd-upload-screen ux-entry ux-entry-upload ux-kit-screen ux-kit-upload">
+        <view class="yd-upload-top">
+          <view class="yd-upload-brand">
+            <image class="yd-upload-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
             <view>
               <text>原点智学</text>
               <text>资料先进入证据链</text>
             </view>
           </view>
-          <view class="upload-dash-pill">学习包</view>
+          <view class="yd-upload-pill">学习包</view>
         </view>
 
-        <view class="upload-dash-hero">
-          <view class="upload-dash-copy">
-            <view class="upload-dash-title">先把材料分清楚</view>
-            <view class="upload-dash-sub">测评、成绩、错题和家长观察会进入不同证据位，再生成报告和今晚路线。</view>
-            <view class="upload-dash-proof">
+        <view class="yd-upload-hero">
+          <view class="yd-upload-copy">
+            <view class="yd-upload-title">先把材料分清楚</view>
+            <view class="yd-upload-sub">测评、成绩、错题和家长观察会进入不同证据位，再生成报告和今晚路线。</view>
+            <view class="yd-upload-proof">
               <text>不公开分享</text>
               <text>先分类再分析</text>
             </view>
@@ -27,7 +27,7 @@
               <text>错题试卷</text>
             </view>
           </view>
-          <image class="upload-dash-mascot" mode="aspectFill" src="/assets/reference/entry-upload.png" />
+          <image class="yd-upload-mascot" mode="aspectFill" src="/assets/reference/entry-upload.png" />
         </view>
 
         <view class="upload-material-grid ux-kit-jump-grid">
@@ -48,7 +48,7 @@
           </view>
         </view>
 
-        <view class="upload-dash-pipeline">
+        <view class="yd-upload-pipeline">
           <view class="upload-pipeline-node done">
             <image class="upload-pipeline-icon" mode="aspectFit" src="/assets/reference/entry-upload.png" />
             <text>已分类</text>
@@ -70,7 +70,7 @@
             <text>说第一步</text>
           </view>
         </view>
-        <view class="upload-dash-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
+        <view class="yd-upload-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
       </view>
     </view>
   </scroll-view>

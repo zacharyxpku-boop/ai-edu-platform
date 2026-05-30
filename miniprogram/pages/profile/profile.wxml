@@ -1,33 +1,33 @@
 <view class="page safe-bottom profile-page">
   <scroll-view class="profile-scroll" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="profile-shell">
-      <view class="ux-entry ux-entry-parent ux-kit-screen ux-kit-parent parent-hero-shell">
-        <view class="parent-dash-top">
-          <view class="parent-dash-brand">
-            <image class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
+      <view class="ux-entry ux-entry-parent ux-kit-screen ux-kit-parent yd-parent-screen">
+        <view class="yd-parent-top">
+          <view class="yd-parent-brand">
+            <image class="yd-parent-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
             <view>
               <text>原点智学</text>
               <text>证据与下一步</text>
             </view>
           </view>
-          <view class="parent-dash-pill">5 秒看懂</view>
+          <view class="yd-parent-pill">5 秒看懂</view>
         </view>
-        <view class="parent-dash-hero">
-          <view class="parent-dash-copy">
-            <view class="parent-dash-kicker">今晚不用盯全程</view>
-            <view class="parent-dash-title">{{profileViewModel.title}}</view>
-            <view class="parent-dash-title">只看孩子有没有走出第一步</view>
-            <view class="parent-dash-sub">把测评、成绩、错题和复习回访合成一张家长行动卡：先看证据，再问一句，明天再验证。</view>
+        <view class="yd-parent-hero">
+          <view class="yd-parent-copy">
+            <view class="yd-parent-kicker">今晚不用盯全程</view>
+            <view class="yd-parent-title">{{profileViewModel.title}}</view>
+            <view class="yd-parent-title">只看孩子有没有走出第一步</view>
+            <view class="yd-parent-sub">把测评、成绩、错题和复习回访合成一张家长行动卡：先看证据，再问一句，明天再验证。</view>
           </view>
-          <image class="parent-dash-art" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+          <image class="yd-parent-art" mode="aspectFill" src="/assets/reference/entry-parent.png" />
         </view>
-        <view class="parent-dash-proof-grid">
-          <view class="parent-dash-proof primary"><text>今晚结论</text><text>先稳住一个真实卡点</text></view>
-          <view class="parent-dash-proof"><text>第一步证据</text><text>孩子能说出从哪看起</text></view>
-          <view class="parent-dash-proof"><text>明天回访</text><text>用 90 秒复述验证</text></view>
+        <view class="yd-parent-proof-grid">
+          <view class="yd-parent-proof primary"><text>今晚结论</text><text>先稳住一个真实卡点</text></view>
+          <view class="yd-parent-proof"><text>第一步证据</text><text>孩子能说出从哪看起</text></view>
+          <view class="yd-parent-proof"><text>明天回访</text><text>用 90 秒复述验证</text></view>
         </view>
-        <view class="parent-dash-evidence">
-          <view class="parent-dash-section-head">
+        <view class="yd-parent-evidence">
+          <view class="yd-parent-section-head">
             <text>证据来源</text>
             <text>不靠感觉判断</text>
           </view>
@@ -39,7 +39,7 @@
             </view>
             <view class="parent-report-badge">查看</view>
           </view>
-          <view class="parent-dash-evidence-grid">
+          <view class="yd-parent-evidence-grid">
             <view><text>测评报告</text><text>天赋画像</text></view>
             <view><text>成绩单</text><text>科目波动</text></view>
             <view><text>错题</text><text>真实卡点</text></view>
@@ -63,7 +63,7 @@
             <text>验证是否迁移</text>
           </view>
         </view>
-        <view class="parent-dash-route">
+        <view class="yd-parent-route">
           <view class="parent-route-node active">
             <image class="parent-route-icon" mode="aspectFit" src="/assets/reference/entry-upload.png" />
             <text>上传</text>
@@ -85,7 +85,7 @@
             <text>家长看下一步</text>
           </view>
         </view>
-        <view class="parent-dash-action-row">
+        <view class="yd-parent-action-row">
           <view class="ux-kit-primary parent-primary" data-scene="parent" bindtap="openEntryDetail">{{profileViewModel.primaryCta}}</view>
           <view class="ux-kit-secondary parent-secondary" data-scene="upload" bindtap="openEntryDetail">补一份材料</view>
         </view>

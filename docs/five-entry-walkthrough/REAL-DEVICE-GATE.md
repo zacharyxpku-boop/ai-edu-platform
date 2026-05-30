@@ -1,6 +1,6 @@
 # Real Device Gate
 
-Generated: 2026-05-30T19:07:20.992Z
+Generated: 2026-05-30T22:23:42.109Z
 
 Status: BLOCKED
 
@@ -9,7 +9,7 @@ Status: BLOCKED
 - WeChat DevTools CLI: C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat
 - Service port 9420: closed
 - Project path: C:\Users\86136\Desktop\claude\ai-edu-platform\miniprogram
-- Latest miniapp source mtime: 2026-05-30T19:04:44.400Z
+- Latest miniapp source mtime: 2026-05-30T22:13:34.215Z
 
 ## Required Screenshots
 
@@ -69,6 +69,13 @@ Status: BLOCKED
   - size: 585x1266
   - captured: 2026-05-25T01:58:26.227Z
   - freshness: stale or missing
+- child-report-evidence.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=report
+  - action: Report primary CTA -> entry detail -> primary action
+  - expected: Returns to parent report/evidence area with report reasoning visible
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
 - child-parent-report.png: invalid
   - route: /pages/entry-detail/entry-detail?scene=parent
   - action: Parent primary CTA -> entry detail -> primary action
@@ -101,6 +108,13 @@ Status: BLOCKED
   - route: /pages/entry-detail/entry-detail?scene=review
   - action: Open Review child detail page before tapping primary action
   - expected: Graphical review child page with memory/transfer explanation and cross-entry jump cards
+  - size: n/a
+  - captured: n/a
+  - freshness: stale or missing
+- entry-detail-report.png: missing
+  - route: /pages/entry-detail/entry-detail?scene=report
+  - action: Open Report child detail page before tapping primary action
+  - expected: Graphical report child page focused on evidence, confidence, and method matching before parent handoff
   - size: n/a
   - captured: n/a
   - freshness: stale or missing

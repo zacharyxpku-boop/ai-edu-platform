@@ -176,10 +176,10 @@ assert(reviewJs.includes('reviewEvidenceThreadLine'), 'review logic still hides 
 assert(!reviewWxml.includes('reportSourcePanel') && !reviewWxml.includes('miniLessonReturnPanel'), 'review first screen does not render retired report-source panels');
 
 const firstScreen = reviewWxml.slice(
-  reviewWxml.indexOf('review-hero-shell'),
+  reviewWxml.indexOf('yd-review-screen'),
   reviewWxml.indexOf('<button hidden')
 );
-assert(firstScreen.includes('review-hero-shell'), 'review renders the new reference-style launch shell');
+assert(firstScreen.includes('yd-review-screen'), 'review renders the new reference-style launch shell');
 assert(firstScreen.includes('review-challenge-grid'), 'review exposes jump cards instead of a dense retired feed');
 assert(firstScreen.includes('{{reviewViewModel.primaryCta.text}}'), 'first screen renders one primary action from reviewViewModel');
 assert(firstScreen.includes('review-challenge-card'), 'review keeps compact challenge jump cards');

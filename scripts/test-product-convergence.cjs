@@ -23,17 +23,17 @@ const pages = {
 };
 
 assert(pages.homeJs.includes('learningLoopCards'), 'Home defines the product capability map in code');
-assert(pages.homeWxml.includes('mini-home-shell') && pages.homeWxml.includes('mini-entry-grid') && pages.homeWxml.includes('mini-route-card'), 'Home converges on the new reference shell and route');
+assert(pages.homeWxml.includes('yd-home-screen') && pages.homeWxml.includes('mini-entry-grid') && pages.homeWxml.includes('mini-route-card'), 'Home converges on the new reference shell and route');
 assert(pages.homeWxml.includes('homeViewModel.primaryCta') && pages.homeWxml.includes('homeViewModel.nextStep'), 'Home keeps route actions through homeViewModel');
 assert(pages.homeJs.includes('openEntryDetail') && !pages.homeJs.includes('/pages/daily-math/daily-math') && !pages.homeJs.includes('/pages/dictation/dictation'), 'Home uses active jump shell instead of retired lightweight routes');
 assert(pages.homeViewModelJs.includes('buildPrimaryHomeNextAction') && pages.homeViewModelJs.includes("type: 'first_step'"), 'Home view model owns unified next-step priority');
 
-assert(pages.tutorWxml.includes('tutor-hero-shell') && pages.tutorWxml.includes('tutor-entry-grid'), 'Tutor uses a clear new-shell entry structure');
-assert(pages.uploadWxml.includes('upload-hero-shell') && pages.uploadWxml.includes('upload-material-card') && pages.uploadJs.includes('buildUploadIntakePacket'), 'Upload connects material intake to structured evidence through compact cards');
-assert(pages.reviewWxml.includes('review-hero-shell') && !pages.reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair evidence without rendering dense blackboard guidance');
-assert(pages.arcadeWxml.includes('arcade-hero-shell') && pages.arcadeWxml.includes('ux-kit-jump-grid'), 'Arcade connects memory revisit to one compact loop');
-assert(pages.arcadeWxml.includes('arcade-hero-shell') && pages.arcadeWxml.includes('data-scene="review"'), 'Arcade keeps migration practice and return-route context through jump cards');
-assert(pages.profileWxml.includes('parent-hero-shell') && pages.profileWxml.includes('parent-dash-evidence') && pages.profileWxml.includes('parent-dash-route'), 'Profile closes the loop with parent evidence and next step');
+assert(pages.tutorWxml.includes('yd-tutor-screen') && pages.tutorWxml.includes('tutor-entry-grid'), 'Tutor uses a clear new-shell entry structure');
+assert(pages.uploadWxml.includes('yd-upload-screen') && pages.uploadWxml.includes('upload-material-card') && pages.uploadJs.includes('buildUploadIntakePacket'), 'Upload connects material intake to structured evidence through compact cards');
+assert(pages.reviewWxml.includes('yd-review-screen') && !pages.reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair evidence without rendering dense blackboard guidance');
+assert(pages.arcadeWxml.includes('yd-arcade-screen') && pages.arcadeWxml.includes('ux-kit-jump-grid'), 'Arcade connects memory revisit to one compact loop');
+assert(pages.arcadeWxml.includes('yd-arcade-screen') && pages.arcadeWxml.includes('data-scene="review"'), 'Arcade keeps migration practice and return-route context through jump cards');
+assert(pages.profileWxml.includes('yd-parent-screen') && pages.profileWxml.includes('yd-parent-evidence') && pages.profileWxml.includes('yd-parent-route'), 'Profile closes the loop with parent evidence and next step');
 
 assert(pages.reportJs.includes('talent') || pages.reportRecognitionJs.includes('talent'), 'Report layer preserves talent/material recognition capability');
 

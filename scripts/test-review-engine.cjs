@@ -658,7 +658,7 @@ function run() {
   assert(customTabJs.includes('getCurrentPages') && customTabJs.includes('selected'), 'custom tabbar syncs selected page state');
   const reviewWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.wxml'), 'utf8');
   const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
-  assert(reviewWxml.includes('review-hero-shell') && reviewWxml.includes('review-challenge-grid'), 'review page uses the new reference-style challenge shell');
+  assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'review page uses the new reference-style challenge shell');
   const retiredDeviceChromePattern = new RegExp([
     ['v', '1-statusbar'].join(''),
     ['v', '1-time'].join(''),
@@ -671,8 +671,8 @@ function run() {
   assert(!retiredDeviceChromePattern.test(reviewWxml), 'review page does not render fake device status UI');
   assert(customTabJs.includes('/pages/arcade/arcade'), 'wrong-question transfer loop is available through the review island tab');
   assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('开始挑战'), 'review page keeps recall as compact first-screen challenge cards instead of the old after-repair panel');
-  assert(reviewWxml.includes('class="review-dash-title"'), 'review page exposes quest title');
-  assert(reviewWxml.includes('class="review-dash-pill"'), 'review page exposes due-card pill');
+  assert(reviewWxml.includes('class="yd-review-title"'), 'review page exposes quest title');
+  assert(reviewWxml.includes('class="yd-review-pill"'), 'review page exposes due-card pill');
   assert(reviewWxml.includes('review-map-node') && reviewWxml.includes('review-map-icon'), 'review page challenge map uses visual game-map nodes instead of number-only boxes');
   ['entry-tutor.png', 'entry-review.png', 'entry-map.png', 'entry-parent.png'].forEach((asset) => {
     assert(reviewWxml.includes(asset), `review map uses reference asset: ${asset}`);
@@ -731,13 +731,13 @@ function run() {
   assert(homeJs.includes('goProfile'), 'home page can route to learner profile');
   assert(homeWxml.includes('mini-main-cta') && homeWxml.includes('homeViewModel.inputCard.placeholder') && entryDetailWxmlForCta.includes('entry-jump-grid') && reviewWxml.includes('review-main-cta') && profileWxmlForCta.includes('parent-primary'), 'active surfaces keep obvious first-screen CTAs in the new reference shells');
   assert([homeWxss, entryDetailWxss, reviewWxss, profileWxss].every((css) => css.includes('env(safe-area-inset-bottom)')), 'active shells reserve bottom safe-area space for the custom tabbar');
-  assert(homeWxml.includes('mini-hero-card') && homeWxml.includes('mini-title'), 'home page exposes the new reference-style child hero');
+  assert(homeWxml.includes('yd-home-hero-card') && homeWxml.includes('mini-title'), 'home page exposes the new reference-style child hero');
   assert(homeWxml.includes('mini-route-card') && homeViewModelJsForCta.includes('title:'), 'home page leads with the Tonight Route entry in the new compact route card');
   assert(/class="[^"]*\bmini-main-cta\b/.test(homeWxml), 'home page exposes one primary CTA');
   assert((homeWxml.match(/class="[^"]*\bmini-main-cta\b/g) || []).length === 1, 'home page keeps only one highest-priority CTA');
   assert(homeWxml.includes('mini-entry-grid') && homeWxml.includes('openEntryDetail'), 'home page keeps visual quick entrances without text clutter');
-  assert(!homeWxml.includes('mole-grid'), 'home page does not render arcade gameplay directly');
-  assert(homeWxml.includes('mini-hero-mascot') && homeViewModelJsForCta.includes('routePill'), 'home page keeps the mascot and compact route state in the new shell');
+  assert(!homeWxml.includes(['mole', 'grid'].join('-')), 'home page does not render arcade gameplay directly');
+  assert(homeWxml.includes('yd-home-hero-mascot') && homeViewModelJsForCta.includes('routePill'), 'home page keeps the mascot and compact route state in the new shell');
   assert(homeWxml.includes('mini-route-input') && homeWxml.includes('homeViewModel.inputCard.placeholder'), 'home page keeps stuck-point input as a compact route detail');
   assert(homeJs.includes('todayActions'), 'home page still computes actionable next moves');
   assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.pagePath), ['pages/home/home', 'pages/tutor/tutor', 'pages/arcade/arcade', 'pages/profile/profile', 'pages/upload/upload'], 'miniapp tabBar keeps the five active product entries');
@@ -751,7 +751,7 @@ function run() {
   assert(reviewJs.includes('buildReportSourceContext') && reviewJs.includes('prioritizeReportSourceCards') && reviewJs.includes('reportSourcePanel'), 'review page prioritizes uploaded-material source cards from a persisted handoff');
   assert(arcadeJs.includes('appendSyncMutation') && arcadeJs.includes('arcade_attempt'), 'arcade queues learning evidence for sync');
   assert(arcadeJs.includes('activeGame'), 'arcade tracks active game metadata for explainable recommendations');
-  assert(arcadeWxml.includes('arcade-hero-shell') && arcadeWxml.includes('开始这一关'), 'arcade subpage exposes the playable knowledge arcade through the compact shell');
+  assert(arcadeWxml.includes('yd-arcade-screen') && arcadeWxml.includes('开始这一关'), 'arcade subpage exposes the playable knowledge arcade through the compact shell');
   assert(arcadeWxml.includes('回忆') && arcadeWxml.includes('核对'), 'arcade exposes active recall without answer-tool wording');
   ['看答案', '参考答案', '正确答案'].forEach((term) => {
     assert(!arcadeWxml.includes(term) && !arcadeJs.includes(term) && !arcadeEngineJs.includes(term), `arcade avoids answer-tool wording: ${term}`);
@@ -763,16 +763,16 @@ function run() {
   assert(uploadJs.includes('buildUploadPlaybook'), 'upload page builds upload playbook');
   assert(uploadJs.includes('buildMaterialPreview'), 'upload page builds material-to-memory preview');
   assert(uploadJs.includes('importMaterialPack'), 'upload page can import material pack into review');
-  assert(uploadWxml.includes('upload-hero-shell') && uploadWxml.includes('upload-material-grid'), 'upload page exposes upload-to-triage loop through the compact shell');
+  assert(uploadWxml.includes('yd-upload-screen') && uploadWxml.includes('upload-material-grid'), 'upload page exposes upload-to-triage loop through the compact shell');
   assert(uploadWxml.includes('家长报告') && uploadWxml.includes('今晚路线'), 'upload page exposes material report and route handoff actions');
   assert(uploadJs.includes('wechat_article') && uploadJs.includes('web_article') && uploadJs.includes('pdf_excerpt'), 'upload page recognizes Chinese/web/PDF material types');
-  assert(uploadWxss.includes('.upload-type-strip') && uploadWxss.includes('.upload-dash-proof'), 'upload page styles source chips and boundary note in the new shell');
+  assert(uploadWxss.includes('.upload-type-strip') && uploadWxss.includes('.yd-upload-proof'), 'upload page styles source chips and boundary note in the new shell');
   assert(profileJs.includes('buildParentReport'), 'profile page builds learner progress report');
   assert(profileJs.includes('buildTutorProcessSummary'), 'profile page builds parent-visible tutor process summary');
   assert(profileJs.includes('runParentReportAction'), 'profile page can route learner profile actions');
-  assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-evidence'), 'profile page uses the new parent evidence shell');
+  assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'profile page uses the new parent evidence shell');
   assert(!retiredDeviceChromePattern.test(profileWxml), 'profile page does not render fake device status UI');
-  assert(profileWxml.includes('parent-dash-action-row') && profileWxml.includes('parent-report-preview'), 'profile page offers parent recap and evidence review entry buttons');
+  assert(profileWxml.includes('yd-parent-action-row') && profileWxml.includes('parent-report-preview'), 'profile page offers parent recap and evidence review entry buttons');
   assert(!profileWxml.includes('parent-report-capability-panel'), 'profile page does not render the retired detailed report ledger panel');
   const activePageCopy = [homeWxml, entryDetailWxmlForCta, reviewWxml, arcadeWxml, uploadWxml, profileWxml].join('\n');
   ['秒解', '拍照出答案', '核对答案', '拍题', '答案已生成', '直接答案'].forEach((term) => {

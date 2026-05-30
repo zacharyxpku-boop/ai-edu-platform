@@ -1,12 +1,12 @@
 {
   "ok": false,
-  "generatedAt": "2026-05-30T19:07:20.992Z",
+  "generatedAt": "2026-05-30T22:23:42.109Z",
   "cliPath": "C:\\Program Files (x86)\\Tencent\\微信web开发者工具\\cli.bat",
   "port": 9420,
   "portOpen": false,
   "projectPath": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\miniprogram",
-  "latestSourceMtime": 1780167884400.8313,
-  "latestSourceMtimeIso": "2026-05-30T19:04:44.400Z",
+  "latestSourceMtime": 1780179214215.2734,
+  "latestSourceMtimeIso": "2026-05-30T22:13:34.215Z",
   "cliProbe": null,
   "expectedScreenshots": [
     {
@@ -130,6 +130,18 @@
       "valid": false
     },
     {
+      "name": "child-report-evidence.png",
+      "route": "/pages/entry-detail/entry-detail?scene=report",
+      "action": "Report primary CTA -> entry detail -> primary action",
+      "expected": "Returns to parent report/evidence area with report reasoning visible",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\child-report-evidence.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
       "name": "child-parent-report.png",
       "route": "/pages/entry-detail/entry-detail?scene=parent",
       "action": "Parent primary CTA -> entry detail -> primary action",
@@ -189,6 +201,18 @@
       "action": "Open Review child detail page before tapping primary action",
       "expected": "Graphical review child page with memory/transfer explanation and cross-entry jump cards",
       "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-review.png",
+      "exists": false,
+      "size": null,
+      "mtimeIso": "",
+      "fresh": false,
+      "valid": false
+    },
+    {
+      "name": "entry-detail-report.png",
+      "route": "/pages/entry-detail/entry-detail?scene=report",
+      "action": "Open Report child detail page before tapping primary action",
+      "expected": "Graphical report child page focused on evidence, confidence, and method matching before parent handoff",
+      "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-report.png",
       "exists": false,
       "size": null,
       "mtimeIso": "",

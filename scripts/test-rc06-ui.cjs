@@ -16,19 +16,19 @@ const arcadeWxss = read('miniprogram/pages/arcade/arcade.wxss');
 const reviewWxss = read('miniprogram/pages/review/review.wxss');
 const profileWxss = read('miniprogram/pages/profile/profile.wxss');
 
-assert(homeWxml.includes('mini-home-shell') && homeWxml.includes('mini-route-card'), 'home uses the new compact reference shell');
+assert(homeWxml.includes('yd-home-screen') && homeWxml.includes('mini-route-card'), 'home uses the new compact reference shell');
 assert(homeWxml.includes('mini-route-input') && homeWxml.includes('homeViewModel.inputCard.placeholder'), 'home keeps first-step input without the old composer shell');
 assert(homeWxml.includes('mini-entry-grid') && (homeWxml.match(/mini-entry-visual/g) || []).length >= 6, 'home keeps visual entry cards');
 
-assert(tutorWxml.includes('tutor-hero-shell') && tutorWxml.includes('tutor-entry-grid'), 'tutor uses the compact first-step jump shell');
-assert(arcadeWxml.includes('arcade-hero-shell') && arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island jump shell');
+assert(tutorWxml.includes('yd-tutor-screen') && tutorWxml.includes('tutor-entry-grid'), 'tutor uses the compact first-step jump shell');
+assert(arcadeWxml.includes('yd-arcade-screen') && arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island jump shell');
 
-assert(reviewWxml.includes('review-hero-shell') && reviewWxml.includes('review-challenge-grid'), 'review uses the new challenge shell');
+assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'review uses the new challenge shell');
 assert(reviewWxml.includes('review-main-cta') && reviewWxml.includes('review-challenge-grid'), 'review keeps primary action and compact visual entry cards');
 assert(reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && reviewWxml.includes('review-challenge-card'), 'review keeps the actionable verdict and compact challenge cards');
 
-assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-evidence'), 'profile uses the new parent evidence shell');
-assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('parent-dash-route'), 'profile keeps report preview and next-step jump cards');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'profile uses the new parent evidence shell');
+assert(profileWxml.includes('parent-report-preview') && profileWxml.includes('yd-parent-route'), 'profile keeps report preview and next-step jump cards');
 assert(!profileWxml.includes('parent-report-capability-panel'), 'profile retired detailed evidence ledger is not rendered');
 
 [homeWxss, tutorWxss, arcadeWxss, reviewWxss, profileWxss].forEach((css) => {

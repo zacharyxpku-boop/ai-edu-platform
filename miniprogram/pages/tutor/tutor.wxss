@@ -27,7 +27,7 @@ page {
   padding: 0 16rpx calc(178rpx + env(safe-area-inset-bottom));
 }
 
-.tutor-hero-shell {
+.yd-tutor-screen {
   position: relative;
   padding: 24rpx;
   border: 1rpx solid rgba(232, 238, 230, 0.94);
@@ -40,9 +40,9 @@ page {
   overflow: hidden;
 }
 
-.tutor-dash-top,
-.tutor-dash-brand,
-.tutor-dash-hero,
+.yd-tutor-top,
+.yd-tutor-brand,
+.yd-tutor-hero,
 .tutor-chip-row,
 .tutor-section-head,
 .tutor-ladder,
@@ -51,8 +51,8 @@ page {
   box-sizing: border-box;
 }
 
-.tutor-dash-top,
-.tutor-dash-brand,
+.yd-tutor-top,
+.yd-tutor-brand,
 .tutor-section-head,
 .tutor-action-row {
   display: flex;
@@ -61,12 +61,12 @@ page {
   gap: 18rpx;
 }
 
-.tutor-dash-brand {
+.yd-tutor-brand {
   min-width: 0;
   justify-content: flex-start;
 }
 
-.tutor-dash-mark {
+.yd-tutor-mark {
   width: 52rpx;
   height: 52rpx;
   flex: 0 0 auto;
@@ -78,7 +78,7 @@ page {
   box-shadow: 0 14rpx 26rpx rgba(76, 159, 255, 0.12);
 }
 
-.tutor-dash-brand text {
+.yd-tutor-brand text {
   display: block;
   max-width: 340rpx;
   overflow: hidden;
@@ -86,21 +86,21 @@ page {
   white-space: nowrap;
 }
 
-.tutor-dash-brand text:first-child {
+.yd-tutor-brand text:first-child {
   color: #18211d;
   font-size: 30rpx;
   font-weight: 950;
   line-height: 1.15;
 }
 
-.tutor-dash-brand text:last-child {
+.yd-tutor-brand text:last-child {
   margin-top: 3rpx;
   color: #6a766f;
   font-size: 21rpx;
   font-weight: 760;
 }
 
-.tutor-dash-pill {
+.yd-tutor-pill {
   flex: 0 0 auto;
   padding: 13rpx 18rpx;
   color: #14854a;
@@ -111,7 +111,7 @@ page {
   font-weight: 900;
 }
 
-.tutor-dash-hero {
+.yd-tutor-hero {
   display: grid;
   grid-template-columns: 190rpx minmax(0, 1fr);
   gap: 18rpx;
@@ -119,14 +119,14 @@ page {
   margin-top: 26rpx;
 }
 
-.tutor-dash-mascot {
+.yd-tutor-mascot {
   width: 194rpx;
   height: 178rpx;
   border-radius: 36rpx;
   background: #effaf0;
 }
 
-.tutor-dash-bubble {
+.yd-tutor-bubble {
   min-width: 0;
   padding: 22rpx;
   border: 1rpx solid rgba(232, 238, 230, 0.95);
@@ -134,14 +134,14 @@ page {
   background: rgba(255, 255, 255, 0.92);
 }
 
-.tutor-dash-bubble view:first-child {
+.yd-tutor-bubble view:first-child {
   color: #101a16;
   font-size: 34rpx;
   font-weight: 950;
   line-height: 1.12;
 }
 
-.tutor-dash-bubble > text {
+.yd-tutor-bubble > text {
   display: block;
   margin-top: 10rpx;
   color: #64706a;
@@ -354,19 +354,19 @@ page {
   padding: calc(108rpx + env(safe-area-inset-top)) 34rpx calc(138rpx + env(safe-area-inset-bottom));
 }
 
-.tutor-hero-shell {
+.yd-tutor-screen {
   margin-top: 0;
   padding: 18rpx 18rpx 20rpx;
   border-radius: 34rpx;
 }
 
-.tutor-dash-hero {
+.yd-tutor-hero {
   grid-template-columns: 176rpx minmax(0, 1fr);
   gap: 12rpx;
   margin-top: 18rpx;
 }
 
-.tutor-dash-mascot {
+.yd-tutor-mascot {
   width: 176rpx;
   height: 168rpx;
   overflow: hidden;
@@ -374,17 +374,17 @@ page {
   border-radius: 36rpx;
 }
 
-.tutor-dash-bubble {
+.yd-tutor-bubble {
   min-height: 168rpx;
   padding: 16rpx;
 }
 
-.tutor-dash-bubble view:first-child {
+.yd-tutor-bubble view:first-child {
   font-size: 30rpx;
   line-height: 1.12;
 }
 
-.tutor-dash-bubble > text {
+.yd-tutor-bubble > text {
   display: -webkit-box;
   margin-top: 8rpx;
   overflow: hidden;

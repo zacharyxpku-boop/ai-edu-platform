@@ -70,17 +70,17 @@ assert(files.reviewWxml.includes("{{reviewViewModel.primaryCta.text}}") && files
 assert(!files.reviewWxml.includes('{{companionCopy.review}}'), 'review does not stack a second companion explanation');
 assert(!files.reviewWxml.includes('growthMemory.review'), 'review growth memory is not stacked in the hero');
 
-assert(files.tutorWxml.includes("tutor-hero-shell") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps one first-step jump shell");
-assert(files.arcadeWxml.includes("arcade-hero-shell") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
+assert(files.tutorWxml.includes("yd-tutor-screen") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps one first-step jump shell");
+assert(files.arcadeWxml.includes("yd-arcade-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
 assert(!files.tutorWxml.includes("{{companionCopy.revisit}}") && !files.arcadeWxml.includes("{{companionCopy.revisit}}"), "retired tools companion explanation is not stacked on active tabs");
 assert(!files.tutorWxml.includes("growthMemory.revisit") && !files.arcadeWxml.includes("growthMemory.revisit"), "retired tools growth memory is not stacked on active tabs");
 
-assert(files.profileWxml.includes('parent-hero-shell') && files.profileWxml.includes('parent-dash-evidence') && files.profileWxml.includes('profileViewModel.title') && files.profileViewModelJs.includes('title:'), 'profile first screen includes the parent one-question shell');
+assert(files.profileWxml.includes('yd-parent-screen') && files.profileWxml.includes('yd-parent-evidence') && files.profileWxml.includes('profileViewModel.title') && files.profileViewModelJs.includes('title:'), 'profile first screen includes the parent one-question shell');
 assert(files.profileViewModelJs.includes('今晚孩子卡在'), 'profile hero card keeps current stuck point');
 assert(files.profileViewModelJs.includes('信任边界'), 'profile hero card keeps trust boundary');
 assert(files.profileWxml.includes('{{profileViewModel.primaryCta}}') && files.profileViewModelJs.includes('完成今日复盘'), 'profile main CTA remains');
 assert(!files.profileWxml.includes('{{companionCopy.profile}}'), 'profile does not stack a second companion explanation');
-assert(!files.profileWxml.includes("parent-subcheck") && files.profileWxml.includes("parent-dash-route"), "profile keeps process inside the parent launch shell without an old secondary tail");
+assert(!files.profileWxml.includes("parent-subcheck") && files.profileWxml.includes("yd-parent-route"), "profile keeps process inside the parent launch shell without an old secondary tail");
 assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile does not render retired detailed report ledger");
 
 [
@@ -88,7 +88,7 @@ assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile d
   ['review', files.reviewWxml, 'route-note short'],
   ['tutor', files.tutorWxml, 'tutor-entry-grid'],
   ['arcade', files.arcadeWxml, 'arcade-map-card'],
-  ['profile', files.profileWxml, 'parent-dash-route']
+  ['profile', files.profileWxml, 'yd-parent-route']
 ].forEach(([name, text, marker]) => {
   assert(text.includes(marker), `${name} keeps one route marker`);
   if (name === 'review' || name === 'profile') {

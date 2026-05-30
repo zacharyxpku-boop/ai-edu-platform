@@ -159,7 +159,7 @@ assert.notStrictEqual(relationCard.front, stepCard.front, 'different issue types
 
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
 const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js');
-assert(['parent-dash-evidence', 'parent-report-preview', 'parent-dash-action-row'].every((token) => profileWxml.includes(token)), 'profile summary renders the new parent evidence and next-action sections');
+assert(['yd-parent-evidence', 'parent-report-preview', 'yd-parent-action-row'].every((token) => profileWxml.includes(token)), 'profile summary renders the new parent evidence and next-action sections');
 assert(profileViewModelJs.includes('他先迈出的第一步'), 'profile viewModel labels first-step evidence');
 assert(profileViewModelJs.includes('刚才你第一步先看了哪里'), 'profile viewModel parent question can use first-step evidence');
 const parentQuestion = `你昨天说第一步是「${storage.loadTodayFocus().miniActionText}」，今天还记得为什么吗？`;

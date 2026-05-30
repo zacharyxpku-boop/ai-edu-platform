@@ -20,18 +20,18 @@ const learningReport = read('miniprogram/utils/learning-report.js');
 const miniApi = read('api/mini/session.js') + '\n' + read('api/mini/tutor-message.js');
 
 assert(importIntake.includes('buildUploadIntakePacket') && uploadJs.includes('buildUploadIntakePacket'), 'Upload builds structured intake packets');
-assert(uploadWxml.includes('upload-hero-shell') && uploadWxml.includes('upload-material-card') && uploadJs.includes('buildUploadIntakePacket'), 'Upload visibly exposes structured intake through compact cards');
+assert(uploadWxml.includes('yd-upload-screen') && uploadWxml.includes('upload-material-card') && uploadJs.includes('buildUploadIntakePacket'), 'Upload visibly exposes structured intake through compact cards');
 assert(importIntake.includes('buildNextActionQueue') && uploadWxml.includes('data-scene="parent"') && uploadJs.includes('openEntryDetail'), 'Upload exposes routeable next-action queue through active jump cards');
 assert(uploadJs.includes('openMaicDecisionBridge') && uploadJs.includes('safeRelayPayload') && uploadJs.includes('buildTonightTaskCard'), 'Upload connects intake to mini lesson, safe relay, and tonight task');
-assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.includes('upload-material-grid') && uploadWxml.includes('upload-dash-primary'), 'Upload no longer dumps mini-lesson and tonight-task output on the first screen');
+assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.includes('upload-material-grid') && uploadWxml.includes('yd-upload-primary'), 'Upload no longer dumps mini-lesson and tonight-task output on the first screen');
 assert(uploadJs.includes('requiresStructuredEvidenceGate') && uploadJs.includes('blocked_until_structured_evidence'), 'Upload blocks release until structured evidence is complete');
 
-assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('review-hero-shell'), 'Review preserves upload decision-bridge status in logic while keeping compact shell');
-assert(arcadeJs.includes('openMaicBridgeStatus') && arcadeWxml.includes('arcade-hero-shell'), 'Arcade preserves upload decision-bridge status in logic while keeping compact shell');
+assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('yd-review-screen'), 'Review preserves upload decision-bridge status in logic while keeping compact shell');
+assert(arcadeJs.includes('openMaicBridgeStatus') && arcadeWxml.includes('yd-arcade-screen'), 'Arcade preserves upload decision-bridge status in logic while keeping compact shell');
 assert(!reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel'), 'Review does not render receiver own-material relay panel on compact first screen');
 
-assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-evidence'), 'Profile is parent evidence oriented');
-assert(!profileWxml.includes('鏈嶅姟鐘舵€?') && profileWxml.includes('parent-dash-route'), 'Profile keeps service readiness out of the compact first screen');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'Profile is parent evidence oriented');
+assert(!profileWxml.includes('鏈嶅姟鐘舵€?') && profileWxml.includes('yd-parent-route'), 'Profile keeps service readiness out of the compact first screen');
 assert(profileJs.includes('uploadedMaterialDecisionDossierMethodValidationStages') && !profileWxml.includes('uploadedMaterialDecisionDossierMethodValidationStages'), 'Profile keeps method validation chain in logic without rendering a ledger');
 assert(!profileWxml.includes('uploadedMaterialDecisionDossierMethodValidationReleaseRule'), 'Profile does not render method release ledger on compact first screen');
 assert(learningReport.includes('methodValidationStages') && learningReport.includes('methodCandidateCards'), 'Learning report carries method validation and candidate methods');

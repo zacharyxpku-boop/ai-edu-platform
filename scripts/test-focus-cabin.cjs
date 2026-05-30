@@ -154,7 +154,7 @@ assert(!fs.existsSync(path.join(root, 'miniprogram/pages/focus')), 'retired focu
 assert(profileJs.includes('focus-cabin'), 'Profile imports focus cabin summary');
 assert(!profileWxml.includes('focusCabinSummary'), 'Profile no longer renders the retired focus cabin recap panel');
 assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail replaces focus UI with child scene routes');
-assert(tutorWxml.includes('tutor-hero-shell') && reviewWxml.includes('review-hero-shell'), 'Focus work is now handled by tutor and review active shells');
+assert(tutorWxml.includes('yd-tutor-screen') && reviewWxml.includes('yd-review-screen'), 'Focus work is now handled by tutor and review active shells');
 
 const visibleText = [entryDetailWxml, tutorWxml, reviewWxml, profileWxml].join('\n');
 [

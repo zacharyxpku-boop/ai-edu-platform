@@ -746,7 +746,7 @@ assert(profileJsSource.includes('gameReturnEvidence') && profileWxmlSource.inclu
 assert(profileJsSource.includes('aiLocalImplementationMatrix') && profileWxmlSource.includes('证据来源'), 'Profile keeps AI/local implementation logic while tab UI states the evidence boundary');
 assert(profileJsSource.includes('buildFamilyDecisionHomepage') && profileJsSource.includes('familyDecisionHomepageLocalAiSplitLine'), 'Profile builds a parent-first family decision homepage');
 assert(profileJsSource.includes('buildTonightParentDecisionCard') && profileJsSource.includes('tonight_parent_decision_card'), 'Profile still builds the four-line tonight parent card in logic');
-assert(profileWxmlSource.includes('parent-dash-route') && profileWxmlSource.includes('parent-dash-action-row'), 'Profile renders a compact route and action row instead of detailed report ledgers');
+assert(profileWxmlSource.includes('yd-parent-route') && profileWxmlSource.includes('yd-parent-action-row'), 'Profile renders a compact route and action row instead of detailed report ledgers');
 assert(profileWxmlSource.includes('parent-route-icon') && !profileWxmlSource.includes('parent-route-line'), 'Profile route is a visual evidence loop instead of a text-only line');
 assert(full.reportDraft.longTermPortrait.evidenceToCollect.length >= 3, 'long-term portrait asks for multiple evidence items, not a single data point');
 assert(Array.isArray(full.reportDraft.longTermPortrait.observationLoop) && full.reportDraft.longTermPortrait.observationLoop.length === 3, 'long-term portrait has day/next-day/seven-day observation loop');

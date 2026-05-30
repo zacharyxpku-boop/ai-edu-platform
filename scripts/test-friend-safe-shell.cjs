@@ -21,13 +21,13 @@ assert((homeWxml.match(/bindtap="openEntryDetail"/g) || []).length >= 6 && homeW
 
 assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail replaces retired child pages');
 assert(entryDetailWxml.includes('entry-primary') && entryDetailWxml.includes('entry-secondary'), 'Entry detail child scenes have clear actions');
-assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-evidence'), 'Profile first screen is parent evidence oriented');
-assert(profileWxml.includes('profileViewModel.primaryCta') && profileWxml.includes('parent-dash-route'), 'Profile keeps one CTA and family next step');
+assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-evidence'), 'Profile first screen is parent evidence oriented');
+assert(profileWxml.includes('profileViewModel.primaryCta') && profileWxml.includes('yd-parent-route'), 'Profile keeps one CTA and family next step');
 assert(profileJs.includes('saveLocalFeedback'), 'Profile feedback is local instead of customer service chat');
 
-assert(reviewWxml.includes('review-hero-shell') && !reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair without rendering dense blackboard evidence in the new shell');
-assert(tutorWxml.includes('tutor-hero-shell') && arcadeWxml.includes('data-scene="tutor"'), 'Tutor and arcade can return to first-step flow');
-assert(reviewWxml.includes('review-main-cta') && arcadeWxml.includes('arcade-hero-shell'), 'Review and arcade expose active compact CTAs');
+assert(reviewWxml.includes('yd-review-screen') && !reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair without rendering dense blackboard evidence in the new shell');
+assert(tutorWxml.includes('yd-tutor-screen') && arcadeWxml.includes('data-scene="tutor"'), 'Tutor and arcade can return to first-step flow');
+assert(reviewWxml.includes('review-main-cta') && arcadeWxml.includes('yd-arcade-screen'), 'Review and arcade expose active compact CTAs');
 
 const allVisible = [homeWxml, entryDetailWxml, profileWxml, reviewWxml, tutorWxml, arcadeWxml].join('\n');
 ['付费', '订阅', '解锁', '免费体验', '试听', '价格', '会员', '秒解', '拍照出答案', '答案已生成', 'PK', '排行榜'].forEach((term) => {
