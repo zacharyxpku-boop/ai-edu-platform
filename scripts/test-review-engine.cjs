@@ -673,6 +673,11 @@ function run() {
   assert(reviewWxml.includes('review-subcheck') && reviewWxml.includes('先修一个真实卡点'), 'review page keeps recall as a compact follow-up entry instead of the old after-repair panel');
   assert(reviewWxml.includes('class="review-dash-title"'), 'review page exposes quest title');
   assert(reviewWxml.includes('class="review-dash-pill"'), 'review page exposes due-card pill');
+  assert(reviewWxml.includes('review-map-node') && reviewWxml.includes('review-map-icon'), 'review page challenge map uses visual game-map nodes instead of number-only boxes');
+  ['entry-tutor.png', 'entry-review.png', 'entry-map.png', 'entry-parent.png'].forEach((asset) => {
+    assert(reviewWxml.includes(asset), `review map uses reference asset: ${asset}`);
+  });
+  assert(!reviewWxml.includes('<view class="done"><text>1</text>'), 'review map never regresses to the number-only route boxes');
   assert(reviewWxml.includes('class="review-challenge-card primary"'), 'review page exposes recall entry card');
   assert(reviewWxml.includes('bindtap="reveal"'), 'review page exposes reveal action');
   assert(reviewWxml.includes('data-rating="good"'), 'review page exposes rating action');

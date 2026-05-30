@@ -136,6 +136,8 @@ assert(reviewWxml.includes('class="subcheck-main" data-scene="review" bindtap="o
 assert(reviewWxml.includes('data-scene="tutor" bindtap="openEntryDetail"') && reviewWxml.includes('data-scene="today" bindtap="openEntryDetail"'), 'review child flow side jumps use scene-based entry-detail navigation');
 assert(read('miniprogram/pages/review/review.js').includes('openEntryDetail(event)') && read('miniprogram/pages/review/review.js').includes('/pages/entry-detail/entry-detail?scene='), 'review child flow implements scene-based entry-detail navigation');
 assert(!reviewWxml.includes(['v','1-topbar'].join('')), 'review child flow removes the old topbar instead of hiding it with CSS');
+assert(reviewWxml.includes('review-map-node') && reviewWxml.includes('review-map-icon'), 'review child flow challenge map uses visual nodes and reference icons');
+assert(!reviewWxml.includes('<view class="done"><text>1</text>'), 'review child flow never regresses to the number-only map boxes');
 assert(uploadWxml.includes('class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'upload tab brand mark uses the visual reference asset instead of an arrow placeholder');
 assert(!uploadWxml.includes('<view class="upload-dash-mark">↑</view>'), 'upload tab never regresses to the text-only arrow mark');
 assert(uploadWxml.includes('upload-pipeline-node') && uploadWxml.includes('upload-pipeline-icon'), 'upload tab route rail uses visual cards and reference icons');

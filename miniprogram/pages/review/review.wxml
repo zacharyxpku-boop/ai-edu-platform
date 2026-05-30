@@ -38,10 +38,26 @@
             <text>奖励来自真实回忆，不奖励速度或分数比较</text>
           </view>
           <view class="review-map-line">
-            <view class="done"><text>1</text><text>错因</text></view>
-            <view class="active"><text>2</text><text>回忆</text></view>
-            <view><text>3</text><text>变式</text></view>
-            <view><text>4</text><text>确认</text></view>
+            <view class="review-map-node done">
+              <image class="review-map-icon" mode="aspectFit" src="/assets/reference/entry-tutor.png" />
+              <text>错因</text>
+              <text>已定位</text>
+            </view>
+            <view class="review-map-node active">
+              <image class="review-map-icon" mode="aspectFit" src="/assets/reference/entry-review.png" />
+              <text>回忆</text>
+              <text>进行中</text>
+            </view>
+            <view class="review-map-node">
+              <image class="review-map-icon" mode="aspectFit" src="/assets/reference/entry-map.png" />
+              <text>变式</text>
+              <text>换题验</text>
+            </view>
+            <view class="review-map-node final">
+              <image class="review-map-icon" mode="aspectFit" src="/assets/reference/entry-parent.png" />
+              <text>确认</text>
+              <text>家长看</text>
+            </view>
           </view>
         </view>
 
