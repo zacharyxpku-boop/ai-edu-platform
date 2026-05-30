@@ -8,20 +8,24 @@ const ROOT = path.resolve(__dirname, '..');
 const TARGETS = [
   path.join(ROOT, 'miniprogram', 'pages', 'home'),
   path.join(ROOT, 'miniprogram', 'pages', 'profile'),
-  path.join(ROOT, 'miniprogram', 'pages', 'radar'),
-  path.join(ROOT, 'miniprogram', 'pages', 'tools'),
+  path.join(ROOT, 'miniprogram', 'pages', 'entry-detail'),
+  path.join(ROOT, 'miniprogram', 'pages', 'arcade'),
   path.join(ROOT, 'miniprogram', 'pages', 'tutor'),
   path.join(ROOT, 'miniprogram', 'pages', 'upload'),
   path.join(ROOT, 'miniprogram', 'pages', 'review'),
+  path.join(ROOT, 'miniprogram', 'pages', 'legal'),
+  path.join(ROOT, 'miniprogram', 'custom-tab-bar'),
   path.join(ROOT, 'miniprogram', 'utils', 'api.js'),
   path.join(ROOT, 'miniprogram', 'utils', 'review-cards.js'),
   path.join(ROOT, 'miniprogram', 'utils', 'storage.js'),
+  path.join(ROOT, 'scripts', 'miniapp-real-device-gate.cjs'),
+  path.join(ROOT, 'scripts', 'capture-miniapp-real-device.cjs'),
   path.join(ROOT, 'package.json')
 ];
 
 const MOJIBAKE_TOKENS = [
   '鍘', '鐐', '閿', '澶', '绋', '寮', '杩', '宸', '瑙', '鏃',
-  '棰', '鐩', '涓', '姝', '瀹', '缂', '璺', '闆', '鈥', '鈫', '锘'
+  '棰', '鐩', '涓', '姝', '瀹', '缂', '璺', '闆', '鈥', '鈫', '锘', '????'
 ];
 
 function walk(file, output = []) {

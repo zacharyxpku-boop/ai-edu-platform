@@ -17,7 +17,7 @@ const entryDetailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml')
 
 assert(homeWxml.includes('mini-entry-grid') && homeWxml.includes('mini-route-card'), 'Home renders reference-style entry cards and route card');
 assert(homeJs.includes('openEntryDetail') && !/\/pages\/(?:daily-math|dictation|light-diagnosis|focus|tools|module|radar|diagnosis)\//.test(homeJs), 'Home uses active jump shell instead of retired light practice routes');
-assert(homeWxml.includes('openEntryDetail') && homeWxml.includes('goRadar') && homeWxml.includes('goTools'), 'Home entry cards are clickable');
+assert(homeWxml.includes('openEntryDetail') && homeWxml.includes('goReportPreview') && homeWxml.includes('goLearningMap'), 'Home entry cards are clickable');
 
 assert(entryDetailJs.includes('const SCENES') && entryDetailWxml.includes('entry-jump-grid'), 'Entry detail replaces retired child pages');
 assert(entryDetailWxml.includes('entry-primary') && entryDetailWxml.includes('entry-secondary'), 'Entry detail child scenes have clear actions');

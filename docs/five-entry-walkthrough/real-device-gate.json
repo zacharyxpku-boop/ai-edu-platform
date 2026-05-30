@@ -1,12 +1,12 @@
 {
   "ok": false,
-  "generatedAt": "2026-05-30T13:42:42.608Z",
+  "generatedAt": "2026-05-30T19:07:20.992Z",
   "cliPath": "C:\\Program Files (x86)\\Tencent\\微信web开发者工具\\cli.bat",
   "port": 9420,
   "portOpen": false,
   "projectPath": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\miniprogram",
-  "latestSourceMtime": 1780147880028.3994,
-  "latestSourceMtimeIso": "2026-05-30T13:31:20.028Z",
+  "latestSourceMtime": 1780167884400.8313,
+  "latestSourceMtimeIso": "2026-05-30T19:04:44.400Z",
   "cliProbe": null,
   "expectedScreenshots": [
     {
@@ -163,7 +163,7 @@
       "name": "entry-detail-today.png",
       "route": "/pages/entry-detail/entry-detail?scene=today",
       "action": "Open Today child detail page before tapping primary action",
-      "expected": "Graphical child page with brand mark, scene hero, three-step path, numbered evidence cards, and cross-entry jump cards",
+      "expected": "Graphical child page with brand mark, scene hero, three-step path, reference-image evidence cards, and cross-entry jump cards",
       "path": "C:\\Users\\86136\\Desktop\\claude\\ai-edu-platform\\docs\\five-entry-walkthrough\\real-device\\entry-detail-today.png",
       "exists": false,
       "size": null,

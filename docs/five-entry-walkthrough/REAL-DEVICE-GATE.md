@@ -1,6 +1,6 @@
 # Real Device Gate
 
-Generated: 2026-05-30T13:42:42.608Z
+Generated: 2026-05-30T19:07:20.992Z
 
 Status: BLOCKED
 
@@ -9,7 +9,7 @@ Status: BLOCKED
 - WeChat DevTools CLI: C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat
 - Service port 9420: closed
 - Project path: C:\Users\86136\Desktop\claude\ai-edu-platform\miniprogram
-- Latest miniapp source mtime: 2026-05-30T13:31:20.028Z
+- Latest miniapp source mtime: 2026-05-30T19:04:44.400Z
 
 ## Required Screenshots
 
@@ -86,7 +86,7 @@ Status: BLOCKED
 - entry-detail-today.png: missing
   - route: /pages/entry-detail/entry-detail?scene=today
   - action: Open Today child detail page before tapping primary action
-  - expected: Graphical child page with brand mark, scene hero, three-step path, numbered evidence cards, and cross-entry jump cards
+  - expected: Graphical child page with brand mark, scene hero, three-step path, reference-image evidence cards, and cross-entry jump cards
   - size: n/a
   - captured: n/a
   - freshness: stale or missing

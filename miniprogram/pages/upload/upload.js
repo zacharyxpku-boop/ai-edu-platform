@@ -2438,7 +2438,7 @@ Page({
     navigation.navigateLearningRoute('/pages/review/review');
   },
 
-  goTools() {
+  goLearningMap() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=upload' });
   },
 

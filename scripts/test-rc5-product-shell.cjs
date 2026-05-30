@@ -63,8 +63,8 @@ const routeShellText = Object.values(files).join('\n') + '\n' + customTab;
 [
   'openEntryDetail',
   'goProfile',
-  'goRadar',
-  'goTools',
+  'goReportPreview',
+  'goLearningMap',
   'runPlaybookAction'
 ].forEach((handler) => {
   assert(routeShellText.includes(handler), `route shell keeps clickable handler: ${handler}`);

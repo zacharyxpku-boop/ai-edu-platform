@@ -757,7 +757,7 @@ Page({
     const sources = Array.isArray(safe.sources) ? safe.sources : [];
     const qualityQueue = Array.isArray(safe.qualityQueue) ? safe.qualityQueue : [];
     const reviewEvents = storage.loadReviewEvents ? storage.loadReviewEvents() : [];
-    const appSources = ['tutor', 'thinking_receipt', 'homework_plan', 'module', 'radar', 'review_grade', 'review_quiz'];
+    const appSources = ['tutor', 'thinking_receipt', 'homework_plan', 'learning_path', 'report', 'review_grade', 'review_quiz'];
     const appMistakes = sources
       .filter((item) => appSources.includes(item.source))
       .reduce((sum, item) => sum + Number(item.total || 0), 0);
@@ -1690,7 +1690,7 @@ Page({
     wx.switchTab({ url: '/pages/home/home' });
   },
 
-  goTools() {
+  goLearningMap() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=review' });
   },
 

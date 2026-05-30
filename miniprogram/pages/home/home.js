@@ -55,7 +55,7 @@ Page({
       primaryLabel: '帮我安排今晚学习',
       primaryAction: 'planTonight',
       secondaryLabel: '生成轻练习',
-      secondaryAction: 'goTools',
+      secondaryAction: 'goLearningMap',
       nextGate: '下一关：先生成学习卡'
     },
     missionCards: [],
@@ -65,7 +65,7 @@ Page({
     arcadeEntry: {
       body: '没有材料时先生成第一关，有真实卡片后再进入游戏。',
       cta: '去轻回访',
-      action: 'goTools'
+      action: 'goLearningMap'
     },
     wrongbookEntry: {
       body: '把题目、原想法和卡住的一步放进来，整理成可回访的小卡。',
@@ -478,7 +478,7 @@ Page({
             text: res.content || '',
             source: 'friend_safe_shell'
           });
-          wx.showToast({ title: '???????', icon: 'none' });
+          wx.showToast({ title: '已收到反馈', icon: 'none' });
         }
       }
     });
@@ -752,7 +752,7 @@ Page({
       pack: currentModule ? currentModule.title : '可生成轻练习',
       review: `${due} 张复习 · ${quiz} 道小测`,
       actions: [
-        { id: 'arcade', label: '轻回访', action: 'goTools' },
+        { id: 'arcade', label: '轻回访', action: 'goLearningMap' },
         { id: 'profile', label: '我的', action: 'goProfile' }
       ]
     };
@@ -820,7 +820,7 @@ Page({
         label: '预习',
         title: '先猜主线，再看要点',
         body: '把课本标题或课堂要点发来，先说你觉得会讲什么，再生成一组轻练习。',
-        action: 'goTools',
+        action: 'goLearningMap',
         meta: '先想'
       },
       {
@@ -873,7 +873,7 @@ Page({
         desc: currentModule ? currentModule.title : '把作业、笔记或材料变成卡片、小测和回访提示。',
         status: currentModule ? `已推荐 ${currentModule.score}` : '材料入口',
         cta: '打开',
-        action: 'goTools',
+        action: 'goLearningMap',
         featured: true
       },
       {
@@ -910,7 +910,7 @@ Page({
         featured: false
       },
       {
-        id: 'radar',
+        id: 'learningProfile',
         category: 'profile',
         tone: 'deep',
         title: '我的学习档案',
@@ -921,7 +921,7 @@ Page({
         featured: true
       },
       {
-        id: 'report',
+        id: 'weeklyReport',
         category: 'profile',
         tone: 'paper',
         title: '本周进展',
@@ -962,7 +962,7 @@ Page({
         primaryLabel: '开始这一小步',
         primaryAction: 'startTopMust',
         secondaryLabel: '换一个建议',
-        secondaryAction: 'goRadar'
+        secondaryAction: 'goReportPreview'
       };
     }
     return {
@@ -984,7 +984,7 @@ Page({
         title: '看今晚优先做什么',
         body: topMust ? `先看：${topMust.text}` : '先生成作业三分类，再看为什么先做它。',
         cta: '看我的决策',
-        action: 'goRadar'
+        action: 'goReportPreview'
       },
       {
         id: 'weekly',
@@ -1368,7 +1368,7 @@ Page({
       primaryLabel: '帮我安排今晚学习',
       primaryAction: 'planTonight',
       secondaryLabel: '生成轻练习',
-      secondaryAction: 'goTools',
+      secondaryAction: 'goLearningMap',
       taskStatus: hasTask ? '今晚任务' : '材料入口',
       packStatus: currentModule ? '可练' : (reviewSummary.total ? '已沉淀' : '待生成'),
       due: Number(reviewSummary.due || 0),
@@ -1478,7 +1478,7 @@ Page({
         id: 'parent',
         role: '我的',
         promise: '看见回访记录和今晚修过哪一步。',
-        action: 'goRadar',
+        action: 'goReportPreview',
         label: '看留痕'
       },
       {
@@ -1492,7 +1492,7 @@ Page({
         id: 'pack',
         role: '轻练习',
         promise: '把真实材料变成可复习内容。',
-        action: 'goTools',
+        action: 'goLearningMap',
         label: '去生成'
       }
     ];
@@ -1507,16 +1507,16 @@ Page({
         action: topMust ? 'startTopMust' : 'submitAiDraft'
       },
       {
-        id: 'tools',
+        id: 'learningMap',
         label: '轻回访',
         meta: modulePath.current ? '已推荐' : '材料',
-        action: 'goTools'
+        action: 'goLearningMap'
       },
       {
         id: 'parent',
         label: '我的',
         meta: '进展',
-        action: 'goRadar'
+        action: 'goReportPreview'
       }
     ];
   },
@@ -1601,7 +1601,7 @@ Page({
             ? currentModule.scene
             : '先听你想到哪一步，再问一个能帮你继续想的问题。',
           proof: currentModule ? `${currentModule.minutes} 分钟模块` : '3-5分钟',
-          action: currentModule ? 'goTools' : 'goTutor',
+          action: currentModule ? 'goLearningMap' : 'goTutor',
           cta: currentModule ? '打开轻练习' : '打开作业点拨'
         },
         {
@@ -1683,7 +1683,7 @@ Page({
       title: '打开轻练习',
       desc: modulePath.current ? modulePath.current.title : '选一个练习方法',
       meta: '10-20 分钟',
-      action: 'goTools'
+      action: 'goLearningMap'
     });
     return actions;
   },
@@ -1727,7 +1727,7 @@ Page({
     if (!id || !storage.applyLocalScenarioLoopCase) return;
     const result = storage.applyLocalScenarioLoopCase(id);
     if (!result) {
-      wx.showToast({ title: '???????', icon: 'none' });
+      wx.showToast({ title: '暂时没有可用场景', icon: 'none' });
       return;
     }
     this.setData({
@@ -1836,7 +1836,7 @@ Page({
 
   routeImportDraft(route) {
     if (route === 'review') {
-      this.goTools();
+      this.goLearningMap();
       return;
     }
     this.openTutorFromHome('/pages/tutor/tutor?from=home_import');
@@ -1990,23 +1990,11 @@ Page({
     this.openTutorFromHome('/pages/tutor/tutor?from=home');
   },
 
-  goTools() {
+  goLearningMap() {
     this.trackShareActivation('challenge_started', {
       next: 'entry-detail'
     });
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today' });
-  },
-
-  goDailyMath() {
-    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=daily_math' });
-  },
-
-  goDictation() {
-    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=dictation' });
-  },
-
-  goLightDiagnosis() {
-    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=light_diagnosis' });
   },
 
   goHome() {
@@ -2091,10 +2079,10 @@ Page({
       ? storage.canStartFocusFromTodaySession(session)
       : !!(session && session.childArticulatedStep);
     if (!canStart) {
-      wx.showToast({ title: '先回咕点确认今晚第一步，才能进专注舱。', icon: 'none' });
+      wx.showToast({ title: '先回咕点确认今晚第一步，才能进入专注。', icon: 'none' });
       return;
     }
-    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=focus_cabin' });
+    wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=first_step_focus' });
   },
 
   continueYesterdayReview() {
@@ -2276,7 +2264,7 @@ Page({
     this.openTutorFromHome('/pages/tutor/tutor?from=home_top_must');
   },
 
-  goRadar() {
+  goReportPreview() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=parent&from=report_preview' });
   },
 

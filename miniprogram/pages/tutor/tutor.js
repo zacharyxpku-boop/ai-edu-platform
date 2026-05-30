@@ -1730,7 +1730,7 @@ Page({
     });
   },
 
-  goRadar() {
+  goReportPreview() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=parent&from=tutor_report' });
   },
 

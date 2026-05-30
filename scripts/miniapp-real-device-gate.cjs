@@ -83,7 +83,7 @@ const expectedScreenshots = [
     name: 'entry-detail-today.png',
     route: '/pages/entry-detail/entry-detail?scene=today',
     action: 'Open Today child detail page before tapping primary action',
-    expected: 'Graphical child page with brand mark, scene hero, three-step path, numbered evidence cards, and cross-entry jump cards'
+    expected: 'Graphical child page with brand mark, scene hero, three-step path, reference-image evidence cards, and cross-entry jump cards'
   },
   {
     name: 'entry-detail-tutor.png',

@@ -46,7 +46,7 @@
         <image class="mini-hero-mascot" mode="aspectFit" src="/assets/reference/hero-mascot.png" />
       </view>
 
-      <view class="mini-report-card" bindtap="goRadar">
+      <view class="mini-report-card" bindtap="goReportPreview">
         <view class="mini-report-head">
           <text>个性化报告预览</text>
           <text>查看 →</text>
@@ -79,7 +79,7 @@
           <text>文档、试卷、错题</text>
           <view class="mini-entry-arrow">›</view>
         </view>
-        <view class="mini-entry-card blue" bindtap="goRadar">
+        <view class="mini-entry-card blue" bindtap="goReportPreview">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-report.png" />
           <text>个性化报告</text>
           <text>待提升点与建议</text>
@@ -103,7 +103,7 @@
           <text>一起见证成长</text>
           <view class="mini-entry-arrow orange">›</view>
         </view>
-        <view class="mini-entry-card map" bindtap="goTools">
+        <view class="mini-entry-card map" bindtap="goLearningMap">
           <image class="mini-entry-visual" mode="aspectFill" src="/assets/reference/entry-map.png" />
           <text>学习地图</text>
           <text>任务进度与目标</text>

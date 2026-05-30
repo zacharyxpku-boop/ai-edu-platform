@@ -12,7 +12,7 @@
                 <text>只追问第一步</text>
               </view>
             </view>
-            <view class="tutor-dash-pill" bindtap="goRadar">看报告</view>
+            <view class="tutor-dash-pill" bindtap="goReportPreview">看报告</view>
           </view>
 
           <view class="tutor-dash-hero">

@@ -1005,8 +1005,7 @@ button::after {
   box-shadow: 0 12rpx 26rpx rgba(47, 71, 50, 0.1);
 }
 
-.ux-card-label,
-.ux-radar-caption {
+.ux-card-label {
   color: #7f6a27;
   font-size: 21rpx;
   font-weight: 950;
@@ -1230,8 +1229,7 @@ button::after {
   margin-top: 22rpx;
 }
 
-.ux-child-card,
-.ux-radar-card {
+.ux-child-card {
   padding: 20rpx;
   border-radius: 30rpx;
   background: rgba(255, 255, 255, 0.82);
@@ -1268,40 +1266,6 @@ button::after {
   background:
     radial-gradient(circle at 50% 34%, #fffdf6 0 18rpx, transparent 19rpx),
     linear-gradient(180deg, #f4b63f, #2f8a63);
-}
-
-.ux-radar {
-  position: relative;
-  width: 150rpx;
-  height: 150rpx;
-  margin: 0 auto 10rpx;
-}
-
-.ux-radar-ring,
-.ux-radar-shape {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-}
-
-.ux-radar-ring.r1 {
-  border: 2rpx solid rgba(47, 138, 99, 0.16);
-}
-
-.ux-radar-ring.r2 {
-  inset: 28rpx;
-  border: 2rpx solid rgba(47, 138, 99, 0.2);
-}
-
-.ux-radar-shape {
-  inset: 24rpx 32rpx 22rpx 18rpx;
-  border-radius: 42% 58% 45% 55%;
-  background: rgba(244, 182, 63, 0.5);
-  transform: rotate(-18deg);
-}
-
-.ux-radar-caption {
-  text-align: center;
 }
 
 .ux-stage-screen .ux-evidence-strip {

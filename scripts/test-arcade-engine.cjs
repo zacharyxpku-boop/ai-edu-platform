@@ -221,7 +221,7 @@ assert.deepEqual(uniqueWrong.map((item) => item.cardId), ['c1', 'c3'], 'wrong-an
 
 const entry = arcade.buildHomeArcadeEntry({ due: 3 }, cards);
 assert.equal(entry.title, '轻练习');
-assert(entry.action === 'goArcade' || entry.action === 'goTools');
+assert(entry.action === 'goArcade' || entry.action === 'goLearningMap');
 
 const whackAdvice = arcade.buildRoundAdvice(summary, 'whack');
 assert(whackAdvice.title && whackAdvice.primary && whackAdvice.secondary, '局后建议应给出明确下一步');

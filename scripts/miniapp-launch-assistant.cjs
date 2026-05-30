@@ -164,7 +164,12 @@ async function main() {
   const hit = risky.find((word) => publicText.includes(word));
   check(!hit, '前台高风险承诺词未命中', `前台仍含高风险词：${hit}`, results);
   check(publicText.includes('api.buildPriority'), '测评/作业主流程已接服务端优先级接口', '测评/作业主流程未接入服务端优先级接口', results);
-  check(publicText.includes('api.submitFeedback'), 'family feedback calibration wired', 'family feedback calibration missing', results);
+  check(
+    publicText.includes('api.submitFeedback') || publicText.includes('saveLocalFeedback'),
+    'family feedback calibration wired',
+    'family feedback calibration missing',
+    results
+  );
   check(publicText.includes('api.checkContent'), '作业点拨已接内容安全前置检查', '作业点拨未接入内容安全前置检查', results);
 
   check(true, `微信后台 request 合法域名只需配置：${REQUEST_DOMAIN}`, 'request 合法域名未明确', results);

@@ -853,32 +853,32 @@ Page({
         title: '缺少短回忆卡',
         body: '打地鼠适合口算、单词、年代、符号这类能快速回答的卡。',
         cta: '去生成短卡',
-        action: 'goTools'
+        action: 'goLearningMap'
       },
       quiz: {
         title: '缺少概念轻练卡',
         body: '轻练答题适合原因、定义、关系、应用题思路这类需要先回忆再解释的卡。',
         cta: '去生成概念卡',
-        action: 'goTools'
+        action: 'goLearningMap'
       },
       snake: {
         title: '缺少顺序步骤卡',
         body: '贪吃蛇适合解题步骤、实验流程、历史时间线和操作顺序。',
         cta: '去生成步骤卡',
-        action: 'goTools'
+        action: 'goLearningMap'
       },
       match: {
         title: '缺少短对应卡',
         body: '泡泡消适合单词-释义、年代-事件、符号-含义这类一问一答的短卡。',
         cta: '去生成对应卡',
-        action: 'goTools'
+        action: 'goLearningMap'
       }
     };
     return guides[gameId] || {
       title: '还没有可玩的真实卡片',
       body: '先从作业、错题或教材章节生成学习卡，再回来轻回访。',
       cta: '去生成学习卡',
-      action: 'goTools'
+      action: 'goLearningMap'
     };
   },
 
@@ -2198,7 +2198,7 @@ Page({
   },
 
   runGuideAction(event) {
-    const action = event.currentTarget.dataset.action || 'goTools';
+    const action = event.currentTarget.dataset.action || 'goLearningMap';
     if (action && typeof this[action] === 'function') this[action]();
   },
 
@@ -2221,7 +2221,7 @@ Page({
     wx.navigateTo({ url: `/pages/entry-detail/entry-detail?scene=${scene || 'review'}` });
   },
 
-  goTools() {
+  goLearningMap() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=arcade' });
   },
 

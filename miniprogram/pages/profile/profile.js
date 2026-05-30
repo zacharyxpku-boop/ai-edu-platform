@@ -4098,10 +4098,10 @@ Page({
       return;
     }
     const routeTargets = {
-      tools: '/pages/entry-detail/entry-detail?scene=today&from=parent_tools',
+      learningMap: '/pages/entry-detail/entry-detail?scene=today&from=parent_learning_map',
       review: '/pages/review/review',
       upload: '/pages/upload/upload',
-      radar: '/pages/entry-detail/entry-detail?scene=parent&from=parent_report',
+      reportPreview: '/pages/entry-detail/entry-detail?scene=parent&from=parent_report',
       arcade: '/pages/arcade/arcade',
       tutor: '/pages/tutor/tutor'
     };
@@ -4170,7 +4170,7 @@ Page({
     wx.navigateTo({ url: `/pages/entry-detail/entry-detail?scene=${scene || 'parent'}` });
   },
 
-  goTools() {
+  goLearningMap() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=parent' });
   },
 
