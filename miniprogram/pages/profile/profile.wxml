@@ -101,8 +101,14 @@
           <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-parent.png" />
         </view>
         <view class="subcheck-side">
-          <view data-scene="upload" bindtap="openEntryDetail"><text>材料缺口</text><text>补测评/错题</text></view>
-          <view data-scene="review" bindtap="openEntryDetail"><text>明天回访</text><text>90 秒复述</text></view>
+          <view data-scene="upload" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-upload.png" />
+            <text>材料缺口</text><text>补测评/错题</text>
+          </view>
+          <view data-scene="review" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-review.png" />
+            <text>明天回访</text><text>90 秒复述</text>
+          </view>
         </view>
       </view>
     </view>

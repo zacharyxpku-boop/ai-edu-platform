@@ -91,8 +91,14 @@
           <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-review.png" />
         </view>
         <view class="subcheck-side">
-          <view data-scene="tutor" bindtap="openEntryDetail"><text>回到原小点</text><text>卡住再说第一步</text></view>
-          <view data-scene="today" bindtap="openEntryDetail"><text>换一题变式</text><text>验证是否迁移</text></view>
+          <view data-scene="tutor" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
+            <text>回到原小点</text><text>卡住再说第一步</text>
+          </view>
+          <view data-scene="today" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
+            <text>换一题变式</text><text>验证是否迁移</text>
+          </view>
         </view>
       </view>
 

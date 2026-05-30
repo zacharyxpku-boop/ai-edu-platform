@@ -88,8 +88,14 @@
             <image class="subcheck-art" mode="aspectFill" src="/assets/brand/gudian-reader.png" />
           </view>
           <view class="subcheck-side">
-            <view data-scene="review" bindtap="openEntryDetail"><text>沉淀卡点</text><text>说完自动进复习</text></view>
-            <view data-scene="parent" bindtap="openEntryDetail"><text>家长看证据</text><text>只问一句</text></view>
+            <view data-scene="review" bindtap="openEntryDetail">
+              <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-review.png" />
+              <text>沉淀卡点</text><text>说完自动进复习</text>
+            </view>
+            <view data-scene="parent" bindtap="openEntryDetail">
+              <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+              <text>家长看证据</text><text>只问一句</text>
+            </view>
           </view>
         </view>
       </view>

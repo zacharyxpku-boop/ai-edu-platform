@@ -99,6 +99,7 @@ tabContracts.forEach((tab) => {
   assert(wxml.includes('ux-kit-subcheck'), `${tab.id} keeps a compact child-flow preview under the launch shell`);
   assert((wxml.match(/class="[^"]*ux-kit-subcheck/g) || []).length >= 1, `${tab.id} subcheck preview is present`);
   assert(wxml.includes('subcheck-art'), `${tab.id} subcheck preview includes a visual asset, not just text boxes`);
+  assert.strictEqual((wxml.match(/subcheck-side-icon/g) || []).length, 2, `${tab.id} subcheck side jumps use reference icons`);
   assertRuleContains(
     wxss,
     tab.safeAreaOwner,
@@ -200,6 +201,7 @@ assert(appWxss.includes('.ux-kit-screen ~ .ux-kit-subcheck'), 'focused tab scree
 assert(appWxss.includes('grid-template-columns: minmax(0, 1fr)'), 'subcheck preview avoids squeezed two-column mobile composition');
 assert(appWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'subcheck side actions stay as two compact jump cards');
 assert(appWxss.includes('.subcheck-art'), 'subcheck preview styles a dedicated image asset block');
+assert(appWxss.includes('.subcheck-side-icon'), 'subcheck side jumps style dedicated visual icons');
 assert(!tabbarWxss.includes('scale(0.88)'), 'custom tabbar labels render at real size instead of being visually scaled down');
 assert(tabbarWxss.includes('position: absolute') && tabbarWxss.includes('bottom: 6rpx'), 'custom tabbar active indicator does not take layout space from labels');
 const retiredTabbarClass = ['v', '1-tabbar'].join('');

@@ -82,8 +82,14 @@
           <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-upload.png" />
         </view>
         <view class="subcheck-side">
-          <view data-scene="parent" bindtap="openEntryDetail"><text>出报告</text><text>给家长看结论</text></view>
-          <view data-scene="today" bindtap="openEntryDetail"><text>变任务</text><text>回到今晚路线</text></view>
+          <view data-scene="parent" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
+            <text>出报告</text><text>给家长看结论</text>
+          </view>
+          <view data-scene="today" bindtap="openEntryDetail">
+            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
+            <text>变任务</text><text>回到今晚路线</text>
+          </view>
         </view>
       </view>
     </view>

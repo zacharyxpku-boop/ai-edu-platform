@@ -1594,13 +1594,28 @@ button::after {
 }
 
 .subcheck-side > view {
-  min-height: 76rpx;
-  padding: 13rpx 14rpx;
+  min-height: 112rpx;
+  padding: 12rpx 12rpx 13rpx;
+  display: grid;
+  grid-template-columns: 54rpx minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 10rpx;
+  align-items: center;
   background: rgba(255, 255, 255, 0.92);
 }
 
 .subcheck-side > view:first-child {
   background: #fff8dd;
+}
+
+.subcheck-side-icon {
+  grid-row: 1 / span 2;
+  width: 54rpx;
+  height: 54rpx;
+  display: block;
+  border-radius: 17rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 16rpx rgba(34, 85, 54, 0.09);
 }
 
 .subcheck-side text:first-child {
