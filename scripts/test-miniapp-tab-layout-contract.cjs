@@ -181,6 +181,18 @@ const appWxss = read('miniprogram/app.wxss');
 const tabbarWxss = read('miniprogram/custom-tab-bar/index.wxss');
 const tabbarWxml = read('miniprogram/custom-tab-bar/index.wxml');
 const arcadeWxss = read('miniprogram/pages/arcade/arcade.wxss');
+const activePageUiSource = [
+  'arcade',
+  'entry-detail',
+  'home',
+  'profile',
+  'review',
+  'tutor',
+  'upload'
+].map((page) => [
+  read(`miniprogram/pages/${page}/${page}.wxml`),
+  read(`miniprogram/pages/${page}/${page}.wxss`)
+].join('\n')).join('\n');
 auditTapHandlers();
 assert(appWxss.includes('.ux-kit-screen ~ .ux-kit-subcheck'), 'focused tab screens allow the compact subcheck preview to render');
 assert(appWxss.includes('grid-template-columns: minmax(0, 1fr)'), 'subcheck preview avoids squeezed two-column mobile composition');
@@ -193,6 +205,21 @@ const retiredClassPattern = new RegExp(`\\b${['v', '1-'].join('')}|${['module', 
 assert(tabbarWxml.includes('yd-tabbar') && !tabbarWxml.includes(retiredTabbarClass), 'custom tabbar uses the current reference design shell');
 assert(!retiredClassPattern.test(appWxss + tabbarWxss + tabbarWxml + entryDetailWxml + entryDetailWxss), 'retired shell class names are removed from active miniapp screens');
 assert(!/mole-(grid|hole|face|label)/.test(arcadeWxml + arcadeWxss), 'retired mole arcade UI is removed from active review island code');
+[
+  ['daily', 'return'].join('-'),
+  ['module', 'flow'].join('-'),
+  ['light', 'entry'].join('-'),
+  ['family', 'summary'].join('-'),
+  ['family', 'diagnosis'].join('-'),
+  ['diagnosis', 'score'].join('-'),
+  ['teacher', 'card'].join('-'),
+  ['daily', 'share'].join('-'),
+  ['focus', 'cabin', 'link'].join('-'),
+  ['light', 'evidence', 'card'].join('-'),
+  ['module', 'flow', 'mini'].join('-')
+].forEach((term) => {
+  assert(!activePageUiSource.includes(term), `active miniapp pages do not keep retired UI class: ${term}`);
+});
 
 const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
 [
