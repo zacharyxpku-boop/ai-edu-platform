@@ -81,6 +81,21 @@ function pageGuide(id) {
     </section>`;
 }
 
+function sceneSwitch(activeId) {
+  if (activeId === 'home') return '';
+  return `
+    <section class="web-scene-switch card" aria-label="核心入口切换">
+      ${routes
+        .filter(([id]) => id !== 'home')
+        .map(([id, label, image]) => `
+          <button class="${id === activeId ? 'active' : ''}" type="button" data-route="${id}">
+            <img src="${referenceAsset(image)}" alt="">
+            <span>${label}</span>
+          </button>
+        `).join('')}
+    </section>`;
+}
+
 function rightRail() {
   const progressCard = `
     <article class="rail-card rail-progress">
@@ -145,6 +160,7 @@ function renderUpload() {
   ];
   return `
     <section class="page-title"><div><h1>上传资料</h1><p>先把测评、成绩、错题和观察分清楚，后续报告才有可信证据链。</p></div><button class="soft-button" data-action="mock-upload">选择文件</button></section>
+    ${sceneSwitch('upload')}
     <section class="upload-console"><article class="upload-drop card"><div><h2>拖拽文件到这里，或点击选择文件</h2><p>支持多文件同时上传。无法解析的材料会进入人工确认，不中断生成流程。</p><div class="upload-format-row"><span>图片<small>JPG / PNG</small></span><span>PDF<small>测评报告</small></span><span>Word<small>老师反馈</small></span><span>Excel<small>成绩表</small></span></div><button class="primary-cta" data-action="mock-upload">选择文件</button><em>也可以先粘贴文字摘要。</em></div><img class="upload-art-img" src="${referenceAsset('entry-upload.png')}" alt="上传资料"></article></section>
     ${pageGuide('upload')}
     <section><div class="section-title"><h2>选择资料类型 <small>可多选</small></h2><p>分类越准，报告里的证据来源越清晰。</p></div><div class="type-grid upload-type-row">${materialTypes.map(([title, desc, image, tone]) => `<button class="type-card visual ${tone}" data-action="select-material"><img src="${referenceAsset(image)}" alt=""><b>${title}</b><span>${desc}</span></button>`).join('')}</div></section>
@@ -162,6 +178,7 @@ function renderReport() {
   ];
   return `
     <section class="page-title report-title"><div><h1>个性化报告</h1><p>先看证据，再看天赋、成绩与方法如何匹配。</p></div><button class="soft-button" data-action="print-report">下载 PDF 报告</button></section>
+    ${sceneSwitch('report')}
     <section class="report-hero pro card"><article class="student-id-card"><div class="student-avatar"><span>小</span></div><div><h2>小明（四年级）</h2><p>原点智学样例档案</p><div class="report-meta"><span>学习时长 <b>4.2</b> 小时/天</span><span>报告周期 <b>7 天</b></span><span>资料来源 <b>12</b> 项</span></div></div><img src="${referenceAsset('entry-report.png')}" alt="报告预览"></article><article class="ability-panel"><div class="card-head"><h3>能力雷达图</h3><span>本周水平</span></div><div class="radar-with-labels"><span>知识掌握</span><span>思维能力</span><span>学习习惯</span><span>学习动力</span><span>应用迁移</span><span>基础技能</span><div class="radar-shape strong"></div></div></article></section>
     ${pageGuide('report')}
     <section class="report-insight card"><div><h2>思维活跃、表达清晰，逻辑推理是闪光点。</h2><p>当前成绩没有完全兑现潜力，主要原因不是“不适合学”，而是方法还没有稳定匹配：审题和步骤表达需要用复述、追问和变式来补偿。</p></div><img src="${referenceAsset('hero-mascot.png')}" alt="咕点鼓励"></section>
@@ -174,6 +191,7 @@ function renderReport() {
 function renderTutor() {
   return `
     <section class="page-title tutor-title"><div><h1>原小点 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section>
+    ${sceneSwitch('tutor')}
     <section class="tutor-lab"><article class="chat-card tutor-chat card"><div class="chat-head"><img class="chat-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><h2>咕点</h2><p>像朋友一样陪你想，不替你写答案。</p></div><span>AI</span></div><div class="bubble coach">遇到难题很正常。先说说：你准备从哪一步开始？</div><div class="bubble me">我先算一共用了多少米彩带。</div><div class="bubble coach">很好。那你准备把哪几部分加在一起？</div><div class="chat-actions"><button class="soft-button" data-action="tutor-stuck">我有点卡住</button><button class="soft-button" data-action="tutor-hint">给我一点提示</button><button class="soft-button" data-action="tutor-retry">我想再试一次</button></div><div class="input-line"><input id="tutorInput" placeholder="告诉我你的想法..."><button data-action="send-tutor">发送</button></div><p class="tutor-boundary">边界：只做思路提示和追问，不提供整题代写。</p></article><article class="problem-board card"><div class="card-head"><h3>题目与思路板</h3><button class="soft-button mini" data-action="tutor-hint">提示</button></div><div class="problem-card"><span>应用题</span><p>活动场地买了红色 45 米、蓝色 27 米、黄色 18 米彩带。一共买了多少米？</p><b>先想：要求“一共”，要把哪些数量合并在一起？</b></div><div class="board-and-ladder"><div class="thinking-canvas"><h3>我的思路</h3><div class="canvas-empty">写下你的步骤、图示或列式。</div></div><div class="hint-ladder"><h3>提示阶梯</h3><ol><li class="active"><b>第 1 步</b><p>先理解题目问什么。</p></li><li><b>第 2 步</b><p>找出需要合并的数量。</p></li><li><b>第 3 步</b><p>列式并检查结果。</p></li></ol></div></div></article></section>
     ${pageGuide('tutor')}
   `;
@@ -188,6 +206,7 @@ function renderReview() {
   ];
   return `
     <section class="page-title review-title"><div><h1>复习游戏</h1><p>3 分钟回访，把错因变成闯关挑战。</p></div><article class="review-buddy-card"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><b>今天有 12 个知识点</b><span>先回忆，再变式，最后复盘。</span></div></article></section>
+    ${sceneSwitch('review')}
     <section class="review-world card"><div class="world-path"><span></span></div><div class="world-node node-1 done"><img src="${referenceAsset('entry-report.png')}" alt=""><b>回忆关</b><em>已完成</em></div><div class="world-node node-2 done"><img src="${referenceAsset('entry-map.png')}" alt=""><b>迁移关</b><em>已完成</em></div><div class="world-node node-3 active"><img src="${referenceAsset('entry-review.png')}" alt=""><b>变式挑战</b><em>进行中</em></div><div class="world-node node-4"><img src="${referenceAsset('entry-tutor.png')}" alt=""><b>错因复盘</b><em>待解锁</em></div><button class="world-rule-button" data-action="review-map-info">查看规则</button></section>
     ${pageGuide('review')}
     <section class="level-card-grid">${levels.map(([title, desc, image, tone, reward]) => `<button class="level-card ${tone}" data-action="review-level" data-level="${title}"><img src="${referenceAsset(image)}" alt=""><h3>${title}</h3><p>${desc}</p><small>${reward}</small><span>开始挑战</span></button>`).join('')}</section>
@@ -204,6 +223,7 @@ function renderParent() {
   ];
   return `
     <section class="page-title parent-title"><div><h1>家长中心 <small>/ 证据与下一步</small></h1><p>看懂孩子为什么卡住，今晚只做一件有效的事。</p></div><span class="data-chip">数据更新：今天 20:30</span></section>
+    ${sceneSwitch('parent')}
     <section class="parent-dashboard"><article class="student-parent-card card"><div class="student-face"><img src="${referenceAsset('entry-parent.png')}" alt="孩子画像"></div><div><h2>小明（四年级）</h2><p>数学 · 本周复盘</p><strong>孩子不是不会学，是方法还没有稳定匹配。</strong></div><img class="parent-mini-mascot" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article><article class="weekly-overview card"><h2>本周学习概览 <small>7 天</small></h2><div class="overview-metrics"><span><i class="blue-dot"></i><b>5.6</b>小时<em>较上周 +1.2</em></span><span><i class="green-dot"></i><b>18</b>/24<em>任务完成</em></span><span><i class="orange-dot"></i><b>84%</b><em>回访正确率</em></span></div></article></section>
     ${pageGuide('parent')}
     <section class="evidence-summary card"><div class="card-head"><h3>证据汇总</h3><button class="soft-button mini" data-action="parent-evidence-all">查看全部证据</button></div><div class="parent-evidence-grid">${evidence.map(([title, main, sub, image]) => `<article><img src="${referenceAsset(image)}" alt=""><div><h3>${title}</h3><b>${main}</b><p>${sub}</p></div></article>`).join('')}</div></section>
@@ -223,6 +243,7 @@ function renderMap() {
   ];
   return `
     <section class="page-title map-title"><div><h1>学习地图 <small>/ 看见本周路径</small></h1></div></section>
+    ${sceneSwitch('map')}
     <section class="learning-road card"><div class="road-head"><h2>小明的专属学习旅程</h2><span>本周第 3 天</span></div><div class="road-line"></div>${route.map(([id, num, title, status, image, stateName], index) => `<button class="road-stop stop-${index + 1} ${stateName}" data-route="${id}"><b>${num}</b><strong>${title}</strong><em>${status}</em><img src="${referenceAsset(image)}" alt=""></button>`).join('')}<div class="road-cheer"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><p>你已完成 2 个关键节点。完成本周路径后，可以获得学习探索者勋章。</p><button class="soft-button" data-route="review">查看勋章</button></div></section>
     ${pageGuide('map')}
     <section class="map-info-grid"><article class="task-list card"><h2>本周任务清单 <small>3/6 已完成</small></h2><ul><li class="done">上传学科资料<span>已完成</span></li><li class="done">查看个性化报告<span>已完成</span></li><li class="active">完成 AI 点拨练习<span>进行中</span></li><li>复习回访<span>待开始</span></li><li>家长复盘<span>待开始</span></li></ul><button class="soft-button" data-route="upload">查看全部任务</button></article><article class="future-path card"><h2>未来 7 天路径</h2><ol>${['明天：复习回访', '第 3 天：薄弱专项', '第 5 天：变式训练', '第 7 天：家长复盘'].map((item, index) => `<li class="${index === 0 ? 'active' : ''}">${item}</li>`).join('')}</ol><button class="soft-button" data-route="review">查看完整日程</button></article></section>

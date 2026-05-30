@@ -2,7 +2,7 @@
   "surface": "web",
   "name": "Yuandian Web / H5",
   "purpose": "Render the same product loop as the miniapp on the official website without importing miniapp UI code.",
-  "designRule": "Keep brand language aligned with the miniapp, but implement Web layout, routing, responsive behavior, and export flows inside apps/web only.",
+  "designRule": "Keep brand language aligned with the miniapp, but implement Web layout, routing, responsive behavior, and export flows inside apps/web only. Subpages must expose a compact six-entry scene switch, mirroring the miniapp entry-detail child scene without importing WXML/WXSS.",
   "sharedPackages": [
     "packages/edu-core",
     "packages/ui-contracts"
@@ -20,7 +20,8 @@
       "path": "/",
       "miniappParity": "pages/home/home",
       "job": "Show the whole learning loop at a glance and route users into the next best action.",
-      "webAdaptation": "Desktop gets a left rail plus one main action panel; mobile gets a compact tab-like launch board."
+      "webAdaptation": "Desktop gets a left rail plus one main action panel; mobile gets a compact tab-like launch board.",
+      "childScenePattern": "Home launches the six entries; subpages use Web-owned navigation rather than miniapp child-scene code."
     },
     {
       "id": "upload",
@@ -28,7 +29,8 @@
       "path": "/upload",
       "miniappParity": "pages/upload/upload",
       "job": "Classify talent reports, grades, wrong questions, school feedback, and parent notes.",
-      "webAdaptation": "Use larger drop zones, material cards, and a right-side evidence checklist."
+      "webAdaptation": "Use larger drop zones, material cards, a right-side evidence checklist, and the compact six-entry scene switch above the upload console.",
+      "childScenePattern": "Compact switch keeps upload, report, tutor, review, parent, and map one click apart."
     },
     {
       "id": "report",
@@ -36,7 +38,8 @@
       "path": "/report",
       "miniappParity": "pages/entry-detail/entry-detail?scene=report + pages/entry-detail/entry-detail?scene=parent + pages/profile/profile",
       "job": "Explain evidence, talent-method fit, learning plan, and PDF export.",
-      "webAdaptation": "Use report chapters, visual evidence panels, and sticky export/share actions."
+      "webAdaptation": "Use report chapters, visual evidence panels, sticky export/share actions, and the compact six-entry scene switch above the report evidence panel.",
+      "childScenePattern": "Report stays evidence-first, then routes to tutor, review, parent, or material补充."
     },
     {
       "id": "tutor",
@@ -44,7 +47,8 @@
       "path": "/tutor",
       "miniappParity": "pages/tutor/tutor",
       "job": "Start with the first Socratic question and keep the answer-safe tutoring boundary.",
-      "webAdaptation": "Use a two-column tutor workspace: dialogue on the left, evidence and next action on the right."
+      "webAdaptation": "Use a two-column tutor workspace: dialogue on the left, evidence and next action on the right, plus the compact six-entry scene switch.",
+      "childScenePattern": "Tutor keeps the first-step surface one click from review and parent evidence."
     },
     {
       "id": "review",
@@ -52,7 +56,8 @@
       "path": "/review",
       "miniappParity": "pages/arcade/arcade + pages/review/review",
       "job": "Validate memory, transfer, and wrong-cause repair through lightweight game loops.",
-      "webAdaptation": "Use one active challenge per screen, with progress, streak, and transfer prompts around it."
+      "webAdaptation": "Use one active challenge per screen, with progress, streak, transfer prompts, and the compact six-entry scene switch.",
+      "childScenePattern": "Review keeps memory and transfer visible without becoming a long explanatory page."
     },
     {
       "id": "parent",
@@ -60,7 +65,8 @@
       "path": "/parent",
       "miniappParity": "pages/profile/profile",
       "job": "Summarize evidence, reassurance, parent question, and next step.",
-      "webAdaptation": "Use a decision dashboard: what we know, what changed, what to do tonight."
+      "webAdaptation": "Use a decision dashboard: what we know, what changed, what to do tonight, with the compact six-entry scene switch above the parent dashboard.",
+      "childScenePattern": "Parent can jump back to report evidence, upload补充, or review validation."
     },
     {
       "id": "map",
@@ -68,7 +74,8 @@
       "path": "/map",
       "miniappParity": "pages/entry-detail/entry-detail?scene=today + pages/arcade/arcade",
       "job": "Show the full learning route across tonight and the next 7 days.",
-      "webAdaptation": "Use a visual route board that connects upload, report, tutor, review, parent check, and next evidence."
+      "webAdaptation": "Use a visual route board that connects upload, report, tutor, review, parent check, next evidence, and the compact six-entry scene switch.",
+      "childScenePattern": "Map is the Web counterpart of entry-detail?scene=today."
     }
   ],
   "releaseTracks": {

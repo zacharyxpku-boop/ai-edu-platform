@@ -55,6 +55,9 @@ for (const entry of entries) {
   for (const key of ['id', 'label', 'path', 'miniappParity', 'job', 'webAdaptation']) {
     if (!entry[key]) fail(`entry ${entry.id || '(unknown)'} is missing ${key}`);
   }
+  if (entry.id !== 'home' && !entry.childScenePattern) {
+    fail(`entry ${entry.id} must document its compact child-scene pattern`);
+  }
   if (!entry.path.startsWith('/')) {
     fail(`entry ${entry.id} path must start with /`);
   }
@@ -263,6 +266,26 @@ for (const [route, visualMarker] of [
   }
   if (guideIndex < visualIndex) {
     fail(`web ${route} page must show the visual product surface before the process guide`);
+  }
+}
+
+if (!appJs.includes('function sceneSwitch(activeId)') || !appCss.includes('.web-scene-switch')) {
+  fail('web subpages must implement the compact six-entry scene switch');
+}
+
+for (const route of ['upload', 'report', 'tutor', 'review', 'parent', 'map']) {
+  if (!appJs.includes(`sceneSwitch('${route}')`)) {
+    fail(`web ${route} page must render the compact scene switch`);
+  }
+}
+
+for (const requiredSnippet of [
+  'grid-template-columns: repeat(6, minmax(0, 1fr))',
+  '.web-scene-switch button.active',
+  'grid-template-columns: repeat(3, minmax(0, 1fr))'
+]) {
+  if (!appCss.includes(requiredSnippet)) {
+    fail(`web scene switch CSS is missing ${requiredSnippet}`);
   }
 }
 

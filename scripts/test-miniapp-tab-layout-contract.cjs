@@ -173,7 +173,8 @@ assert.strictEqual((arcadeWxml.match(/arcade-jump-card[\s\S]*?<image/g) || []).l
 assert(entryDetailWxss.includes('env(safe-area-inset-top)'), 'entry-detail child page reserves top safe area');
 assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail child page reserves bottom safe area');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
-assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
+assert(entryDetailWxml.includes('entry-jump-section') && entryDetailWxml.indexOf('entry-jump-section') < entryDetailWxml.indexOf('entry-detail-hero'), 'entry-detail child page starts with compact clickable scene switching');
+assert(entryDetailWxss.includes('grid-template-columns: repeat(6') && entryDetailWxml.includes('wx:for="{{loopNodes}}"'), 'entry-detail child page renders six compact child-entry tabs instead of a second long route rail');
 assert(entryDetailJs.includes("report: {") && entryDetailJs.includes("badge: '个性化报告'"), 'entry-detail separates report evidence from parent-center actions');
 assert(entryDetailJs.includes("secondaryRoute: '/pages/profile/profile?from=entry_upload_quiz&panel=assessment&quick_assessment=1'"), 'upload child secondary action jumps to the parent quick assessment questionnaire instead of looping back to itself');
 assert(entryDetailJs.includes('今晚路线板') && entryDetailJs.includes('材料分类板') && entryDetailJs.includes('私教追问板') && entryDetailJs.includes('复习闯关板') && entryDetailJs.includes('报告决策板') && entryDetailJs.includes('家长行动卡'), 'entry-detail gives every child scene a dedicated decision panel');

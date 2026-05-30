@@ -213,6 +213,7 @@ const SCENE_NAV = {
 };
 
 const LOOP_NODES = [
+  { key: 'today', label: '主线', image: '/assets/reference/entry-map.png' },
   { key: 'upload', label: '上传', image: '/assets/reference/entry-upload.png' },
   { key: 'report', label: '报告', image: '/assets/reference/entry-report.png' },
   { key: 'tutor', label: '点拨', image: '/assets/reference/entry-tutor.png' },
