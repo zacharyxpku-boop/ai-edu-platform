@@ -48,7 +48,7 @@ The accepted reference is the HTML/PNG package at `C:\Users\86136\Desktop\小程
 Use this baseline for all three surfaces:
 
 - Product structure: left nav or bottom tabs, top student/family status, six clear entries, report preview, tonight route, evidence/progress rail.
-- Core entries: 上传资料、个性化报告、AI私教、复习游戏、家长中心、学习地图.
+- Core entries: 上传资料、个性化报告、原小点点拨、复习游戏、家长中心、学习地图.
 - Visual language: warm off-white background, green primary, yellow/blue/orange accents, 24px-style rounded cards, soft shadows, friendly mascot/illustration blocks.
 - Navigation rule: do not stack everything into one long scroll; each entry must open a focused page/state.
 - Asset rule: mascot and illustrative PNGs can be used directly; interaction surfaces must remain real DOM/WXML, not one big background image with hot zones.

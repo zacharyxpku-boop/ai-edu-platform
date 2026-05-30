@@ -20,12 +20,6 @@
       ]
     },
     {
-      "source": "/:page(tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|admin|tools|assistant|about|paths|question-bank|quiz)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=120" }
-      ]
-    },
-    {
       "source": "/app",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0" },
@@ -61,15 +55,16 @@
     { "source": "/app/", "destination": "/app/index.html" }
   ],
   "redirects": [
-    { "source": "/methods", "destination": "/assistant", "permanent": true },
-    { "source": "/methods.html", "destination": "/assistant", "permanent": true },
+    { "source": "/:page(tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|admin|tools|assistant|paths|question-bank|quiz|app-lite|diagnose|learning-pack|membership|study-tools|tools-guide|warm-focus-v1|weekly|progress|platform|methods|methodology|demo)", "destination": "/app", "permanent": false },
+    { "source": "/:page(tutor|mastery-loop|parent-radar|parent-report|mentor|welcome|admin|tools|assistant|paths|question-bank|quiz|app-lite|diagnose|learning-pack|membership|study-tools|tools-guide|warm-focus-v1|weekly|progress|platform|methods|methodology|demo).html", "destination": "/app", "permanent": false },
     { "source": "/about-brand", "destination": "/about", "permanent": true },
     { "source": "/about-brand.html", "destination": "/about", "permanent": true },
     { "source": "/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
     { "source": "/tools/scoring-breakdown", "destination": "/tools/exam-diagnosis", "permanent": true },
     { "source": "/tools/scoring-breakdown.html", "destination": "/tools/exam-diagnosis", "permanent": true },
-    { "source": "/start", "destination": "/mastery-loop", "permanent": false },
-    { "source": "/radar", "destination": "/parent-radar", "permanent": false },
-    { "source": "/report", "destination": "/parent-report", "permanent": false }
+    { "source": "/start", "destination": "/app", "permanent": false },
+    { "source": "/radar", "destination": "/app", "permanent": false },
+    { "source": "/report", "destination": "/app", "permanent": false },
+    { "source": "/report.html", "destination": "/app", "permanent": false }
   ]
 }

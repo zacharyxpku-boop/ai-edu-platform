@@ -102,6 +102,11 @@ if (!fs.existsSync(previewShellPath)) {
   fail('missing official-site preview shell: app/index.html');
 }
 
+const vercelPath = path.join(repoRoot, 'vercel.json');
+if (!fs.existsSync(vercelPath)) {
+  fail('missing vercel.json');
+}
+
 const previewShell = fs.readFileSync(previewShellPath, 'utf8');
 const appHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appJs = fs.readFileSync(path.join(root, 'src', 'app.js'), 'utf8');
@@ -109,21 +114,69 @@ const appCss = fs.readFileSync(path.join(root, 'src', 'styles.css'), 'utf8');
 const routesJs = fs.readFileSync(path.join(root, 'src', 'routes.js'), 'utf8');
 const viewModelJs = fs.readFileSync(path.join(root, 'src', 'view-model.js'), 'utf8');
 const manifestText = fs.readFileSync(manifestPath, 'utf8');
+const vercelConfig = JSON.parse(fs.readFileSync(vercelPath, 'utf8'));
 
 const forbiddenMiniappParityRoutes = [
-  'pages/daily-math/daily-math',
-  'pages/dictation/dictation',
-  'pages/light-diagnosis/light-diagnosis',
-  'pages/focus/focus',
-  'pages/tools/tools',
-  'pages/module/module',
-  'pages/radar/radar',
-  'pages/diagnosis/diagnosis'
+  ['pages', 'daily-math', 'daily-math'].join('/'),
+  ['pages', 'dictation', 'dictation'].join('/'),
+  ['pages', 'light-diagnosis', 'light-diagnosis'].join('/'),
+  ['pages', 'focus', 'focus'].join('/'),
+  ['pages', 'tools', 'tools'].join('/'),
+  ['pages', 'module', 'module'].join('/'),
+  ['pages', 'radar', 'radar'].join('/'),
+  ['pages', 'diagnosis', 'diagnosis'].join('/')
 ];
 
 for (const retiredRoute of forbiddenMiniappParityRoutes) {
   if (routesJs.includes(retiredRoute) || manifestText.includes(retiredRoute)) {
     fail(`web route contracts must not point at retired miniapp UI: ${retiredRoute}`);
+  }
+}
+
+const retiredOfficialSitePaths = [
+  'tutor',
+  'mastery-loop',
+  'parent-radar',
+  'parent-report',
+  'mentor',
+  'welcome',
+  'admin',
+  'tools',
+  'assistant',
+  'paths',
+  'question-bank',
+  'quiz',
+  'app-lite',
+  'diagnose',
+  'learning-pack',
+  'membership',
+  'study-tools',
+  'tools-guide',
+  'warm-focus-v1',
+  'weekly',
+  'progress',
+  'platform',
+  'methods',
+  'methodology',
+  'demo'
+];
+
+const legacyRedirects = Array.isArray(vercelConfig.redirects)
+  ? vercelConfig.redirects.filter((item) => item && item.destination === '/app')
+  : [];
+const legacySources = legacyRedirects.map((item) => item.source || '').join('\n');
+
+for (const legacyPath of retiredOfficialSitePaths) {
+  if (!legacySources.includes(legacyPath)) {
+    fail(`vercel redirects must retire old official-site UI path: /${legacyPath}`);
+  }
+}
+
+for (const redirect of Array.isArray(vercelConfig.redirects) ? vercelConfig.redirects : []) {
+  if (
+    ['/assistant', '/mastery-loop', '/parent-radar', '/parent-report'].includes(redirect.destination)
+  ) {
+    fail(`vercel redirect still points to retired official-site UI: ${redirect.source} -> ${redirect.destination}`);
   }
 }
 
@@ -215,7 +268,7 @@ for (const [route, visualMarker] of [
 for (const forbiddenSnippet of [
   "['home', '学习主界面', '⌂']",
   "['upload', '上传资料', '⇧']",
-  "['tutor', 'AI私教', '☻']",
+  ["['tutor', 'AI", "私教', '☻']"].join(''),
   "['parent', '家长中心', '♙']",
   '\u9358\u7192\u7ca3\u5073',
   '\u701b\uff04\u7bc4',

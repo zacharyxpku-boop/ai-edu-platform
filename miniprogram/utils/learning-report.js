@@ -3690,8 +3690,8 @@ function buildPersonalizedReportStandard(input = {}, parts = {}, parsed = {}, mo
     competitorClosureBenchmarks: [
       {
         id: 'khanmigo_private_tutor',
-        benchmark: 'Khanmigo 的强项是苏格拉底式 AI 私教、不给答案、过程可追踪。',
-        productAnswer: '原点要把上传报告后的第一步直接送到 AI 私教，只追问第一步、错因和判断依据。',
+        benchmark: 'Khanmigo 的强项是苏格拉底式追问、不给答案、过程可追踪。',
+        productAnswer: '原点要把上传报告后的第一步直接送到原小点，只追问第一步、错因和判断依据。',
         route: '/pages/tutor/tutor?from=parent_report_standard',
         evidenceReturn: 'child_first_step + socratic_receipt + no_full_answer'
       },
@@ -3723,7 +3723,7 @@ function buildPersonalizedReportStandard(input = {}, parts = {}, parsed = {}, mo
       nextBuildOrder: [
         '上传页：材料分类和证据门槛',
         '报告页：标准 HTML 报告入口和导出说明',
-        '私教页：第一步追问与小课堂补位',
+        '原小点页：第一步追问与小课堂补位',
         '复习/游戏页：次日和第 7 天验证',
         '家长页：报告证据、方法匹配、下一动作汇总'
       ],

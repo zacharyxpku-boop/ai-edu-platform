@@ -61,7 +61,7 @@ storage.clearLearningData();
 const appJson = JSON.parse(read('miniprogram/app.json'));
 assert(!appJson.pages.includes('pages/focus/focus'), 'Retired focus cabin page is not registered in the active miniapp shell');
 assert(!appJson.tabBar.list.some((item) => item.pagePath === 'pages/focus/focus'), 'Focus cabin is not a crowded bottom tab');
-assert(read('miniprogram/utils/navigation.js').includes('RETIRED_ROUTE_MAP'), 'Retired focus routes are remapped through the shared route helper');
+assert(!read('miniprogram/utils/navigation.js').includes('RETIRED_ROUTE_MAP'), 'Retired focus routes are not kept as compatibility maps');
 
 let state = focusCabin.pageState();
 assert(state.currentSession, 'Focus cabin has safe first-load session state');

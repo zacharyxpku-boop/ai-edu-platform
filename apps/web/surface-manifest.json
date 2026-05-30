@@ -40,7 +40,7 @@
     },
     {
       "id": "tutor",
-      "label": "AI 私教",
+      "label": "原小点点拨",
       "path": "/tutor",
       "miniappParity": "pages/tutor/tutor",
       "job": "Start with the first Socratic question and keep the answer-safe tutoring boundary.",

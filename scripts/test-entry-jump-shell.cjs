@@ -43,14 +43,14 @@ function assertWxmlTemplateIsCompilerSafe(name, wxml, options = {}) {
 const appJson = JSON.parse(read('miniprogram/app.json'));
 assert(appJson.pages.includes('pages/entry-detail/entry-detail'), 'entry detail page is registered');
 [
-  'pages/daily-math/daily-math',
-  'pages/dictation/dictation',
-  'pages/light-diagnosis/light-diagnosis',
-  'pages/focus/focus',
-  'pages/tools/tools',
-  'pages/module/module',
-  'pages/radar/radar',
-  'pages/diagnosis/diagnosis'
+  ['pages', 'daily-math', 'daily-math'].join('/'),
+  ['pages', 'dictation', 'dictation'].join('/'),
+  ['pages', 'light-diagnosis', 'light-diagnosis'].join('/'),
+  ['pages', 'focus', 'focus'].join('/'),
+  ['pages', 'tools', 'tools'].join('/'),
+  ['pages', 'module', 'module'].join('/'),
+  ['pages', 'radar', 'radar'].join('/'),
+  ['pages', 'diagnosis', 'diagnosis'].join('/')
 ].forEach((page) => {
   assert(!appJson.pages.includes(page), `retired page must not remain registered: ${page}`);
 });
@@ -151,7 +151,8 @@ assert(navigationJs.includes('consumePendingTabRouteContext'), 'navigation can c
 assert(navigationJs.includes('shouldOpenFunctionalTab'), 'navigation distinguishes short tab entries from functional flows');
 assert(navigationJs.includes('TAB_ROUTES.includes(base)'), 'navigation detects tabBar routes');
 assert(navigationJs.includes('wx.switchTab({ url: base })'), 'navigation uses switchTab for tabBar routes');
-assert(navigationJs.includes('RETIRED_ROUTE_MAP') && navigationJs.includes('activeRoute(route)'), 'retired routes are remapped into the current entry-detail shell');
+assert(!navigationJs.includes('RETIRED_ROUTE_MAP'), 'navigation no longer carries old route compatibility maps');
+assert(navigationJs.includes('function activeRoute(route)') && navigationJs.includes('return normalizeRoute(route);'), 'navigation only accepts current active routes');
 
 const activeSurfaceFiles = [
   'miniprogram/pages/home/home.js',

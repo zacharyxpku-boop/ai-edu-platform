@@ -1,304 +1,65 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#0F4F3D">
-<meta name="ydzx-page" content="lite-app">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="assets/miniapp-logo-kid.png">
-<title>原点智学轻 App</title>
-<style>
-*,*::before,*::after{box-sizing:border-box}
-:root{--bg:#f7f3ea;--paper:#fffdf8;--ink:#1f2420;--muted:#667067;--line:#e7ddcd;--green:#0f4f3d;--green2:#e6f2ed;--orange:#d86b1f;--orange2:#fff0df;--red:#8f2f22;--blue:#234f7d;--blue2:#e8f0f8}
-html{scroll-behavior:smooth}
-body{margin:0;min-height:100vh;background:linear-gradient(180deg,#fbf7ef 0%,#eee7da 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.55}
-button,input,textarea,select{font:inherit}
-button{border:0}
-.app{width:min(440px,100%);min-height:100vh;margin:0 auto;background:var(--bg);box-shadow:0 0 0 1px rgba(31,36,32,.06)}
-.top{position:sticky;top:0;z-index:5;padding:calc(12px + env(safe-area-inset-top)) 14px 10px;background:rgba(247,243,234,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand-title{font-weight:900}
-.brand-sub{font-size:12px;color:var(--muted)}
-.pill{padding:6px 10px;border-radius:999px;background:var(--green2);color:var(--green);font-size:12px;font-weight:800;white-space:nowrap}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
-.tab{padding:8px 0;border-radius:10px;background:#fff;color:var(--muted);font-size:12px;font-weight:800;text-align:center}
-.tab.active{background:var(--green);color:#fffdf8}
-.screen{display:none;padding:16px 14px 96px}
-.screen.active{display:block}
-.hero,.card{background:var(--paper);border:1px solid var(--line)}
-.hero{padding:18px;border-radius:18px}
-.hero h1{margin:0 0 10px;font-size:26px;line-height:1.18;letter-spacing:0}
-.hero p,.card p{margin:0;color:var(--muted);font-size:13px}
-.grid{display:grid;gap:12px;margin-top:14px}
-.card{padding:14px;border-radius:16px}
-.card h2,.card h3{margin:0 0 8px;font-size:17px;line-height:1.25}
-.card h4{margin:0 0 4px;font-size:14px}
-.label{display:block;margin:13px 0 7px;color:var(--ink);font-size:13px;font-weight:900}
-textarea,input,select{width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px;color:var(--ink);outline:none}
-textarea{min-height:112px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;padding:12px 13px;border-radius:14px;background:var(--green);color:#fffdf8;font-weight:900}
-.btn.secondary{background:#fff;color:var(--green);border:1px solid rgba(15,79,61,.22)}
-.btn.warn{background:var(--orange);color:#fff}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chip{padding:7px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;color:var(--muted)}
-.chip.strong{background:var(--green2);color:var(--green);border-color:rgba(15,79,61,.12)}
-.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.module{padding:12px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:left}
-.module b{display:block;font-size:13px}
-.module span{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.4}
-.module.primary{background:var(--green2);border-color:rgba(15,79,61,.18)}
-.module.blue{background:var(--blue2);border-color:rgba(35,79,125,.16)}
-.steps{display:grid;gap:10px;margin-top:12px}
-.step{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
-.num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--orange2);color:var(--orange);font-size:12px;font-weight:900}
-.step b{display:block;font-size:14px}
-.step span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-.result{border-left:4px solid var(--green);background:#fff;padding:12px;border-radius:12px;margin-top:12px;font-size:13px}
-.result.warn{border-left-color:var(--orange)}
-.safe{font-size:12px;color:var(--muted);padding:10px;border-radius:12px;background:#fff;border:1px dashed var(--line)}
-.empty{color:var(--muted);font-size:13px}
-.danger{color:var(--red)}
-.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(440px,100%);padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(247,243,234,.94);border-top:1px solid var(--line);backdrop-filter:blur(14px)}
-.progress{height:8px;border-radius:999px;background:#e6dccd;overflow:hidden}
-.bar{height:100%;width:20%;background:var(--green);transition:width .2s}
-.bottom-line{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--muted)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="refresh" content="0;url=/app">
+  <title>原点智学</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #fbfaf5;
+      color: #1f2f28;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    main {
+      width: min(420px, calc(100vw - 40px));
+      padding: 32px;
+      border: 1px solid #e8eee6;
+      border-radius: 24px;
+      background: #fffdf8;
+      box-shadow: 0 20px 50px rgba(41, 65, 52, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: #657267;
+      line-height: 1.7;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: #16a34a;
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-<main class="app" data-lite-app="yuandian">
-  <header class="top">
-    <div class="brand">
-      <div>
-        <div class="brand-title">原点智学轻 App</div>
-        <div class="brand-sub">家庭作业私教闭环 · H5 内测版</div>
-      </div>
-      <div class="pill" id="statePill">本地安全</div>
-    </div>
-    <nav class="tabs" aria-label="轻 App 主导航">
-      <button class="tab active" data-tab="home">首页</button>
-      <button class="tab" data-tab="learn">学习</button>
-      <button class="tab" data-tab="upload">资料</button>
-      <button class="tab" data-tab="tutor">私教</button>
-      <button class="tab" data-tab="parent">家长</button>
-    </nav>
-  </header>
-
-  <section class="screen active" id="home" data-module="home">
-    <div class="hero">
-      <h1>今晚先完成一个学习闭环</h1>
-      <p>轻 App 的首页只做一件事：把孩子今晚卡住的地方，变成一个可执行的第一步、一次私教追问、一次明日回访和一份家长复盘。</p>
-    </div>
-    <div class="grid">
-      <div class="card">
-        <h2>今晚闭环</h2>
-        <div class="steps">
-          <div class="step"><div class="num">1</div><div><b>输入作业/成绩/错题/测评</b><span>先做资料分流和证据可信度，不做天赋定性。</span></div></div>
-          <div class="step"><div class="num">2</div><div><b>生成家庭方案</b><span>给出第一步、小黑板补位、回访卡、家长 7 天复盘。</span></div></div>
-          <div class="step"><div class="num">3</div><div><b>私教追问 + 游戏回流</b><span>孩子说出第一步和错因后，才进入 XP 和轻练习。</span></div></div>
-          <div class="step"><div class="num">4</div><div><b>家长报告承接</b><span>报告不止展示结论，而是回到产品内执行。</span></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>今天从哪里开始</h2>
-        <p>首页不展示全量功能。用户只需要先选一个入口，剩下的模块由系统在流程里带出来。</p>
-        <div class="module-grid" style="margin-top:12px">
-          <button class="module primary" data-open-tab="upload"><b>上传资料生成方案</b><span>成绩、错题、测评、观察，先转成今晚行动。</span></button>
-          <button class="module primary" data-open-tab="tutor"><b>直接进入私教</b><span>孩子已经有卡点，就先问第一步。</span></button>
-          <button class="module" data-open-tab="learn"><b>做一次轻练习</b><span>每日数学、听写、专注、修卡点都在学习页。</span></button>
-          <button class="module blue" data-open-tab="parent"><b>查看家长报告</b><span>能力雷达、档案、深诊断和边界在家长页。</span></button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="screen" id="learn" data-module-map="miniapp-full">
-    <div class="card">
-      <h2>学习中心</h2>
-      <p>这里才放二级能力。对用户来说不是 15 个模块，而是 4 类任务：练一点、诊断一下、修一个卡点、明天回来。</p>
-      <div class="module-grid" style="margin-top:12px">
-        <button class="module primary" data-module="daily-math"><b>每日数学</b><span>一道题拆第一步：找条件、画关系、列式前先说思路。</span></button>
-        <button class="module" data-module="dictation"><b>听写背诵</b><span>错词回访、复述卡、明天再听一遍。</span></button>
-        <button class="module" data-module="light-diagnosis"><b>轻诊断</b><span>3 问定位：不会读题、不会选方法、还是计算失误。</span></button>
-        <button class="module" data-module="focus"><b>专注舱</b><span>10 分钟任务，不用分数刺激，不做排名。</span></button>
-        <button class="module" data-module="tools"><b>轻工具</b><span>复述、计划、错因命名、家长一句话。</span></button>
-        <button class="module" data-module="module"><b>专题模块</b><span>语数英物化生地的章节/题型策略入口。</span></button>
-        <button class="module primary" data-module="review"><b>修卡点</b><span>今日只修一个错因，生成明日回访卡。</span></button>
-        <button class="module" data-module="arcade"><b>游戏回流</b><span>XP 只奖励证据：第一步、错因、复盘。</span></button>
-      </div>
-      <div class="result" id="learnResult">选择一个模块，会把它接到当前家庭方案里。</div>
-    </div>
-  </section>
-
-  <section class="screen" id="upload" data-module="upload">
-    <div class="card">
-      <h2>上传资料生成方案</h2>
-      <p>可粘贴测评摘要、成绩、错题描述、家长观察、学校反馈、公众号/网页/PDF 摘录。轻 App 先用本地规则生成可执行方案，后续再接外部 AI 解析。</p>
-      <label class="label" for="materialType">资料类型</label>
-      <select id="materialType">
-        <option value="score">成绩报告</option>
-        <option value="wrong">错题/试卷</option>
-        <option value="talent">测评报告</option>
-        <option value="parent">家长观察</option>
-        <option value="school">学校反馈</option>
-        <option value="extract">文章/PDF 摘录</option>
-      </select>
-      <label class="label" for="materialText">资料内容</label>
-      <textarea id="materialText" placeholder="例：数学 62，物理 58；应用题总是第一步不知道先找什么。家长观察：晚上容易急着要答案。"></textarea>
-      <button class="btn" id="analyzeBtn">生成家庭方案</button>
-      <div class="result warn" id="uploadResult">还未生成方案。</div>
-      <div class="safe" style="margin-top:12px">禁止承诺：不拍照出答案、不自动判分、不天赋定性、不承诺提分、不输出整卷答案。</div>
-    </div>
-  </section>
-
-  <section class="screen" id="tutor" data-module="tutor">
-    <div class="card">
-      <h2>私教模式</h2>
-      <p>App 可以比小程序更丰富：同一任务可选择“苏格拉底老师模式”或“小课堂模式”，但默认仍是家庭私教，不偏成泛课堂平台。</p>
-      <div class="row">
-        <button class="btn" id="modeTutorBtn">苏格拉底老师</button>
-        <button class="btn secondary" id="modeClassBtn">小课堂/小黑板</button>
-      </div>
-      <label class="label" for="childStep">孩子现在能说出的第一步</label>
-      <textarea id="childStep" placeholder="例：我先圈出题目问的是什么，再找已知条件。"></textarea>
-      <div class="row">
-        <button class="btn" id="tutorBtn">生成下一问</button>
-        <button class="btn secondary" id="blackboardBtn">小黑板补位</button>
-      </div>
-      <div class="result" id="tutorResult">等待孩子先说一句自己的第一步。</div>
-    </div>
-  </section>
-
-  <section class="screen" id="parent">
-    <div class="card">
-      <h2>家长与报告</h2>
-      <p>这里承载小程序里的雷达、我的、深诊断、上传回流和合规边界。报告要变成家庭解决方案书，而不是只给一段分析。</p>
-      <div class="module-grid" style="margin-top:12px">
-        <button class="module blue" data-module="radar"><b>能力雷达</b><span>能力缺口、证据强度、下次回访。</span></button>
-        <button class="module blue" data-module="profile"><b>家长档案</b><span>7 天报告、成绩回访卡、分享卡。</span></button>
-        <button class="module blue" data-module="diagnosis"><b>深诊断</b><span>资料复合、方法候选、执行路径。</span></button>
-        <button class="module blue" data-module="legal"><b>合规边界</b><span>隐私、禁止定性、禁止保证结果。</span></button>
-      </div>
-      <div id="parentReport" class="result">生成方案后，这里显示今晚动作、家长一句话、明天回访和第 7 天复核。</div>
-    </div>
-    <div class="card">
-      <h3>合作试点交付</h3>
-      <p>适合线下测评/课程顾问现场扫码或安装后试用：先解释报告，再把建议落到 7 天家庭执行，最后承接线上课或顾问服务。</p>
-      <div class="chips">
-        <span class="chip">测评复合解读</span>
-        <span class="chip">错因修复包</span>
-        <span class="chip">7 天回访</span>
-        <span class="chip">线上课承接</span>
-      </div>
-    </div>
-  </section>
-
-  <footer class="bottom">
-    <div class="progress"><div class="bar" id="progressBar"></div></div>
-    <div class="bottom-line"><span id="progressText">闭环进度 20%</span><span>H5 轻 App</span></div>
-  </footer>
-</main>
-
-<script>
-const state = JSON.parse(localStorage.getItem('ydzx_lite_app_state') || '{}');
-const $ = (id) => document.getElementById(id);
-const tabs = Array.from(document.querySelectorAll('.tab'));
-const screens = Array.from(document.querySelectorAll('.screen'));
-function save(){localStorage.setItem('ydzx_lite_app_state', JSON.stringify(state));render();}
-function go(id){
-  tabs.forEach((tab)=>tab.classList.toggle('active', tab.dataset.tab===id));
-  screens.forEach((screen)=>screen.classList.toggle('active', screen.id===id));
-}
-tabs.forEach((tab)=>tab.addEventListener('click',()=>go(tab.dataset.tab)));
-document.querySelectorAll('[data-open-tab]').forEach((button)=>button.addEventListener('click',()=>go(button.dataset.openTab)));
-function detectSubject(text){
-  const subjects=['数学','语文','英语','物理','化学','生物','地理'];
-  return subjects.find((item)=>text.includes(item)) || '当前卡点';
-}
-function detectCause(text,type){
-  if(type==='score') return '分数只用来选择回访优先级，不进入奖励、排名或分享。';
-  if(type==='talent') return '测评只能作为学习方式假设，必须用真实作业证据复核。';
-  if(text.includes('答案') || text.includes('不会')) return '容易跳到答案，先退回第一步。';
-  if(text.includes('慢') || text.includes('拖')) return '启动困难，先做 10 分钟低压任务。';
-  if(text.includes('图') || text.includes('空间')) return '适合先画关系或小黑板。';
-  return '需要补孩子自己的第一步证据。';
-}
-function buildPlan(){
-  const type=$('materialType').value;
-  const text=$('materialText').value.trim();
-  const subject=detectSubject(text);
-  const cause=detectCause(text,type);
-  const firstStep=type==='score'
-    ? `先回看 ${subject} 一张错因回访卡`
-    : type==='talent'
-      ? `先用一道真实错题验证 ${subject} 适合哪种第一步`
-      : `先说出 ${subject} 这道任务的第一步`;
-  state.plan={type,text,subject,cause,firstStep,mode:'socratic',module:'review',day1:firstStep,day2:'明天换一道同错因题，只问第一步。',day7:'第 7 天做一题小变式，确认能否迁移。',parentQuestion:`家长只问：${subject} 这一步你先看哪里？`,blocked:['原题照片','完整答案','分数排名','天赋标签'],evidence:[]};
-  state.progress=Math.max(state.progress||20,45);
-  save();
-  $('uploadResult').textContent=`已生成：${firstStep}。${cause}`;
-  go('tutor');
-}
-function tutorNext(mode){
-  const step=$('childStep').value.trim();
-  if(!state.plan){$('tutorResult').textContent='先从上传页生成方案。';return;}
-  if(!step){$('tutorResult').textContent='先让孩子用自己的话说一句第一步，再继续。';return;}
-  state.plan.evidence=Array.from(new Set([...(state.plan.evidence||[]),'child_first_step']));
-  state.progress=Math.max(state.progress||45,65);
-  save();
-  $('tutorResult').textContent=mode==='board'
-    ? `小黑板：只画第一笔。把“${state.plan.subject}”的已知、目标、第一步分成三格，不写完整答案。`
-    : `下一问：你刚才这一步里，哪个词告诉你要先这样做？`;
-}
-function setMode(mode){
-  if(!state.plan) state.plan={subject:'当前卡点',blocked:['完整答案','天赋标签'],evidence:[]};
-  state.plan.mode=mode;
-  state.progress=Math.max(state.progress||20,35);
-  save();
-  $('tutorResult').textContent=mode==='classroom'
-    ? '已切到小课堂：先讲概念和图解，再回到孩子自己的第一步。'
-    : '已切到苏格拉底老师：只追问第一步和证据，不直接给答案。';
-}
-function markModule(module){
-  if(!state.plan) state.plan={subject:'当前卡点',blocked:['完整答案','天赋标签'],evidence:[]};
-  state.plan.module=module;
-  state.progress=Math.max(state.progress||20,40);
-  save();
-  $('learnResult').textContent=`已把 ${module} 接入当前方案：下一步会回到私教、回访或家长报告。`;
-}
-function markEvidence(kind){
-  if(!state.plan){$('learnResult').textContent='先从上传页生成方案。';return;}
-  state.plan.evidence=Array.from(new Set([...(state.plan.evidence||[]),kind]));
-  state.progress=Math.max(state.progress||65,kind==='next_day_revisit'?100:82);
-  save();
-}
-document.querySelectorAll('#learn [data-module],#parent [data-module]').forEach((button)=>button.addEventListener('click',()=>markModule(button.dataset.module)));
-function render(){
-  const plan=state.plan;
-  const progress=state.progress||20;
-  $('progressBar').style.width=progress+'%';
-  $('progressText').textContent='闭环进度 '+progress+'%';
-  $('statePill').textContent=progress>=82?'可进入回访':'本地安全';
-  if(plan){
-    $('parentReport').innerHTML=[
-      `<b>今晚：</b>${plan.day1 || plan.firstStep || '先确认一个第一步'}`,
-      `<b>模式：</b>${plan.mode==='classroom'?'小课堂/小黑板':'苏格拉底老师'}`,
-      `<b>模块：</b>${plan.module || 'review'}`,
-      `<b>家长：</b>${plan.parentQuestion || '只问孩子先看哪里'}`,
-      `<b>明天：</b>${plan.day2 || '回访同错因题'}`,
-      `<b>第 7 天：</b>${plan.day7 || '做小变式复核'}`,
-      `<b>证据：</b>${(plan.evidence||[]).join(' / ') || '等待孩子说出第一步'}`
-    ].join('<br>');
-  }
-}
-$('analyzeBtn').addEventListener('click',buildPlan);
-$('tutorBtn').addEventListener('click',()=>tutorNext('socratic'));
-$('blackboardBtn').addEventListener('click',()=>tutorNext('board'));
-$('modeTutorBtn').addEventListener('click',()=>setMode('socratic'));
-$('modeClassBtn').addEventListener('click',()=>setMode('classroom'));
-render();
-</script>
+  <main data-retired-page="app-lite" data-redirect-target="/app">
+    <h1>正在进入原点智学</h1>
+    <p>旧版轻 App 原型已下线，当前官网、小程序和后续 App 统一使用新的产品入口。</p>
+    <a href="/app">进入新版</a>
+  </main>
+  <script>
+    window.location.replace('/app');
+  </script>
 </body>
 </html>

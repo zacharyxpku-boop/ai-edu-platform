@@ -11,7 +11,7 @@ The first web version should expose six clear entries:
 - `/` 首页总览
 - `/upload` 上传资料
 - `/report` 个性化报告
-- `/tutor` AI私教
+- `/tutor` 原小点点拨
 - `/review` 复习游戏
 - `/parent` 家长中心
 

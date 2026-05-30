@@ -8,17 +8,6 @@ const TAB_ROUTES = [
   '/pages/upload/upload'
 ];
 
-const RETIRED_ROUTE_MAP = {
-  '/pages/daily-math/daily-math': '/pages/entry-detail/entry-detail?scene=today',
-  '/pages/dictation/dictation': '/pages/entry-detail/entry-detail?scene=today',
-  '/pages/light-diagnosis/light-diagnosis': '/pages/entry-detail/entry-detail?scene=today',
-  '/pages/focus/focus': '/pages/entry-detail/entry-detail?scene=today',
-  '/pages/tools/tools': '/pages/entry-detail/entry-detail?scene=today',
-  '/pages/module/module': '/pages/entry-detail/entry-detail?scene=tutor',
-  '/pages/radar/radar': '/pages/entry-detail/entry-detail?scene=parent',
-  '/pages/diagnosis/diagnosis': '/pages/entry-detail/entry-detail?scene=upload'
-};
-
 function normalizeRoute(route) {
   const value = typeof route === 'string' ? route.trim() : '';
   if (!value) return '';
@@ -36,12 +25,7 @@ function routeQuery(route) {
 }
 
 function activeRoute(route) {
-  const url = normalizeRoute(route);
-  const base = baseRoute(url);
-  const replacement = RETIRED_ROUTE_MAP[base];
-  if (!replacement) return url;
-  const query = routeQuery(url);
-  return query ? `${replacement}&retiredFrom=${encodeURIComponent(base)}&${query}` : replacement;
+  return normalizeRoute(route);
 }
 
 function rememberTabRouteContext(route) {
