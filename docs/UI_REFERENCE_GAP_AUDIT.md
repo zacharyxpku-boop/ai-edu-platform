@@ -11,6 +11,7 @@
 - 本轮已清理活跃页面 WXSS 里的旧 UI class 残留：`daily-return-*`、`module-flow-*`、`light-entry-*`、`family-summary-*`、`family-diagnosis-*`、`diagnosis-*`、`teacher-*`、`daily-share-*`、`focus-cabin-link`、`light-evidence-card`、`module-flow-mini-*`。
 - 防回归已经进入 `scripts/test-miniapp-tab-layout-contract.cjs`，后续这些旧 class 不能重新出现在活跃页面 WXML/WXSS 中。
 - `entry-detail` 子界面中部证据卡已从数字卡改为参考图资产卡，避免子页退回“方框 + 数字 + 文字”的旧结构。
+- 5 个主 tab 的 `subcheck` 子流程跳转区已从纯文字侧卡改成“参考图 icon + 两行说明”的视觉卡，降低首屏下方空白和文档感。
 
 ## 参考资产处理
 
