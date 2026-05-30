@@ -198,6 +198,26 @@ const activePageUiSource = [
 auditTapHandlers();
 assert(!activePageUiSource.includes('ux-kit-subcheck'), 'active tab screens do not render the retired subcheck tail');
 assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.includes('subcheck-side-icon'), 'active tab screens keep visual navigation in the primary shell');
+[
+  'ux-mascot',
+  'ux-ear',
+  'ux-face',
+  'ux-glasses',
+  'mascot-wrap',
+  'companion-picker',
+  'companion-entry',
+  'hero-center',
+  'middle-guide',
+  'share-card',
+  'starter-bubble',
+  'weak-verdict',
+  'learning-loop-map',
+  'scenario-loop',
+  'flow-pill',
+  'mini-art-'
+].forEach((term) => {
+  assert(!activePageUiSource.includes(term) && !appWxss.includes(term), `active miniapp styles do not keep retired visual system: ${term}`);
+});
 assert(!tabbarWxss.includes('scale(0.88)'), 'custom tabbar labels render at real size instead of being visually scaled down');
 assert(tabbarWxss.includes('position: absolute') && tabbarWxss.includes('bottom: 6rpx'), 'custom tabbar active indicator does not take layout space from labels');
 const retiredTabbarClass = ['v', '1-tabbar'].join('');

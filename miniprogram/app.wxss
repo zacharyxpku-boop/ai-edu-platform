@@ -406,7 +406,6 @@ button::after {
 .ux-entry > .ux-kicker,
 .ux-entry > .ux-title,
 .ux-entry > .ux-subtitle,
-.ux-mascot-card,
 .ux-primary-button,
 .ux-jump-row,
 .ux-board,
@@ -501,85 +500,6 @@ button::after {
   color: #7D735F;
   font-size: 20rpx;
   font-weight: 800;
-}
-
-.ux-mascot-card {
-  display: flex;
-  justify-content: center;
-  margin: 22rpx 0 6rpx;
-}
-
-.ux-mascot {
-  position: relative;
-  width: 180rpx;
-  height: 160rpx;
-}
-
-.ux-ear {
-  position: absolute;
-  top: 8rpx;
-  width: 58rpx;
-  height: 58rpx;
-  border-radius: 16rpx 16rpx 6rpx;
-  background: #2F7B5F;
-}
-
-.ux-ear.left {
-  left: 26rpx;
-  transform: rotate(-25deg);
-}
-
-.ux-ear.right {
-  right: 26rpx;
-  transform: rotate(25deg);
-}
-
-.ux-face {
-  position: absolute;
-  left: 25rpx;
-  top: 34rpx;
-  width: 130rpx;
-  height: 112rpx;
-  border-radius: 48rpx 48rpx 42rpx 42rpx;
-  background: #2F7B5F;
-  box-shadow: inset 0 -10rpx 0 rgba(0, 0, 0, 0.08);
-}
-
-.ux-eye {
-  position: absolute;
-  top: 42rpx;
-  width: 14rpx;
-  height: 14rpx;
-  border-radius: 50%;
-  background: #FFFDF6;
-}
-
-.ux-eye.left {
-  left: 34rpx;
-}
-
-.ux-eye.right {
-  right: 34rpx;
-}
-
-.ux-smile {
-  position: absolute;
-  left: 52rpx;
-  top: 68rpx;
-  width: 26rpx;
-  height: 13rpx;
-  border-bottom: 4rpx solid #FFFDF6;
-  border-radius: 0 0 20rpx 20rpx;
-}
-
-.ux-scarf {
-  position: absolute;
-  left: 54rpx;
-  bottom: 0;
-  width: 72rpx;
-  height: 24rpx;
-  border-radius: 999rpx;
-  background: #F4B63F;
 }
 
 .ux-board {
@@ -918,83 +838,6 @@ button::after {
   transform: rotate(45deg);
 }
 
-.ux-mascot-card.big,
-.ux-mascot-card.upload {
-  margin: 0;
-}
-
-.ux-mascot-card.big .ux-mascot {
-  width: 230rpx;
-  height: 228rpx;
-}
-
-.ux-mascot.mini {
-  width: 132rpx;
-  height: 126rpx;
-}
-
-.ux-stage-screen .ux-ear {
-  background: #287254;
-  box-shadow: inset -8rpx -8rpx 0 rgba(0, 0, 0, 0.08);
-}
-
-.ux-stage-screen .ux-face {
-  background: #2f8a63;
-  box-shadow: inset 0 -12rpx 0 rgba(0, 0, 0, 0.08);
-}
-
-.ux-stage-screen .ux-glasses {
-  position: absolute;
-  left: 45rpx;
-  top: 74rpx;
-  z-index: 3;
-  width: 90rpx;
-  height: 34rpx;
-  border-left: 5rpx solid #143c30;
-  border-right: 5rpx solid #143c30;
-  border-radius: 999rpx;
-  box-shadow: inset 0 0 0 5rpx rgba(255, 255, 255, 0.42);
-}
-
-.ux-mascot.mini .ux-glasses {
-  left: 28rpx;
-  top: 54rpx;
-  width: 70rpx;
-  height: 26rpx;
-  border-width: 4rpx;
-}
-
-.ux-mascot.mini .ux-face {
-  left: 18rpx;
-  top: 26rpx;
-  width: 96rpx;
-  height: 84rpx;
-  border-radius: 36rpx;
-}
-
-.ux-mascot.mini .ux-ear {
-  top: 4rpx;
-  width: 42rpx;
-  height: 42rpx;
-}
-
-.ux-mascot.mini .ux-ear.left {
-  left: 18rpx;
-}
-
-.ux-mascot.mini .ux-ear.right {
-  right: 18rpx;
-}
-
-.ux-mascot.mini .ux-eye {
-  top: 31rpx;
-}
-
-.ux-mascot.mini .ux-scarf {
-  left: 40rpx;
-  width: 54rpx;
-}
-
 .ux-main-card {
   display: grid;
   gap: 10rpx;
@@ -1085,12 +928,6 @@ button::after {
 .ux-dialog-row.light {
   color: #f8ffe9;
   background: rgba(255, 255, 255, 0.12);
-}
-
-.ux-board-mascot {
-  position: absolute;
-  right: 18rpx;
-  bottom: 10rpx;
 }
 
 .ux-choice-row {
@@ -1185,12 +1022,6 @@ button::after {
   background: #ffd461;
   font-size: 22rpx;
   font-weight: 950;
-}
-
-.ux-mascot-card.island {
-  position: absolute;
-  right: 78rpx;
-  bottom: 16rpx;
 }
 
 .ux-prize-strip {
