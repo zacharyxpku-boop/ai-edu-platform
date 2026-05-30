@@ -78,11 +78,12 @@ tabPages.forEach(([name, wxmlPath, jsPath]) => {
     assert(!launchSlice.includes(className), `${name} direct tab entry removes dense ${className} from the launch viewport`);
   });
   assert(wxml.includes('bindtap="openEntryDetail"'), `${name} entry CTA jumps to a child page`);
-  assert(wxml.includes('wx:if="{{showLegacyEntryContent}}"'), `${name} legacy long content is not rendered by default`);
+  assert(wxml.includes('wx:if="{{showLegacyEntryContent}}"'), `${name} legacy long content is still guarded behind an explicit flag`);
+  assert(js.includes('showLegacyEntryContent: false'), `${name} keeps historical long UI closed even after child-page returns`);
   assert(!/<view class="page-positioning [^"]+">/.test(wxml), `${name} does not render the old explanatory positioning block on direct tab entry`);
   assert(js.includes('openEntryDetail(event)'), `${name} implements entry jump handler`);
   assert(js.includes('/pages/entry-detail/entry-detail?scene='), `${name} routes to the entry detail child page`);
-  assert(js.includes('consumePendingTabRouteContext'), `${name} can reopen its functional mode only from an explicit child-page jump`);
+  assert(js.includes('consumePendingTabRouteContext'), `${name} still consumes child-page route context without reopening historical UI`);
 });
 
 const detailWxml = read('miniprogram/pages/entry-detail/entry-detail.wxml');

@@ -950,7 +950,7 @@ Page({
       ? navigation.consumePendingTabRouteContext('/pages/tutor/tutor')
       : null;
     this.setData({
-      showLegacyEntryContent: !!(pendingRoute && navigation.shouldOpenFunctionalTab(pendingRoute.options))
+      showLegacyEntryContent: false
     });
     const state = storage.loadState();
     const routeOptions = currentRouteOptions();

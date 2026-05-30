@@ -3094,7 +3094,7 @@ Page({
       ? navigation.consumePendingTabRouteContext('/pages/profile/profile')
       : null;
     this.setData({
-      showLegacyEntryContent: !!(pendingRoute && navigation.shouldOpenFunctionalTab(pendingRoute.options))
+      showLegacyEntryContent: false
     });
     this.refresh();
   },

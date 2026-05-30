@@ -907,7 +907,7 @@ Page({
     const routeMaterialText = safeQueryText(options.materialText || options.text || '');
     const shouldOpenMaterialPanel = !!(options.type || options.materialType || options.sourceSchemaId || routeMaterialText);
     this.setData({
-      showLegacyEntryContent: !!navigation.shouldOpenFunctionalTab(options),
+      showLegacyEntryContent: false,
       uploadEntryMode: shouldOpenMaterialPanel ? 'material' : this.data.uploadEntryMode,
       uploadEntryDeck: buildUploadEntryDeck(shouldOpenMaterialPanel ? 'material' : this.data.uploadEntryMode),
       homeworkPlaceholder: buildUploadEntryDeck(shouldOpenMaterialPanel ? 'material' : this.data.uploadEntryMode).placeholder,

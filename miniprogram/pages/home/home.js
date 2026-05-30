@@ -454,7 +454,7 @@ Page({
       ? navigation.consumePendingTabRouteContext('/pages/home/home')
       : null;
     this.setData({
-      showLegacyEntryContent: !!(pendingRoute && navigation.shouldOpenFunctionalTab(pendingRoute.options))
+      showLegacyEntryContent: false
     });
     setTimeout(() => {
       this.refresh();

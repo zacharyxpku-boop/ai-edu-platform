@@ -97,7 +97,7 @@ Page({
       ? navigation.consumePendingTabRouteContext('/pages/arcade/arcade')
       : null;
     this.setData({
-      showLegacyEntryContent: !!(pendingRoute && navigation.shouldOpenFunctionalTab(pendingRoute.options))
+      showLegacyEntryContent: false
     });
     this.refresh();
   },
