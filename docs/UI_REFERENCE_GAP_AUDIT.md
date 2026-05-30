@@ -10,6 +10,7 @@
 - 旧页面入口已经不再直接打开：`daily-math`、`dictation`、`light-diagnosis`、`focus`、`tools`、`module`、`radar`、`diagnosis`。
 - 本轮已清理活跃页面 WXSS 里的旧 UI class 残留：`daily-return-*`、`module-flow-*`、`light-entry-*`、`family-summary-*`、`family-diagnosis-*`、`diagnosis-*`、`teacher-*`、`daily-share-*`、`focus-cabin-link`、`light-evidence-card`、`module-flow-mini-*`。
 - 防回归已经进入 `scripts/test-miniapp-tab-layout-contract.cjs`，后续这些旧 class 不能重新出现在活跃页面 WXML/WXSS 中。
+- `entry-detail` 子界面中部证据卡已从数字卡改为参考图资产卡，避免子页退回“方框 + 数字 + 文字”的旧结构。
 
 ## 参考资产处理
 
