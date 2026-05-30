@@ -177,11 +177,12 @@ assert(!reviewWxml.includes('reportSourcePanel') && !reviewWxml.includes('miniLe
 
 const firstScreen = reviewWxml.slice(
   reviewWxml.indexOf('yd-review-screen'),
-  reviewWxml.indexOf('<button hidden')
+  reviewWxml.indexOf('</view>\n    </view>\n  </scroll-view>')
 );
 assert(firstScreen.includes('yd-review-screen'), 'review renders the new reference-style launch shell');
 assert(firstScreen.includes('review-challenge-grid'), 'review exposes jump cards instead of a dense retired feed');
 assert(firstScreen.includes('{{reviewViewModel.primaryCta.text}}'), 'first screen renders one primary action from reviewViewModel');
+assert(firstScreen.includes('review-action-row') && firstScreen.includes('bindtap="reveal"') && firstScreen.includes('bindtap="rate"'), 'review exposes recall and self-grade actions visibly instead of hidden test hooks');
 assert(firstScreen.includes('review-challenge-card'), 'review keeps compact challenge jump cards');
 assert(!firstScreen.includes('reportSourcePanel') && !firstScreen.includes('miniLessonReturnPanel'), 'review report evidence is no longer dumped into the first screen');
 [

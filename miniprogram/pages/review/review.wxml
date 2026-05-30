@@ -75,10 +75,11 @@
         </view>
 
         <view class="review-main-cta" data-action="review" bindtap="runPlaybookAction">{{reviewViewModel.primaryCta.text}}</view>
+        <view class="review-action-row">
+          <button bindtap="reveal">先回忆，再选择</button>
+          <button data-rating="good" bindtap="rate">记住了</button>
+        </view>
       </view>
-
-      <button hidden bindtap="reveal">先回忆，再选择</button>
-      <button hidden data-rating="good" bindtap="rate">记住了</button>
     </view>
   </scroll-view>
 </view>

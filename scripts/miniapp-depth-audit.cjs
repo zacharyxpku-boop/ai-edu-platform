@@ -473,7 +473,7 @@ assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHo
   'yd-parent-source-row',
   'tutor-ladder',
   'tutor-entry-card',
-  'mini-report-card',
+  'mini-relay-card',
   'upload-material-grid',
   'arcade-map-card',
   'entry-jump-grid'

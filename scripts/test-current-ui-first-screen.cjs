@@ -46,7 +46,7 @@ assert(files.homeWxml.includes('homeViewModel.inputCard.title') && files.homeVie
 assert(!files.homeWxml.includes('companion-route-strip') && !files.homeWxml.includes('homeViewModel.teacherPickerLabel'), 'home hero stays close to the reference welcome card instead of stacking mascot explanation copy');
 assert(files.homeViewModelJs.includes('teacherPickerLabel'), 'home keeps mascot cue in the view model for deeper flows');
 assert(files.homeWxml.indexOf('mini-entry-grid') < files.homeWxml.indexOf('mini-route-card'), 'home shows the six entry cards before the route card');
-assert(files.homeWxml.indexOf('mini-route-card') < files.homeWxml.indexOf('mini-report-card" bindtap="goReportPreview"'), 'home moves report preview below the main entry and route flow');
+assert(!files.homeWxml.includes('mini-report-card" bindtap="goReportPreview"'), 'home no longer keeps a hidden report preview block below the route flow');
 assert(files.homeWxml.includes('mini-route-card') && files.homeWxml.includes('route-next-lite'), 'home keeps tonight route and next step compact');
 assert(files.homeWxml.includes('mini-route-node') && files.homeWxml.includes('mini-route-icon'), 'home route is a visual rail, not old number/check boxes');
 assert(!files.homeWxml.includes('<view class="active"><text>3</text>'), 'home route does not show old active number boxes');

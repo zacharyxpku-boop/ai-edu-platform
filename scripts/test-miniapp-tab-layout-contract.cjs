@@ -122,7 +122,8 @@ const reviewWxml = read('miniprogram/pages/review/review.wxml');
   assert(entryDetailJs.includes(`${scene}: {`), `entry-detail supports child scene: ${scene}`);
 });
 assert(fs.existsSync(path.join(root, 'miniprogram/assets/brand/gudian-reader.png')), 'high-quality Gudian reader asset is available');
-assert(homeWxml.includes('class="mini-brand-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'home top brand uses the reference brand-house image, not a text placeholder');
+assert(homeWxml.includes('class="home-brand-icon" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'home top brand uses the reference brand-house image, not a text placeholder');
+assert(!homeWxml.includes('mini-topline') && !homeWxml.includes('mini-report-card'), 'home does not keep hidden duplicate topbar or hidden report preview blocks');
 assert.strictEqual((homeWxml.match(/class="mini-entry-visual" mode="aspectFill"/g) || []).length, 6, 'home six entry illustrations fill their cards like the reference UI');
 assert.strictEqual((homeWxml.match(/class="mini-entry-card[\s\S]*?bindtap="openEntryDetail"/g) || []).length, 6, 'home six entry cards all open focused child scenes before running functional flows');
 assert.strictEqual((homeWxml.match(/mini-entry-card ux-kit-jump-card/g) || []).length, 6, 'home six entry cards all use the shared reference jump-card visual system');
@@ -209,6 +210,7 @@ const activePageUiSource = [
   read(`miniprogram/pages/${page}/${page}.wxss`)
 ].join('\n')).join('\n');
 auditTapHandlers();
+assert(!activePageUiSource.includes('<button hidden') && !activePageUiSource.includes('hidden bindtap'), 'active miniapp pages do not keep hidden clickable test hooks');
 assert(!activePageUiSource.includes(['ux', 'kit', 'subcheck'].join('-')), 'active tab screens do not render the retired subcheck tail');
 assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.includes('subcheck-side-icon'), 'active tab screens keep visual navigation in the primary shell');
 [
