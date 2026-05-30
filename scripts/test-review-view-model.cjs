@@ -177,7 +177,7 @@ assert(!reviewWxml.includes('reportSourcePanel') && !reviewWxml.includes('miniLe
 
 const firstScreen = reviewWxml.slice(
   reviewWxml.indexOf('review-hero-shell'),
-  reviewWxml.indexOf('review-subcheck')
+  reviewWxml.indexOf('<button hidden')
 );
 assert(firstScreen.includes('review-hero-shell'), 'review renders the new reference-style launch shell');
 assert(firstScreen.includes('review-challenge-grid'), 'review exposes jump cards instead of a dense retired feed');

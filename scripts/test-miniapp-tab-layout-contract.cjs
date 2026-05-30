@@ -96,10 +96,8 @@ tabContracts.forEach((tab) => {
   assert.strictEqual((launch.match(/ux-kit-jump-card/g) || []).length, 3, `${tab.id} launch screen keeps exactly 3 jump cards`);
   assert((launch.match(/bindtap="openEntryDetail"/g) || []).length >= 3, `${tab.id} launch cards jump to child/detail pages`);
   assert(launch.includes(tab.primaryAction), `${tab.id} launch screen keeps one obvious primary action`);
-  assert(wxml.includes('ux-kit-subcheck'), `${tab.id} keeps a compact child-flow preview under the launch shell`);
-  assert((wxml.match(/class="[^"]*ux-kit-subcheck/g) || []).length >= 1, `${tab.id} subcheck preview is present`);
-  assert(wxml.includes('subcheck-art'), `${tab.id} subcheck preview includes a visual asset, not just text boxes`);
-  assert.strictEqual((wxml.match(/subcheck-side-icon/g) || []).length, 2, `${tab.id} subcheck side jumps use reference icons`);
+  assert(!wxml.includes('ux-kit-subcheck'), `${tab.id} does not restore the old secondary subcheck tail`);
+  assert(!wxml.includes('subcheck-art') && !wxml.includes('subcheck-side-icon'), `${tab.id} keeps visual jumps inside the launch shell instead of a second preview block`);
   assertRuleContains(
     wxss,
     tab.safeAreaOwner,
@@ -144,8 +142,7 @@ assert(arcadeWxml.includes('arcade-map-icon'), 'review island route map uses vis
 });
 assert(!arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'review island route map never regresses to number-only boxes');
 assert(reviewWxml.includes('review-hero-shell ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
-assert(reviewWxml.includes('review-subcheck ux-kit-subcheck'), 'review child flow keeps a compact subcheck preview under the launch shell');
-assert(reviewWxml.includes('class="subcheck-main" data-scene="review" bindtap="openEntryDetail"'), 'review child flow main subcheck jumps into the shared child detail scene');
+assert(!reviewWxml.includes('review-subcheck ux-kit-subcheck'), 'review child flow does not restore the old compact subcheck preview under the launch shell');
 assert(reviewWxml.includes('data-scene="tutor" bindtap="openEntryDetail"') && reviewWxml.includes('data-scene="today" bindtap="openEntryDetail"'), 'review child flow side jumps use scene-based entry-detail navigation');
 assert(read('miniprogram/pages/review/review.js').includes('openEntryDetail(event)') && read('miniprogram/pages/review/review.js').includes('/pages/entry-detail/entry-detail?scene='), 'review child flow implements scene-based entry-detail navigation');
 assert(!reviewWxml.includes(['v','1-topbar'].join('')), 'review child flow removes the old topbar instead of hiding it with CSS');
@@ -199,11 +196,8 @@ const activePageUiSource = [
   read(`miniprogram/pages/${page}/${page}.wxss`)
 ].join('\n')).join('\n');
 auditTapHandlers();
-assert(appWxss.includes('.ux-kit-screen ~ .ux-kit-subcheck'), 'focused tab screens allow the compact subcheck preview to render');
-assert(appWxss.includes('grid-template-columns: minmax(0, 1fr)'), 'subcheck preview avoids squeezed two-column mobile composition');
-assert(appWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'subcheck side actions stay as two compact jump cards');
-assert(appWxss.includes('.subcheck-art'), 'subcheck preview styles a dedicated image asset block');
-assert(appWxss.includes('.subcheck-side-icon'), 'subcheck side jumps style dedicated visual icons');
+assert(!activePageUiSource.includes('ux-kit-subcheck'), 'active tab screens do not render the retired subcheck tail');
+assert(!activePageUiSource.includes('subcheck-art') && !activePageUiSource.includes('subcheck-side-icon'), 'active tab screens keep visual navigation in the primary shell');
 assert(!tabbarWxss.includes('scale(0.88)'), 'custom tabbar labels render at real size instead of being visually scaled down');
 assert(tabbarWxss.includes('position: absolute') && tabbarWxss.includes('bottom: 6rpx'), 'custom tabbar active indicator does not take layout space from labels');
 const retiredTabbarClass = ['v', '1-tabbar'].join('');

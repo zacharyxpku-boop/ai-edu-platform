@@ -23,7 +23,7 @@ assert(importIntake.includes('buildUploadIntakePacket') && uploadJs.includes('bu
 assert(uploadWxml.includes('upload-hero-shell') && uploadWxml.includes('upload-material-card') && uploadJs.includes('buildUploadIntakePacket'), 'Upload visibly exposes structured intake through compact cards');
 assert(importIntake.includes('buildNextActionQueue') && uploadWxml.includes('data-scene="parent"') && uploadJs.includes('openEntryDetail'), 'Upload exposes routeable next-action queue through active jump cards');
 assert(uploadJs.includes('openMaicDecisionBridge') && uploadJs.includes('safeRelayPayload') && uploadJs.includes('buildTonightTaskCard'), 'Upload connects intake to mini lesson, safe relay, and tonight task');
-assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.includes('upload-subcheck'), 'Upload no longer dumps mini-lesson and tonight-task output on the first screen');
+assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.includes('upload-material-grid') && uploadWxml.includes('upload-dash-primary'), 'Upload no longer dumps mini-lesson and tonight-task output on the first screen');
 assert(uploadJs.includes('requiresStructuredEvidenceGate') && uploadJs.includes('blocked_until_structured_evidence'), 'Upload blocks release until structured evidence is complete');
 
 assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('review-hero-shell'), 'Review preserves upload decision-bridge status in logic while keeping compact shell');

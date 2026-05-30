@@ -76,26 +76,7 @@
 
           <view class="tutor-action-row">
             <view class="tutor-primary" data-scene="tutor" bindtap="openEntryDetail">发送第一步</view>
-            <view class="tutor-secondary" data-scene="review" bindtap="openEntryDetail">加入复习卡</view>
-          </view>
-        </view>
-        <view class="tutor-subcheck ux-kit-subcheck">
-          <view class="subcheck-main" data-scene="tutor" bindtap="openEntryDetail">
-            <view class="subcheck-copy">
-              <text>今天只做一件事</text>
-              <text>把卡住的题说出第一步，不要直接要答案。</text>
-            </view>
-            <image class="subcheck-art" mode="aspectFill" src="/assets/brand/gudian-reader.png" />
-          </view>
-          <view class="subcheck-side">
-            <view data-scene="review" bindtap="openEntryDetail">
-              <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-review.png" />
-              <text>沉淀卡点</text><text>说完自动进复习</text>
-            </view>
-            <view data-scene="parent" bindtap="openEntryDetail">
-              <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
-              <text>家长看证据</text><text>只问一句</text>
-            </view>
+            <view class="tutor-secondary" data-scene="parent" bindtap="openEntryDetail">家长看证据</view>
           </view>
         </view>
       </view>

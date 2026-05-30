@@ -27,7 +27,7 @@ const profileViewModelJs = read('miniprogram/view-models/profile-view-model.js')
   'parent-report-preview',
   'parent-dash-action-row',
   'parent-dash-route',
-  'parent-subcheck'
+  'parent-dash-route'
 ].forEach((token) => {
   assert(profileWxml.includes(token), `profile WXML keeps new-shell capability: ${token}`);
 });

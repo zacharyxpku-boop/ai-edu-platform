@@ -107,7 +107,11 @@ Object.entries(pages).forEach(([name, page]) => {
 
   assert(page.wxml.includes(page.shell), `${name} renders new shell`);
   assert(page.wxml.includes(`${page.binding}.routePill`) || name === 'review' || name === 'profile', `${name} binds routePill where applicable`);
-  assert(page.wxml.includes(`${page.binding}.companionStrip`), `${name} binds companionStrip from viewModel`);
+  if (name === 'home') {
+    assert(!page.wxml.includes(`${page.binding}.companionStrip`), 'home keeps companionStrip out of the reference-style first screen');
+  } else {
+    assert(!page.wxml.includes(`${page.binding}.companionStrip`), `${name} keeps companionStrip out of the reference-style first screen`);
+  }
   assert(page.wxml.includes(`${page.binding}.title`), `${name} binds title from viewModel`);
   assert(page.wxml.includes(page.primaryCardBinding), `${name} binds primary card from viewModel`);
   assert(page.wxml.includes('primaryCta'), `${name} binds primary CTA from viewModel`);

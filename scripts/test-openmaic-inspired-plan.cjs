@@ -289,12 +289,12 @@ assert(tutorJs.includes('runtimePressureSignal') && tutorJs.includes('real_homew
 assert(tutorJs.includes('result && result.real_homework_pressure_signal') && tutorJs.includes('recentUserMessages = userMessages.slice(-3)'), 'mini-lesson trigger uses runtime pressure signal and recent first-step evidence window');
 assert(!tutorJs.includes('stillBlockedCount: blockedAnswer ? Math.max(2, recentStuckCount) : recentStuckCount'), 'tutor page must not inflate answer-risk into repeated stuck evidence');
 assert(!tutorJs.includes('forceMiniLesson: blockedAnswer ||'), 'tutor page must not bypass Socratic recovery on first answer-risk turn');
-assert(tutorJs.includes('miniLesson') && tutorJs.includes('renderGate') && tutorWxml.includes('tutor-subcheck'), 'tutor keeps mini-lesson render-gate logic behind the compact subcheck surface');
+assert(tutorJs.includes('miniLesson') && tutorJs.includes('renderGate') && tutorWxml.includes('tutor-entry-grid'), 'tutor keeps mini-lesson render-gate logic behind compact first-screen action cards');
 assert(tutorJs.includes('conceptGap') && tutorJs.includes('blackboard') && tutorWxml.includes('tutor-entry-card'), 'tutor keeps mini-lesson concept and board logic while rendering focused child-flow cards');
 assert(tutorJs.includes('miniLessonActiveFrameIndex') && tutorWxml.includes('tutor-action-row'), 'mini-lesson frame state remains executable while the tab shows one focused next action');
 assert(tutorJs.includes('miniLessonActiveFrameIndex') && tutorJs.includes('setMiniLessonActiveFrame') && tutorJs.includes('advanceMiniLessonFrame') && tutorJs.includes('replayMiniLessonFrame'), 'mini-lesson frame navigation is executable in local code');
-assert(tutorWxml.includes('tutor-hero-shell') && tutorWxml.includes('tutor-subcheck'), 'tutor UI has a focused child-facing compact panel');
-assert(tutorWxml.includes('tutor-ladder') && tutorWxml.includes('subcheck-side'), 'tutor compact panel shows first-step and handoff choices without dumping the long mini-lesson panel');
+assert(tutorWxml.includes('tutor-hero-shell') && tutorWxml.includes('tutor-entry-grid'), 'tutor UI has a focused child-facing compact panel');
+assert(tutorWxml.includes('tutor-ladder') && tutorWxml.includes('tutor-action-row'), 'tutor compact panel shows first-step and handoff choices without dumping the long mini-lesson panel');
 assert(tutorJs.includes('recordMiniLessonExitGate') && tutorWxml.includes('openEntryDetail'), 'mini-lesson exit-gate logic remains executable and the compact UI routes through child-flow actions');
 assert(tutorJs.includes("'passed'") && tutorJs.includes("'needs_support'") && tutorWxml.includes('data-scene="review"'), 'mini-lesson exit gate keeps passed and needs-support outcomes while review is a child flow');
 assert(tutorJs.includes('tutor_mini_lesson_exit_gate') && tutorJs.includes('miniLessonExitGateStatus'), 'tutor writes mini-lesson exit-gate evidence back into local state');
@@ -307,7 +307,7 @@ assert(tutorJs.includes('childExitTicketText') && tutorJs.includes('passedWithCh
 assert(tutorJs.includes('miniLessonParentAssistCard') && tutorJs.includes('continueMiniLessonExitGateAction') && tutorWxml.includes('data-scene="parent"'), 'tutor keeps parent assist details in logic and routes parent handoff through compact UI');
 assert(planModule.MINI_LESSON_VISUAL_PRIMITIVE_RENDER_CONTRACT.length >= 3 && tutorWxml.includes('tutor-entry-card'), 'tutor keeps primitive render contracts in logic while tab renders focused cards');
 assert(!tutorJs.includes("this.data.messages.filter((item) => item && item.role === 'user')\n      : [];\n    const childExitTicketText"), 'mini-lesson exit gate must not mine old chat messages as exit-ticket proof');
-assert(miniLesson.executionContract && Array.isArray(miniLesson.recoveryBranches) && tutorWxml.includes('tutor-subcheck'), 'mini-lesson local release gates and recovery branches stay in logic behind compact UI');
+assert(miniLesson.executionContract && Array.isArray(miniLesson.recoveryBranches) && tutorWxml.includes('tutor-entry-grid'), 'mini-lesson local release gates and recovery branches stay in logic behind compact UI');
 const profileJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.js'), 'utf8');
 const profileWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/profile/profile.wxml'), 'utf8');
 assert(profileJs.includes('openMaicMiniLessonReport') && profileJs.includes('openMaicHomeSchoolMiniLessonPacket'), 'profile summary carries mini-lesson report and home-school packet');
@@ -340,9 +340,9 @@ assert(
 );
 assert(reviewJs.includes('buildMiniLessonReturnPanel') && reviewJs.includes("current.type !== 'three_minute_mini_lesson_return'"), 'review has a dedicated mini-lesson return-card panel');
 assert(
-  reviewWxml.includes('review-subcheck')
-    && reviewWxml.includes('先修一个真实卡点')
-    && reviewWxml.includes('卡住再说第一步'),
+  reviewWxml.includes('review-challenge-grid')
+    && reviewWxml.includes('开始挑战')
+    && reviewWxml.includes('卡住先问第一步'),
   'review tab keeps a compact return-card handoff instead of the old long standalone return-card panel'
 );
 assert(storageJs.includes('setActiveMiniLessonResumeContext') && storageJs.includes('loadActiveMiniLessonResumeContext'), 'storage persists active mini-lesson resume context across tab navigation');

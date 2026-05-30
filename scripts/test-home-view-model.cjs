@@ -200,7 +200,6 @@ const firstScreen = homeWxml.slice(
 
 [
   'homeViewModel.routePill',
-  'homeViewModel.companionStrip',
   'homeViewModel.title',
   'homeViewModel.subtitle',
   'homeViewModel.inputCard',
@@ -213,6 +212,8 @@ const firstScreen = homeWxml.slice(
   if (binding === 'homeViewModel.primaryCta' || binding === 'homeViewModel.secondaryAction' || binding === 'homeViewModel.teacherPickerHint') return;
   assert(firstScreen.includes(binding), `home first screen binds ${binding}`);
 });
+assert(read(vmPath).includes('companionStrip'), 'home view model still prepares companion copy for deeper flows');
+assert(!firstScreen.includes('homeViewModel.companionStrip'), 'home first screen avoids stacking mascot explanation copy above the six entry cards');
 
 [
   ['show','Leg','acyEntryContent'].join(''),

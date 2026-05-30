@@ -113,9 +113,9 @@ assert.strictEqual(storage.formatInternalLabel('needs_student_step'), '等孩子
   assert(!files.storageJs.includes(term), `storage no longer exports pseudo-Nova module: ${term}`);
 });
 
-assert(files.homeWxml.includes('homeViewModel.teacherPickerLabel') && files.homeViewModelJs.includes('teacherPickerLabel'), 'home keeps the mascot entry through homeViewModel');
-assert(files.homeWxml.includes('homeViewModel.teacherPickerHint') && files.homeViewModelJs.includes('teacherPickerHint'), 'home keeps a light mascot explanation through homeViewModel');
-assert(files.homeWxml.includes('{{homeViewModel.companionStrip}}'), 'home shows the mascot strip through homeViewModel');
+assert(!files.homeWxml.includes('homeViewModel.teacherPickerLabel') && files.homeViewModelJs.includes('teacherPickerLabel'), 'home keeps the mascot entry in homeViewModel without stacking it above the six entry cards');
+assert(!files.homeWxml.includes('homeViewModel.teacherPickerHint') && files.homeViewModelJs.includes('teacherPickerHint'), 'home keeps the light mascot explanation in homeViewModel for deeper flows');
+assert(!files.homeWxml.includes('{{homeViewModel.companionStrip}}') && files.homeViewModelJs.includes('companionStrip'), 'home keeps mascot strip data without showing an extra strip on the reference-style hero');
 assert(files.homeWxml.includes('{{homeViewModel.primaryCta}}') && files.homeViewModelJs.includes('primaryCta'), 'home main CTA remains through homeViewModel');
 
 assert(files.reviewWxml.includes("{{reviewViewModel.primaryCta.text}}") && files.reviewViewModelJs.includes("subtitle:"), "review keeps the low-pressure issue line in the view model and exposes one CTA");

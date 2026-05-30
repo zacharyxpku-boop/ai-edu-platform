@@ -165,7 +165,7 @@ assert.ok(files.homeJs.includes('createTonightPlanFromInput') && files.homeJs.in
 assert.ok(files.homeViewModelJs.includes('tonightPlan'), 'home guides user to follow the route after planning through homeViewModel');
 assert.ok(files.homeViewModelJs.includes('todayFocus') && files.homeViewModelJs.includes("action: 'review'"), 'home guides stuck user to repair focus through homeViewModel');
 assert.ok(
-  files.reviewWxml.includes('review-subcheck')
+  files.reviewWxml.includes('review-challenge-grid')
     && files.reviewWxml.includes('data-scene="today"')
     && files.reviewJs.includes('/pages/entry-detail/entry-detail?scene='),
   'review completion leads to the current entry-detail jump shell instead of restoring old content below the visual shell'

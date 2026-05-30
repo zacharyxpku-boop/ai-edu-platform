@@ -24,7 +24,7 @@ assert(tutorWxml.includes('tutor-hero-shell') && tutorWxml.includes('tutor-entry
 assert(arcadeWxml.includes('arcade-hero-shell') && arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island jump shell');
 
 assert(reviewWxml.includes('review-hero-shell') && reviewWxml.includes('review-challenge-grid'), 'review uses the new challenge shell');
-assert(reviewWxml.includes('review-main-cta') && reviewWxml.includes('review-subcheck'), 'review keeps primary action and a compact subcheck');
+assert(reviewWxml.includes('review-main-cta') && reviewWxml.includes('review-challenge-grid'), 'review keeps primary action and compact visual entry cards');
 assert(reviewWxml.includes('{{reviewViewModel.primaryCta.text}}') && reviewWxml.includes('review-challenge-card'), 'review keeps the actionable verdict and compact challenge cards');
 
 assert(profileWxml.includes('parent-hero-shell') && profileWxml.includes('parent-dash-evidence'), 'profile uses the new parent evidence shell');

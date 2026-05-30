@@ -670,7 +670,7 @@ function run() {
   ].join('|'));
   assert(!retiredDeviceChromePattern.test(reviewWxml), 'review page does not render fake device status UI');
   assert(customTabJs.includes('/pages/arcade/arcade'), 'wrong-question transfer loop is available through the review island tab');
-  assert(reviewWxml.includes('review-subcheck') && reviewWxml.includes('先修一个真实卡点'), 'review page keeps recall as a compact follow-up entry instead of the old after-repair panel');
+  assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('开始挑战'), 'review page keeps recall as compact first-screen challenge cards instead of the old after-repair panel');
   assert(reviewWxml.includes('class="review-dash-title"'), 'review page exposes quest title');
   assert(reviewWxml.includes('class="review-dash-pill"'), 'review page exposes due-card pill');
   assert(reviewWxml.includes('review-map-node') && reviewWxml.includes('review-map-icon'), 'review page challenge map uses visual game-map nodes instead of number-only boxes');
@@ -683,7 +683,7 @@ function run() {
   assert(reviewWxml.includes('data-rating="good"'), 'review page exposes rating action');
   assert(reviewJs.includes('buildMemoryPrescriptionPanel') && reviewJs.includes('buildHighFrequencyPracticeLoop'), 'review page builds today memory prescription from the local high-frequency loop');
   assert(reviewWxml.includes('3 张回忆卡') && reviewWxml.includes('主动回忆'), 'review page visibly exposes the daily active-recall entry without rendering the old prescription wall');
-  assert(reviewWxml.includes('明天只回看') && reviewWxml.includes('验证是否迁移'), 'review compact copy covers revisit windows and transfer checks');
+  assert(reviewWxml.includes('明天只回看') && reviewWxml.includes('看是否真的迁移'), 'review compact copy covers revisit windows and transfer checks');
   assert(reviewJs.includes('activeRecallProtocol') && reviewJs.includes('todayMustCards') && reviewJs.includes('ratingScale') && reviewJs.includes('tomorrowReturnCard') && reviewJs.includes('day7VariantCard'), 'review builds a Gizmo-style local active-recall protocol with today, tomorrow, and day-7 cards');
   assert(reviewWxml.includes('奖励来自真实回忆') && reviewWxml.includes('不奖励速度或分数比较'), 'review visibly exposes the active-recall local release gate without raw protocol fields');
   assert(reviewWxml.includes('不奖励速度或分数比较') || reviewJs.includes('不奖励速度或分数比较'), 'review prescription blocks score-comparison-driven rewards');

@@ -62,8 +62,8 @@ const homeWxml = read('miniprogram/pages/home/home.wxml');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
 const packageJson = JSON.parse(read('package.json'));
 
-assert(homeWxml.includes('homeViewModel.teacherPickerLabel'), 'home shows mascot cue title from viewModel');
-assert(homeWxml.includes('homeViewModel.teacherPickerHint'), 'home shows lightweight mascot hint from viewModel');
+assert(!homeWxml.includes('homeViewModel.teacherPickerLabel'), 'home no longer stacks mascot cue title above the six entry cards');
+assert(!homeWxml.includes('homeViewModel.teacherPickerHint'), 'home no longer stacks lightweight mascot hint above the six entry cards');
 assert(!homeWxml.includes('wx:for="{{companionOptions}}"'), 'home no longer renders companion options');
 assert(!homeWxml.includes('{{item.short}}') && !homeWxml.includes('{{item.desc}}'), 'home no longer renders teacher cards');
 

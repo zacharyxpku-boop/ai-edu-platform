@@ -31,7 +31,7 @@ assert(arcadePageCode.includes('onShareAppMessage') && arcadePageWxml.includes('
 assert(arcadePageCode.includes("require('../../utils/share-relay-schema')") && arcadePageCode.includes("buildShareRelayQuery('/pages/home/home'") && arcadePageCode.includes('peer_90s_relay'), 'arcade native share now lands through the safe home relay schema');
 assert(!arcadePageWxml.includes('Combo {{combo}}') && !arcadePageWxml.includes('生命 {{lives}}') && arcadePageWxml.includes('留证回访'), 'arcade visible copy avoids score/ranking-like combo/life language');
 assert(!/本局得分|正确率|最稳连续|{{result\.accuracy}}%|{{result\.bestCombo}}|{{challengeBrief\.targetAccuracy}}%/.test(arcadePageWxml), 'arcade result UI shows evidence and revisit gates instead of score, accuracy, or streak chasing');
-assert(arcadePageWxml.includes('留证回访') && arcadePageWxml.includes('给家长看证据'), 'arcade compact UI exposes family-tutor evidence language');
+assert(arcadePageWxml.includes('留证回访') && arcadePageWxml.includes('给家长看') && arcadePageWxml.includes('只看证据'), 'arcade compact UI exposes family-tutor evidence language');
 const shareChallengePayloadSnippet = (arcadePageCode.match(/shareChallengePayload:[\s\S]*?tomorrowLine:/) || [''])[0];
 const sharePayloadWithoutDenylist = shareChallengePayloadSnippet.replace(/relay_blocked_fields:[\s\S]*?openmaic_game_gate:/, 'openmaic_game_gate:');
 assert(!/full_answer|score\s*:|ranking\s*:|full_dialogue/.test(sharePayloadWithoutDenylist), 'arcade share challenge payload avoids raw answer, score, ranking, and dialogue fields outside the denylist');
@@ -46,7 +46,7 @@ assert(arcadePageCode.includes('hint_first_step_available') && !arcadePageCode.i
 assert(!arcadePageCode.includes('firstStep: incomingShare.relay_first_step'), 'arcade share relay does not complete with sender first step');
 assert(arcadePageCode.includes('dailyPrimaryRecallEvidencePacket') && arcadePageWxml.includes('留证回访'), 'arcade keeps evidence-ticket logic while compact UI exposes the evidence goal');
 assert(arcadePageCode.includes("gameType: 'ninety_second_recall'") && arcadePageCode.includes("xpReason: 'ninety_second_recall_completed'") && arcadePageCode.includes('activeRecallEvidenceComplete: true'), '90-second recall completion writes a settled XP/streak evidence packet');
-assert(arcadePageCode.includes('ninetySecondRecallDeck') && arcadePageWxml.includes('复习岛不是刷题'), 'arcade keeps the 90-second playable loop in logic without rendering the old long checklist on the tab page');
+assert(arcadePageCode.includes('ninetySecondRecallDeck') && arcadePageWxml.includes('把一个卡点玩成可验证的小关'), 'arcade keeps the 90-second playable loop in logic without rendering the old long checklist on the tab page');
 assert(!arcadePageWxml.includes('healthyCommercialReturnGuard'), 'arcade does not render the old healthy commercial return guard wall on the tab page');
 assert(!arcadePageWxml.includes('dailyComebackDecisionEngine') && arcadePageWxml.includes('短、轻、可回访'), 'arcade tab UI stays one compact return route instead of rendering the old daily comeback wall');
 

@@ -83,11 +83,11 @@ const files = {
 };
 
 const tabWxml = [files.homeWxml, files.reviewWxml, files.entryDetailWxml, files.profileWxml].join('\n');
-assert.strictEqual((tabWxml.match(/\{\{homeViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{companionLine\}\}/g) || []).length + (tabWxml.match(/\{\{reviewViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{revisitViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{profileViewModel\.companionStrip\}\}/g) || []).length, 3, 'active mascot strips remain on home/review/profile after retiring tools page');
-assert(files.homeWxml.includes('{{homeViewModel.companionStrip}}'), 'home renders mascot strip through homeViewModel');
-assert(files.reviewWxml.includes('{{reviewViewModel.companionStrip}}'), 'review renders mascot strip');
+assert.strictEqual((tabWxml.match(/\{\{homeViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{companionLine\}\}/g) || []).length + (tabWxml.match(/\{\{reviewViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{revisitViewModel\.companionStrip\}\}/g) || []).length + (tabWxml.match(/\{\{profileViewModel\.companionStrip\}\}/g) || []).length, 0, 'active mascot strips stay out of first-screen tabs while view models keep the voice for deeper flows');
+assert(!files.homeWxml.includes('{{homeViewModel.companionStrip}}') && files.homeViewModelJs.includes('companionStrip'), 'home keeps mascot strip in viewModel but not stacked above the six entry cards');
+assert(!files.reviewWxml.includes('{{reviewViewModel.companionStrip}}'), 'review keeps mascot strip out of the compact reference-style tab');
 assert(files.entryDetailWxml.includes('entry-jump-grid'), 'entry detail renders scene jump grid');
-assert(files.profileWxml.includes('{{profileViewModel.companionStrip}}'), 'profile renders mascot strip');
+assert(!files.profileWxml.includes('{{profileViewModel.companionStrip}}'), 'profile keeps mascot strip out of the compact reference-style tab');
 
 const tabRenderSource = [tabWxml, files.homeJs, files.homeViewModelJs, files.reviewJs, files.reviewViewModelJs, files.entryDetailJs, files.revisitViewModelJs, files.profileJs, files.profileViewModelJs].join('\n');
 ['今晚路线 · 第 1 步：排顺序', '今晚路线 · 第 3 步：修卡点', '今晚路线 · 第 4 步：明天轻轻回访', '今晚路线 · 第 5 步：家长 5 秒复盘'].forEach((routeText) => {

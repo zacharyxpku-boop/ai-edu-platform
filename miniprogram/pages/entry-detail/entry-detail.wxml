@@ -52,7 +52,7 @@
   <view class="entry-jump-section">
     <view class="entry-jump-title">
       <text>继续看其他入口</text>
-      <text>切换后仍在当前子页面，不回到长下拉</text>
+      <text>每个入口只看一件事，点开后再进入下一步</text>
     </view>
     <view class="entry-jump-grid">
       <button class="entry-jump-card" wx:for="{{sceneLinks}}" wx:key="key" data-scene="{{item.key}}" bindtap="openScene">

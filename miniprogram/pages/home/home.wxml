@@ -39,27 +39,9 @@
           <view class="mini-streak-pill"><text class="mini-streak-dot"></text><text>{{homeViewModel.routePill}}</text></view>
           <view class="mini-title">{{homeViewModel.title}}</view>
           <view class="mini-subtitle">{{homeViewModel.subtitle}}</view>
-          <view class="mini-subtitle companion-route-strip">{{homeViewModel.companionStrip}}</view>
-          <view class="mini-subtitle">{{homeViewModel.teacherPickerLabel}} · {{homeViewModel.teacherPickerHint}}</view>
           <view class="mini-streak-pill"><text class="mini-streak-dot"></text><text>连续学习</text><text>7</text><text>天</text></view>
         </view>
         <image class="mini-hero-mascot" mode="aspectFit" src="/assets/reference/hero-mascot.png" />
-      </view>
-
-      <view class="mini-report-card" bindtap="goReportPreview">
-        <view class="mini-report-head">
-          <text>个性化报告预览</text>
-          <text>查看 →</text>
-        </view>
-        <view class="mini-report-body">
-          <view class="mini-signal-chart"><view></view></view>
-          <view class="mini-report-tags">
-            <text class="ok">逻辑思维强</text>
-            <text class="ok">阅读理解好</text>
-            <text class="warn">计算准确率待提升</text>
-            <text class="warn">审题习惯待稳定</text>
-          </view>
-        </view>
       </view>
 
       <view class="mini-report-card" wx:if="{{incomingShareRelay}}">
@@ -143,10 +125,25 @@
           </view>
         </view>
         <view class="mini-subtitle" wx:if="{{homeViewModel.emptyState}}">{{homeViewModel.emptyState}}</view>
-        <view class="mini-subtitle" wx:if="{{homeViewModel.teacherPickerHint}}">{{homeViewModel.teacherPickerHint}}</view>
         <view class="mini-subtitle route-next-lite" wx:if="{{homeViewModel.nextStep}}" catchtap="runHomeNextStep">{{homeViewModel.nextStep.text}} · {{homeViewModel.nextStep.cta}}</view>
         <view class="mini-main-cta" catchtap="planTonight">{{homeViewModel.primaryCta}}</view>
         <view class="mini-subtitle" bindtap="submitAiDraft">{{homeViewModel.secondaryAction}}</view>
+      </view>
+
+      <view class="mini-report-card" bindtap="goReportPreview">
+        <view class="mini-report-head">
+          <text>个性化报告预览</text>
+          <text>查看 →</text>
+        </view>
+        <view class="mini-report-body">
+          <view class="mini-signal-chart"><view></view></view>
+          <view class="mini-report-tags">
+            <text class="ok">逻辑思维强</text>
+            <text class="ok">阅读理解好</text>
+            <text class="warn">计算准确率待提升</text>
+            <text class="warn">审题习惯待稳定</text>
+          </view>
+        </view>
       </view>
 
       <view class="mini-bottom-grid">

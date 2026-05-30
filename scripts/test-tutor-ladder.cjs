@@ -338,7 +338,7 @@ assert(tutorPageJs.includes('tutor_socratic_effectiveness_feedback') && tutorPag
 assert(tutorPageWxml.includes('tutor-action-row'), 'tutor launch shell shows the next action row');
 assert(tutorPageJs.includes('buildMiniLessonFeedbackBridge') && tutorPageJs.includes('socratic_feedback_mini_lesson_triggered') && tutorPageJs.includes('ensureMiniLessonReturnReviewCard'), 'still-blocked Socratic feedback can trigger a bounded mini-lesson return card');
 assert(tutorPageJs.includes('socratic_feedback_mini_lesson_bridge') && tutorPageJs.includes('socratic_to_mini_lesson_bridge'), 'mini-lesson feedback bridge writes unified action and surface depth evidence');
-assert(tutorPageWxml.includes('tutor-subcheck') && tutorPageWxml.includes('subcheck-side'), 'tutor launch shell exposes compact bridge choices after stuck feedback');
+assert(tutorPageWxml.includes('tutor-entry-grid') && tutorPageWxml.includes('tutor-action-row'), 'tutor launch shell exposes compact bridge choices after stuck feedback');
 assert(tutorPageJs.includes('socratic_feedback_parent_handoff_required') && tutorPageJs.includes("type: 'parent_handoff_required'"), 'tutor feedback records parent handoff when mini-lesson route is blocked by router');
 assert(tutorPageWxml.includes('data-scene="parent"') && tutorPageWxml.includes('data-scene="review"'), 'tutor launch shell labels parent handoff and review as distinct child flows');
 const feedbackEventBuilder = tutorPageJs.match(/function buildSocraticEffectivenessEvent[\s\S]+?function normalizeTags/);

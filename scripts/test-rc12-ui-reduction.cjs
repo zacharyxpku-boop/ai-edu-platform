@@ -80,19 +80,22 @@ assert(files.profileViewModelJs.includes('今晚孩子卡在'), 'profile hero ca
 assert(files.profileViewModelJs.includes('信任边界'), 'profile hero card keeps trust boundary');
 assert(files.profileWxml.includes('{{profileViewModel.primaryCta}}') && files.profileViewModelJs.includes('完成今日复盘'), 'profile main CTA remains');
 assert(!files.profileWxml.includes('{{companionCopy.profile}}'), 'profile does not stack a second companion explanation');
-assert(files.profileWxml.includes("parent-subcheck") && files.profileWxml.includes("parent-dash-route"), "profile keeps secondary process as compact jump cards below the parent launch shell");
+assert(!files.profileWxml.includes("parent-subcheck") && files.profileWxml.includes("parent-dash-route"), "profile keeps process inside the parent launch shell without an old secondary tail");
 assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile does not render retired detailed report ledger");
 
 [
   ['home', files.homeWxml, 'homeViewModel.routePill'],
   ['review', files.reviewWxml, 'route-note short'],
   ['tutor', files.tutorWxml, 'tutor-entry-grid'],
-  ['arcade', files.arcadeWxml, 'arcade-subcheck'],
-  ['profile', files.profileWxml, 'route-strip compact']
+  ['arcade', files.arcadeWxml, 'arcade-map-card'],
+  ['profile', files.profileWxml, 'parent-dash-route']
 ].forEach(([name, text, marker]) => {
   assert(text.includes(marker), `${name} keeps one route marker`);
-  if (name === 'home' || name === 'review' || name === 'profile') {
-    assert.strictEqual((text.match(/companion-route-strip/g) || []).length, 1, `${name} has exactly one companion strip`);
+  if (name === 'review' || name === 'profile') {
+    assert.strictEqual((text.match(/companion-route-strip/g) || []).length, 0, `${name} does not show the old companion strip`);
+  }
+  if (name === 'home') {
+    assert.strictEqual((text.match(/companion-route-strip/g) || []).length, 0, 'home keeps the reference-style hero clean above the six entry cards');
   }
 });
 

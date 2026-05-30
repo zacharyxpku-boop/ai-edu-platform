@@ -21,8 +21,7 @@
         <view class="review-dash-hero">
           <view class="review-dash-copy">
             <view class="review-dash-title">{{reviewViewModel.title}}</view>
-            <view class="review-dash-sub">{{reviewViewModel.companionStrip}}</view>
-            <view class="review-dash-sub companion-route-strip route-note short">先说错因，再做一张变式，明天只回看真正卡住的点。</view>
+            <view class="review-dash-sub route-note short">先说错因，再做一张变式，明天只回看真正卡住的点。</view>
             <view class="review-chip-row">
               <text>主动回忆</text>
               <text>错因回放</text>
@@ -80,26 +79,6 @@
         </view>
 
         <view class="review-main-cta" data-action="review" bindtap="runPlaybookAction">{{reviewViewModel.primaryCta.text}}</view>
-      </view>
-
-      <view class="review-subcheck ux-kit-subcheck">
-        <view class="subcheck-main" data-scene="review" bindtap="openEntryDetail">
-          <view class="subcheck-copy">
-            <text>先修一个真实卡点</text>
-            <text>从错因、回忆、变式到家长确认，先闭环一张卡，不把任务铺满。</text>
-          </view>
-          <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-review.png" />
-        </view>
-        <view class="subcheck-side">
-          <view data-scene="tutor" bindtap="openEntryDetail">
-            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
-            <text>回到原小点</text><text>卡住再说第一步</text>
-          </view>
-          <view data-scene="today" bindtap="openEntryDetail">
-            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
-            <text>换一题变式</text><text>验证是否迁移</text>
-          </view>
-        </view>
       </view>
 
       <button hidden bindtap="reveal">先回忆，再选择</button>

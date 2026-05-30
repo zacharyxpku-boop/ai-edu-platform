@@ -20,7 +20,7 @@ const files = {
 
 assert(files.homeWxml.includes('mini-home-shell'), 'home uses the new first-day shell');
 assert(files.homeWxml.includes('homeViewModel.emptyState') && files.homeVm.includes('emptyState'), 'home first-run empty state is view-model driven');
-assert(files.homeWxml.includes('homeViewModel.teacherPickerHint') && files.homeVm.includes('teacherPickerHint'), 'home companion hint is view-model driven');
+assert(!files.homeWxml.includes('homeViewModel.teacherPickerHint') && files.homeVm.includes('teacherPickerHint'), 'home companion hint stays view-model driven without crowding the first screen');
 assert(files.homeWxml.includes('homeViewModel.nextStep.text') && files.homeWxml.includes('homeViewModel.nextStep.cta'), 'home renders next step from homeViewModel');
 assert(files.homeWxml.includes('catchtap="runHomeNextStep"'), 'home main CTA dispatches the view-model next action');
 

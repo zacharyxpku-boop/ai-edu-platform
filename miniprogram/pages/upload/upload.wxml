@@ -72,26 +72,6 @@
         </view>
         <view class="upload-dash-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
       </view>
-
-      <view class="upload-subcheck ux-kit-subcheck">
-        <view class="subcheck-main" data-scene="upload" bindtap="openEntryDetail">
-          <view class="subcheck-copy">
-            <text>材料先进入证据链</text>
-            <text>测评、成绩、错题、观察会被分开处理，不混成一句空建议。</text>
-          </view>
-          <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-upload.png" />
-        </view>
-        <view class="subcheck-side">
-          <view data-scene="parent" bindtap="openEntryDetail">
-            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
-            <text>出报告</text><text>给家长看结论</text>
-          </view>
-          <view data-scene="today" bindtap="openEntryDetail">
-            <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
-            <text>变任务</text><text>回到今晚路线</text>
-          </view>
-        </view>
-      </view>
     </view>
   </scroll-view>
 </view>

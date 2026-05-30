@@ -75,25 +75,5 @@
         <view class="ux-kit-secondary arcade-secondary" data-scene="tutor" bindtap="openEntryDetail">卡住就追问</view>
       </view>
     </view>
-
-    <view class="arcade-subcheck ux-kit-subcheck">
-      <view class="subcheck-main" data-scene="review" bindtap="openEntryDetail">
-        <view class="subcheck-copy">
-          <text>复习岛不是刷题</text>
-          <text>先回忆，再核对，再换一道题验证迁移。</text>
-        </view>
-        <image class="subcheck-art" mode="aspectFill" src="/assets/reference/entry-review.png" />
-      </view>
-      <view class="subcheck-side">
-        <view data-scene="tutor" bindtap="openEntryDetail">
-          <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
-          <text>不会开始</text><text>回原小点追问</text>
-        </view>
-        <view data-scene="parent" bindtap="openEntryDetail">
-          <image class="subcheck-side-icon" mode="aspectFill" src="/assets/reference/entry-parent.png" />
-          <text>完成后</text><text>给家长看证据</text>
-        </view>
-      </view>
-    </view>
   </scroll-view>
 </view>

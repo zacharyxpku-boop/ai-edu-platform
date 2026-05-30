@@ -476,13 +476,14 @@ assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHo
   'mini-report-card',
   'upload-material-grid',
   'arcade-map-card',
-  'ux-kit-subcheck'
+  'entry-jump-grid'
 ].forEach((needle) => {
   const visible = read('miniprogram/pages/profile/profile.wxml').includes(needle)
     || read('miniprogram/pages/tutor/tutor.wxml').includes(needle)
     || read('miniprogram/pages/home/home.wxml').includes(needle)
     || read('miniprogram/pages/upload/upload.wxml').includes(needle)
-    || read('miniprogram/pages/arcade/arcade.wxml').includes(needle);
+    || read('miniprogram/pages/arcade/arcade.wxml').includes(needle)
+    || read('miniprogram/pages/entry-detail/entry-detail.wxml').includes(needle);
   assert(visible, `Visible miniapp surface must include ${needle}`);
 });
 
