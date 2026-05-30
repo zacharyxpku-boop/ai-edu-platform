@@ -146,7 +146,8 @@ assert(parentWxml.includes('class="parent-report-thumb" mode="aspectFill" src="/
 });
 assert(entryDetailWxss.includes('env(safe-area-inset-top)'), 'entry-detail child page reserves top safe area');
 assert(entryDetailWxss.includes('env(safe-area-inset-bottom)'), 'entry-detail child page reserves bottom safe area');
-assert(entryDetailWxss.includes('grid-template-columns: 1fr'), 'entry-detail child page uses readable evidence rows instead of cramped mini cards');
+assert(entryDetailWxss.includes('grid-template-columns: repeat(3, minmax(0, 1fr))'), 'entry-detail child page uses compact visual action cards instead of long text rows');
+assert(entryDetailWxml.includes('entry-loop-rail') && entryDetailWxss.includes('.entry-loop-rail'), 'entry-detail child page shows the upload-report-tutor-review route rail above the actions');
 assert(entryDetailWxss.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), 'entry-detail child page cross-entry jumps render as a two-column visual grid');
 assert(entryDetailWxss.includes('-webkit-line-clamp: 3'), 'entry-detail child page clamps hero copy to avoid a text wall');
 assert(entryDetailWxml.includes('src="/assets/reference/brand-house.png"'), 'entry-detail child page keeps the visual brand mark in the header');

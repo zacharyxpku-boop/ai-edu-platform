@@ -86,6 +86,13 @@ const SCENE_NAV = {
   parent: { label: '家长报告', image: '/assets/reference/entry-parent.png' }
 };
 
+const LOOP_NODES = [
+  { key: 'upload', label: '上传', image: '/assets/reference/entry-upload.png' },
+  { key: 'parent', label: '报告', image: '/assets/reference/entry-report.png' },
+  { key: 'tutor', label: '点拨', image: '/assets/reference/entry-tutor.png' },
+  { key: 'review', label: '回访', image: '/assets/reference/entry-review.png' }
+];
+
 function buildSceneLinks(activeKey) {
   return Object.keys(SCENE_NAV)
     .filter((key) => key !== activeKey)
@@ -96,7 +103,8 @@ Page({
   data: {
     sceneKey: 'today',
     scene: SCENES.today,
-    sceneLinks: buildSceneLinks('today')
+    sceneLinks: buildSceneLinks('today'),
+    loopNodes: LOOP_NODES
   },
 
   onLoad(query = {}) {

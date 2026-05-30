@@ -21,6 +21,19 @@
     <image class="entry-image" mode="aspectFill" src="{{scene.heroImage}}" />
   </view>
 
+  <view class="entry-loop-rail">
+    <view
+      class="entry-loop-node {{item.key === sceneKey ? 'active' : ''}}"
+      wx:for="{{loopNodes}}"
+      wx:key="key"
+      data-scene="{{item.key}}"
+      bindtap="openScene"
+    >
+      <image mode="aspectFit" src="{{item.image}}" />
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
   <view class="entry-actions">
     <button class="entry-primary" bindtap="goPrimary">{{scene.primaryLabel}}</button>
     <button class="entry-secondary" bindtap="goSecondary">{{scene.secondaryLabel}}</button>
