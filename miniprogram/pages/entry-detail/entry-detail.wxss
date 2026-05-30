@@ -295,18 +295,12 @@
 }
 
 .entry-card-icon {
-  width: 52rpx;
-  height: 52rpx;
+  width: 66rpx;
+  height: 66rpx;
+  display: block;
   border-radius: 18rpx;
-  color: #174c3d;
-  background:
-    radial-gradient(circle at 34% 30%, rgba(255,255,255,0.8), transparent 34%),
-    #f8c622;
-  font-size: 24rpx;
-  font-weight: 1000;
-  line-height: 52rpx;
-  text-align: center;
-  box-shadow: 0 10rpx 18rpx rgba(248, 198, 34, 0.22);
+  background: #f8fbf5;
+  box-shadow: 0 10rpx 18rpx rgba(34, 57, 43, 0.08);
 }
 
 .entry-card-label {

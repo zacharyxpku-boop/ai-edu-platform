@@ -41,7 +41,7 @@
 
   <view class="entry-card-grid">
     <view class="entry-card" wx:for="{{scene.cards}}" wx:key="label">
-      <view class="entry-card-icon">{{index + 1}}</view>
+      <image class="entry-card-icon" mode="aspectFill" src="{{item.icon}}" />
       <view>
         <view class="entry-card-label">{{item.label}}</view>
         <view class="entry-card-value">{{item.value}}</view>
