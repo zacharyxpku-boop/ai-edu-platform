@@ -155,6 +155,10 @@ assert(uploadJs.includes('servicePathway') && uploadJs.includes('buildLearningSe
 assert(uploadJs.includes('servicePathway: cta.servicePathway'), 'service pathway persists into learning report state');
 assert(uploadWxml.includes('upload-material-grid') && uploadWxml.includes('家长报告'), 'upload compact UI routes service pathway output into the parent report entry');
 assert(uploadWxml.includes('upload-dash-pipeline') && uploadWxml.includes('进入原小点'), 'upload compact UI shows the service path as classify-report-gudian progression');
+assert(uploadWxml.includes('upload-pipeline-node') && uploadWxml.includes('upload-pipeline-icon'), 'upload service path is a visual route rail instead of number-only boxes');
+['entry-upload.png', 'entry-report.png', 'entry-parent.png', 'entry-tutor.png'].forEach((asset) => {
+  assert(uploadWxml.includes(asset), `upload route rail uses reference asset: ${asset}`);
+});
 assert(uploadWxml.includes('不公开分享') && uploadWxml.includes('先分类再分析'), 'upload compact UI keeps release boundary visible without raw service ledgers');
 assert(!uploadWxml.includes('lastReportCta.servicePathway.partnerServiceDeliveryLedger.packageCards[0]'), 'upload UI does not expose raw partner internals');
 assert(!uploadWxml.includes('lastReportCta.servicePathway.modeRecommendations') && !uploadWxml.includes('{{item.localGate}}'), 'upload UI does not expose raw mode routes or local gates');

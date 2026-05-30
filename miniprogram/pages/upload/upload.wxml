@@ -49,10 +49,26 @@
         </view>
 
         <view class="upload-dash-pipeline">
-          <view class="done"><text>1</text><text>分类材料</text></view>
-          <view><text>2</text><text>提取证据</text></view>
-          <view><text>3</text><text>生成报告</text></view>
-          <view><text>4</text><text>进入原小点</text></view>
+          <view class="upload-pipeline-node done">
+            <image class="upload-pipeline-icon" mode="aspectFit" src="/assets/reference/entry-upload.png" />
+            <text>已分类</text>
+            <text>材料入库</text>
+          </view>
+          <view class="upload-pipeline-node active">
+            <image class="upload-pipeline-icon" mode="aspectFit" src="/assets/reference/entry-report.png" />
+            <text>提证据</text>
+            <text>置信度</text>
+          </view>
+          <view class="upload-pipeline-node">
+            <image class="upload-pipeline-icon" mode="aspectFit" src="/assets/reference/entry-parent.png" />
+            <text>出报告</text>
+            <text>给家长</text>
+          </view>
+          <view class="upload-pipeline-node next">
+            <image class="upload-pipeline-icon" mode="aspectFit" src="/assets/reference/entry-tutor.png" />
+            <text>进入原小点</text>
+            <text>说第一步</text>
+          </view>
         </view>
         <view class="upload-dash-primary" data-scene="upload" bindtap="openEntryDetail">生成学习包</view>
       </view>

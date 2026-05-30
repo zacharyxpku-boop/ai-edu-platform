@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T17:03:18.109Z",
+  "generatedAt": "2026-05-30T17:35:55.646Z",
   "devtoolsCli": {
     "attempted": true,
     "status": "blocked_by_local_service_port",
@@ -25,7 +25,7 @@
       "evidence": [
         "标准版本：2026-05-24.visible-decision-v1",
         "命中材料场景：talent_report_uploaded / wrong_question_uploaded / mixed_materials",
-        "HTML 长度：103243"
+        "HTML 长度：103224"
       ]
     },
     {

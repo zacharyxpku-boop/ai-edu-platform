@@ -138,6 +138,8 @@ assert(read('miniprogram/pages/review/review.js').includes('openEntryDetail(even
 assert(!reviewWxml.includes(['v','1-topbar'].join('')), 'review child flow removes the old topbar instead of hiding it with CSS');
 assert(uploadWxml.includes('class="upload-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'upload tab brand mark uses the visual reference asset instead of an arrow placeholder');
 assert(!uploadWxml.includes('<view class="upload-dash-mark">↑</view>'), 'upload tab never regresses to the text-only arrow mark');
+assert(uploadWxml.includes('upload-pipeline-node') && uploadWxml.includes('upload-pipeline-icon'), 'upload tab route rail uses visual cards and reference icons');
+assert(!uploadWxml.includes('<view class="done"><text>1</text>'), 'upload tab never regresses to the number-only route boxes');
 assert(parentWxml.includes('class="parent-dash-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'parent tab brand mark uses the visual reference asset instead of a text placeholder');
 assert(parentWxml.includes('parent-report-preview'), 'parent tab evidence section includes a compact report preview visual card');
 assert(parentWxml.includes('class="parent-report-thumb" mode="aspectFill" src="/assets/reference/entry-report.png"'), 'parent tab report preview uses the report reference illustration');
