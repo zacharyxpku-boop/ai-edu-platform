@@ -163,7 +163,7 @@ const firstScreenWxml = [
   read('miniprogram/pages/profile/profile.wxml')
 ].join('\n');
 assert(!firstScreenWxml.includes('reviewViewModel.blackboard.intro'), 'review page no longer renders the dense blackboard intro on the first screen');
-['yd-home-screen', 'yd-review-screen', 'yd-tutor-screen', 'yd-arcade-screen', 'yd-parent-screen'].forEach((shell) => {
+['yd-home-screen', 'yd-review-screen', 'yd-tutor-screen', 'yd-review-redirect-screen', 'yd-parent-screen'].forEach((shell) => {
   assert(firstScreenWxml.includes(shell), `new shell is present: ${shell}`);
 });
 [['show','Leg','acyEntryContent'].join(''), ['page','positioning'].join('-'), ['rc','14-'].join(''), ['v','1-topbar'].join(''), ['composer','shell'].join('-'), ['family','summary-card'].join('-'), 'proofScore', 'benchmark'].forEach((term) => {

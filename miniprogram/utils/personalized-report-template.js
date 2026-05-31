@@ -58,7 +58,7 @@ const CORE_METHODOLOGIES = [
     label: '游戏化专注支持',
     source: '自我调节与即时反馈',
     parentLine: '只奖励第一步、错因命名和回访完成，不奖励排名或刷题量。',
-    productRoute: '/pages/arcade/arcade?from=personalized_report',
+    productRoute: '/pages/review/review?from=personalized_report',
     evidenceGate: '已有真实错因卡，不泄露答案'
   },
   {
@@ -278,7 +278,7 @@ function buildTalentMethodMatches(talent = {}) {
       theory: '检索练习与间隔效应：短时间主动回忆，比长时间被动重看更能检验是否保留。',
       avoid: '不建议用排名或刷题数量刺激，因为容易制造压力，却不能说明真正掌握。',
       confidence: '中等',
-      productRoute: '/pages/arcade/arcade?from=talent_attention_game',
+      productRoute: '/pages/review/review?from=talent_attention_game',
       evidenceGate: 'XP 只来自真实回忆卡，不来自排名或答案泄露'
     }
   ].map((item) => Object.assign({}, item, {

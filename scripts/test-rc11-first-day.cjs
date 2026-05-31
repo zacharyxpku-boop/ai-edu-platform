@@ -30,7 +30,7 @@ assert(!files.reviewWxml.includes('reviewViewModel.emptyState') && files.reviewV
 assert(files.reviewWxml.includes('data-scene="tutor"') && files.reviewWxml.includes('data-scene="today"'), 'review can route back to first-step and next-route cards');
 
 assert(files.tutorWxml.includes('yd-tutor-screen') && files.tutorWxml.includes('tutor-entry-grid'), 'tutor uses the compact first-step shell');
-assert(files.arcadeWxml.includes('yd-arcade-screen') && files.arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island shell');
+assert(files.arcadeWxml.includes('yd-review-redirect-screen') && files.arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island shell');
 assert(files.arcadeWxml.includes('data-scene="tutor"') && files.arcadeWxml.includes('data-scene="parent"'), 'arcade routes back to tutor and parent evidence instead of a retired tools page');
 
 assert(files.profileWxml.includes('yd-parent-screen'), 'profile uses the new parent shell');

@@ -1,11 +1,11 @@
-.arcade-redirect-page {
+.review-redirect-page {
   min-height: 100vh;
   box-sizing: border-box;
   padding: 96rpx 32rpx calc(48rpx + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, #fffdf7 0%, #f3fbef 100%);
 }
 
-.arcade-redirect-card {
+.review-redirect-card {
   min-height: 520rpx;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@
   text-align: center;
 }
 
-.arcade-redirect-brand {
+.review-redirect-brand {
   display: flex;
   align-items: center;
   gap: 12rpx;
@@ -29,23 +29,23 @@
   font-weight: 900;
 }
 
-.yd-arcade-mark {
+.yd-review-redirect-mark {
   width: 44rpx;
   height: 44rpx;
 }
 
-.arcade-redirect-grid {
+.review-redirect-grid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16rpx;
 }
 
-.arcade-redirect-jump.muted {
+.review-redirect-jump.muted {
   background: linear-gradient(180deg, #ffffff 0%, #f3fbef 100%);
 }
 
-.arcade-redirect-jump {
+.review-redirect-jump {
   min-height: 188rpx;
   padding: 20rpx 12rpx;
   border-radius: 28rpx;
@@ -53,12 +53,12 @@
   border: 2rpx solid #e8eee6;
 }
 
-.arcade-redirect-jump image {
+.review-redirect-jump image {
   width: 68rpx;
   height: 68rpx;
 }
 
-.arcade-redirect-jump text {
+.review-redirect-jump text {
   display: block;
   color: #10251c;
   font-size: 24rpx;
@@ -66,33 +66,33 @@
   line-height: 1.35;
 }
 
-.arcade-redirect-jump text:last-child {
+.review-redirect-jump text:last-child {
   margin-top: 6rpx;
   color: #65736a;
   font-size: 20rpx;
   font-weight: 700;
 }
 
-.arcade-redirect-icon {
+.review-redirect-icon {
   width: 168rpx;
   height: 168rpx;
 }
 
-.arcade-redirect-title {
+.review-redirect-title {
   color: #10251c;
   font-size: 44rpx;
   font-weight: 900;
   line-height: 1.18;
 }
 
-.arcade-redirect-sub {
+.review-redirect-sub {
   max-width: 520rpx;
   color: #65736a;
   font-size: 28rpx;
   line-height: 1.7;
 }
 
-.arcade-redirect-button {
+.review-redirect-button {
   width: 360rpx;
   height: 88rpx;
   display: flex;
@@ -106,6 +106,6 @@
   box-shadow: 0 18rpx 36rpx rgba(34, 185, 92, 0.22);
 }
 
-.arcade-redirect-button::after {
+.review-redirect-button::after {
   border: 0;
 }

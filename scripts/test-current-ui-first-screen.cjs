@@ -30,7 +30,7 @@ const screens = {
   ['home', files.homeWxml, 'yd-home-screen', 'homeViewModel.title', 'homeViewModel.primaryCta', 'mini-entry-grid'],
   ['review', files.reviewWxml, 'yd-review-screen', 'reviewViewModel.title', 'reviewViewModel.primaryCta.text', 'review-challenge-grid'],
   ['tutor', files.tutorWxml, 'yd-tutor-screen', 'tutor-entry-grid', 'openEntryDetail', 'tutor-entry-grid'],
-  ['arcade', files.arcadeWxml, 'yd-arcade-screen', 'ux-kit-jump-grid', 'openEntryDetail', 'ux-kit-jump-grid'],
+  ['arcade', files.arcadeWxml, 'yd-review-redirect-screen', 'ux-kit-jump-grid', 'openEntryDetail', 'ux-kit-jump-grid'],
   ['profile', files.profileWxml, 'yd-parent-screen', 'profileViewModel.title', 'profileViewModel.primaryCta', 'yd-parent-sources']
 ].forEach(([name, wxml, shell, title, cta, jump]) => {
   assert(wxml.includes(shell), `${name} renders the new reference shell`);
@@ -56,8 +56,8 @@ assert(!files.reviewWxml.includes('reviewViewModel.emptyState.cta') && files.rev
 assert(files.reviewWxml.includes('review-challenge-card'), 'review keeps compact challenge cards in the shell');
 
 assert(files.tutorWxml.includes('data-scene="review"') && files.arcadeWxml.includes('data-scene="tutor"'), 'tutor and arcade cross-link first-step and review flows');
-assert(files.arcadeWxml.includes('arcade-map-icon'), 'arcade route map is icon based');
-assert(!files.arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'arcade route map does not show old numbered boxes');
+assert(files.arcadeWxml.includes('review-map-icon'), 'arcade route map is icon based');
+assert(!files.arcadeWxml.includes('<view class="review-map-node active"><text>1</text>'), 'arcade route map does not show old numbered boxes');
 
 assert(!files.profileWxml.includes('profileViewModel.growthMemoryCard') && files.profileViewModelJs.includes('growthMemoryCard'), 'profile keeps memory in logic instead of another visible card');
 assert(files.profileWxml.includes('yd-parent-loop'), 'profile shows family next step as a compact route');

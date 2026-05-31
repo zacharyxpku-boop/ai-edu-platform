@@ -508,7 +508,6 @@ function uploadModeEntryLine(route = '') {
   const value = String(route || '');
   if (value.indexOf('/pages/tutor/') >= 0) return '进入方式：先回到一对一点拨，孩子说第一步。';
   if (value.indexOf('/pages/review/') >= 0) return '进入方式：先修复一张错因卡，再安排回访。';
-  if (value.indexOf('/pages/arcade/') >= 0) return '进入方式：做 90 秒主动回忆，不新增题量。';
   if (value.indexOf('/pages/profile/') >= 0) return '进入方式：家长先看报告和证据，不直接给孩子贴标签。';
   return '进入方式：从当前材料继续下一步。';
 }
@@ -621,7 +620,6 @@ function uploadReturnRouteLine(route = '') {
   if (value.indexOf('/pages/profile/') >= 0) return '下一步：查看家长报告和证据边界。';
   if (value.indexOf('/pages/tutor/') >= 0) return '下一步：回到一对一点拨，让孩子先说第一步。';
   if (value.indexOf('/pages/review/') >= 0) return '下一步：回到错因复盘，锁定明天回访。';
-  if (value.indexOf('/pages/arcade/') >= 0) return '下一步：做 90 秒主动回忆，不新增压力。';
   if (value.indexOf('/pages/upload/') >= 0) return '下一步：继续补材料证据。';
   return '下一步入口已准备，确认后继续。';
 }
@@ -670,7 +668,6 @@ function uploadPublicAssetEntryLine(route = '') {
   const value = String(route || '');
   if (value.indexOf('/pages/tutor/') >= 0) return '进入方式：转成第一步点拨或小黑板。';
   if (value.indexOf('/pages/profile/') >= 0) return '进入方式：沉淀到家长报告和复盘证据。';
-  if (value.indexOf('/pages/arcade/') >= 0) return '进入方式：转成主动回忆卡，不复制原题。';
   if (value.indexOf('/pages/upload/') >= 0) return '进入方式：先补材料来源和家长确认。';
   return '进入方式：先登记来源，再决定是否进入学习任务。';
 }

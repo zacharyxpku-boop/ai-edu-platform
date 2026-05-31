@@ -142,13 +142,13 @@ assert(tutorWxml.includes('class="yd-tutor-mark" mode="aspectFit" src="/assets/r
 assert(!tutorWxml.includes('<view class="yd-tutor-mark">🤖</view>'), 'AI tutor tab never regresses to the generic robot emoji mark');
 assert(tutorWxml.includes('tutor-ladder-node') && tutorWxml.includes('tutor-ladder-icon'), 'AI tutor flow ladder uses visual nodes and reference icons');
 assert(!tutorWxml.includes('<view class="active"><text>1</text>'), 'AI tutor flow ladder never regresses to number-only boxes');
-assert(arcadeWxml.includes('class="yd-arcade-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
-assert(!arcadeWxml.includes('<view class="yd-arcade-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
-assert(arcadeWxml.includes('arcade-map-icon'), 'review island route map uses visual icons, not number-only nodes');
+assert(arcadeWxml.includes('class="yd-review-redirect-mark" mode="aspectFit" src="/assets/reference/brand-house.png"'), 'review island tab brand mark uses the visual reference asset instead of a text placeholder');
+assert(!arcadeWxml.includes('<view class="yd-review-redirect-mark">岛</view>'), 'review island tab never regresses to the text-only island mark');
+assert(arcadeWxml.includes('review-map-icon'), 'review island route map uses visual icons, not number-only nodes');
 ['entry-review.png', 'entry-tutor.png', 'entry-map.png', 'entry-parent.png'].forEach((asset) => {
   assert(arcadeWxml.includes(`/assets/reference/${asset}`), `review island route map uses reference asset: ${asset}`);
 });
-assert(!arcadeWxml.includes('<view class="arcade-map-node active"><text>1</text>'), 'review island route map never regresses to number-only boxes');
+assert(!arcadeWxml.includes('<view class="review-map-node active"><text>1</text>'), 'review island route map never regresses to number-only boxes');
 assert(reviewWxml.includes('yd-review-screen ux-entry ux-entry-review ux-kit-screen'), 'review child flow uses the focused launch shell before retired review content');
 assert(!reviewWxml.includes(`review-subcheck ${['ux', 'kit', 'subcheck'].join('-')}`), 'review child flow does not restore the old compact subcheck preview under the launch shell');
 assert(reviewWxml.includes('data-scene="tutor" bindtap="openEntryDetail"') && reviewWxml.includes('data-scene="today" bindtap="openEntryDetail"'), 'review child flow side jumps use scene-based entry-detail navigation');
@@ -169,7 +169,7 @@ assert(parentWxml.includes('yd-parent-source-row'), 'parent tab route uses visua
   assert(parentWxml.includes(asset), `parent route uses reference asset: ${asset}`);
 });
 assert(!parentWxml.includes('parent-route-line'), 'parent tab route no longer uses thin text-only connector lines');
-assert.strictEqual((arcadeWxml.match(/arcade-jump-card[\s\S]*?<image/g) || []).length, 3, 'review island jump cards use reference illustrations instead of plain text boxes');
+assert.strictEqual((arcadeWxml.match(/review-jump-card[\s\S]*?<image/g) || []).length, 3, 'review island jump cards use reference illustrations instead of plain text boxes');
 ['entry-map.png', 'entry-tutor.png', 'entry-review.png', 'entry-parent.png', 'entry-upload.png'].forEach((asset) => {
   assert(entryDetailJs.includes(`/assets/reference/${asset}`), `entry-detail child scene uses reference illustration ${asset}`);
 });
@@ -293,7 +293,7 @@ const realDeviceGate = read('scripts/miniapp-real-device-gate.cjs');
 [
   'tab-today.png',
   'tab-tutor.png',
-  'tab-arcade.png',
+  'tab-review.png',
   'tab-parent.png',
   'tab-upload.png',
   'child-today-first-step.png',

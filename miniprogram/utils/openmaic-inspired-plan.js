@@ -775,7 +775,7 @@ function buildEventFlow(outline = {}, scenes = []) {
     actor: scene.id === 'parent_receipt' ? 'parent' : scene.id === 'safe_share' ? 'system' : 'child',
     localGate: scene.passEvidence,
     nextRoute: scene.id === 'micro_game'
-      ? '/pages/arcade/arcade?from=openmaic_task_plan'
+      ? '/pages/review/review?from=openmaic_task_plan'
       : scene.id === 'parent_receipt'
         ? '/pages/profile/profile?from=openmaic_task_plan'
         : '/pages/review/review?from=openmaic_task_plan',
@@ -1023,7 +1023,7 @@ function buildPrivateTutorModeRouter(input = {}, miniLesson = {}) {
   const routeByMode = {
     socratic_private_tutor: '/pages/tutor/tutor?from=private_tutor_router',
     three_minute_mini_lesson: '/pages/tutor/tutor?from=mini_lesson_router',
-    game_recall: '/pages/arcade/arcade?from=mini_lesson_exit_passed',
+    game_recall: '/pages/review/review?from=mini_lesson_exit_passed',
     parent_handoff: '/pages/profile/profile?from=mini_lesson_parent_handoff'
   };
   const reasonByMode = {
@@ -1353,7 +1353,7 @@ function buildEvidenceThread(input = {}) {
     routes: {
       tutor: '/pages/tutor/tutor',
       review: '/pages/review/review',
-      arcade: '/pages/arcade/arcade',
+      arcade: '/pages/review/review',
       profile: '/pages/profile/profile'
     },
     localCodeOwns: ['sourceSchemaId', 'taskType', 'topicCardId', 'releaseGates', 'shareFields', 'rewardRelease'],

@@ -307,7 +307,7 @@ const PUBLIC_K12_SOURCE_LEDGER = [
     localRuleUse: ['真实作业压测样本', '负样本拦截', '回访间隔', '家长侧只看行动建议'],
     aiUse: ['根据错因生成不同语气的苏格拉底追问'],
     blockedUse: ['批量搬运原题', '输出完整题解', '伪装成拍照搜题'],
-    miniappSurface: ['/pages/home/home', '/pages/review/review', '/pages/arcade/arcade'],
+    miniappSurface: ['/pages/home/home', '/pages/review/review', '/pages/review/review'],
     evidenceRequired: ['sample_rewrite', 'parent_check', 'revisit_plan', 'shortcut_block']
   },
   {
@@ -403,7 +403,7 @@ const PUBLIC_K12_ASSET_PIPELINE = [
     normalizeAsLocalCode: ['question_type_cluster', 'variant_unlock_gate', 'board_move', 'transfer_ladder'],
     aiExpressionUse: ['解释同一错因为什么会在新题面复发'],
     discardFields: ['押题话术', '分数预测', '原题答案索引'],
-    miniappLanding: ['/pages/arcade/arcade', '/pages/entry-detail/entry-detail?scene=parent', '/pages/profile/profile'],
+    miniappLanding: ['/pages/review/review', '/pages/entry-detail/entry-detail?scene=parent', '/pages/profile/profile'],
     acceptanceGate: ['variant_gate_local', 'no_exam_score_claim', 'board_move_first_step_only'],
     owner: 'local_rule'
   },
@@ -427,7 +427,7 @@ const PUBLIC_K12_ASSET_PIPELINE = [
     normalizeAsLocalCode: ['spaced_recall_policy', 'parent_decision_gate', 'visual_boundary', 'share_return_contract'],
     aiExpressionUse: ['把机制包装成中文家庭场景下的轻提示'],
     discardFields: ['竞品品牌承诺', '全科动态板书承诺', '排行榜刺激传播'],
-    miniappLanding: ['/pages/arcade/arcade', '/pages/tutor/tutor', '/pages/profile/profile'],
+    miniappLanding: ['/pages/review/review', '/pages/tutor/tutor', '/pages/profile/profile'],
     acceptanceGate: ['local_gate_before_ai', 'no_fake_competitor_claim', 'family_scenario_fit'],
     owner: 'local_rule'
   },
@@ -467,7 +467,7 @@ const PUBLIC_K12_CANDIDATE_POOL = [
     aiFit: ['换一种不责备的提示语气'],
     rejectIf: ['需要搬运原题全文', '需要输出完整题解', '题干含学生隐私'],
     sampleSeed: '把日常作业题转写成“孩子卡在哪个第一步”。',
-    miniappLanding: ['/pages/home/home', '/pages/review/review', '/pages/arcade/arcade'],
+    miniappLanding: ['/pages/home/home', '/pages/review/review', '/pages/review/review'],
     nextAction: '优先补语数英物化生地每天作业最常见卡点。'
   },
   {
@@ -479,7 +479,7 @@ const PUBLIC_K12_CANDIDATE_POOL = [
     aiFit: ['解释为什么新题面还是同一错因'],
     rejectIf: ['押题承诺', '分数预测', '原题答案索引'],
     sampleSeed: '只抽题型结构和干扰项，不抽原题答案。',
-    miniappLanding: ['/pages/tutor/tutor', '/pages/arcade/arcade', '/pages/entry-detail/entry-detail?scene=parent'],
+    miniappLanding: ['/pages/tutor/tutor', '/pages/review/review', '/pages/entry-detail/entry-detail?scene=parent'],
     nextAction: '补“同错因换题面”的迁移压测，而不是补标准答案。'
   },
   {
@@ -515,7 +515,7 @@ const PUBLIC_K12_CANDIDATE_POOL = [
     aiFit: ['把复习提醒写得不枯燥'],
     rejectIf: ['排行榜刺激', '分数攀比', 'AI 直接发奖励'],
     sampleSeed: '借鉴高频回忆机制，但 XP 和解锁必须本地规则决定。',
-    miniappLanding: ['/pages/arcade/arcade', '/pages/review/review'],
+    miniappLanding: ['/pages/review/review', '/pages/review/review'],
     nextAction: '继续压每日 90 秒微回忆和错因复现。'
   },
   {
@@ -572,7 +572,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['visual_board_layer', 'variable_control_prompt', 'exit_criteria', 'no_full_solution_boundary'],
     aiBetterFor: ['解释为什么先看这个变量或先画这一笔'],
     mustNotUse: ['直接嵌入未适配仿真当作小程序能力', '承诺全科动态板书', '让 AI 生成实验结论'],
-    miniappLanding: ['/pages/tutor/tutor', '/pages/arcade/arcade'],
+    miniappLanding: ['/pages/tutor/tutor', '/pages/review/review'],
     acceptanceGate: ['first_step_visual_only', 'variable_named', 'answer_boundary_visible']
   },
   {
@@ -586,7 +586,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['question_type_card', 'adaptive_recall_policy', 'mastery_threshold', 'leech_rule'],
     aiBetterFor: ['把概念解释成中文家庭作业场景下的一句话'],
     mustNotUse: ['复制练习题和答案', '把外部自适应分数当本地画像', '用英文内容直接前台展示'],
-    miniappLanding: ['/pages/arcade/arcade', '/pages/review/review', '/pages/profile/profile'],
+    miniappLanding: ['/pages/review/review', '/pages/review/review', '/pages/profile/profile'],
     acceptanceGate: ['localized_task_type', 'xp_local_rule', 'no_external_score_import']
   },
   {
@@ -614,7 +614,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['geometry_board_move', 'function_variable_prompt', 'visual_exit_gate', 'drag_observation_rule'],
     aiBetterFor: ['把拖拽观察改写成孩子能复述的第一步问题'],
     mustNotUse: ['复制活动文件', '直接嵌入未授权交互', '把可视化观察写成完整答案'],
-    miniappLanding: ['/pages/tutor/tutor', '/pages/arcade/arcade', '/pages/profile/profile'],
+    miniappLanding: ['/pages/tutor/tutor', '/pages/review/review', '/pages/profile/profile'],
     acceptanceGate: ['visual_action_rewritten', 'no_external_embed', 'first_step_observation_only']
   },
   {
@@ -720,7 +720,7 @@ const PUBLIC_K12_OPEN_SOURCE_RESOURCE_LEDGER = [
     localizeAsCode: ['daily_warmup_recall', 'cooldown_exit_ticket', 'parent_readable_math_routine', 'assessment_copy_block'],
     aiBetterFor: ['把活动总结改写成今晚 90 秒回忆提示'],
     mustNotUse: ['复制课程材料', '复制评测题', '使用 Open Up/IM 品牌资产'],
-    miniappLanding: ['/pages/arcade/arcade', '/pages/review/review', '/pages/profile/profile'],
+    miniappLanding: ['/pages/review/review', '/pages/review/review', '/pages/profile/profile'],
     acceptanceGate: ['routine_only', 'assessment_excluded', 'brand_assets_blocked'],
     licenseCheckedAt: '2026-05-19',
     reuseLevel: 'routine_only',
@@ -864,7 +864,7 @@ const PUBLIC_K12_IMPLEMENTATION_PLAYBOOK = [
     useFor: ['题型路由', '错因命中', '第一步小黑板', '回访间隔', 'XP 与解锁', '报告释放', '分享字段'],
     mustStayLocal: ['release gate', 'privacy gate', 'reward gate', 'mastery gate'],
     aiRole: 'AI 不参与放行，只改写已确定内容。',
-    miniappLanding: ['/pages/home/home', '/pages/review/review', '/pages/arcade/arcade']
+    miniappLanding: ['/pages/home/home', '/pages/review/review', '/pages/review/review']
   },
   {
     id: 'ai_better',
@@ -942,7 +942,7 @@ function buildK12PublicResourceTriageBoard(options = {}) {
     localCodeUse: item.localCodeUse && item.localCodeUse[0],
     aiUse: item.aiUse && item.aiUse[0],
     blockedUse: item.rejectedUse && item.rejectedUse[0],
-    route: '/pages/arcade/arcade?from=oer_triage',
+    route: '/pages/review/review?from=oer_triage',
     acceptanceGate: ['receiver_own_material', 'first_step_only', 'no_original_answer', 'next_day_revisit']
   }));
   return {
@@ -998,7 +998,7 @@ function buildK12LocalAiImplementationRunway(options = {}) {
       gap: '借鉴flashcards/quizzes/spaced repetition/active recall，但奖励只绑真实回忆证据。',
       localCodeOwns: ['real_recall_source_gate', 'spaced_interval', 'xp_unlock', 'leech_card_rule', 'share_safe_payload'],
       aiBetterFor: ['同一错因的轻量变式提示', '失败后的鼓励反馈', '不泄答案的提示语'],
-      miniappLanding: ['/pages/arcade/arcade', '/pages/review/review'],
+      miniappLanding: ['/pages/review/review', '/pages/review/review'],
       acceptanceGate: ['real_recall_source', 'answer_hidden_before_self_grade', 'no_ranking_pk', 'next_day_revisit_scheduled']
     },
     {
@@ -1873,7 +1873,7 @@ function buildPublicK12IntakeChallengeDeckCurrent(options = {}) {
     fallbackIfNoChildInput: '如果孩子说不出第一步，只给 A/B 二选一提示，不进入完整讲解。',
     receiverMustUseOwnMaterial: true,
     shareSafeFields: ['subject', 'taskType', 'firstStepPrompt', 'shareHook', 'nextDayRevisit'],
-    route: `/pages/arcade/arcade?from=public_k12_intake&task_type=${encodeURIComponent(item.taskType)}`,
+    route: `/pages/review/review?from=public_k12_intake&task_type=${encodeURIComponent(item.taskType)}`,
     answerBoundary: '只练第一步、错因和回访，不展示原题、答案、分数或排名。',
     evidenceRequired: item.proofRequired,
     blockedUse: item.blockedUse,
@@ -1938,7 +1938,7 @@ function buildPublicK12IntakeChallengeDeck(options = {}) {
     const cardId = `public_k12_intake_${item.id || index + 1}`;
     const taskType = item.taskType || 'unknown';
     const route = `/pages/tutor/tutor?from=public_k12_intake&task_type=${encodeURIComponent(taskType)}&challenge_id=${encodeURIComponent(cardId)}&subject=${encodeURIComponent(item.subject || '')}`;
-    const arcadeRoute = `/pages/arcade/arcade?from=public_k12_intake&task_type=${encodeURIComponent(taskType)}&challenge_id=${encodeURIComponent(cardId)}`;
+    const arcadeRoute = `/pages/review/review?from=public_k12_intake&task_type=${encodeURIComponent(taskType)}&challenge_id=${encodeURIComponent(cardId)}`;
     const reviewRoute = `/pages/review/review?from=public_k12_intake&task_type=${encodeURIComponent(taskType)}&challenge_id=${encodeURIComponent(cardId)}`;
     const observableFirstMove = item.socraticProbe || item.localPressureTransform || item.observedHomeworkShape;
     const fallbackIfNoChildInput = 'Offer only an A/B first-step hint, then ask the child to use their own homework material; do not explain the full solution.';

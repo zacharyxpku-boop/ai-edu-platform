@@ -257,7 +257,7 @@ const assessmentOnlyWithPathway = report.buildLearningReportDraft({
       executionPath: {
         socraticRoute: '/pages/tutor/tutor?from=ai_material_analysis',
         miniLessonRoute: '/pages/tutor/tutor?from=ai_material_analysis_mini_lesson',
-        gameRecallRoute: '/pages/arcade/arcade?from=ai_material_analysis',
+        gameRecallRoute: '/pages/review/review?from=ai_material_analysis',
         parentReviewRoute: '/pages/profile/profile?from=ai_material_analysis'
       }
     }
@@ -276,7 +276,7 @@ assert(assessmentOnlyWithPathway.commercialFamilySolutionBook.executionPathMap.s
 assert.strictEqual(assessmentOnlyWithPathway.commercialFamilySolutionBook.modeChoiceSummary.recommendedModeId, 'three_minute_mini_lesson', 'solution book mirrors service pathway mode choice');
 assert(assessmentOnlyWithPathway.commercialFamilySolutionBook.evidenceRequired.includes('execution_path_map'), 'solution book requires execution path evidence');
 assert.strictEqual(assessmentOnlyWithPathway.commercialFamilySolutionBook.aiMaterialAnalysis.normalizedSolution.subject, 'math', 'solution book carries normalized AI material analysis fields');
-assert(assessmentOnlyWithPathway.commercialFamilySolutionBook.aiMaterialAnalysis.normalizedSolution.executionPath.gameRecallRoute.includes('/pages/arcade/arcade'), 'solution book carries AI analysis execution path into game recall');
+assert(assessmentOnlyWithPathway.commercialFamilySolutionBook.aiMaterialAnalysis.normalizedSolution.executionPath.gameRecallRoute.includes('/pages/review/review'), 'solution book carries AI analysis execution path into game recall');
 assert(assessmentOnlyWithPathway.commercialFamilySolutionBook.aiMaterialAnalysis.analysisQuality, 'commercial solution book carries AI analysis quality into parent/service delivery');
 assert.strictEqual(assessmentOnlyWithPathway.commercialFamilySolutionBook.aiMaterialAnalysis.analysisQuality.score, 72, 'commercial solution book preserves AI analysis quality score for release review');
 assert.strictEqual(assessmentOnlyWithPathway.uploadedMaterialDecisionDossier.servicePathwaySummary.releaseGate, 'assessment_requires_real_homework_evidence', 'uploaded-material dossier carries service pathway release gate');
@@ -356,7 +356,7 @@ assert(scoreSheetReport.personalizedParentReportPreview.standard.reportSop && sc
 assert(scoreSheetReport.personalizedParentReportPreview.standard.methodologyBackbone.some((item) => item.id === 'socratic'), 'standard carries Socratic methodology backbone');
 assert(scoreSheetReport.personalizedParentReportPreview.standard.methodologyBackbone.some((item) => item.id === 'retrieval_spaced'), 'standard carries retrieval and spaced recall backbone');
 assert(scoreSheetReport.personalizedParentReportPreview.standard.competitorClosureBenchmarks.some((item) => item.id === 'khanmigo_private_tutor' && item.route.includes('/pages/tutor/tutor')), 'standard maps Khanmigo tutor benchmark into tutor route');
-assert(scoreSheetReport.personalizedParentReportPreview.standard.competitorClosureBenchmarks.some((item) => item.id === 'synthesis_game_loop' && item.route.includes('/pages/arcade/arcade')), 'standard maps Synthesis game benchmark into arcade route');
+assert(scoreSheetReport.personalizedParentReportPreview.standard.competitorClosureBenchmarks.some((item) => item.id === 'synthesis_game_loop' && item.route.includes('/pages/review/review')), 'standard maps Synthesis game benchmark into review route');
 assert(scoreSheetReport.personalizedParentReportPreview.standard.competitorClosureBenchmarks.some((item) => item.id === 'alpha_visible_progress' && item.route.includes('/pages/review/review')), 'standard maps visible progress benchmark into review route');
 assert(scoreSheetReport.personalizedParentReportPreview.standard.miniappOperationalPlan.nextBuildOrder.length >= 5, 'standard carries miniapp/light-app rollout order');
 assert(scoreSheetReport.personalizedParentReportPreview.standard.miniappOperationalPlan.blockedShortcut.includes('固定天赋结论'), 'miniapp operational plan blocks fake talent conclusions');
@@ -390,7 +390,7 @@ const returnContractReport = report.buildLearningReportDraft({
       spacedRecallPolicy: {
         id: 'spaced_recall_policy',
         cadence: [
-          { id: 'same_day', route: '/pages/arcade/arcade', gate: 'first_step_recall' },
+          { id: 'same_day', route: '/pages/review/review', gate: 'first_step_recall' },
           { id: 'next_day', route: '/pages/review/review', gate: 'next_day_recall' },
           { id: 'day_7', route: '/pages/tutor/tutor', gate: 'transfer_check' }
         ],
@@ -891,4 +891,3 @@ assert(apiEndpoint.includes('recognition_service_configuration'), 'recognition a
 assert(!/拍照出答案|自动识别答案/.test(apiEndpoint), 'recognition api avoids fake answer-recognition claims');
 
 console.log('All learning report tests pass.');
-

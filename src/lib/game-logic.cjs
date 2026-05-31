@@ -311,7 +311,7 @@ function normalizeEvidenceBias(input = {}) {
   const allowedRoutes = [
     '/pages/tutor/tutor',
     '/pages/review/review',
-    '/pages/arcade/arcade',
+    '/pages/review/review',
     '/pages/profile/profile',
     '/pages/focus/focus',
     '/pages/home/home'
@@ -370,7 +370,7 @@ function buildDailyQuestSet(profile = {}, cards = [], events = [], options = {})
       target: 80,
       progress: accuracy,
       rewardXp: calculateXP('quiz_correct', streakMultiplier(profile.streak)),
-      route: '/pages/arcade/arcade',
+      route: '/pages/review/review',
       evidenceRequired: ['accuracy', 'wrong_answers_returned']
     }
   ];
@@ -669,7 +669,7 @@ function buildGizmoLikeMemoryProtocol(profile = {}, cards = [], events = [], res
     { id: 'near_transfer', label: '近迁移', target: needsRepair ? 1 : 2, rule: '换一道小变式，确认不是当场记住。' }
   ];
   const returnWindows = [
-    { id: 'today', label: '今晚', action: `回忆 3 张和「${weakKey}」有关的卡，只说第一步。`, route: '/pages/arcade/arcade' },
+    { id: 'today', label: '今晚', action: `回忆 3 张和「${weakKey}」有关的卡，只说第一步。`, route: '/pages/review/review' },
     { id: 'tomorrow', label: '明天', action: `抽 1 张最不稳的卡，确认能跨天复述「${weakKey}」。`, route: '/pages/review/review' },
     { id: 'day3', label: '第 3 天', action: '做 1 道近迁移题，看能不能换题也开口。', route: '/pages/tutor/tutor' },
     { id: 'day7', label: '第 7 天', action: '用家长复盘确认是否进入长期掌握账本。', route: '/pages/profile/profile' }
@@ -1331,7 +1331,7 @@ function buildMemoryComebackLoop(dailyMemorySprintDeck = {}, adaptiveRecallSched
     socialProofHooks,
     sourceSprintCount: sprintCards.length,
     sourceReviewWindows: reviewQueue.length,
-    resumeRoute: rescue ? '/pages/review/review?from=memory_comeback' : '/pages/arcade/arcade?from=memory_comeback',
+    resumeRoute: rescue ? '/pages/review/review?from=memory_comeback' : '/pages/review/review?from=memory_comeback',
     parentLine: `今晚只确认「${weakKey}」能不能遮答案说第一步，不能就回到小黑板。`,
     shareLine: '分享只展示回流动作和回访窗口，不展示原题、最终答案、分数、排名、完整对话或孩子隐私。',
     releaseGate: '必须同时有 90 秒回忆、明天回访和第 7 天近迁移，才允许写入长期画像。',
@@ -1749,7 +1749,7 @@ function buildHighFrequencyPracticeLoop(profile = {}, cards = [], events = [], r
   }
   const needsRepair = retention.mode === 'repair' || Number(result.wrong || 0) > 0 || Number(result.accuracy || 0) < Number(challenge.targetAccuracy || 80);
   const spacedReviewPlan = [
-    { id: 'same_day', label: '今晚', action: `再回忆 3 张 ${weakKey} 卡，只说第一步。`, route: '/pages/arcade/arcade' },
+    { id: 'same_day', label: '今晚', action: `再回忆 3 张 ${weakKey} 卡，只说第一步。`, route: '/pages/review/review' },
     { id: 'next_day', label: '明天', action: `只回访最不稳的 1 张卡：${weakKey}。`, route: '/pages/review/review' },
     { id: 'day_7', label: '第 7 天', action: '用一题小变式确认能不能迁移。', route: '/pages/tutor/tutor' }
   ];
@@ -1959,7 +1959,7 @@ function buildReviewReturnSeed(input = {}) {
     route: item.route || '/pages/review/review',
     gate: index === 0 ? 'first_step_recall' : index === 1 ? 'next_day_recall' : 'transfer_check'
   }));
-  const nextRoute = repairMode ? '/pages/review/review?mode=recall_return' : '/pages/arcade/arcade?mode=recall_return';
+  const nextRoute = repairMode ? '/pages/review/review?mode=recall_return' : '/pages/review/review?mode=recall_return';
   return {
     id: 'review_return_seed',
     mode: repairMode ? 'repair_return' : 'steady_return',

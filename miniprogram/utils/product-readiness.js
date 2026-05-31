@@ -637,7 +637,7 @@ function buildCompetitiveMoatBoard(readiness = {}, finalTargetGapMeter = {}) {
       id: 'gizmo_level_daily_play',
       fallbackTargetId: 'active_recall_loop',
       label: '游戏可玩性',
-      route: '/pages/arcade/arcade?from=competitive_moat_board',
+      route: '/pages/review/review?from=competitive_moat_board',
       owner: '本地游戏规则',
       nextAction: '继续把 XP、主动回忆、错因修复、次日回访压成每日可重复的学习循环。'
     },

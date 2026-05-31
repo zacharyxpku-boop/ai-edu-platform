@@ -207,7 +207,7 @@ const syntheticStressRepairQueue = storage.buildRealTrialStressRepairQueue({
       risks: ['first_step_generic', 'blackboard_not_actionable', 'revisit_missing'],
       tutorRoute: '/pages/tutor/tutor?from=real_trial_pressure_candidate&trial_id=trial_math_ratio_dropoff',
       reviewRoute: '/pages/review/review?from=real_trial_pressure_candidate&trial_id=trial_math_ratio_dropoff',
-      arcadeRoute: '/pages/arcade/arcade?from=real_trial_pressure_candidate&trial_id=trial_math_ratio_dropoff',
+      arcadeRoute: '/pages/review/review?from=real_trial_pressure_candidate&trial_id=trial_math_ratio_dropoff',
       blackboardProbe: '待补小黑板',
       revisitProbe: '待补回访'
     }]
@@ -246,7 +246,7 @@ assert(syntheticRuleRetestReviewBridge.ready && syntheticRuleRetestReviewBridge.
 assert(syntheticRuleRetestReviewBridge.firstReviewCard.type === 'real_trial_rule_retest', 'rule retest review card has a dedicated type');
 assert(syntheticRuleRetestReviewBridge.firstReviewCard.sourceRetestId, 'rule retest review card preserves source retest identity');
 assert(syntheticRuleRetestReviewBridge.firstReviewCard.nextPracticePlan.appRoute.includes('/pages/review/review'), 'rule retest review card routes into review');
-assert(syntheticRuleRetestReviewBridge.firstReviewCard.nextPracticePlan.arcadeRoute.includes('/pages/arcade/arcade'), 'rule retest review card routes into arcade');
+assert(syntheticRuleRetestReviewBridge.firstReviewCard.nextPracticePlan.arcadeRoute.includes('/pages/review/review'), 'rule retest review card routes into review island');
 assert(syntheticRuleRetestReviewBridge.firstReviewCard.blockedFields.includes('full_answer') && syntheticRuleRetestReviewBridge.firstReviewCard.blockedFields.includes('ranking'), 'rule retest review cards block answers and ranking hooks');
 const duplicateRuleRetestReviewBridge = storage.ensureRealTrialRuleRetestReviewCards({
   retestDeck: syntheticRuleRetestDeck
@@ -464,7 +464,7 @@ function summarizeSample(sample) {
     },
     parentNextAction: 'wrong_cause_revisit',
     actionLabel: sample.parentCheck,
-    route: '/pages/arcade/arcade'
+    route: '/pages/review/review'
   });
   const report = learningReport.buildLearningReportDraft({
     profileBasics: { grade: sample.gradeBand, schoolType: '家庭作业压测' },
@@ -866,11 +866,11 @@ assert(PUBLIC_K12_HOMEWORK_INTAKE_QUEUE.every((item) => item.sourceId && item.so
 assert(PUBLIC_K12_HOMEWORK_INTAKE_QUEUE.every((item) => item.proofRequired.length >= 3 && item.blockedUse.length >= 3), 'every public K12 intake row has proof gates and blocked uses');
 assert(PUBLIC_K12_HOMEWORK_INTAKE_QUEUE.every((item) => /不搬|不复制|不嵌入|不导入|不展示|不刷|不靠|只练|转成|本地/.test(item.localPressureTransform + item.gameUse + item.blockedUse.join(''))), 'public K12 intake queue prevents fake content scale and answer-bank shortcuts');
 assert(publicK12IntakeChallengeDeck.length >= 14, 'public K12 intake queue becomes playable challenge cards');
-assert(publicK12IntakeChallengeDeck.every((item) => item.route.includes('/pages/tutor/tutor') && item.arcadeRoute.includes('/pages/arcade/arcade') && item.firstStepPrompt && item.gameUse && item.shareHook && item.answerBoundary.includes('不展示原题') && item.localOwner === 'local_rule' && item.aiOwner === 'ai_wording_only'), 'public K12 intake challenge cards are playable, answer-safe, local-owned, and share-ready');
+assert(publicK12IntakeChallengeDeck.every((item) => item.route.includes('/pages/tutor/tutor') && item.arcadeRoute.includes('/pages/review/review') && item.firstStepPrompt && item.gameUse && item.shareHook && item.answerBoundary.includes('不展示原题') && item.localOwner === 'local_rule' && item.aiOwner === 'ai_wording_only'), 'public K12 intake challenge cards are playable, answer-safe, local-owned, and share-ready');
 assert(publicK12IntakeChallengeDeck.every((item) => item.route.includes('/pages/tutor/tutor') && item.reviewRoute.includes('/pages/review/review') && item.observableFirstMove && item.fallbackIfNoChildInput && item.receiverMustUseOwnMaterial === true), 'public K12 challenge cards route into tutor/review with first move, fallback, and own-material gates');
 assert(publicK12IntakeChallengeDeck.every((item) => Array.isArray(item.shareSafeFields) && item.shareSafeFields.includes('observable_first_move') && Array.isArray(item.blockedFields) && item.blockedFields.includes('full_solution') && item.blockedFields.includes('ranking')), 'public K12 challenge cards expose share allowlist and block unsafe answer/ranking fields');
 assert(publicK12IntakeChallengeDeck.every((item) => Array.isArray(item.localCodeOwns) && item.localCodeOwns.includes('share_safe_fields') && Array.isArray(item.aiBetterFor) && item.aiBetterFor.includes('socratic_prompt_wording') && Array.isArray(item.aiMustNotOwn) && item.aiMustNotOwn.includes('final_answer')), 'public K12 challenge cards separate local ownership from AI wording');
-assert(publicK12IntakeChallengeDeck.every((item) => item.nextPracticePlan && item.nextPracticePlan.appRoute.includes('/pages/review/review') && item.nextPracticePlan.arcadeRoute.includes('/pages/arcade/arcade') && item.reviewCard && item.reviewCard.type === 'public_k12_homework_intake'), 'public K12 challenge cards carry review-card and next-practice bridges instead of stopping at ledger rows');
+assert(publicK12IntakeChallengeDeck.every((item) => item.nextPracticePlan && item.nextPracticePlan.appRoute.includes('/pages/review/review') && item.nextPracticePlan.arcadeRoute.includes('/pages/review/review') && item.reviewCard && item.reviewCard.type === 'public_k12_homework_intake'), 'public K12 challenge cards carry review-card and next-practice bridges instead of stopping at ledger rows');
 const gameLogicJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/utils/game-logic.js'), 'utf8');
 const storageJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/utils/storage.js'), 'utf8');
 const tutorPageJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/tutor/tutor.js'), 'utf8');

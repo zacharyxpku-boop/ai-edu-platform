@@ -21,7 +21,7 @@ assert(homeWxml.includes('mini-route-input') && homeWxml.includes('homeViewModel
 assert(homeWxml.includes('mini-entry-grid') && (homeWxml.match(/mini-entry-visual/g) || []).length >= 6, 'home keeps visual entry cards');
 
 assert(tutorWxml.includes('yd-tutor-screen') && tutorWxml.includes('tutor-entry-grid'), 'tutor uses the compact first-step jump shell');
-assert(arcadeWxml.includes('yd-arcade-screen') && arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island jump shell');
+assert(arcadeWxml.includes('yd-review-redirect-screen') && arcadeWxml.includes('ux-kit-jump-grid'), 'arcade uses the compact review island jump shell');
 
 assert(reviewWxml.includes('yd-review-screen') && reviewWxml.includes('review-challenge-grid'), 'review uses the new challenge shell');
 assert(reviewWxml.includes('review-main-cta') && reviewWxml.includes('review-challenge-grid'), 'review keeps primary action and compact visual entry cards');

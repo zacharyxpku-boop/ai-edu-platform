@@ -25,7 +25,7 @@ assert(code.includes('score_sheet') && code.includes('Treat score sheets only as
 ['subject', 'wrongCause', 'firstStep', 'learningPreference', 'evidenceConfidence', 'analysisQuality', 'nextAction', 'blockedClaims', 'executionPath'].forEach((field) => {
   assert(code.includes(field), `material analysis API schema includes normalized ${field}`);
 });
-assert(code.includes('product_execution_path') && code.includes('/pages/tutor/tutor?from=ai_material_analysis') && code.includes('/pages/arcade/arcade?from=ai_material_analysis'), 'material analysis API binds AI draft to product execution paths');
+assert(code.includes('product_execution_path') && code.includes('/pages/tutor/tutor?from=ai_material_analysis') && code.includes('/pages/review/review?from=ai_material_analysis'), 'material analysis API binds AI draft to product execution paths');
 assert(code.includes('buildAnalysisQualityGate') && code.includes('fallback_or_manual_confirm') && code.includes('draft_can_enter_local_execution'), 'material analysis API scores analysis quality before release');
 assert(code.includes('fallback_required: true'), 'material analysis API returns a clear fallback when server keys are not configured');
 assert(miniappApiCode.includes('function analyzeMiniappMaterial') && miniappApiCode.includes("request('/api/miniapp-material-analysis'") && miniappApiCode.includes('analyzeMiniappMaterial'), 'miniapp client exposes material analysis API call');

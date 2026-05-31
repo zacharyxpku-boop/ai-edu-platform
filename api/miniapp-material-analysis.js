@@ -51,7 +51,7 @@ const RESPONSE_SCHEMA = {
   executionPath: {
     socraticRoute: '/pages/tutor/tutor?from=ai_material_analysis',
     miniLessonRoute: '/pages/tutor/tutor?from=ai_material_analysis_mini_lesson',
-    gameRecallRoute: '/pages/arcade/arcade?from=ai_material_analysis',
+    gameRecallRoute: '/pages/review/review?from=ai_material_analysis',
     parentReviewRoute: '/pages/profile/profile?from=ai_material_analysis'
   },
   student_profile_signals: {},
@@ -115,7 +115,7 @@ function buildExecutionPath(raw, sourceType) {
   return {
     socraticRoute: safeText(path.socraticRoute || path.socratic_route, `/pages/tutor/tutor?from=${baseFrom}`),
     miniLessonRoute: safeText(path.miniLessonRoute || path.mini_lesson_route, '/pages/tutor/tutor?from=ai_material_analysis_mini_lesson'),
-    gameRecallRoute: safeText(path.gameRecallRoute || path.game_recall_route, '/pages/arcade/arcade?from=ai_material_analysis'),
+    gameRecallRoute: safeText(path.gameRecallRoute || path.game_recall_route, '/pages/review/review?from=ai_material_analysis'),
     parentReviewRoute: safeText(path.parentReviewRoute || path.parent_review_route, '/pages/profile/profile?from=ai_material_analysis')
   };
 }

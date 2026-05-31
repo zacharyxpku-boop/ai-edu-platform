@@ -180,7 +180,7 @@ function buildImportMemoryMetadata(source, fields = {}, meta = {}) {
       dailyCap: isTrapOrWrong ? 3 : 2,
       releaseGate: '先说第一步，再看答案；不奖励速度、分数或排名。',
       reviewRoute: '/pages/review/review?from=material_memory',
-      arcadeRoute: '/pages/arcade/arcade?from=material_memory'
+      arcadeRoute: '/pages/review/review?from=material_memory'
     },
     nextRevisitWindow,
     memoryEvidenceLine: `${sourceMaterialType} -> 第一步 -> 错因 -> 主动回忆 -> 明天回访`

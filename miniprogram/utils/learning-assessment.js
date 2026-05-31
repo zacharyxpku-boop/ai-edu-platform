@@ -112,7 +112,7 @@ function buildTalentLearningMethodPlan(seed = {}) {
     revisit: {
       label: '先轻回忆',
       action: '先做 90 秒主动回忆，再决定是否进入轻练习。',
-      route: '/pages/arcade/arcade?from=talent_method_plan'
+      route: '/pages/review/review?from=talent_method_plan'
     }
   };
   const primary = methodMap[capabilityId] || methodMap.tutor;

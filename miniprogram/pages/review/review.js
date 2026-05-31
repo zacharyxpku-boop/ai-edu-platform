@@ -31,7 +31,6 @@ const DEFAULT_MISTAKE_HUB = {
 
 function reviewReadableRouteLine(route = '') {
   const value = String(route || '');
-  if (value.indexOf('/pages/arcade/') >= 0) return '下一步：练后回到 90 秒主动回忆，继续同一个错因。';
   if (value.indexOf('/pages/tutor/') >= 0) return '下一步：回到一对一点拨，只问第一步。';
   if (value.indexOf('/pages/profile/') >= 0) return '下一步：回到家长报告查看证据。';
   if (value.indexOf('/pages/upload/') >= 0) return '下一步：继续补材料证据。';
@@ -1383,6 +1382,29 @@ Page({
     this.setData({ miniActionText: event.detail.value });
   },
 
+  runPlaybookAction(event) {
+    const dataset = event && event.currentTarget ? event.currentTarget.dataset || {} : {};
+    const primaryCta = this.data.reviewViewModel && this.data.reviewViewModel.primaryCta ? this.data.reviewViewModel.primaryCta : {};
+    const action = dataset.action || primaryCta.action || 'review';
+    if (action === 'complete') {
+      this.completeTodayRepair();
+      return;
+    }
+    if (action === 'focus') {
+      this.goFocus();
+      return;
+    }
+    if (action === 'home') {
+      this.goHome();
+      return;
+    }
+    if (action === 'revisit') {
+      this.goLearningMap();
+      return;
+    }
+    this.goFocus();
+  },
+
   onImportInput(event) {
     const importText = event.detail.value;
     const importPlan = reviewCards.contentEnginePlan(importText, {
@@ -1692,6 +1714,14 @@ Page({
 
   goLearningMap() {
     wx.navigateTo({ url: '/pages/entry-detail/entry-detail?scene=today&from=review' });
+  },
+
+  openEntryDetail(event) {
+    const dataset = event && event.currentTarget ? event.currentTarget.dataset || {} : {};
+    const scene = dataset.scene || 'review';
+    wx.navigateTo({
+      url: `/pages/entry-detail/entry-detail?scene=${encodeURIComponent(scene)}&from=review`
+    });
   },
 
   goFocus() {

@@ -948,7 +948,7 @@ function reportRouteTarget(path = '') {
   if (value.indexOf('/pages/review/review') === 0) return 'review';
   if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'focus';
   if (value.indexOf('/pages/profile/profile') === 0) return 'profile';
-  if (value.indexOf('/pages/arcade/arcade') === 0) return 'arcade';
+  if (value.indexOf('/pages/review/review') === 0) return 'arcade';
   if (value.indexOf('/pages/entry-detail/entry-detail?scene=today') === 0) return 'revisit';
   return 'tutor';
 }
@@ -1638,7 +1638,7 @@ function buildRealTrialGameChallengeBridge(options = {}) {
     wrongCause: card.wrongCauseLabel || card.weakPoint || '待确认错因',
     parentCheck: card.parentPrompt || (card.nextPracticePlan && card.nextPracticePlan.parentPrompt) || '家长只问第一步',
     sourceTrialId: card.sourceTrialId || '',
-    route: `/pages/arcade/arcade?from=real_trial_revisit&trial_id=${encodeURIComponent(card.sourceTrialId || card.id)}`,
+    route: `/pages/review/review?from=real_trial_revisit&trial_id=${encodeURIComponent(card.sourceTrialId || card.id)}`,
     reviewRoute: '/pages/review/review?from=real_trial_revisit',
     gameRule: '90 秒内只说第一步和错因，不看最终答案，不比较速度。',
     shareHook: '把这次真实卡点变成同类第一步挑战，对方必须用自己的材料复刻。',
@@ -1738,7 +1738,7 @@ function buildRealTrialPressureCandidateBoard(options = {}) {
       aiBoundary: 'AI 只能改写追问语气和解释角度，不能补原题、给答案、决定掌握度或放行分享。',
       tutorRoute: `/pages/tutor/tutor?from=real_trial_pressure_candidate&trial_id=${encodeURIComponent(item.id)}`,
       reviewRoute: `/pages/review/review?from=real_trial_pressure_candidate&trial_id=${encodeURIComponent(item.id)}`,
-      arcadeRoute: `/pages/arcade/arcade?from=real_trial_pressure_candidate&trial_id=${encodeURIComponent(item.id)}`,
+      arcadeRoute: `/pages/review/review?from=real_trial_pressure_candidate&trial_id=${encodeURIComponent(item.id)}`,
       allowedFields: ['subject', 'task_type', 'first_step', 'wrong_cause', 'board_use', 'parent_check', 'revisit_plan'],
       blockedFields: ['original_question', 'full_answer', 'photo', 'score', 'ranking', 'full_dialogue']
     };
@@ -1916,7 +1916,7 @@ function buildRealTrialStressRepairQueue(options = {}) {
           : row.revisitProbe,
         tutorRoute: `${row.tutorRoute || '/pages/tutor/tutor'}&repair=${encodeURIComponent(risk)}`,
         reviewRoute: `${row.reviewRoute || '/pages/review/review'}&repair=${encodeURIComponent(risk)}`,
-        arcadeRoute: `${row.arcadeRoute || '/pages/arcade/arcade'}&repair=${encodeURIComponent(risk)}`,
+        arcadeRoute: `${row.arcadeRoute || '/pages/review/review'}&repair=${encodeURIComponent(risk)}`,
         order: row.order * 10 + riskIndex,
         localOwner: 'local_rule',
         aiOwner: 'ai_wording_only',
@@ -2083,7 +2083,7 @@ function buildRealTrialRuleRetestDeck(options = {}) {
     releaseGate: '今晚、明天、第 7 天三段证据齐之前，不进入长期画像和分享传播。',
     tutorRoute: patch.nextRoutes && patch.nextRoutes.tutor ? `${patch.nextRoutes.tutor}&retest=1` : '/pages/tutor/tutor?from=rule_retest',
     reviewRoute: patch.nextRoutes && patch.nextRoutes.review ? `${patch.nextRoutes.review}&retest=1` : '/pages/review/review?from=rule_retest',
-    arcadeRoute: patch.nextRoutes && patch.nextRoutes.arcade ? `${patch.nextRoutes.arcade}&retest=1` : '/pages/arcade/arcade?from=rule_retest',
+    arcadeRoute: patch.nextRoutes && patch.nextRoutes.arcade ? `${patch.nextRoutes.arcade}&retest=1` : '/pages/review/review?from=rule_retest',
     localOwner: 'local_rule',
     aiOwner: 'ai_wording_only',
     allowedFields: ['subject', 'task_type', 'risk', 'prompt', 'cadence', 'report_gate'],
@@ -2146,7 +2146,7 @@ function buildRealTrialRuleRetestReviewCard(card = {}, index = 0) {
     xpRule: card.xpRule || '奖励说清第一步、错因和回访，不奖励速度、分数或排名。',
     nextPracticePlan: {
       appRoute: '/pages/review/review?from=rule_retest',
-      arcadeRoute: card.arcadeRoute || '/pages/arcade/arcade?from=rule_retest',
+      arcadeRoute: card.arcadeRoute || '/pages/review/review?from=rule_retest',
       tutorRoute: card.tutorRoute || '/pages/tutor/tutor?from=rule_retest',
       parentPrompt: '今晚只复测第一步；明天换材料；第 7 天再看迁移。',
       transferPracticeSet: buildTransferPracticeSet({
@@ -2666,7 +2666,7 @@ function buildGlobalEvidenceBrief(options = {}) {
         : gameCount
           ? `已有 ${gameCount} 次练习记录`
           : '先完成一局轻练习，把结果写回学习记录',
-      route: '/pages/arcade/arcade'
+      route: '/pages/review/review'
     },
     {
       id: 'surface_action',
@@ -2768,7 +2768,7 @@ function buildCapabilityEvidenceLedger(options = {}) {
           ? `今日轻练 ${gameCount} 次`
           : '还缺一局能写回学习记录的轻练',
       nextAction: '打一小局，把错因或迁移结果写回复习队列',
-      route: '/pages/arcade/arcade'
+      route: '/pages/review/review'
     },
     {
       id: 'report',
@@ -2881,7 +2881,7 @@ function buildCapabilityMaturityQueue(options = {}) {
       id: 'game_retention',
       label: '游戏化回忆',
       surface: 'arcade',
-      route: '/pages/arcade/arcade',
+      route: '/pages/review/review',
       capabilities: ['game', 'socratic', 'parent_action', 'next_action'],
       competitorLine: '对标 Gizmo：主动回忆和间隔复习要成为主循环，不只是小游戏外壳。',
       nextAction: '打一局后必须写回错因、第一步和下一次回访。'
@@ -3139,7 +3139,7 @@ function buildEvidenceRouteBias(options = {}) {
   const knownRoutes = {
     tutor: '/pages/tutor/tutor',
     review: '/pages/review/review',
-    arcade: '/pages/arcade/arcade',
+    arcade: '/pages/review/review',
     profile: '/pages/profile/profile',
     focus: '/pages/entry-detail/entry-detail?scene=today',
     home: '/pages/home/home'
@@ -4090,7 +4090,7 @@ function buildSubjectSkillDepth(input = {}) {
         label: spec.label,
         firstStep,
         evidenceRequired: spec.evidenceRequired.slice(),
-        route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade'
+        route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/review/review'
       },
       subject: input.subject || '',
       sourceText,
@@ -4103,7 +4103,7 @@ function buildSubjectSkillDepth(input = {}) {
     evidenceRequired: spec.evidenceRequired.slice(),
     socraticAssessment,
     gameBias: taskType === 'unknown' ? 'balanced' : 'repair',
-    route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/arcade/arcade',
+    route: taskType === 'writing_process' ? '/pages/entry-detail/entry-detail?scene=today' : taskType === 'unknown' ? '/pages/tutor/tutor' : '/pages/review/review',
     shareLine: `${spec.label}：先做「${firstStep}」，再留下 ${spec.evidenceRequired[0]} 证据。`
   };
 }
@@ -5992,7 +5992,7 @@ function ensureMiniLessonReturnReviewCard(seed = {}, context = {}) {
       routes: {
         tutor: '/pages/tutor/tutor',
         review: '/pages/review/review',
-        arcade: '/pages/arcade/arcade',
+        arcade: '/pages/review/review',
         profile: '/pages/profile/profile'
       },
       blockedFields
@@ -6507,7 +6507,7 @@ function buildGameSessionReportRevisitEvidence(result = {}, context = {}) {
     firstStep: first.child_first_step || first.childFirstStep || result.childFirstStep || result.firstStep || context.firstStep || '孩子已完成一次主动回忆第一步',
     wrongCause: wrong.wrongCause || wrong.wrongCauseLabel || result.wrongCause || result.wrongCauseLabel || context.wrongCause || context.weakKey || '主动回忆中已回到错因',
     parentCheck: result.parentCheck || context.parentCheck || '家长只问第一步，不追完整答案。',
-    route: context.route || result.route || '/pages/arcade/arcade',
+    route: context.route || result.route || '/pages/review/review',
     source: context.gameType || result.gameType || 'arcade'
   };
 }
@@ -6724,7 +6724,7 @@ function buildSafeRelayChallengePacket(input = {}) {
   const focus = input.focus || loadTodayFocus() || {};
   const capability = input.capability || {};
   const subjectDepth = input.subjectSkillDepth || null;
-  const route = input.route || capability.route || '/pages/arcade/arcade';
+  const route = input.route || capability.route || '/pages/review/review';
   const firstStep = input.firstStep
     || (subjectDepth && subjectDepth.firstStep)
     || focus.childArticulatedStep
@@ -6765,7 +6765,7 @@ function buildSafeRelayChallengePacket(input = {}) {
 
 function buildPeerRelayChallengeLadder(input = {}) {
   const firstStep = input.firstStep || '先说清第一步';
-  const route = input.route || '/pages/arcade/arcade';
+  const route = input.route || '/pages/review/review';
   const reviewLine = input.reviewLine || '明天回访同一张错因卡，第 7 天再做一个小变式。';
   const blockedFields = ['original_question', 'original_photo', 'full_answer', 'score', 'ranking', 'full_dialogue', 'private_comment'];
   const stages = [
@@ -6862,7 +6862,7 @@ function buildPeerRelayChallengeLadder(input = {}) {
 
 function buildPeerRelaySeasonArc(input = {}) {
   const firstStep = input.firstStep || '先说清第一步';
-  const route = input.route || '/pages/arcade/arcade';
+  const route = input.route || '/pages/review/review';
   const readiness = input.spreadReadinessGate || {};
   const ladder = input.peerRelayChallengeLadder || {};
   const safePacket = input.safeRelayChallengePacket || {};
@@ -6939,7 +6939,7 @@ function buildWrongCauseViralChallengePack(input = {}) {
   const firstStep = input.firstStep || '先说清第一步';
   const wrongCause = input.wrongCause || (input.capability && input.capability.label) || (input.focus && input.focus.title) || '同类错因';
   const parentCheck = input.parentCheck || input.actionLabel || (input.capability && input.capability.nextAction) || `家长只问：这一步为什么会卡在「${wrongCause}」？`;
-  const route = input.route || (input.capability && input.capability.route) || '/pages/arcade/arcade';
+  const route = input.route || (input.capability && input.capability.route) || '/pages/review/review';
   const blockedFields = ['original_question', 'original_answer', 'original_photo', 'full_dialogue', 'score', 'ranking', 'private_comment'];
   const allowedFields = ['wrong_cause_label', 'first_step', 'parent_check', 'receiver_action', 'next_day_revisit', 'return_path'];
   const hooks = [
@@ -7025,7 +7025,7 @@ function buildShareChallengePlan(input = {}) {
   const firstStep = subjectDepth && subjectDepth.firstStep
     ? subjectDepth.firstStep
     : (focus.childArticulatedStep || focus.systemSuggestedStep || '先说清第一步');
-  const route = capability.route || input.route || '/pages/arcade/arcade';
+  const route = capability.route || input.route || '/pages/review/review';
   const goal = `用自己的材料完成一次「${subjectLabel}」轻挑战`;
   const steps = [
     { id: 'recall', label: '主动回忆', text: `先不看答案，说出：${firstStep}` },
@@ -7432,7 +7432,7 @@ function buildShareSpreadReadinessGate(input = {}) {
     shareModeLine,
     fallbackLine,
     noRankingRule: '不晒分、不排名、不传原题照片、不传完整对话、不传最终答案。',
-    route: input.route || '/pages/arcade/arcade'
+    route: input.route || '/pages/review/review'
   };
 }
 
@@ -7616,7 +7616,7 @@ function buildQuestionBankShareRelayDeck(options = {}) {
       ? card.progression.masteryGate
       : '家长只看孩子能否自己说出第一步。',
     shareCopy: `接力「${card.label || '题型卡'}」：用自己的材料说第一步，不晒原题和答案。`,
-    route: '/pages/arcade/arcade?from=question_bank_relay',
+    route: '/pages/review/review?from=question_bank_relay',
     evidenceRequired: [card.evidenceRequired || 'child_first_step', 'active_recall_done', 'next_day_revisit']
   }));
   const allowedFields = ['subjectLabel', 'type', 'firstStep', 'reviewWindow', 'parentCheck', 'route'];
@@ -7686,7 +7686,7 @@ function buildQuestionBankVisualShareRelayDeck(options = {}) {
     title: '题型小黑板接力卡',
     status: boardLayers.length >= 3 && exitCriteria.length >= 3 ? 'ready' : 'needs_visual_layers',
     relayTitle: activeCard.label || '同类题型第一步',
-    route: activeCard.route || '/pages/arcade/arcade?from=visual_board_relay',
+    route: activeCard.route || '/pages/review/review?from=visual_board_relay',
     boardLayers,
     relayLayer: boardLayers[0].label,
     studentLine: boardLayers[0].studentLine,
@@ -7702,7 +7702,7 @@ function buildQuestionBankVisualShareRelayDeck(options = {}) {
       visual_board_relay_student_line: boardLayers[0].studentLine,
       visual_board_relay_parent_line: activeCard.parentCheck || '家长只看孩子能不能复述第一步，不追问完整答案。',
       visual_board_relay_exit: exitCriteria[0],
-      visual_board_relay_route: activeCard.route || '/pages/arcade/arcade?from=visual_board_relay',
+      visual_board_relay_route: activeCard.route || '/pages/review/review?from=visual_board_relay',
       visual_board_relay_boundary: '不带原题、答案、分数、排名或完整对话'
     },
     evidenceRequired: ['question_type_visual_board', 'child_first_step', 'parent_check_line', 'safe_share_payload', 'next_day_revisit']
@@ -8997,7 +8997,7 @@ function buildSubjectSeedLibrary(options = {}) {
         recallPrompt: `主动回忆：合上题目，说出这张卡的错因和第一步。`,
         loopLine: `流转闭环：轻诊断 -> ${curriculum.route} -> 复习回访 -> 家长复盘。`,
         recallRoute: '/pages/review/review',
-        gameRoute: '/pages/arcade/arcade',
+        gameRoute: '/pages/review/review',
         route: curriculum.route
       };
     });
@@ -10410,7 +10410,7 @@ function buildCommercialDepthRunway(options = {}) {
     {
       id: 'memory_feedback',
       label: '游戏记忆反馈',
-      route: '/pages/arcade/arcade',
+      route: '/pages/review/review',
       evidenceLine: weakest
         ? `${weakest.unitLabel} 当前掌握度 ${weakest.masteryScore}，先用低压回忆修 ${weakest.regressionRisk}。`
         : '先完成一局主动回忆，再生成错因回放和间隔回访。',
@@ -10963,7 +10963,7 @@ function buildLearningDecisionPath(options = {}) {
     action = '做一个同类小变式';
     reason = '已有错因卡，但迁移练习还没有完成。';
   } else if (todaySession.childArticulatedStep && !todaySession.gamePlayed) {
-    route = '/pages/arcade/arcade';
+    route = '/pages/review/review';
     action = '玩一小局轻回访';
     reason = '孩子已经说出第一步，下一步让轻练结果写回记录。';
   } else if (!parentReflection.ready) {
@@ -11741,7 +11741,7 @@ function buildQuestArcGameBridge(options = {}) {
     adaptiveMode: adaptiveChallenge.mode || 'balanced',
     evidenceBiasSource: evidenceBias && evidenceBias.source ? evidenceBias.source : '',
     evidenceBiasRoute: evidenceBias && evidenceBias.nextRoute ? evidenceBias.nextRoute : '',
-    route: '/pages/arcade/arcade',
+    route: '/pages/review/review',
     completionWrites: ['quest_arc_game_signal', 'review_event', 'game_session_result']
   }, stage);
 }
@@ -11840,7 +11840,7 @@ function buildModuleFlowCompass(options = {}) {
     {
       id: 'arcade',
       label: '游戏化轻练',
-      route: '/pages/arcade/arcade',
+      route: '/pages/review/review',
       ready: Number(gameProfile.reviewed_today || gameProfile.reviewedToday || 0) > 0,
       evidence: Number(gameProfile.reviewed_today || gameProfile.reviewedToday || 0)
         ? `今日轻练 ${Number(gameProfile.reviewed_today || gameProfile.reviewedToday || 0)} 题`
@@ -12044,7 +12044,7 @@ function buildSurfaceDepthPack(surface = 'home', options = {}) {
   const routeMap = {
     guided_tutor: '/pages/tutor/tutor',
     material_to_review: '/pages/review/review',
-    game_retention: '/pages/arcade/arcade',
+    game_retention: '/pages/review/review',
     parent_evidence: '/pages/profile/profile',
     local_resilience: '/pages/upload/upload',
     spaced_recall: '/pages/review/review',
@@ -12190,7 +12190,7 @@ function buildUnifiedNextActionController(options = {}) {
     '/pages/home/home',
     '/pages/tutor/tutor',
     '/pages/review/review',
-    '/pages/arcade/arcade',
+    '/pages/review/review',
     '/pages/profile/profile',
     '/pages/entry-detail/entry-detail?scene=today',
     '/pages/entry-detail/entry-detail?scene=today',

@@ -32,8 +32,8 @@ const expectedScreenshots = [
     expected: 'Short tutor entry screen; primary CTA jumps to child/detail flow'
   },
   {
-    name: 'tab-arcade.png',
-    route: '/pages/arcade/arcade',
+    name: 'tab-review.png',
+    route: '/pages/review/review',
     action: 'Open Review Island tab directly',
     expected: 'Short review/game entry screen; no dense mission list by default'
   },

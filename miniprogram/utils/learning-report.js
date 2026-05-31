@@ -623,7 +623,7 @@ function buildRecommendationPlan(parts, matrix) {
     tutor: '/pages/tutor/tutor?from=learning_report',
     focus: '/pages/entry-detail/entry-detail?scene=today&from=learning_report',
     review: '/pages/review/review?from=learning_report',
-    arcade: '/pages/arcade/arcade?from=learning_report',
+    arcade: '/pages/review/review?from=learning_report',
     profile: '/pages/profile/profile?panel=assessment'
   };
   const subject = weak.subject && weak.subject !== '待确认学科' ? weak.subject : '当前卡点';
@@ -1522,7 +1522,7 @@ function buildHomeSchoolConferenceKit(parts = {}, matrix = [], homeSchoolCollabo
         id: 'day7_variant',
         log: '第 7 天只看一个小变式能否迁移。',
         proof: 'day7_variant',
-        route: '/pages/arcade/arcade'
+        route: '/pages/review/review'
       }
     ],
     sevenDayTeacherFeedbackLoop: [
@@ -1677,7 +1677,7 @@ function buildQuestionBankRecallReportBridge(input = {}, parentDecisionTrust = {
       label: item.label,
       action: item.action,
       proof: item.proof,
-      route: item.route || '/pages/arcade/arcade'
+      route: item.route || '/pages/review/review'
     })),
     phases: phases.slice(0, 5).map((item) => ({
       id: item.id,
@@ -1770,7 +1770,7 @@ function buildPortraitDecisionReleaseSystem(input = {}, parentDecisionTrust = {}
     actionQueue: [
       { id: 'ask_first_step', label: '先问第一步', route: '/pages/tutor/tutor', evidence: 'child_first_step' },
       { id: 'run_revisit', label: '明天回访', route: '/pages/review/review', evidence: 'next_day_revisit' },
-      { id: 'play_memory', label: '高频回忆', route: '/pages/arcade/arcade', evidence: 'adaptive_recall_scheduler' },
+      { id: 'play_memory', label: '高频回忆', route: '/pages/review/review', evidence: 'adaptive_recall_scheduler' },
       { id: 'review_portrait', label: '第7天再看画像', route: '/pages/profile/profile', evidence: 'long_term_portrait_gate' }
     ],
     xpReleaseLine: scheduler.xpGate || 'XP 只能跟随回访证据释放，不作为分数排名。',
@@ -2184,7 +2184,7 @@ function buildEvidenceBasedMethodologyGuide(methodCandidateCards = [], materialL
       principle: '隔天和第 7 天回访同一错因，用回忆而不是重看答案验证。',
       useWhen: hasWrongPaper ? '已有错因卡或回访卡。' : '还缺真实错因时先锁住，不能只靠测评开启游戏。',
       reportLine: '报告会把它写成“明天回访哪张卡”，不是加题量或排行榜。',
-      productRoute: hasWrongPaper ? '/pages/arcade/arcade?from=methodology_recall' : '/pages/review/review?from=methodology_recall_locked',
+      productRoute: hasWrongPaper ? '/pages/review/review?from=methodology_recall' : '/pages/review/review?from=methodology_recall_locked',
       evidenceGate: 'next_day_revisit_and_day7_variant',
       sourceBasis: '检索练习、间隔练习和近迁移验证。'
     },
@@ -2194,7 +2194,7 @@ function buildEvidenceBasedMethodologyGuide(methodCandidateCards = [], materialL
       principle: '只奖励第一步、错因命名和回访完成，不奖励速度、排名或刷题量。',
       useWhen: hasParentReport ? '家长观察到拖拉、分心或启动困难。' : '孩子已经有可回访卡，但需要更轻的坚持机制。',
       reportLine: '报告会建议“小局轻练习”，但要先有真实卡片来源。',
-      productRoute: '/pages/arcade/arcade?from=methodology_attention',
+      productRoute: '/pages/review/review?from=methodology_attention',
       evidenceGate: 'real_recall_source_and_no_answer_leak',
       sourceBasis: '自我调节、即时反馈和低压力动机设计。'
     }
@@ -2281,7 +2281,7 @@ function buildPersonalizedLearningSolutionBlueprint(materialLanes = [], methodHy
       trigger: '孩子能用自己的话说出第一步',
       localGate: '本地代码决定 XP、间隔回访和练习放行',
       aiRole: '只改写近迁移题的提示语气',
-      route: '/pages/arcade/arcade?from=solution_blueprint'
+      route: '/pages/review/review?from=solution_blueprint'
     },
     {
       id: 'step_4_parent_report',
@@ -3118,7 +3118,7 @@ function buildCommercialFamilySolutionBook(input = {}) {
       id: 'game_recall',
       label: '游戏化回访',
       role: '只在已有真实回忆卡后开放，每天回来修一个最该修的错因。',
-      route: '/pages/arcade/arcade?from=solution_book_recall',
+      route: '/pages/review/review?from=solution_book_recall',
       openWhen: '已经产生第一步、错因和明天回访卡。',
       evidenceGate: 'real_recall_card_before_xp',
       recommended: recommendedModeId === 'game_recall'
@@ -3195,7 +3195,7 @@ function buildCommercialFamilySolutionBook(input = {}) {
         executionPath: aiMaterialFallback.executionPath || {
           socraticRoute: '/pages/tutor/tutor?from=solution_book_socratic',
           miniLessonRoute: '/pages/tutor/tutor?from=solution_book_mini_lesson',
-          gameRecallRoute: '/pages/arcade/arcade?from=solution_book_recall',
+          gameRecallRoute: '/pages/review/review?from=solution_book_recall',
           parentReviewRoute: '/pages/profile/profile?from=solution_book_parent'
         }
       }
@@ -3699,7 +3699,7 @@ function buildPersonalizedReportStandard(input = {}, parts = {}, parsed = {}, mo
         id: 'synthesis_game_loop',
         benchmark: 'Synthesis 的强项是把挑战做成游戏化任务，靠参与感和可见进展留住孩子。',
         productAnswer: '原点不做泛娱乐游戏，只在真实错因通过门槛后开放轻练习/回忆挑战。',
-        route: '/pages/arcade/arcade?from=parent_report_standard',
+        route: '/pages/review/review?from=parent_report_standard',
         evidenceReturn: 'retrieval_result + xp_gate + parent_receipt'
       },
       {

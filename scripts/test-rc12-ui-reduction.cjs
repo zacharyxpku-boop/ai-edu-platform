@@ -71,7 +71,7 @@ assert(!files.reviewWxml.includes('{{companionCopy.review}}'), 'review does not 
 assert(!files.reviewWxml.includes('growthMemory.review'), 'review growth memory is not stacked in the hero');
 
 assert(files.tutorWxml.includes("yd-tutor-screen") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps one first-step jump shell");
-assert(files.arcadeWxml.includes("yd-arcade-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
+assert(files.arcadeWxml.includes("yd-review-redirect-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps one review island jump shell");
 assert(!files.tutorWxml.includes("{{companionCopy.revisit}}") && !files.arcadeWxml.includes("{{companionCopy.revisit}}"), "retired tools companion explanation is not stacked on active tabs");
 assert(!files.tutorWxml.includes("growthMemory.revisit") && !files.arcadeWxml.includes("growthMemory.revisit"), "retired tools growth memory is not stacked on active tabs");
 

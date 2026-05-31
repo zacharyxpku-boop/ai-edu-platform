@@ -124,7 +124,7 @@ assert(!files.reviewWxml.includes("reviewViewModel.emptyState") && files.reviewV
 assert(files.reviewWxml.includes("data-scene=\"tutor\"") && files.reviewViewModelJs.includes("emptyState"), "review empty state can still route to the first-step flow");
 
 assert(files.tutorWxml.includes("yd-tutor-screen") && files.tutorWxml.includes("tutor-entry-grid"), "tutor keeps the first-step title shell");
-assert(files.arcadeWxml.includes("yd-arcade-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps review as jump cards");
+assert(files.arcadeWxml.includes("yd-review-redirect-screen") && files.arcadeWxml.includes("ux-kit-jump-grid"), "arcade keeps review as jump cards");
 assert(files.arcadeWxml.includes("data-scene=\"tutor\""), "arcade routes empty recall back to stuck-point repair");
 assert(!files.arcadeWxml.includes("鎻愬彇璁板繂") && !files.arcadeWxml.includes("姝ラ椤哄簭") && !files.arcadeWxml.includes("姒傚康杈圭晫"), "arcade avoids heavy memory taxonomy");
 

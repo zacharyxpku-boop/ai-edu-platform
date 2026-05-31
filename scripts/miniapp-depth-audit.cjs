@@ -288,7 +288,7 @@ const crossModuleConsistencyResults = REAL_HOMEWORK_PRESSURE_SAMPLES.map((sample
     },
     parentNextAction: 'wrong_cause_revisit',
     actionLabel: sample.parentCheck,
-    route: '/pages/arcade/arcade'
+    route: '/pages/review/review'
   });
   const report = learningReport.buildLearningReportDraft({
     profileBasics: { grade: sample.gradeBand, schoolType: '家庭作业压测' },
@@ -475,7 +475,7 @@ assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHo
   'tutor-entry-card',
   'mini-relay-card',
   'upload-material-grid',
-  'arcade-redirect-card',
+  'review-redirect-card',
   'entry-jump-grid'
 ].forEach((needle) => {
   const visible = read('miniprogram/pages/profile/profile.wxml').includes(needle)

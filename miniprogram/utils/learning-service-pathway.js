@@ -20,7 +20,7 @@ const MODE_CATALOG = [
     label: '游戏化轻复练',
     fit: ['会了容易忘', '需要重复巩固', '需要提高坚持度'],
     action: '用一局轻挑战复查同一错因，不奖励最终答案。',
-    route: '/pages/arcade/arcade?from=service_pathway'
+    route: '/pages/review/review?from=service_pathway'
   },
   {
     id: 'parent_coaching',
@@ -568,7 +568,7 @@ function buildPersonalizedClosureBridge(signals = {}, modeRecommendations = [], 
       dailyReturnCard: hasRealTaskEvidence ? 'most_worth_return_card_from_wrong_cause' : 'locked_until_first_step_or_wrong_cause',
       xpGate: 'child_first_step + wrong_cause_named + next_day_revisit_locked',
       antiAddiction: ['one_primary_card_only', 'no_ranking_pressure', 'no_infinite_scroll', 'no_score_reward'],
-      comebackRoute: openedModes.has('game_recall') ? '/pages/arcade/arcade?from=personalized_closure_bridge' : '/pages/review/review?from=personalized_closure_bridge'
+      comebackRoute: openedModes.has('game_recall') ? '/pages/review/review?from=personalized_closure_bridge' : '/pages/review/review?from=personalized_closure_bridge'
     },
     scoreReportBridge: {
       id: 'score_report_bridge',
@@ -590,7 +590,7 @@ function buildPersonalizedClosureBridge(signals = {}, modeRecommendations = [], 
       { id: 'upload', route: '/pages/upload/upload?from=personalized_closure_bridge', gate: 'material_excerpt_or_structured_evidence' },
       { id: 'tutor', route: '/pages/tutor/tutor?from=personalized_closure_bridge', gate: 'first_step_only' },
       { id: 'review', route: '/pages/review/review?from=personalized_closure_bridge', gate: 'wrong_cause_named' },
-      { id: 'game', route: '/pages/arcade/arcade?from=personalized_closure_bridge', gate: 'next_day_revisit_locked' },
+      { id: 'game', route: '/pages/review/review?from=personalized_closure_bridge', gate: 'next_day_revisit_locked' },
       { id: 'parent', route: '/pages/profile/profile?from=personalized_closure_bridge', gate: 'parent_confirmation_and_private_fields_removed' }
     ],
     releaseGates: [
@@ -653,7 +653,7 @@ function buildLearningServicePathway(input = {}) {
       : index === 3
         ? '/pages/profile/profile?from=service_pathway&panel=report'
         : index === 4
-          ? '/pages/arcade/arcade?from=service_pathway&mode=recall'
+          ? '/pages/review/review?from=service_pathway&mode=recall'
           : '/pages/tutor/tutor?from=service_pathway'
   }));
   const partnerServiceDeliveryLedger = buildPartnerServiceDeliveryLedger(

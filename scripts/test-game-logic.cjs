@@ -376,7 +376,7 @@ try {
   assert(executableCards.every((card) => card.observableFirstMove && card.fallbackIfNoChildInput && card.receiverMustUseOwnMaterial === true));
   assert(executableCards.every((card) => card.shareSafeFields.includes('observable_first_move')));
   assert(executableCards.every((card) => card.blockedFields.includes('full_solution') && card.blockedFields.includes('ranking')));
-  assert(executableCards.every((card) => card.nextPracticePlan.appRoute.includes('/pages/review/review') && card.nextPracticePlan.arcadeRoute.includes('/pages/arcade/arcade')));
+  assert(executableCards.every((card) => card.nextPracticePlan.appRoute.includes('/pages/review/review') && card.nextPracticePlan.arcadeRoute.includes('/pages/review/review')));
   assert(executableCards.every((card) => card.localCodeOwns.includes('share_safe_fields') && card.aiBetterFor.includes('socratic_prompt_wording') && card.aiMustNotOwn.includes('final_answer')));
   pass('public K12 intake deck becomes tutor/review executable cards');
 } catch (error) {

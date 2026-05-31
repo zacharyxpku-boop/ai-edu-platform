@@ -689,7 +689,7 @@ function buildNextActionQueue(kind, classified = {}, materialSource = null, imag
     {
       id: 'first_step_challenge',
       label: '90秒第一步挑战',
-      route: '/pages/arcade/arcade?from=upload_intake',
+      route: '/pages/review/review?from=upload_intake',
       owner: 'local_rule',
       status: needsText ? 'locked' : 'optional',
       releaseGate: '挑战只带动作和回访窗口，不带原题、答案、分数或排名',
@@ -713,7 +713,7 @@ function buildRequiredNextEvidence(schema = {}, kind = '') {
     talent_assessment: [
       { id: 'real_homework_stuck_point', label: base[0] || '真实作业卡点', route: '/pages/upload/upload', owner: 'local_rule', unlocks: 'method_cross_check' },
       { id: 'two_revisit_records', label: base[1] || '两次以上回访证据', route: '/pages/review/review', owner: 'local_rule', unlocks: 'portrait_candidate' },
-      { id: 'day7_variant_result', label: base[2] || '第 7 天小变式', route: '/pages/arcade/arcade', owner: 'local_rule', unlocks: 'weekly_method_signal' }
+      { id: 'day7_variant_result', label: base[2] || '第 7 天小变式', route: '/pages/review/review', owner: 'local_rule', unlocks: 'weekly_method_signal' }
     ],
     score_sheet: [
       { id: 'confirmed_score_subjects', label: base[0] || '家长确认成绩字段', route: '/pages/profile/profile?from=score_sheet_evidence', owner: 'local_rule', unlocks: 'private_parent_priority' },
@@ -783,7 +783,7 @@ function buildMethodValidationChallengeChain(schema = {}, requiredNextEvidence =
       {
         id: 'stage_3_day7_variant',
         label: thirdEvidence.label || '第 7 天小变式',
-        route: thirdEvidence.route || '/pages/arcade/arcade?from=method_validation',
+        route: thirdEvidence.route || '/pages/review/review?from=method_validation',
         owner: thirdEvidence.owner || 'local_rule',
         unlocks: thirdEvidence.unlocks || 'weekly_method_signal',
         requiredEvidence: 'day7_variant_result'
@@ -950,7 +950,7 @@ function buildPersonalizedUploadSolutionRunway(packet = {}, evidenceSignals = {}
         id: 'game_return',
         owner: 'local_code',
         action: 'release 90-second recall only after a real recall source exists',
-        route: '/pages/arcade/arcade?from=solution_runway'
+        route: '/pages/review/review?from=solution_runway'
       },
       {
         id: 'parent_report',

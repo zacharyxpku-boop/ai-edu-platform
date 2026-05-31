@@ -27,7 +27,7 @@ assert(profileJs.includes('saveLocalFeedback'), 'Profile feedback is local inste
 
 assert(reviewWxml.includes('yd-review-screen') && !reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair without rendering dense blackboard evidence in the new shell');
 assert(tutorWxml.includes('yd-tutor-screen') && arcadeWxml.includes('data-scene="tutor"'), 'Tutor and arcade can return to first-step flow');
-assert(reviewWxml.includes('review-main-cta') && arcadeWxml.includes('yd-arcade-screen'), 'Review and arcade expose active compact CTAs');
+assert(reviewWxml.includes('review-main-cta') && arcadeWxml.includes('yd-review-redirect-screen'), 'Review and arcade expose active compact CTAs');
 
 const allVisible = [homeWxml, entryDetailWxml, profileWxml, reviewWxml, tutorWxml, arcadeWxml].join('\n');
 ['付费', '订阅', '解锁', '免费体验', '试听', '价格', '会员', '秒解', '拍照出答案', '答案已生成', 'PK', '排行榜'].forEach((term) => {

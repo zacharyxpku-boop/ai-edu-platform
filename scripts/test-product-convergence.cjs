@@ -31,8 +31,8 @@ assert(pages.homeViewModelJs.includes('buildPrimaryHomeNextAction') && pages.hom
 assert(pages.tutorWxml.includes('yd-tutor-screen') && pages.tutorWxml.includes('tutor-entry-grid'), 'Tutor uses a clear new-shell entry structure');
 assert(pages.uploadWxml.includes('yd-upload-screen') && pages.uploadWxml.includes('upload-material-card') && pages.uploadJs.includes('buildUploadIntakePacket'), 'Upload connects material intake to structured evidence through compact cards');
 assert(pages.reviewWxml.includes('yd-review-screen') && !pages.reviewWxml.includes('reviewViewModel.blackboard.intro'), 'Review keeps repair evidence without rendering dense blackboard guidance');
-assert(pages.arcadeWxml.includes('yd-arcade-screen') && pages.arcadeWxml.includes('ux-kit-jump-grid'), 'Arcade connects memory revisit to one compact loop');
-assert(pages.arcadeWxml.includes('yd-arcade-screen') && pages.arcadeWxml.includes('data-scene="review"'), 'Arcade keeps migration practice and return-route context through jump cards');
+assert(pages.arcadeWxml.includes('yd-review-redirect-screen') && pages.arcadeWxml.includes('ux-kit-jump-grid'), 'Arcade connects memory revisit to one compact loop');
+assert(pages.arcadeWxml.includes('yd-review-redirect-screen') && pages.arcadeWxml.includes('data-scene="review"'), 'Arcade keeps migration practice and return-route context through jump cards');
 assert(pages.profileWxml.includes('yd-parent-screen') && pages.profileWxml.includes('yd-parent-sources') && pages.profileWxml.includes('yd-parent-loop'), 'Profile closes the loop with parent evidence and next step');
 
 assert(pages.reportJs.includes('talent') || pages.reportRecognitionJs.includes('talent'), 'Report layer preserves talent/material recognition capability');

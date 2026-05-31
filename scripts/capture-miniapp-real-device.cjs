@@ -20,7 +20,7 @@ const cliPathResolved = [
 const directShots = [
   ['/pages/home/home', 'tab-today.png'],
   ['/pages/tutor/tutor', 'tab-tutor.png'],
-  ['/pages/arcade/arcade', 'tab-arcade.png'],
+  ['/pages/review/review', 'tab-review.png'],
   ['/pages/profile/profile', 'tab-parent.png'],
   ['/pages/upload/upload', 'tab-upload.png']
 ];

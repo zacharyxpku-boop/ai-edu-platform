@@ -2435,7 +2435,7 @@ function buildProductHandoff(manifest = buildInputManifest()) {
       id: 'review_game',
       surface: 'miniapp/app',
       entry: 'review and transfer game',
-      routeHint: '/pages/review/review and /pages/arcade/arcade',
+      routeHint: '/pages/review/review',
       purpose: 'Validate memory, day-7 retention, and transfer through variation practice instead of only presenting advice.',
       currentState: hasScoreEvidence ? 'can_seed_review_priorities' : 'needs_score_or_wrong_question_evidence',
       requiredInput: ['score weak points', 'wrong-cause tags', 'method module tags'],
