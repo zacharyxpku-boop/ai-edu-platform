@@ -69,8 +69,7 @@ const tutorJs = read('miniprogram/pages/tutor/tutor.js');
 const tutorWxml = read('miniprogram/pages/tutor/tutor.wxml');
 const reviewJs = read('miniprogram/pages/review/review.js');
 const reviewWxml = read('miniprogram/pages/review/review.wxml');
-const arcadeJs = read('miniprogram/pages/arcade/arcade.js');
-const arcadeWxml = read('miniprogram/pages/arcade/arcade.wxml');
+const navigationJs = read('miniprogram/utils/navigation.js');
 
 const materialText = [
   '天赋测评：孩子更适合先看图再复述，听完容易懂，但做题时第一步容易急。',
@@ -178,17 +177,18 @@ const checks = [
   },
   {
     id: 'review_game_transfer',
-    title: '复习/游戏页验证记忆和迁移',
-    route: '/pages/review/review -> /pages/arcade/arcade',
+    title: '复习岛验证记忆和迁移',
+    route: '/pages/review/review',
     passed: !!(
       highFrequencyLoop
       && highFrequencyLoop.dailyReturnContract
       && highFrequencyLoop.reviewReturnSeed
       && highFrequencyLoop.nextDayReturnEvidence
       && reviewJs.includes('recordReportRevisitEvidence')
-      && arcadeWxml.includes('小课堂回流')
-      && arcadeWxml.includes('复习岛不是刷题')
-      && standard.competitorClosureBenchmarks.some((item) => item.route.includes('/pages/arcade/arcade'))
+      && reviewWxml.includes('复习岛')
+      && reviewWxml.includes('主动回忆')
+      && reviewWxml.includes('变式')
+      && navigationJs.includes("'/pages/arcade/arcade': '/pages/review/review'")
     ),
     evidence: [
       `回访合约：${highFrequencyLoop.dailyReturnContract.id}`,

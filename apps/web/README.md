@@ -11,8 +11,8 @@ The first web version should expose six clear entries:
 - `/` 首页总览
 - `/upload` 上传资料
 - `/report` 个性化报告
-- `/tutor` 原小点点拨
-- `/review` 复习游戏
+- `/tutor` AI私教
+- `/review` 复习岛
 - `/parent` 家长中心
 
 The authoritative entry list is `surface-manifest.json`.

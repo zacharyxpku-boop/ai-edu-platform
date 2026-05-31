@@ -1,6 +1,6 @@
 # Miniapp Visual Audit
 
-Generated: 2026-05-30T07:07:31.549Z
+Generated: 2026-05-31T00:35:25.589Z
 
 Status: reference-only audit generated.
 

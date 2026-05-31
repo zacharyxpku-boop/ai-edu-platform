@@ -1,6 +1,6 @@
 # 5入口闭环走查
 
-生成时间：2026-05-30T19:26:31.424Z
+生成时间：2026-05-31T00:34:38.306Z
 
 ## 证据文件
 
@@ -14,7 +14,7 @@
 - 通过：上传页分类材料 -> /pages/upload/upload?type=talent_assessment
 - 通过：报告页解释证据和方法 -> /pages/profile/profile?from=upload_report_ready
 - 通过：私教页追问第一步 -> /pages/tutor/tutor?from=parent_report_standard
-- 通过：复习/游戏页验证记忆和迁移 -> /pages/review/review -> /pages/arcade/arcade
+- 通过：复习岛验证记忆和迁移 -> /pages/review/review
 - 通过：家长页汇总证据与下一步 -> /pages/profile/profile
 
 ## 真机边界

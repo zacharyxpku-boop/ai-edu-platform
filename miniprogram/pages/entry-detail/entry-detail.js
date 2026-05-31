@@ -20,7 +20,7 @@ const SCENES = {
     title: '先把今晚任务变成 3 个可执行动作',
     subtitle: '入口页只负责决定从哪开始。这里承接任务拆解、证据记录和下一步跳转。',
     heroImage: '/assets/reference/entry-map.png',
-    primaryLabel: '去原小点说第一步',
+    primaryLabel: '去AI私教说第一步',
     primaryRoute: '/pages/tutor/tutor?from=entry_today_first_step&open=flow',
     secondaryLabel: '先补材料',
     secondaryRoute: '/pages/upload/upload?from=entry_today_material',
@@ -47,7 +47,7 @@ const SCENES = {
     proofSteps: proofFlow('today')
   },
   tutor: {
-    badge: '原小点提示',
+    badge: 'AI私教提示',
     title: '先问一句，不替孩子做完',
     subtitle: '把题目、卡点或第一步发进来，系统只给最小提示，并把可复习的点沉淀下来。',
     heroImage: '/assets/reference/entry-tutor.png',
@@ -84,7 +84,7 @@ const SCENES = {
     heroImage: '/assets/reference/entry-review.png',
     primaryLabel: '开始 90 秒回忆',
     primaryRoute: '/pages/review/review?mode=recall_return&from=entry_review',
-    secondaryLabel: '回到原小点',
+    secondaryLabel: '回到AI私教',
     secondaryRoute: '/pages/tutor/tutor?from=entry_review_repair',
     cards: [
       { label: '记忆', value: '能不能说出关键概念。', icon: '/assets/reference/entry-review.png' },
@@ -207,7 +207,7 @@ const SCENE_NAV = {
   today: { label: '今晚主线', image: '/assets/reference/entry-map.png' },
   upload: { label: '上传材料', image: '/assets/reference/entry-upload.png' },
   report: { label: '个性化报告', image: '/assets/reference/entry-report.png' },
-  tutor: { label: '原小点', image: '/assets/reference/entry-tutor.png' },
+  tutor: { label: 'AI私教', image: '/assets/reference/entry-tutor.png' },
   review: { label: '复习小关', image: '/assets/reference/entry-review.png' },
   parent: { label: '家长中心', image: '/assets/reference/entry-parent.png' }
 };

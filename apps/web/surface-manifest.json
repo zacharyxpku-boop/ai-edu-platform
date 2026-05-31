@@ -43,7 +43,7 @@
     },
     {
       "id": "tutor",
-      "label": "原小点点拨",
+      "label": "AI私教",
       "path": "/tutor",
       "miniappParity": "pages/tutor/tutor",
       "job": "Start with the first Socratic question and keep the answer-safe tutoring boundary.",
@@ -52,9 +52,9 @@
     },
     {
       "id": "review",
-      "label": "复习游戏",
+      "label": "复习岛",
       "path": "/review",
-      "miniappParity": "pages/arcade/arcade + pages/review/review",
+      "miniappParity": "pages/review/review",
       "job": "Validate memory, transfer, and wrong-cause repair through lightweight game loops.",
       "webAdaptation": "Use one active challenge per screen, with progress, streak, transfer prompts, and the compact six-entry scene switch.",
       "childScenePattern": "Review keeps memory and transfer visible without becoming a long explanatory page."
@@ -70,9 +70,9 @@
     },
     {
       "id": "map",
-      "label": "学习地图",
+      "label": "今晚路径",
       "path": "/map",
-      "miniappParity": "pages/entry-detail/entry-detail?scene=today + pages/arcade/arcade",
+      "miniappParity": "pages/entry-detail/entry-detail?scene=today + pages/review/review",
       "job": "Show the full learning route across tonight and the next 7 days.",
       "webAdaptation": "Use a visual route board that connects upload, report, tutor, review, parent check, next evidence, and the compact six-entry scene switch.",
       "childScenePattern": "Map is the Web counterpart of entry-detail?scene=today."

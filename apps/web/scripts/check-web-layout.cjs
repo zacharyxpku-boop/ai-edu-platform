@@ -363,7 +363,7 @@ async function inspectNavigation(debugPort, base) {
       console.log(`OK mobile navigation: home -> ${route}`);
     }
 
-    for (const route of routes) {
+    for (const route of ['home', 'tutor', 'review', 'parent']) {
       await cdp.send('Page.navigate', { url: `${base}${routeBasePath}/#report` });
       await waitForApp(cdp, 'report');
       await clickAndWait(`.mobile-tabs a[href="#${route}"]`, route, `mobile tab to ${route}`);
@@ -483,8 +483,8 @@ async function main() {
         for (const [key, ok] of Object.entries(result.required)) {
           if (!ok) failures.push(`${prefix}: missing ${key}`);
         }
-        if (viewport.mobile && result.mobileTabs !== 6) {
-          failures.push(`${prefix}: expected 6 mobile tabs, found ${result.mobileTabs}`);
+        if (viewport.mobile && result.mobileTabs !== 4) {
+          failures.push(`${prefix}: expected 4 mobile tabs, found ${result.mobileTabs}`);
         }
         const allowedScroll = viewport.width + 1;
         if (viewport.mobile && (result.scroll.html > allowedScroll || result.scroll.body > allowedScroll)) {

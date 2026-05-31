@@ -3994,6 +3994,10 @@ img {
   display: none;
 }
 
+.mobile-hero-title {
+  display: none;
+}
+
 .web-toast {
   position: fixed;
   left: 50%;
@@ -4197,6 +4201,10 @@ img {
     font-size: 28px;
   }
 
+  .home-title-row {
+    display: none;
+  }
+
   .page-title p {
     width: 100%;
     max-width: 100%;
@@ -4297,8 +4305,12 @@ img {
   .buddy-message {
     grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    min-height: 166px;
-    padding: 18px 122px 18px 18px;
+    min-height: 274px;
+    padding: 24px 142px 22px 26px;
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at 87% 22%, rgba(248, 198, 34, 0.18) 0 36px, transparent 38px),
+      linear-gradient(145deg, rgba(255,255,255,0.98), rgba(249, 254, 247, 0.96));
   }
 
   .hero-grid .report-preview {
@@ -4316,14 +4328,26 @@ img {
   .buddy-message img,
   .buddy-message .mascot-img {
     position: absolute;
-    right: 0;
+    right: 8px;
     bottom: 0;
-    width: 128px;
-    height: 128px;
+    width: 176px;
+    height: 196px;
+  }
+
+  .mobile-hero-title {
+    display: block;
+    margin: 0 0 18px;
+    color: var(--ink);
+    font-size: 34px;
+    font-weight: 950;
+    line-height: 1.12;
+    letter-spacing: 0;
+    white-space: normal;
   }
 
   .speech h2 {
-    font-size: 24px;
+    font-size: 18px;
+    margin-bottom: 8px;
   }
 
   .speech p {
@@ -4343,11 +4367,12 @@ img {
   .entry-card {
     width: 100%;
     min-width: 0;
-    min-height: 186px;
-    padding: 14px 12px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    min-height: 148px;
+    padding: 14px 14px 44px;
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    column-gap: 9px;
+    align-items: center;
     text-align: left;
     border-radius: 22px;
   }
@@ -4368,8 +4393,8 @@ img {
   }
 
   .entry-visual {
-    width: 96px;
-    height: 82px;
+    width: 62px;
+    height: 62px;
     border-radius: 18px;
   }
 
@@ -4386,8 +4411,11 @@ img {
 
   .entry-card h2 {
     margin: 0 0 4px;
-    font-size: 19px;
-    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1.16;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
 
   .entry-card p {
@@ -4403,8 +4431,8 @@ img {
 
   .entry-card .jump {
     position: absolute;
-    right: 12px;
-    bottom: 12px;
+    right: 14px;
+    bottom: 14px;
     margin-left: 0;
     margin-top: 0;
     flex: 0 0 auto;
@@ -5183,9 +5211,9 @@ img {
     max-width: 390px;
     z-index: 60;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4px;
-    padding: 8px 10px 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2px;
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom));
     background: rgba(255, 255, 255, 0.94);
     border-top: 1px solid rgba(229, 234, 223, 0.9);
     backdrop-filter: blur(16px);
@@ -5193,22 +5221,22 @@ img {
 
   .mobile-tabs a {
     min-width: 0;
-    min-height: 52px;
+    min-height: 58px;
     display: grid;
     place-items: center;
     gap: 4px;
     padding: 8px 4px;
-    border-radius: 16px;
+    border-radius: 18px;
     color: #59645f;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
   }
 
   .mobile-tabs a img {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     display: block;
     object-fit: cover;
     padding: 3px;

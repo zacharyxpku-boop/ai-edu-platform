@@ -63,7 +63,7 @@ function renderShellNav() {
     .map(([id, label, image]) => `<a href="#${id}" class="${state.active === id ? 'active' : ''}"><img src="${referenceAsset(image)}" alt="">${label}</a>`)
     .join('');
   document.querySelector('#mobileNav').innerHTML = routes
-    .filter(([id]) => id !== 'map')
+    .filter(([id]) => ['home', 'tutor', 'review', 'parent'].includes(id))
     .map(([id, label, image]) => `<a href="#${id}" class="${state.active === id ? 'active' : ''}"><img src="${referenceAsset(image)}" alt="">${mobileLabels[id] || label}</a>`)
     .join('');
 }
@@ -140,7 +140,7 @@ function renderHome() {
   return `
     <section class="page-title home-title-row"><h1>今晚从哪一步开始？</h1><a href="#report">查看完整报告 ›</a></section>
     <section class="hero-grid">
-      <article class="buddy-message card"><div class="speech"><h2>晚上好，小明！</h2><p>今天坚持学习，就能离目标更近一步。</p><div class="chip-row"><span><i class="chip-dot"></i>连续学习 7 天</span><span>今晚 15-20 分钟</span></div></div><img class="mascot-img hero-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article>
+      <article class="buddy-message card"><div class="speech"><h1 class="mobile-hero-title">今晚先做哪一步？</h1><h2>晚上好，小明！</h2><p>今天坚持学习，就能离目标更近一步。</p><div class="chip-row"><span><i class="chip-dot"></i>连续学习 7 天</span><span>今晚 15-20 分钟</span></div></div><img class="mascot-img hero-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"></article>
       <article class="report-preview card"><div class="card-head"><h3>个性化报告 <small>预览</small></h3><a href="#report">查看 ›</a></div><div class="preview-body"><div class="mini-radar"><span>知识掌握</span><span>思维能力</span><span>学习习惯</span><span>学习动力</span><span>应用迁移</span><span>基础技能</span><div class="radar-shape"></div></div><div class="tag-column"><b>优势</b><span>逻辑思维强</span><span>阅读理解好</span><b class="danger">待提升</b><span class="orange">计算准确率</span><span class="orange">审题习惯</span><p>下一步：先巩固计算准确率，3 天后回访。</p></div></div></article>
     </section>
     <section class="entry-grid">

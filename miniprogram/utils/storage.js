@@ -5258,7 +5258,7 @@ function saveTodayFocus(focus = {}) {
     miniActionText: '',
     miniActionAt: '',
     recommendation: '先做 1 道同类题 + 1 道小变式',
-    helper: '原小点会先问一步，不直接给答案。',
+    helper: 'AI私教会先问一步，不直接给答案。',
     created_at: new Date().toISOString()
   }, baseFocus, focus || {}, evidence, {
     miniActionText: evidence.childArticulatedStep || evidence.systemSuggestedStep || (focus && focus.miniActionText) || current.miniActionText || '',
@@ -5327,7 +5327,7 @@ function saveTodayFocusFromThought(text = '', props = {}) {
     progress: stuck ? 12 : 8,
     reason: stuck ? '孩子刚刚说到这里卡住了。' : '孩子已经留下第一步想法。',
     recommendation: '先做 1 道同类题 + 1 道小变式',
-    helper: '原小点会先问一步，不直接给答案。'
+    helper: 'AI私教会先问一步，不直接给答案。'
   }, shouldCreateNewFocus(currentAfterHistory, thought) ? { completed_at: '' } : {}, props || {}));
 }
 

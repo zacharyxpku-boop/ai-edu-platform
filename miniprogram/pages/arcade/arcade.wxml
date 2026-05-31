@@ -34,7 +34,7 @@
           <view class="arcade-map-node active">
             <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-tutor.png" />
             <text>核对</text>
-            <text>原小点追问</text>
+            <text>AI私教追问</text>
           </view>
           <view class="arcade-map-node">
             <image class="arcade-map-icon" mode="aspectFill" src="/assets/reference/entry-map.png" />
@@ -62,7 +62,7 @@
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="tutor" bindtap="openEntryDetail">
           <image mode="aspectFill" src="/assets/reference/entry-tutor.png" />
           <text>卡住求助</text>
-          <text>回原小点追问</text>
+          <text>回AI私教追问</text>
         </view>
         <view class="ux-kit-jump-card arcade-jump-card" data-scene="parent" bindtap="openEntryDetail">
           <image mode="aspectFill" src="/assets/reference/entry-parent.png" />

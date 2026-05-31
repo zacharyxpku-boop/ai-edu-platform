@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T19:26:27.129Z",
+  "generatedAt": "2026-05-31T00:34:34.778Z",
   "devtoolsCli": {
     "attempted": true,
     "status": "blocked_by_local_service_port",
@@ -25,7 +25,7 @@
       "evidence": [
         "标准版本：2026-05-24.visible-decision-v1",
         "命中材料场景：talent_report_uploaded / wrong_question_uploaded / mixed_materials",
-        "HTML 长度：103224"
+        "HTML 长度：103234"
       ]
     },
     {
@@ -41,8 +41,8 @@
     },
     {
       "id": "review_game_transfer",
-      "title": "复习/游戏页验证记忆和迁移",
-      "route": "/pages/review/review -> /pages/arcade/arcade",
+      "title": "复习岛验证记忆和迁移",
+      "route": "/pages/review/review",
       "passed": true,
       "evidence": [
         "回访合约：daily_return_contract",
