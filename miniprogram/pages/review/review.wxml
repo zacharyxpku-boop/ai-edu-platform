@@ -7,7 +7,7 @@
           <view class="yd-review-brand">
             <image class="yd-review-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />
             <view>
-              <text>复习游戏</text>
+              <text>复习岛</text>
               <text>主动回忆和迁移验证</text>
             </view>
           </view>
@@ -64,7 +64,7 @@
           </view>
           <view class="review-challenge-card" data-scene="tutor" bindtap="openEntryDetail">
             <image mode="aspectFit" src="/assets/reference/entry-tutor.png" />
-            <text>回到原小点</text>
+            <text>回到AI私教</text>
             <text>卡住先问第一步</text>
           </view>
           <view class="review-challenge-card" data-scene="today" bindtap="openEntryDetail">

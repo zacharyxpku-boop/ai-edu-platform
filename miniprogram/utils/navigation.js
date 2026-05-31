@@ -3,10 +3,14 @@
 const TAB_ROUTES = [
   '/pages/home/home',
   '/pages/tutor/tutor',
-  '/pages/arcade/arcade',
+  '/pages/review/review',
   '/pages/profile/profile',
   '/pages/upload/upload'
 ];
+
+const LEGACY_ROUTE_ALIASES = {
+  '/pages/arcade/arcade': '/pages/review/review'
+};
 
 function normalizeRoute(route) {
   const value = typeof route === 'string' ? route.trim() : '';
@@ -25,7 +29,12 @@ function routeQuery(route) {
 }
 
 function activeRoute(route) {
-  return normalizeRoute(route);
+  const url = normalizeRoute(route);
+  const base = baseRoute(url);
+  const alias = LEGACY_ROUTE_ALIASES[base];
+  if (!alias) return url;
+  const query = routeQuery(url);
+  return query ? `${alias}?${query}` : alias;
 }
 
 function rememberTabRouteContext(route) {

@@ -203,7 +203,7 @@ assert(unsafeAiResult.aiLocalBoundary.localCodeOwns.includes('release_gate') && 
 assert(unsafeAiResult.subject && unsafeAiResult.wrongCause && unsafeAiResult.firstStep && unsafeAiResult.learningPreference, 'sanitized AI result always exposes normalized solution fields');
 assert(unsafeAiResult.evidenceConfidence && unsafeAiResult.evidenceConfidence.level === 'low', 'sanitized AI result degrades weak evidence to low confidence');
 assert(unsafeAiResult.nextAction && unsafeAiResult.nextAction.route.includes('/pages/tutor/tutor'), 'sanitized AI result always routes to a guarded next action');
-assert(unsafeAiResult.executionPath.socraticRoute.includes('/pages/tutor/tutor') && unsafeAiResult.executionPath.gameRecallRoute.includes('/pages/arcade/arcade'), 'sanitized AI result carries product execution routes');
+assert(unsafeAiResult.executionPath.socraticRoute.includes('/pages/tutor/tutor') && unsafeAiResult.executionPath.gameRecallRoute.includes('/pages/review/review'), 'sanitized AI result carries product execution routes');
 const fallbackAnalysis = intake.buildAiMaterialAnalysisFallback(talentPacket, { firstStep: '先复述题意' }, 'service_not_configured');
 assert(fallbackAnalysis.riskFlags.includes('service_not_configured'), 'AI analysis fallback records service-not-configured risk');
 assert(fallbackAnalysis.manualConfirmationFields.includes('parent_confirmation'), 'AI analysis fallback requires manual parent confirmation');
@@ -360,7 +360,7 @@ assert(runtimeCta.aiMaterialSolutionView.firstStepLine && runtimeCta.aiMaterialS
 assert(runtimeCta.aiMaterialSolutionView.qualityLine.includes('quality gate'), 'AI material solution view exposes analysis quality gate');
 assert(runtimeCta.aiMaterialSolutionView.scoreLine.includes('confirmed subjects') && runtimeCta.aiMaterialSolutionView.scoreUseLine.includes('not to promise score improvement'), 'AI material solution view explains confirmed score use without score-improvement promises');
 assert(runtimeCta.aiMaterialSolutionView.coverageLine.includes('coverage') && runtimeCta.aiMaterialSolutionView.coverageFallbackLine.includes('Socratic'), 'AI material solution view exposes content coverage and fallback evidence');
-assert(runtimeCta.aiMaterialSolutionView.routes.some((item) => item.id === 'game_recall' && item.route.includes('/pages/arcade/arcade')), 'AI material solution view carries game recall route behind evidence gates');
+assert(runtimeCta.aiMaterialSolutionView.routes.some((item) => item.id === 'review_recall' && item.route.includes('/pages/review/review')), 'AI material solution view carries review recall route behind evidence gates');
 assert(runtimeCta.scoreSignalView && runtimeCta.contentCoverageReceipt, 'runtime report CTA carries score and content coverage receipts');
 assert(runtimeCta.dailyExecutionSeed && runtimeCta.dailyExecutionSeed.reviewRoute.includes('/pages/review/review'), 'runtime report CTA creates a daily execution seed after uploaded-material analysis');
 assert(runtimeCta.dailyExecutionSeed.gameLine.includes('主动回忆') && runtimeCta.dailyExecutionSeed.releaseLine.includes('明天回访'), 'daily execution seed turns uploaded material into active recall and next-day revisit');

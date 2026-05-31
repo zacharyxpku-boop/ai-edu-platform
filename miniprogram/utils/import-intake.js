@@ -153,7 +153,7 @@ function buildAiMaterialExecutionPath(raw = {}, sourceSchemaId = 'parent_report'
   return {
     socraticRoute: safeAiText(path.socraticRoute || path.socratic_route, socraticRoute),
     miniLessonRoute: safeAiText(path.miniLessonRoute || path.mini_lesson_route, '/pages/tutor/tutor?from=ai_material_analysis_mini_lesson'),
-    gameRecallRoute: safeAiText(path.gameRecallRoute || path.game_recall_route, '/pages/arcade/arcade?from=ai_material_analysis'),
+    gameRecallRoute: safeAiText(path.gameRecallRoute || path.game_recall_route, '/pages/review/review?from=ai_material_analysis'),
     parentReviewRoute: safeAiText(path.parentReviewRoute || path.parent_review_route, '/pages/profile/profile?from=ai_material_analysis')
   };
 }

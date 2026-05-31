@@ -663,7 +663,7 @@ function buildDailyShareCard(profile, reviewSummary, gameProfileCard, wrongCause
     subjectSkillDepth,
     parentNextAction,
     actionLabel: unifiedActionLabel,
-    route: nextCapability && nextCapability.route ? nextCapability.route : '/pages/arcade/arcade'
+    route: nextCapability && nextCapability.route ? nextCapability.route : '/pages/review/review'
   }) : null;
   const questionBankShareRelayDeck = storage.buildQuestionBankShareRelayDeck ? storage.buildQuestionBankShareRelayDeck({
     courseUnitMap,
@@ -1200,7 +1200,7 @@ function buildCourseUnitDecisionBoard(courseUnitMap = null) {
     shareContract: unit.shareContract,
     actionRoute: unit.route || '/pages/tutor/tutor',
     recallRoute: unit.recallRoute || '/pages/review/review',
-    gameRoute: unit.gameRoute || '/pages/arcade/arcade',
+    gameRoute: unit.gameRoute || '/pages/review/review',
     evidenceRequired: unit.evidenceRequired || []
   };
 }
@@ -1825,7 +1825,7 @@ function buildLearningReportSummary(reportState = {}, capabilityEvidenceLedger, 
         label: '本地代码更适合',
         owner: '确定性规则',
         action: '负责题型路由、XP 门禁、间隔复习、分享字段、报告放行和隐私拒绝清单。',
-        route: '/pages/arcade/arcade?from=openmaic_k12_workbench'
+        route: '/pages/review/review?from=openmaic_k12_workbench'
       },
       {
         id: 'report',
@@ -2754,7 +2754,7 @@ function buildFamilyDecisionActionBridge(input = {}) {
     ? memo.evidenceChecklist.slice(0, 3)
     : ['孩子说出第一步', '留下错因卡', '明天能回访同一小步'];
   const tutorRoute = memo.route || (plan.cta && plan.cta.path) || '/pages/tutor/tutor?from=family_decision_bridge';
-  const practiceRoute = nextCapability.route || active.route || '/pages/arcade/arcade?from=family_decision_bridge';
+  const practiceRoute = nextCapability.route || active.route || '/pages/review/review?from=family_decision_bridge';
   const courseUnitRoute = courseUnit && courseUnit.gameRoute ? courseUnit.gameRoute : practiceRoute;
   const subjectLine = subjectDepth && subjectDepth.label
     ? `${subjectDepth.label}：${subjectDepth.firstStep}`
@@ -3980,7 +3980,7 @@ Page({
       rows: [
         { id: 'content_loop', name: '内容回访', score: review.contentPipeline ? 98 : 94, strength: '材料 -> 卡片 -> 小测 -> 连续记录', gap: '真实材料处理和稳定复盘规模' },
         { id: 'memory_loop', name: '长期记忆', score: review.retentionLab ? 96 : 92, strength: '间隔复习、负载控制和卡点修复', gap: '真实调度参数校准' },
-        { id: 'tutor_loop', name: '原小点学伴', score: thinking.total ? 99 : 96, strength: '追问引导和思路记录', gap: '模型级误区复盘' },
+        { id: 'tutor_loop', name: 'AI私教学伴', score: thinking.total ? 99 : 96, strength: '追问引导和思路记录', gap: '模型级误区复盘' },
         { id: 'china_student', name: '中国学生场景', score: 100, strength: '今晚安排 -> 作业三分类 -> 我的进展', gap: '需要真实体验记录' }
       ]
     };
@@ -4102,7 +4102,7 @@ Page({
       review: '/pages/review/review',
       upload: '/pages/upload/upload',
       reportPreview: '/pages/entry-detail/entry-detail?scene=parent&from=parent_report',
-      arcade: '/pages/arcade/arcade',
+      arcade: '/pages/review/review',
       tutor: '/pages/tutor/tutor'
     };
     if (routeTargets[action]) {

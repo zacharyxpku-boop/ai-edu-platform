@@ -161,8 +161,8 @@ assert(navigationJs.includes('consumePendingTabRouteContext'), 'navigation can c
 assert(navigationJs.includes('shouldOpenFunctionalTab'), 'navigation distinguishes short tab entries from functional flows');
 assert(navigationJs.includes('TAB_ROUTES.includes(base)'), 'navigation detects tabBar routes');
 assert(navigationJs.includes('wx.switchTab({ url: base })'), 'navigation uses switchTab for tabBar routes');
-assert(!navigationJs.includes('RETIRED_ROUTE_MAP'), 'navigation no longer carries old route compatibility maps');
-assert(navigationJs.includes('function activeRoute(route)') && navigationJs.includes('return normalizeRoute(route);'), 'navigation only accepts current active routes');
+assert(!navigationJs.includes('RETIRED_ROUTE_MAP'), 'navigation no longer carries the retired broad route compatibility map');
+assert(navigationJs.includes('LEGACY_ROUTE_ALIASES') && navigationJs.includes("'/pages/arcade/arcade': '/pages/review/review'"), 'navigation aliases legacy arcade links into the current review tab');
 
 const activeSurfaceFiles = [
   'miniprogram/pages/home/home.js',

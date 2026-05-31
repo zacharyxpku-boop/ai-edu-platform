@@ -37,7 +37,7 @@ export const WEB_ENTRY_CARDS = [
   {
     id: 'tutor',
     number: '03',
-    title: '原小点',
+    title: 'AI私教',
     desc: '先说第一步，AI 追问引导，不直接给答案。',
     image: 'entry-tutor.png',
     tone: 'green'
@@ -45,7 +45,7 @@ export const WEB_ENTRY_CARDS = [
   {
     id: 'review',
     number: '04',
-    title: '复习游戏',
+    title: '复习岛',
     desc: '把错因变成闯关、回忆和迁移挑战。',
     image: 'entry-review.png',
     tone: 'yellow'
@@ -61,7 +61,7 @@ export const WEB_ENTRY_CARDS = [
   {
     id: 'map',
     number: '06',
-    title: '学习地图',
+    title: '今晚路径',
     desc: '查看本周路线、任务进度和回访节点。',
     image: 'entry-map.png',
     tone: 'green'
@@ -83,12 +83,12 @@ export const WEB_PAGE_GUIDES = {
     steps: [
       ['01', '先看证据', '哪些来自材料，哪些只是待验证假设。'],
       ['02', '匹配方法', '把学习信号映射到苏格拉底、费曼、回忆复习和变式训练。'],
-      ['03', '去执行', '进入原小点第一问或复习验证。']
+      ['03', '去执行', '进入AI私教第一问或复习验证。']
     ],
-    cta: ['tutor', '进入 原小点']
+    cta: ['tutor', '进入 AI私教']
   },
   tutor: {
-    title: '原小点主线',
+    title: 'AI私教主线',
     steps: [
       ['01', '说第一步', '孩子先说自己从哪里开始想。'],
       ['02', '只追问', 'AI 补提示，不直接给完整答案。'],
@@ -128,7 +128,7 @@ export const WEB_PAGE_GUIDES = {
 export const WEB_MATERIAL_PIPELINE = [
   ['材料入口', '天赋测评、成绩单、错题、学校反馈、家长观察先归档。'],
   ['证据分级', '强证据、弱证据、方法假设分开标注，避免贴标签。'],
-  ['行动出口', '报告、原小点、复习和家长问题共用同一组证据。']
+  ['行动出口', '报告、AI私教、复习和家长问题共用同一组证据。']
 ];
 
 export const WEB_CONFIDENCE_BANDS = [

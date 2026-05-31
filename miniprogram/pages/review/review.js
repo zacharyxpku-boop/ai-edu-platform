@@ -202,7 +202,7 @@ Page({
       line: `${context.subject || '公开题型'}：只回访第一步，不展示原题或完整答案。`,
       actionLabel: '回访第一步',
       blockedFields,
-      returnRoute: context.route || '/pages/arcade/arcade',
+      returnRoute: context.route || '/pages/review/review',
       flowTraceId: `public_k12:${context.id || context.taskType || cardId}`,
       publicK12Review: true
     };
@@ -508,7 +508,7 @@ Page({
       {
         id: 'arcade',
         label: '5分钟轻练',
-        route: '/pages/arcade/arcade',
+        route: '/pages/review/review',
         reason: '把修过的卡点放进主动回忆，不靠照抄结果。',
         capabilityId: 'game'
       },
@@ -647,7 +647,7 @@ Page({
       xpRule: daily.antiCramRule || 'XP 只奖励主动回忆、错因回放和明天回访，不奖励速度或分数比较。',
       parentLine: daily.parentLine || `家长只问一句：这张卡第一步为什么先做「${weakKey}」？`,
       shareLine: daily.shareLine || '分享只带错因和下一步，不带原题、答案、分数或完整对话。',
-      nextRoute: '/pages/arcade/arcade?from=memory_prescription'
+      nextRoute: '/pages/review/review?from=memory_prescription'
     };
   },
 
@@ -674,7 +674,7 @@ Page({
       releaseGate: retest.releaseGate || '三段复测证据齐之前，不写长期掌握结论。',
       arcadeRoute: active.nextPracticePlan && active.nextPracticePlan.arcadeRoute
         ? active.nextPracticePlan.arcadeRoute
-        : '/pages/arcade/arcade?from=rule_retest',
+        : '/pages/review/review?from=rule_retest',
       count: ruleCards.length,
       cadence
     };
@@ -791,7 +791,7 @@ Page({
         evidence: todayFocus.reason || (todayFocus.isStuck ? '你不是整题不会，只是卡在第一步。' : '来自今天的第一步想法。'),
         cause: todayFocus.sourceText || todayFocus.thought ? `原话：${String(todayFocus.sourceText || todayFocus.thought).slice(0, 42)}` : '先把卡住点说清楚。',
         next: todayFocus.issueType ? `对应修法：先说第一步，再做一道小变式。` : (todayFocus.recommendation || '先说清第一步，再做一道小变式'),
-        helper: todayFocus.helper || '原小点会先问一步，不直接讲最终结果。',
+        helper: todayFocus.helper || 'AI私教会先问一步，不直接讲最终结果。',
         status: todayFocus.repairStatus || 'not_started',
         statusText: todayFocus.repairStatus === 'completed' ? '明天回访' : todayFocus.repairStatus === 'in_progress' ? '进行中' : '未开始',
         confidence: Math.max(62, Math.min(96, progress ? progress + 28 : 72))
@@ -1582,7 +1582,7 @@ Page({
   runPostRepairBridgeAction(event) {
     const dataset = event.currentTarget.dataset || {};
     const bridge = this.data.postRepairBridge || {};
-    const route = dataset.route || '/pages/arcade/arcade';
+    const route = dataset.route || '/pages/review/review';
     const action = {
       source: 'review_post_repair_bridge',
       sourceLabel: '修卡后行动桥',
@@ -1631,7 +1631,7 @@ Page({
 
   runRuleRetestAction() {
     const panel = this.data.ruleRetestPanel || {};
-    const route = panel.arcadeRoute || '/pages/arcade/arcade?from=rule_retest';
+    const route = panel.arcadeRoute || '/pages/review/review?from=rule_retest';
     if (storage.recordUnifiedNextAction) {
       storage.recordUnifiedNextAction({
         surface: 'review',

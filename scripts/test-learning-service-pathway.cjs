@@ -154,7 +154,7 @@ assert(uploadJs.includes("require('../../utils/learning-service-pathway')"), 'up
 assert(uploadJs.includes('servicePathway') && uploadJs.includes('buildLearningServicePathway'), 'upload report CTA carries service pathway data');
 assert(uploadJs.includes('servicePathway: cta.servicePathway'), 'service pathway persists into learning report state');
 assert(uploadWxml.includes('upload-material-grid') && uploadWxml.includes('家长报告'), 'upload compact UI routes service pathway output into the parent report entry');
-assert(uploadWxml.includes('yd-upload-pipeline') && uploadWxml.includes('进入原小点'), 'upload compact UI shows the service path as classify-report-gudian progression');
+assert(uploadWxml.includes('yd-upload-pipeline') && uploadWxml.includes('进入AI私教'), 'upload compact UI shows the service path as classify-report-AI-tutor progression');
 assert(uploadWxml.includes('upload-pipeline-node') && uploadWxml.includes('upload-pipeline-icon'), 'upload service path is a visual route rail instead of number-only boxes');
 ['entry-upload.png', 'entry-report.png', 'entry-parent.png', 'entry-tutor.png'].forEach((asset) => {
   assert(uploadWxml.includes(asset), `upload route rail uses reference asset: ${asset}`);

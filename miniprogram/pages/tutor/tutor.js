@@ -371,7 +371,7 @@ function buildThinkingReceipt(messages = [], masterySignal, pasteRisk, activeSte
       {
         id: 'recall',
         label: '5分钟轻练',
-        route: '/pages/arcade/arcade?from=tutor_handoff&mode=recall',
+        route: '/pages/review/review?from=tutor_handoff&mode=recall',
         reason: proofSentence ? '已经会说方法，马上用一局轻回访问是否转身还记得。' : '还没完全说清，先用低负担练习保留手感。',
         evidence: '轻回访结果'
       },

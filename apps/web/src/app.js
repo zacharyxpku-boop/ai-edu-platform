@@ -15,10 +15,10 @@ const routes = [
   ['home', '学习主界面', 'brand-house.png'],
   ['upload', '上传资料', 'entry-upload.png'],
   ['report', '个性化报告', 'entry-report.png'],
-  ['tutor', '原小点', 'entry-tutor.png'],
-  ['review', '复习游戏', 'entry-review.png'],
+  ['tutor', 'AI私教', 'entry-tutor.png'],
+  ['review', '复习岛', 'entry-review.png'],
   ['parent', '家长中心', 'entry-parent.png'],
-  ['map', '学习地图', 'entry-map.png']
+  ['map', '今晚路径', 'entry-map.png']
 ];
 
 const mobileLabels = {
@@ -190,7 +190,7 @@ function renderReport() {
 
 function renderTutor() {
   return `
-    <section class="page-title tutor-title"><div><h1>原小点 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section>
+    <section class="page-title tutor-title"><div><h1>AI私教 <small>/ 先说第一步</small></h1><p>不直接给答案，先追问、再引导，让孩子把思路讲出来。</p></div></section>
     ${sceneSwitch('tutor')}
     <section class="tutor-lab"><article class="chat-card tutor-chat card"><div class="chat-head"><img class="chat-avatar" src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><h2>咕点</h2><p>像朋友一样陪你想，不替你写答案。</p></div><span>AI</span></div><div class="bubble coach">遇到难题很正常。先说说：你准备从哪一步开始？</div><div class="bubble me">我先算一共用了多少米彩带。</div><div class="bubble coach">很好。那你准备把哪几部分加在一起？</div><div class="chat-actions"><button class="soft-button" data-action="tutor-stuck">我有点卡住</button><button class="soft-button" data-action="tutor-hint">给我一点提示</button><button class="soft-button" data-action="tutor-retry">我想再试一次</button></div><div class="input-line"><input id="tutorInput" placeholder="告诉我你的想法..."><button data-action="send-tutor">发送</button></div><p class="tutor-boundary">边界：只做思路提示和追问，不提供整题代写。</p></article><article class="problem-board card"><div class="card-head"><h3>题目与思路板</h3><button class="soft-button mini" data-action="tutor-hint">提示</button></div><div class="problem-card"><span>应用题</span><p>活动场地买了红色 45 米、蓝色 27 米、黄色 18 米彩带。一共买了多少米？</p><b>先想：要求“一共”，要把哪些数量合并在一起？</b></div><div class="board-and-ladder"><div class="thinking-canvas"><h3>我的思路</h3><div class="canvas-empty">写下你的步骤、图示或列式。</div></div><div class="hint-ladder"><h3>提示阶梯</h3><ol><li class="active"><b>第 1 步</b><p>先理解题目问什么。</p></li><li><b>第 2 步</b><p>找出需要合并的数量。</p></li><li><b>第 3 步</b><p>列式并检查结果。</p></li></ol></div></div></article></section>
     ${pageGuide('tutor')}
@@ -205,7 +205,7 @@ function renderReview() {
     ['错因复盘', '把错误变成下一次的检查清单。', 'entry-tutor.png', 'orange', '奖励 25 星']
   ];
   return `
-    <section class="page-title review-title"><div><h1>复习游戏</h1><p>3 分钟回访，把错因变成闯关挑战。</p></div><article class="review-buddy-card"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><b>今天有 12 个知识点</b><span>先回忆，再变式，最后复盘。</span></div></article></section>
+    <section class="page-title review-title"><div><h1>复习岛</h1><p>3 分钟回访，把错因变成主动回忆和变式验证。</p></div><article class="review-buddy-card"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><div><b>今天有 12 个知识点</b><span>先回忆，再变式，最后复盘。</span></div></article></section>
     ${sceneSwitch('review')}
     <section class="review-world card"><div class="world-path"><span></span></div><div class="world-node node-1 done"><img src="${referenceAsset('entry-report.png')}" alt=""><b>回忆关</b><em>已完成</em></div><div class="world-node node-2 done"><img src="${referenceAsset('entry-map.png')}" alt=""><b>迁移关</b><em>已完成</em></div><div class="world-node node-3 active"><img src="${referenceAsset('entry-review.png')}" alt=""><b>变式挑战</b><em>进行中</em></div><div class="world-node node-4"><img src="${referenceAsset('entry-tutor.png')}" alt=""><b>错因复盘</b><em>待解锁</em></div><button class="world-rule-button" data-action="review-map-info">查看规则</button></section>
     ${pageGuide('review')}
@@ -218,7 +218,7 @@ function renderParent() {
   const evidence = [
     ['课堂练习', '正确率 86%', '18 次', 'entry-report.png'],
     ['错题巩固', '已订正 12 道', '正确率 83%', 'entry-review.png'],
-    ['原小点互动', '对话 9 次', '掌握度提升', 'entry-tutor.png'],
+    ['AI私教互动', '对话 9 次', '掌握度提升', 'entry-tutor.png'],
     ['知识掌握', '掌握 23 个', '薄弱 6 个', 'entry-map.png']
   ];
   return `
@@ -242,7 +242,7 @@ function renderMap() {
     ['map', '06', '周目标达成', '待完成', 'entry-map.png', 'todo']
   ];
   return `
-    <section class="page-title map-title"><div><h1>学习地图 <small>/ 看见本周路径</small></h1></div></section>
+    <section class="page-title map-title"><div><h1>今晚路径 <small>/ 看见本周闭环</small></h1></div></section>
     ${sceneSwitch('map')}
     <section class="learning-road card"><div class="road-head"><h2>小明的专属学习旅程</h2><span>本周第 3 天</span></div><div class="road-line"></div>${route.map(([id, num, title, status, image, stateName], index) => `<button class="road-stop stop-${index + 1} ${stateName}" data-route="${id}"><b>${num}</b><strong>${title}</strong><em>${status}</em><img src="${referenceAsset(image)}" alt=""></button>`).join('')}<div class="road-cheer"><img src="${referenceAsset('hero-mascot.png')}" alt="咕点"><p>你已完成 2 个关键节点。完成本周路径后，可以获得学习探索者勋章。</p><button class="soft-button" data-route="review">查看勋章</button></div></section>
     ${pageGuide('map')}

@@ -650,11 +650,11 @@ function run() {
   assert(review.noteCardTemplates(updated).length >= 2, 'note can expand to multiple templates');
 
   const readMini = (...parts) => fs.readFileSync(path.join(__dirname, '..', 'miniprogram', ...parts), 'utf8');
-  const pageJson = ['home', 'tutor', 'arcade', 'profile', 'upload'].map((page) => JSON.parse(readMini('pages', page, page + '.json')));
+  const pageJson = ['home', 'tutor', 'review', 'profile', 'upload'].map((page) => JSON.parse(readMini('pages', page, page + '.json')));
   assert(pageJson.every((json) => json.navigationStyle === 'custom'), 'V1 key pages use custom navigation instead of double top bars');
   const customTabWxml = readMini('custom-tab-bar', 'index.wxml');
   const customTabJs = readMini('custom-tab-bar', 'index.js');
-  assert(customTabWxml.includes('yd-tabbar') && customTabWxml.includes('今天') && customTabWxml.includes('原小点') && customTabWxml.includes('复习岛') && customTabWxml.includes('家长') && customTabWxml.includes('上传'), 'custom tabbar mirrors the five-entry child-parent shell');
+  assert(customTabWxml.includes('yd-tabbar') && customTabWxml.includes('今天') && customTabWxml.includes('AI私教') && customTabWxml.includes('复习岛') && customTabWxml.includes('家长') && customTabWxml.includes('上传'), 'custom tabbar mirrors the five-entry child-parent shell');
   assert(customTabJs.includes('getCurrentPages') && customTabJs.includes('selected'), 'custom tabbar syncs selected page state');
   const reviewWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.wxml'), 'utf8');
   const reviewJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'review', 'review.js'), 'utf8');
@@ -669,7 +669,7 @@ function run() {
     '9:41'
   ].join('|'));
   assert(!retiredDeviceChromePattern.test(reviewWxml), 'review page does not render fake device status UI');
-  assert(customTabJs.includes('/pages/arcade/arcade'), 'wrong-question transfer loop is available through the review island tab');
+  assert(customTabJs.includes('/pages/review/review') && !customTabJs.includes('/pages/arcade/arcade'), 'main review tab opens the current review island shell instead of the legacy arcade tab');
   assert(reviewWxml.includes('review-challenge-grid') && reviewWxml.includes('开始挑战'), 'review page keeps recall as compact first-screen challenge cards instead of the old after-repair panel');
   assert(reviewWxml.includes('class="yd-review-title"'), 'review page exposes quest title');
   assert(reviewWxml.includes('class="yd-review-pill"'), 'review page exposes due-card pill');
@@ -740,7 +740,7 @@ function run() {
   assert(homeWxml.includes('yd-home-hero-mascot') && homeViewModelJsForCta.includes('routePill'), 'home page keeps the mascot and compact route state in the new shell');
   assert(homeWxml.includes('mini-route-input') && homeWxml.includes('homeViewModel.inputCard.placeholder'), 'home page keeps stuck-point input as a compact route detail');
   assert(homeJs.includes('todayActions'), 'home page still computes actionable next moves');
-  assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.pagePath), ['pages/home/home', 'pages/tutor/tutor', 'pages/arcade/arcade', 'pages/profile/profile', 'pages/upload/upload'], 'miniapp tabBar keeps the five active product entries');
+  assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.pagePath), ['pages/home/home', 'pages/tutor/tutor', 'pages/review/review', 'pages/profile/profile', 'pages/upload/upload'], 'miniapp tabBar keeps the five active product entries without the legacy arcade tab');
   assert(appJson.pages.includes('pages/entry-detail/entry-detail'), 'entry-detail child scene page is registered');
   assert(entryDetailJsForCta.includes('const SCENES') && entryDetailWxmlForCta.includes('bindtap="openScene"'), 'entry-detail owns the child-scene jump system');
   assert(entryDetailJsForCta.includes("primaryRoute: '/pages/review/review") && entryDetailJsForCta.includes("primaryRoute: '/pages/tutor/tutor"), 'entry-detail routes review and tutor scenes to active pages');

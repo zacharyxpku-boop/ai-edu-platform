@@ -549,7 +549,7 @@ Page({
       cardCount: taskCards.length,
       dueCount: Number((reviewSummary && reviewSummary.due) || 0),
       route: primary.route || '/pages/review/review?from=home_daily_memory_task',
-      arcadeRoute: '/pages/arcade/arcade?from=home_daily_memory_task',
+      arcadeRoute: '/pages/review/review?from=home_daily_memory_task',
       reviewRoute: '/pages/review/review?from=home_daily_memory_task',
       taskCards,
       tomorrowLine: nextEvidence.dueAt
@@ -1043,7 +1043,7 @@ Page({
     if (!incoming || !incoming.share_code) return null;
     const actionLabel = incoming.action_label || '先接住这张学习复盘卡';
     const actionDetail = incoming.action_detail || incoming.capability_next_action || '用自己的材料走一遍：第一步、轻练、回访。';
-    const challengeRoute = navigation.normalizeRoute(incoming.challenge_route || incoming.capability_route || '/pages/arcade/arcade');
+    const challengeRoute = navigation.normalizeRoute(incoming.challenge_route || incoming.capability_route || '/pages/review/review');
     const unitRoute = navigation.normalizeRoute(incoming.course_unit_game_route || incoming.course_unit_recall_route || challengeRoute);
     const firstStep = incoming.relay_first_step || incoming.challenge_goal || actionLabel;
     const privacyLine = incoming.relay_privacy || '分享只带学习动作和回访证据，不带孩子完整对话、分数、原题照片。';
@@ -2105,12 +2105,12 @@ Page({
     const query = incoming.share_code
       ? `?from=share&share=${incoming.share_code}&mode=${incoming.mode || ''}&identity=${encodeURIComponent(incoming.identity_tag || '')}&action=${incoming.parent_next_action || ''}&capability_gap=${encodeURIComponent(incoming.capability_gap || '')}&capability_label=${encodeURIComponent(incoming.capability_label || '')}&challenge_goal=${encodeURIComponent(incoming.challenge_goal || '')}&challenge_rule=${encodeURIComponent(incoming.challenge_rule || '')}${socraticReportQuery}${visualBoardRelayQuery}`
       : '';
-    navigation.navigateLearningRoute(`/pages/arcade/arcade${query}`);
+    navigation.navigateLearningRoute(`/pages/review/review${query}`);
   },
 
   goSharedChallenge() {
     const incoming = this.data.incomingShare || (storage.loadIncomingShare && storage.loadIncomingShare()) || {};
-    const route = navigation.normalizeRoute(incoming.challenge_route || incoming.capability_route || '/pages/arcade/arcade');
+    const route = navigation.normalizeRoute(incoming.challenge_route || incoming.capability_route || '/pages/review/review');
     const receiverOwnMaterialChallenge = incoming.receiver_own_challenge_route
       ? storage.buildReceiverOwnMaterialChallenge
         ? storage.buildReceiverOwnMaterialChallenge(incoming)
@@ -2155,7 +2155,7 @@ Page({
       visual_board_relay_exit: incoming.visual_board_relay_exit || '',
       visual_board_relay_boundary: incoming.visual_board_relay_boundary || ''
     });
-    if (!navigation.navigateLearningRoute(target)) navigation.navigateLearningRoute('/pages/arcade/arcade');
+    if (!navigation.navigateLearningRoute(target)) navigation.navigateLearningRoute('/pages/review/review');
   },
 
   continueShareRelay() {
@@ -2164,8 +2164,8 @@ Page({
       ? relay.relayPackCards[0]
       : null;
     const route = navigation.normalizeRoute(
-      (firstCard && firstCard.route) || relay.receiverOwnMaterialChallengeRoute || relay.challengeRoute || '/pages/arcade/arcade',
-      '/pages/arcade/arcade'
+      (firstCard && firstCard.route) || relay.receiverOwnMaterialChallengeRoute || relay.challengeRoute || '/pages/review/review',
+      '/pages/review/review'
     );
     if (storage.recordSurfaceDepthAction) {
       storage.recordSurfaceDepthAction({
@@ -2182,7 +2182,7 @@ Page({
   runIncomingShareRelayAction(event) {
     const dataset = event.currentTarget.dataset || {};
     const incoming = this.data.incomingShare || (storage.loadIncomingShare && storage.loadIncomingShare()) || {};
-    const route = navigation.normalizeRoute(dataset.route || '/pages/arcade/arcade', '/pages/arcade/arcade');
+    const route = navigation.normalizeRoute(dataset.route || '/pages/review/review', '/pages/review/review');
     const socraticReportQuery = incoming.share_code
       ? `&socratic_report_status=${encodeURIComponent(incoming.socratic_report_status || '')}&socratic_report_action=${encodeURIComponent(incoming.socratic_report_action || '')}&socratic_report_decision=${encodeURIComponent(incoming.socratic_report_decision || '')}&socratic_report_no_increase=${encodeURIComponent(incoming.socratic_report_no_increase || '')}&socratic_report_parent_proof=${encodeURIComponent(incoming.socratic_report_parent_proof || '')}&socratic_report_boundary=${encodeURIComponent(incoming.socratic_report_boundary || '')}`
       : '';
@@ -2253,7 +2253,7 @@ Page({
       wrong_cause_receiver_action: incoming.wrong_cause_receiver_action || '',
       wrong_cause_blocked_fields: incoming.wrong_cause_blocked_fields || ''
     });
-    if (!navigation.navigateLearningRoute(target)) navigation.navigateLearningRoute('/pages/arcade/arcade');
+    if (!navigation.navigateLearningRoute(target)) navigation.navigateLearningRoute('/pages/review/review');
   },
 
   startTopMust() {

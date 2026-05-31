@@ -11,6 +11,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const appJson = JSON.parse(read('miniprogram/app.json'));
 const tabLabels = appJson.tabBar.list.map((item) => item.text);
 assert.strictEqual(tabLabels.length, 5, 'miniapp keeps five main tabs');
+assert.deepStrictEqual(appJson.tabBar.list.map((item) => item.pagePath), ['pages/home/home', 'pages/tutor/tutor', 'pages/review/review', 'pages/profile/profile', 'pages/upload/upload'], 'miniapp main tabs do not expose the legacy arcade page');
 
 const customTab = read('miniprogram/custom-tab-bar/index.wxml');
 tabLabels.forEach((label) => {

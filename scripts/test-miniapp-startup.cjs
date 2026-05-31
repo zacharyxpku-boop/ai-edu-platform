@@ -34,7 +34,7 @@ const tabPages = (((appJson.tabBar || {}).list) || []).map((item) => item.pagePa
 assert.deepStrictEqual(tabPages, [
   'pages/home/home',
   'pages/tutor/tutor',
-  'pages/arcade/arcade',
+  'pages/review/review',
   'pages/profile/profile',
   'pages/upload/upload'
 ], 'tab pages follow the child-first five-entry product route');
@@ -164,7 +164,7 @@ assert(!/companionPreference\.selectedCompanion/.test(homeWxml) || homePage.data
 const tabStartupExpectations = {
   'pages/home/home': ['homeViewModel'],
   'pages/tutor/tutor': ['quickActions'],
-  'pages/arcade/arcade': ['selectedGame'],
+  'pages/review/review': ['reviewViewModel'],
   'pages/profile/profile': ['profileViewModel'],
   'pages/upload/upload': ['uploadEntryDeck']
 };
@@ -189,10 +189,6 @@ Object.entries(tabStartupExpectations).forEach(([pagePath, fields]) => {
     }
     if (pagePath === 'pages/tutor/tutor') {
       assert(wxml.includes('yd-tutor-screen') && wxml.includes('tutor-entry-grid'), `${pagePath} WXML renders the new tutor launch shell`);
-      return;
-    }
-    if (pagePath === 'pages/arcade/arcade') {
-      assert(wxml.includes('yd-arcade-screen') && wxml.includes('arcade-map-card'), `${pagePath} WXML renders the new arcade launch shell`);
       return;
     }
     if (pagePath === 'pages/upload/upload') {

@@ -204,7 +204,7 @@ function buildUploadPersonalizedClosureView(bridge = {}) {
     id: 'upload_personalized_closure_view',
     title: '个性化闭环执行桥',
     statusLine: bridge.status === 'ready_for_guided_execution'
-      ? '已具备真实任务证据：可以进入原小点、修卡点、回访和家长报告。'
+      ? '已具备真实任务证据：可以进入AI私教、修卡点、回访和家长报告。'
       : '先补真实任务证据：资料/成绩只能生成方法候选，不能直接放行游戏或服务。',
     contentLine: `内容密度：${bridge.contentScalePlan ? bridge.contentScalePlan.density : 'pending'}；题型：${bridge.questionType || 'unknown'}；学科：${bridge.subject || 'unknown'}`,
     socraticLine: bridge.socraticStressFallback
@@ -378,7 +378,7 @@ function buildUploadAiMaterialSolutionView(contract = {}, sourceSchemaId = '', o
     routes: [
       { id: 'socratic', label: 'Socratic', route: executionPath.socraticRoute || '/pages/tutor/tutor?from=ai_material_analysis' },
       { id: 'mini_lesson', label: 'Mini lesson', route: executionPath.miniLessonRoute || '/pages/tutor/tutor?from=ai_material_analysis_mini_lesson' },
-      { id: 'game_recall', label: 'Game recall', route: executionPath.gameRecallRoute || '/pages/arcade/arcade?from=ai_material_analysis' },
+      { id: 'review_recall', label: 'Review recall', route: executionPath.gameRecallRoute || '/pages/review/review?from=ai_material_analysis' },
       { id: 'parent_review', label: 'Parent review', route: executionPath.parentReviewRoute || '/pages/profile/profile?from=ai_material_analysis' }
     ],
     releaseLine: releaseGates.length
@@ -516,7 +516,7 @@ function uploadModeEntryLine(route = '') {
 function uploadModeEvidenceLine(mode = {}) {
   const id = mode.id || '';
   if (id === 'three_minute_mini_lesson') return '退出证据：孩子能用自己的话说出口袋小结。';
-  if (id === 'game_recall') return '退出证据：隔天还能回忆第一步或错因。';
+  if (id === 'game_recall' || id === 'review_recall') return '退出证据：隔天还能回忆第一步或错因。';
   if (id === 'wrong_question_repair_course') return '退出证据：同类错因少一次，且能说出修正动作。';
   if (id === 'online_method_course') return '退出证据：方法候选必须被真实错题验证。';
   return '退出证据：留下孩子第一步、家长一句话和下一次回访。';
@@ -1675,7 +1675,7 @@ Page({
       && servicePathway.modeRecommendations.some((item) => item && item.id === 'game_recall')
     );
     const gameRoute = sourceSchemaId !== 'talent_assessment' && hasGameReleaseEvidence && servicePathwayAllowsGame
-      ? `/pages/arcade/arcade?from=upload_report_ready&${query}`
+      ? `/pages/review/review?from=upload_report_ready&${query}`
       : '';
     const tonightTaskCard = this.buildTonightTaskCard(decisionSource, reportState, {
       structuredEvidenceSignals: uploadEvidenceSignals,

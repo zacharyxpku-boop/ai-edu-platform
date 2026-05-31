@@ -43,13 +43,14 @@ const tabContracts = [
     primaryAction: 'tutor-primary'
   },
   {
-    id: 'arcade',
-    wxml: 'miniprogram/pages/arcade/arcade.wxml',
-    wxss: 'miniprogram/pages/arcade/arcade.wxss',
-    launchShell: 'yd-arcade-screen',
-    safeAreaOwner: 'yd-arcade-screen',
-    safeAreaProp: 'margin',
-    primaryAction: 'arcade-primary'
+    id: 'review',
+    wxml: 'miniprogram/pages/review/review.wxml',
+    wxss: 'miniprogram/pages/review/review.wxss',
+    launchShell: 'yd-review-screen',
+    safeAreaOwner: 'content-inner',
+    safeAreaProp: 'padding',
+    primaryAction: 'review-main-cta',
+    jumpClass: 'review-challenge-card'
   },
   {
     id: 'parent',
@@ -93,7 +94,8 @@ tabContracts.forEach((tab) => {
   const launch = focusedLaunchSlice(wxml, tab.launchShell);
 
   assert(launch.includes(tab.launchShell), `${tab.id} renders the new focused launch shell`);
-  assert.strictEqual((launch.match(/ux-kit-jump-card/g) || []).length, 3, `${tab.id} launch screen keeps exactly 3 jump cards`);
+  const jumpClass = tab.jumpClass || 'ux-kit-jump-card';
+  assert.strictEqual((launch.match(new RegExp(jumpClass, 'g')) || []).length, 3, `${tab.id} launch screen keeps exactly 3 jump cards`);
   assert((launch.match(/bindtap="openEntryDetail"/g) || []).length >= 3, `${tab.id} launch cards jump to child/detail pages`);
   assert(launch.includes(tab.primaryAction), `${tab.id} launch screen keeps one obvious primary action`);
   assert(!wxml.includes(['ux', 'kit', 'subcheck'].join('-')), `${tab.id} does not restore the old secondary subcheck tail`);

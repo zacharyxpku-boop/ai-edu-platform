@@ -17,6 +17,10 @@ function arcadeReadableRouteLine(route = '') {
   return '下一步：练后回到同一条学习证据。';
 }
 
+function buildQueryString(query = {}) {
+  return Object.keys(query || {}).filter((key) => query[key] !== undefined && query[key] !== null && query[key] !== '').map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
+}
+
 Page({
   data: {
     summary: null,
@@ -85,6 +89,13 @@ Page({
   },
 
   onLoad(query = {}) {
+    const queryString = buildQueryString(query);
+    const reviewRoute = queryString ? `/pages/review/review?${queryString}` : '/pages/review/review';
+    if (navigation.rememberTabRouteContext) navigation.rememberTabRouteContext(reviewRoute);
+    if (typeof wx !== 'undefined' && wx.switchTab) {
+      wx.switchTab({ url: '/pages/review/review' });
+      return;
+    }
     this.setData({
       reportSourceContext: this.buildReportSourceContext(query)
     });
