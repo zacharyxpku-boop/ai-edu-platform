@@ -173,7 +173,7 @@ assert(reviewJs.includes('recordReportRevisitEvidence') && reviewJs.includes('ne
 assert(reviewJs.includes('resolveReportRevisitContext') && reviewJs.includes('reportSourceContext.reportId') && reviewJs.includes('evidenceThread.reportId'), 'review report revisit evidence keeps upload/report context even when focus lacks reportId');
 assert(reviewJs.includes('readyHandoff') && reviewJs.includes("handoff.status === 'ready'"), 'review tab route can resume upload report handoff even when switchTab drops query');
 assert(reviewJs.includes('flowTraceId: reportRevisitContext.flowTraceId'), 'review report revisit evidence preserves flow trace id');
-assert(arcadeJs.includes('reportId: reportSourceContext.reportId') && arcadeJs.includes('flowTraceId: reportSourceContext.flowTraceId'), 'arcade game result keeps explicit report and flow trace context');
-assert(arcadeJs.includes("gameType: 'ninety_second_recall'") && arcadeJs.includes('flowTraceId: (this.data.reportSourceContext && this.data.reportSourceContext.flowTraceId)'), 'ninety-second recall evidence keeps report flow context');
+assert(arcadeJs.includes('buildReviewRoute') && arcadeJs.includes('Object.assign({ from:') && arcadeJs.includes('legacy_arcade_redirect'), 'legacy arcade redirect preserves report query context before entering review');
+assert(reviewJs.includes('flowTraceId: reportRevisitContext.flowTraceId') && reviewJs.includes('consumePublicK12ReviewContext'), 'review owns revisit and recall evidence context after legacy arcade redirects');
 
 console.log('All report revisit loop tests pass.');

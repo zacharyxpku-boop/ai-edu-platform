@@ -87,7 +87,7 @@ assert(!files.profileWxml.includes("parent-report-capability-panel"), "profile d
   ['home', files.homeWxml, 'homeViewModel.routePill'],
   ['review', files.reviewWxml, 'route-note short'],
   ['tutor', files.tutorWxml, 'tutor-entry-grid'],
-  ['arcade', files.arcadeWxml, 'arcade-map-card'],
+  ['arcade', files.arcadeWxml, '旧入口已合并到复习岛'],
   ['profile', files.profileWxml, 'yd-parent-loop']
 ].forEach(([name, text, marker]) => {
   assert(text.includes(marker), `${name} keeps one route marker`);

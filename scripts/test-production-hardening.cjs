@@ -444,41 +444,24 @@ assert(acceptance.fixPriorityQueue.some((item) => item.priority === 'P0_EXTERNAL
 
 const profileJs = read('miniprogram/pages/profile/profile.js');
 const profileWxml = read('miniprogram/pages/profile/profile.wxml');
+const reviewJs = read('miniprogram/pages/review/review.js');
 const arcadeJs = read('miniprogram/pages/arcade/arcade.js');
+const arcadeWxml = read('miniprogram/pages/arcade/arcade.wxml');
+const storageJs = read('miniprogram/utils/storage.js');
+const gameLogicJs = read('miniprogram/utils/game-logic.js');
 const apiJs = read('miniprogram/utils/api.js');
 const sessionApi = read('api/mini/session.js');
 const tutorApi = read('api/mini/tutor-message.js');
 assert(profileJs.includes('buildRecentLearningSummary'), 'profile page reads real 3/7-night summary');
 assert(!profileWxml.includes('threeNightSummary') && !profileWxml.includes('sevenNightSummary') && profileWxml.includes('yd-parent-sources'), 'profile page keeps real summaries in logic without rendering dense summary panels');
-assert(arcadeJs.includes('recordGameSessionResult'), 'arcade completion records retention evidence');
-assert(arcadeJs.includes('canPlayGameAction'), 'arcade page has a centralized gameBlocked action guard');
-[
-  'tap_match_tile',
-  'reveal_answer',
-  'grade_quest',
-  'tap_snake_tile',
-  'tap_hole',
-  'restart_round',
-  'record_card_result',
-  'finish_round'
-].forEach((action) => {
-  assert(arcadeJs.includes(`canPlayGameAction('${action}')`), `arcade action ${action} is blocked after daily game completion`);
-});
-assert(arcadeJs.includes('arcade_blocked_repeat_action') && arcadeJs.includes('xp: 0'), 'blocked arcade repeats are logged without XP');
-assert(arcadeJs.includes('storage.getTodaySession') && arcadeJs.includes('gamePlayed'), 'arcade repeat guard checks persisted today session');
-function assertGuardBefore(fnName, writeCall) {
-  const fnStart = arcadeJs.indexOf(`\n  ${fnName}(`);
-  const fnEnd = arcadeJs.indexOf('\n  },', fnStart);
-  assert(fnStart >= 0 && fnEnd > fnStart, `${fnName} exists in arcade page`);
-  const body = arcadeJs.slice(fnStart, fnEnd);
-  const guardIndex = body.indexOf('canPlayGameAction');
-  const writeIndex = body.indexOf(writeCall);
-  assert(guardIndex >= 0, `${fnName} has repeat guard`);
-  assert(writeIndex >= 0, `${fnName} has expected write call`);
-  assert(guardIndex < writeIndex, `${fnName} blocks repeat play before ${writeCall}`);
-}
-assertGuardBefore('recordCardResult', 'reviewCards.reviewCard');
-assertGuardBefore('finishRound', 'recordGameSessionResult');
+assert(storageJs.includes('function recordGameSessionResult') && storageJs.includes('activeRecallEvidenceComplete') && storageJs.includes('evidence_return_count'), 'storage owns game retention evidence and evidence-return counters');
+assert(storageJs.includes('getTodaySession') && storageJs.includes('gamePlayed'), 'today-session persistence still tracks completed review/game evidence');
+assert(gameLogicJs.includes('quest_arcade_precision') && gameLogicJs.includes('rewardXp'), 'adaptive quest logic still converts review precision into a reward-gated quest');
+assert(reviewJs.includes('finishQuizAttempt') && reviewJs.includes('source: \'review_quiz\''), 'review owns active-recall quiz completion and sync evidence');
+assert(reviewJs.includes('reviewCards.reviewCard') && reviewJs.includes('source: \'review_grade\''), 'review owns card grading evidence after retiring the playable arcade page');
+assert(arcadeJs.includes("wx.switchTab({ url: '/pages/review/review' })") && arcadeJs.includes('legacy_arcade_redirect'), 'legacy arcade page is a redirect shell into review');
+assert(arcadeWxml.includes('旧入口已合并到复习岛') && arcadeWxml.includes('data-scene="review"') && arcadeWxml.includes('data-scene="tutor"') && arcadeWxml.includes('data-scene="parent"'), 'legacy arcade shell exposes only current review/tutor/parent exits');
+assert(!arcadeJs.includes('canPlayGameAction') && !arcadeJs.includes('recordGameSessionResult') && !arcadeWxml.includes('arcade-map-card') && !arcadeWxml.includes('arcade-stats-grid'), 'legacy arcade shell does not retain retired playable arcade implementation');
 assert(apiJs.includes('saveClientIdentity') && sessionApi.includes('openid_hash'), 'account/session path stores cloud identity when available');
 assert(tutorApi.includes('sanitizeTutorReply'), 'tutor API sanitizes upstream model replies');
 assert(tutorApi.includes('replyLooksLikeDirectAnswer'), 'tutor API detects direct-answer leakage');

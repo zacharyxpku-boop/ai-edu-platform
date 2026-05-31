@@ -747,12 +747,11 @@ function run() {
   const arcadeJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.js'), 'utf8');
   const arcadeWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.wxml'), 'utf8');
   const arcadeEngineJs = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'utils', 'arcade-engine.js'), 'utf8');
-  assert(arcadeJs.includes('reviewCards.sessionCards') && arcadeJs.includes('reviewCards.reviewCard'), 'arcade uses real review cards and writes back review results');
+  assert(reviewJs.includes('reviewCards.sessionCards') && reviewJs.includes('reviewCards.reviewCard'), 'review uses real review cards and writes back review results');
   assert(reviewJs.includes('buildReportSourceContext') && reviewJs.includes('prioritizeReportSourceCards') && reviewJs.includes('reportSourcePanel'), 'review page prioritizes uploaded-material source cards from a persisted handoff');
-  assert(arcadeJs.includes('appendSyncMutation') && arcadeJs.includes('arcade_attempt'), 'arcade queues learning evidence for sync');
-  assert(arcadeJs.includes('activeGame'), 'arcade tracks active game metadata for explainable recommendations');
-  assert(arcadeWxml.includes('yd-arcade-screen') && arcadeWxml.includes('开始这一关'), 'arcade subpage exposes the playable knowledge arcade through the compact shell');
-  assert(arcadeWxml.includes('回忆') && arcadeWxml.includes('核对'), 'arcade exposes active recall without answer-tool wording');
+  assert(reviewJs.includes('appendSyncMutation') || reviewJs.includes('appendReviewEvent'), 'review queues learning evidence for sync or review logs');
+  assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeWxml.includes('旧入口已合并到复习岛'), 'legacy arcade subpage no longer renders the old playable shell');
+  assert(arcadeWxml.includes('复习岛') && arcadeWxml.includes('AI私教') && arcadeWxml.includes('家长'), 'legacy arcade redirect exposes current review, tutor, and parent exits');
   ['看答案', '参考答案', '正确答案'].forEach((term) => {
     assert(!arcadeWxml.includes(term) && !arcadeJs.includes(term) && !arcadeEngineJs.includes(term), `arcade avoids answer-tool wording: ${term}`);
   });

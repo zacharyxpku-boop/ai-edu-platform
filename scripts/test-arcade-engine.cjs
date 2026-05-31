@@ -21,34 +21,10 @@ function loadArcadeEngine() {
 const arcade = loadArcadeEngine();
 const arcadePageCode = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.js'), 'utf8');
 const arcadePageWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.wxml'), 'utf8');
-assert(arcadePageCode.includes('arcadeReadableRouteLine') && arcadePageWxml.includes('小课堂回流'), 'arcade report source is represented by compact readable return copy');
-assert(!arcadePageWxml.includes('nextDayReturnEvidence.route}}'), 'arcade next-day return evidence hides raw route strings');
-assert(arcadePageCode.includes('buildDailyPrimaryRecallEvidencePacket') && arcadePageCode.includes('persistDailyPrimaryRecallEvidence'), 'daily primary recall writes a local evidence packet before navigation');
-assert(arcadePageCode.includes('activeRecallEvidenceComplete: false') && arcadePageCode.includes('appendReviewEvent'), 'daily primary recall writes pending evidence into review/game logs');
-assert(arcadePageCode.includes('pickReceiverOwnFirstStepEvidence') && arcadePageCode.includes('share_relay_receiver_attempted'), 'share relay game completion requires receiver own first-step evidence');
-assert(arcadePageCode.includes('recordCourseUnitProgress') && arcadePageCode.includes('course_unit_progress_status'), 'arcade writes course-unit progress evidence after a round');
-assert(arcadePageCode.includes('onShareAppMessage') && arcadePageWxml.includes('data-scene="parent"'), 'arcade keeps safe share logic and routes visible parent proof through the compact shell');
-assert(arcadePageCode.includes("require('../../utils/share-relay-schema')") && arcadePageCode.includes("buildShareRelayQuery('/pages/home/home'") && arcadePageCode.includes('peer_90s_relay'), 'arcade native share now lands through the safe home relay schema');
-assert(!arcadePageWxml.includes('Combo {{combo}}') && !arcadePageWxml.includes('生命 {{lives}}') && arcadePageWxml.includes('留证回访'), 'arcade visible copy avoids score/ranking-like combo/life language');
-assert(!/本局得分|正确率|最稳连续|{{result\.accuracy}}%|{{result\.bestCombo}}|{{challengeBrief\.targetAccuracy}}%/.test(arcadePageWxml), 'arcade result UI shows evidence and revisit gates instead of score, accuracy, or streak chasing');
-assert(arcadePageWxml.includes('留证回访') && arcadePageWxml.includes('给家长看') && arcadePageWxml.includes('只看证据'), 'arcade compact UI exposes family-tutor evidence language');
-const shareChallengePayloadSnippet = (arcadePageCode.match(/shareChallengePayload:[\s\S]*?tomorrowLine:/) || [''])[0];
-const sharePayloadWithoutDenylist = shareChallengePayloadSnippet.replace(/relay_blocked_fields:[\s\S]*?openmaic_game_gate:/, 'openmaic_game_gate:');
-assert(!/full_answer|score\s*:|ranking\s*:|full_dialogue/.test(sharePayloadWithoutDenylist), 'arcade share challenge payload avoids raw answer, score, ranking, and dialogue fields outside the denylist');
-assert(arcadePageCode.includes('validateNinetySecondRecallStep') && arcadePageCode.includes('localCheckPassed') && arcadePageCode.includes('childInput') && arcadePageWxml.includes('90 秒回忆'), '90-second recall requires local evidence before XP release and is entered through the compact jump card');
-assert(arcadePageCode.includes('relay_receiver_action') && arcadePageCode.includes('relay_parent_check') && arcadePageCode.includes('relay_blocked_fields') && arcadePageCode.includes('relay_return_path'), 'arcade share relay carries executable safe receiver fields');
-assert(arcadePageCode.includes('public_k12_challenge_selected') && arcadePageCode.includes('sourceChallengeId'), 'public K12 challenge entry writes a concrete review seed instead of only navigating');
-assert(arcadePageCode.includes('arcade.publicK12.selectedChallenge.v1') && arcadePageCode.includes('child_can_say_first_step_before_reward'), 'public K12 selected challenge stores a local release gate');
-assert(arcadePageCode.includes("storage.set('publicK12.reviewContext.v1'") && arcadePageCode.includes('firstStepRequired'), 'public K12 challenge persists review-tab context before switchTab drops query params');
-assert(arcadePageCode.includes('public_k12_challenge_selected') && arcadePageWxml.includes('开始这一关'), 'public K12 challenge logic remains executable behind the compact start card');
-assert(arcadePageCode.includes('selectedCard') && arcadePageCode.includes('dataset.challengeId'), 'arcade records the selected public K12 card instead of always using the first card');
-assert(arcadePageCode.includes('hint_first_step_available') && !arcadePageCode.includes('student_first_step: !!(quizEvidence.student_first_step || card.checkpoint'), 'arcade XP gate treats card metadata as hint only, not evidence');
-assert(!arcadePageCode.includes('firstStep: incomingShare.relay_first_step'), 'arcade share relay does not complete with sender first step');
-assert(arcadePageCode.includes('dailyPrimaryRecallEvidencePacket') && arcadePageWxml.includes('留证回访'), 'arcade keeps evidence-ticket logic while compact UI exposes the evidence goal');
-assert(arcadePageCode.includes("gameType: 'ninety_second_recall'") && arcadePageCode.includes("xpReason: 'ninety_second_recall_completed'") && arcadePageCode.includes('activeRecallEvidenceComplete: true'), '90-second recall completion writes a settled XP/streak evidence packet');
-assert(arcadePageCode.includes('ninetySecondRecallDeck') && arcadePageWxml.includes('把一个卡点玩成可验证的小关'), 'arcade keeps the 90-second playable loop in logic without rendering the old long checklist on the tab page');
-assert(!arcadePageWxml.includes('healthyCommercialReturnGuard'), 'arcade does not render the old healthy commercial return guard wall on the tab page');
-assert(!arcadePageWxml.includes('dailyComebackDecisionEngine') && arcadePageWxml.includes('短、轻、可回访'), 'arcade tab UI stays one compact return route instead of rendering the old daily comeback wall');
+assert(arcadePageCode.includes("wx.switchTab({ url: '/pages/review/review' })"), 'legacy arcade page immediately redirects into the current review island');
+assert(arcadePageCode.includes('legacy_arcade_redirect') && arcadePageWxml.includes('旧入口已合并到复习岛'), 'legacy arcade deep links keep a readable redirect state');
+assert(arcadePageWxml.includes('data-scene="review"') && arcadePageWxml.includes('data-scene="tutor"') && arcadePageWxml.includes('data-scene="parent"'), 'legacy arcade redirect shell exposes current review, tutor, and parent exits');
+assert(!/Combo|生命|本局得分|正确率|最稳连续|healthyCommercialReturnGuard|dailyComebackDecisionEngine/.test(arcadePageWxml), 'legacy arcade redirect shell does not render retired game UI');
 
 const cards = [
   { id: 'c1', question: '8×7=?', answer: '56', subject: '数学', weakPoint: '口算' },

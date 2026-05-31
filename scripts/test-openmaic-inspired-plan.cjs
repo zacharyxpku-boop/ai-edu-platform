@@ -330,7 +330,7 @@ assert(storageJs.includes('ensureMiniLessonReturnReviewCard') && storageJs.inclu
 assert(storageJs.includes('recordMiniLessonExitGate') && storageJs.includes("appendSyncMutation('mini_lesson_exit_gate'"), 'storage persists mini-lesson exit-gate evidence as a syncable local event');
 assert(storageJs.includes('recordMiniLessonReviewResult') && storageJs.includes("appendSyncMutation('mini_lesson_review_result'"), 'storage writes mini-lesson review results back to the evidence thread');
 assert(storageJs.includes('evidence_thread_') && storageJs.includes('topic_card_id'), 'storage persists mini-lesson evidence thread metadata');
-assert(arcadeJs.includes('mini_lesson_review_card_id') && arcadeJs.includes('ensureMiniLessonReturnReviewCard'), 'arcade finish writes review-return seed into a concrete review card');
+assert(storageJs.includes("type: 'three_minute_mini_lesson_return'") && storageJs.includes('ensureMiniLessonReturnReviewCard'), 'mini-lesson exit writes review-return seed into a concrete review card before entering review');
 assert(reviewJs.includes('miniLessonReport') && reviewJs.includes('miniLessonCheckQuestion') && reviewJs.includes('miniLessonBlackboardLine'), 'review consumes mini-lesson report from upload handoff');
 assert(
   reviewWxml.includes('yd-review-screen')
@@ -348,7 +348,7 @@ assert(
 assert(storageJs.includes('setActiveMiniLessonResumeContext') && storageJs.includes('loadActiveMiniLessonResumeContext'), 'storage persists active mini-lesson resume context across tab navigation');
 assert(fs.readFileSync(path.join(__dirname, '..', 'miniprogram/pages/home/home.js'), 'utf8').includes('setActiveMiniLessonResumeContext'), 'home writes mini-lesson resume context before switching tabs');
 assert(reviewJs.includes('loadActiveMiniLessonResumeContext') && reviewJs.includes('context.flowTraceId && card.flowTraceId === context.flowTraceId'), 'review restores the exact mini-lesson return card by active flow trace');
-assert(arcadeJs.includes("storage.set('publicK12.reviewContext.v1'") && reviewJs.includes('consumePublicK12ReviewContext'), 'public K12 challenge context survives tab navigation into review');
+assert(arcadeJs.includes('buildReviewRoute') && arcadeJs.includes('legacy_arcade_redirect') && reviewJs.includes('consumePublicK12ReviewContext'), 'legacy arcade links preserve query context while review consumes public K12 challenge context');
 assert(reviewJs.includes("type: 'public_k12_review_card_created'") && reviewJs.includes("type: 'public_k12_first_step_revisit'"), 'review converts public K12 intake into an executable first-step revisit card');
 
 storageModule.saveReviewCards([]);

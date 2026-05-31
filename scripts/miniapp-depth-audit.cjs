@@ -475,7 +475,7 @@ assert(Array.isArray(realHomeworkCoverageMatrix.contentExpansionQueue) && realHo
   'tutor-entry-card',
   'mini-relay-card',
   'upload-material-grid',
-  'arcade-map-card',
+  'arcade-redirect-card',
   'entry-jump-grid'
 ].forEach((needle) => {
   const visible = read('miniprogram/pages/profile/profile.wxml').includes(needle)

@@ -27,7 +27,7 @@ assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.inclu
 assert(uploadJs.includes('requiresStructuredEvidenceGate') && uploadJs.includes('blocked_until_structured_evidence'), 'Upload blocks release until structured evidence is complete');
 
 assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('yd-review-screen'), 'Review preserves upload decision-bridge status in logic while keeping compact shell');
-assert(arcadeJs.includes('openMaicBridgeStatus') && arcadeWxml.includes('yd-arcade-screen'), 'Arcade preserves upload decision-bridge status in logic while keeping compact shell');
+assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeJs.includes("wx.switchTab({ url: '/pages/review/review' })") && arcadeWxml.includes('旧入口已合并到复习岛'), 'Legacy arcade shell redirects upload decision-bridge context into review instead of preserving retired game logic');
 assert(!reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel'), 'Review does not render receiver own-material relay panel on compact first screen');
 
 assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'Profile is parent evidence oriented');
@@ -36,7 +36,7 @@ assert(profileJs.includes('uploadedMaterialDecisionDossierMethodValidationStages
 assert(!profileWxml.includes('uploadedMaterialDecisionDossierMethodValidationReleaseRule'), 'Profile does not render method release ledger on compact first screen');
 assert(learningReport.includes('methodValidationStages') && learningReport.includes('methodCandidateCards'), 'Learning report carries method validation and candidate methods');
 
-assert(arcadeJs.includes('openEntryDetail') && arcadeWxml.includes('data-scene="tutor"'), 'Arcade routes unavailable recall back to first-step tutor');
+assert(arcadeJs.includes('openEntryDetail') && arcadeWxml.includes('data-scene="tutor"') && arcadeWxml.includes('data-scene="review"'), 'Legacy arcade shell routes unavailable recall back to review and first-step tutor');
 assert(apiJs.includes('httpsCallable') || apiJs.includes('request'), 'Miniapp API layer remains centralized');
 assert(!/\/api\/(?:log-dialogue|fsrs-|ingest-attempt|mastery-proxy|parent-push|student-init|ai-proxy|mentor-queue)/.test(miniApi), 'Miniapp server APIs avoid retired demo endpoints');
 
