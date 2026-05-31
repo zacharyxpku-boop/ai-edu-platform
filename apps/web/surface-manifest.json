@@ -2,7 +2,7 @@
   "surface": "web",
   "name": "Yuandian Web / H5",
   "purpose": "Render the same product loop as the miniapp on the official website without importing miniapp UI code.",
-  "designRule": "Keep brand language aligned with the miniapp, but implement Web layout, routing, responsive behavior, and export flows inside apps/web only. Subpages must expose a compact six-entry scene switch, mirroring the miniapp entry-detail child scene without importing WXML/WXSS.",
+  "designRule": "Keep brand language aligned with the miniapp, but implement Web layout, routing, responsive behavior, and export flows inside apps/web only. Subpages expose a compact six-entry scene switch, mirroring the miniapp entry-detail child scene without importing WXML/WXSS.",
   "sharedPackages": [
     "packages/edu-core",
     "packages/ui-contracts"

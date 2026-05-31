@@ -5,7 +5,7 @@ export const WEB_SURFACE_ROUTES = [
     path: '/',
     miniappParity: 'pages/home/home',
     primaryAction: '选择今晚第一步',
-    promise: '一屏看懂上传、报告、AI私教、复习和家长下一步。'
+    promise: '一屏看懂上传、报告、AI私教、复习岛和家长下一步。'
   },
   {
     id: 'upload',
@@ -13,14 +13,14 @@ export const WEB_SURFACE_ROUTES = [
     path: '/upload',
     miniappParity: 'pages/upload/upload',
     primaryAction: '上传或粘贴材料',
-    promise: '把测评、成绩、错题、学校反馈分门别类变成可分析证据。'
+    promise: '把测评、成绩、错题和反馈分门别类变成可分析证据。'
   },
   {
     id: 'report',
     label: '个性化报告',
     path: '/report',
     miniappParity: 'pages/entry-detail/entry-detail?scene=report + pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
-    primaryAction: '查看报告与导出 PDF',
+    primaryAction: '查看报告并导出 PDF',
     promise: '先讲证据，再讲天赋和方法匹配，最后给家长今晚能做的一步。'
   },
   {
@@ -53,7 +53,7 @@ export const WEB_SURFACE_ROUTES = [
     path: '/map',
     miniappParity: 'pages/entry-detail/entry-detail?scene=today + pages/review/review',
     primaryAction: '查看今晚和未来 7 天路径',
-    promise: '把上传、报告、AI私教、复习和家长回访串成一条能走完、能验证的学习路线。'
+    promise: '把上传、报告、AI私教、复习和家长回访串成一条能走完的学习路线。'
   }
 ];
 
