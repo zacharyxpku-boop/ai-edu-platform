@@ -19,9 +19,9 @@ const targets = [
   ['04-upload-desktop', '资料上传页参考', 'upload-desktop.png'],
   ['05-report-desktop', '报告页参考', 'report-desktop.png'],
   ['06-tutor-desktop', 'AI 私教页参考', 'tutor-desktop.png'],
-  ['07-review-desktop', '复习游戏页参考', 'review-desktop.png'],
+  ['07-review-desktop', '复习岛页参考', 'review-desktop.png'],
   ['08-parent-desktop', '家长中心页参考', 'parent-desktop.png'],
-  ['09-map-desktop', '学习地图页参考', 'map-desktop.png']
+  ['09-map-desktop', '今晚路径页参考', 'map-desktop.png']
 ];
 
 function esc(value) {

@@ -2,7 +2,7 @@
   <scroll-view class="content-area" scroll-y enhanced show-scrollbar="{{false}}">
     <view class="content-inner">
       <view class="yd-review-screen ux-entry ux-entry-review ux-kit-screen ux-kit-review">
-        <view class="yd-review-pill">小课堂回流</view>
+        <view class="yd-review-pill">3分钟回访</view>
         <view class="yd-review-top">
           <view class="yd-review-brand">
             <image class="yd-review-mark" mode="aspectFit" src="/assets/reference/brand-house.png" />

@@ -40,9 +40,9 @@ const TARGETS = [
 ];
 
 const FORBIDDEN = [
-  { pattern: /AI 私教/g, reason: '公开定位应统一为原小点执行端或家庭学习决策系统' },
+  { pattern: /AI 私教/g, reason: '公开定位应统一为家庭学习决策系统或 AI私教执行端' },
   { pattern: /一对一私教/g, reason: '会把产品讲成泛 AI 老师，而不是作业决策执行端' },
-  { pattern: /私教页/g, reason: '公开入口应写执行端或原小点执行端' },
+  { pattern: /私教页/g, reason: '公开入口应写执行端或 AI私教执行端' },
   { pattern: /Story\s*[123]/g, reason: 'Story 是内部叙事，不应出现在公开页面' },
   { pattern: /小程序前身/g, reason: '会削弱当前产品可信度' },
   { pattern: /正在开发中/g, reason: '当前应讲可验证链路，不讲等待上线' },
@@ -62,7 +62,7 @@ const FORBIDDEN = [
   { pattern: /不上\s*OCR|先不做\s*OCR/g, reason: '用户可见文案不应强调未实现能力' },
   { pattern: /首版不做自动图片识别|不做自动图片识别/g, reason: '审核材料应说明当前数据用途，不强调未实现能力' },
   { pattern: /审核前待补/g, reason: '审核材料和小程序内不应暴露待补状态' },
-  { pattern: /陪练/g, reason: '公开口径统一为原小点执行端或思路提示，避免辅导敏感表达' },
+  { pattern: /陪练/g, reason: '公开口径统一为 AI私教执行端或思路提示，避免辅导敏感表达' },
   { pattern: /AI 私教|应试提分|高考 AI 提分|Khanmigo|Khan Academy/g, reason: '当前对外叙事统一为家庭学习决策系统，不再讲旧平台定位' },
 ];
 
