@@ -22,7 +22,7 @@ const arcade = loadArcadeEngine();
 const arcadePageCode = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.js'), 'utf8');
 const arcadePageWxml = fs.readFileSync(path.join(__dirname, '..', 'miniprogram', 'pages', 'arcade', 'arcade.wxml'), 'utf8');
 assert(arcadePageCode.includes("wx.switchTab({ url: '/pages/review/review' })"), 'legacy arcade page immediately redirects into the current review island');
-assert(arcadePageCode.includes('legacy_arcade_redirect') && arcadePageWxml.includes('旧入口已合并到复习岛'), 'legacy arcade deep links keep a readable redirect state');
+assert(arcadePageCode.includes('legacy_arcade_redirect') && arcadePageWxml.includes('已为你打开复习岛'), 'legacy arcade deep links keep a product-native redirect state');
 assert(arcadePageWxml.includes('data-scene="review"') && arcadePageWxml.includes('data-scene="tutor"') && arcadePageWxml.includes('data-scene="parent"'), 'legacy arcade redirect shell exposes current review, tutor, and parent exits');
 assert(!/Combo|生命|本局得分|正确率|最稳连续|healthyCommercialReturnGuard|dailyComebackDecisionEngine/.test(arcadePageWxml), 'legacy arcade redirect shell does not render retired game UI');
 

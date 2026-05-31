@@ -6,7 +6,7 @@
     </view>
     <image class="arcade-redirect-icon" mode="aspectFit" src="/assets/reference/entry-review.png" />
     <view class="arcade-redirect-title">正在进入复习岛</view>
-    <view class="arcade-redirect-sub">旧入口已合并到复习岛，继续做主动回忆和迁移验证。</view>
+    <view class="arcade-redirect-sub">已为你打开复习岛，继续做主动回忆和迁移验证。</view>
     <view class="ux-kit-jump-grid arcade-redirect-grid">
       <view class="ux-kit-jump-card primary arcade-jump-card arcade-redirect-jump" data-scene="review" bindtap="openEntryDetail">
         <image class="arcade-map-icon" mode="aspectFit" src="/assets/reference/entry-review.png" />

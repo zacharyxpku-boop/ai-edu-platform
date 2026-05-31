@@ -460,7 +460,7 @@ assert(gameLogicJs.includes('quest_arcade_precision') && gameLogicJs.includes('r
 assert(reviewJs.includes('finishQuizAttempt') && reviewJs.includes('source: \'review_quiz\''), 'review owns active-recall quiz completion and sync evidence');
 assert(reviewJs.includes('reviewCards.reviewCard') && reviewJs.includes('source: \'review_grade\''), 'review owns card grading evidence after retiring the playable arcade page');
 assert(arcadeJs.includes("wx.switchTab({ url: '/pages/review/review' })") && arcadeJs.includes('legacy_arcade_redirect'), 'legacy arcade page is a redirect shell into review');
-assert(arcadeWxml.includes('旧入口已合并到复习岛') && arcadeWxml.includes('data-scene="review"') && arcadeWxml.includes('data-scene="tutor"') && arcadeWxml.includes('data-scene="parent"'), 'legacy arcade shell exposes only current review/tutor/parent exits');
+assert(arcadeWxml.includes('已为你打开复习岛') && arcadeWxml.includes('data-scene="review"') && arcadeWxml.includes('data-scene="tutor"') && arcadeWxml.includes('data-scene="parent"'), 'legacy arcade shell exposes only current review/tutor/parent exits');
 assert(!arcadeJs.includes('canPlayGameAction') && !arcadeJs.includes('recordGameSessionResult') && !arcadeWxml.includes('arcade-map-card') && !arcadeWxml.includes('arcade-stats-grid'), 'legacy arcade shell does not retain retired playable arcade implementation');
 assert(apiJs.includes('saveClientIdentity') && sessionApi.includes('openid_hash'), 'account/session path stores cloud identity when available');
 assert(tutorApi.includes('sanitizeTutorReply'), 'tutor API sanitizes upstream model replies');

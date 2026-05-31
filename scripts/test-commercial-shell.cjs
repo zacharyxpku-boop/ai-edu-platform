@@ -27,7 +27,7 @@ assert(!uploadWxml.includes('lastReportCta.tonightTaskCard') && uploadWxml.inclu
 assert(uploadJs.includes('requiresStructuredEvidenceGate') && uploadJs.includes('blocked_until_structured_evidence'), 'Upload blocks release until structured evidence is complete');
 
 assert(reviewJs.includes('openMaicBridgeStatus') && reviewWxml.includes('yd-review-screen'), 'Review preserves upload decision-bridge status in logic while keeping compact shell');
-assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeJs.includes("wx.switchTab({ url: '/pages/review/review' })") && arcadeWxml.includes('旧入口已合并到复习岛'), 'Legacy arcade shell redirects upload decision-bridge context into review instead of preserving retired game logic');
+assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeJs.includes("wx.switchTab({ url: '/pages/review/review' })") && arcadeWxml.includes('已为你打开复习岛'), 'Legacy arcade shell redirects upload decision-bridge context into review instead of preserving retired game logic');
 assert(!reviewWxml.includes('memoryPrescriptionPanel.receiverShareRelayPanel'), 'Review does not render receiver own-material relay panel on compact first screen');
 
 assert(profileWxml.includes('yd-parent-screen') && profileWxml.includes('yd-parent-sources'), 'Profile is parent evidence oriented');
@@ -52,7 +52,8 @@ const visibleWxml = [uploadWxml, reviewWxml, arcadeWxml, profileWxml].join('\n')
   '课程售卖',
   '开发者演示',
   'PK',
-  '排行榜'
+  '排行榜',
+  '旧入口'
 ].forEach((term) => {
   assert(!visibleWxml.includes(term), `Commercial shell avoids retired or fake-commercial wording: ${term}`);
 });

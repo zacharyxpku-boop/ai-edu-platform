@@ -750,7 +750,7 @@ function run() {
   assert(reviewJs.includes('reviewCards.sessionCards') && reviewJs.includes('reviewCards.reviewCard'), 'review uses real review cards and writes back review results');
   assert(reviewJs.includes('buildReportSourceContext') && reviewJs.includes('prioritizeReportSourceCards') && reviewJs.includes('reportSourcePanel'), 'review page prioritizes uploaded-material source cards from a persisted handoff');
   assert(reviewJs.includes('appendSyncMutation') || reviewJs.includes('appendReviewEvent'), 'review queues learning evidence for sync or review logs');
-  assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeWxml.includes('旧入口已合并到复习岛'), 'legacy arcade subpage no longer renders the old playable shell');
+  assert(arcadeJs.includes('legacy_arcade_redirect') && arcadeWxml.includes('已为你打开复习岛'), 'legacy arcade subpage no longer renders the old playable shell');
   assert(arcadeWxml.includes('复习岛') && arcadeWxml.includes('AI私教') && arcadeWxml.includes('家长'), 'legacy arcade redirect exposes current review, tutor, and parent exits');
   ['看答案', '参考答案', '正确答案'].forEach((term) => {
     assert(!arcadeWxml.includes(term) && !arcadeJs.includes(term) && !arcadeEngineJs.includes(term), `arcade avoids answer-tool wording: ${term}`);
