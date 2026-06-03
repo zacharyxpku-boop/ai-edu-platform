@@ -21,6 +21,7 @@ const checks = [
       '交付闭环',
       '/lobster.html',
       '龙虾 AI 教师',
+      '飞书/钉钉',
       '/apps/web/assets/reference/hero-mascot.png'
     ]
   },

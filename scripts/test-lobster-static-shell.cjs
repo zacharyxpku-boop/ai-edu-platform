@@ -20,6 +20,9 @@ assert(html.includes('钉钉机器人'), 'lobster shell prioritizes dingtalk bot
 assert(html.includes('微信后续官方适配'), 'lobster shell defers wechat to official adapter');
 assert(html.includes('不做个人号外挂'), 'lobster shell blocks personal-account bot route');
 assert(!/name="(?:phone|mobile|wechatId|qqId|contact)"|rawDialogue/.test(html), 'lobster shell does not request contact identifiers or raw dialogue');
+assert(html.includes('overflow-x: hidden'), 'lobster shell prevents horizontal body overflow');
+assert(html.includes('overflow-wrap: anywhere'), 'lobster shell allows long channel URLs to wrap');
+assert(html.includes('white-space: normal'), 'lobster shell allows long button text to wrap');
 
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert(scriptMatch, 'lobster shell has an inline script');

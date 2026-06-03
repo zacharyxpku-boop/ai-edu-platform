@@ -22,6 +22,7 @@
       color: var(--ink);
       background: var(--paper);
       line-height: 1.55;
+      overflow-x: hidden;
     }
     main { max-width: 1120px; margin: 0 auto; padding: 28px 18px 44px; }
     .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 18px; align-items: stretch; }
@@ -31,12 +32,14 @@
       border-radius: 10px;
       box-shadow: 0 10px 28px rgba(23, 33, 28, .06);
       padding: 22px;
+      min-width: 0;
     }
     .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 800; font-size: 13px; }
     h1 { margin: 0 0 14px; font-size: clamp(30px, 4vw, 52px); line-height: 1.06; letter-spacing: 0; }
     h2 { margin: 0 0 14px; font-size: 22px; letter-spacing: 0; }
     h3 { margin: 0 0 8px; font-size: 17px; letter-spacing: 0; }
-    p { margin: 0 0 12px; color: var(--muted); }
+    p { margin: 0 0 12px; color: var(--muted); overflow-wrap: anywhere; }
+    code { overflow-wrap: anywhere; word-break: break-word; }
     .hero-copy { font-size: 17px; max-width: 720px; }
     .steps, .grid, .channels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -73,6 +76,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
+      white-space: normal;
     }
     .button-link.secondary { background: var(--green); }
     .badge { display: inline-flex; align-items: center; min-height: 26px; border-radius: 999px; background: #f7dfd9; color: #8e2c1f; padding: 3px 9px; font-size: 12px; font-weight: 800; margin: 0 6px 6px 0; }
