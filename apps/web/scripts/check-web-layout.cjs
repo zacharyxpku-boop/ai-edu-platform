@@ -11,8 +11,8 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..', '..', '..');
 const serveRoot = repoRoot;
 const routeBasePath = '/app';
-const pages = ['home', 'upload', 'report', 'tutor', 'review', 'parent', 'map'];
-const commandTimeoutMs = 8000;
+const pages = ['home', 'upload', 'report', 'tutor', 'review', 'parent', 'map', 'lobster'];
+const commandTimeoutMs = 20000;
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -261,7 +261,7 @@ async function inspectPage(debugPort, base, page, viewport) {
           if (style.display === 'none' || style.visibility === 'hidden') return null;
           const rect = el.getBoundingClientRect();
           if (rect.width < 2 || rect.height < 2) return null;
-          const inHorizontalScroller = Boolean(el.closest('.game-map'));
+          const inHorizontalScroller = Boolean(el.closest('.route-line, .web-scene-switch, .learning-road'));
           const offLeft = rect.left < -1;
           const offRight = rect.right > viewportWidth + 1;
           if ((!offLeft && !offRight) || inHorizontalScroller) return null;
@@ -309,7 +309,7 @@ async function inspectPage(debugPort, base, page, viewport) {
 async function inspectNavigation(debugPort, base) {
   const target = await newTarget(debugPort);
   const cdp = cdpSocket(target.webSocketDebuggerUrl);
-  const routes = ['upload', 'report', 'tutor', 'review', 'parent', 'home'];
+  const routes = ['upload', 'report', 'tutor', 'review', 'parent', 'map', 'home'];
   const failures = [];
 
   async function navigateHome() {
@@ -363,7 +363,7 @@ async function inspectNavigation(debugPort, base) {
       console.log(`OK mobile navigation: home -> ${route}`);
     }
 
-    for (const route of ['home', 'tutor', 'review', 'parent']) {
+    for (const route of ['home', 'tutor', 'review', 'parent', 'upload']) {
       await cdp.send('Page.navigate', { url: `${base}${routeBasePath}/#report` });
       await waitForApp(cdp, 'report');
       await clickAndWait(`.mobile-tabs a[href="#${route}"]`, route, `mobile tab to ${route}`);
@@ -435,16 +435,19 @@ async function inspectActions(debugPort, base) {
     await clickAction('upload', '[data-action="mock-upload"]', 'upload mock');
     await clickAction('upload', '[data-action="select-material"]', 'select material');
     await clickAction('report', '[data-action="share-report"]', 'share report');
-    await clickAction('tutor', '[data-action="send-tutor"]', 'send tutor thought', "document.querySelector('#tutorInput').value = '先算每组多少根'");
+    await clickAction('tutor', '[data-action="send-tutor"]', 'send tutor thought', "document.querySelector('#tutorInput').value = '先算每组多少根?");
     await clickAction('tutor', '[data-action="tutor-hint"]', 'tutor hint');
     await clickAction('review', '[data-action="review-map-info"]', 'review map info');
-    await clickAction('review', '[data-action="review-level"][data-level="变式挑战"]', 'review level');
-    await clickAction('review', '[data-action="review-challenge"][data-level="变式挑战"]', 'review challenge');
+    await clickAction('review', '[data-action="review-level"][data-level="变式验证"]', 'review level');
+    await clickAction('review', '[data-action="review-evidence"][data-level="变式验证"]', 'review evidence');
     await clickAction('review', '[data-action="start-review"]', 'start review');
     await clickAction('parent', '[data-action="parent-question"]', 'parent question');
     await clickAction('parent', '[data-action="parent-proof"]', 'parent evidence');
     await clickAction('parent', '[data-action="parent-proof-all"]', 'parent evidence all');
     await clickAction('parent', '[data-action="parent-methods"]', 'parent methods');
+    await clickAction('lobster', '[data-action="lobster-coview"]', 'lobster co-view');
+    await clickAction('lobster', '[data-action="lobster-parent-demo"]', 'lobster parent desk');
+    await clickAction('lobster', '[data-action="lobster-followup"]', 'lobster follow-up');
   } finally {
     cdp.close();
   }
@@ -483,8 +486,8 @@ async function main() {
         for (const [key, ok] of Object.entries(result.required)) {
           if (!ok) failures.push(`${prefix}: missing ${key}`);
         }
-        if (viewport.mobile && result.mobileTabs !== 4) {
-          failures.push(`${prefix}: expected 4 mobile tabs, found ${result.mobileTabs}`);
+        if (viewport.mobile && result.mobileTabs !== 5) {
+          failures.push(`${prefix}: expected 5 mobile tabs, found ${result.mobileTabs}`);
         }
         const allowedScroll = viewport.width + 1;
         if (viewport.mobile && (result.scroll.html > allowedScroll || result.scroll.body > allowedScroll)) {

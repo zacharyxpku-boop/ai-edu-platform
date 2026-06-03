@@ -1,0 +1,139 @@
+{
+  "schema_id": "lobster_product_manifest_v1",
+  "product_id": "lobster-learning-agents",
+  "name": "Lobster Learning Agents",
+  "surfaces": {
+    "sdk": "src/lobster/lobster-sdk.cjs",
+    "core": "src/lobster/lobster-core.cjs",
+    "apis": [
+      {
+        "id": "message",
+        "method": "POST",
+        "path": "/api/lobster-message",
+        "purpose": "Route child or parent messages through guarded lobster runtime."
+      },
+      {
+        "id": "config",
+        "method": "GET|POST",
+        "path": "/api/lobster-config",
+        "purpose": "List and create child/parent lobster configurations."
+      },
+      {
+        "id": "memory",
+        "method": "GET|POST",
+        "path": "/api/lobster-memory",
+        "purpose": "Read or append safe structured memory facts."
+      },
+      {
+        "id": "capability",
+        "method": "POST",
+        "path": "/api/lobster-capability",
+        "purpose": "Run a specific child or parent lobster capability."
+      },
+      {
+        "id": "session",
+        "method": "POST",
+        "path": "/api/lobster-session",
+        "purpose": "Run a full family learning session with child and parent lobsters."
+      },
+      {
+        "id": "onboarding",
+        "method": "POST",
+        "path": "/api/lobster-onboarding",
+        "purpose": "Create a self-serve family activation package with parent and child entries."
+      },
+      {
+        "id": "teacher",
+        "method": "POST",
+        "path": "/api/lobster-teacher",
+        "purpose": "Build the parent-device AI teacher workspace with parent desk, child co-view, emotion support, and follow-up."
+      },
+      {
+        "id": "followup",
+        "method": "GET|POST",
+        "path": "/api/lobster-followup",
+        "purpose": "Persist and read structured proactive follow-up schedules for the family workspace."
+      },
+      {
+        "id": "followup_due",
+        "method": "GET|POST",
+        "path": "/api/lobster-followup-due",
+        "purpose": "Scan due reminders for cron or hosted scheduler dispatch without storing contact identifiers."
+      },
+      {
+        "id": "followup_inbox",
+        "method": "GET|POST",
+        "path": "/api/lobster-followup-inbox",
+        "purpose": "Expose due follow-ups as parent-device inbox items and materialize safe dispatch receipts."
+      },
+      {
+        "id": "channel_webhook",
+        "method": "GET|POST",
+        "path": "/api/lobster-message?mode=channel",
+        "purpose": "Receive official Feishu/DingTalk bot messages through the existing message function and route them through the guarded Lobster runtime."
+      }
+    ]
+  },
+  "roles": {
+    "child": {
+      "default_tools": [
+        "socratic_teacher_reply",
+        "homework_first_step_coach",
+        "mini_lesson_bridge",
+        "review_seed_from_tutor",
+        "safe_memory_update"
+      ],
+      "blocked_decisions": [
+        "final_answer",
+        "mastery_claim",
+        "ranking_compare",
+        "reward_release",
+        "parent_private_judgment"
+      ]
+    },
+    "parent": {
+      "default_tools": [
+        "score_material_analysis",
+        "parent_decision_report",
+        "weekly_trend_brief",
+        "evidence_gap_planner",
+        "parent_script_generator"
+      ],
+      "blocked_decisions": [
+        "guaranteed_improvement",
+        "talent_label",
+        "public_ranking",
+        "diagnosis_from_single_score"
+      ]
+    }
+  },
+  "verification": {
+    "fullcheck": "node scripts/test-lobster-fullcheck.cjs",
+    "tests": [
+      "node scripts/test-lobster-product-core.cjs",
+      "node scripts/test-lobster-api.cjs",
+      "node scripts/test-lobster-config-api.cjs",
+      "node scripts/test-lobster-memory-api.cjs",
+      "node scripts/test-lobster-capability-api.cjs",
+      "node scripts/test-lobster-session-api.cjs",
+      "node scripts/test-lobster-onboarding.cjs",
+      "node scripts/test-lobster-teacher.cjs",
+      "node scripts/test-lobster-followup.cjs",
+      "node scripts/test-lobster-channel-adapter.cjs",
+      "node scripts/test-lobster-static-shell.cjs",
+      "node scripts/test-lobster-shell-runtime.cjs",
+      "node scripts/test-lobster-official-web-entry.cjs",
+      "node scripts/test-lobster-vercel-bundle.cjs",
+      "node scripts/test-lobster-sdk.cjs",
+      "node scripts/test-lobster-manifest.cjs",
+      "node scripts/test-lobster-product-readiness.cjs"
+    ]
+  },
+  "source_references": [
+    "OpenClaw-style tool/channel routing",
+    "Hermes-style skill and memory separation",
+    "Open MAIC-style material-to-learning-scene orchestration",
+    "Letta/MemGPT-style structured memory",
+    "LangGraph/AutoGen-style model/tool routing"
+  ]
+}

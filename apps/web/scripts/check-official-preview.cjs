@@ -13,9 +13,15 @@ const checks = [
     type: 'text/html',
     includes: [
       '/apps/web/src/styles.css',
-      '/apps/web/src/app.js',
       'name="web-app-asset-base" content="/apps/web/assets/brand"',
-      'class="app-shell"'
+      'class="site-home"',
+      '家庭 AI 学习系统',
+      '把孩子今晚该做的第一步讲清楚',
+      '产品体系',
+      '交付闭环',
+      '/lobster.html',
+      '龙虾 AI 教师',
+      '/apps/web/assets/reference/hero-mascot.png'
     ]
   },
   {

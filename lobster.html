@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>龙虾 AI 教师</title>
+  <style>
+    :root {
+      --ink: #17211c;
+      --muted: #617067;
+      --line: #d9e2dc;
+      --paper: #f8faf7;
+      --card: #ffffff;
+      --accent: #c7442e;
+      --green: #16705a;
+      --soft: #eef5f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 28px 18px 44px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: 18px; align-items: stretch; }
+    .panel, .card, .result {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(23, 33, 28, .06);
+      padding: 22px;
+    }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 800; font-size: 13px; }
+    h1 { margin: 0 0 14px; font-size: clamp(30px, 4vw, 52px); line-height: 1.06; letter-spacing: 0; }
+    h2 { margin: 0 0 14px; font-size: 22px; letter-spacing: 0; }
+    h3 { margin: 0 0 8px; font-size: 17px; letter-spacing: 0; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .hero-copy { font-size: 17px; max-width: 720px; }
+    .steps, .grid, .channels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step, .mode-card {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 116px;
+    }
+    .step strong, .mode-card strong { display: block; margin-bottom: 6px; }
+    .form-grid { display: grid; gap: 12px; }
+    label { display: grid; gap: 6px; color: var(--ink); font-size: 14px; font-weight: 700; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea { min-height: 78px; resize: vertical; }
+    button, .button-link {
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      padding: 12px 14px;
+      cursor: pointer;
+      min-height: 46px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .button-link.secondary { background: var(--green); }
+    .badge { display: inline-flex; align-items: center; min-height: 26px; border-radius: 999px; background: #f7dfd9; color: #8e2c1f; padding: 3px 9px; font-size: 12px; font-weight: 800; margin: 0 6px 6px 0; }
+    .badge.ready { background: #dff0e8; color: #145c49; }
+    .badge.soon { background: #f3ead2; color: #84601a; }
+    .result { margin-top: 18px; }
+    .result[hidden] { display: none; }
+    .linkbox { overflow-wrap: anywhere; background: #f5f7f5; border: 1px solid var(--line); border-radius: 8px; padding: 10px; color: var(--ink); font-size: 14px; }
+    ol, ul { margin: 8px 0 0 20px; padding: 0; color: var(--muted); }
+    li { margin: 5px 0; }
+    .channel-card.active { border-color: var(--green); background: #eef7f2; }
+    .channel-meta { display: grid; gap: 8px; margin-top: 10px; }
+    .api-row { display: grid; gap: 8px; grid-template-columns: 1fr auto; align-items: center; }
+    @media (max-width: 860px) {
+      .hero, .grid, .channels, .steps { grid-template-columns: 1fr; }
+      .api-row { grid-template-columns: 1fr; }
+      main { padding: 18px 12px 32px; }
+      .panel, .card, .result { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="panel">
+        <p class="eyebrow">Lobster AI Teacher</p>
+        <h1>配置到家长已经在用的设备和工作群里</h1>
+        <p class="hero-copy">龙虾不是孤立网页。当前优先跑通官网配置、飞书机器人、钉钉机器人三个闭环；微信只走后续官方适配，不做个人号外挂。</p>
+        <div class="steps">
+          <div class="step">
+            <strong>1. 官网配置</strong>
+            <p>家长填写孩子年级、学科、成绩、错题和今晚真实卡点。</p>
+          </div>
+          <div class="step">
+            <strong>2. 群内对话</strong>
+            <p>飞书/钉钉机器人接收材料，转给龙虾生成回复。</p>
+          </div>
+          <div class="step">
+            <strong>3. 主动跟进</strong>
+            <p>系统生成今晚、明天、周末的回访计划和家长报告。</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="panel form-grid" id="lobster-config-form">
+        <h2>配置一个 AI 教师</h2>
+        <label>家庭名称
+          <input name="familyName" value="试用家庭" autocomplete="off" required>
+        </label>
+        <label>孩子称呼
+          <input name="childAlias" value="孩子" autocomplete="off">
+        </label>
+        <label>年级
+          <input name="gradeBand" value="小学高年级" autocomplete="off">
+        </label>
+        <label>关注学科
+          <input name="subjects" value="数学, 语文" autocomplete="off">
+        </label>
+        <label>优先接入渠道
+          <select name="deliveryChannel" id="delivery-channel">
+            <option value="web">官网/Web，今天就能用</option>
+            <option value="feishu">飞书机器人，机构/运营优先</option>
+            <option value="dingtalk">钉钉机器人，学校/班级优先</option>
+            <option value="wechat_future">微信后续官方适配</option>
+          </select>
+        </label>
+        <label>家长观察
+          <textarea name="parentObservation">孩子遇到应用题容易着急，家长想知道今晚怎么陪。</textarea>
+        </label>
+        <label>孩子现在最需要什么
+          <textarea name="childMessage">我不知道第一步。</textarea>
+        </label>
+        <button type="submit">生成 AI 教师工作台</button>
+      </form>
+    </section>
+
+    <section class="result" id="activation-result" hidden></section>
+
+    <section class="channels" aria-label="接入渠道">
+      <article class="card channel-card active" data-channel="web">
+        <h3>官网 / Web</h3>
+        <span class="badge ready">已可用</span>
+        <p>最适合第一个家庭闭环。家长打开网页配置，孩子在家长设备上共屏使用。</p>
+      </article>
+      <article class="card channel-card" data-channel="feishu">
+        <h3>飞书机器人</h3>
+        <span class="badge ready">优先打通</span>
+        <p>适合老师、机构、运营群。家长或老师发成绩和观察，机器人返回报告和今晚动作。</p>
+      </article>
+      <article class="card channel-card" data-channel="dingtalk">
+        <h3>钉钉机器人</h3>
+        <span class="badge ready">优先打通</span>
+        <p>适合学校、班级和机构。通过官方应用机器人接收消息和推送跟进。</p>
+      </article>
+      <article class="card channel-card" data-channel="wechat_future">
+        <h3>微信</h3>
+        <span class="badge soon">后续官方适配</span>
+        <p>只走公众号、小程序客服、订阅消息或企业微信，不做个人微信外挂机器人。</p>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>飞书/钉钉怎么接</h2>
+        <div class="mode-card">
+          <strong>Webhook 收消息</strong>
+          <p>平台事件进入 <code>/api/lobster-message?mode=channel&channel=feishu</code> 或 <code>channel=dingtalk</code>。</p>
+        </div>
+        <div class="mode-card">
+          <strong>Send API 发计划</strong>
+          <p><code>/api/lobster-message?mode=channel&action=send_plan</code> 生成官方发送请求。缺 token 时只返回配置提示，不假装发送。</p>
+        </div>
+      </article>
+      <article class="card">
+        <h2>安全边界</h2>
+        <ul>
+          <li>孩子不需要独立账号，优先在家长设备上共屏使用。</li>
+          <li>不存平台用户 ID 原文。</li>
+          <li>不保存孩子原始对话。</li>
+          <li>孩子模式不直接给最终答案。</li>
+          <li>微信、QQ、小天才只做官方适配。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('lobster-config-form');
+    const result = document.getElementById('activation-result');
+    const channelSelect = document.getElementById('delivery-channel');
+
+    function splitSubjects(value) {
+      return String(value || '').split(/[,，、\s]+/).map((item) => item.trim()).filter(Boolean);
+    }
+
+    function channelMeta(channel) {
+      const map = {
+        web: {
+          title: '官网/Web 已可用',
+          webhook: '/lobster.html',
+          next: '把这个页面添加到家长手机主屏幕，今天就能跑通。'
+        },
+        feishu: {
+          title: '飞书机器人闭环',
+          webhook: '/api/lobster-message?mode=channel&channel=feishu',
+          next: '在飞书开放平台创建企业自建应用，开启机器人和接收消息事件，把 Request URL 配成上面的地址。'
+        },
+        dingtalk: {
+          title: '钉钉机器人闭环',
+          webhook: '/api/lobster-message?mode=channel&channel=dingtalk',
+          next: '在钉钉开放平台创建应用机器人，配置消息回调地址，把事件转给龙虾。'
+        },
+        wechat_future: {
+          title: '微信后续官方适配',
+          webhook: '公众号/小程序/企业微信官方能力',
+          next: '先不做个人号机器人。等 Web、飞书、钉钉跑通后，再做微信官方入口。'
+        }
+      };
+      return map[channel] || map.web;
+    }
+
+    function renderResult(payload, data) {
+      const channel = data.deliveryChannel || 'web';
+      const meta = channelMeta(channel);
+      const entry = payload.entry || {};
+      const follow = payload.modes && payload.modes.teacherPresence
+        ? payload.modes.teacherPresence.proactiveFollowUp
+        : null;
+      result.hidden = false;
+      result.innerHTML = `
+        <h2>${meta.title}</h2>
+        <p>${payload.positioning || '家长设备里的统一 AI 教师。'}</p>
+        <div class="channel-meta">
+          <div class="linkbox">家庭入口：${entry.primary || '/lobster.html'}</div>
+          <div class="linkbox">渠道入口：${meta.webhook}</div>
+          <div class="linkbox">下一步：${meta.next}</div>
+        </div>
+        <div class="grid">
+          <div class="mode-card"><strong>家长龙虾</strong><p>${payload.modes?.parent?.firstAction || '发成绩、错题或观察，生成今晚动作。'}</p></div>
+          <div class="mode-card"><strong>孩子龙虾</strong><p>${payload.modes?.childCoView?.childLine || '孩子说第一步，龙虾继续追问。'}</p></div>
+        </div>
+        ${follow ? `<h3>主动跟进</h3><ol>${follow.reminders.map((item) => `<li>${item.title || item.id}：${item.action}</li>`).join('')}</ol>` : ''}
+      `;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      data.subjects = splitSubjects(data.subjects);
+      data.childChannel = data.deliveryChannel === 'web' ? 'parent_device' : data.deliveryChannel;
+      try {
+        const response = await fetch('/api/lobster-teacher', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const payload = await response.json();
+        renderResult(payload, data);
+      } catch (_) {
+        renderResult({
+          entry: { primary: '/lobster.html' },
+          modes: {
+            parent: { firstAction: '先发一次成绩、错题或今晚冲突描述。' },
+            childCoView: { childLine: '你先说第一步，不需要直接算完。' },
+            teacherPresence: {
+              proactiveFollowUp: {
+                reminders: [
+                  { title: '今晚第一步', action: '孩子说出第一步。' },
+                  { title: '明天短回访', action: '复述昨天的第一步。' }
+                ]
+              }
+            }
+          }
+        }, data);
+      }
+    });
+
+    channelSelect.addEventListener('change', () => {
+      document.querySelectorAll('.channel-card').forEach((card) => {
+        card.classList.toggle('active', card.dataset.channel === channelSelect.value);
+      });
+    });
+  </script>
+</body>
+</html>

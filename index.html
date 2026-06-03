@@ -3,62 +3,114 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7fbf3" />
+    <meta name="theme-color" content="#f6f4ec" />
     <meta name="web-app-asset-base" content="/apps/web/assets/brand" />
-    <title>原点智学 Web 预览</title>
+    <title>原点智学｜家庭 AI 学习系统</title>
+    <meta name="description" content="原点智学把上传材料、个性化报告、AI 私教、短回访和龙虾 AI 教师串成一个家庭学习闭环。" />
     <link rel="stylesheet" href="/apps/web/src/styles.css" />
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="side-rail" aria-label="主导航">
-        <a class="brand-lockup" href="#home" aria-label="原点智学首页">
-          <span class="brand-mark">⬆</span>
+    <main class="site-home">
+      <nav class="site-nav" aria-label="官网导航">
+        <a class="brand-lockup" href="/">
+          <img class="brand-mark" src="/apps/web/assets/reference/brand-house.png" alt="" />
           <span>原点智学</span>
         </a>
-
-        <section class="buddy-card">
-          <div class="mascot mascot-side" role="img" aria-label="咕点"></div>
-          <strong>咕点</strong>
-          <span>AI学习伙伴</span>
-        </section>
-
-        <nav class="nav-list" id="sideNav"></nav>
-
-        <a class="guide-button" href="#home">
-          <span>▶</span>
-          新手引导
-        </a>
-      </aside>
-
-      <main class="workspace">
-        <header class="topbar">
-          <label class="search-box">
-            <span>⌕</span>
-            <input aria-label="搜索" placeholder="搜索知识点、报告、资料或功能" />
-          </label>
-          <div class="top-actions">
-            <button class="student-pill" type="button" data-action="student-menu">
-              <span class="avatar boy">小</span>
-              小明（四年级）
-              <span>⌄</span>
-            </button>
-            <button class="bell" type="button" data-action="notifications" aria-label="通知">🔔<em>3</em></button>
-            <button class="family-pill" type="button" data-action="family-menu">
-              <span class="family-face">👪</span>
-              <span><b>小明家</b><small>家庭版</small></span>
-              <span>⌄</span>
-            </button>
-          </div>
-        </header>
-
-        <div class="page-layout">
-          <section class="content-panel" id="appContent" aria-live="polite"></section>
-          <aside class="right-rail" id="rightRail"></aside>
+        <div>
+          <a href="#product">产品体系</a>
+          <a href="#lobster">龙虾 AI 教师</a>
+          <a href="#flow">交付闭环</a>
+          <a class="site-nav-cta" href="/lobster.html">开始配置</a>
         </div>
-      </main>
-    </div>
+      </nav>
 
-    <nav class="mobile-tabs" id="mobileNav" aria-label="移动端导航"></nav>
-    <script type="module" src="/apps/web/src/app.js"></script>
+      <section class="official-hero site-hero">
+        <article>
+          <span class="eyebrow">家庭 AI 学习系统</span>
+          <h1>把孩子今晚该做的第一步讲清楚</h1>
+          <p>原点智学不是题库，也不是聊天机器人。我们把真实学习材料变成报告、追问、回访和家长可执行动作。</p>
+          <div class="hero-actions">
+            <a class="primary-cta" href="/lobster.html">配置龙虾 AI 教师</a>
+            <a class="soft-button" href="/app">查看产品体验</a>
+          </div>
+          <div class="proof-row" aria-label="核心证据">
+            <span>成绩</span>
+            <span>错题</span>
+            <span>测评</span>
+            <span>老师反馈</span>
+            <span>家长观察</span>
+          </div>
+        </article>
+        <aside class="site-hero-panel" aria-label="产品摘要">
+          <img src="/apps/web/assets/reference/hero-mascot.png" alt="原点智学 AI 学习伙伴" />
+          <b>今晚只推进一个闭环</b>
+          <span>材料进入系统，AI 教师给孩子追问，家长看到证据和下一步。</span>
+        </aside>
+      </section>
+
+      <section class="site-section" id="product">
+        <div class="site-section-head">
+          <span>Product System</span>
+          <h2>一个家庭学习产品，不是七零八落的功能</h2>
+        </div>
+        <div class="site-product-grid">
+          <a href="/app#upload">
+            <img src="/apps/web/assets/reference/entry-upload.png" alt="" />
+            <b>上传材料</b>
+            <span>成绩、错题、测评和反馈先进入证据池。</span>
+          </a>
+          <a href="/app#report">
+            <img src="/apps/web/assets/reference/entry-report.png" alt="" />
+            <b>个性化报告</b>
+            <span>先讲证据，再给今晚可执行动作。</span>
+          </a>
+          <a href="/app#tutor">
+            <img src="/apps/web/assets/reference/entry-tutor.png" alt="" />
+            <b>AI 私教</b>
+            <span>只追问第一步，不替孩子写答案。</span>
+          </a>
+          <a href="/app#review">
+            <img src="/apps/web/assets/reference/entry-review.png" alt="" />
+            <b>短回访</b>
+            <span>用回忆和变式验证是否真懂。</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="site-lobster" id="lobster">
+        <article>
+          <span class="eyebrow">Lobster AI Teacher</span>
+          <h2>龙虾是家长设备里的 AI 教师</h2>
+          <p>家长负责配置和看报告，孩子在共屏模式里说第一步。系统会保存安全记忆，安排主动跟进，把学习证据回流给家长。</p>
+          <div class="site-lobster-actions">
+            <a class="primary-cta" href="/lobster.html">打开龙虾配置页</a>
+            <a class="soft-button" href="/api/lobster-teacher">查看 API</a>
+          </div>
+        </article>
+        <div class="site-lobster-points">
+          <div><b>家长龙虾</b><span>分析成绩和材料，生成陪学建议。</span></div>
+          <div><b>孩子龙虾</b><span>像老师一样追问，不直接给答案。</span></div>
+          <div><b>主动跟进</b><span>今晚、明天、周末都有可检查动作。</span></div>
+        </div>
+      </section>
+
+      <section class="site-section" id="flow">
+        <div class="site-section-head">
+          <span>Delivery Loop</span>
+          <h2>从拿到产品到开始使用，只保留四步</h2>
+        </div>
+        <div class="site-steps">
+          <div><i>1</i><b>打开入口</b><span>从官网进入龙虾配置页。</span></div>
+          <div><i>2</i><b>填写家庭信息</b><span>输入年级、材料、观察和目标。</span></div>
+          <div><i>3</i><b>共屏学习</b><span>孩子说第一步，AI 教师继续追问。</span></div>
+          <div><i>4</i><b>家长复盘</b><span>系统生成报告和下一次跟进。</span></div>
+        </div>
+      </section>
+
+      <section class="site-note" aria-label="安全边界">
+        <b>当前交付策略</b>
+        <span>优先跑通家长设备和 Web 官方入口；微信、QQ、小天才等只做官方适配，不做违规外挂机器人。</span>
+      </section>
+    </main>
   </body>
 </html>

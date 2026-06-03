@@ -1,59 +1,68 @@
 export const WEB_SURFACE_ROUTES = [
   {
     id: 'home',
-    label: '学习主界面',
+    label: '官网首页',
     path: '/',
     miniappParity: 'pages/home/home',
-    primaryAction: '选择今晚第一步',
-    promise: '一屏看懂上传、报告、AI私教、复习岛和家长下一步。'
+    primaryAction: '打开产品体验',
+    promise: '用上传材料、个性化报告、AI 私教、短回访和家长复盘，帮家庭决定今晚先做什么。'
   },
   {
     id: 'upload',
-    label: '上传资料',
+    label: '上传材料',
     path: '/upload',
-    miniappParity: 'pages/upload/upload',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=upload + pages/upload/upload',
     primaryAction: '上传或粘贴材料',
-    promise: '把测评、成绩、错题和反馈分门别类变成可分析证据。'
+    promise: '把测评、成绩、错题、学校反馈和家长观察变成可追溯证据。'
   },
   {
     id: 'report',
     label: '个性化报告',
     path: '/report',
     miniappParity: 'pages/entry-detail/entry-detail?scene=report + pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
-    primaryAction: '查看报告并导出 PDF',
-    promise: '先讲证据，再讲天赋和方法匹配，最后给家长今晚能做的一步。'
+    primaryAction: '查看报告',
+    promise: '先讲证据，再讲方法匹配，最后给出今晚可执行的一步。'
   },
   {
     id: 'tutor',
-    label: 'AI私教',
+    label: 'AI 私教',
     path: '/tutor',
-    miniappParity: 'pages/tutor/tutor',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=tutor + pages/tutor/tutor',
     primaryAction: '开始第一问',
     promise: '用苏格拉底式追问帮孩子说出第一步，不代写答案。'
   },
   {
     id: 'review',
-    label: '复习岛',
+    label: '短回访',
     path: '/review',
-    miniappParity: 'pages/review/review',
-    primaryAction: '开始一轮挑战',
-    promise: '把错因修复成回忆、迁移和复盘挑战。'
+    miniappParity: 'pages/entry-detail/entry-detail?scene=review + pages/review/review',
+    primaryAction: '开始短回访',
+    promise: '用主动回忆、迁移和变式验证，把错因修复成证据。'
   },
   {
     id: 'parent',
     label: '家长中心',
     path: '/parent',
-    miniappParity: 'pages/profile/profile',
+    miniappParity: 'pages/entry-detail/entry-detail?scene=parent + pages/profile/profile',
     primaryAction: '看证据和下一步',
-    promise: '让家长知道孩子为什么这样学、今晚问什么、下次看什么证据。'
+    promise: '让家长知道孩子为什么卡住、今晚问什么、下次看什么证据。'
   },
   {
     id: 'map',
-    label: '今晚路径',
+    label: '今晚路线',
     path: '/map',
     miniappParity: 'pages/entry-detail/entry-detail?scene=today + pages/review/review',
-    primaryAction: '查看今晚和未来 7 天路径',
-    promise: '把上传、报告、AI私教、复习和家长回访串成一条能走完的学习路线。'
+    primaryAction: '查看路线',
+    promise: '把上传、报告、AI 私教、短回访和家长复盘串成一条走得完的路线。'
+  },
+  {
+    id: 'lobster',
+    label: '龙虾 AI 教师',
+    path: '/lobster',
+    miniappParity: 'web-only',
+    primaryAction: '打开配置入口',
+    promise: '官网独立入口，承接家庭设备里的 AI 教师配置。',
+    webOnly: true
   }
 ];
 

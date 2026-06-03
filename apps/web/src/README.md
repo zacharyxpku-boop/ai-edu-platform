@@ -8,7 +8,7 @@ Initial routing contract:
 - `/upload` -> material intake
 - `/report` -> personalized parent report and PDF export
 - `/tutor` -> AI tutor first-question workspace
-- `/review` -> memory/game challenge
+- `/review` -> memory and transfer verification
 - `/parent` -> parent evidence and next-step dashboard
 
 Do not import from `miniprogram/` or `apps/app/`.
