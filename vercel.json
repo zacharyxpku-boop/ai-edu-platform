@@ -1,6 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/lobster*.js": {
+      "includeFiles": "miniprogram/utils/**"
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",

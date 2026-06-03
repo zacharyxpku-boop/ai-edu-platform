@@ -190,3 +190,11 @@ Passing these checks proves:
 - the official website exposes the Lobster route
 - `/lobster.html` calls the unified teacher API
 - proactive follow-up can be scanned without contact leakage
+
+After production deployment, run:
+
+```powershell
+npm.cmd run lobster:live
+```
+
+This live gate checks the cache-busted official homepage, `/lobster.html`, Feishu channel webhook, DingTalk channel webhook, and the official send-plan response. If the naked root homepage is still served from Cloudflare cache, the script prints a warning with the cache status; use `npm.cmd run web:cache:purge` with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ZONE_ID` when the naked root must update immediately.

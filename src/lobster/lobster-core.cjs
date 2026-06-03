@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const eduFallback = require('./lobster-edu-fallback.cjs');
 
 const root = path.join(__dirname, '..', '..');
 const moduleCache = new Map();
@@ -49,8 +50,17 @@ function loadCommonJs(relativePath, requireMap = {}) {
   return module.exports;
 }
 
-const tutorLadder = loadCommonJs('miniprogram/utils/tutor-ladder.js');
-const learningReport = loadCommonJs('miniprogram/utils/learning-report.js');
+function safeLoadCommonJs(relativePath, fallback) {
+  if (process.env.LOBSTER_FORCE_EDU_FALLBACK === '1') return fallback;
+  try {
+    return loadCommonJs(relativePath);
+  } catch (_) {
+    return fallback;
+  }
+}
+
+const tutorLadder = safeLoadCommonJs('miniprogram/utils/tutor-ladder.js', eduFallback.tutorLadder);
+const learningReport = safeLoadCommonJs('miniprogram/utils/learning-report.js', eduFallback.learningReport);
 
 const OPEN_SOURCE_REFERENCE_NOTES = [
   {
