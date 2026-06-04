@@ -2,7 +2,12 @@ import { clean } from './_shared.js';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-const XP_REWARDS = {
+const COMPATIBILITY_SAFE_COPY_INVENTORY = Object.freeze({
+    inventory_status: 'compatibility_retained_safe_copy',
+    inventory_decision: 'retain_reword_safe_copy'
+});
+
+const LEARNING_RECORD_DELTAS = {
     new_card: 10,
     quiz_correct: 20,
     daily_review_complete: 30,
@@ -14,19 +19,19 @@ const XP_REWARDS = {
     study_pack_created: 20
 };
 
-const ACHIEVEMENTS = [
-    { id: 'first_review', title: '初出茅庐', description: '完成第一次复习', recordPoints: 20 },
-    { id: 'hundred_correct', title: '百题斩', description: '累计答对 100 题', recordPoints: 80 },
-    { id: 'seven_day_streak', title: '七日之约', description: '连续 7 天完成复习', recordPoints: 70 },
-    { id: 'quiz_master_3', title: '考神附体', description: '连续 3 次小测正确率达到 90%', recordPoints: 90 },
-    { id: 'whole_book', title: '全书贯通', description: '学完一本教材的全部知识点', recordPoints: 120 }
+const STAGE_RECORDS = [
+    { id: 'first_review', title: '第一次回访记录', description: '完成第一次短回访', recordPoints: 20 },
+    { id: 'hundred_correct', title: '稳定答题记录', description: '累计留下 100 次正确证据', recordPoints: 80 },
+    { id: 'seven_day_streak', title: '七天学习记录', description: '连续 7 天完成学习记录', recordPoints: 70 },
+    { id: 'quiz_master_3', title: '三次稳定记录', description: '连续 3 次小测正确率达到 90%', recordPoints: 90 },
+    { id: 'whole_book', title: '单元完成记录', description: '完成一个学习单元的主要知识点记录', recordPoints: 120 }
 ];
 
-const SHOP_ITEMS = [
-    { id: 'avatar_origin_gold', type: 'avatar_frame', title: '原点金色头像框', recordCost: 60, description: '装饰性头像框，不影响学习收益。' },
-    { id: 'theme_forest_focus', type: 'theme', title: '森林专注主题', recordCost: 90, description: '深绿护眼闯关主题。' },
-    { id: 'card_warm_grid', type: 'card_back', title: '暖色网格卡背', recordCost: 50, description: '闪卡背面装饰。' },
-    { id: 'streak_freeze', type: 'streak_freeze', title: '补签卡', recordCost: 180, description: '保护一次断签，只能用本机学习点换取。' }
+const LOCAL_VISUAL_RECORD_ITEMS = [
+    { id: 'avatar_origin_gold', type: 'avatar_frame', title: '原点头像记录框', recordCost: 60, description: '装饰性头像记录框，不影响学习结果。' },
+    { id: 'theme_forest_focus', type: 'theme', title: '森林专注主题', recordCost: 90, description: '护眼学习界面主题。' },
+    { id: 'card_warm_grid', type: 'card_back', title: '暖色网格卡背', recordCost: 50, description: '回访卡背面装饰。' },
+    { id: 'record_repair_note', type: 'record_repair', title: '记录补全卡', recordCost: 180, description: '补全一次本机记录，只能用于本机学习点记录。' }
 ];
 
 function todayKey(date = new Date()) {
@@ -41,23 +46,44 @@ function safeArray(value, limit = 100) {
     return Array.isArray(value) ? value.slice(0, limit) : [];
 }
 
-function calculateXP(actionType, multiplier = 1) {
-    const base = XP_REWARDS[actionType] || 0;
+function hashCode(value) {
+    const text = String(value || '');
+    let hash = 0;
+    for (let i = 0; i < text.length; i += 1) {
+        hash = ((hash << 5) - hash) + text.charCodeAt(i);
+        hash |= 0;
+    }
+    return hash;
+}
+
+function calculateLearningRecordDelta(actionType, multiplier = 1) {
+    const base = LEARNING_RECORD_DELTAS[actionType] || 0;
     return Math.round(base * Math.max(1, Math.min(5, Number(multiplier || 1))));
 }
 
-function getLevel(xp = 0) {
+function getLearningRecordStage(xp = 0) {
     const total = Math.max(0, Number(xp || 0));
     const level = Math.floor(Math.sqrt(total / 100));
     const currentFloor = Math.pow(level, 2) * 100;
     const nextLevelXp = Math.pow(level + 1, 2) * 100;
-    const titles = ['新手', '起步', '会学', '学霸', '学神'];
+    const titles = ['开始记录', '稳定起步', '会复盘', '记录稳定', '持续复盘'];
     return {
         level,
         title: titles[Math.min(level, titles.length - 1)],
         currentXp: total,
         nextLevelXp,
         progress: nextLevelXp > currentFloor ? Math.round(((total - currentFloor) / (nextLevelXp - currentFloor)) * 100) : 100
+    };
+}
+
+function getProgressBand(xp = 0) {
+    const level = getLearningRecordStage(xp);
+    return {
+        record_total: level.currentXp,
+        stage_index: level.level,
+        stage_title: level.title,
+        next_stage_record_total: level.nextLevelXp,
+        stage_progress: level.progress
     };
 }
 
@@ -105,7 +131,7 @@ function normalizeLineToCard(line, index, meta = {}) {
         .map((token) => ({ token, index: text.indexOf(token) }))
         .filter((item) => item.index > 0)
         .sort((a, b) => a.index - b.index)[0];
-    const question = splitAt ? text.slice(0, splitAt.index + (/[？?]$/.test(splitAt.token) ? 1 : 0)).trim() : `回忆：${text.slice(0, 42)}`;
+    const question = splitAt ? text.slice(0, splitAt.index + (/[:：?？]$/.test(splitAt.token) ? 1 : 0)).trim() : `回忆：${text.slice(0, 42)}`;
     const answer = splitAt ? text.slice(splitAt.index + splitAt.token.length).trim() : text;
     const idBase = clean(`${meta.deck_id || 'deck'}_${index}_${question}`, 80).replace(/\s+/g, '_');
     return {
@@ -126,16 +152,6 @@ function normalizeLineToCard(line, index, meta = {}) {
         next_review: new Date().toISOString(),
         last_review: ''
     };
-}
-
-function hashCode(value) {
-    const text = String(value || '');
-    let hash = 0;
-    for (let i = 0; i < text.length; i += 1) {
-        hash = ((hash << 5) - hash) + text.charCodeAt(i);
-        hash |= 0;
-    }
-    return hash;
 }
 
 function buildDeckFromText(payload = {}) {
@@ -189,7 +205,7 @@ function quizQuestionFromCard(card = {}) {
     };
 }
 
-function achievementState(stats = {}) {
+function learningStageRecordState(stats = {}) {
     const existing = new Set(safeArray(stats.achievements, 200));
     const recent = safeArray(stats.recent_quiz_accuracy, 10).slice(-3);
     const tests = {
@@ -199,48 +215,56 @@ function achievementState(stats = {}) {
         quiz_master_3: recent.length >= 3 && recent.every((item) => Number(item || 0) >= 90),
         whole_book: Number(stats.completed_books || 0) >= 1
     };
-    const list = ACHIEVEMENTS.map((item) => Object.assign({}, item, {
+    const list = STAGE_RECORDS.map((item) => Object.assign({}, item, {
         unlocked: existing.has(item.id) || !!tests[item.id],
         newly_unlocked: !existing.has(item.id) && !!tests[item.id]
     }));
     return {
         achievements: list,
+        records: list,
         newly_unlocked: list.filter((item) => item.newly_unlocked),
-        record_points_awarded: list.filter((item) => item.newly_unlocked).reduce((sum, item) => sum + Number(item.recordPoints || 0), 0)
+        newly_recorded: list.filter((item) => item.newly_unlocked),
+        record_points_awarded: list.filter((item) => item.newly_unlocked).reduce((sum, item) => sum + Number(item.recordPoints || 0), 0),
+        display_notice: '这些只是本机阶段学习记录，不是外显荣誉或同学竞争体系。'
     };
 }
 
-function shopItems(inventory = []) {
+function localVisualRecordItems(inventory = []) {
     const owned = new Set(safeArray(inventory, 200).map((item) => item.item_id || item.id));
-    return SHOP_ITEMS.map((item) => Object.assign({}, item, {
-        owned: owned.has(item.id)
+    return LOCAL_VISUAL_RECORD_ITEMS.map((item) => Object.assign({}, item, {
+        owned: owned.has(item.id),
+        catalog_kind: 'local_visual_record',
+        benefit_notice: '仅用于本机界面装饰，不代表权益或学习结果。'
     }));
 }
 
-function purchaseItem(user = {}, itemId = '') {
-    const item = SHOP_ITEMS.find((entry) => entry.id === itemId);
-    if (!item) return { ok: false, error: 'item_not_found', message: '没有找到这个装饰记录。' };
+function reserveLocalVisualRecord(user = {}, itemId = '') {
+    const item = LOCAL_VISUAL_RECORD_ITEMS.find((entry) => entry.id === itemId);
+    if (!item) return { ok: false, error: 'item_not_found', message: '没有找到这个界面记录。' };
     return {
         ok: false,
         error: 'catalog_only',
-        message: '当前只展示本机装饰记录，不提供交易功能。',
+        message: '当前只展示本机界面记录，不提供外部权益或结果承诺。',
         item,
         user_patch: user
     };
 }
 
-function localLeaderboard(profile = {}, events = []) {
+function localSelfSnapshotRows(profile = {}, events = []) {
     const week = todayKey().slice(0, 8);
     const xp = safeArray(events, 500)
         .filter((event) => String(event.created_at || '').slice(0, 8) === week)
         .reduce((sum, event) => sum + Number(event.xp || 0), 0);
     return [{
         rank: 1,
+        self_snapshot_order: 1,
         name: clean(profile.name || '本机学习者', 24),
         xp,
+        record_total: xp,
         streak: Number(profile.streak || 0),
         is_self: true,
-        scope: 'local'
+        scope: 'local',
+        display_notice: '仅展示孩子自己的本机学习记录，不展示同学排序。'
     }];
 }
 
@@ -256,19 +280,30 @@ function knowledgeGap(events = []) {
 }
 
 export {
-    ACHIEVEMENTS,
-    SHOP_ITEMS,
-    XP_REWARDS,
-    achievementState,
+    STAGE_RECORDS,
+    LOCAL_VISUAL_RECORD_ITEMS,
+    LEARNING_RECORD_DELTAS,
+    COMPATIBILITY_SAFE_COPY_INVENTORY,
+    learningStageRecordState,
+    localVisualRecordItems,
+    reserveLocalVisualRecord,
+    localSelfSnapshotRows,
     applySM2,
     buildDeckFromText,
-    calculateXP,
+    calculateLearningRecordDelta,
     dueCards,
-    getLevel,
+    getLearningRecordStage,
+    getProgressBand,
     knowledgeGap,
-    localLeaderboard,
-    purchaseItem,
+    STAGE_RECORDS as ACHIEVEMENTS,
+    LOCAL_VISUAL_RECORD_ITEMS as SHOP_ITEMS,
+    LEARNING_RECORD_DELTAS as XP_REWARDS,
+    learningStageRecordState as achievementState,
+    calculateLearningRecordDelta as calculateXP,
+    getLearningRecordStage as getLevel,
+    localSelfSnapshotRows as localLeaderboard,
+    reserveLocalVisualRecord as purchaseItem,
     quizQuestionFromCard,
-    shopItems,
+    localVisualRecordItems as shopItems,
     todayKey
 };

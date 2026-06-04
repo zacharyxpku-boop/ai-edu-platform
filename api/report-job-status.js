@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+export const config = { runtime: 'nodejs' };
+
 function json(status, body) {
   return new Response(JSON.stringify(body), {
     status,
@@ -47,31 +49,32 @@ function publicStatusPayload(status) {
 }
 
 export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-methods': 'GET, OPTIONS',
-        'access-control-allow-headers': 'content-type'
-      }
-    });
-  }
-  if (req.method !== 'GET') return json(405, { ok: false, error: 'method_not_allowed' });
-
-  const url = new URL(req.url || 'https://yuandianzhixue.com/api/report-job-status');
-  const caseId = sanitizeCaseId(url.searchParams.get('case_id') || url.searchParams.get('caseId') || 'default') || 'default';
-  const file = statusPath(caseId);
-  if (!fs.existsSync(file)) {
-    return json(404, {
-      ok: false,
-      error: 'report_job_status_missing',
-      caseId,
-      nextBestAction: 'Run npm.cmd run report:image-pipeline:status for this case before exposing it to product surfaces.'
-    });
-  }
-
+  let caseId = 'default';
   try {
+    if (req.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'access-control-allow-origin': '*',
+          'access-control-allow-methods': 'GET, OPTIONS',
+          'access-control-allow-headers': 'content-type'
+        }
+      });
+    }
+    if (req.method !== 'GET') return json(405, { ok: false, error: 'method_not_allowed' });
+
+    const url = new URL(req.url || 'https://yuandianzhixue.com/api/report-job-status');
+    caseId = sanitizeCaseId(url.searchParams.get('case_id') || url.searchParams.get('caseId') || 'default') || 'default';
+    const file = statusPath(caseId);
+    if (!fs.existsSync(file)) {
+      return json(404, {
+        ok: false,
+        error: 'report_job_status_missing',
+        caseId,
+        nextBestAction: 'Run npm.cmd run report:image-pipeline:status for this case before exposing it to product surfaces.'
+      });
+    }
+
     const status = JSON.parse(fs.readFileSync(file, 'utf8'));
     return json(200, publicStatusPayload(status));
   } catch (error) {
@@ -83,4 +86,3 @@ export default async function handler(req) {
     });
   }
 }
-

@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { achievementState } from './_game.js';
+import { learningStageRecordState } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -34,16 +34,20 @@ export default async function handler(req) {
 
     const body = await readRequest(req);
     if (body.__error) return json({ ok: false, error: body.__error.message || 'bad_json' }, body.__error.status || 400);
+
     return json(Object.assign({
         ok: true,
-        mode: 'local_learning_rewards',
+        mode: 'local_learning_records',
+        inventory_status: 'compatibility_retained_safe_copy',
+        inventory_decision: 'retain_reword_safe_copy',
         persisted: false,
         service_contract: {
-            mode: 'local_learning_rewards',
+            mode: 'local_learning_records',
             evidence_required: ['stats.review_count', 'stats.correct_count', 'stats.streak'],
             action_required: 'account_service_configuration'
         },
-        notice: '成就只根据当前传入的学习记录计算，多端连续记录开通后再合并显示。',
-        engine_version: 'mini-game-achievements-v1'
-    }, achievementState(body.stats || body)));
+        notice: '阶段记录只根据当前传入的学习记录计算，多端连续记录开通后再合并显示。',
+        display_notice: '这里是阶段学习记录，不是外显荣誉或竞争体系。',
+        engine_version: 'mini-learning-stage-records-v1'
+    }, learningStageRecordState(body.stats || body)));
 }

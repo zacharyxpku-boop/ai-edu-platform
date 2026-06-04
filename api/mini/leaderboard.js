@@ -7,7 +7,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { localLeaderboard } from './_game.js';
+import { localSelfSnapshotRows } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -40,36 +40,23 @@ export default async function handler(req) {
     const scope = clean(body.scope || url.searchParams.get('scope') || 'local', 20);
     const week = clean(body.week || url.searchParams.get('week') || '', 20);
 
-    if (scope !== 'local' && !env.SUPABASE_URL) {
-        return json({
-            ok: true,
-            scope: 'local',
-            requested_scope: scope,
-            week,
-            reason: 'service_not_configured',
-            persisted: false,
-            service_contract: {
-                mode: 'local_self_snapshot',
-                evidence_required: ['profile', 'events'],
-                action_required: 'account_service_configuration'
-            },
-            rows: localLeaderboard(body.profile || {}, body.events || []),
-            notice: '当前只展示本机学习进展；班级或好友榜会在连续记录稳定后再开放，避免展示未验证的数据。',
-            engine_version: 'mini-game-leaderboard-v1'
-        });
-    }
-
     return json({
         ok: true,
         scope: 'local',
+        inventory_status: 'compatibility_retained_safe_copy',
+        inventory_decision: 'retain_reword_safe_copy',
+        requested_scope: scope,
         week,
+        reason: scope !== 'local' && !env.SUPABASE_URL ? 'service_not_configured' : '',
         persisted: false,
         service_contract: {
             mode: 'local_self_snapshot',
             evidence_required: ['profile', 'events'],
             action_required: 'account_service_configuration'
         },
-        rows: localLeaderboard(body.profile || {}, body.events || []),
-        engine_version: 'mini-game-leaderboard-v1'
+        rows: localSelfSnapshotRows(body.profile || {}, body.events || []),
+        notice: '当前只展示孩子自己的本机学习进展，不提供同伴比较，避免展示未验证的数据。',
+        display_notice: '这是个人学习记录快照，不是排序榜单。',
+        engine_version: 'mini-local-self-snapshot-v1'
     });
 }

@@ -103,7 +103,18 @@ function answerFromText(text) {
     return '';
 }
 
+const COACH_STEP_ALIASES = {
+    find_first_step: 'write_first_step',
+    first_step: 'write_first_step',
+    stuck_first_step: 'write_first_step',
+    start_hint: 'write_first_step'
+};
+
 function inferCoachStep(message, requested) {
+    const requestedStep = COACH_STEP_ALIASES[requested] || requested;
+    if (COACH_STEPS[requestedStep]) return requestedStep;
+    if (/第一步|第1步|怎么开始|从哪开始|开头|起步|列式|不知道先找什么|不知道从哪|先找什么|先写什么/.test(message)) return 'write_first_step';
+    if (/题意|读不懂题|看不懂题|条件|已知|信息/.test(message) && !/讲透|讲清楚|完整讲/.test(message)) return 'find_conditions';
     if (COACH_STEPS[requested]) return requested;
     if (/核对|对答案|我写的答案|答案是|结果是/.test(message)) return 'check_answer';
     if (/赶时间|加速|三句|快点/.test(message)) return 'fast_mode';
