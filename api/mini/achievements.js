@@ -35,6 +35,9 @@ export default async function handler(req) {
     const body = await readRequest(req);
     if (body.__error) return json({ ok: false, error: body.__error.message || 'bad_json' }, body.__error.status || 400);
 
+    const state = learningStageRecordState(body.stats || body);
+    const { achievements, ...safeState } = state;
+
     return json(Object.assign({
         ok: true,
         mode: 'local_learning_records',
@@ -49,5 +52,5 @@ export default async function handler(req) {
         notice: '阶段记录只根据当前传入的学习记录计算，多端连续记录开通后再合并显示。',
         display_notice: '这里是阶段学习记录，不是外显荣誉或竞争体系。',
         engine_version: 'mini-learning-stage-records-v1'
-    }, learningStageRecordState(body.stats || body)));
+    }, safeState));
 }
