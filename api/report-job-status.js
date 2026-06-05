@@ -3,7 +3,7 @@ import path from 'path';
 
 export const config = { runtime: 'nodejs' };
 
-function json(status, body) {
+function responseJson(status, body) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -11,6 +11,25 @@ function json(status, body) {
       'cache-control': 'no-store'
     }
   });
+}
+
+function sendJson(res, status, body) {
+  if (!res) return responseJson(status, body);
+  res.statusCode = status;
+  res.setHeader('content-type', 'application/json; charset=utf-8');
+  res.setHeader('cache-control', 'no-store');
+  res.end(JSON.stringify(body));
+  return undefined;
+}
+
+function sendEmpty(res, status, headers = {}) {
+  if (!res) {
+    return new Response(null, { status, headers });
+  }
+  res.statusCode = status;
+  Object.entries(headers).forEach(([key, value]) => res.setHeader(key, value));
+  res.end();
+  return undefined;
 }
 
 function sanitizeCaseId(value) {
@@ -48,26 +67,23 @@ function publicStatusPayload(status) {
   };
 }
 
-export default async function handler(req) {
+export default async function handler(req, res) {
   let caseId = 'default';
   try {
     if (req.method === 'OPTIONS') {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          'access-control-allow-origin': '*',
-          'access-control-allow-methods': 'GET, OPTIONS',
-          'access-control-allow-headers': 'content-type'
-        }
+      return sendEmpty(res, 204, {
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET, OPTIONS',
+        'access-control-allow-headers': 'content-type'
       });
     }
-    if (req.method !== 'GET') return json(405, { ok: false, error: 'method_not_allowed' });
+    if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'method_not_allowed' });
 
-    const url = new URL(req.url || 'https://yuandianzhixue.com/api/report-job-status');
+    const url = new URL(req.url || '/api/report-job-status', 'https://yuandianzhixue.com');
     caseId = sanitizeCaseId(url.searchParams.get('case_id') || url.searchParams.get('caseId') || 'default') || 'default';
     const file = statusPath(caseId);
     if (!fs.existsSync(file)) {
-      return json(404, {
+      return sendJson(res, 404, {
         ok: false,
         error: 'report_job_status_missing',
         caseId,
@@ -76,9 +92,9 @@ export default async function handler(req) {
     }
 
     const status = JSON.parse(fs.readFileSync(file, 'utf8'));
-    return json(200, publicStatusPayload(status));
+    return sendJson(res, 200, publicStatusPayload(status));
   } catch (error) {
-    return json(500, {
+    return sendJson(res, 500, {
       ok: false,
       error: 'report_job_status_invalid',
       caseId,
