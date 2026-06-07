@@ -13,6 +13,7 @@ import {
 export const config = { runtime: 'edge' };
 
 const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
+const TUTOR_UPSTREAM_TIMEOUT_MS = 7000;
 
 const COACH_STEPS = {
     check_answer: {
@@ -255,6 +256,7 @@ function normalizeContext(context = {}) {
         selected_homework: selected ? {
             id: clean(selected.id || '', 40),
             text: clean(selected.text || '', 240),
+            task_type: clean(selected.taskType || selected.task_type || '', 60),
             reason: clean(selected.reason || '', 180),
             priority_vector: selected.priority_vector || {},
             evidence: {
@@ -273,6 +275,12 @@ function normalizeContext(context = {}) {
             }))
             : [],
         misconception_tags: normalizeTags(context.misconception_tags),
+        recent_messages: Array.isArray(context.recent_messages)
+            ? context.recent_messages.slice(-6).map((item) => ({
+                role: clean(item.role || '', 20) === 'assistant' ? 'assistant' : 'user',
+                text: clean(item.text || '', 260)
+            })).filter((item) => item.text)
+            : [],
         coach_step: clean(context.coach_step || '', 40),
         help_mode: clean(context.help_mode || '', 40),
         parent_goal: normalizeParentGoal(context.parent_goal),
@@ -290,6 +298,12 @@ function buildPrompt(mode, context = {}, step = 'read_problem') {
     const parentGoal = context.parent_goal
         ? `${context.parent_goal.label || context.parent_goal.id}：${context.parent_goal.strategy || '按家庭目标调整节奏'}`
         : '未设置，默认先讲懂再加练';
+    const recentTurns = Array.isArray(context.recent_messages) && context.recent_messages.length
+        ? context.recent_messages
+            .slice(-5)
+            .map((item) => `${item.role === 'assistant' ? 'AI' : 'student'}:${item.text}`)
+            .join('\n')
+        : 'none';
     const modeInstruction = {
         check_answer: '核对答案模式：如果学生已经给出自己的答案，可以直接判断对/不对或说明还缺哪条条件；不要绕回泛泛追问。回复控制在 3 句内。',
         fast_mode: '加速模式：必须三句内完成：结论、卡点、下一题检查点。不要展开长讲解。',
@@ -311,7 +325,8 @@ function buildPrompt(mode, context = {}, step = 'read_problem') {
         `当前锁定作业：${selected}`,
         `可用核对依据：${selectedReference || '暂无，需学生补充题目/答案后再核对'}`,
         `当前弱点：${weak}`,
-        `当前错因标签：${misconception}`
+        `当前错因标签：${misconception}`,
+        `recent turns:\n${recentTurns}`
     ].join('\n');
 }
 
@@ -320,6 +335,19 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
     const tags = normalizeTags(
         (context.selected_homework?.evidence?.misconception_tags || []).concat(context.misconception_tags || [])
     );
+    const primaryTag = tags[0]?.label || tags[0]?.axis || 'first_step';
+    const diagnosticProbe = {
+        axis: step,
+        task_type: selected.task_type || 'unknown',
+        focus: primaryTag,
+        goal: COACH_STEPS[step]?.next_action || COACH_STEPS.read_problem.next_action,
+        prompt: step === 'find_conditions'
+            ? '先分开已知条件和要求什么。'
+            : step === 'write_first_step'
+                ? '只说第一步，不写完整答案。'
+                : '先说题目真正问什么。',
+        confidence: extra.extra && extra.extra.fallback === false ? 'model_supported' : 'local_guarded'
+    };
     return {
         ok: true,
         mode,
@@ -337,6 +365,8 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
             priority_vector: selected.priority_vector || {}
         } : null,
         misconception_tags: tags,
+        task_type: diagnosticProbe.task_type,
+        diagnostic_probe: diagnosticProbe,
         engine_version: 'mini-tutor-message-v1.3',
         persisted: false,
         service_contract: {
@@ -412,17 +442,20 @@ export default async function handler(req) {
     const key = env.deepseek();
     if (!key) {
         return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
-            extra: { fallback: true }
+            extra: { fallback: true, fallback_source: 'missing_model_key' }
         }));
     }
 
     try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), TUTOR_UPSTREAM_TIMEOUT_MS);
         const upstream = await fetch(DEEPSEEK_URL, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${key}`
             },
+            signal: controller.signal,
             body: JSON.stringify({
                 model: 'deepseek-chat',
                 temperature: 0.35,
@@ -434,10 +467,11 @@ export default async function handler(req) {
                 ]
             })
         });
+        clearTimeout(timeout);
 
         if (!upstream.ok) {
             return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
-                extra: { fallback: true, upstream_status: upstream.status }
+                extra: { fallback: true, fallback_source: 'server_upstream_error', upstream_status: upstream.status }
             }));
         }
 
@@ -451,7 +485,10 @@ export default async function handler(req) {
         }));
     } catch (error) {
         return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
-            extra: { fallback: true }
+            extra: {
+                fallback: true,
+                fallback_source: error && error.name === 'AbortError' ? 'upstream_timeout' : 'server_upstream_error'
+            }
         }));
     }
 }

@@ -1,64 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta http-equiv="refresh" content="0;url=/app">
   <title>原点智学</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: #fbfaf5;
-      color: #1f2f28;
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-
-    main {
-      width: min(420px, calc(100vw - 40px));
-      padding: 32px;
-      border: 1px solid #e8eee6;
-      border-radius: 24px;
-      background: #fffdf8;
-      box-shadow: 0 20px 50px rgba(41, 65, 52, 0.1);
-      text-align: center;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: 24px;
-    }
-
-    p {
-      margin: 0 0 22px;
-      color: #657267;
-      line-height: 1.7;
-    }
-
-    a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 18px;
-      border-radius: 999px;
-      background: #16a34a;
-      color: #fff;
-      font-weight: 800;
-      text-decoration: none;
-    }
-  </style>
 </head>
-<body>
-  <main data-retired-page="app-lite" data-redirect-target="/app">
-    <h1>正在进入原点智学</h1>
-    <p>旧版轻 App 原型已下线，当前官网、小程序和后续 App 统一使用新的产品入口。</p>
-    <a href="/app">进入新版</a>
-  </main>
+<body data-retired-page="app-lite" data-redirect-target="/app">
+  <p>这个历史入口已下线，正在进入新版。</p>
+  <p><a href="/app">进入新版</a></p>
   <script>
+    location.replace('/app' + location.search + location.hash);
     window.location.replace('/app');
   </script>
 </body>

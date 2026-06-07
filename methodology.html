@@ -1,125 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta name="robots" content="noindex,nofollow">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>4 维成长模型 · 原点智学方法论</title>
-<meta name="description" content="原点方法论：学得快、学得准、思维好、有产出 — 不只是分数，看清孩子的全貌。">
-<meta name="ydzx-page" content="methodology">
-<meta name="theme-color" content="#0F4F3D">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='none' stroke='%231A1A1A' stroke-width='5'/><circle cx='50' cy='50' r='14' fill='%230F4F3D'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.cnpmjs.org" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Inter:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
-<style>
-:root{
-  --bg-primary:#FAF7F0;--bg-secondary:#F2EEE3;--bg-elevated:#FFFFFF;
-  --text-primary:#1A1A1A;--text-secondary:#4A4A47;--text-tertiary:#8A8780;--text-muted:#B8B5AC;
-  --accent-primary:#0F4F3D;--accent-hover:#0A3D2E;--accent-light:#E8EFE9;
-  --accent-warm:#B85C2E;--accent-warm-light:#F5E8DF;
-  --border-subtle:rgba(26,26,26,0.06);--border-default:rgba(26,26,26,0.10);--border-strong:rgba(26,26,26,0.20);
-  --font-serif-sc:"Noto Serif SC",ui-serif,Georgia,serif;
-  --font-sans-sc:"Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
-  --font-en:"Inter",ui-sans-serif,system-ui,sans-serif;
-  --font-serif-en:"Instrument Serif",ui-serif,Georgia,serif;
-  --primary:var(--accent-primary);--ink:var(--text-primary);--ink-2:var(--text-secondary);--ink-3:var(--text-tertiary);
-  --bg:var(--bg-primary);--bg-2:var(--bg-secondary);--border:var(--border-subtle);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans-sc);font-size:15px;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(250,247,240,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border-subtle);z-index:50}
-.nav-in{max-width:1200px;margin:0 auto;height:100%;padding:0 40px;display:flex;align-items:center}
-@media(max-width:768px){.nav-in{padding:0 24px}.nav{height:60px}}
-.brand{font-size:15px;font-weight:500;display:flex;align-items:center;gap:10px;letter-spacing:0.04em;color:var(--text-primary)}
-.brand-dot{width:22px;height:22px;border:1.5px solid var(--text-primary);border-radius:50%;position:relative}
-.brand-dot::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--accent-primary);border-radius:50%;transform:translate(-50%,-50%)}
-.back{font-size:13px;color:var(--text-secondary);margin-left:auto;border-bottom:0.5px solid var(--border-default);padding-bottom:1px;transition:color 200ms ease}
-.back:hover{color:var(--text-primary)}
-main{padding:180px 40px 140px;max-width:880px;margin:0 auto}
-.eyebrow{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin-bottom:20px;letter-spacing:0.01em}
-h1{font-family:var(--font-serif-sc);font-size:clamp(40px,5.5vw,64px);font-weight:500;letter-spacing:0.02em;margin-bottom:32px;line-height:1.18;color:var(--text-primary)}
-.lede{font-size:15px;color:var(--text-secondary);margin-bottom:48px;max-width:640px;line-height:1.8}
-@media (max-width:768px){main{padding:112px 24px 80px}.lede{font-size:15px}}
-
-section.dim{padding:96px 0;border-bottom:0.5px solid var(--border-subtle)}
-section.dim:first-of-type{padding-top:64px}
-section.dim:last-of-type{border-bottom:none}
-.dim-id{font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);letter-spacing:0.01em;margin-bottom:18px}
-.dim-name{font-family:var(--font-serif-sc);font-size:32px;font-weight:500;letter-spacing:0.02em;line-height:1.3;margin-bottom:14px;color:var(--text-primary)}
-.dim-tag{font-size:14px;color:var(--text-secondary);margin-bottom:24px;font-weight:300}
-.dim-body{font-size:15px;color:var(--text-primary);line-height:1.85;max-width:680px}
-.dim-body p+p{margin-top:14px}
-@media (max-width:768px){section.dim{padding:64px 0}section.dim:first-of-type{padding-top:40px}.dim-name{font-size:26px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="refresh" content="0;url=/app">
+  <title>原点智学</title>
 </head>
-<body>
-
-<nav class="nav">
-  <div class="nav-in">
-    <a href="/" class="brand"><span class="brand-dot"></span><span>原点智学</span></a>
-    <a href="/" class="back">← 回首页</a>
-  </div>
-</nav>
-
-<main>
-  <div class="eyebrow">[Method.]</div>
-  <h1>不只是分数<br>看清孩子的全貌</h1>
-  <p class="lede">7 年陪跑 3000+ 学生沉淀出的方法论。把模糊的"学得好"拆成 4 个具体可观测的维度，每一维都有匹配的工具与练习。</p>
-
-  <section class="dim">
-    <div class="dim-id">[01.]</div>
-    <div class="dim-name">学得快</div>
-    <div class="dim-tag">提效学习时间，释放创造力</div>
-    <div class="dim-body">
-      <p>「学得快」不是赶进度，是把无效时间挤出来。零碎时间用 AI 阅读改写消化课文，整段时间留给真正需要思考的题目。</p>
-      <p>对应工具：阅读三档难度改写 / 教材原文一键定位 / 错题智能聚类。</p>
-    </div>
-  </section>
-
-  <section class="dim">
-    <div class="dim-id">[02.]</div>
-    <div class="dim-name">学得准</div>
-    <div class="dim-tag">定制专属 AI 学习路径提分</div>
-    <div class="dim-body">
-      <p>所有孩子用同一套路径是无效的。3 分钟诊断生成 13 维度知识漏洞地图，每周根据答题数据更新最薄弱的 5 个考点。</p>
-      <p>对应工具：AI 诊断 · 知识漏洞地图 / 错题归因 64 类 / 间隔重复排期。</p>
-    </div>
-  </section>
-
-  <section class="dim">
-    <div class="dim-id">[03.]</div>
-    <div class="dim-name">思维好</div>
-    <div class="dim-tag">思维启发式 AI 陪练</div>
-    <div class="dim-body">
-      <p>不直接给答案，用苏格拉底式追问让孩子自己讲出思路。讲不通的地方就是真正没懂的地方。</p>
-      <p>对应工具：AI 私教对话 / 费曼讲题 / 题型拆解卡片。</p>
-    </div>
-  </section>
-
-  <section class="dim">
-    <div class="dim-id">[04.]</div>
-    <div class="dim-name">有产出</div>
-    <div class="dim-tag">真实项目与商业化探索</div>
-    <div class="dim-body">
-      <p>分数之外，孩子需要可以拿出来的作品。少年营 3 天 2 夜把 AI 作品做成 Demo Day 展示。</p>
-      <p>对应工具：作品集模板 / Demo Day 评审 / 阿里参访学习。</p>
-    </div>
-  </section>
-
-<section style="margin-top:96px;padding:48px 32px;background:var(--bg-secondary);border-radius:8px;text-align:center">
-  <div style="font-family:var(--font-serif-en);font-style:italic;font-size:14px;color:var(--accent-primary);margin-bottom:14px;letter-spacing:0.01em">[Get Started.]</div>
-  <h2 style="font-family:var(--font-serif-sc);font-size:26px;font-weight:500;letter-spacing:0.02em;line-height:1.3;margin-bottom:14px">想看孩子在 4 个维度上具体什么状况</h2>
-  <p style="font-size:14px;color:var(--text-secondary);max-width:520px;margin:0 auto 24px;line-height:1.85">3 分钟 AI 诊断, 看清 13 维度漏洞, 给具体提升路径。</p>
-  <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-    <a href="/welcome" style="padding:14px 28px;background:var(--accent-primary);color:#FAF7F0;border:none;border-radius:4px;font:500 14px var(--font-sans-sc);letter-spacing:0.04em;text-decoration:none">开始 3 分钟诊断</a>
-    <button data-wechat-cta="hero-cta" style="padding:14px 22px;background:transparent;color:var(--text-primary);border:0.5px solid var(--border-strong);border-radius:4px;font:500 14px var(--font-sans-sc);cursor:pointer;letter-spacing:0.04em">加微信先聊聊</button>
-  </div>
-</section>
-
-</main>
-<script src="/src/track.js"></script>
-<script src="/src/wechat-cta.js" defer></script>
-<script src="/src/sticky-wechat.js" defer></script>
+<body data-retired-page="methodology.html" data-redirect-target="/app">
+  <p>这个历史入口已下线，正在进入新版。</p>
+  <p><a href="/app">进入新版</a></p>
+  <script>
+    location.replace('/app' + location.search + location.hash);
+  </script>
 </body>
 </html>

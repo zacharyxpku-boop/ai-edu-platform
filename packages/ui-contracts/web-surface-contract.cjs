@@ -8,7 +8,17 @@ const WEB_SURFACE_REQUIRED_ENTRIES = [
   'report',
   'tutor',
   'review',
-  'parent'
+  'parent',
+  'map'
+];
+
+const WEB_MINIAPP_CHILD_SCENES = [
+  'upload',
+  'report',
+  'tutor',
+  'review',
+  'parent',
+  'today'
 ];
 
 const WEB_SURFACE_LOOP = [
@@ -30,12 +40,17 @@ const WEB_SURFACE_LOOP = [
   {
     id: 'review',
     input: 'wrong-cause and recall target',
-    output: 'memory, transfer, and variation challenge'
+    output: 'memory, transfer, and variation evidence'
   },
   {
     id: 'parent',
     input: 'child evidence and next action',
     output: 'one parent question and next checkpoint'
+  },
+  {
+    id: 'map',
+    input: 'current evidence loop and next checkpoints',
+    output: 'tonight route and 7-day continuation path'
   }
 ];
 
@@ -54,6 +69,7 @@ const WEB_SURFACE_VIEW_MODEL_KEYS = [
 module.exports = {
   WEB_SURFACE_CONTRACT_VERSION,
   WEB_SURFACE_REQUIRED_ENTRIES,
+  WEB_MINIAPP_CHILD_SCENES,
   WEB_SURFACE_LOOP,
   WEB_SURFACE_VIEW_MODEL_KEYS
 };
