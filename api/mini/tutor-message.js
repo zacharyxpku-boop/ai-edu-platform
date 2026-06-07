@@ -344,6 +344,11 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
             evidence_required: ['student_first_step', 'selected_homework', 'misconception_tags'],
             boundary: 'no_direct_homework_answer'
         },
+        model_contract: extra.extra && extra.extra.fallback === false ? {
+            provider: 'deepseek',
+            role: 'wording_rewrite_only',
+            personalized_by: ['selected_homework', 'misconception_tags', 'coach_step']
+        } : null,
         ...extra.extra
     };
 }
@@ -442,7 +447,7 @@ export default async function handler(req) {
         return json(structuredReply(safeReply.reply, mode, safeReply.step, context, {
             homework_boundary: safeReply.homeworkBoundary,
             next_action: safeReply.homeworkBoundary ? '先发自己的第一步或卡住的条件，我只给最小提示。' : undefined,
-            extra: { fallback: false, output_sanitized: safeReply.sanitized }
+            extra: { fallback: false, output_sanitized: safeReply.sanitized, upstream_status: upstream.status }
         }));
     } catch (error) {
         return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
