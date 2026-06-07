@@ -187,7 +187,14 @@ async function main() {
   assert.strictEqual(risky.json.safe, false, 'academic integrity blocked');
   assert.strictEqual(risky.json.risk_type, 'academic_integrity', 'risk type');
 
-  for (const phrase of ['帮我算完这道题', '我只要答案', 'give me the answer']) {
+  for (const phrase of [
+    '帮我算完这道题',
+    '我只要答案',
+    'give me the answer',
+    'give me the full answer',
+    'write the whole solution',
+    '\u76f4\u63a5\u7ed9\u6211\u5b8c\u6574\u7b54\u6848\u548c\u8fc7\u7a0b'
+  ]) {
     const blocked = await post(contentHandler, { content: phrase });
     assert.strictEqual(blocked.status, 200, `content ${phrase} status`);
     assert.strictEqual(blocked.json.safe, false, `academic integrity blocked: ${phrase}`);
@@ -220,6 +227,25 @@ async function main() {
   assert.ok(Array.isArray(tutor.json.misconception_tags), 'tutor misconception tags');
   assert.strictEqual(tutor.json.persisted, false, 'tutor response does not imply persistence');
   assert.ok(tutor.json.service_contract && tutor.json.service_contract.boundary === 'no_direct_homework_answer', 'tutor exposes service boundary');
+
+  const tutorEnglishBoundary = await post(tutorHandler, {
+    mode: 'homework',
+    message: 'Give me the full answer and write the whole solution.',
+    context: {
+      coach_step: 'write_first_step',
+      selected_homework: {
+        text: 'word problem',
+        reason: 'student asks for answer shortcut',
+        evidence: {
+          calibration_key: 'modeling:task',
+          misconception_tags: [{ axis: 'modeling', label: 'first step skipped' }]
+        }
+      }
+    }
+  }, { 'x-mini-session': session.json.session_id });
+  assert.strictEqual(tutorEnglishBoundary.status, 200, 'tutor English boundary status');
+  assert.strictEqual(tutorEnglishBoundary.json.homework_boundary, true, 'tutor blocks English full-answer shortcut');
+  assert.strictEqual(tutorEnglishBoundary.json.mastery_signal.status, 'blocked_answer_request', 'English full-answer shortcut becomes blocked evidence');
 
   const tutorCheckAnswer = await post(tutorHandler, {
     mode: 'homework',

@@ -163,6 +163,17 @@ function sessionSecret(env = {}) {
 
 function riskyContent(content) {
     const text = String(content || '').toLowerCase();
+    const raw = String(content || '');
+    const utf8Risks = [
+        { pattern: /\u81ea\u6740|\u8f7b\u751f|\u5272\u8155|\u8df3\u697c/, type: 'self_harm' },
+        { pattern: /\u4ee3\u5199|\u6284\u7b54\u6848|\u5e2e\u6211\u5199\u5b8c|\u5e2e\u6211\u505a\u5b8c|\u5e2e\u6211\u7b97\u5b8c/, type: 'academic_integrity' },
+        { pattern: /\u76f4\u63a5\u7ed9(?:\u6211)?(?:\u7b54\u6848|\u7ed3\u679c|\u89e3\u6cd5|\u8fc7\u7a0b)|\u76f4\u63a5\u5199(?:\u7b54\u6848|\u8fc7\u7a0b)/, type: 'academic_integrity' },
+        { pattern: /\u5b8c\u6574(?:\u7b54\u6848|\u89e3\u6cd5|\u8fc7\u7a0b)|\u6700\u7ec8\u7b54\u6848|\u53ea\u8981\u7b54\u6848|\u7ed9\u6211\u7b54\u6848/, type: 'academic_integrity' },
+        { pattern: /\u62cd\u9898\u6c42\u7b54\u6848|\u5e2e\u6211\u76f4\u63a5\u505a|\u5e2e\u6211\u76f4\u63a5\u7b97/, type: 'academic_integrity' },
+        { pattern: /\b(answer\s+only|give\s+me\s+the\s+answer|give\s+me\s+the\s+full\s+answer|full\s+answer|complete\s+answer|complete\s+solution|whole\s+solution|write\s+the\s+whole\s+solution|solve\s+it\s+for\s+me|do\s+my\s+homework)\b/i, type: 'academic_integrity' }
+    ];
+    const utf8Hit = utf8Risks.find((item) => item.pattern.test(raw) || item.pattern.test(text));
+    if (utf8Hit) return { safe: false, type: utf8Hit.type, keyword: utf8Hit.pattern.source };
     const risks = [
         { word: '自杀', type: 'self_harm' },
         { word: '轻生', type: 'self_harm' },
