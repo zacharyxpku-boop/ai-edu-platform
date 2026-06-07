@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { dueCards, getLevel, todayKey } from './_game.js';
+import { dueCards, getLearningRecordStage, getProgressBand, todayKey } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -41,7 +41,9 @@ export default async function handler(req) {
     const today = todayKey();
     const reviewedToday = events.filter((item) => String(item.created_at || '').slice(0, 10) === today && item.rating).length;
     const due = dueCards(cards, new Date(), body.limit || 50);
-    const level = getLevel(profile.xp || body.xp || 0);
+    const recordTotal = Number(profile.xp || body.xp || 0);
+    const learningRecordStage = getLearningRecordStage(recordTotal);
+    const progressBand = getProgressBand(recordTotal);
 
     return json({
         ok: true,
@@ -62,12 +64,18 @@ export default async function handler(req) {
             achieved: reviewedToday >= 10,
             remaining: Math.max(0, 10 - reviewedToday)
         },
-        xp: Number(profile.xp || body.xp || 0),
-        level,
+        learning_record_total: recordTotal,
+        progress_band: progressBand,
+        xp: recordTotal,
+        learning_record_stage: learningRecordStage,
+        level: learningRecordStage,
+        local_record_points: Number(profile.recordPoints || profile.coins || 0),
         coins: Number(profile.coins || 0),
         streak: Number(profile.streak || 0),
+        local_session_remaining_checks: Math.max(0, Number(profile.remainingChecks || profile.lives || 5)),
         lives: Math.max(0, Number(profile.lives || 5)),
         next_action: due.length ? 'review_due_cards' : 'create_or_import_learning_pack',
-        engine_version: 'mini-game-review-today-v1'
+        display_notice: '今日回访只看本机学习记录，不展示同伴比较、额外权益或任务体系。',
+        engine_version: 'mini-review-records-today-v1'
     });
 }

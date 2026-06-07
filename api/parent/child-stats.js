@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from '../mini/_shared.js';
-import { getLevel, knowledgeGap } from '../mini/_game.js';
+import { getLearningRecordStage, getProgressBand, knowledgeGap } from '../mini/_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -41,6 +41,7 @@ export default async function handler(req) {
     const correct = reviewed.filter((item) => ['remembered', 'good', 'easy'].includes(item.rating)).length;
     const accuracy = reviewed.length ? Math.round((correct / reviewed.length) * 100) : null;
     const xp = Number(profile.xp || 0);
+    const progressBand = getProgressBand(xp);
     const gaps = knowledgeGap(events);
 
     return json({
@@ -54,17 +55,21 @@ export default async function handler(req) {
         },
         stats: {
             reviewed_cards: reviewed.length,
+            learning_record_total: xp,
+            progress_band: progressBand,
             xp,
-            level: getLevel(xp),
+            learning_record_stage: getLearningRecordStage(xp),
+            level: getLearningRecordStage(xp),
             record_points: Number(profile.recordPoints || profile.coins || 0),
             streak: Number(profile.streak || 0),
             accuracy,
             weak_points: gaps,
             summary: reviewed.length
                 ? `孩子已完成 ${reviewed.length} 次回忆练习，当前正确率 ${accuracy}%。`
-                : '还没有足够学习记录，完成一次复习闯关后会显示真实进展。'
+                : '还没有足够学习记录，完成一次复习回访后会显示真实进展。'
         },
         privacy_notice: '仅返回学习证据摘要，不返回私密对话全文。',
+        display_notice: '家长端只展示孩子自己的学习证据摘要，不展示同伴比较、额外权益或结果承诺。',
         engine_version: 'parent-child-stats-v1'
     });
 }

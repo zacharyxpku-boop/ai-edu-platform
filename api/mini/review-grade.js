@@ -7,7 +7,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { applySM2, calculateXP, getLevel } from './_game.js';
+import { applySM2, calculateLearningRecordDelta, getLearningRecordStage, getProgressBand } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -55,9 +55,9 @@ export default async function handler(req) {
             : grade === 'easy'
                 ? 'review_easy'
                 : 'review_remembered';
-    const xpDelta = calculateXP(xpAction, body.streak_multiplier || 1);
+    const learningRecordDelta = calculateLearningRecordDelta(xpAction, body.streak_multiplier || 1);
     const oldXp = Number(body.profile?.xp || body.xp || 0);
-    const nextXp = oldXp + xpDelta;
+    const nextXp = oldXp + learningRecordDelta;
 
     return json({
         ok: true,
@@ -70,18 +70,24 @@ export default async function handler(req) {
         card_id: card.id || body.card_id,
         grade,
         schedule,
-        xp_delta: xpDelta,
+        learning_record_delta: learningRecordDelta,
+        learning_record_total: nextXp,
+        progress_band: getProgressBand(nextXp),
+        xp_delta: learningRecordDelta,
         xp: nextXp,
-        level: getLevel(nextXp),
+        learning_record_stage: getLearningRecordStage(nextXp),
+        level: getLearningRecordStage(nextXp),
         event: {
             card_id: card.id || body.card_id,
             note_id: card.noteId || card.note_id || '',
             rating: grade,
-            xp: xpDelta,
+            learning_record_delta: learningRecordDelta,
+            xp: learningRecordDelta,
             subject: card.subject || '',
             weakPoint: card.weakPoint || '',
             created_at: new Date().toISOString()
         },
-        engine_version: 'mini-game-review-grade-v1'
+        display_notice: '本次回访只记录记忆证据和下次时间，不提供额外权益，不做结果承诺。',
+        engine_version: 'mini-review-evidence-grade-v1'
     });
 }

@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { getLevel, knowledgeGap } from './_game.js';
+import { getLearningRecordStage, getProgressBand, knowledgeGap } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -42,6 +42,7 @@ export default async function handler(req) {
     const wins = reviewed.filter((item) => ['remembered', 'good', 'easy'].includes(item.rating)).length;
     const accuracy = reviewed.length ? Math.round((wins / reviewed.length) * 100) : null;
     const xp = Number(profile.xp || 0);
+    const progressBand = getProgressBand(xp);
     const gaps = knowledgeGap(events);
 
     return json({
@@ -56,14 +57,18 @@ export default async function handler(req) {
         weekly: {
             reviewed_cards: reviewed.length,
             accuracy,
+            learning_record_total: xp,
+            progress_band: progressBand,
             xp,
-            level: getLevel(xp),
+            learning_record_stage: getLearningRecordStage(xp),
+            level: getLearningRecordStage(xp),
             due_cards: cards.filter((card) => !card.next_review || new Date(card.next_review).getTime() <= Date.now()).length,
             parent_summary: reviewed.length
                 ? `本周完成 ${reviewed.length} 次回忆练习，正确率 ${accuracy}%；下一步优先修复 ${gaps[0]?.key || '最高频错因'}。`
-                : '本周还没有足够学习记录。完成一次 5 分钟闯关后，这里会生成真实进展。'
+                : '本周还没有足够学习记录。完成一次 5 分钟回访后，这里会生成真实进展。'
         },
         knowledge_gap: gaps,
+        display_notice: '报告只基于传入的学习证据生成，不做结果承诺，不展示同伴比较或额外权益。',
         engine_version: 'mini-learning-report-summary-v1'
     });
 }

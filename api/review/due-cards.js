@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from '../mini/_shared.js';
-import { dueCards, getLevel, todayKey } from '../mini/_game.js';
+import { dueCards, getLearningRecordStage, getProgressBand, todayKey } from '../mini/_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -42,6 +42,7 @@ export default async function handler(req) {
     const today = todayKey();
     const reviewedToday = events.filter((item) => String(item.created_at || '').slice(0, 10) === today && item.rating).length;
     const due = dueCards(cards, new Date(), body.limit || url.searchParams.get('limit') || 50);
+    const recordTotal = Number(profile.xp || body.xp || 0);
 
     return json({
         ok: true,
@@ -61,10 +62,14 @@ export default async function handler(req) {
             achieved: reviewedToday >= 10,
             remaining: Math.max(0, 10 - reviewedToday)
         },
-        xp: Number(profile.xp || body.xp || 0),
-        level: getLevel(profile.xp || body.xp || 0),
+        learning_record_total: recordTotal,
+        progress_band: getProgressBand(recordTotal),
+        xp: recordTotal,
+        learning_record_stage: getLearningRecordStage(recordTotal),
+        level: getLearningRecordStage(recordTotal),
         source: due.length ? 'request_cards' : 'empty_without_client_cards',
         message: due.length ? '' : '请从本机学习记录传入真实卡片；接口不会生成假复习任务。',
+        display_notice: '回访任务只基于真实传入卡片，不生成额外任务。',
         engine_version: 'review-due-cards-v1'
     });
 }

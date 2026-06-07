@@ -6,7 +6,7 @@ import {
     sessionSecret,
     verifySession
 } from './_shared.js';
-import { calculateXP, getLevel } from './_game.js';
+import { calculateLearningRecordDelta, getLearningRecordStage, getProgressBand } from './_game.js';
 
 export const config = { runtime: 'edge' };
 
@@ -37,9 +37,9 @@ export default async function handler(req) {
 
     const answers = Array.isArray(body.answers) ? body.answers.slice(0, 50) : [];
     const correct = answers.filter((item) => !!item.correct).length;
-    const xpDelta = correct * calculateXP('quiz_correct', body.streak_multiplier || 1);
+    const learningRecordDelta = correct * calculateLearningRecordDelta('quiz_correct', body.streak_multiplier || 1);
     const oldXp = Number(body.profile?.xp || body.xp || 0);
-    const xp = oldXp + xpDelta;
+    const xp = oldXp + learningRecordDelta;
     const accuracy = answers.length ? Math.round((correct / answers.length) * 100) : 0;
 
     return json({
@@ -54,18 +54,24 @@ export default async function handler(req) {
         total: answers.length,
         correct,
         accuracy,
-        xp_delta: xpDelta,
+        learning_record_delta: learningRecordDelta,
+        learning_record_total: xp,
+        progress_band: getProgressBand(xp),
+        xp_delta: learningRecordDelta,
         xp,
-        level: getLevel(xp),
+        learning_record_stage: getLearningRecordStage(xp),
+        level: getLearningRecordStage(xp),
         should_repair_wrong_cause: answers.length > 0 && accuracy < 70,
         event: {
             kind: 'quiz_attempt',
             total: answers.length,
             correct,
             accuracy,
-            xp: xpDelta,
+            learning_record_delta: learningRecordDelta,
+            xp: learningRecordDelta,
             created_at: new Date().toISOString()
         },
-        engine_version: 'mini-game-quiz-submit-v1'
+        display_notice: '本次结果只作为学习证据记录，不提供额外权益，不做结果承诺。',
+        engine_version: 'mini-quiz-evidence-submit-v1'
     });
 }
