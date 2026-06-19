@@ -12,8 +12,116 @@ const checks = [
     command: [process.execPath, ['scripts/check-positioning-copy.cjs']]
   },
   {
+    name: 'Miniapp encoding guard',
+    command: [process.execPath, ['scripts/check-miniapp-encoding.cjs']]
+  },
+  {
     name: '小程序本地上架预检',
     command: [process.execPath, ['scripts/miniapp-launch-assistant.cjs']]
+  },
+  {
+    name: 'Miniapp reference asset adoption',
+    command: [process.execPath, ['scripts/test-miniapp-reference-adoption.cjs']]
+  },
+  {
+    name: 'Miniapp reference library inventory',
+    command: [process.execPath, ['scripts/test-miniapp-reference-library-inventory.cjs']]
+  },
+  {
+    name: 'Miniapp reference HTML coverage',
+    command: [process.execPath, ['scripts/test-miniapp-reference-html-coverage.cjs']]
+  },
+  {
+    name: 'Miniapp reference visual shell',
+    command: [process.execPath, ['scripts/test-miniapp-reference-visual-shell.cjs']]
+  },
+  {
+    name: 'Miniapp tab layout contract',
+    command: [process.execPath, ['scripts/test-miniapp-tab-layout-contract.cjs']]
+  },
+  {
+    name: 'Miniapp first-screen density contract',
+    command: [process.execPath, ['scripts/test-miniapp-first-screen-density-contract.cjs']]
+  },
+  {
+    name: 'Miniapp tab product focus contract',
+    command: [process.execPath, ['scripts/test-miniapp-tab-product-focus.cjs']]
+  },
+  {
+    name: 'Miniapp entry jump shell contract',
+    command: [process.execPath, ['scripts/test-entry-jump-shell.cjs']]
+  },
+  {
+    name: 'Miniapp entry-detail route contract',
+    command: [process.execPath, ['scripts/test-miniapp-entry-detail-route-contract.cjs']]
+  },
+  {
+    name: 'Miniapp click contract',
+    command: [process.execPath, ['scripts/test-miniapp-click-contract.cjs']]
+  },
+  {
+    name: 'Miniapp inline-SVG background wipe scan',
+    command: [process.execPath, ['scripts/scan-bg-wipe.cjs']]
+  },
+  {
+    name: 'Miniapp five user journey smoke',
+    command: [process.execPath, ['scripts/test-five-user-journey-smoke.cjs']]
+  },
+  {
+    name: 'Miniapp user journey risk smoke',
+    command: [process.execPath, ['scripts/test-miniapp-user-journey-risk-smoke.cjs']]
+  },
+  {
+    name: 'Miniapp deep-link runtime harness',
+    command: [process.execPath, ['scripts/test-miniapp-deep-link-runtime.cjs']]
+  },
+  {
+    name: 'Report job status API contract',
+    command: [process.execPath, ['scripts/test-report-job-status-api.cjs']]
+  },
+  {
+    name: 'Miniapp revisit engine contract',
+    command: [process.execPath, ['scripts/test-revisit-engine.cjs']]
+  },
+  {
+    name: 'Miniapp practice workshop contract',
+    command: [process.execPath, ['scripts/test-review-engine.cjs']]
+  },
+  {
+    name: 'Miniapp qbank integration contract',
+    command: [process.execPath, ['scripts/test-qbank-integration.cjs']]
+  },
+  {
+    name: 'Legacy API inventory risk contract',
+    command: [process.execPath, ['scripts/test-legacy-api-inventory-risk.cjs']]
+  },
+  {
+    name: 'RLS API contract',
+    command: [process.execPath, ['scripts/test-rls-api-contract.cjs']]
+  },
+  {
+    name: 'Miniapp production release scope contract',
+    command: [process.execPath, ['scripts/check-miniapp-production-release-scope.cjs']]
+  },
+  {
+    name: 'Miniapp real-device capture harness contract',
+    command: [process.execPath, ['scripts/test-miniapp-real-device-capture-contract.cjs']]
+  },
+  {
+    name: 'Miniapp DevTools simulator capture contract',
+    command: [process.execPath, ['scripts/test-miniapp-devtools-simulator-capture-contract.cjs']]
+  },
+  {
+    name: 'Miniapp runtime window capture contract',
+    command: [process.execPath, ['scripts/test-miniapp-runtime-window-capture-contract.cjs']]
+  },
+  {
+    name: 'Miniapp runtime walkthrough capture contract',
+    command: [process.execPath, ['scripts/test-miniapp-runtime-walkthrough-capture-contract.cjs']]
+  },
+  {
+    name: 'Miniapp manual screenshot audit contract',
+    command: [process.execPath, ['scripts/test-miniapp-manual-screenshot-audit-contract.cjs']]
   },
   {
     name: '小程序生产规则测试',
@@ -33,6 +141,12 @@ if (process.argv.includes('--remote')) {
   checks.splice(2, 0, {
     name: '线上接口冒烟检查',
     command: [process.execPath, ['scripts/miniapp-launch-assistant.cjs', '--remote']]
+  }, {
+    name: 'Live miniapp API smoke',
+    command: [process.execPath, ['scripts/test-live-miniapp-api-smoke.cjs']]
+  }, {
+    name: 'Live miniapp user journey smoke',
+    command: [process.execPath, ['scripts/test-live-miniapp-user-journey.cjs']]
   });
 }
 

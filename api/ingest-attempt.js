@@ -3,12 +3,12 @@
 // → { ok: true, attempt_id }
 //
 // 调用：mastery-loop.html 提交答题后调用，让 attempts 表实时填充
-// 数据流向：anon key + RLS 允许 INSERT，写入 attempts → NCDM 夜间训练拉这些数据
+// 数据流向：服务端 service_role 写入 attempts → NCDM 夜间训练拉这些数据
 
 export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
-const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) : '';
+const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 
 const ENGINE_VERSION = 'ingest-attempt-v1.0';
 
@@ -50,8 +50,8 @@ export default async function handler(req) {
     }
     if (req.method !== 'POST') return jsonErr(405, 'method_not_allowed', '只接受 POST');
 
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-        return jsonErr(503, 'not_configured', 'SUPABASE_URL / SUPABASE_ANON_KEY 未配置');
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+        return jsonErr(503, 'not_configured', 'SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 未配置');
     }
 
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
@@ -109,15 +109,14 @@ export default async function handler(req) {
         submitted_at: new Date().toISOString(),
     };
 
-    // 直接走 PostgREST（anon key + RLS 允许 INSERT attempts）
+    // 服务端走 PostgREST；前端不接触数据库密钥，RLS 下由 service_role 写入。
     try {
         const r = await fetch(`${SUPABASE_URL}/rest/v1/attempts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                // return=minimal 绕开 SELECT RLS（attempts 表 anon 没 SELECT policy）
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_SERVICE_KEY,
                 // 前端 fire-and-forget 不需要 attempt_id，只需要 200/2xx 状态
                 'Prefer': 'return=minimal',
             },

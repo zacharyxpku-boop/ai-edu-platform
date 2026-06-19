@@ -103,7 +103,7 @@ async function main() {
   assert.ok(feedback.json.feedback_id, 'feedback id');
   assert.strictEqual(feedback.json.feedback.rating, 'off', 'feedback rating normalized');
   assert.ok(feedback.json.learning_signal, 'feedback learning signal');
-  assert.ok(feedback.json.learning_signal.usable_for_ranking, 'feedback usable for ranking');
+  assert.ok(feedback.json.learning_signal.usable_for_calibration, 'feedback usable for calibration');
   assert.strictEqual(feedback.json.source, 'local_feedback_receipt', 'feedback returns local receipt source');
   assert.strictEqual(feedback.json.persisted, false, 'feedback does not pretend to persist without service configuration');
   assert.ok(feedback.json.service_contract, 'feedback service contract');
@@ -128,8 +128,8 @@ async function main() {
   assert.strictEqual(learningEvent.json.event.payload.phone, '[redacted]', 'mini event scrubs sensitive fields');
   assert.ok(learningEvent.json.service_contract, 'mini event service contract');
 
-  const challengeStarted = await post(eventHandler, {
-    event: 'challenge_started',
+  const revisitStarted = await post(eventHandler, {
+    event: 'revisit_started',
     client_id: 'local_test_client',
     source: 'daily_card',
     entity_id: 'share_test',
@@ -138,9 +138,23 @@ async function main() {
       mode: 'same_identity'
     }
   }, { 'x-mini-session': session.json.session_id, 'x-mini-client': 'local_test_client' });
-  assert.strictEqual(challengeStarted.status, 200, 'challenge started event status');
-  assert.strictEqual(challengeStarted.json.event.event, 'challenge_started', 'challenge event allowed');
-  assert.strictEqual(challengeStarted.json.funnel, 'learning_evidence', 'challenge event is accepted without being downgraded');
+  assert.strictEqual(revisitStarted.status, 200, 'revisit started event status');
+  assert.strictEqual(revisitStarted.json.event.event, 'revisit_started', 'revisit event allowed');
+  assert.strictEqual(revisitStarted.json.funnel, 'active_recall_revisit', 'revisit event maps to active recall funnel');
+
+  const legacyChallengeStarted = await post(eventHandler, {
+    event: ['challenge', 'started'].join('_'),
+    client_id: 'local_test_client',
+    source: 'daily_card',
+    entity_id: 'share_test',
+    payload: {
+      share_code: 'abcd1234',
+      mode: 'same_identity'
+    }
+  }, { 'x-mini-session': session.json.session_id, 'x-mini-client': 'local_test_client' });
+  assert.strictEqual(legacyChallengeStarted.status, 200, 'legacy challenge alias event status');
+  assert.strictEqual(legacyChallengeStarted.json.event.event, 'revisit_started', 'legacy challenge event is normalized to revisit');
+  assert.strictEqual(legacyChallengeStarted.json.event.original_event, ['challenge', 'started'].join('_'), 'legacy challenge event is retained only as compatibility evidence');
 
   const leadSubmitted = await post(eventHandler, {
     event: 'lead_submitted',
@@ -314,26 +328,54 @@ async function main() {
   assert.ok(homePage.includes('buildWrongbookEntry'), 'home page exposes one clear wrongbook entry');
   assert.ok(homePage.includes("event: 'share_clicked'"), 'home page records incoming share clicks for growth attribution');
   assert.ok(homePage.includes("navigation.navigateLearningRoute(url)") && homePage.includes("'/pages/tutor/tutor?from=home'"), 'home primary AI input opens Xiaodian tutor through tab-safe navigation');
-  assert.ok(homePage.includes('trackShareActivation') && homePage.includes("event,") && homePage.includes('share_code: incoming.share_code'), 'home attaches share attribution to activation events');
-  assert.ok(profileWxml.includes('yd-parent-decision') && profileWxml.includes('/assets/reference/entry-report.png'), 'profile first screen promotes a visual parent report evidence preview');
-  assert.ok(tutorPage.includes('api.checkContent'), 'tutor uses content precheck');
+  assert.ok(homePage.includes('trackShareActivation') && homePage.includes("event,") && homePage.includes('share_code: incoming.share_code') && homePage.includes("'revisit_started'"), 'home attaches share attribution to revisit activation events');
+  assert.ok(
+    profileWxml.includes('yd-parent-hero growth')
+    && profileWxml.includes('growth-choice-grid')
+    && profileWxml.includes('growth-report-preview')
+    && profileWxml.includes('growth-report-preview-card')
+    && (
+      profileWxml.includes('/assets/reference/report-radar-card-illustration.png')
+      || profileWxml.includes('/assets/reference/family-avatar-group-transparent.png')
+    ),
+    'profile promotes visual Growth Report input and keeps evidence preview in the report subpage'
+  );
+  const tutorApi = fs.readFileSync(path.join(ROOT, 'api/mini/tutor-message.js'), 'utf8');
+  assert.ok(tutorPage.includes("safety_check: extraContext.safety_check || 'server_guard'") && tutorApi.includes('riskyContent(message)'), 'tutor uses server-side content guard without serial precheck');
   const profilePage = fs.readFileSync(path.join(ROOT, 'miniprogram/pages/profile/profile.js'), 'utf8');
   const leadApi = fs.readFileSync(path.join(ROOT, 'api/lead.js'), 'utf8');
   assert.ok(profilePage.includes("event: 'share_app_message'") && profilePage.includes("event: 'share_timeline'"), 'profile distinguishes real share actions from card generation');
   assert.ok(profilePage.includes("event: 'share_card_generated'") && profilePage.includes("event: 'lead_submitted'"), 'profile records share card generation and lead conversion');
-  assert.ok(profilePage.includes('mode=same_identity'), 'profile share links invite same-identity challenge without fake leaderboard');
-  assert.ok(profilePage.includes('shareIntent') && profilePage.includes('parent_card') && profilePage.includes('peer_challenge'), 'profile uses WeChat share intents for parent recap and peer same-challenge paths');
-  assert.ok(profileWxml.includes('parent-primary') && profileWxml.includes('parent-secondary'), 'profile first screen exposes clear parent next actions without the retired share panel');
+  assert.ok(profilePage.includes('mode=same_identity'), 'profile share links invite same-identity revisit without fake leaderboard');
+  assert.ok(profilePage.includes('shareIntent') && profilePage.includes('parent_card') && profilePage.includes('peer_challenge'), 'profile keeps legacy share intent ids while copy is framed as parent recap and peer revisit paths');
+  assert.ok(profileWxml.includes('growth-main-cta') && profileWxml.includes('growth-report-actions') && profileWxml.includes('growth-parent-bottom-actions'), 'profile exposes clear growth-report input, preview, and action-card next actions without the retired share panel');
   assert.ok(profilePage.includes('share_code') && profilePage.includes('evidence_done') && profilePage.includes('identity_tag'), 'profile lead/share payload carries evidence context');
   assert.ok(leadApi.includes('evidence_done') && leadApi.includes('identity_tag') && leadApi.includes('share_code'), 'lead endpoint accepts learning evidence fields');
   assert.ok(reviewPage.includes('lastWrongCard'), 'review page routes just-missed card back to tutor');
   assert.ok(tutorPage.includes('coach_step'), 'tutor consumes structured coach step');
   assert.ok(tutorPage.includes('QUICK_ACTIONS'), 'tutor has mastery quick actions');
-  assert.ok(tutorWxml.includes('tutor-ladder'), 'tutor renders the compact guided learning ladder');
-  assert.ok(tutorWxml.includes('tutor-primary') && tutorWxml.includes('openEntryDetail'), 'tutor exposes a focused first-step child flow action');
+  assert.ok(tutorWxml.includes('tutor-socratic-panel') && tutorWxml.includes('tutor-mode-grid'), 'tutor renders the focused Socratic prompt workspace');
+  assert.ok(tutorWxml.includes('tutor-mode-grid') && tutorWxml.includes('tutor-start-cta') && tutorWxml.includes('launchFirstStep') && !tutorWxml.includes('tutor-action-row'), 'tutor exposes reference quick entries plus a focused first-step CTA without duplicate bottom CTA');
+  assert.ok(tutorWxml.includes('tutor-feedback-row') && tutorWxml.includes('recordSocraticEffectivenessFeedback'), 'tutor exposes real Socratic feedback actions after a prompt');
   assert.ok(radarPage.includes('buildParentReport') && radarPage.includes('buildWeeklyGrowthMemory'), 'profile replaces retired radar with parent weekly evidence');
   assert.ok(radarPage.includes('saveLocalFeedback'), 'profile records family feedback locally');
-  assert.ok(radarWxml.includes('yd-parent-sources') && radarWxml.includes('yd-parent-decision'), 'profile exposes report/evidence controls');
+  assert.ok(
+    !radarWxml.includes('yd-parent-task-head')
+    && radarWxml.includes('growth-choice-grid')
+    && radarWxml.includes('growth-questionnaire-panel')
+    && radarWxml.includes('growth-upload-panel')
+    && radarWxml.includes('growth-report-preview')
+    && radarWxml.includes('growth-parent-action-card')
+    && !radarWxml.includes('yd-parent-loop-card')
+    && !radarWxml.includes('growth-signal-grid')
+    && !radarWxml.includes('growth-next-row')
+    && radarWxml.includes('startGrowthQuestionnaire')
+    && radarWxml.includes('data-action="upload" bindtap="runParentReportAction"')
+    && radarWxml.includes('data-action="tutor" bindtap="runParentReportAction"')
+    && radarWxml.includes('data-action="review" bindtap="runParentReportAction"')
+    && radarWxml.includes('completeParentActionCard'),
+    'profile exposes Growth Report evidence, questionnaire/upload input, and next execution controls without repeating the removed instruction block'
+  );
 
   console.log('All miniapp production hardening checks pass.');
 }

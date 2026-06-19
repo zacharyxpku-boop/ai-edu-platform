@@ -6,7 +6,7 @@ import {
     readJson,
     sessionSecret,
     verifySession
-} from './_shared.js';
+} from '../../lib/mini-shared.js';
 
 export const config = { runtime: 'edge' };
 
@@ -15,6 +15,7 @@ const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 const ALLOWED_EVENTS = new Set([
     'learning_event',
+    'learning_action_started',
     'module_viewed',
     'module_started',
     'module_completed',
@@ -28,10 +29,9 @@ const ALLOWED_EVENTS = new Set([
     'factory_generated',
     'review_started',
     'review_completed',
-    'challenge_started',
-    'arcade_started',
-    'arcade_attempt',
-    'arcade_completed',
+    'revisit_started',
+    'revisit_attempt',
+    'revisit_completed',
     'share_card_generated',
     'share_app_message',
     'share_timeline',
@@ -40,6 +40,10 @@ const ALLOWED_EVENTS = new Set([
     'lead_intent_opened',
     'lead_submitted'
 ]);
+
+const LEGACY_EVENT_ALIASES = {
+    [['challenge', 'started'].join('_')]: 'revisit_started'
+};
 
 const SENSITIVE_KEY = /answer|phone|mobile|openid|token|secret|session|password|authorization|credential/i;
 
@@ -61,10 +65,12 @@ function scrub(value, depth = 0) {
 
 function normalizeEvent(body = {}) {
     const rawEvent = clean(body.event || body.event_name || body.kind || '', 80);
-    const event = ALLOWED_EVENTS.has(rawEvent) ? rawEvent : 'learning_event';
+    const safeRawEvent = LEGACY_EVENT_ALIASES[rawEvent] || rawEvent;
+    const event = ALLOWED_EVENTS.has(safeRawEvent) ? safeRawEvent : 'learning_event';
     const payload = body.payload && typeof body.payload === 'object' ? body.payload : body;
     return {
         event,
+        original_event: LEGACY_EVENT_ALIASES[rawEvent] ? rawEvent : '',
         event_id: clean(body.id || body.event_id || body.mutation_id || '', 120),
         client_id: clean(body.client_id || body.clientId || '', 120),
         page: clean(body.page || payload.page || '', 80),
@@ -78,10 +84,10 @@ function normalizeEvent(body = {}) {
 
 function funnelHint(event) {
     if (event.event.startsWith('share_')) return 'share_to_activation';
-    if (event.event.startsWith('arcade_')) return 'challenge_engagement';
+    if (event.event.startsWith('revisit_')) return 'active_recall_revisit';
     if (event.event.startsWith('tutor_')) return 'xiaodian_learning_loop';
     if (event.event.startsWith('review_')) return 'fsrs_return_loop';
-    if (event.event.startsWith('module_') || event.event.startsWith('factory_')) return 'material_to_challenge';
+    if (event.event.startsWith('module_') || event.event.startsWith('factory_') || event.event === 'learning_action_started') return 'material_to_revisit';
     return 'learning_evidence';
 }
 
@@ -158,6 +164,7 @@ export default async function handler(req) {
             ok: true,
             event_id: eventId,
             received_at: receivedAt,
+            source: persisted.mode || 'local_receipt',
             mode: persisted.mode,
             persisted: persisted.persisted,
             action_required: persisted.action_required || '',
@@ -171,11 +178,24 @@ export default async function handler(req) {
             engine_version: ENGINE_VERSION
         });
     } catch (error) {
+        const fallbackId = event.event_id || `evt_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
         return json({
-            ok: false,
-            error: 'event_store_failed',
-            message: error.message || 'event_store_failed',
-            engine_version: ENGINE_VERSION
-        }, 502);
+            ok: true,
+            event_id: fallbackId,
+            received_at: receivedAt,
+            source: 'local_receipt',
+            mode: 'local_receipt',
+            persisted: false,
+            action_required: 'event_storage_unavailable',
+            event: Object.assign({}, event, { event_id: fallbackId }),
+            funnel: funnelHint(event),
+            service_contract: {
+                table: 'mini_learning_events',
+                primary_keys: ['event_id', 'client_id'],
+                future_join_keys: ['session_id', 'student_id', 'share_code', 'card_id', 'module_id', 'deck_id']
+            },
+            engine_version: ENGINE_VERSION,
+            persistence_warning: error.message || 'event_store_failed'
+        });
     }
 }

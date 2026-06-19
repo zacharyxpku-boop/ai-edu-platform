@@ -8,7 +8,7 @@ export default function handler() {
         inventory_decision: 'retire_do_not_expose',
         replacement_endpoint: '/api/mini/report',
         replacement_flow: 'upload_material_to_parent_report',
-        message: 'This legacy mini shop endpoint is retired. The current miniapp keeps learning evidence, parent reports, AI guidance, and short revisit instead of shop or exchange systems.'
+        message: 'This retired endpoint is no longer exposed. Use learning evidence, parent reports, AI guidance, and revisit records instead.'
     }), {
         status: 410,
         headers: { 'Content-Type': 'application/json; charset=utf-8' }

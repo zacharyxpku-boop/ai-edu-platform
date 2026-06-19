@@ -13,7 +13,7 @@
 export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
-const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) : '';
+const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
 const ENGINE_VERSION = 'log-dialogue-v1.0';
 
 // 与 0001 schema dialogue_role_enum 对齐
@@ -38,7 +38,7 @@ export default async function handler(req) {
         });
     }
     if (req.method !== 'POST') return jsonErr(405, 'method_not_allowed', '只接受 POST');
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return jsonErr(503, 'not_configured', 'Supabase env 未配');
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) return jsonErr(503, 'not_configured', 'Supabase service_role env 未配');
 
     let body;
     try { body = await req.json(); }
@@ -83,9 +83,9 @@ export default async function handler(req) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                // return=minimal 绕开 SELECT RLS（dialogues 表 anon 没 SELECT policy）
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_SERVICE_KEY,
+                // return=minimal 避免把对话行回显给客户端
                 'Prefer': 'return=minimal',
             },
             body: JSON.stringify(row),

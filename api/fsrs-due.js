@@ -8,12 +8,12 @@
 // 数据流：
 //   学生答错 → ingest-attempt 写库 →（trigger 或 batch job）调 fsrs.update 更新 fsrs_state
 //   学生开 mastery-loop → /api/fsrs-due → 拉 N 道今天该练的 → 渲染「今日复习」入口
+//   student_states 已启用 RLS，服务端读取必须使用 service_role，不能回退 anon。
 
 export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL) : '';
 const SUPABASE_SERVICE_KEY = (typeof process !== 'undefined' && process.env) ? process.env.SUPABASE_SERVICE_ROLE_KEY : '';
-const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env) ? (process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) : '';
 const ENGINE_VERSION = 'fsrs-due-v1.0';
 
 // FSRS 算法内联（Edge runtime 不支持 ESM import 跨目录，复制核心函数）
@@ -40,8 +40,8 @@ export default async function handler(req) {
     }
     if (req.method !== 'GET') return jsonErr(405, 'method_not_allowed', '只接受 GET');
 
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-        return jsonErr(503, 'not_configured', 'Supabase env 未配');
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+        return jsonErr(503, 'not_configured', 'Supabase service_role env 未配');
     }
 
     const url = new URL(req.url);
@@ -79,7 +79,7 @@ export default async function handler(req) {
     const now = Date.now();
 
     // 拉该学生所有 student_states（含 fsrs_state jsonb）
-    // 用 anon key + RLS 的 PoC 期宽松策略
+    // 该表已启用 RLS；此服务端接口使用 service_role，前端不接触数据库密钥。
     try {
         const r = await fetch(
             `${SUPABASE_URL}/rest/v1/student_states?` +
@@ -88,8 +88,8 @@ export default async function handler(req) {
             `select=knowledge_point_id,mastery_score,fsrs_state,next_review_at,attempts_count,correct_count,knowledge_points(code,name)`,
             {
                 headers: {
-                    'apikey': SUPABASE_ANON_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                    'apikey': SUPABASE_SERVICE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_SERVICE_KEY,
                 }
             }
         );

@@ -8,7 +8,7 @@ export default function handler() {
         inventory_decision: 'retire_do_not_expose',
         replacement_endpoint: '/api/mini/review-today',
         replacement_flow: 'learning_stage_evidence',
-        message: 'This legacy mini achievements endpoint is retired. The current miniapp uses evidence records and parent-safe revisit summaries instead of achievement, badge, or honor systems.'
+        message: 'This retired endpoint is no longer exposed. Use learning evidence records and parent-safe revisit summaries instead.'
     }), {
         status: 410,
         headers: { 'Content-Type': 'application/json; charset=utf-8' }

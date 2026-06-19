@@ -1,11 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "api/lobster*.js": {
-      "includeFiles": "miniprogram/utils/**"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -56,6 +51,50 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/mini/session", "destination": "/api/mini-dispatch?endpoint=session" },
+    { "source": "/api/mini/priority", "destination": "/api/mini-dispatch?endpoint=priority" },
+    { "source": "/api/mini/content-check", "destination": "/api/mini-dispatch?endpoint=content-check" },
+    { "source": "/api/mini/weekly", "destination": "/api/mini-dispatch?endpoint=weekly" },
+    { "source": "/api/mini/material-image", "destination": "/api/mini-dispatch?endpoint=material-image" },
+    { "source": "/api/mini/quiz-generate", "destination": "/api/mini-dispatch?endpoint=quiz-generate" },
+    { "source": "/api/mini/review-today", "destination": "/api/mini-dispatch?endpoint=review-today" },
+    { "source": "/api/mini/content-engine", "destination": "/api/mini-dispatch?endpoint=content-engine" },
+    { "source": "/api/mini/sync", "destination": "/api/mini-dispatch?endpoint=sync" },
+    { "source": "/api/mini/me", "destination": "/api/mini-dispatch?endpoint=me" },
+    { "source": "/api/mini/profile/children", "destination": "/api/mini-dispatch?endpoint=profile-children" },
+    { "source": "/api/mini/role/switch", "destination": "/api/mini-dispatch?endpoint=role-switch" },
+    { "source": "/api/mini/event", "destination": "/api/mini-dispatch?endpoint=event" },
+    { "source": "/api/mini/student/:id/timeline", "destination": "/api/mini-dispatch?endpoint=student-timeline&id=:id" },
+    { "source": "/api/mini/student/:id/portrait", "destination": "/api/mini-dispatch?endpoint=student-portrait&id=:id" },
+    { "source": "/api/mini/knowledge-map", "destination": "/api/mini-dispatch?endpoint=knowledge-map" },
+    { "source": "/api/mini/subscription/reminder", "destination": "/api/mini-dispatch?endpoint=subscription-reminder" },
+    { "source": "/api/mini/billing/plans", "destination": "/api/mini-dispatch?endpoint=billing-plans" },
+    { "source": "/api/mini/billing/order", "destination": "/api/mini-dispatch?endpoint=billing-order" },
+    { "source": "/api/mini/billing/quota", "destination": "/api/mini-dispatch?endpoint=billing-quota" },
+    { "source": "/api/pay/wechat/notify", "destination": "/api/mini-dispatch?endpoint=pay-wechat-notify" },
+    { "source": "/api/mini/legal/privacy", "destination": "/api/mini-dispatch?endpoint=privacy" },
+    { "source": "/api/mini/account/delete-request", "destination": "/api/mini-dispatch?endpoint=account-delete-request" },
+    { "source": "/api/mini/data/export", "destination": "/api/mini-dispatch?endpoint=data-export" },
+    { "source": "/api/admin/users", "destination": "/api/mini-dispatch?endpoint=admin-users" },
+    { "source": "/api/admin/reports", "destination": "/api/mini-dispatch?endpoint=admin-reports" },
+    { "source": "/api/admin/conversations", "destination": "/api/mini-dispatch?endpoint=admin-conversations" },
+    { "source": "/api/admin/ai-traces", "destination": "/api/mini-dispatch?endpoint=admin-ai-traces" },
+    { "source": "/api/admin/feature-flags", "destination": "/api/mini-dispatch?endpoint=admin-feature-flags" },
+    { "source": "/api/admin/qbank/items", "destination": "/api/mini-dispatch?endpoint=admin-qbank-items" },
+    { "source": "/api/mini/review-grade", "destination": "/api/mini-dispatch?endpoint=review-grade" },
+    { "source": "/api/mini/quiz-submit", "destination": "/api/mini-dispatch?endpoint=quiz-submit" },
+    { "source": "/api/mini/report", "destination": "/api/mini-dispatch?endpoint=report" },
+    { "source": "/api/mini/learning-report-recognize", "destination": "/api/mini-dispatch?endpoint=learning-report-recognize" },
+    { "source": "/api/lead", "destination": "/api/mini-dispatch?endpoint=lead" },
+    { "source": "/api/tutor-chat", "destination": "/api/retired?endpoint=tutor-chat" },
+    { "source": "/api/achievement-quote", "destination": "/api/retired?endpoint=achievement-quote" },
+    { "source": "/api/leaderboard", "destination": "/api/retired?endpoint=leaderboard" },
+    { "source": "/api/achievements", "destination": "/api/retired?endpoint=achievements" },
+    { "source": "/api/shop/items", "destination": "/api/retired?endpoint=shop/items" },
+    { "source": "/api/shop/purchase", "destination": "/api/retired?endpoint=shop/purchase" },
+    { "source": "/api/mini/shop", "destination": "/api/retired?endpoint=mini/shop" },
+    { "source": "/api/mini/leaderboard", "destination": "/api/retired?endpoint=mini/leaderboard" },
+    { "source": "/api/mini/achievements", "destination": "/api/retired?endpoint=mini/achievements" },
     { "source": "/app", "destination": "/app/index.html" },
     { "source": "/app/", "destination": "/app/index.html" }
   ],

@@ -6,7 +6,7 @@ export default function handler() {
         error: 'legacy_endpoint_retired',
         inventory_status: 'retired_by_default',
         inventory_decision: 'retire_do_not_expose',
-        replacement_endpoint: '/api/mini/shop',
+        replacement_endpoint: '/api/mini/report',
         message: '该旧兑换目录端点已退役；当前产品不提供交易、充值或外部权益。'
     }), {
         status: 410,

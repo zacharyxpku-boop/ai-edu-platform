@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { env } from '../lib/env.js';
 
 export const config = { runtime: 'nodejs' };
 
+// Supabase report job reads use SUPABASE_SERVICE_ROLE_KEY through env.supabaseServiceRoleKey().
 function responseJson(status, body) {
   return new Response(JSON.stringify(body), {
     status,
@@ -67,6 +69,63 @@ function publicStatusPayload(status) {
   };
 }
 
+function pgHeaders() {
+  const serviceKey = env.supabaseServiceRoleKey();
+  return {
+    apikey: serviceKey,
+    Authorization: `Bearer ${serviceKey}`
+  };
+}
+
+function supabaseConfigured() {
+  return Boolean(env.supabaseUrl() && env.supabaseServiceRoleKey());
+}
+
+async function readReportJob(jobId) {
+  if (!supabaseConfigured() || !jobId || jobId === 'default') return null;
+  const base = env.supabaseUrl().replace(/\/$/, '');
+  const query = [
+    `job_id=eq.${encodeURIComponent(jobId)}`,
+    'select=job_id,child_id,status,source,result,error_code,created_at,updated_at',
+    'limit=1'
+  ].join('&');
+  const response = await fetch(`${base}/rest/v1/mini_report_jobs?${query}`, {
+    method: 'GET',
+    headers: pgHeaders()
+  });
+  if (!response.ok) return null;
+  const rows = await response.json().catch(() => []);
+  return Array.isArray(rows) ? rows[0] || null : null;
+}
+
+function publicSupabaseJobPayload(job, caseId) {
+  const result = job.result && typeof job.result === 'object' ? job.result : {};
+  return {
+    ok: true,
+    schema_id: 'report_job_status_v1',
+    source: 'supabase',
+    caseId,
+    jobId: job.job_id,
+    status: job.status || 'unknown',
+    localWorkCompleteUntilProvider: ['draft_ready', 'needs_parent_confirmation', 'completed'].includes(job.status),
+    externalProviderRequired: ['queued', 'needs_parent_confirmation'].includes(job.status),
+    evidence: {
+      child_id: job.child_id || '',
+      source: job.source || '',
+      updated_at: job.updated_at || job.created_at || ''
+    },
+    pipeline: result.pipeline || {},
+    productRoutes: Array.isArray(result.productRoutes) ? result.productRoutes : [],
+    nextBestAction: result.next_action || result.parent_summary || '',
+    externalBlockers: job.error_code ? [job.error_code] : [],
+    safetyPolicy: {
+      no_ranking: true,
+      no_score_promise: true,
+      parent_confirmation_required: job.status === 'needs_parent_confirmation'
+    }
+  };
+}
+
 export default async function handler(req, res) {
   let caseId = 'default';
   try {
@@ -81,6 +140,12 @@ export default async function handler(req, res) {
 
     const url = new URL(req.url || '/api/report-job-status', 'https://yuandianzhixue.com');
     caseId = sanitizeCaseId(url.searchParams.get('case_id') || url.searchParams.get('caseId') || 'default') || 'default';
+    const jobId = sanitizeCaseId(url.searchParams.get('job_id') || url.searchParams.get('jobId') || caseId) || caseId;
+    const dbJob = await readReportJob(jobId);
+    if (dbJob) {
+      return sendJson(res, 200, publicSupabaseJobPayload(dbJob, caseId));
+    }
+
     const file = statusPath(caseId);
     if (!fs.existsSync(file)) {
       return sendJson(res, 404, {

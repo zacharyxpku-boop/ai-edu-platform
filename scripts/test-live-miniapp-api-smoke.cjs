@@ -36,6 +36,28 @@ async function post(path, body) {
   }
 }
 
+async function postWithHeaders(path, body, headers) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'POST',
+      headers: Object.assign({ 'content-type': 'application/json' }, headers || {}),
+      body: JSON.stringify(body || {}),
+      signal: controller.signal
+    });
+    let data = {};
+    try {
+      data = await res.json();
+    } catch (_) {
+      data = { nonJson: true };
+    }
+    return { status: res.status, data };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function get(path) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12000);
@@ -149,15 +171,16 @@ function assertLiveRetainedSafeCopy(label, res) {
     check('material fallback schema', () => assert.strictEqual(material.data.fallback_required, true, 'live material analysis 503 asks client fallback'));
   }
 
-  const reportStatus = await get('/api/report-job-status?case_id=codex-live-missing-probe');
-  check('report status code', () => assert([200, 404].includes(reportStatus.status), 'live report job status returns either public status or actionable missing state'));
-  if (reportStatus.status === 200) {
-    check('report success schema', () => assert.strictEqual(reportStatus.data.schema_id, 'report_job_status_v1', 'live report job status returns stable schema'));
-    check('report success ok', () => assert.strictEqual(reportStatus.data.ok, true, 'live report job status success is explicit'));
-  } else {
-    check('report missing error', () => assert.strictEqual(reportStatus.data.error, 'report_job_status_missing', 'live report job status missing case is actionable'));
-    check('report missing case id', () => assert.strictEqual(reportStatus.data.caseId, 'codex-live-missing-probe', 'live report job status echoes sanitized case id'));
-  }
+  const feedback = await postWithHeaders('/api/mini/feedback', {
+    kind: 'homework_priority',
+    target_id: 'live_smoke_priority_1',
+    rating: 'accurate',
+    bucket: 'must_do',
+    calibration_key: 'first_step_order'
+  }, { 'x-mini-client': 'live-smoke-client' });
+  check('feedback status', () => assert.strictEqual(feedback.status, 200, 'live feedback returns 200'));
+  check('feedback schema', () => assert(feedback.data.ok && feedback.data.service_contract && feedback.data.service_contract.table === 'family_priority_feedback', 'live feedback returns stable service contract'));
+  check('feedback honesty', () => assert.strictEqual(feedback.data.persisted, false, 'live feedback stays honest without service config'));
 
   const legacyTutorChat = await post('/api/tutor-chat', {
     student_id: 'codex-live-probe',
@@ -185,13 +208,13 @@ function assertLiveRetainedSafeCopy(label, res) {
 
   if (failures.length) {
     console.error(`Live miniapp API smoke failed against ${BASE}.`);
-    console.error(`priority=${priority.status}, tutor=${tutor.status}, firstStepTutor=${firstStepTutor.status}/${firstStepTutor.data.coach_step || 'no_step'}/${firstStepTutor.data.service_contract && firstStepTutor.data.service_contract.mode || 'no_contract'}/fallback=${String(firstStepTutor.data.fallback)}, quiz=${quiz.status}, material=${material.status}, reportStatus=${reportStatus.status}, legacyLeaderboard=${legacyLeaderboard.status}, legacyAchievements=${legacyAchievements.status}, miniShop=${miniShop.status}`);
+    console.error(`priority=${priority.status}, tutor=${tutor.status}, firstStepTutor=${firstStepTutor.status}/${firstStepTutor.data.coach_step || 'no_step'}/${firstStepTutor.data.service_contract && firstStepTutor.data.service_contract.mode || 'no_contract'}/fallback=${String(firstStepTutor.data.fallback)}, quiz=${quiz.status}, material=${material.status}, feedback=${feedback.status}, legacyLeaderboard=${legacyLeaderboard.status}, legacyAchievements=${legacyAchievements.status}, miniShop=${miniShop.status}`);
     for (const failure of failures) console.error(`FAIL ${failure}`);
     process.exit(1);
   }
 
   console.log(`Live miniapp API smoke passed against ${BASE}${REQUIRE_MODEL ? ' with configured model required' : ''}.`);
-  console.log(`priority=${priority.status}, tutor=${tutor.status}, firstStepTutor=${firstStepTutor.status}/${firstStepTutor.data.coach_step || 'no_step'}/${firstStepTutor.data.service_contract && firstStepTutor.data.service_contract.mode || 'no_contract'}/fallback=${String(firstStepTutor.data.fallback)}, quiz=${quiz.status}, material=${material.status}, reportStatus=${reportStatus.status}, legacyLeaderboard=${legacyLeaderboard.status}, legacyAchievements=${legacyAchievements.status}, miniShop=${miniShop.status}`);
+  console.log(`priority=${priority.status}, tutor=${tutor.status}, firstStepTutor=${firstStepTutor.status}/${firstStepTutor.data.coach_step || 'no_step'}/${firstStepTutor.data.service_contract && firstStepTutor.data.service_contract.mode || 'no_contract'}/fallback=${String(firstStepTutor.data.fallback)}, quiz=${quiz.status}, material=${material.status}, feedback=${feedback.status}, legacyLeaderboard=${legacyLeaderboard.status}, legacyAchievements=${legacyAchievements.status}, miniShop=${miniShop.status}`);
 })().catch((error) => {
   console.error(error && error.stack ? error.stack : error);
   process.exit(1);

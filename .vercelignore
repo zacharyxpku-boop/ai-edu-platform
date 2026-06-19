@@ -1,0 +1,15 @@
+api/*.js
+api/**/*.js
+
+!api/retired.js
+!api/get-questions.js
+!api/fsrs-due.js
+!api/ingest-attempt.js
+!api/log-dialogue.js
+!api/report-job-status.js
+!api/mini-dispatch.js
+!api/mini/qbank-topic.js
+!api/mini/event.js
+!api/mini/feedback.js
+!api/miniapp-material-analysis.js
+!api/mini/tutor-message.js

@@ -1,4 +1,4 @@
-import { env } from '../_env.js';
+import { env } from '../../lib/env.js';
 import {
     clean,
     clientRateKey,
@@ -8,7 +8,8 @@ import {
     riskyContent,
     sessionSecret,
     verifySession
-} from './_shared.js';
+} from '../../lib/mini-shared.js';
+import { insertRows, nowIso, safeId, scrub } from '../../lib/mini-store.js';
 
 export const config = { runtime: 'edge' };
 
@@ -178,6 +179,58 @@ function masterySignal(step, homeworkBoundary) {
     };
 }
 
+function detectApiTaskType(text = '', selected = {}) {
+    const source = `${text || ''} ${selected.text || ''} ${selected.task_type || ''}`;
+    if (/应用题|方程|数量|单位|等量|几何|函数|数学/.test(source)) return 'math_problem';
+    if (/阅读|文章|主旨|细节|英语|语文|材料/.test(source)) return 'reading';
+    if (/实验|现象|化学|物理|生物|受力|电路/.test(source)) return 'science';
+    if (/单词|词语|定义|公式|概念|背/.test(source)) return 'memory_card';
+    return selected.task_type || 'general_homework';
+}
+
+function buildApiSocraticRuntime(message = '', context = {}, step = 'read_problem') {
+    const selected = context.selected_homework || {};
+    const taskType = detectApiTaskType(message, selected);
+    const tags = normalizeTags((selected.evidence?.misconception_tags || []).concat(context.misconception_tags || []));
+    const misconception = tags[0]?.label || tags[0]?.axis || selected.evidence?.weak_point || '第一步入口不清';
+    const selectedText = selected.text || message || '当前材料';
+    const firstStepPrompt = step === 'find_conditions'
+        ? '先把已知条件、目标问题分成两列。'
+        : step === 'write_first_step'
+            ? '只写第一步，不写完整答案。'
+            : '先用一句话说题目真正问什么。';
+    const threeRoundProtocol = [
+        { round: 1, goal: '定位入口', ask: firstStepPrompt, stopWhen: '孩子能说出一个可执行的第一步' },
+        { round: 2, goal: '要证据', ask: '哪个条件支持你这样开始？', stopWhen: '孩子能指出题干里的依据' },
+        { round: 3, goal: '迁移验证', ask: '如果换一个数字或条件，第一步还一样吗？', stopWhen: '孩子能说出同类题的检查点' }
+    ];
+    const blackboardRecovery = {
+        trigger: '连续两轮仍说不出第一步或只说不会',
+        childLine: '先二选一：A 圈已知条件，B 说题目问什么。',
+        parentLine: '家长只问 A/B，不追完整过程。',
+        evidenceRequired: ['child_micro_choice', 'first_step', 'wrong_cause']
+    };
+    const transferCheck = {
+        prompt: '换一道同类小题，只检查第一步和错因。',
+        route: '/pages/review/review?from=socratic_runtime',
+        evidenceRequired: ['near_transfer_attempted', 'next_day_revisit']
+    };
+    return {
+        id: 'api_socratic_runtime_v2',
+        taskType,
+        selectedText: clean(selectedText, 160),
+        misconception: clean(misconception, 60),
+        activeStep: step,
+        firstStepPrompt,
+        allowedMoves: ['ask_first_step', 'ask_evidence', 'offer_two_choice_blackboard', 'near_transfer_check'],
+        blockedMoves: ['write_full_answer', 'solve_entire_homework', 'rank_or_label_child'],
+        threeRoundProtocol,
+        blackboardRecovery,
+        transferCheck,
+        releaseGate: 'first_step_and_wrong_cause_before_practice'
+    };
+}
+
 function localReply(message, context = {}, step = 'read_problem') {
     const selected = clean(context.selected_homework?.text || '第一项必须做', 120);
     const weak = (context.weak_points || [])
@@ -288,7 +341,7 @@ function normalizeContext(context = {}) {
     };
 }
 
-function buildPrompt(mode, context = {}, step = 'read_problem') {
+function buildPrompt(mode, context = {}, step = 'read_problem', socraticRuntime = null) {
     const weak = (context.weak_points || [])
         .map((item) => `${item.name}:${item.reason || ''}`)
         .join('；') || '暂无雷达，先按审题和关键错因处理';
@@ -311,6 +364,18 @@ function buildPrompt(mode, context = {}, step = 'read_problem') {
         transfer: '举一反三模式：不要重复原题答案，换一个小条件，检查方法能否迁移。',
         review: '复盘模式：逼近一句孩子能复述的话，下次先检查什么要具体。'
     }[step] || '默认模式：先问学生判断，再给最小提示。';
+    const runtime = socraticRuntime || buildApiSocraticRuntime('', context, step);
+    const runtimeLines = [
+        `Socratic runtime: ${runtime.id}`,
+        `Task type: ${runtime.taskType}`,
+        `Misconception: ${runtime.misconception}`,
+        `Round 1 ask: ${runtime.threeRoundProtocol[0].ask}`,
+        `Round 2 ask: ${runtime.threeRoundProtocol[1].ask}`,
+        `Round 3 ask: ${runtime.threeRoundProtocol[2].ask}`,
+        `If still stuck: ${runtime.blackboardRecovery.childLine}`,
+        `Transfer check: ${runtime.transferCheck.prompt}`,
+        `Blocked moves: ${runtime.blockedMoves.join(', ')}`
+    ].join('\n');
     return [
         '你是原点智学小程序里的原小点，面向小学高年级到初中学生。',
         '定位：快速定位薄弱点，给符合孩子当前认知的下一步；不做通用闲聊，不替孩子写作业。',
@@ -326,6 +391,7 @@ function buildPrompt(mode, context = {}, step = 'read_problem') {
         `可用核对依据：${selectedReference || '暂无，需学生补充题目/答案后再核对'}`,
         `当前弱点：${weak}`,
         `当前错因标签：${misconception}`,
+        runtimeLines,
         `recent turns:\n${recentTurns}`
     ].join('\n');
 }
@@ -348,6 +414,7 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
                 : '先说题目真正问什么。',
         confidence: extra.extra && extra.extra.fallback === false ? 'model_supported' : 'local_guarded'
     };
+    const socraticRuntime = extra.socraticRuntime || (extra.extra && extra.extra.socratic_runtime) || buildApiSocraticRuntime('', context, step);
     return {
         ok: true,
         mode,
@@ -367,7 +434,12 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
         misconception_tags: tags,
         task_type: diagnosticProbe.task_type,
         diagnostic_probe: diagnosticProbe,
-        engine_version: 'mini-tutor-message-v1.3',
+        socratic_runtime: socraticRuntime,
+        three_round_protocol: socraticRuntime.threeRoundProtocol,
+        blackboard_recovery: socraticRuntime.blackboardRecovery,
+        transfer_check: socraticRuntime.transferCheck,
+        next_review_route: socraticRuntime.transferCheck.route,
+        engine_version: 'mini-tutor-message-v2.0',
         persisted: false,
         service_contract: {
             mode: extra.extra && extra.extra.fallback === false ? 'configured_model' : 'local_socratic_rules',
@@ -381,6 +453,34 @@ function structuredReply(reply, mode, step, context = {}, extra = {}) {
         } : null,
         ...extra.extra
     };
+}
+
+async function replyWithTrace(req, session, input, payload, meta = {}) {
+    const trace = {
+        trace_id: safeId('trace'),
+        session_id: clean(req.headers.get('x-mini-session') || '', 2048) || null,
+        user_id: session.ok ? clean(session.payload?.user_id || '', 100) || null : null,
+        child_id: session.ok ? clean(session.payload?.child_id || meta.child_id || '', 100) || null : clean(meta.child_id || '', 100) || null,
+        endpoint: 'tutor-message',
+        risk_type: clean(meta.risk_type || 'pass', 60),
+        input_summary: clean(input, 220),
+        output_summary: clean(payload?.reply || '', 260),
+        blocked: Boolean(meta.blocked || payload?.homework_boundary || payload?.safety_blocked),
+        sanitized: scrub({
+            coach_step: payload?.coach_step || meta.coach_step || '',
+            fallback: Boolean(payload?.fallback),
+            output_sanitized: Boolean(payload?.output_sanitized)
+        }),
+        provider: clean(meta.provider || (payload?.fallback === false ? 'deepseek' : 'local_socratic_rules'), 80),
+        created_at: nowIso()
+    };
+    const stored = await insertRows('mini_ai_traces', trace, 'return=minimal');
+    return json({
+        ...payload,
+        trace_id: trace.trace_id,
+        trace_persisted: Boolean(stored.ok),
+        trace_warning: stored.ok ? '' : stored.error || ''
+    });
 }
 
 export default async function handler(req) {
@@ -419,12 +519,13 @@ export default async function handler(req) {
     const context = normalizeContext(body.context || {});
     const coachStep = inferCoachStep(message, context.coach_step);
     if (!message) return json({ ok: false, error: 'missing_message', message: 'message 必填' }, 400);
+    const socraticRuntime = buildApiSocraticRuntime(message, context, coachStep);
 
     const safety = riskyContent(message);
     const answerCheckStep = coachStep === 'check_answer' || coachStep === 'fast_mode';
     if (!safety.safe) {
         const step = safety.type === 'academic_integrity' && !answerCheckStep ? 'write_first_step' : coachStep;
-        return json(structuredReply(
+        const payload = structuredReply(
             safety.type === 'self_harm' ? selfHarmReply() : localReply(message, context, step),
             mode,
             step,
@@ -434,16 +535,20 @@ export default async function handler(req) {
                 next_action: safety.type === 'academic_integrity' && !answerCheckStep
                     ? '先发自己的第一步或卡住的条件，我只给最小提示。'
                     : COACH_STEPS[step]?.next_action,
+                socraticRuntime,
                 extra: { safety_blocked: safety.type === 'self_harm' }
             }
-        ));
+        );
+        return replyWithTrace(req, session, message, payload, { risk_type: safety.type, blocked: true, coach_step: step });
     }
 
     const key = env.deepseek();
     if (!key) {
-        return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+        const payload = structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+            socraticRuntime,
             extra: { fallback: true, fallback_source: 'missing_model_key' }
-        }));
+        });
+        return replyWithTrace(req, session, message, payload, { coach_step: coachStep, provider: 'local_socratic_rules' });
     }
 
     try {
@@ -462,7 +567,7 @@ export default async function handler(req) {
                 max_tokens: 260,
                 stream: false,
                 messages: [
-                    { role: 'system', content: buildPrompt(mode, context, coachStep) },
+                    { role: 'system', content: buildPrompt(mode, context, coachStep, socraticRuntime) },
                     { role: 'user', content: message }
                 ]
             })
@@ -470,25 +575,31 @@ export default async function handler(req) {
         clearTimeout(timeout);
 
         if (!upstream.ok) {
-            return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+            const payload = structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+                socraticRuntime,
                 extra: { fallback: true, fallback_source: 'server_upstream_error', upstream_status: upstream.status }
-            }));
+            });
+            return replyWithTrace(req, session, message, payload, { coach_step: coachStep, provider: 'local_socratic_rules' });
         }
 
         const data = await upstream.json();
         const rawReply = clean(data.choices?.[0]?.message?.content || '', 600) || localReply(message, context, coachStep);
         const safeReply = sanitizeTutorReply(rawReply, message, context, coachStep);
-        return json(structuredReply(safeReply.reply, mode, safeReply.step, context, {
+        const successPayload = structuredReply(safeReply.reply, mode, safeReply.step, context, {
             homework_boundary: safeReply.homeworkBoundary,
             next_action: safeReply.homeworkBoundary ? '先发自己的第一步或卡住的条件，我只给最小提示。' : undefined,
+            socraticRuntime: safeReply.step === coachStep ? socraticRuntime : buildApiSocraticRuntime(message, context, safeReply.step),
             extra: { fallback: false, output_sanitized: safeReply.sanitized, upstream_status: upstream.status }
-        }));
+        });
+        return replyWithTrace(req, session, message, successPayload, { coach_step: safeReply.step, provider: 'deepseek' });
     } catch (error) {
-        return json(structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+        const errorPayload = structuredReply(localReply(message, context, coachStep), mode, coachStep, context, {
+            socraticRuntime,
             extra: {
                 fallback: true,
                 fallback_source: error && error.name === 'AbortError' ? 'upstream_timeout' : 'server_upstream_error'
             }
-        }));
+        });
+        return replyWithTrace(req, session, message, errorPayload, { coach_step: coachStep, provider: 'local_socratic_rules' });
     }
 }
